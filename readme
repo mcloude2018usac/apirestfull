@@ -1,0 +1,30 @@
+npm init
+
+npm install express --save
+npm install mongoose --save
+npm install express --save
+
+
+SET DEBUG=express:*
+
+cd C:\DESARROLLO DE SOFTWARE\expressjs\mongose>
+node index.js
+
+
+ genre: { type: String, enum: ['male', 'female'] }
+
+
+
+"C:\Program Files\MongoDB\Server\3.6\bin\mongod.exe" --dbpath c:\test\mongodb\data
+
+
+npm install     bcrypt-nodejs --save
+npm install     body-parser --save
+npm install     cors --save
+npm install     express --save
+npm install     jsonwebtoken --save
+npm install     mongoose --save
+npm install    morgan --save
+npm install    passport --save
+npm install    passport-jwt --save
+npm install    passport-local --save
