@@ -277,10 +277,10 @@ unidadacademicaRoutes.delete('/:id/:userID',requireAuth,  UnidadacademicaControl
 
 //-----------------------------------ASIGNA PCB
 apiRoutes.use('/asignapcbs', asignapcbRoutes);
-asignapcbRoutes.get('/', AsignapcbController.getAsignapcb);
-asignapcbRoutes.get('/:id',  AsignapcbController.getAsignapcb);
-asignapcbRoutes.get('/:id/:id2',  AsignapcbController.getAsignapcb);
-asignapcbRoutes.get('/:id/:id2/:id3',  AsignapcbController.getAsignapcb);
+asignapcbRoutes.get('/',requireAuth, AsignapcbController.getAsignapcb);
+asignapcbRoutes.get('/:id',requireAuth,  AsignapcbController.getAsignapcb);
+asignapcbRoutes.get('/:id/:id2',requireAuth,  AsignapcbController.getAsignapcb);
+asignapcbRoutes.get('/:id/:id2/:id3',requireAuth,  AsignapcbController.getAsignapcb);
 asignapcbRoutes.post('/:recordID', requireAuth, AsignapcbController.creaAsignapcb2s);
 asignapcbRoutes.delete('/:recordID/:userID',requireAuth,  AsignapcbController.deleteAsignapcb);
 
@@ -330,7 +330,7 @@ facultadmateriaRoutes.delete('/:recordID/:userID', requireAuth, FacultadmateriaC
 
 //-----------------------------------ASIGNA ESTUDIANTE
 apiRoutes.use('/asignaestudiantes', asignaestudianteRoutes);
-asignaestudianteRoutes.get('/:id',requireAuth,  AsignaestudianteController.getAsignaestudiante);
+asignaestudianteRoutes.get('/:id',  AsignaestudianteController.getAsignaestudiante);
 
 //-----------------------------------DEPARTAMENTO
 apiRoutes.use('/Departamentos', departamentoRoutes);
