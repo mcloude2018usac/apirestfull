@@ -1,4 +1,96 @@
-var mysql = require('mysql'),
+
+var Afiliado = require('../models/afiliado');
+var Bitacora = require('../models/bitacora');
+
+exports.getAfiliado = function(req, res, next){
+    if(req.params.id2)
+    {   Afiliado.find({idempresa:req.params.id,_id:req.params.id2},function(err, todos) {
+            if (err){ res.send(err); }
+           
+            if(todos.length>0)   {    res.json(todos);   }
+            else
+            {  res.status(500).send('NO EXISTE REGISTRO');      }
+            
+        });
+    }
+    else
+    { Afiliado.find({idempresa:req.params.id},function(err, todos) {
+           if (err){  res.send(err);  }
+            res.json(todos);
+        });
+    }
+}
+exports.deleteAfiliado = function(req, res, next){
+   
+    Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina Afiliado '});
+    Afiliado.findByIdAndRemove({ _id: req.params.id  }, function(err, todo) {
+        res.json(todo);
+    });
+}
+
+
+exports.creaAfiliado2s = function(req, res, next){
+   
+ 
+
+    if(req.params.id!=='crea')
+    {  Bitacora.create(req.body.bitacora);
+        Afiliado.findById({ _id: req.params.id}, function (err, todo)  {
+            if (err) {  res.send(err);  }
+            else
+            {  
+                
+                todo.idempresa        	=	req.body.idempresa        	||	todo.idempresa;        	;
+                todo.dpi        	=	req.body.dpi        	||	todo.dpi        	;
+                todo.nombre        	=	req.body.nombre        	||	todo.nombre        	;
+                todo.apellido        	=	req.body.apellido        	||	todo.apellido        	;
+                todo.direccion        	=	req.body.direccion        	||	todo.direccion        	;
+                todo.email    	=	req.body.email    	||	todo.email    	;
+                todo.telefono    	=	req.body.telefono    	||	todo.telefono    	;
+                todo.usuarioup=req.body.bitacora.email;
+
+                todo.save(function (err, todo){
+                    if (err)     {  res.status(500).send(err.message)   }
+                    res.json(todo);
+                });
+            }
+        });
+    
+    }
+    else{
+        Bitacora.create(req.body.bitacora);
+    Afiliado.create({  idempresa      	: req.body.idempresa     	,
+        dpi        	: req.body.dpi        	,
+        nombre        	: req.body.nombre        	,
+        apellido        	: req.body.apellido        	,
+        direccion        	: req.body.direccion        	,
+        email 	: req.body.email,
+        telefono 	: req.body.telefono,
+        usuarionew:req.body.bitacora.email 	
+        
+       }
+        , function(err, todo) {
+        if (err){ 
+          
+            res.status(500).send(err.message)    }
+    
+        res.json(todo);
+
+     
+        
+
+    });
+}
+
+
+}
+
+
+
+
+
+
+/*var mysql = require('mysql'),
 
 connection = mysql.createConnection(
  { 
@@ -132,3 +224,4 @@ exports.deleteAfiliado = function(req, res, next){
 
     
 }
+*/

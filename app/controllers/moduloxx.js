@@ -47,7 +47,7 @@ if(req.params.recordID!=='crea')
             todo.icono        	=	req.body.icono       	||	todo.icono        	;       	
             todo.nivel        	=	req.body.nivel       	||	todo.nivel        	;       	
             todo.estado    	=	req.body.estado    	||	todo.estado    	;
-            
+            todo.usuarioup=req.body.bitacora.email;
             todo.save(function (err, todo){
                 if (err)     {  res.status(500).send(err.message)   }
                 res.json(todo);
@@ -73,6 +73,7 @@ else{
                 index       	: req.body.index       	,
                  icono      	: req.body.icono       	,
                 nivel      	: req.body.nivel       	,
+                usuarionew:req.body.bitacora.email,
                 estado 	: req.body.estado 	
               }
                 , function(err, todo) {

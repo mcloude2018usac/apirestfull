@@ -46,6 +46,7 @@ exports.creaPermiso2s = function(req, res, next){
                 todo.eliminacion 	=	req.body.eliminacion		;
                 todo.creacion 	=	req.body.creacion		;
                 todo.actualizacion    	=	req.body.actualizacion        	;
+                todo.usuarioup=req.body.bitacora.email;
                 
              
                 todo.save(function (err, todo){
@@ -72,7 +73,8 @@ exports.creaPermiso2s = function(req, res, next){
                                 consulta    	: req.body.consulta    	,
                                 eliminacion   	: req.body.eliminacion 	,
                                 creacion    	: req.body.creacion   	,
-                                actualizacion 	: req.body.actualizacion 	
+                                actualizacion 	: req.body.actualizacion 	,
+                                usuarionew:req.body.bitacora.email
                             }
                                 , function(err, todo) {
                                 if (err){ 

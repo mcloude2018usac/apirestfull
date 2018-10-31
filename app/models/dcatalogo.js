@@ -5,6 +5,7 @@ var mongoose =require("mongoose");
         fecha   		: { type : Date},
         foto 	: { type : String },
         estado	: { type : String, required : true }
+        ,usuarionew	: { type : String },      usuarioup	: { type : String }
        
         }, {
         timestamps: true

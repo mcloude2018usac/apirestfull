@@ -51,6 +51,7 @@ if(req.params.recordID!=='crea')
         {   todo.nombre        	=	req.body.nombre        	||	todo.nombre        	;
             todo.estado    	=	req.body.estado    	||	todo.estado    	;
             todo.unidad    	=	req.body.unidad    	||	todo.unidad    	;
+            todo.usuarioup=req.body.bitacora.email;
             todo.save(function (err, todo){
                 if (err)     {  res.status(500).send(err.message)   }
                 res.json(todo);
@@ -71,7 +72,8 @@ else{
 
             Perfil.create({ nombre        	: req.body.nombre        	,
                 unidad        	: req.body.unidad        	,
-                estado 	: req.body.estado 	
+                estado 	: req.body.estado 	,
+                usuarionew:req.body.bitacora.email
               }
                 , function(err, todo) {
                 if (err){ 

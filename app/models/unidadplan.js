@@ -36,6 +36,7 @@ var mongoose =require("mongoose");
             required: true
         },
         date 		: { type: Date, default: Date.now }
+        ,usuarionew	: { type : String },      usuarioup	: { type : String }
         }, {
         timestamps: true
         });

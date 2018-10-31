@@ -45,6 +45,7 @@ exports.creaUnidadacademica2s = function(req, res, next){
                 todo.idtipounidad        	=	req.body.idtipounidad        	||	todo.idtipounidad;        	;
                 todo.nombre        	=	req.body.nombre        	||	todo.nombre        	;
                 todo.codigo        	=	req.body.codigo        	||	todo.codigo        	;
+                todo.usuarioup=req.body.bitacora.email;
                
 
                 todo.save(function (err, todo){
@@ -68,7 +69,8 @@ exports.creaUnidadacademica2s = function(req, res, next){
         Bitacora.create(req.body.bitacora);
             Unidadacademica.create({  idtipounidad      	: req.body.idtipounidad     	,
                 nombre        	: req.body.nombre        	,
-                codigo        	: req.body.codigo        	
+                codigo        	: req.body.codigo        ,
+                usuarionew:req.body.bitacora.email	
             
             }
                 , function(err, todo) {

@@ -67,6 +67,8 @@ if(req.params.recordID!=='crea')
             todo.costo 	=	req.body.costo 	||	todo.costo 	;
             todo.impresion 	=	req.body.impresion 	||	todo.impresion 	;
             todo.nomax    	=	req.body.nomax    	||	todo.nomax    	;
+            todo.usuarioup=req.body.bitacora.email;
+            
             
             todo.save(function (err, todo){
                 if (err)     {  res.status(500).send(err.message)   }
@@ -88,6 +90,7 @@ else{
         costo    	: req.body.costo   	,
         impresion 	: req.body.impresion 	,
         nomax 	: req.body.nomax 	,
+        usuarionew:req.body.bitacora.email,
         date 			: Date.now() }
         , function(err, todo) {
         if (err){ 

@@ -60,6 +60,7 @@ if(req.params.recordID!=='crea')
             todo.asignados=	req.body.asignados        	||	todo.asignados        	;
             todo.fexamen=	req.body.fexamen        	||	todo.fexamen        	;
             todo.codfac=	req.body.codfac        	||	todo.codfac        	;
+            todo.usuarioup=req.body.bitacora.email;
 
             todo.save(function (err, todo){
                 if (err)     {  res.status(500).send(err.message)   }
@@ -97,6 +98,7 @@ else{
             asignados: req.body.asignados,
             fexamen: req.body.fexamen,
             codfac: req.body.codfac,
+            usuarionew:req.body.bitacora.email
         
               }
                 , function(err, todo) {

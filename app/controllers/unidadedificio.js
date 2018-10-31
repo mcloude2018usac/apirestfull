@@ -50,6 +50,8 @@ if(req.params.recordID!=='crea')
             todo.idtipounidad        	=	req.body.idtipounidad        	||	todo.idtipounidad        	;
             todo.idunidadacademica        	=	req.body.idunidadacademica        	||	todo.idunidadacademica        	;
             todo.nombre        	=	req.body.nombre        	      	;
+            todo.usuarioup=req.body.bitacora.email;
+            
             
             todo.save(function (err, todo){
                 if (err)     {  res.status(500).send(err.message)   }
@@ -78,7 +80,8 @@ else{
             Unidadedificio.create({
             idtipounidad        	: req.body.idtipounidad        	,
             idunidadacademica: req.body.idunidadacademica,
-            nombre: req.body.nombre
+            nombre: req.body.nombre,
+            usuarionew:req.body.bitacora.email
         
               }
                 , function(err, todo) {

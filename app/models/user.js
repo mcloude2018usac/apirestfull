@@ -1,5 +1,6 @@
 var mongoose =require("mongoose");
 var bcrypt   = require('bcrypt-nodejs');
+var  mongoosePaginate= require('mongoose-paginate'); 
  
 var UserSchema = new mongoose.Schema({
  
@@ -29,7 +30,13 @@ var UserSchema = new mongoose.Schema({
     unidad 	: { type : String },
     codpersonal 	: { type : String },
     estadoemail	: { type : String },
-    interno 	: { type : String }
+    interno 	: { type : String },
+    usuarionew	: { type : String },      usuarioup	: { type : String },
+    fechanac   		: { type : Date},
+    saldo 	: { type : String }
+      
+    
+    
  
 }, {
     timestamps: true
@@ -82,4 +89,6 @@ UserSchema.methods.comparePassword = function(passwordAttempt, cb){
  
 }
  
+
+UserSchema.plugin(mongoosePaginate);
 module.exports = mongoose.model('User', UserSchema);

@@ -1,3 +1,118 @@
+
+var Empresa = require('../models/empresa');
+var Bitacora = require('../models/bitacora');
+
+exports.getEmpresa = function(req, res, next){
+    if(req.params.id)
+    { 
+        if(req.params.id=='activo')
+        {
+            Empresa.find({estado:'Activo'},function(err, todos) {
+                if (err){  res.send(err);  }
+                 res.json(todos);
+                
+            });
+        }
+        else
+        {
+
+            if(req.params.id=='1' || req.params.id=='2')
+        {
+        }
+        else
+        {
+            Empresa.find({_id:req.params.id},function(err, todos) {
+                if (err){ res.send(err); }
+               
+                if(todos.length>0)   {    res.json(todos);   }
+                else
+                {  res.status(500).send('NO EXISTE REGISTRO');      }
+                
+            });
+        }
+
+        }   
+       
+    }
+    else
+    { Empresa.find(function(err, todos) {
+           if (err){  res.send(err);  }
+            res.json(todos);
+        });
+    }
+}
+exports.deleteEmpresa = function(req, res, next){
+   
+    Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina empresa'});
+    Empresa.findByIdAndRemove({ _id: req.params.recordID  }, function(err, todo) {
+        res.json(todo);
+    });
+}
+
+
+exports.creaEmpresa2s = function(req, res, next){
+   
+ 
+    Bitacora.create(req.body.bitacora);
+    console.log(req.params.recordID);
+if(req.params.recordID!=='crea')
+{ 
+    Empresa.findById({ _id: req.params.recordID }, function (err, todo)  {
+        if (err) { 
+         
+            res.send(err);  }
+        else
+        {   todo.nit 	=	req.body.nit	||	todo.nit 	;
+            todo.nombre        	=	req.body.nombre        	||	todo.nombre        	;
+            todo.razon 	=	req.body.razon	||	todo.razon 	;
+            todo.direccion    	=	req.body.direccion    	||	todo.direccion    	;
+            todo.email   	=	req.body.email    	||	todo.email   	;
+            todo.telefonos 	=	req.body.telefonos 	||	todo.telefonos 	;
+            todo.estado 	=	req.body.estado 	||	todo.estado 	;
+            todo.usuarioup=req.body.bitacora.email;
+            
+           
+            todo.save(function (err, todo){
+                if (err)     {  res.status(500).send(err.message)   }
+                res.json(todo);
+            });
+        }
+    });
+
+}
+else{
+   
+    Empresa.create({ nit        	: req.body.nit        	,
+        nombre        	: req.body.nombre        	,
+        razon 	: req.body.razon 	,
+        direccion    	: req.body.direccion    	,
+        email    	: req.body.email    	,
+        telefonos   	: req.body.telefonos  	,
+        estado    	: req.body.estado   	,
+        usuarionew:req.body.bitacora.email,
+        date 			: Date.now() }
+        , function(err, todo) {
+        if (err){ 
+          
+            res.status(500).send(err.message)    }
+    
+        res.json(todo);
+
+     
+        
+
+    });
+}
+
+}
+
+
+
+
+
+
+
+/*
 var mysql = require('mysql'),
 
 connection = mysql.createConnection(
@@ -133,3 +248,4 @@ exports.deleteEmpresa = function(req, res, next){
 
     
 }
+*/

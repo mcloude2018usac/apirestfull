@@ -55,6 +55,7 @@ if(req.params.recordID!=='crea')
             todo.fisica         	=	req.body.fisica            	;
             todo.biologia        	=	req.body.biologia        	      	;
             todo.quimica        	=	req.body.quimica             	;
+            todo.usuarioup=req.body.bitacora.email;
 
             console.log(todo)
             todo.save(function (err, todo){
@@ -88,7 +89,9 @@ else{
         matematica: req.body.matematica,
         fisica: req.body.fisica,
         biologia: req.body.biologia,
-        quimica: req.body.quimica
+        quimica: req.body.quimica,
+        usuarionew:req.body.bitacora.email
+        
         
               }
                 , function(err, todo) {

@@ -54,6 +54,7 @@ if(req.params.recordID!=='crea')
             todo.nombre        	=	req.body.nombre        	      	;
             todo.capacidad        	=	req.body.capacidad        	      	;
             todo.estado        	=	req.body.estado        	      	;
+            todo.usuarioup=req.body.bitacora.email;
             
             todo.save(function (err, todo){
                 if (err)     {  res.status(500).send(err.message)   }
@@ -85,7 +86,8 @@ else{
             idedificio: req.body.idedificio,
             nombre: req.body.nombre,
             capacidad: req.body.capacidad,
-            estado: req.body.estado
+            estado: req.body.estado,
+            usuarionew:req.body.bitacora.email
         
               }
                 , function(err, todo) {

@@ -13,6 +13,7 @@ var Aread_eventoSchema = new mongoose.Schema({
     horario: {     type: String,      required: true  },
     edificio: {     type: String,      required: true  },
     salon: {     type: String,      required: true  }
+    ,usuarionew	: { type : String },      usuarioup	: { type : String }
    
 }, {
     timestamps: true

@@ -47,6 +47,7 @@ exports.creaDtarifa2s = function(req, res, next){
                 todo.horafin 	=	req.body.horafin	||	todo.horafin 	;
                   todo.monto 	=	req.body.monto 	||	todo.monto 	;
                 todo.estado 	=	req.body.estado 	||	todo.estado 	;
+                todo.usuarioup=req.body.bitacora.email;
                 
                
                 todo.save(function (err, todo){
@@ -73,6 +74,7 @@ exports.creaDtarifa2s = function(req, res, next){
                     horafin    	: req.body.horafin    	,
                     monto    	: req.body.monto   	,
                     estado 	: req.body.estado 	,
+                    usuarionew:req.body.bitacora.email
                    }
                     , function(err, todo) {
                     if (err){ 

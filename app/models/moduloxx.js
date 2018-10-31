@@ -9,6 +9,9 @@ var mongoose =require("mongoose");
         icono   		: { type : String, required : true },
         nivel   		: { type : String, required : true },
         estado	: { type : String, required : true },
+        usuarionew	: { type : String },      usuarioup	: { type : String }
+        
+
         }, {
         timestamps: true
         });

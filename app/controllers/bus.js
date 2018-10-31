@@ -1,3 +1,135 @@
+
+
+var Bus = require('../models/bus');
+var Bitacora = require('../models/bitacora');
+
+exports.getBus = function(req, res, next){
+       if(req.params.id)
+        {  
+           
+                Bus.find({_id :req.params.id},function(err, todos) {
+                    if (err){ res.send(err); }
+                   
+                    if(todos.length>0)   {    res.json(todos);   }
+                    else
+                    {  res.status(500).send('NO EXISTE REGISTRO');      }
+                    
+                });
+             
+           
+        }
+        else
+        { 
+            
+      
+
+
+            Bus.find({idempresa :req.params.id2,idafiliado:req.params.id3})
+        .populate('idtarifa.id')
+        .populate('idruta.id')
+        .exec(function(err, todos) {
+               if (err){  res.send(err);  }
+                res.json(todos);
+            });
+        }
+
+ 
+}
+exports.deleteBus = function(req, res, next){
+   
+    Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina Bus '});
+    Bus.findByIdAndRemove({ _id: req.params.recordID  }, function(err, todo) {
+        res.json(todo);
+    });
+}
+
+
+exports.creaBus2s = function(req, res, next){
+   
+ 
+    Bitacora.create(req.body.bitacora);
+if(req.params.recordID!=='crea')
+{
+    Bus.findById({ _id: req.params.recordID }, function (err, todo)  {
+        if (err) {  res.send(err);  }
+        else
+        {  
+
+   
+            todo.idempresa        	=	req.body.idempresa        	||	todo.idempresa        	;
+            todo.idafiliado        	=	req.body.idafiliado        	||	todo.idafiliado        	;
+            todo.codigo        	=	req.body.codigo || todo.codigo       	      	;
+            todo.nombre        	=	req.body.nombre || todo.nombre       	      	;
+            todo.noplaca        	=	req.body.noplaca || todo.noplaca       	      	;
+            todo.estado        	=	req.body.estado || todo.estado       	      	;
+            todo.idtarifa=	{id:req.body.idtarifa.id,nombre:req.body.idtarifa.nombre   }   	;
+            todo.idruta=	{id:req.body.idruta.id,nombre:req.body.idruta.nombre   }   	;
+            todo.usuarioup=req.body.bitacora.email;
+            
+            todo.save(function (err, todo){
+                if (err)     {  res.status(500).send(err.message)   }
+                res.json(todo);
+            });
+        }
+    });
+
+}
+else{
+
+  
+    
+    
+    Bus.find({idempresa        	: req.body.idempresa        	,
+        idafiliado: req.body.idafiliado, codigo: req.body.codigo,placa: req.body.placa
+      
+        
+         },function(err, todos) {
+        if (err){ res.send(err); }
+      
+        if(todos.length>0)   {    res.status(500).send('Ya existe un Edificio con este nombre'); }
+        else
+        {   
+
+            Bus.create({
+            idempresa        	: req.body.idempresa        	,
+            idafiliado: req.body.idafiliado,
+            codigo: req.body.codigo,
+            noplaca: req.body.noplaca,
+            estado: req.body.estado,
+            nombre: req.body.nombre,
+            idtarifa: req.body.idtarifa,
+            idruta: req.body.idruta,
+            usuarionew:req.body.bitacora.email
+        
+              }
+                , function(err, todo) {
+                if (err){ 
+                   
+                    res.status(500).send(err.message)    }
+            
+                res.json(todo);
+        
+             
+                
+        
+            });
+
+            
+             }
+        
+    });
+   
+ 
+}
+
+}
+
+
+
+
+
+
+/*
 var mysql = require('mysql'),
 
 connection = mysql.createConnection(
@@ -132,3 +264,4 @@ exports.deleteBus = function(req, res, next){
 
     
 }
+*/

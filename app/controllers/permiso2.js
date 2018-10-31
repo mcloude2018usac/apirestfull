@@ -46,6 +46,7 @@ exports.creaPermison22s = function(req, res, next){
                 todo.eliminacion 	=	req.body.eliminacion		;
                 todo.creacion 	=	req.body.creacion		;
                 todo.actualizacion    	=	req.body.actualizacion        	;
+                todo.usuarioup=req.body.bitacora.email;
                 
              
                 todo.save(function (err, todo){
@@ -58,7 +59,7 @@ exports.creaPermison22s = function(req, res, next){
     }
     else{
 
-                        Permison2.find({nombre:req.body.nombre, idrol:req.body.idrol },function(err, todos) {
+                        Permison2.find({nombre:req.body.nombre, idrol:req.body.idrol, idpermiso:req.body.idpermiso },function(err, todos) {
                             if (err){ res.send(err); }
                         
                             if(todos.length>0)   {    res.status(500).send('Modulo ya existe');   }
@@ -73,7 +74,8 @@ exports.creaPermison22s = function(req, res, next){
                                 consulta    	: req.body.consulta    	,
                                 eliminacion   	: req.body.eliminacion 	,
                                 creacion    	: req.body.creacion   	,
-                                actualizacion 	: req.body.actualizacion 	
+                                actualizacion 	: req.body.actualizacion 	,
+                                usuarionew:req.body.bitacora.email
                             }
                                 , function(err, todo) {
                                 if (err){ 

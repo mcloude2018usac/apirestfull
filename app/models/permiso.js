@@ -9,6 +9,7 @@ var mongoose =require("mongoose");
         eliminacion	: { type : Boolean },
         creacion	: { type : Boolean },
         actualizacion	: { type : Boolean },
+        usuarionew	: { type : String },      usuarioup	: { type : String }
       
         }, {
         timestamps: true

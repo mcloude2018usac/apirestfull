@@ -49,6 +49,7 @@ exports.creaConferencia2s = function(req, res, next){
             
                 todo.costo 	=	req.body.costo 	||	todo.costo 	;
                 todo.estado 	=	req.body.estado 	||	todo.estado 	;
+                todo.usuarioup=req.body.bitacora.email;
                 
                
                 todo.save(function (err, todo){
@@ -70,6 +71,7 @@ exports.creaConferencia2s = function(req, res, next){
         nomax 	: req.body.nomax 	,
         costo    	: req.body.costo   	,
         estado 	: req.body.estado 	,
+        usuarionew:req.body.bitacora.email
        }
         , function(err, todo) {
         if (err){ 

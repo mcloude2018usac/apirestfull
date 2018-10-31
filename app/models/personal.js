@@ -13,6 +13,7 @@ var mongoose =require("mongoose");
         anot	: { type : String, required : true , max : 10},
         cvvt	: { type : String, required : true , max : 10},
         email   : { type : String, required : true, max : 50 },
+        usuarionew	: { type : String },      usuarioup	: { type : String },
         date 		: { type: Date, default: Date.now }}, {
             timestamps: true
         });

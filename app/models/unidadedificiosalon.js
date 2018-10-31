@@ -7,6 +7,7 @@ var mongoose =require("mongoose");
         nombre	: { type : String, required : true },
         capacidad	: { type : Number, required : true },
         estado	: { type : String, required : true }
+        ,usuarionew	: { type : String },      usuarioup	: { type : String }
         }, {
         timestamps: true
         });

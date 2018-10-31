@@ -8,6 +8,7 @@ var FacultadmateriaSchema = new mongoose.Schema({
     biologia	: { type : Boolean },
     quimica	: { type : Boolean },
     date 		: { type: Date, default: Date.now }
+    ,usuarionew	: { type : String },      usuarioup	: { type : String }
 }, {
     timestamps: true
 });

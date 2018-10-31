@@ -3,15 +3,50 @@ var Personal = require('../models/user');
 var Bitacora = require('../models/bitacora');
 
 exports.getPersonal = function(req, res, next){
-    if(req.params.id2)
+
+    if(req.params.page)
     {
-        Personal.find({unidad:req.params.id2},function(err, todos) {
+
+        var pagex=    Number(req.params.page);
+        var limitx=    Number(req.params.limit);
+        
+        Personal.paginate({},{lean:     false,page:pagex, limit:  limitx}).then(function(err, todos) {
             if (err){  res.send(err);  }
-                res.json(todos);
+                res.end(todos);
+                res.end();
+              //  next();
             });
     }
     else
     {
+    if(req.params.id2)
+    {
+        if(req.params.id2=='persona')
+        {
+
+            Personal.find({cui:req.params.email},function(err, todos) {
+                if (err){ res.send(err); }
+            
+                if(todos.length>0)   {    res.json(todos);    }
+                else
+                {  res.status(500).send('NO EXISTE REGISTRO');      }
+                
+            });
+
+          
+        }
+        else
+        {
+      
+        Personal.find({unidad:req.params.id2},function(err, todos) {
+            if (err){  res.send(err);  }
+                res.json(todos);
+            });
+        }
+    }
+    else
+    {
+        
             if(req.params.email)
             {   Personal.find({email:req.params.email},function(err, todos) {
                     if (err){ res.send(err); }
@@ -23,13 +58,19 @@ exports.getPersonal = function(req, res, next){
                 });
             }
             else
-            { console.log('usuarios')
-                Personal.find(function(err, todos) {
-                if (err){  res.send(err);  }
-                    res.json(todos);
-                });
+            {
+
+               
+
+                        Personal.find(function(err, todos) {
+                            if (err){  res.send(err);  }
+                                res.json(todos);
+                            });
+                   
+               
+              
             }
-}
+}}
 }
 exports.deletePersonal = function(req, res, next){
     Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina Usuario '});
@@ -49,7 +90,6 @@ if(req.params.recordID)
         if (err) {  res.send(err);  }
         else
         {   todo.email        	=	req.body.email        	||	todo.email        	;
-            todo.password       	=	req.body.password        	||	todo.password        	;
             todo.role        	=	req.body.role       	||	todo.role        	;
              todo.nombre        	=	req.body.nombre        	||	todo.nombre        	;
             todo.cui 	=	req.body.cui 	||	todo.cui 	;
@@ -61,7 +101,12 @@ if(req.params.recordID)
             todo.estado    	=	req.body.estado    	||	todo.estado    	;
             todo.nov    	=	req.body.nov    	||	todo.nov    	;
             todo.unidad    	=	req.body.unidad    	||	todo.unidad    	;
+            todo.interno    	=	req.body.interno    	||	todo.interno    	;
+            todo.estadoemail=req.body.estadoemail  || todo.estadoemail;
             todo.codpersonal    	=	req.body.codpersonal    	||	todo.codpersonal    	;
+            todo.fechanac    	=	req.body.fechanac    	||	todo.fechanac    	;
+            todo.usuarioup=req.body.bitacora.email;
+            
 
             todo.save(function (err, todo){
                 if (err)     {  res.status(500).send(err)  

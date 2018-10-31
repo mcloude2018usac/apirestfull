@@ -45,6 +45,7 @@ var ParticipaSchema = new mongoose.Schema({
     },
     
     fecha: { type: String }
+    ,usuarionew	: { type : String },      usuarioup	: { type : String }
 }, {
     timestamps: true
 });

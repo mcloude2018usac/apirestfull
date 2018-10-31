@@ -45,6 +45,7 @@ exports.creaDcatalogo2s = function(req, res, next){
                 todo.fecha        	=	req.body.fecha        	||	todo.fecha        	;
                 todo.foto        	=	req.body.foto        	||	todo.foto        	;
                 todo.estado    	=	req.body.estado    	||	todo.estado    	;
+                todo.usuarioup=req.body.bitacora.email;
 
                 todo.save(function (err, todo){
                     if (err)     {  res.status(500).send(err.message)   }
@@ -60,7 +61,9 @@ exports.creaDcatalogo2s = function(req, res, next){
         nombre        	: req.body.nombre        	,
         fecha        	: req.body.fecha        	,
         foto        	: req.body.foto        	,
-        estado 	: req.body.estado 	
+        estado 	: req.body.estado,
+        usuarionew:req.body.bitacora.email 	
+        
        }
         , function(err, todo) {
         if (err){ 

@@ -6,6 +6,7 @@ var mongoose =require("mongoose");
         horafin   		: { type : Number, required : true },
         monto   		: { type :  String, required : true },
         estado	: { type : String, required : true },
+        usuarionew	: { type : String },      usuarioup	: { type : String }
         }, {
         timestamps: true
         });

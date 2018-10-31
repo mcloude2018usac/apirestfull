@@ -1,4 +1,3 @@
-
 var Catalogo = require('../models/catalogo');
 var Bitacora = require('../models/bitacora');
 
@@ -64,7 +63,8 @@ if(req.params.recordID!=='crea')
             todo.fecha        	=	req.body.fecha        	||	todo.fecha        	;
             todo.foto        	=	req.body.foto        	||	todo.foto        	;
             todo.estado    	=	req.body.estado    	||	todo.estado    	;
-            
+            todo.usuarioup=req.body.bitacora.email;
+
             todo.save(function (err, todo){
                 if (err)     {  res.status(500).send(err.message)   }
                 res.json(todo);
@@ -86,6 +86,7 @@ else{
                 nombre        	: req.body.nombre        	,
                 fecha        	: req.body.fecha        	,
                 foto        	: req.body.foto        	,
+                usuarionew:req.body.bitacora.email,
                 estado 	: req.body.estado 	
               }
                 , function(err, todo) {

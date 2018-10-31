@@ -320,8 +320,11 @@ exports.getCombofijo = function(req, res, next){
                         res.json([{id:'DIAS FESTIVOS',nombre:'DIAS FESTIVOS'},{id:'RUTAS',nombre:'RUTAS'},{id:'MATERIAS',nombre:'MATERIAS'},{id:'PERIODOSSUM',nombre:'PERIODOSSUM'},{id:'UNIDADES',nombre:'UNIDADES'} 
                         ,{id:'TIPO UNIDADES',nombre:'TIPO UNIDADES'}]);
             break;
+            case 'dispositivo-tipo':
+            res.json([{id:'BUS',nombre:'BUS'},{id:'TALANQUERA',nombre:'TALANQUERA'},{id:'MOLINETE',nombre:'MOLINETE'},{id:'ACCESO DIGITAL',nombre:'ACCESO DIGITAL'}]);
+break;
         case 'suscriptor-disp':
-                  res.json([{id:'RFID interno',nombre:'RFID interno'} ,{id:'DPI',nombre:'DPI'},{id:'RFID externo',nombre:'RFID externo'},{id:'OTRO dispositivo',nombre:'OTRO dispositivo'},{id:'Ninguno',nombre:'Ninguno'}]);
+                  res.json([{id:'RFID Tarjeta',nombre:'RFID Tarjeta'} ,{id:'RFID movil',nombre:'RFID movil'},{id:'RFID pulcera',nombre:'RFID pulcera'},{id:'OTRO dispositivo',nombre:'OTRO dispositivo'},{id:'Ninguno',nombre:'Ninguno'}]);
          
         break;
         case 'reporte-salon':

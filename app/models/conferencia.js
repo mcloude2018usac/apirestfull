@@ -20,6 +20,7 @@ var ConferenciaSchema = new mongoose.Schema({
         type: String,
         required: true
     }
+    ,usuarionew	: { type : String },      usuarioup	: { type : String }
 }, {
     timestamps: true
 });

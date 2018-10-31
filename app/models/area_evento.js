@@ -7,6 +7,7 @@ var Area_eventoSchema = new mongoose.Schema({
         type: String,
         required: true
     }
+    ,usuarionew	: { type : String },      usuarioup	: { type : String }
    
 }, {
     timestamps: true

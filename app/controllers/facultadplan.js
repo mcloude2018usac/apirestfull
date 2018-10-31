@@ -56,6 +56,7 @@ if(req.params.recordID!=='crea')
             todo.capacidad        	=	req.body.capacidad        	||	todo.capacidad        	;
             todo.asignados        	=	req.body.asignados        	||	todo.asignados        	;
             todo.fexamen        	=	req.body.fexamen        	||	todo.fexamen        	;
+            todo.usuarioup=req.body.bitacora.email;
 
             todo.save(function (err, todo){
                 if (err)     {  res.status(500).send(err.message)   }
@@ -90,6 +91,7 @@ else{
                 idmateria: req.body.idmateria,
                 capacidad: req.body.capacidad,
                 asignados: req.body.asignados,
+                usuarionew:req.body.bitacora.email,
                 fexamen: req.body.fexamen
               }
                 , function(err, todo) {

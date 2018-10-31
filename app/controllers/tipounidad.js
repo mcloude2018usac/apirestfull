@@ -49,7 +49,8 @@ if(req.params.recordID!=='crea')
             todo.nombre        	=	req.body.nombre        	||	todo.nombre        	;
             todo.codigo        	=	req.body.codigo        	||	todo.codigo        	;
             todo.iddepartamento        	=	{id:req.body.iddepartamento.id,nombre:req.body.iddepartamento.nombre   }   	;
-            todo.abreviatura        	=	req.body.abreviatura        	||	todo.abreviatura        	;
+            todo.abreviatura        	=	req.body.abreviatura        	||	todo.abreviatura    	;
+            todo.usuarioup=req.body.bitacora.email;
             
           
             todo.save(function (err, todo){
@@ -73,7 +74,8 @@ else{
                 nombre        	: req.body.nombre        	,
                 codigo        	: req.body.codigo   ,
                 idepartamento        	: req.body.iddepartamento   ,
-                abreviatura        	: req.body.abreviatura        
+                abreviatura        	: req.body.abreviatura     ,
+                usuarionew:req.body.bitacora.email   
               }
                 , function(err, todo) {
                 if (err){ 

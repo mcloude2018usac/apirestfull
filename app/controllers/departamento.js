@@ -48,6 +48,8 @@ if(req.params.recordID!=='crea')
         {  
             todo.nombre        	=	req.body.nombre        	||	todo.nombre        	;
             todo.codigo        	=	req.body.codigo        	||	todo.codigo        	;
+            todo.usuarioup=req.body.bitacora.email;
+            
             
             todo.save(function (err, todo){
                 if (err)     {  res.status(500).send(err.message)   }
@@ -68,7 +70,8 @@ else{
 
             Departamento.create({
                 nombre        	: req.body.nombre        	,
-                codigo        	: req.body.codigo        
+                codigo        	: req.body.codigo       ,
+                usuarionew:req.body.bitacora.email, 
               }
                 , function(err, todo) {
                 if (err){ 

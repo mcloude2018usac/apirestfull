@@ -119,6 +119,7 @@ function getNextSequenceValue2(myData3,myData3cc,req,res,i,todo){
                              ingreso:'0',
                              noasignado:asigno,
                              codfac:myData3cc.codfac,
+                             usuarionew:req.body.bitacora.email
                          });
      
 
@@ -179,7 +180,8 @@ function getNextSequenceValue(myData3,myData3aa,req,res){
                             idperiodo        	: req.body.periodo        	,
                             nombre 	: req.body.nombre, 	
                             idestudiante 	: req.body.idestudiante, 	
-                            idinterno 	: req.body.idinterno
+                            idinterno 	: req.body.idinterno,
+                            usuarionew:req.body.bitacora.email
                         }
                             , function(err, todo) {
                             if (err){ 
@@ -221,6 +223,8 @@ if(req.params.recordID!=='crea')
             todo.nombre    	=	req.body.nombre    	||	todo.nombre    	;
             todo.idestudiante    	=	req.body.idestudiante    	||	todo.idestudiante    	;
             todo.idinterno        	=	req.body.idinterno       	||	todo.idinterno        	;
+            todo.usuarioup=req.body.bitacora.email;
+
             todo.save(function (err, todo){
                 if (err)     {  res.status(500).send(err.message)   }
                 res.json(todo);

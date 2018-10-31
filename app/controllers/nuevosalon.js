@@ -42,6 +42,7 @@ if(req.params.recordID!=='crea')
             todo.nombre        	=	req.body.nombre        	||	todo.nombre        	;
                   	
             todo.estado    	=	req.body.estado    	||	todo.estado    	;
+            todo.usuarioup=req.body.bitacora.email;
             
             todo.save(function (err, todo){
                 if (err)     {  res.status(500).send(err.message)   }
@@ -57,7 +58,8 @@ else{
             Nuevosalon.create({
                 nombre        	: req.body.nombre        	,
                 estado 	: req.body.estado 	,
-                correo 	: req.body.correo 	
+                correo 	: req.body.correo 	,
+                usuarionew:req.body.bitacora.email
               }
                 , function(err, todo) {
                 if (err){ 

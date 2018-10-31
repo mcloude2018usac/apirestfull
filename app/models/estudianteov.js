@@ -18,6 +18,7 @@ var mongoose =require("mongoose");
                    carrera: { type : String},
                    faplica:{ type : String},
                    fultimo:{ type : String}
+                 
         
         }, {
         timestamps: true

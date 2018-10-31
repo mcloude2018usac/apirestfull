@@ -71,6 +71,7 @@ else{
                 todo.unidad   	=	req.body.unidad    	||	todo.unidad   	;
                 todo.otros   	=	req.body.otros    	||	todo.otros   	;
                 todo.estado 	=	req.body.estado 	||	todo.estado 	;
+                todo.usuarioup=req.body.bitacora.email;
                 
               
                 todo.save(function (err, todo){
@@ -94,6 +95,7 @@ else{
         unidad 	: req.body.unidad 	,
         otros 	: req.body.otros 	,
         estado 	: req.body.estado 	,
+        usuarionew:req.body.bitacora.email,
         cuenta 	: '1' 	,
         fecha:d.toISOString()	
        }

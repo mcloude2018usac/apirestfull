@@ -5,6 +5,7 @@ var AuthenticationController = require('./controllers/authentication'),
     Participa2Controller = require('./controllers/participa2'),
     ConferenciaController = require('./controllers/conferencia'),
     DcatalogoController = require('./controllers/dcatalogo'),
+    SuscriptorsaldoController = require('./controllers/suscriptorsaldo'),
     PersonalController = require('./controllers/personal'),
     EventoController = require('./controllers/eventos'),
     PerfilController = require('./controllers/perfil'),
@@ -12,6 +13,7 @@ var AuthenticationController = require('./controllers/authentication'),
     ModuloController = require('./controllers/moduloxx'),
     CatalogoController = require('./controllers/catalogo'),
     TarifaController = require('./controllers/tarifa'),
+    UserpostController = require('./controllers/user_post'),
     NuevosalonController = require('./controllers/nuevosalon'),
     SuscriptorController = require('./controllers/suscriptor'),
     busController = require('./controllers/bus'),
@@ -55,9 +57,11 @@ module.exports = function(app){
         participa2Routes = express.Router(),
         conferenciaRoutes = express.Router(),
         dcatalogoRoutes = express.Router(),
+        suscriptorsaldoRoutes = express.Router(),
         moduloRoutes = express.Router(),
         catalogoRoutes = express.Router(),
         tarifaRoutes = express.Router(),
+        userpostRoutes = express.Router(),
         nuevosalonRoutes = express.Router(),
         datosfijosRoutes = express.Router(),
         eventoRoutes = express.Router(),
@@ -105,19 +109,21 @@ module.exports = function(app){
 apiRoutes.use('/personals', personalRoutes);
 personalRoutes.get('/',requireAuth, PersonalController.getPersonal);
 personalRoutes.get('/:email/:id2',requireAuth, PersonalController.getPersonal);
-personalRoutes.get('/:email',requireAuth,  PersonalController.getPersonal);
+personalRoutes.get('/:email',requireAuth, PersonalController.getPersonal);
+personalRoutes.get('/:pagineo/:limit/:page',requireAuth,  PersonalController.getPersonal);
+
 personalRoutes.post('/:recordID',requireAuth,  PersonalController.creaPersonal2s);
 personalRoutes.delete('/:recordID/:userID',requireAuth,  PersonalController.deletePersonal);
 
 //-------------------------------------------------
 //-----------------------------------EMPRESA----------------------------------
-
+/*
 apiRoutes.use('/empresas', empresaRoutes);
 empresaRoutes.get('/', requireAuth,EmpresaController.getEmpresa);
 empresaRoutes.get('/:nit', requireAuth, EmpresaController.getEmpresa);
 empresaRoutes.post('/:nit',requireAuth,  EmpresaController.creaEmpresas);
 empresaRoutes.delete('/:nit', requireAuth, EmpresaController.deleteEmpresa);
-
+*/
 //-----------------------------------SUSCRIPTOR----------------------------------
 
 apiRoutes.use('/suscriptors',suscriptorRoutes);
@@ -126,21 +132,43 @@ suscriptorRoutes.get('/:nodpi',requireAuth,  SuscriptorController.getSuscriptor)
 suscriptorRoutes.post('/:nodpi',requireAuth,  SuscriptorController.creaSuscriptors);
 suscriptorRoutes.delete('/:nodpi',requireAuth,  SuscriptorController.deleteSuscriptor);
 
-//-----------------------------------SUSCRIPTOR----------------------------------
 
+//----------------------------------suscriptor saldo
+apiRoutes.use('/suscriptorsaldos', suscriptorsaldoRoutes);
+suscriptorsaldoRoutes.get('/:id',requireAuth,  SuscriptorsaldoController.getSuscriptorsaldo);
+suscriptorsaldoRoutes.get('/:id/:id2',requireAuth,  SuscriptorsaldoController.getSuscriptorsaldo);
+suscriptorsaldoRoutes.post('/:id',requireAuth,  SuscriptorsaldoController.creaSuscriptorsaldo2s);
+suscriptorsaldoRoutes.delete('/:id/:userID',requireAuth,  SuscriptorsaldoController.deleteSuscriptorsaldo);
+
+//-----------------------------------SUSCRIPTOR----------------------------------
+/*
 apiRoutes.use('/afiliados', afiliadoRoutes);
 afiliadoRoutes.get('/:id',requireAuth, AfiliadoController.getAfiliado);
 afiliadoRoutes.get('/:id/:id2',requireAuth,  AfiliadoController.getAfiliado);
 afiliadoRoutes.post('/:id',requireAuth,  AfiliadoController.creaAfiliados);
 afiliadoRoutes.delete('/:id/:id2',requireAuth,  AfiliadoController.deleteAfiliado);
+*/
+
+apiRoutes.use('/afiliados', afiliadoRoutes);
+afiliadoRoutes.get('/:id',requireAuth,  AfiliadoController.getAfiliado);
+afiliadoRoutes.get('/:id/:id2',requireAuth,  AfiliadoController.getAfiliado);
+afiliadoRoutes.post('/:id',requireAuth,  AfiliadoController.creaAfiliado2s);
+afiliadoRoutes.delete('/:id/:userID',requireAuth,  AfiliadoController.deleteAfiliado);
 
 //-----------------------------------BUS----------------------------------
-
+/*
 apiRoutes.use('/buss', busRoutes);
 busRoutes.get('/:id/:id2',requireAuth, busController.getBus);
 busRoutes.get('/:id/:id2/:id3',requireAuth,  busController.getBus);
 busRoutes.post('/:id',requireAuth,  busController.creaBuss);
 busRoutes.delete('/:id/:id2/:id3',requireAuth,  busController.deleteBus);
+*/
+apiRoutes.use('/buss',busRoutes);
+busRoutes.get('/:id',requireAuth,  busController.getBus);
+busRoutes.get('/:id2/:id3',  busController.getBus);
+busRoutes.post('/:recordID', requireAuth, busController.creaBus2s);
+busRoutes.delete('/:recordID/:userID',requireAuth,  busController.deleteBus);
+
 
 //-----------------------------------COMPRA DE SALDO----------------------------------
 
@@ -205,6 +233,16 @@ catalogoRoutes.get('/:id',requireAuth,  CatalogoController.getCatalogo);
 catalogoRoutes.get('/:id/:id2',requireAuth,  CatalogoController.getCatalogo);
 catalogoRoutes.post('/:recordID',requireAuth,  CatalogoController.creaCatalogo2s);
 catalogoRoutes.delete('/:recordID/:userID',requireAuth,  CatalogoController.deleteCatalogo);
+//-------------------------------------EMPRESA MONGO
+apiRoutes.use('/empresas', empresaRoutes);
+empresaRoutes.get('/',requireAuth, EmpresaController.getEmpresa);
+empresaRoutes.get('/:id',requireAuth,  EmpresaController.getEmpresa);
+empresaRoutes.get('/:id/:id2',requireAuth,  EmpresaController.getEmpresa);
+empresaRoutes.post('/:recordID',requireAuth,  EmpresaController.creaEmpresa2s);
+empresaRoutes.delete('/:recordID/:userID',requireAuth,  EmpresaController.deleteEmpresa);
+
+
+
 
 
 //-----------------------------------Dcatalogo
@@ -221,6 +259,14 @@ tarifaRoutes.get('/',requireAuth, TarifaController.getTarifa);
 tarifaRoutes.get('/:id',requireAuth,  TarifaController.getTarifa);
 tarifaRoutes.post('/:recordID',requireAuth,  TarifaController.creaTarifa2s);
 tarifaRoutes.delete('/:recordID/:userID', requireAuth, TarifaController.deleteTarifa);
+
+//-----------------------------------user post
+apiRoutes.use('/userposts', userpostRoutes);
+userpostRoutes.get('/', UserpostController.getUserpost);
+userpostRoutes.get('/:id',  UserpostController.getUserpost);
+userpostRoutes.post('/:recordID',  UserpostController.creaUserpost2s);
+
+
 
 //-----------------------------------DTARIFA
 apiRoutes.use('/dtarifas', dtarifaRoutes);
@@ -382,7 +428,18 @@ mailRoutes.post('/:id',  MailController.getMail2);
 apiRoutes.use('/qrs',qrimagenRoutes);
 qrimagenRoutes.get('/:key',  QrimagenController.getQR);
 //autorizaRoutes.post('/:recordID',  AutorizaController.creaAutorizar);
+app.use(express.static(__dirname + '/www'));
+app.set('views', __dirname + '/www/');
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'html');
+
+
 
     app.use('/api', apiRoutes);
+
+    app.route('/*')
+.get(function(req, res) {
+  res.render('index.html')
+});
  
 }
