@@ -427,6 +427,8 @@ mailRoutes.post('/:id',  MailController.getMail2);
 //-----------------------------------QR
 apiRoutes.use('/qrs',qrimagenRoutes);
 qrimagenRoutes.get('/:key',  QrimagenController.getQR);
+app.use('/api', apiRoutes);
+
 //autorizaRoutes.post('/:recordID',  AutorizaController.creaAutorizar);
 /*
 app.use(express.static(__dirname + '/www'));
