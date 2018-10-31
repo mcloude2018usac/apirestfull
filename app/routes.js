@@ -428,6 +428,7 @@ mailRoutes.post('/:id',  MailController.getMail2);
 apiRoutes.use('/qrs',qrimagenRoutes);
 qrimagenRoutes.get('/:key',  QrimagenController.getQR);
 //autorizaRoutes.post('/:recordID',  AutorizaController.creaAutorizar);
+/*
 app.use(express.static(__dirname + '/www'));
 app.set('views', __dirname + '/www/');
 app.engine('html', require('ejs').renderFile);
@@ -441,5 +442,5 @@ app.set('view engine', 'html');
 .get(function(req, res) {
   res.render('index.html')
 });
- 
+ */
 }
