@@ -3,7 +3,7 @@ var mongoose =require("mongoose");
     var Permison2Schema 		=	new  mongoose.Schema({
         idpermiso   		: { type : String, required : true },
         idrol   		: { type : String, required : true },
-        nombre   		: { type : String, required : true },
+        nombre   		: { type : String, required : true , ref: 'Modulo'},
         icon   		: { type : String },
         ingreso	: { type : Boolean },
         consulta	: { type : Boolean },

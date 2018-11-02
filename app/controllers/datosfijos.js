@@ -551,13 +551,13 @@ else
                                                         var myData = [];
                                                         for(var i = 0; i < todos.length;i++){
                                                                 for(var j = 0; j < todos2.length;j++){
-                                                                        if(todos[i].nombre==todos2[j].nombre)
+                                                                        if(todos[i].nombre==todos2[j]._id)
                                                                         {       var childrem=[]
                                                                                 for(var k = 0; k < todos4.length;k++){
                                                                                         if(todos4[k].idpermiso==todos[i]._id)
                                                                                         {
                                                                                                 for(var j5 = 0; j5 < todos2.length;j5++){
-                                                                                                        if(todos4[k].nombre==todos2[j5].nombre)
+                                                                                                        if(todos4[k].nombre==todos2[j5]._id)
                                                                                                         {   
                                                                                                                 childrem.push({idrol:todos4[k].idrol,title:todos2[j5].nombre,component: todos2[j5].componente, tabComponent:todos2[j5].tabcomponente,name:todos2[j5].componente,index:todos2[j5].index,icon:todos2[j5].icono,estado:todos2[j5].estado,
                                                                                                                         permiso:todos4[k].ingreso+','+todos4[k].consulta+','+todos4[k].eliminacion+','+todos4[k].creacion+','+todos4[k].actualizacion})

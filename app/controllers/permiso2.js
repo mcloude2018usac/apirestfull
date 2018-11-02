@@ -14,9 +14,22 @@ exports.getPermison2 = function(req, res, next){
         });
     }
     else
-    { Permison2.find({idrol:req.params.id,idpermiso:req.params.id2},function(err, todos) {
+    { Permison2.find({idrol:req.params.id,idpermiso:req.params.id2}).populate('nombre')
+    .exec(function(err, todos) {
            if (err){  res.send(err);  }
-            res.json(todos);
+           var myData = [];
+           for(var i = 0; i < todos.length;i++){
+            myData.push({_id:todos[i]._id,idpermiso:todos[i].idpermiso,
+                idrol:todos[i].idrol,ingreso:todos[i].ingreso
+                ,nombre:todos[i].nombre.nombre
+                ,idmodulo:todos[i].nombre._id
+                ,consulta:todos[i].consulta
+                ,eliminacion:todos[i].eliminacion
+                ,creacion:todos[i].creacion
+                ,actualizacion:todos[i].actualizacion
+                });
+           }
+            res.json(myData);
         });
     }
 }

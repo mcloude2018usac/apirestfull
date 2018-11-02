@@ -14,9 +14,22 @@ exports.getPermiso = function(req, res, next){
         });
     }
     else
-    { Permiso.find({idrol:req.params.id},function(err, todos) {
+    { 
+    Permiso.find({idrol:req.params.id}).populate('nombre')
+    .exec(function(err, todos) {
            if (err){  res.send(err);  }
-            res.json(todos);
+           var myData = [];
+           for(var i = 0; i < todos.length;i++){
+            myData.push({_id:todos[i]._id,idrol:todos[i].idrol,ingreso:todos[i].ingreso
+                ,nombre:todos[i].nombre.nombre
+                ,idmodulo:todos[i].nombre._id
+                ,consulta:todos[i].consulta
+                ,eliminacion:todos[i].eliminacion
+                ,creacion:todos[i].creacion
+                ,actualizacion:todos[i].actualizacion
+                });
+           }
+            res.json(myData);
         });
     }
 }
