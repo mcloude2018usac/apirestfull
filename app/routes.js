@@ -188,7 +188,7 @@ eventoRoutes.delete('/:recordID/:userID',requireAuth,  EventoController.deleteEv
 
 //-----------------------------------PERFIL
 apiRoutes.use('/perfils', perfilRoutes);
-perfilRoutes.get('/', requireAuth,PerfilController.getPerfil);
+perfilRoutes.get('/',PerfilController.getPerfil);
 perfilRoutes.get('/:id',requireAuth,  PerfilController.getPerfil);
 perfilRoutes.get('/:id1/:id2',requireAuth,  PerfilController.getPerfil);
 perfilRoutes.post('/:recordID',requireAuth,  PerfilController.creaPerfil2s);
