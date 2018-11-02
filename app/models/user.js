@@ -27,7 +27,7 @@ var UserSchema = new mongoose.Schema({
     sexo 	: { type : String },
     estado 	: { type : String },
     nov 	: { type : String },
-    unidad 	: { type : String },
+    unidad 	: { type : String , ref: 'Catalogo'},
     codpersonal 	: { type : String },
     estadoemail	: { type : String },
     interno 	: { type : String },

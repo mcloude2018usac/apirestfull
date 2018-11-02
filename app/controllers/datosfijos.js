@@ -324,7 +324,7 @@ exports.getCombofijo = function(req, res, next){
             res.json([{id:'BUS',nombre:'BUS'},{id:'TALANQUERA',nombre:'TALANQUERA'},{id:'MOLINETE',nombre:'MOLINETE'},{id:'ACCESO DIGITAL',nombre:'ACCESO DIGITAL'}]);
 break;
         case 'suscriptor-disp':
-                  res.json([{id:'RFID Tarjeta',nombre:'RFID Tarjeta'} ,{id:'RFID movil',nombre:'RFID movil'},{id:'RFID pulcera',nombre:'RFID pulcera'},{id:'OTRO dispositivo',nombre:'OTRO dispositivo'},{id:'Ninguno',nombre:'Ninguno'}]);
+                  res.json([{id:'RFID Tarjeta',nombre:'RFID Tarjeta'} ,{id:'RFID movil',nombre:'RFID movil'},{id:'RFID pulsera',nombre:'RFID pulsera'},{id:'OTRO dispositivo',nombre:'OTRO dispositivo'},{id:'Ninguno',nombre:'Ninguno'}]);
          
         break;
         case 'reporte-salon':
@@ -336,13 +336,13 @@ break;
 // Fails on undefined variables
 if (query !== undef) {
     // variable is defined
-    console.log('ssssssssss')
+    
     res.status(500).send('si ');
     return;
                        
 } else {
     // else do this
-    console.log('nnnnnnnnnnnnnnnnnn')
+   
     res.status(500).send('mo');
     return;
 
@@ -402,7 +402,9 @@ else
                         res.json([{id:'PAGINA',nombre:'PAGINA'} ,{id:'LINK',nombre:'LINK'},{id:'MENU',nombre:'MENU'},{id:'PAGINAHTML',nombre:'PAGINAHTML'}]);
         break;
         case 'user-rol':
-                        Perfil.find({unidad:req.params.id2},function(err, todos) {
+        console.log('console');
+                        Perfil.find({'unidad.id':req.params.id2}).populate('unidad.id')
+                        .exec(function(err, todos) {
                                 if (err){  res.send(err);  }
                                 res.json(todos);
                         });

@@ -48,7 +48,10 @@ exports.getPersonal = function(req, res, next){
     {
         
             if(req.params.email)
-            {   Personal.find({email:req.params.email},function(err, todos) {
+            {  
+                
+                Personal.find({email:req.params.email}).populate('unidad')
+                .exec(function(err, todos) {
                     if (err){ res.send(err); }
                 
                     if(todos.length>0)   {    res.json(todos);   }

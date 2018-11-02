@@ -5,7 +5,7 @@ var Bitacora = require('../models/bitacora');
 exports.getPerfil = function(req, res, next){
     if(req.params.id2)
     { 
-        Perfil.find({unidad:req.params.id2},function(err, todos) {
+        Perfil.find({'unidad.id':req.params.id2},function(err, todos) {
             if (err){  res.send(err);  }
              res.json(todos);
          });
@@ -23,10 +23,20 @@ exports.getPerfil = function(req, res, next){
         });
     }
     else
-    { Perfil.find(function(err, todos) {
+    { 
+        
+        Perfil.find({}).populate('unidad.id')
+        .exec(function(err, todos) {
            if (err){  res.send(err);  }
             res.json(todos);
         });
+/*        
+        Perfil.find(function(err, todos) {
+           if (err){  res.send(err);  }
+            res.json(todos);
+        });
+
+        */
     }
 }
 }
@@ -50,7 +60,7 @@ if(req.params.recordID!=='crea')
         else
         {   todo.nombre        	=	req.body.nombre        	||	todo.nombre        	;
             todo.estado    	=	req.body.estado    	||	todo.estado    	;
-            todo.unidad    	=	req.body.unidad    	||	todo.unidad    	;
+            todo.unidad=	{id:req.body.unidad.id,nombre:req.body.unidad.nombre   }   	;
             todo.usuarioup=req.body.bitacora.email;
             todo.save(function (err, todo){
                 if (err)     {  res.status(500).send(err.message)   }
