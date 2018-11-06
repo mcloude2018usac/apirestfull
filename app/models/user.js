@@ -33,8 +33,8 @@ var UserSchema = new mongoose.Schema({
     interno 	: { type : String },
     usuarionew	: { type : String },      usuarioup	: { type : String },
     fechanac   		: { type : Date},
-    saldo 	: { type : String }
-      
+    saldo 	: { type : String },
+    tiposuscriptor 	: { type : String , ref: 'Tiposuscriptor'} 
     
     
  

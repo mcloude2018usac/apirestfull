@@ -12,6 +12,7 @@ var AuthenticationController = require('./controllers/authentication'),
     EmpresaController = require('./controllers/empresa'),
     ModuloController = require('./controllers/moduloxx'),
     CatalogoController = require('./controllers/catalogo'),
+    TiposuscriptorController = require('./controllers/tipo_suscriptor'),
     TarifaController = require('./controllers/tarifa'),
     UserpostController = require('./controllers/user_post'),
     NuevosalonController = require('./controllers/nuevosalon'),
@@ -60,6 +61,7 @@ module.exports = function(app){
         suscriptorsaldoRoutes = express.Router(),
         moduloRoutes = express.Router(),
         catalogoRoutes = express.Router(),
+        tiposuscriptorRoutes = express.Router(),
         tarifaRoutes = express.Router(),
         userpostRoutes = express.Router(),
         nuevosalonRoutes = express.Router(),
@@ -233,6 +235,19 @@ catalogoRoutes.get('/:id',requireAuth,  CatalogoController.getCatalogo);
 catalogoRoutes.get('/:id/:id2',requireAuth,  CatalogoController.getCatalogo);
 catalogoRoutes.post('/:recordID',requireAuth,  CatalogoController.creaCatalogo2s);
 catalogoRoutes.delete('/:recordID/:userID',requireAuth,  CatalogoController.deleteCatalogo);
+
+
+//-----------------------------------tipo suscriptor
+apiRoutes.use('/tiposuscriptors', tiposuscriptorRoutes);
+tiposuscriptorRoutes.get('/',requireAuth, TiposuscriptorController.getTiposuscriptor);
+tiposuscriptorRoutes.get('/:id',requireAuth,  TiposuscriptorController.getTiposuscriptor);
+tiposuscriptorRoutes.get('/:id/:id2',requireAuth,  TiposuscriptorController.getTiposuscriptor);
+tiposuscriptorRoutes.post('/:recordID',requireAuth,  TiposuscriptorController.creaTiposuscriptor2s);
+tiposuscriptorRoutes.delete('/:recordID/:userID',requireAuth,  TiposuscriptorController.deleteTiposuscriptor);
+
+
+
+
 //-------------------------------------EMPRESA MONGO
 apiRoutes.use('/empresas', empresaRoutes);
 empresaRoutes.get('/',requireAuth, EmpresaController.getEmpresa);

@@ -93,7 +93,8 @@ exports.register = function(req, res, next){
             unidad    	: req.body.unidad   ,
             codpersonal    	: req.body.codpersonal   ,
             interno    	: req.body.interno  , 
-            estadoemail   	: req.body.estadoemail   
+            estadoemail   	: req.body.estadoemail ,  
+            tiposuscriptor   	: req.body.tiposuscriptor   
          
         });
  

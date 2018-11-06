@@ -10,7 +10,7 @@ exports.getPersonal = function(req, res, next){
         var pagex=    Number(req.params.page);
         var limitx=    Number(req.params.limit);
         
-        Personal.paginate({},{lean:     false,page:pagex, limit:  limitx}).then(function(err, todos) {
+        Personal.paginate({},{populate: ['unidad','tiposuscriptor'],lean:     false,page:pagex, limit:  limitx}).then(function(err, todos) {
             if (err){  res.send(err);  }
                 res.end(todos);
                 res.end();
@@ -24,7 +24,8 @@ exports.getPersonal = function(req, res, next){
         if(req.params.id2=='persona')
         {
 
-            Personal.find({cui:req.params.email},function(err, todos) {
+            Personal.find({cui:req.params.email}).populate('unidad').populate('tiposuscriptor')
+            .exec(function(err, todos) {
                 if (err){ res.send(err); }
             
                 if(todos.length>0)   {    res.json(todos);    }
@@ -50,7 +51,7 @@ exports.getPersonal = function(req, res, next){
             if(req.params.email)
             {  
                 
-                Personal.find({email:req.params.email}).populate('unidad')
+                Personal.find({email:req.params.email}).populate('unidad').populate('tiposuscriptor')
                 .exec(function(err, todos) {
                     if (err){ res.send(err); }
                 
@@ -109,6 +110,7 @@ if(req.params.recordID)
             todo.codpersonal    	=	req.body.codpersonal    	||	todo.codpersonal    	;
             todo.fechanac    	=	req.body.fechanac    	||	todo.fechanac    	;
             todo.usuarioup=req.body.bitacora.email;
+            todo.tiposuscriptor    	=	req.body.tiposuscriptor    	||	todo.tiposuscriptor    	;
             
 
             todo.save(function (err, todo){
