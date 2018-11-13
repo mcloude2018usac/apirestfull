@@ -52,14 +52,16 @@ exports.getPersonal = function(req, res, next){
             {  
                 
                 Personal.find({email:req.params.email}).populate('unidad').populate('tiposuscriptor')
-                .exec(function(err, todos) {
-                    if (err){ res.send(err); }
-                
+                .then(todos => {
+                   
                     if(todos.length>0)   {    res.json(todos);   }
                     else
                     {  res.status(500).send('NO EXISTE REGISTRO');      }
-                    
-                });
+                })
+                .catch(err => {
+                    res.status(500).send(err.message);  
+                })
+                
             }
             else
             {
