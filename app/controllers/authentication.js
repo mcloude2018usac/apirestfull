@@ -2,6 +2,7 @@ var jwt = require('jsonwebtoken');
 var User = require('../models/user');
 var authConfig = require('../../config/auth');
 var Bitacora = require('../models/bitacora');
+var generator = require('generate-password');
 
 function generateToken(user){
     return jwt.sign(user, authConfig.secret, {
@@ -21,6 +22,9 @@ function setUserInfo(request){
  
 exports.login = function(req, res, next){
  
+ 
+    
+
     var userInfo = setUserInfo(req.user);
 
     if(userInfo.estadoemail=="1")
@@ -48,7 +52,9 @@ exports.register = function(req, res, next){
     var password = req.body.password;
    
 
-      
+    console.log( req.body )
+    console.log(email)
+    console.log(password)
     var bitacora= req.body.bitacora;
  
     if(!email){
@@ -132,11 +138,16 @@ exports.register2 = function(req, res, next){
         return res.status(422).send({error: 'You must enter a password'});
     }
     Bitacora.create(bitacora);
+
+    console.log(email);
     User.findOne({email: email}, function(err, user){
  
         if(err){
             return next(err);
         }
+
+        
+    console.log(user);
         user.password=password2
         user.save(function(err){
  
@@ -146,6 +157,45 @@ exports.register2 = function(req, res, next){
  
             
             res.json(setUserInfo(user));    
+ 
+        });
+ 
+    });
+ 
+}
+
+
+exports.register3 = function(req, res, next){
+ 
+    var email = req.body.email;
+    var bitacora= req.body.bitacora;
+ 
+    if(!email){
+        return res.status(422).send({error: 'You must enter an email address'});
+    }
+ 
+
+    Bitacora.create(bitacora);
+    User.findOne({email: email}, function(err, user){
+ 
+        if(err){
+            return next(err);
+        }
+        var password = generator.generate({
+            length: 8,
+            numbers: true
+        });
+
+
+        user.password='' + password+'123@'
+        user.save(function(err){
+ 
+            if(err){
+                return next(err);
+            }
+ 
+          
+            res.json('' + password+'123@');    
  
         });
  

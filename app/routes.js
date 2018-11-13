@@ -26,6 +26,7 @@ var AuthenticationController = require('./controllers/authentication'),
     DtarifaController = require('./controllers/dtarifa'),
     AfiliadoController = require('./controllers/afiliado'),
     ComprasaldoController = require('./controllers/comprasaldo'),
+    CompratrasferenciaController = require('./controllers/compratrasferencia'),
     MailController = require('./controllers/mail'),
     QrimagenController = require('./controllers/qrimagen'),
     AsignapcbController = require('./controllers/asignapcb'),
@@ -79,6 +80,7 @@ module.exports = function(app){
         dtarifaRoutes = express.Router(),
         suscriptorRoutes = express.Router(),
         comprasaldoRoutes = express.Router(),
+        compratransferenciaRoutes = express.Router(),
         qrimagenRoutes = express.Router(),
         busRoutes = express.Router(),
         afiliadoRoutes = express.Router(),
@@ -98,6 +100,7 @@ module.exports = function(app){
         apiRoutes.use('/auth', authRoutes);
         authRoutes.post('/register', AuthenticationController.register);
         authRoutes.post('/register2', AuthenticationController.register2);
+        authRoutes.post('/register3', AuthenticationController.register3);
         authRoutes.post('/login', requireLogin, AuthenticationController.login);
         
         authRoutes.get('/protected', requireAuth, function(req, res){
@@ -177,8 +180,17 @@ busRoutes.delete('/:recordID/:userID',requireAuth,  busController.deleteBus);
 apiRoutes.use('/comprasaldos', comprasaldoRoutes);
 comprasaldoRoutes.get('/:id',requireAuth, ComprasaldoController.getComprasaldo);
 comprasaldoRoutes.get('/:id/:id2',requireAuth,  ComprasaldoController.getComprasaldo);
-comprasaldoRoutes.post('/:id',requireAuth,  ComprasaldoController.creaComprasaldos);
-comprasaldoRoutes.delete('/:id/:id2',requireAuth,  ComprasaldoController.deleteComprasaldo);
+comprasaldoRoutes.post('/:recordID',requireAuth,  ComprasaldoController.creaComprasaldo2s);
+comprasaldoRoutes.delete('/:recordID/:userID',requireAuth,  ComprasaldoController.deleteComprasaldo);
+
+
+//-----------------------------------trasferencia DE SALDO----------------------------------
+
+apiRoutes.use('/compratransferencias', compratransferenciaRoutes);
+compratransferenciaRoutes.get('/:id',requireAuth, CompratrasferenciaController.getCompratransferencia);
+compratransferenciaRoutes.get('/:id/:id2',requireAuth,  CompratrasferenciaController.getCompratransferencia);
+compratransferenciaRoutes.post('/:recordID',requireAuth,  CompratrasferenciaController.creaCompratransferencia2s);
+compratransferenciaRoutes.delete('/:recordID/:userID',requireAuth,  CompratrasferenciaController.deleteCompratransferencia);
 
 //-----------------------------------EVENTOS
 apiRoutes.use('/eventos', eventoRoutes);

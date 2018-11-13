@@ -1,6 +1,6 @@
 var mongoose =require("mongoose");
     var SuscriptorsaldoSchema 		=	new  mongoose.Schema({
-        idsuscriptor :  		{    id	: { type : String, required : true },   nombre	: { type : String, required : true }        },
+        idsuscriptor :  		{    id	: { type : String, required : true, ref: 'User' },   nombre	: { type : String, required : true }        },
 
         saldoactual   		: { type : String},
         codigo1: { type : String},

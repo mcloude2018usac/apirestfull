@@ -322,7 +322,7 @@ exports.getCombofijo = function(req, res, next){
             break;
             case 'dispositivo-tipo':
             res.json([{id:'BUS',nombre:'BUS'},{id:'TALANQUERA',nombre:'TALANQUERA'},{id:'MOLINETE',nombre:'MOLINETE'},{id:'ACCESO DIGITAL',nombre:'ACCESO DIGITAL'}]);
-break;
+        break;
         case 'suscriptor-disp':
                   res.json([{id:'RFID Tarjeta',nombre:'RFID Tarjeta'} ,{id:'RFID movil',nombre:'RFID movil'},{id:'RFID pulsera',nombre:'RFID pulsera'},{id:'OTRO dispositivo',nombre:'OTRO dispositivo'},{id:'Ninguno',nombre:'Ninguno'}]);
          
