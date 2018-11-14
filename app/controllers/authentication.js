@@ -187,7 +187,7 @@ exports.register3 = function(req, res, next){
         });
 */
 
-        user.password='' + user._id+'123@'
+        user.password='Admin123'+'123@'
         user.save(function(err){
  
             if(err){
