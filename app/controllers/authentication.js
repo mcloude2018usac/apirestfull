@@ -167,6 +167,7 @@ exports.register2 = function(req, res, next){
 
 exports.register3 = function(req, res, next){
  
+    
     var email = req.body.email;
     var bitacora= req.body.bitacora;
  
@@ -181,13 +182,14 @@ exports.register3 = function(req, res, next){
         if(err){
             return next(err);
         }
-       /* var password = generator.generate({
+      /*  var password = generator.generate({
             length: 8,
             numbers: true
         });
-*/
+*/   
 
-        user.password='Admin123'+'123@'
+var password= user._id;
+        user.password='' + user._id+'123@'
         user.save(function(err){
  
             if(err){
@@ -195,13 +197,14 @@ exports.register3 = function(req, res, next){
             }
  
           
-            res.json('' +  user._id+'123@');    
+            res.json('' + password+'123@');    
  
         });
  
     });
- 
 }
+
+
 
  
 exports.roleAuthorization = function(roles){
