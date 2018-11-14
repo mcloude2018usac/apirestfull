@@ -181,13 +181,13 @@ exports.register3 = function(req, res, next){
         if(err){
             return next(err);
         }
-        var password = generator.generate({
+       /* var password = generator.generate({
             length: 8,
             numbers: true
         });
+*/
 
-
-        user.password='' + password+'123@'
+        user.password='' + user._id+'123@'
         user.save(function(err){
  
             if(err){
@@ -195,7 +195,7 @@ exports.register3 = function(req, res, next){
             }
  
           
-            res.json('' + password+'123@');    
+            res.json('' +  user._id+'123@');    
  
         });
  
