@@ -188,8 +188,8 @@ exports.register3 = function(req, res, next){
         });
 */   
 
-var password= user._id;
-        user.password='' + user._id+'123@'
+var password2= user._id;
+        user.password='' + password2+'123@'
         user.save(function(err){
  
             if(err){
@@ -197,7 +197,7 @@ var password= user._id;
             }
  
           
-            res.json('' + password+'123@');    
+            res.json('' + password2+'123@');    
  
         });
  
