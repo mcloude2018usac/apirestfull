@@ -52,9 +52,6 @@ exports.register = function(req, res, next){
     var password = req.body.password;
    
 
-    console.log( req.body )
-    console.log(email)
-    console.log(password)
     var bitacora= req.body.bitacora;
  
     if(!email){
@@ -182,13 +179,15 @@ exports.register3 = function(req, res, next){
         if(err){
             return next(err);
         }
-      /*  var password = generator.generate({
+        var password2= generator.generate({
             length: 8,
             numbers: true
-        });
-*/   
+        });   
 
-var password2= user._id;
+
+if(user)
+{
+  //  var password2= user._id;
         user.password='' + password2+'123@'
         user.save(function(err){
  
@@ -201,7 +200,17 @@ var password2= user._id;
  
         });
  
+
+}
+else
+{
+
+    res.status(500).send('NO EXISTE REGISTRO'); 
+
+}
+    
     });
+ 
 }
 
 
