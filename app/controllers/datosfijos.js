@@ -50,8 +50,6 @@ var cleanName = function(str) {
                      var asigno=0
                      asigno=myasigcupo.length;
       
-                    // console.log('asigno')
-                     //console.log(myasigcupo)
                       if(asigno!=myData.asignados)
                      {
                              
@@ -62,29 +60,7 @@ var cleanName = function(str) {
                      }
                    
                      
-  /*
-         
-                               Facplan.findById({ _id:myData._id }, function (err, todo)  {
-                                   if (err) {  res.send(err);  }
-                                   else
-                                   { 
-                                           
-                                        console.log('asigno')
-                                        console.log(asigno)
-                     
-                                        // console.log('asignados')
-                                   //console.log(Number(todo.asignados))
-                                        todo.asignados        	=		asigno     	;
-                                       
-                                       todo.save(function (err, todo){
-                                           if (err)     {  console.log(err.message)   }
-                                           //console.log(todo);
-                                       });
 
-
-                                   }
-                               });
-                               */
                               
            });
       }
@@ -316,17 +292,8 @@ exports.getCombofijo = function(req, res, next){
                                         }
                                 })
             break;
-        case 'catalogo-tipo':
-                        res.json([{id:'DIAS FESTIVOS',nombre:'DIAS FESTIVOS'},{id:'RUTAS',nombre:'RUTAS'},{id:'MATERIAS',nombre:'MATERIAS'},{id:'PERIODOSSUM',nombre:'PERIODOSSUM'},{id:'UNIDADES',nombre:'UNIDADES'} 
-                        ,{id:'TIPO UNIDADES',nombre:'TIPO UNIDADES'}]);
-            break;
-            case 'dispositivo-tipo':
-            res.json([{id:'BUS',nombre:'BUS'},{id:'TALANQUERA',nombre:'TALANQUERA'},{id:'MOLINETE',nombre:'MOLINETE'},{id:'ACCESO DIGITAL',nombre:'ACCESO DIGITAL'}]);
-        break;
-        case 'suscriptor-disp':
-                  res.json([{id:'RFID Tarjeta',nombre:'RFID Tarjeta'} ,{id:'RFID movil',nombre:'RFID movil'},{id:'RFID pulsera',nombre:'RFID pulsera'},{id:'OTRO dispositivo',nombre:'OTRO dispositivo'},{id:'Ninguno',nombre:'Ninguno'}]);
-         
-        break;
+      
+  
         case 'reporte-salon':
 
 
@@ -401,14 +368,7 @@ else
         case 'modulo-grupo':
                         res.json([{id:'PAGINA',nombre:'PAGINA'} ,{id:'LINK',nombre:'LINK'},{id:'MENU',nombre:'MENU'},{id:'PAGINAHTML',nombre:'PAGINAHTML'}]);
         break;
-        case 'user-rol':
-        console.log('console');
-                        Perfil.find({'unidad.id':req.params.id2}).populate('unidad.id')
-                        .exec(function(err, todos) {
-                                if (err){  res.send(err);  }
-                                res.json(todos);
-                        });
-        break;
+     
         case 'excel-eventos':
                            var filename   = "eventos.csv";
 
@@ -526,98 +486,7 @@ else
   
         default:
 
-        Perfil.find({nombre:req.params.id},function(err, todos) {
-                if (err){ res.send(err); }
-                
-               
-                if(todos.length>0)   {  
-                        
-                
-                        Permiso.find({idrol:todos[0]._id},function(err, todos) {
-                                if (err){ res.send(err); }
-                                
-                                Permiso2.find({idrol:todos[0].idrol},function(err, todos4) {
-                                if (err){ res.send(err); }
-                                        
-                                                    
-                                        
-                                        if(todos.length>0)   {  
-                                                
-                                                Moduloxx.find({},function(err, todos2) {
-                                                        if (err){ res.send(err); }
-                                                
-                    
-
-                                                        var myData = [];
-                                                        for(var i = 0; i < todos.length;i++){
-                                                                for(var j = 0; j < todos2.length;j++){
-                                                                        if(todos[i].nombre==todos2[j]._id)
-                                                                        {       var childrem=[]
-                                                                                for(var k = 0; k < todos4.length;k++){
-                                                                                        if(todos4[k].idpermiso==todos[i]._id)
-                                                                                        {
-                                                                                                for(var j5 = 0; j5 < todos2.length;j5++){
-                                                                                                        if(todos4[k].nombre==todos2[j5]._id)
-                                                                                                        {   
-                                                                                                                childrem.push({idrol:todos4[k].idrol,title:todos2[j5].nombre,component: todos2[j5].componente, tabComponent:todos2[j5].tabcomponente,name:todos2[j5].componente,index:todos2[j5].index,icon:todos2[j5].icono,estado:todos2[j5].estado,
-                                                                                                                        permiso:todos4[k].ingreso+','+todos4[k].consulta+','+todos4[k].eliminacion+','+todos4[k].creacion+','+todos4[k].actualizacion})
-                                                                                                        }
-                                                                                                }
-                                                                                        }                                                 
-
-                                                                                }   
-                                                                        //    console.log(todos[i].nombre);
-                                                                                if(childrem.length>0)
-                                                                                {
-                                                                                myData.push({idrol:todos[i].idrol,title:todos2[j].nombre,component: todos2[j].componente, tabComponent:todos2[j].tabcomponente,name:todos2[j].componente,index:todos2[j].index,icon:todos2[j].icono,estado:todos2[j].estado,
-                                                                                        permiso:todos[i].ingreso+','+todos[i].consulta+','+todos[i].eliminacion+','+todos[i].creacion+','+todos[i].actualizacion,children:childrem});
-                                                
-
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                myData.push({idrol:todos[i].idrol,title:todos2[j].nombre,component: todos2[j].componente, tabComponent:todos2[j].tabcomponente,name:todos2[j].componente,index:todos2[j].index,icon:todos2[j].icono,estado:todos2[j].estado,
-                                                                                        permiso:todos[i].ingreso+','+todos[i].consulta+','+todos[i].eliminacion+','+todos[i].creacion+','+todos[i].actualizacion});
-                                                
-                                                                                }
-                                                                                
-                                                                                break;                
-                                                                        }
-
-
-                                                                }          
-                                                        
-                                                        
-                        
-                                                        }
-                        
-                                                        res.json(myData);
-                                                
-
-
-                                                
-                                        });       
-
-                                        
-                                        
-                                        }
-                                        else
-                                        {  res.status(500).send('NO EXISTE ROL ASIGNADO');      }
-
-
-
-
-                                });         
-                            });
-
-                      
-                
-                
-                }
-                else
-                {  res.status(500).send('NO EXISTE ROL ASIGNADO');      }
-                
-            });
+  
 
 
     }

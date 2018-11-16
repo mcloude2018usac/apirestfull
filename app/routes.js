@@ -1,6 +1,7 @@
 var AuthenticationController = require('./controllers/authentication'), 
     OraController = require('./controllers/oraclesqlx'), 
     DatosfijosController = require('./controllers/datosfijos'),
+    Datosfijo2sController = require('./controllers/datosfijos2'),
     ParticipaController = require('./controllers/participa'),
     Participa2Controller = require('./controllers/participa2'),
     ConferenciaController = require('./controllers/conferencia'),
@@ -67,6 +68,7 @@ module.exports = function(app){
         userpostRoutes = express.Router(),
         nuevosalonRoutes = express.Router(),
         datosfijosRoutes = express.Router(),
+        datosfijo2sRoutes = express.Router(),
         eventoRoutes = express.Router(),
         perfilRoutes = express.Router(),
         mailRoutes = express.Router(),
@@ -445,6 +447,14 @@ apiRoutes.use('/datosfijos', datosfijosRoutes);
 datosfijosRoutes.get('/:id', DatosfijosController.getCombofijo);
 datosfijosRoutes.get('/:id/:id2', DatosfijosController.getCombofijo);
 datosfijosRoutes.get('/:id/:id2/:id3',  DatosfijosController.getCombofijo);
+
+
+//-----------------------------------datos combo fijos2
+apiRoutes.use('/datosfijos2', datosfijo2sRoutes);
+datosfijo2sRoutes.get('/:id',requireAuth, Datosfijo2sController.getCombofijo);
+datosfijo2sRoutes.get('/:id/:id2',requireAuth, Datosfijo2sController.getCombofijo);
+datosfijo2sRoutes.get('/:id/:id2/:id3',requireAuth,  Datosfijo2sController.getCombofijo);
+
 
 //-----------------------------------MAIL
 apiRoutes.use('/mails', mailRoutes);

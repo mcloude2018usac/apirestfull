@@ -52,6 +52,7 @@ exports.register = function(req, res, next){
     var password = req.body.password;
    
 
+
     var bitacora= req.body.bitacora;
  
     if(!email){
@@ -164,7 +165,6 @@ exports.register2 = function(req, res, next){
 
 exports.register3 = function(req, res, next){
  
-    
     var email = req.body.email;
     var bitacora= req.body.bitacora;
  
@@ -212,8 +212,6 @@ else
     });
  
 }
-
-
 
  
 exports.roleAuthorization = function(roles){
