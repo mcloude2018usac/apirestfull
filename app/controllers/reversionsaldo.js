@@ -1,4 +1,4 @@
-var Comprasaldo = require('../models/comprasaldo');
+var Reversionsaldo = require('../models/reversionsaldo');
 var Bitacora = require('../models/bitacora');
 var Personalhis = require('../models/suscriptorhis');
 var Personalsaldo = require('../models/suscriptorsaldo');
@@ -10,11 +10,12 @@ function roundxx(value, decimals) {
   }
 
   
-exports.getComprasaldo = function(req, res, next){
+exports.getReversionsaldo = function(req, res, next){
     if(req.params.id2)
-    {    if(req.params.id2=='vende')
+    { 
+        if(req.params.id2=='vende')
         {
-            Comprasaldo.find({'idsuscriptor2.id':req.params.id},function(err, todos) {
+            Reversionsaldo.find({'idsuscriptor2.id':req.params.id},function(err, todos) {
                 if (err){ res.send(err); }
                
                 if(todos.length>0)   {    res.json(todos);   }
@@ -27,7 +28,8 @@ exports.getComprasaldo = function(req, res, next){
         }
         else
         {
-                  if(req.params.id2=='historial')
+
+                    if(req.params.id2=='historial')
                     {
                         Personalhis.find({'idsuscriptor.id':req.params.id}).sort([['createdAt', -1]]).exec(function(err, todos) {
                             if (err){ res.send(err); }
@@ -43,7 +45,8 @@ exports.getComprasaldo = function(req, res, next){
     {
         if(req.params.id)
         {  
-                 Comprasaldo.find({'idsuscriptor.id':req.params.id}).sort([['createdAt', -1]]).exec(function(err, todos) {
+           
+                Reversionsaldo.find({'idsuscriptor.id':req.params.id}).sort([['createdAt', -1]]).exec(function(err, todos) {
                     if (err){ res.send(err); }
                     res.json(todos);
                 });
@@ -51,7 +54,7 @@ exports.getComprasaldo = function(req, res, next){
            
         }
         else
-        { Comprasaldo.find(function(err, todos) {
+        { Reversionsaldo.find(function(err, todos) {
                if (err){  res.send(err);  }
                 res.json(todos);
             });
@@ -60,22 +63,22 @@ exports.getComprasaldo = function(req, res, next){
     }
  
 }
-exports.deleteComprasaldo = function(req, res, next){
+exports.deleteReversionsaldo = function(req, res, next){
    
     Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina compra saldo'});
-    Comprasaldo.findByIdAndRemove({ _id: req.params.recordID  }, function(err, todo) {
+    Reversionsaldo.findByIdAndRemove({ _id: req.params.recordID  }, function(err, todo) {
         res.json(todo);
     });
 }
 
 
-exports.creaComprasaldo2s = function(req, res, next){
+exports.creaReversionsaldo2s = function(req, res, next){
    
  
     Bitacora.create(req.body.bitacora);
 if(req.params.recordID!=='crea')
 { 
-    Comprasaldo.findById({ _id: req.params.recordID }, function (err, todo)  {
+    Reversionsaldo.findById({ _id: req.params.recordID }, function (err, todo)  {
         if (err) {  res.send(err);  }
         else
         {           todo.idsuscriptor        	={id:req.body.idsuscriptor.id,nombre:req.body.idsuscriptor.nombre   }   	;
@@ -107,7 +110,7 @@ else{
                 if (err) {  res.send(err);  }
                 else
                 {    console.log(Number(todo3.saldoactual)+Number(req.body.monto ));
-                       todo3.saldoactual        	=		Number(todo3.saldoactual)+Number(req.body.monto )    	;
+                       todo3.saldoactual        	=		Number(todo3.saldoactual)-Number(req.body.monto )    	;
                        todo3.save(function (err, todo){
                          if (err)     {  console.log(err.message)   }
                        //  console.log(todo);
@@ -117,7 +120,7 @@ else{
                            
 
 
-                            Comprasaldo.create({ idsuscriptor        	: req.body.idsuscriptor        	,
+                            Reversionsaldo.create({ idsuscriptor        	: req.body.idsuscriptor        	,
                                 monto        	: req.body.monto        	,
                                 nombre        	: req.body.nombre        	,
                                 url        	: req.body.url        	,
@@ -130,16 +133,15 @@ else{
 
                                 Personalhis.create({idsuscriptor :{    id	:todos[0].idsuscriptor.id._id, 
                                     nombre	: todos[0].idsuscriptor.id.nombre       },
-                                     tipo   		: 'Compra Saldo (+)',descripcion   		: 'Operación de compra saldo (+)', 
+                                     tipo   		: 'Reversion de Saldo (-)',descripcion   		: 'Operación de reversion de saldo', 
                                      saldoanterior   		: roundxx(todos[0].saldoactual,2),
                                        monto   		: roundxx(Number(req.body.monto   ),2),                                  
-                                        saldoactual   		: roundxx(Number(todos[0].saldoactual)+Number(req.body.monto   ) ,2),
+                                        saldoactual   		: roundxx(Number(todos[0].saldoactual)-Number(req.body.monto   ) ,2),
                                         idtrans   		: todo22._id,
                                         nodispositivo 		: '0',
                                         noprov 		: '0',
-                                        
                               codigo1: '', usuarionew	: req.body.bitacora.email,      usuarioup	: req.body.bitacora.email});
-                          
+                         
                                 res.json(todo22);
                         
                             });

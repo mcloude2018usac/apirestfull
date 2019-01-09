@@ -1,23 +1,12 @@
 
 var Perfil = require('../models/perfil');
 var Moduloxx = require('../models/moduloxx');
+var Dcatalogo = require('../models/dcatalogo');
+var Dtarifa = require('../models/dtarifa');
 var Permiso = require('../models/permiso');
 var Permiso2 = require('../models/permison2');
-var Area_evento = require('../models/area_evento');
-var Aread_evento = require('../models/aread_evento');
-var csv      = require('csv-express');
-var Evento = require('../models/eventos');
-
-
-
-var Participa = require('../models/participa');
-var Participa2 = require('../models/participa2');
-var Facplan = require('../models/unidadplan');
-var cursoeve=require('../models/aread_evento');
-
-var request = require('request');
-
 var Asignaest = require('../models/asignaestudiante');
+var User = require('../models/user');
 
 var cleanName = function(str) {
         if (str == '') return str; // jQuery
@@ -102,9 +91,50 @@ exports.getCombofijo = function(req, res, next){
        switch(req.params.id) {
     
         case 'catalogo-tipo':
-                        res.json([{id:'DIAS FESTIVOS',nombre:'DIAS FESTIVOS'},{id:'RUTAS',nombre:'RUTAS'},{id:'MATERIAS',nombre:'MATERIAS'},{id:'PERIODOSSUM',nombre:'PERIODOSSUM'},{id:'UNIDADES',nombre:'UNIDADES'} 
+                        res.json([{id:'DIAS FESTIVOS',nombre:'DIAS FESTIVOS'},{id:'RUTAS',nombre:'RUTAS'},{id:'MATERIAS',nombre:'MATERIAS'},{id:'PERIODOSSUM',nombre:'PERIODOSSUM'},{id:'UNIDADES',nombre:'UNIDADES'} ,{id:'TARIFA COMPRA SALDO',nombre:'TARIFA COMPRA SALDO'} 
                         ,{id:'TIPO UNIDADES',nombre:'TIPO UNIDADES'}]);
             break;
+
+            case 'dtarifa':
+            Dtarifa.find({idtarifa:req.params.id2},function(err, todos) {
+                if (err){  res.send(err);  }
+
+                var myData = [];
+                for(var i = 0; i < todos.length;i++){
+                        myData.push({nombre:todos[i].nombre + ',' + todos[i].horaini+ ',' + todos[i].horafin + ',' + todos[i].monto});
+                }
+                                                        
+                
+
+
+
+                 res.json(myData);
+             });
+
+            break;
+            case 'dcatalogo':
+            Dcatalogo.find({idcatalogo:req.params.id2},function(err, todos) {
+                if (err){  res.send(err);  }
+                 res.json(todos);
+             });
+
+            break;
+         
+            case 'dinactivos':
+            User.find({estado:'Inactivo'},function(err, todos) {
+                if (err){  res.send(err);  }
+
+                var myData = [];
+                for(var i = 0; i < todos.length;i++){
+                        myData.push({id:todos[i]._id});
+
+                }
+
+                 res.json(myData);
+             });
+
+            break;
+         
             case 'dispositivo-tipo':
             res.json([{id:'BUS',nombre:'BUS'},{id:'TALANQUERA',nombre:'TALANQUERA'},{id:'MOLINETE',nombre:'MOLINETE'},{id:'ACCESO DIGITAL',nombre:'ACCESO DIGITAL'}]);
         break;

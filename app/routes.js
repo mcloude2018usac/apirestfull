@@ -27,6 +27,7 @@ var AuthenticationController = require('./controllers/authentication'),
     DtarifaController = require('./controllers/dtarifa'),
     AfiliadoController = require('./controllers/afiliado'),
     ComprasaldoController = require('./controllers/comprasaldo'),
+    ReversionsaldoController = require('./controllers/reversionsaldo'),
     CompratrasferenciaController = require('./controllers/compratrasferencia'),
     MailController = require('./controllers/mail'),
     QrimagenController = require('./controllers/qrimagen'),
@@ -82,6 +83,7 @@ module.exports = function(app){
         dtarifaRoutes = express.Router(),
         suscriptorRoutes = express.Router(),
         comprasaldoRoutes = express.Router(),
+        reversionsaldoRoutes = express.Router(),
         compratransferenciaRoutes = express.Router(),
         qrimagenRoutes = express.Router(),
         busRoutes = express.Router(),
@@ -116,6 +118,7 @@ module.exports = function(app){
 apiRoutes.use('/personals', personalRoutes);
 personalRoutes.get('/',requireAuth, PersonalController.getPersonal);
 personalRoutes.get('/:email/:id2',requireAuth, PersonalController.getPersonal);
+personalRoutes.get('/:email/:id2/:id3/:id4/:id5/:id6/:id7', requireAuth,PersonalController.getPersonal);
 personalRoutes.get('/:email',requireAuth, PersonalController.getPersonal);
 personalRoutes.get('/:pagineo/:limit/:page',requireAuth,  PersonalController.getPersonal);
 
@@ -184,6 +187,14 @@ comprasaldoRoutes.get('/:id',requireAuth, ComprasaldoController.getComprasaldo);
 comprasaldoRoutes.get('/:id/:id2',requireAuth,  ComprasaldoController.getComprasaldo);
 comprasaldoRoutes.post('/:recordID',requireAuth,  ComprasaldoController.creaComprasaldo2s);
 comprasaldoRoutes.delete('/:recordID/:userID',requireAuth,  ComprasaldoController.deleteComprasaldo);
+
+//-----------------------------------REVERSION DE SALDO----------------------------------
+
+apiRoutes.use('/reversionsaldos', reversionsaldoRoutes);
+reversionsaldoRoutes.get('/:id',requireAuth, ReversionsaldoController.getReversionsaldo);
+reversionsaldoRoutes.get('/:id/:id2',requireAuth,  ReversionsaldoController.getReversionsaldo);
+reversionsaldoRoutes.post('/:recordID',requireAuth,  ReversionsaldoController.creaReversionsaldo2s);
+reversionsaldoRoutes.delete('/:recordID/:userID',requireAuth,  ReversionsaldoController.deleteReversionsaldo);
 
 
 //-----------------------------------trasferencia DE SALDO----------------------------------
@@ -284,7 +295,7 @@ dcatalogoRoutes.delete('/:id/:userID',requireAuth,  DcatalogoController.deleteDc
 
 //-----------------------------------TARIFA
 apiRoutes.use('/tarifas', tarifaRoutes);
-tarifaRoutes.get('/',requireAuth, TarifaController.getTarifa);
+tarifaRoutes.get('/', TarifaController.getTarifa);
 tarifaRoutes.get('/:id',requireAuth,  TarifaController.getTarifa);
 tarifaRoutes.post('/:recordID',requireAuth,  TarifaController.creaTarifa2s);
 tarifaRoutes.delete('/:recordID/:userID', requireAuth, TarifaController.deleteTarifa);
@@ -452,7 +463,7 @@ datosfijosRoutes.get('/:id/:id2/:id3',  DatosfijosController.getCombofijo);
 //-----------------------------------datos combo fijos2
 apiRoutes.use('/datosfijos2', datosfijo2sRoutes);
 datosfijo2sRoutes.get('/:id',requireAuth, Datosfijo2sController.getCombofijo);
-datosfijo2sRoutes.get('/:id/:id2',requireAuth, Datosfijo2sController.getCombofijo);
+datosfijo2sRoutes.get('/:id/:id2', Datosfijo2sController.getCombofijo);
 datosfijo2sRoutes.get('/:id/:id2/:id3',requireAuth,  Datosfijo2sController.getCombofijo);
 
 

@@ -1,5 +1,5 @@
 var mongoose =require("mongoose");
-    var ComprasaldoSchema 		=	new  mongoose.Schema({
+    var ReversionsaldoSchema 		=	new  mongoose.Schema({
         idsuscriptor :  		{    id	: { type : String, required : true, ref: 'User' },   nombre	: { type : String, required : true }        },
         monto   		: { type : String},
         nombre   		: { type : String},
@@ -7,11 +7,10 @@ var mongoose =require("mongoose");
         estado	: { type : String, required : true }
         ,usuarionew	: { type : String },      usuarioup	: { type : String },
         idsuscriptor2 :  		{    id	: { type : String, required : true, ref: 'User' },   nombre	: { type : String, required : true }        }
-        
         }, {
         timestamps: true
         });
 
 
 
-module.exports = mongoose.model('Comprasaldo', ComprasaldoSchema);
+module.exports = mongoose.model('Reversionsaldo', ReversionsaldoSchema);
