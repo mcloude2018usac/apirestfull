@@ -2,7 +2,7 @@ var mongoose =require("mongoose");
     var SuscriptorsaldoSchema 		=	new  mongoose.Schema({
         idsuscriptor :  		{    id	: { type : String, required : true, ref: 'User' },   nombre	: { type : String, required : true }        },
 
-        saldoactual   		: { type : String},
+        saldoactual   		: { type : Number},
         codigo1: { type : String},
         codigo2: { type : String},
         codigo3: { type : String},
