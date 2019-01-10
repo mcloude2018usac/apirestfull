@@ -86,6 +86,7 @@ if(req.params.recordID!=='crea')
             todo.nombre        	=	req.body.nombre        	||	todo.nombre        	;
             todo.url        	=	req.body.url        	||	todo.url        	;
             todo.estado    	=	req.body.estado    	||	todo.estado    	;
+            todo.nota    	=	req.body.nota    	||	todo.nota    	;
             todo.usuarioup=req.body.bitacora.email;
 
             todo.save(function (err, todo){
@@ -126,6 +127,7 @@ else{
                                 url        	: req.body.url        	,
                                 usuarionew:req.body.bitacora.email,
                                 estado 	: req.body.estado 	,
+                                nota 	: req.body.nota 	,
                                 idsuscriptor2        	: req.body.idsuscriptor2   
                               }
                                 , function(err, todo22) {

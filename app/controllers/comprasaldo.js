@@ -35,6 +35,85 @@ exports.getComprasaldo = function(req, res, next){
                         });
             
                     }
+                    else
+                    {
+                            if(req.params.id2=='billing')
+                            {
+                                var f1=req.params.id3
+                                var f2=req.params.id4
+                                var arr1 = f1.split("-");
+                                var arr2 = f2.split("-");
+                                var filtro;
+                                if(req.params.id5=='TODOS' &&  req.params.id6=='TODOS')
+                                {
+                                   
+                                    filtro={
+                                        "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
+                                        "$lt": new Date(f2 +'T00:00:00.000Z')},"descripcion":'Cobro por servicio utilizado'
+                                    };
+                        
+                                }
+                                else
+                                {
+                                    if(req.params.id5!='TODOS' &&  req.params.id6=='TODOS')
+                                    {
+                                       
+                                        filtro={"noprov":req.params.id5,
+                                            "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
+                                            "$lt": new Date(f2 +'T00:00:00.000Z')},"descripcion":'Cobro por servicio utilizado'
+                                        };
+                            
+                                    }
+                                    else
+                                    {
+
+                                        if(req.params.id5!='TODOS' &&  req.params.id6!='TODOS')
+                                    {
+                                       
+                                        filtro={"noprov":req.params.id5,"nodispositivo":req.params.id6,
+                                            "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
+                                            "$lt": new Date(f2 +'T00:00:00.000Z')},"descripcion":'Cobro por servicio utilizado'
+                                        };
+                            
+                                    }
+                                    else
+                                    {
+                                        filtro={"nodispositivo":req.params.id6,
+                                            "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
+                                            "$lt": new Date(f2 +'T00:00:00.000Z')},"descripcion":'Cobro por servicio utilizado'
+                                        };
+    
+    
+                                    }
+
+
+                                        filtro={"nodispositivo":req.params.id6,
+                                            "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
+                                            "$lt": new Date(f2 +'T00:00:00.000Z')},"descripcion":'Cobro por servicio utilizado'
+                                        };
+    
+    
+                                    }
+    
+
+                                }
+
+                                Personalhis.aggregate([
+                                    { $match: filtro},
+                                
+                                    { $group: {
+                                       _id:  { $dateToString: { format: "%d-%m-%Y", date: "$createdAt" } },
+                                        monto: { $sum: "$monto"  },
+                                        cantidad: { $sum:   1  }
+                                    }}
+                                ], function (err, todos) {
+                                    if (err){ res.send(err); }
+                                    res.json(todos);
+                                });
+                              
+                            }
+
+                    }
 
         }
        
@@ -137,6 +216,7 @@ else{
                                         idtrans   		: todo22._id,
                                         nodispositivo 		: '0',
                                         noprov 		: '0',
+                                        monto2:roundxx(Number('15.7555'  ),2),
                                         
                               codigo1: '', usuarionew	: req.body.bitacora.email,      usuarioup	: req.body.bitacora.email});
                           
