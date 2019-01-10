@@ -185,6 +185,7 @@ busRoutes.delete('/:recordID/:userID',requireAuth,  busController.deleteBus);
 apiRoutes.use('/comprasaldos', comprasaldoRoutes);
 comprasaldoRoutes.get('/:id',requireAuth, ComprasaldoController.getComprasaldo);
 comprasaldoRoutes.get('/:id/:id2',requireAuth,  ComprasaldoController.getComprasaldo);
+comprasaldoRoutes.get('/:id/:id2/:id3/:id4/:id5/:id6',requireAuth,  ComprasaldoController.getComprasaldo);
 comprasaldoRoutes.post('/:recordID',requireAuth,  ComprasaldoController.creaComprasaldo2s);
 comprasaldoRoutes.delete('/:recordID/:userID',requireAuth,  ComprasaldoController.deleteComprasaldo);
 
