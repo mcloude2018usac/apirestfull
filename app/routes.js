@@ -28,6 +28,8 @@ var AuthenticationController = require('./controllers/authentication'),
     AfiliadoController = require('./controllers/afiliado'),
     ComprasaldoController = require('./controllers/comprasaldo'),
     ReversionsaldoController = require('./controllers/reversionsaldo'),
+    UserchatController = require('./controllers/userchat'),
+    UsermsgController = require('./controllers/usermsg'),
     CompratrasferenciaController = require('./controllers/compratrasferencia'),
     MailController = require('./controllers/mail'),
     QrimagenController = require('./controllers/qrimagen'),
@@ -84,6 +86,8 @@ module.exports = function(app){
         suscriptorRoutes = express.Router(),
         comprasaldoRoutes = express.Router(),
         reversionsaldoRoutes = express.Router(),
+        userchatRoutes = express.Router(),
+        usermsgRoutes = express.Router(),
         compratransferenciaRoutes = express.Router(),
         qrimagenRoutes = express.Router(),
         busRoutes = express.Router(),
@@ -196,6 +200,27 @@ reversionsaldoRoutes.get('/:id',requireAuth, ReversionsaldoController.getReversi
 reversionsaldoRoutes.get('/:id/:id2',requireAuth,  ReversionsaldoController.getReversionsaldo);
 reversionsaldoRoutes.post('/:recordID',requireAuth,  ReversionsaldoController.creaReversionsaldo2s);
 reversionsaldoRoutes.delete('/:recordID/:userID',requireAuth,  ReversionsaldoController.deleteReversionsaldo);
+
+
+//-----------------------------------USER CHATS----------------------------------
+
+apiRoutes.use('/userchats', userchatRoutes);
+userchatRoutes.get('/:id',requireAuth, UserchatController.getUserchat);
+userchatRoutes.get('/:id/:id2',  UserchatController.getUserchat);
+userchatRoutes.post('/:recordID',requireAuth,  UserchatController.creaUserchat2s);
+userchatRoutes.delete('/:recordID/:userID',requireAuth,  UserchatController.deleteUserchat);
+
+
+
+//-----------------------------------USER CHATS----------------------------------
+
+apiRoutes.use('/usermsgs', usermsgRoutes);
+usermsgRoutes.get('/:id',requireAuth, UsermsgController.getUsermsg);
+usermsgRoutes.get('/:id/:id2',  UsermsgController.getUsermsg);
+//usermsgRoutes.post('/:recordID',requireAuth,  UsermsgController.creaUsermsg2s);
+usermsgRoutes.delete('/:recordID/:userID',requireAuth,  UsermsgController.deleteUsermsg);
+
+
 
 
 //-----------------------------------trasferencia DE SALDO----------------------------------
