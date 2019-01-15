@@ -1,4 +1,8 @@
-var express  = require('express');
+var  port2    = process.env.PORT || 3000,
+express  = require('express')
+http 	= require('http').Server(app),
+io 		= require('socket.io')(http);
+
 const cron = require("node-cron");
 var crntt = require('./app/controllers/crontabfunc');
 //const fs = require("fs");
@@ -14,6 +18,7 @@ var router = require('./app/routes');
 
 var mailt = require('./app/controllers/mail');
 
+var Usermsg = require('./app/models/usermsg');
 
 mongoose.connect(databaseConfig.url);
 
@@ -71,3 +76,50 @@ function errorHandler(err, req, res, next) {
   res.status(500);
   res.render('error', { error: err });
 }
+
+
+io.on('connection', (socket) =>
+{
+
+    
+  socket.on('disconnect', function(){
+   io.emit('users-changed', {user: socket.nickname, event: 'left'});   
+ });
+
+ socket.on('set-nickname', (nickname) => {
+   socket.nickname = nickname;
+   io.emit('users-changed', {user: nickname, event: 'joined'});    
+ });
+ 
+ socket.on('add-message', (message) => {
+   io.emit('message', {text: message.text, from: socket.nickname, created: new Date()});   
+ 
+   Usermsg.create({  userId :   message.userId ,
+   toUserId:  	 message.toUserId,
+   status	: 'Pendiente',
+   message  	: message.text,
+   messageimg  	: message.imagen
+      
+     });
+
+   
+ });
+
+ 
+ socket.on('add-image', (message)=>
+ {
+     io.emit('message', { image: message.image, sender: socket.nickname,  created: new Date() });
+ });
+
+ 
+
+
+
+});
+
+
+// Instruct node to run the socket server on the following port
+http.listen(port2, function()
+{
+  console.log('listening on port ' + port2);
+});
