@@ -49,7 +49,7 @@ exports.getComprasaldo = function(req, res, next){
                                    
                                     filtro={
                                         "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
-                                        "$lt": new Date(f2 +'T00:00:00.000Z')},"descripcion":'Cobro por servicio utilizado'
+                                        "$lt": new Date(f2 +'T24:00:00.000Z')},"descripcion":'Cobro por servicio utilizado'
                                     };
                         
                                 }
@@ -60,7 +60,7 @@ exports.getComprasaldo = function(req, res, next){
                                        
                                         filtro={"noprov":req.params.id5,
                                             "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
-                                            "$lt": new Date(f2 +'T00:00:00.000Z')},"descripcion":'Cobro por servicio utilizado'
+                                            "$lt": new Date(f2 +'T24:00:00.000Z')},"descripcion":'Cobro por servicio utilizado'
                                         };
                             
                                     }
@@ -72,7 +72,7 @@ exports.getComprasaldo = function(req, res, next){
                                        
                                         filtro={"noprov":req.params.id5,"nodispositivo":req.params.id6,
                                             "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
-                                            "$lt": new Date(f2 +'T00:00:00.000Z')},"descripcion":'Cobro por servicio utilizado'
+                                            "$lt": new Date(f2 +'T24:00:00.000Z')},"descripcion":'Cobro por servicio utilizado'
                                         };
                             
                                     }
@@ -80,7 +80,7 @@ exports.getComprasaldo = function(req, res, next){
                                     {
                                         filtro={"nodispositivo":req.params.id6,
                                             "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
-                                            "$lt": new Date(f2 +'T00:00:00.000Z')},"descripcion":'Cobro por servicio utilizado'
+                                            "$lt": new Date(f2 +'T24:00:00.000Z')},"descripcion":'Cobro por servicio utilizado'
                                         };
     
     
@@ -89,7 +89,7 @@ exports.getComprasaldo = function(req, res, next){
 
                                         filtro={"nodispositivo":req.params.id6,
                                             "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
-                                            "$lt": new Date(f2 +'T00:00:00.000Z')},"descripcion":'Cobro por servicio utilizado'
+                                            "$lt": new Date(f2 +'T24:00:00.000Z')},"descripcion":'Cobro por servicio utilizado'
                                         };
     
     
