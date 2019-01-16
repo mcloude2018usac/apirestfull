@@ -1,89 +1,31 @@
-var  port2    =3000,
-express  = require('express')
-http 	= require('http').Server(app),
-io 		= require('socket.io')(http);
-
-const cron = require("node-cron");
-var crntt = require('./app/controllers/crontabfunc');
-//const fs = require("fs");
-var app      = express();
-var mongoose = require('mongoose');
-var logger = require('morgan');
-
-var bodyParser = require('body-parser');
-var methodOverride = require('method-override');
-var cors = require('cors');
-var databaseConfig = require('./config/database');
-var router = require('./app/routes');
-
-var mailt = require('./app/controllers/mail');
-
-var Usermsg = require('./app/models/usermsg');
-
-mongoose.connect(databaseConfig.url);
-
-  // schedule tasks to be run on the server
-  cron.schedule("59 23 * * *", function() {
+var port    = process.env.PORT || 3000,
+    app 	= require('express')(),
+	http 	= require('http').Server(app),
+   io 		= require('socket.io')(http);
+   var databaseConfig = require('./config/database');
+   var mongoose = require('mongoose');
+   mongoose.connect(databaseConfig.url);
    
-    crntt.mandaeventos();
-  
-   /* fs.unlink("./error.log", err => {
-      if (err) throw err;
-   
-    });
-    */
-  });
 
- 
-app.listen(process.env.PORT || 9090);
-console.log("App listening on port 9090");
-//app.use(express.favicon());
-//app.use(express.logger('dev'));
+   var Usermsg = require('./app/models/usermsg');
+
+
+// Allow CORS support and remote requests to the service
+app.use(function(req, res, next)
+{
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type,Authorization');
+    next();
+});
+
+
+// Set up route
 app.get('/', (req, res) =>
 {
    res.json({ message: 'hello world' });
 });
 
-//app.use(express.methodOverride());
-
-app.use(bodyParser.urlencoded({limit: '10mb', extended: false })); // Parses urlencoded bodies
-app.use(bodyParser.json({limit: '50mb'})); // Send JSON responses
-app.use(methodOverride());
-app.use(logErrors);
-app.use(clientErrorHandler);
-app.use(errorHandler);
-app.use(logger('dev')); // Log requests to API using morgan
-app.use(cors());
-app.use(function(err, req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', 'https://usacenlinea-87cdc.firebaseapp.com');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type,Authorization');
-    next();
-
- // res.status(500).send('Something broke!');
-}); 
-router(app);
-
-
-
-function logErrors(err, req, res, next) {
-  console.error(err.stack);
-  next(err);
-}
-
-
-function clientErrorHandler(err, req, res, next) {
-  if (req.xhr) {
-    res.status(500).send({ error: 'Something failed!' });
-  } else {
-    next(err);
-  }
-}
-
-function errorHandler(err, req, res, next) {
-  res.status(500);
-  res.render('error', { error: err });
-}
 
 
 io.on('connection', (socket) =>
@@ -119,7 +61,40 @@ io.on('connection', (socket) =>
      io.emit('message', { image: message.image, sender: socket.nickname,  created: new Date() });
  });
 
+ /*
  
+   socket.on('disconnect', ()=>
+   {
+       io.emit('user-exited', { user: socket.alias });
+   });
+
+
+
+
+   socket.on('add-message', (message)=>
+   {
+       io.emit('message', { message: message.message, sender: socket.alias, tagline: socket.handle, location: socket.location, published: new Date() });
+   });
+
+
+
+   socket.on('add-image', (message)=>
+   {
+       io.emit('message', { image: message.image, sender: socket.alias, tagline: socket.handle, location: socket.location, published: new Date() });
+   });
+
+
+
+   socket.on('set-alias', (obj)=>
+   {
+      
+   	  socket.alias 		= obj.alias;
+   	  socket.handle 	= obj.handle;
+   	  socket.location 	= obj.location;
+      io.emit('alias-added', { user: obj.alias, tagline: obj.handle, location: obj.location });
+   });
+
+*/
 
 
 
@@ -127,7 +102,7 @@ io.on('connection', (socket) =>
 
 
 // Instruct node to run the socket server on the following port
-http.listen(port2, function()
+http.listen(port, function()
 {
-  console.log('listening on port ' + port2);
+  console.log('listening on port ' + port);
 });
