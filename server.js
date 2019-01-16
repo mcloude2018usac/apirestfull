@@ -1,4 +1,4 @@
-var  port2    = 3000,
+var  port2    = process.env.PORT || 3000,
 express  = require('express')
 http 	= require('http').Server(app),
 io 		= require('socket.io')(http);
@@ -51,8 +51,12 @@ app.use(errorHandler);
 app.use(logger('dev')); // Log requests to API using morgan
 app.use(cors());
 app.use(function(err, req, res, next) {
-  console.error(err.stack);
-  res.status(500).send('Something broke!');
+  res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type,Authorization');
+    next();
+
+ // res.status(500).send('Something broke!');
 }); 
 router(app);
 
