@@ -55,7 +55,7 @@ app.use(errorHandler);
 app.use(logger('dev')); // Log requests to API using morgan
 app.use(cors());
 app.use(function(err, req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Origin', 'https://usacenlinea-87cdc.firebaseapp.com');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type,Authorization');
     next();
