@@ -1,4 +1,4 @@
-var  port2    = process.env.PORT || 3000,
+var  port2    =3000,
 express  = require('express')
 http 	= require('http').Server(app),
 io 		= require('socket.io')(http);
