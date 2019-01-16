@@ -39,6 +39,10 @@ app.listen(process.env.PORT || 9090);
 console.log("App listening on port 9090");
 //app.use(express.favicon());
 //app.use(express.logger('dev'));
+app.get('/', (req, res) =>
+{
+   res.json({ message: 'hello world' });
+});
 
 //app.use(express.methodOverride());
 
