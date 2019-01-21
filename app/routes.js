@@ -28,6 +28,8 @@ var AuthenticationController = require('./controllers/authentication'),
     AfiliadoController = require('./controllers/afiliado'),
     ComprasaldoController = require('./controllers/comprasaldo'),
     ReversionsaldoController = require('./controllers/reversionsaldo'),
+    SolcarneController = require('./controllers/solcarne'),
+    RepcarneController = require('./controllers/repcarne'),
     UserchatController = require('./controllers/userchat'),
     UsermsgController = require('./controllers/usermsg'),
     CompratrasferenciaController = require('./controllers/compratrasferencia'),
@@ -86,6 +88,8 @@ module.exports = function(app){
         suscriptorRoutes = express.Router(),
         comprasaldoRoutes = express.Router(),
         reversionsaldoRoutes = express.Router(),
+        solcarneRoutes = express.Router(),
+        repcarneRoutes = express.Router(),
         userchatRoutes = express.Router(),
         usermsgRoutes = express.Router(),
         compratransferenciaRoutes = express.Router(),
@@ -200,6 +204,20 @@ reversionsaldoRoutes.get('/:id',requireAuth, ReversionsaldoController.getReversi
 reversionsaldoRoutes.get('/:id/:id2',requireAuth,  ReversionsaldoController.getReversionsaldo);
 reversionsaldoRoutes.post('/:recordID',requireAuth,  ReversionsaldoController.creaReversionsaldo2s);
 reversionsaldoRoutes.delete('/:recordID/:userID',requireAuth,  ReversionsaldoController.deleteReversionsaldo);
+
+//-----------------------------------SOLICITUD DE SALDO----------------------------------
+
+apiRoutes.use('/solcarnes', solcarneRoutes);
+solcarneRoutes.get('/:id',requireAuth, SolcarneController.getSolcarne);
+solcarneRoutes.post('/:recordID',requireAuth,  SolcarneController.creaSolcarne2s);
+solcarneRoutes.delete('/:recordID/:userID',requireAuth,  SolcarneController.deleteSolcarne);
+
+//-----------------------------------REPOSICION DE SALDO----------------------------------
+
+apiRoutes.use('/repcarnes', repcarneRoutes);
+repcarneRoutes.get('/:id',requireAuth, RepcarneController.getRepcarne);
+repcarneRoutes.post('/:recordID',requireAuth,  RepcarneController.creaRepcarne2s);
+repcarneRoutes.delete('/:recordID/:userID',requireAuth,  RepcarneController.deleteRepcarne);
 
 
 //-----------------------------------USER CHATS----------------------------------
