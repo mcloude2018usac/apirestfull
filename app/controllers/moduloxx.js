@@ -14,7 +14,7 @@ exports.getModuloxx = function(req, res, next){
         });
     }
     else
-    { Moduloxx.find(function(err, todos) {
+    { Moduloxx.find().sort([['index', -1]]).exec(function(err, todos) {
            if (err){  res.send(err);  }
             res.json(todos);
         });

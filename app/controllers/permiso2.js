@@ -14,7 +14,7 @@ exports.getPermison2 = function(req, res, next){
         });
     }
     else
-    { Permison2.find({idrol:req.params.id,idpermiso:req.params.id2}).populate('nombre')
+    { Permison2.find({idrol:req.params.id,idpermiso:req.params.id2}).sort([['orden', 1]]).populate('nombre')
     .exec(function(err, todos) {
            if (err){  res.send(err);  }
            var myData = [];
@@ -27,6 +27,7 @@ exports.getPermison2 = function(req, res, next){
                 ,eliminacion:todos[i].eliminacion
                 ,creacion:todos[i].creacion
                 ,actualizacion:todos[i].actualizacion
+                ,orden:todos[i].orden
                 });
            }
             res.json(myData);
@@ -59,6 +60,7 @@ exports.creaPermison22s = function(req, res, next){
                 todo.eliminacion 	=	req.body.eliminacion		;
                 todo.creacion 	=	req.body.creacion		;
                 todo.actualizacion    	=	req.body.actualizacion        	;
+                todo.orden    	=	req.body.orden        	;
                 todo.usuarioup=req.body.bitacora.email;
                 
              
@@ -88,6 +90,7 @@ exports.creaPermison22s = function(req, res, next){
                                 eliminacion   	: req.body.eliminacion 	,
                                 creacion    	: req.body.creacion   	,
                                 actualizacion 	: req.body.actualizacion 	,
+                                orden 	: req.body.orden 	,
                                 usuarionew:req.body.bitacora.email
                             }
                                 , function(err, todo) {
