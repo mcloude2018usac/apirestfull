@@ -375,7 +375,7 @@ estudiantevtRoutes.post('/:recordID', requireAuth, EstudiantevtController.creaEs
 //---------------------------------------estudiantes PCB
 apiRoutes.use('/estudiantepcb', estudiantepcbRoutes);
 estudiantepcbRoutes.get('/', requireAuth, EstudiantepcbController.getEstudiantepcb);
-estudiantepcbRoutes.get('/:codigo', requireAuth, EstudiantepcbController.getEstudiantepcb);
+estudiantepcbRoutes.get('/:codigo', EstudiantepcbController.getEstudiantepcb);
 
 /*
 apiRoutes.use('/oracle', userRoutes);
