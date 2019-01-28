@@ -364,7 +364,7 @@ dtarifaRoutes.delete('/:id/:userID',requireAuth,  DtarifaController.deleteDtarif
 //---------------------------------------estudiantes ov
 apiRoutes.use('/estudianteov', estudianteovRoutes);
 estudianteovRoutes.get('/', requireAuth, EstudianteovController.getEstudianteov);
-estudianteovRoutes.get('/:codigo', requireAuth, EstudianteovController.getEstudianteov);
+estudianteovRoutes.get('/:codigo', EstudianteovController.getEstudianteov);
 
 //---------------------------------------estudiantes vt
 apiRoutes.use('/estudiantevt', estudiantevtRoutes);
