@@ -369,7 +369,7 @@ estudianteovRoutes.get('/:codigo', requireAuth, EstudianteovController.getEstudi
 //---------------------------------------estudiantes vt
 apiRoutes.use('/estudiantevt', estudiantevtRoutes);
 estudiantevtRoutes.get('/', requireAuth, EstudiantevtController.getEstudiantevt);
-estudiantevtRoutes.get('/:codigo', requireAuth, EstudiantevtController.getEstudiantevt);
+estudiantevtRoutes.get('/:codigo', EstudiantevtController.getEstudiantevt);
 estudiantevtRoutes.post('/:recordID', requireAuth, EstudiantevtController.creaEstudiantevts);
 
 //---------------------------------------estudiantes PCB
