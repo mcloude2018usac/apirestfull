@@ -2,8 +2,10 @@ var AuthenticationController = require('./controllers/authentication'),
     OraController = require('./controllers/oraclesqlx'), 
     DatosfijosController = require('./controllers/datosfijos'),
     Datosfijo2sController = require('./controllers/datosfijos2'),
+    UserperfilController = require('./controllers/userperfil'),
     ParticipaController = require('./controllers/participa'),
     Participa2Controller = require('./controllers/participa2'),
+    Participa3Controller = require('./controllers/participa3'),
     ConferenciaController = require('./controllers/conferencia'),
     DcatalogoController = require('./controllers/dcatalogo'),
     SuscriptorsaldoController = require('./controllers/suscriptorsaldo'),
@@ -29,6 +31,7 @@ var AuthenticationController = require('./controllers/authentication'),
     ComprasaldoController = require('./controllers/comprasaldo'),
     ReversionsaldoController = require('./controllers/reversionsaldo'),
     SolcarneController = require('./controllers/solcarne'),
+    AsignapapController = require('./controllers/asignapap'),
     RepcarneController = require('./controllers/repcarne'),
     UserchatController = require('./controllers/userchat'),
     UsermsgController = require('./controllers/usermsg'),
@@ -37,14 +40,26 @@ var AuthenticationController = require('./controllers/authentication'),
     QrimagenController = require('./controllers/qrimagen'),
     AsignapcbController = require('./controllers/asignapcb'),
     TipounidadController = require('./controllers/tipounidad'),
+    Tipounidad2Controller = require('./controllers/tipounidad2'),
     DepartamentoController = require('./controllers/departamento'),
+  
     EdificiousacController = require('./controllers/unidadedificio'),
     PeriodousacController = require('./controllers/unidadperiodo'),
     EdificiosalonController = require('./controllers/unidadedificiosalon'),
     UnidadplanController = require('./controllers/unidadplan'),
     FacultadmateriaController = require('./controllers/facultadmateria'),
     UnidadacademicaController = require('./controllers/unidadacademica'),
+  
+      
+    Edificiousac2Controller = require('./controllers/unidadedificio2'),
+    Periodousac2Controller = require('./controllers/unidadperiodo2'),
+    Edificiosalon2Controller = require('./controllers/unidadedificiosalon2'),
+    Unidadplan2Controller = require('./controllers/unidadplan2'),
+    Facultadmateria2Controller = require('./controllers/facultadmateria2'),
+    Unidadacademica2Controller = require('./controllers/unidadacademica2'),
+
     AsignaestudianteController = require('./controllers/asignaestudiante'),
+    AsignaestudiantepapController = require('./controllers/asignaestudiantepap'),
     AutorizaController = require('./controllers/autoriza'),
     express = require('express'),
     passportService = require('../config/passport'),
@@ -62,7 +77,9 @@ module.exports = function(app){
     var apiRoutes = express.Router(),
         authRoutes = express.Router(),
         participaRoutes = express.Router(),
+        userperfilRoutes = express.Router(),
         participa2Routes = express.Router(),
+        participa3Routes = express.Router(),
         conferenciaRoutes = express.Router(),
         dcatalogoRoutes = express.Router(),
         suscriptorsaldoRoutes = express.Router(),
@@ -89,6 +106,7 @@ module.exports = function(app){
         comprasaldoRoutes = express.Router(),
         reversionsaldoRoutes = express.Router(),
         solcarneRoutes = express.Router(),
+        asignapapRoutes = express.Router(),
         repcarneRoutes = express.Router(),
         userchatRoutes = express.Router(),
         usermsgRoutes = express.Router(),
@@ -101,6 +119,7 @@ module.exports = function(app){
         personalRoutes = express.Router(),
         asignapcbRoutes = express.Router(),
         tipounidadRoutes = express.Router(),
+        tipounidad2Routes = express.Router(),
         autorizaRoutes = express.Router(),
         edificiousacRoutes = express.Router(),
         periodousacRoutes = express.Router(),
@@ -108,7 +127,16 @@ module.exports = function(app){
         facultadmateriaRoutes = express.Router(),
         edificiosalonRoutes = express.Router(),
         unidadplanRoutes = express.Router(),
+
+        edificiousac2Routes = express.Router(),
+        periodousac2Routes = express.Router(),
+        unidadacademica2Routes = express.Router(),
+        facultadmateria2Routes = express.Router(),
+        edificiosalon2Routes = express.Router(),
+        unidadplan2Routes = express.Router(),
+
         asignaestudianteRoutes = express.Router();
+        asignaestudiantepapRoutes = express.Router();
         apiRoutes.use('/auth', authRoutes);
         authRoutes.post('/register', AuthenticationController.register);
         authRoutes.post('/register2', AuthenticationController.register2);
@@ -158,6 +186,14 @@ suscriptorsaldoRoutes.get('/:id/:id2',requireAuth,  SuscriptorsaldoController.ge
 suscriptorsaldoRoutes.post('/:id',requireAuth,  SuscriptorsaldoController.creaSuscriptorsaldo2s);
 suscriptorsaldoRoutes.delete('/:id/:userID',requireAuth,  SuscriptorsaldoController.deleteSuscriptorsaldo);
 
+//-----------------------------------USER PERFIL----------------------------------
+
+
+apiRoutes.use('/userperfils', userperfilRoutes);
+userperfilRoutes.get('/:id',  UserperfilController.getUserperfil);
+userperfilRoutes.post('/:recordID',requireAuth,  UserperfilController.creaUserperfil2s);
+userperfilRoutes.delete('/:recordID/:userID',requireAuth,  UserperfilController.deleteUserperfil);
+
 //-----------------------------------SUSCRIPTOR----------------------------------
 /*
 apiRoutes.use('/afiliados', afiliadoRoutes);
@@ -204,6 +240,13 @@ reversionsaldoRoutes.get('/:id',requireAuth, ReversionsaldoController.getReversi
 reversionsaldoRoutes.get('/:id/:id2',requireAuth,  ReversionsaldoController.getReversionsaldo);
 reversionsaldoRoutes.post('/:recordID',requireAuth,  ReversionsaldoController.creaReversionsaldo2s);
 reversionsaldoRoutes.delete('/:recordID/:userID',requireAuth,  ReversionsaldoController.deleteReversionsaldo);
+
+//-----------------------------------ASIGNA PAP----------------------------------
+
+apiRoutes.use('/asignapaps', asignapapRoutes);
+asignapapRoutes.get('/:id',requireAuth, AsignapapController.getAsignapap);
+asignapapRoutes.post('/:recordID',requireAuth,  AsignapapController.creaAsignapap2s);
+asignapapRoutes.delete('/:recordID/:userID',requireAuth,  AsignapapController.deleteAsignapap);
 
 //-----------------------------------SOLICITUD DE SALDO----------------------------------
 
@@ -405,16 +448,6 @@ unidadacademicaRoutes.get('/:id/:id2',requireAuth,  UnidadacademicaController.ge
 unidadacademicaRoutes.post('/:id', requireAuth, UnidadacademicaController.creaUnidadacademica2s);
 unidadacademicaRoutes.delete('/:id/:userID',requireAuth,  UnidadacademicaController.deleteUnidadacademica);
 
-//-----------------------------------ASIGNA PCB
-apiRoutes.use('/asignapcbs', asignapcbRoutes);
-asignapcbRoutes.get('/',requireAuth, AsignapcbController.getAsignapcb);
-asignapcbRoutes.get('/:id',requireAuth,  AsignapcbController.getAsignapcb);
-asignapcbRoutes.get('/:id/:id2',requireAuth,  AsignapcbController.getAsignapcb);
-asignapcbRoutes.get('/:id/:id2/:id3',requireAuth,  AsignapcbController.getAsignapcb);
-asignapcbRoutes.post('/:recordID', requireAuth, AsignapcbController.creaAsignapcb2s);
-asignapcbRoutes.delete('/:recordID/:userID',requireAuth,  AsignapcbController.deleteAsignapcb);
-
-
 //-----------------------------------unidad edificio 
 apiRoutes.use('/unidadedificios',edificiousacRoutes);
 edificiousacRoutes.get('/:id',requireAuth,  EdificiousacController.getUnidadedificio);
@@ -458,6 +491,83 @@ facultadmateriaRoutes.post('/:recordID',requireAuth,  FacultadmateriaController.
 facultadmateriaRoutes.delete('/:recordID/:userID', requireAuth, FacultadmateriaController.deleteFacultadmateria);
 
 
+
+//-----------------------------------TIPO UNIDAD
+apiRoutes.use('/tipounidad2s', tipounidad2Routes);
+tipounidad2Routes.get('/',requireAuth, Tipounidad2Controller.getTipounidad2);
+tipounidad2Routes.get('/:id', requireAuth, Tipounidad2Controller.getTipounidad2);
+tipounidad2Routes.post('/:recordID', requireAuth, Tipounidad2Controller.creaTipounidad22s);
+tipounidad2Routes.delete('/:recordID/:userID',requireAuth,  Tipounidad2Controller.deleteTipounidad2);
+
+
+//-----------------------------------unidad academica
+apiRoutes.use('/unidadacademica2s', unidadacademica2Routes);
+unidadacademica2Routes.get('/:id', requireAuth, Unidadacademica2Controller.getUnidadacademica2);
+unidadacademica2Routes.get('/:id/:id2',requireAuth,  Unidadacademica2Controller.getUnidadacademica2);
+unidadacademica2Routes.post('/:id', requireAuth, Unidadacademica2Controller.creaUnidadacademica22s);
+unidadacademica2Routes.delete('/:id/:userID',requireAuth,  Unidadacademica2Controller.deleteUnidadacademica2);
+
+//-----------------------------------unidad edificio 
+apiRoutes.use('/unidadedificio2s',edificiousac2Routes);
+edificiousac2Routes.get('/:id',requireAuth,  Edificiousac2Controller.getUnidadedificio2);
+edificiousac2Routes.get('/:id2/:id3',requireAuth,  Edificiousac2Controller.getUnidadedificio2);
+edificiousac2Routes.post('/:recordID', requireAuth, Edificiousac2Controller.creaUnidadedificio22s);
+edificiousac2Routes.delete('/:recordID/:userID',requireAuth,  Edificiousac2Controller.deleteUnidadedificio2);
+
+
+//-----------------------------------unidad periodo
+apiRoutes.use('/unidadperiodo2s',periodousac2Routes);
+periodousac2Routes.get('/:id',requireAuth,  Periodousac2Controller.getUnidadperiodo2);
+periodousac2Routes.get('/:id2/:id3',requireAuth,  Periodousac2Controller.getUnidadperiodo2);
+periodousac2Routes.post('/:recordID', requireAuth, Periodousac2Controller.creaUnidadperiodo22s);
+periodousac2Routes.delete('/:recordID/:userID',requireAuth,  Periodousac2Controller.deleteUnidadperiodo2);
+
+
+
+//-----------------------------------unidad edificio salon
+apiRoutes.use('/unidadedificiosalon2s',edificiosalon2Routes);
+edificiosalon2Routes.get('/:id', requireAuth, Edificiosalon2Controller.getUnidadedificiosalon2);
+edificiosalon2Routes.get('/:id2/:id3/:id4', requireAuth, Edificiosalon2Controller.getUnidadedificiosalon2);
+edificiosalon2Routes.post('/:recordID', requireAuth, Edificiosalon2Controller.creaUnidadedificiosalon22s);
+edificiosalon2Routes.delete('/:recordID/:userID',requireAuth,  Edificiosalon2Controller.deleteUnidadedificiosalon2);
+
+
+//-----------------------------------unidad plan
+apiRoutes.use('/unidadplan2s',unidadplan2Routes);
+unidadplan2Routes.get('/:id',requireAuth,  Unidadplan2Controller.getUnidadplan2);
+unidadplan2Routes.get('/:id2/:id3/:id4',requireAuth,  Unidadplan2Controller.getUnidadplan2);
+unidadplan2Routes.post('/:recordID',  Unidadplan2Controller.creaUnidadplan22s);
+unidadplan2Routes.delete('/:recordID/:userID',requireAuth,  Unidadplan2Controller.deleteUnidadplan2);
+
+
+
+
+//-----------------------------------FACULTAD MATERIA
+apiRoutes.use('/facultadmateria2s', facultadmateria2Routes);
+facultadmateria2Routes.get('/',requireAuth, Facultadmateria2Controller.getFacultadmateria2);
+facultadmateria2Routes.get('/:id/:id2',requireAuth,  Facultadmateria2Controller.getFacultadmateria2);
+facultadmateria2Routes.post('/:recordID',requireAuth,  Facultadmateria2Controller.creaFacultadmateria22s);
+facultadmateria2Routes.delete('/:recordID/:userID', requireAuth, Facultadmateria2Controller.deleteFacultadmateria2);
+
+
+
+//-----------------------------------ASIGNA PCB
+apiRoutes.use('/asignapcbs', asignapcbRoutes);
+asignapcbRoutes.get('/',requireAuth, AsignapcbController.getAsignapcb);
+asignapcbRoutes.get('/:id',requireAuth,  AsignapcbController.getAsignapcb);
+asignapcbRoutes.get('/:id/:id2',requireAuth,  AsignapcbController.getAsignapcb);
+asignapcbRoutes.get('/:id/:id2/:id3',requireAuth,  AsignapcbController.getAsignapcb);
+asignapcbRoutes.post('/:recordID', requireAuth, AsignapcbController.creaAsignapcb2s);
+asignapcbRoutes.delete('/:recordID/:userID',requireAuth,  AsignapcbController.deleteAsignapcb);
+
+
+//-----------------------------------ASIGNA ESTUDIANTE PAP
+apiRoutes.use('/asignaestudiantepaps', asignaestudiantepapRoutes);
+asignaestudiantepapRoutes.get('/:id',  AsignaestudiantepapController.getAsignaestudiantepap);
+asignaestudiantepapRoutes.get('/:id/:id2/:id3/:id4/:id5/:id6',  AsignaestudiantepapController.getAsignaestudiantepap);
+
+
+
 //-----------------------------------ASIGNA ESTUDIANTE
 apiRoutes.use('/asignaestudiantes', asignaestudianteRoutes);
 asignaestudianteRoutes.get('/:id',  AsignaestudianteController.getAsignaestudiante);
@@ -488,6 +598,13 @@ participaRoutes.get('/:id',  ParticipaController.getParticipa);
 participaRoutes.get('/:id/:id2',  ParticipaController.getParticipa);
 participaRoutes.post('/:id',  ParticipaController.creaParticipa2s);
 participaRoutes.delete('/:id/:userID',requireAuth,  ParticipaController.deleteParticipa);
+
+//-----------------------------------PARTICIPA3
+apiRoutes.use('/participa3s', participa3Routes);
+participa3Routes.get('/:id',  Participa3Controller.getParticipa3);
+participa3Routes.get('/:id/:id2',  Participa3Controller.getParticipa3);
+participa3Routes.post('/:id',  Participa3Controller.creaParticipa32s);
+participa3Routes.delete('/:id/:userID',requireAuth,  Participa3Controller.deleteParticipa3);
 
 
 //-----------------------------------PARTICIPA2
