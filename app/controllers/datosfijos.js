@@ -344,9 +344,9 @@ else
                         res.status(500).send('No existe ');
                        
                 }
-                console.log('paso')
+               
                 var aa=0;
-               console.log(todos[100].caca)
+            
                 for(var i = 0; i < todos.length;i++){
                    if(todos[i].asignados>0)
                    {

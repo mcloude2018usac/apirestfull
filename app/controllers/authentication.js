@@ -98,7 +98,11 @@ exports.register = function(req, res, next){
             codpersonal    	: req.body.codpersonal   ,
             interno    	: req.body.interno  , 
             estadoemail   	: req.body.estadoemail ,  
-            tiposuscriptor   	: req.body.tiposuscriptor   
+            tiposuscriptor   	: req.body.tiposuscriptor   ,
+            APP : req.body.APP,
+            accesoestado:  req.body.accesoestado,
+            accesohora:  req.body.accesohora
+            
          
         });
  

@@ -395,7 +395,7 @@ if(req.params.recordID)
         else
         {   todo.email        	=	req.body.email        	||	todo.email        	;
             todo.role        	=	req.body.role       	||	todo.role        	;
-             todo.nombre        	=	req.body.nombre        	||	todo.nombre        	;
+            todo.nombre        	=	req.body.nombre        	||	todo.nombre        	;
             todo.cui 	=	req.body.cui 	||	todo.cui 	;
             todo.direccion   	=	req.body.direccion   	||	todo.direccion   	;
             todo.telefono    	=	req.body.telefono    	||	todo.telefono    	;

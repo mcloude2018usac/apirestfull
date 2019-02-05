@@ -1,12 +1,12 @@
 
-var Tipounidad = require('../models/tipounidad');
+var Tipounidad2 = require('../models/tipounidad2');
 var Bitacora = require('../models/bitacora');
 
-exports.getTipounidad = function(req, res, next){
+exports.getTipounidad2 = function(req, res, next){
        if(req.params.id)
         {  
            
-                Tipounidad.find({_id:req.params.id}
+                Tipounidad2.find({_id:req.params.id}
                     ,null, {sort: {codigo: 1}},function(err, todos) {
                     if (err){ res.send(err); }
                    
@@ -19,7 +19,9 @@ exports.getTipounidad = function(req, res, next){
            
         }
         else
-        { Tipounidad.find({}, null, {sort: {codigo: 1}},function(err, todos) {
+        { 
+            Tipounidad2.find({}, null, {sort: {codigo: 1}}).populate('iddepartamento.id')
+        .exec(function(err, todos) {
                if (err){  res.send(err);  }
                 res.json(todos);
             });
@@ -27,22 +29,22 @@ exports.getTipounidad = function(req, res, next){
 
  
 }
-exports.deleteTipounidad = function(req, res, next){
+exports.deleteTipounidad2 = function(req, res, next){
    
-    Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina Tipounidad '});
-    Tipounidad.findByIdAndRemove({ _id: req.params.recordID  }, function(err, todo) {
+    Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina Tipounidad2 '});
+    Tipounidad2.findByIdAndRemove({ _id: req.params.recordID  }, function(err, todo) {
         res.json(todo);
     });
 }
 
 
-exports.creaTipounidad2s = function(req, res, next){
+exports.creaTipounidad22s = function(req, res, next){
    
  
     Bitacora.create(req.body.bitacora);
 if(req.params.recordID!=='crea')
 {  
-    Tipounidad.findById({ _id: req.params.recordID }, function (err, todo)  {
+    Tipounidad2.findById({ _id: req.params.recordID }, function (err, todo)  {
         if (err) {  res.send(err);  }
         else
         {  
@@ -63,14 +65,14 @@ if(req.params.recordID!=='crea')
 }
 else{
 
-    Tipounidad.find({codigo:req.body.codigo  },function(err, todos) {
+    Tipounidad2.find({codigo:req.body.codigo  },function(err, todos) {
         if (err){ res.send(err); }
       
         if(todos.length>0)   {    res.status(500).send('Codigo ya existe'); }
         else
         {   
 
-            Tipounidad.create({
+            Tipounidad2.create({
                 nombre        	: req.body.nombre        	,
                 codigo        	: req.body.codigo   ,
                 iddepartamento        	: req.body.iddepartamento   ,
