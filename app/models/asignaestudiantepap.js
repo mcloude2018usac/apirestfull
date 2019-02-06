@@ -23,7 +23,10 @@ var AsignaestudiantepapSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-  
+    idjornada: {
+        type: String,
+        required: true
+    }, 
     idhorario: {
         type: String,
         required: true
