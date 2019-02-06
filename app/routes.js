@@ -562,8 +562,9 @@ asignapcbRoutes.delete('/:recordID/:userID',requireAuth,  AsignapcbController.de
 
 
 //-----------------------------------ASIGNA ESTUDIANTE PAP
+
 apiRoutes.use('/asignaestudiantepaps', asignaestudiantepapRoutes);
-asignaestudiantepapRoutes.get('/:id',  AsignaestudiantepapController.getAsignaestudiantepap);
+asignaestudiantepapRoutes.get('/:id',requireAuth,  AsignaestudiantepapController.getAsignaestudiantepap);
 asignaestudiantepapRoutes.get('/:id/:id2/:id3/:id4/:id5/:id6',  AsignaestudiantepapController.getAsignaestudiantepap);
 
 
