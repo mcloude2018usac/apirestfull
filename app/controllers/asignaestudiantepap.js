@@ -17,7 +17,8 @@ function getNextSequenceValue2(myData3,myData3cc,req,res,i,todo){
            idedificio:myData3[i].idedificio,
            idsalon:myData3[i].idsalon,
            idhorario:myData3[i].idhorario,
-           idmateria:myData3[i].idmateria
+           idmateria:myData3[i].idmateria,
+           idjornada:myData3[i].idjornada
                  }).lean().exec({}, function(err,myasigcupo) {
            if (err) res.send(err);
                  var asigno=0
@@ -25,12 +26,13 @@ function getNextSequenceValue2(myData3,myData3cc,req,res,i,todo){
                  asigno=asigno+1;
   
                            Asignaest.create({ 
-                               idasigna:todos[0]._id,
+                               idasigna:todo[0]._id,
                                idtipounidad        	: myData3[i].idtipounidad        	,
                                idunidadacademica        	:myData3[i].idunidadacademica  , 
                                idperiodo        	:myData3[i].idperiodo      	,
                                idedificio:myData3cc.idedificio,
                                idsalon:myData3cc.idsalon,
+                               idjornada        	:myData3[i].idjornada  , 
                            
                                no_orientacion        	: todo[0].cui        	,
                            
@@ -38,7 +40,7 @@ function getNextSequenceValue2(myData3,myData3cc,req,res,i,todo){
                                idestudiante 	: todo[0].userId, 	
                                idhorario:myData3cc.idhorario,
                                idmateria:myData3cc.idmateria,
-                               fexamen:myData3cc.fexamen,
+                               fexamen:'',
                                aprobado:'',
                                nota:'',
                                ingreso:'0',
@@ -51,8 +53,7 @@ function getNextSequenceValue2(myData3,myData3cc,req,res,i,todo){
                            Facplan.findById({ _id:myData3cc._id }, function (err, todo)  {
                                if (err) {  res.send(err);  }
                                else
-                               { // console.log('asignados')
-                               //console.log(Number(todo.asignados))
+                               { 
                                     todo.asignados        	=		asigno     	;
                                    
                                    todo.save(function (err, todo){
@@ -102,6 +103,8 @@ function getNextSequenceValue2(myData3,myData3cc,req,res,i,todo){
                                       
                                       for(var i = 0; i < myData3.length;i++){
                                          var myData3cc=myData3[i] 
+                                        
+                                         console.log(myData3cc)
                                          getNextSequenceValue2(myData3,myData3cc,req,res,i,todo);
   
                                       }
@@ -179,10 +182,11 @@ Facplan.find({'idtipounidad.nombre'        	: req.params.id5      �
                        //   console.log('encontre cupo para ' + myData[ii].idmateria )
                           myData3.push({_id:myData[ii]._id,idedificio:myData[ii].idedificio,idsalon:myData[ii].idsalon
                             ,idtipounidad:myData[ii].idtipounidad,
+                            idjornada:myData[ii].idjornada,
                             idunidadacademica: myData[ii].idunidadacademica,
                             idperiodo:myData[ii].idperiodo,
                               idhorario:myData[ii].idhorario,idmateria:myData[ii].idmateria
-                              ,capacidad:myData[ii].capacidad,asignados:'0',fexamen:myData[ii].fexamen,codfac:myData[ii].codfac});
+                              ,capacidad:myData[ii].capacidad,asignados:'0',fexamen:'',codfac:myData[ii].codfac});
 
                           break;
 
@@ -203,9 +207,10 @@ Facplan.find({'idtipounidad.nombre'        	: req.params.id5      �
           myData3aa.push({_id:myData[cii]._id,idedificio:myData[cii].idedificio,idsalon:myData[cii].idsalon
               ,idhorario:myData[cii].idhorario,idmateria:myData[cii].idmateria
               ,idtipounidad:myData[ii].idtipounidad,
+              idjornada:myData[ii].idjornada,
               idunidadacademica: myData[ii].idunidadacademica,
               idperiodo:myData[ii].idperiodo
-              ,capacidad:myData[cii].capacidad,asignados:'0',fexamen:myData[cii].fexamen,codfac:myData[cii].codfac});
+              ,capacidad:myData[cii].capacidad,asignados:'0',fexamen:'',codfac:myData[cii].codfac});
 
       }
 
@@ -213,9 +218,9 @@ Facplan.find({'idtipounidad.nombre'        	: req.params.id5      �
   }
 
 
-console.log(myData)
+//console.log(myData3)
 //console.log(myData3aa)
-res.json(myData3);
+//res.json(myData3);
        getNextSequenceValue(myData3,myData3aa,req,res,todos);
  
                        
@@ -243,7 +248,9 @@ res.json(myData3);
 
     }
     else
-    { Asignaestudiantepap.find({idasigna:req.params.id},function(err, todos) {
+    { 
+        
+        Asignaest.find({idasigna:req.params.id},function(err, todos) {
            if (err){  res.send(err);  }
             res.json(todos);
         });
