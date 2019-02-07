@@ -245,6 +245,7 @@ reversionsaldoRoutes.delete('/:recordID/:userID',requireAuth,  ReversionsaldoCon
 
 apiRoutes.use('/asignapaps', asignapapRoutes);
 asignapapRoutes.get('/:id',requireAuth, AsignapapController.getAsignapap);
+asignapapRoutes.get('/:id/:id2', AsignapapController.getAsignapap);
 asignapapRoutes.post('/:recordID',requireAuth,  AsignapapController.creaAsignapap2s);
 asignapapRoutes.delete('/:recordID/:userID',requireAuth,  AsignapapController.deleteAsignapap);
 
@@ -565,7 +566,8 @@ asignapcbRoutes.delete('/:recordID/:userID',requireAuth,  AsignapcbController.de
 
 apiRoutes.use('/asignaestudiantepaps', asignaestudiantepapRoutes);
 asignaestudiantepapRoutes.get('/:id',requireAuth,  AsignaestudiantepapController.getAsignaestudiantepap);
-asignaestudiantepapRoutes.get('/:id/:id2/:id3/:id4/:id5/:id6',  AsignaestudiantepapController.getAsignaestudiantepap);
+//noboleta,codigofactultad,monto,cui,jornada,TIPOUNIDAD,CODIGOUNIDAD
+asignaestudiantepapRoutes.post('/:recordID',requireAuth,  AsignaestudiantepapController.creaAsignaestudiantepap2s);
 
 
 
