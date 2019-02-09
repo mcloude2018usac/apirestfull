@@ -2,7 +2,6 @@
 var Bitacora = require('../models/bitacora');
 var Nuevosalon = require('../models/nuevosalon');
 var Facplan = require('../models/unidadplan2');
-var Facmat = require('../models/facultadmateria');
 var mailt = require('../controllers/mail');
 var Asignaest = require('../models/asignaestudiantepap');
 var Asignapap = require('../models/asignapap');
@@ -40,6 +39,8 @@ function getNextSequenceValue2(myData3,myData3cc,req,res,i,todo){
                  var asigno=0
                  asigno=myasigcupo.length;
                  asigno=asigno+1;
+                 console.log('jjjjjjjjjjjjjjjjjj')
+                 console.log(asigno)
   
                            Asignaest.create({ 
                                idasigna:todo[0]._id,

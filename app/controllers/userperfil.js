@@ -98,6 +98,16 @@ if(req.params.recordID!=='crea')
             todo.biologia        	=	req.body.biologia        	      	;
             todo.quimica        	=	req.body.quimica             	;
             todo.idjornada=req.body.idjornada;
+
+            todo.idjornada2=req.body.idjornada2;
+            todo.idjornada3=req.body.idjornada3;
+            todo.idjornada4=req.body.idjornada4;
+            todo.idjornada5=req.body.idjornada5;
+            todo.idhorario=req.body.idhorario;
+            todo.idhorario2=req.body.idhorario2;
+            todo.idhorario3=req.body.idhorario3;
+            todo.idhorario4=req.body.idhorario4;
+            todo.idhorario5=req.body.idhorario5;
             todo.noboleta=req.body.noboleta;
             todo.montoboleta=req.body.montoboleta;
             todo.emertipocontacto=req.body.emertipocontacto;
@@ -176,6 +186,15 @@ else{
                 biologia: req.body.biologia,
                 quimica: req.body.quimica,
                 idjornada:req.body.idjornada,
+                idjornada2:req.body.idjornada2,
+                idjornada3:req.body.idjornada3,
+                idjornada4:req.body.idjornada4,
+                idjornada5:req.body.idjornada5,
+                idhorario:req.body.idhorario,
+                idhorario2:req.body.idhorario2,
+                idhorario3:req.body.idhorario3,
+                idhorario4:req.body.idhorario4,
+                idhorario5:req.body.idhorario5,
                 noboleta:req.body.noboleta,
                  montoboleta:req.body.montoboleta,
                 emertipocontacto:req.body.emertipocontacto,

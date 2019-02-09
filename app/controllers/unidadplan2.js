@@ -3,9 +3,49 @@ var Unidadplan2 = require('../models/unidadplan2');
 var Bitacora = require('../models/bitacora');
 
 exports.getUnidadplan2 = function(req, res, next){
-       if(req.params.id)
+       if(req.params.id5)
         {  
+            Unidadplan2.find({'idtipounidad.nombre' :req.params.id,
+            'idunidadacademica.nombre':req.params.id2,'idperiodo.id':req.params.id3
+            ,idjornada:req.params.id4,idmateria:req.params.id5}
+            ,function(err, todos) {
+                if (err){  res.send(err);  }
+
+
+                var myData = [];
+                for(var i = 0; i < todos.length;i++){
+                    if(todos[i].capacidad>todos[i].asignados)
+                    {
+                        myData.push({_id:todos[i]._id ,nombre:todos[i].idhorario});
+
+                    }
+                        
+                }
+                      
+                 res.json(myData);
+             });
+
+             
+             
            
+        }
+        else
+        {
+
+            if(req.params.id4)
+            {              Unidadplan2.find({'idtipounidad.id' :req.params.id2,'idunidadacademica.id':req.params.id3,'idperiodo.id':req.params.id4},function(err, todos) {
+                if (err){  res.send(err);  }
+                 res.json(todos);
+             });
+
+
+                 
+                 
+               
+            }
+            else
+            {
+
                 Unidadplan2.find({_id:req.params.id},function(err, todos) {
                     if (err){ res.send(err); }
                    
@@ -14,16 +54,16 @@ exports.getUnidadplan2 = function(req, res, next){
                     {  res.status(500).send('NO EXISTE REGISTRO');      }
                     
                 });
-             
-           
-        }
-        else
-        { Unidadplan2.find({'idtipounidad.id' :req.params.id2,'idunidadacademica.id':req.params.id3,'idperiodo.id':req.params.id4},function(err, todos) {
-               if (err){  res.send(err);  }
-                res.json(todos);
-            });
+            }
+
+            
+
         }
 
+
+        
+      
+     
  
 }
 exports.deleteUnidadplan2 = function(req, res, next){

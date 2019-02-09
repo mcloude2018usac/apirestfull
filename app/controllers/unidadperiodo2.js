@@ -3,9 +3,27 @@ var Unidadperiodo2 = require('../models/unidadperiodo2');
 var Bitacora = require('../models/bitacora');
 
 exports.getUnidadperiodo2 = function(req, res, next){
-       if(req.params.id)
+       if(req.params.id3)
         {  
-           
+            Unidadperiodo2.find({idtipounidad :req.params.id2,idunidadacademica:req.params.id3},function(err, todos) {
+                if (err){  res.send(err);  }
+                 res.json(todos);
+             });
+                
+        }
+        else
+        {
+            if(req.params.id2)
+            {  
+                Unidadperiodo2.find({estado :'Activo'},function(err, todos) {
+                    if (err){  res.send(err);  }
+                     res.json(todos);
+                 });
+                    
+            }
+            else
+            {
+
                 Unidadperiodo2.find({_id :req.params.id},function(err, todos) {
                     if (err){ res.send(err); }
                    
@@ -14,15 +32,14 @@ exports.getUnidadperiodo2 = function(req, res, next){
                     {  res.status(500).send('NO EXISTE REGISTRO');      }
                     
                 });
-             
-           
+            }
+
+            
         }
-        else
-        { Unidadperiodo2.find({idtipounidad :req.params.id2,idunidadacademica:req.params.id3},function(err, todos) {
-               if (err){  res.send(err);  }
-                res.json(todos);
-            });
-        }
+
+     
+     
+   
 
  
 }
