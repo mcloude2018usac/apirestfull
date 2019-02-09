@@ -292,10 +292,10 @@ else{
               
               //MATERIA QUE TENGO QUE LLEVAR     
               if(todos.lenguaje==true){ myData0.push({idmateria:'Lenguaje', idjornada:todos.idjornada,idhorario:todos.idhorario});      }
-              if(todos.fisica==true){ myData0.push({idmateria:'Fisica', idjornada:todos.idjornada2,idhorario:todos.idhorario2});      }
-              if(todos.matematica==true){ myData0.push({idmateria:'Matematica', idjornada:todos.idjornada3,idhorario:todos.idhorario3});      }
-              if(todos.quimica==true){ myData0.push({idmateria:'Quimica', idjornada:todos.idjornada4,idhorario:todos.idhorario4});      }
-              if(todos.biologia==true){ myData0.push({idmateria:'Biologia', idjornada:todos.idjornada5,idhorario:todos.idhorario5});      }
+              if(todos.matematica==true){ myData0.push({idmateria:'Matematica', idjornada:todos.idjornada2,idhorario:todos.idhorario2});      }
+              if(todos.fisica==true){ myData0.push({idmateria:'Fisica', idjornada:todos.idjornada3,idhorario:todos.idhorario3});      }
+              if(todos.biologia==true){ myData0.push({idmateria:'Biologia', idjornada:todos.idjornada4,idhorario:todos.idhorario4});      }
+              if(todos.quimica==true){ myData0.push({idmateria:'Quimica', idjornada:todos.idjornada5,idhorario:todos.idhorario5});      }
             
             
             Facplan.find({'idtipounidad.nombre'        	: todos.unidad       	,
