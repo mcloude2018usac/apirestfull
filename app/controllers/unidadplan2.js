@@ -2,6 +2,11 @@
 var Unidadplan2 = require('../models/unidadplan2');
 var Bitacora = require('../models/bitacora');
 
+
+function onlyUnique(value, index, self) { 
+    return self.indexOf(value) === index;
+}
+
 exports.getUnidadplan2 = function(req, res, next){
        if(req.params.id5)
         {  
@@ -16,13 +21,21 @@ exports.getUnidadplan2 = function(req, res, next){
                 for(var i = 0; i < todos.length;i++){
                     if(todos[i].capacidad>todos[i].asignados)
                     {
-                        myData.push({_id:todos[i]._id ,nombre:todos[i].idhorario});
+                        
+                        myData.push(todos[i].idhorario );
 
                     }
                         
                 }
-                      
-                 res.json(myData);
+               
+                var unique =   myData.filter( onlyUnique ); // r
+               
+                var myData2 = [];
+                for(var i = 0; i < unique.length;i++){
+                    myData2.push({nombre:unique[i] });
+                }
+
+                 res.json(myData2);
              });
 
              
