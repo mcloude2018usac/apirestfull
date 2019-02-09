@@ -539,7 +539,7 @@ apiRoutes.use('/unidadplan2s',unidadplan2Routes);
 unidadplan2Routes.get('/:id',requireAuth,  Unidadplan2Controller.getUnidadplan2);
 unidadplan2Routes.get('/:id/:id2/:id3/:id4/:id5',requireAuth,  Unidadplan2Controller.getUnidadplan2);
 unidadplan2Routes.get('/:id2/:id3/:id4',requireAuth,  Unidadplan2Controller.getUnidadplan2);
-unidadplan2Routes.post('/:recordID',  Unidadplan2Controller.creaUnidadplan22s);
+unidadplan2Routes.post('/:recordID',requireAuth,  Unidadplan2Controller.creaUnidadplan22s);
 unidadplan2Routes.delete('/:recordID/:userID',requireAuth,  Unidadplan2Controller.deleteUnidadplan2);
 
 
