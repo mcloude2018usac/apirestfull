@@ -234,13 +234,22 @@ else{
                 var b1 = false;
                 var montot=0;
                 var cursostt=''
-             
-                if(todosa10[0].lenguaje2==true){ l1=true; montot=1000  ;cursostt='Lenguaje'  }
-                if(todosa10[0].fisica==true){ f1=true;   montot=montot+1000 ; cursostt=cursostt + ' ,Fisica'  }
-                if(todosa10[0].matematica==true){ m1=true; montot=montot+1000    ; cursostt=cursostt + ' ,Matematica' }
-                if(todosa10[0].quimica==true){ q1=true; montot=montot+1000 ; cursostt=cursostt + ' ,Quimica'   }
-                if(todosa10[0].biologia==true){ b1=true; montot=montot+1000  ; cursostt=cursostt + ' ,Biologia'   }
-console.log(todosa10)
+               var tt2=1;
+                if(todosa10[0].lenguaje2==true){tt2=0; l1=true; montot=1000  ;cursostt='Lenguaje'  }
+                if(todosa10[0].fisica==true){tt2=0; f1=true;   montot=montot+1000 ; cursostt=cursostt + ' ,Fisica'  }
+                if(todosa10[0].matematica==true){tt2=0; m1=true; montot=montot+1000    ; cursostt=cursostt + ' ,Matematica' }
+                if(todosa10[0].quimica==true){tt2=0; q1=true; montot=montot+1000 ; cursostt=cursostt + ' ,Quimica'   }
+                if(todosa10[0].biologia==true){tt2=0; b1=true; montot=montot+1000  ; cursostt=cursostt + ' ,Biologia'   }
+
+                if(tt2==1)
+                {
+                  console.log('entrawwww')
+                  res.status(500).send('No existe ninguna materia asignada'); 
+              return; 
+  
+                }
+              
+
            Asignapap.create({  
             userId :req.body.userId ,
             idunidadacademica  :{id:carr[0],nombre:carr[1],codigo:carr[2]}	,
@@ -283,7 +292,7 @@ console.log(todosa10)
             //id,id2,id3,id4,id5,id6
             console.log(todos)
             
-          if(todos==null)
+          if(!todos)
           {
             res.status(500).send('No existe Asignación en sistema'); 
             return;
@@ -292,8 +301,8 @@ console.log(todosa10)
                         console.log('entrasssssssssssss')
                       
                         res.status(500).send('No existe Asignación en sistema'); 
-                        return next(err)
-                   // return;
+                       // return next(err)
+                    return;
                  }
                     else
                     { 
