@@ -287,10 +287,14 @@ else{
             res.status(500).send('No existe Asignación en sistema'); 
             return;
           }
-                    if(todos.length==0)   {    res.status(500).send('No existe Asignación en sistema'); 
+                    if(todos.length==0)   {  
+                        console.log('entra')
+                        res.status(500).send('No existe Asignación en sistema'); 
                     return; }
                     else
                     { 
+
+                        console.log('pasa')
               //agregar periodo que se esta trabajando*************************************************************
               var myData0 = [];
                         
