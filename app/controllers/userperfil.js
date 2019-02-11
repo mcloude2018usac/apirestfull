@@ -126,6 +126,7 @@ if(req.params.recordID!=='crea')
             todo.trabaja=req.body.trabaja;
         
             todo.lenguaje=req.body.lenguaje; 
+            todo.idpago=req.body.idpago; 
                      todo.usuarioup=req.body.bitacora.email;
 
             todo.save(function (err, todo){
@@ -213,6 +214,7 @@ else{
                 trabaja:req.body.trabaja,
             
                 lenguaje:req.body.lenguaje ,
+                idpago:req.body.idpago ,
                 usuarionew:req.body.bitacora.email
               
         
