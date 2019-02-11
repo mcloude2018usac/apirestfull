@@ -68,6 +68,7 @@ var mongoose =require("mongoose");
         trabaja: { type : String, required : true },
      
         lenguaje: { type : String, required : true },
+        idpago: { type : String },
         usuarionew	: { type : String },      usuarioup	: { type : String },
         date 		: { type: Date, default: Date.now }}, {
         timestamps: true
