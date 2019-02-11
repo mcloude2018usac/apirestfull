@@ -245,9 +245,11 @@ else{
                 {
                   console.log('entrawwww')
                   res.status(500).send('No existe ninguna materia asignada'); 
-              return; 
+            return;
   
                 }
+                else{
+               
               
 
            Asignapap.create({  
@@ -426,36 +428,13 @@ else{
            
 
 
-            }
+            }}
            
         });
 
 
 
-/*
-                            Asignapap.create({  
-                                userId :req.body.userId ,
-                                idunidadacademica  :req.body.idunidadacademica	,
-                                idperiodo   		:req.body.idperiodo ,
-                                noboleta:req.body.noboleta ,
-                                monto:req.body.monto ,
-                                lenguaje:req.body.lenguaje,
-                                matematica:	req.body.matematica ,
-                                fisica	:req.body.fisica ,
-                                biologia:	req.body.biologia ,
-                                quimica	:req.body.quimica,
-                                nota	:req.body.nota,
-                                estado	:req.body.estado,
-                                usuarionew:req.body.bitacora.email
-                                
-                              }
-                                , function(err, todo22) {
-                                if (err){ res.status(500).send(err.message)    }
 
-                                res.json(todo22);
-                        
-                            });
-                            */
  
 }
 
