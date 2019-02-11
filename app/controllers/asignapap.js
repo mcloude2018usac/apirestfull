@@ -283,7 +283,7 @@ else{
             //id,id2,id3,id4,id5,id6
             
           
-                    if(todos.length==0)   {    res.status(500).send('No existe Asignación en sistema'); }
+                    if(todos.length==0)   {    res.status(500).send('No existe Asignación en sistema'); return; }
                     else
                     { 
               //agregar periodo que se esta trabajando*************************************************************
