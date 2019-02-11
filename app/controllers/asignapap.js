@@ -283,15 +283,18 @@ console.log(todosa10)
             //id,id2,id3,id4,id5,id6
             console.log(todos)
             
-          if(!todos)
+          if(todos==null)
           {
             res.status(500).send('No existe Asignación en sistema'); 
             return;
           }
                     if(todos.length==0)   {  
-                        console.log('entra')
+                        console.log('entrasssssssssssss')
+                      
                         res.status(500).send('No existe Asignación en sistema'); 
-                    return; }
+                        return next(err)
+                   // return;
+                 }
                     else
                     { 
 
