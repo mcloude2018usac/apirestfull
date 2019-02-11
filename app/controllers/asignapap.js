@@ -240,7 +240,7 @@ else{
                 if(todosa10[0].matematica==true){ m1=true; montot=montot+1000    ; cursostt=cursostt + ' ,Matematica' }
                 if(todosa10[0].quimica==true){ q1=true; montot=montot+1000 ; cursostt=cursostt + ' ,Quimica'   }
                 if(todosa10[0].biologia==true){ b1=true; montot=montot+1000  ; cursostt=cursostt + ' ,Biologia'   }
-
+console.log(todosa10)
            Asignapap.create({  
             userId :req.body.userId ,
             idunidadacademica  :{id:carr[0],nombre:carr[1],codigo:carr[2]}	,
@@ -294,7 +294,7 @@ else{
                     else
                     { 
 
-                        console.log('pasa')
+                        console.log(todos)
               //agregar periodo que se esta trabajando*************************************************************
               var myData0 = [];
                         
