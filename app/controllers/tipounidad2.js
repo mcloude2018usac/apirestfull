@@ -89,13 +89,19 @@ exports.creaTipounidad22s = function(req, res, next){
                 var myData3cc=a[i] 
                 var bb=myData3cc.split(';')    
                 
-                Asignapap.find({noboleta:bb[0] }).exec( function (err, todoaaab)  {
+               
+
+
+                Asignapap.find( {  $or : [
+                    { $and : [ { noboleta :bb[0] }] },
+                    { $and : [ { noboleta : bb[6] }] }]
+            }).exec( function (err, todoaaab)  {
         
                     if (err) {  res.send(err);  }
                     else
                     {  
                         if(todoaaab.length>0)   {
-                console.log(todoaaab[0]._id)
+               
                             getNextSequenceValue2(todoaaab[0]._id,req, res);
             
                         
@@ -110,31 +116,7 @@ exports.creaTipounidad22s = function(req, res, next){
                
             }
 
-            for ( i = 1; i < a.length; i++) {
-
-                var myData3cc=a[i] 
-                var bb=myData3cc.split(';')    
-                
-                Asignapap.find({noboleta:bb[6] }).exec( function (err, todoaaab)  {
-        
-                    if (err) {  res.send(err);  }
-                    else
-                    {  
-                        if(todoaaab.length>0)   {
-                console.log(todoaaab[0]._id)
-                            getNextSequenceValue2(todoaaab[0]._id,req, res);
-            
-                        
-                           }
-                  
-                     
-            
-                    }
-                });
-
-                                    
-               
-            }
+           
             res.json({op:'ok'});
         }
         else
