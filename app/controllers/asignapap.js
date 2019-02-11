@@ -281,6 +281,7 @@ console.log(todosa10)
   
             //noboleta,codigofactultad,monto,cui,tipo,codigotipo
             //id,id2,id3,id4,id5,id6
+            console.log(todos)
             
           if(!todos)
           {
@@ -299,13 +300,21 @@ console.log(todosa10)
               var myData0 = [];
                         
               
-              //MATERIA QUE TENGO QUE LLEVAR     
-              if(todos.lenguaje==true){ myData0.push({idmateria:'Lenguaje', idjornada:todos.idjornada,idhorario:todos.idhorario});      }
-              if(todos.matematica==true){ myData0.push({idmateria:'Matematica', idjornada:todos.idjornada2,idhorario:todos.idhorario2});      }
-              if(todos.fisica==true){ myData0.push({idmateria:'Fisica', idjornada:todos.idjornada3,idhorario:todos.idhorario3});      }
-              if(todos.biologia==true){ myData0.push({idmateria:'Biologia', idjornada:todos.idjornada4,idhorario:todos.idhorario4});      }
-              if(todos.quimica==true){ myData0.push({idmateria:'Quimica', idjornada:todos.idjornada5,idhorario:todos.idhorario5});      }
+              //MATERIA QUE TENGO QUE LLEVAR   
+              var tt=1;  
+              if(todos.lenguaje==true){ tt=0;myData0.push({idmateria:'Lenguaje', idjornada:todos.idjornada,idhorario:todos.idhorario});      }
+              if(todos.matematica==true){tt=0; myData0.push({idmateria:'Matematica', idjornada:todos.idjornada2,idhorario:todos.idhorario2});      }
+              if(todos.fisica==true){tt=0; myData0.push({idmateria:'Fisica', idjornada:todos.idjornada3,idhorario:todos.idhorario3});      }
+              if(todos.biologia==true){tt=0; myData0.push({idmateria:'Biologia', idjornada:todos.idjornada4,idhorario:todos.idhorario4});      }
+              if(todos.quimica==true){tt=0; myData0.push({idmateria:'Quimica', idjornada:todos.idjornada5,idhorario:todos.idhorario5});      }
             
+              if(tt==1)
+              {
+                console.log('entrawwww')
+                res.status(500).send('No existe ninguna materia asignada'); 
+            return; 
+
+              }
             
             Facplan.find({'idtipounidad.nombre'        	: todos.unidad       	,
                 'idunidadacademica.codigo'        	: todos.codunidad
