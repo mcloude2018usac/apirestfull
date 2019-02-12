@@ -150,6 +150,11 @@ else{
             
  
             Bitacora.create(req.body.bitacora);
+
+           
+            
+
+
             Userperfil.create({
                 userId :req.body.userId,
                 cui   		:req.body.cui,
@@ -197,7 +202,7 @@ else{
                 idhorario4:req.body.idhorario4,
                 idhorario5:req.body.idhorario5,
                 noboleta:req.body.noboleta,
-                 montoboleta:req.body.montoboleta,
+                montoboleta:req.body.montoboleta,
                 emertipocontacto:req.body.emertipocontacto,
                 emernombrecontacto:req.body.emernombrecontacto,
                 emertelefono:req.body.emertelefono,
@@ -218,18 +223,23 @@ else{
                 usuarionew:req.body.bitacora.email
               
         
-              }
-                , function(err, todo) {
-                if (err){ 
+              }).then(todos => {
                    
-                    res.status(500).send(err.message)    }
-            
-                res.json(todo);
-        
-             
+                if(todos.length>0)   {    res.json(todos);   }
+                else
+                {  res.status(500).send('NO EXISTE REGISTRO');      }
+
                 
-        
-            });
+
+            })
+            .catch(err => {
+                res.status(500).send(err.message);  
+            })
+               
+            
+           
+             
+           
 
             
              }
