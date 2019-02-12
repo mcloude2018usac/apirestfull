@@ -144,7 +144,7 @@ else{
     Userperfil.find({userId: req.body.userId},function(err, todos) {
         if (err){ res.send(err); }
       
-        if(todos.length>0)   {    res.status(500).send('Usuario ya existe'); }
+        if(todos.length>0)   {   res.json(todos);  }
         else
         {   
             
@@ -227,7 +227,7 @@ else{
                    
                 if(todos.length>0)   {    res.json(todos);   }
                 else
-                {  res.status(500).send('NO EXISTE REGISTRO');      }
+                {  res.status(500).send('Error al grabar el registro');      }
 
                 
 
