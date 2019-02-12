@@ -1,14 +1,15 @@
 var mongoose =require("mongoose");
     var PagospapSchema 		=	new  mongoose.Schema({
         ordenpago  		: { type : Number, required : true },
-        dpi  		: { type : String, required : true },
+ carne  		: { type : String, required : true },
         nombre   		: { type : String},
-        apellido   		: { type : String},
-        direccion   		: { type : String},
-        email   		: { type : String},
-        telefono   		: { type : String}
-        ,usuarionew	: { type : String },      usuarioup	: { type : String }
        
+       rubro  		: { type : String},
+valor  		: { type : Number},
+        fecha		: { type : String},
+        noboleta  		: { type : Number, required : true },
+        ua		: { type : String},
+        pagado  		: { type : Number, required : true }
         }, {
         timestamps: true
         });
