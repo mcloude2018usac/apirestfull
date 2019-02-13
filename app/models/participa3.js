@@ -21,7 +21,10 @@ var Participa3Schema = new mongoose.Schema({
         type: String,
         required: false
     },
-   
+    tipo: {
+        type: String,
+        required: false
+    } ,
     unidad: {
         type: String,
         required: false
