@@ -24,6 +24,7 @@ var AuthenticationController = require('./controllers/authentication'),
     PermisoController = require('./controllers/permiso'),
     Permiso2Controller = require('./controllers/permiso2'),
     EstudianteovController = require('./controllers/estudianteov'),
+    CarneController = require('./controllers/carne'),
     EstudiantevtController = require('./controllers/estudiantevt'),
     EstudiantepcbController = require('./controllers/estudiantepcb'),
     DtarifaController = require('./controllers/dtarifa'),
@@ -95,6 +96,7 @@ module.exports = function(app){
         perfilRoutes = express.Router(),
         mailRoutes = express.Router(),
         estudianteovRoutes = express.Router(),
+        carneRoutes = express.Router(),
         estudiantevtRoutes = express.Router(),
         estudiantepcbRoutes = express.Router(),
         empresaRoutes = express.Router(),
@@ -155,7 +157,7 @@ apiRoutes.use('/personals', personalRoutes);
 personalRoutes.get('/',requireAuth, PersonalController.getPersonal);
 personalRoutes.get('/:email/:id2',requireAuth, PersonalController.getPersonal);
 personalRoutes.get('/:email/:id2/:id3/:id4/:id5/:id6/:id7', requireAuth,PersonalController.getPersonal);
-personalRoutes.get('/:email',requireAuth, PersonalController.getPersonal);
+personalRoutes.get('/:email', PersonalController.getPersonal);
 personalRoutes.get('/:pagineo/:limit/:page',requireAuth,  PersonalController.getPersonal);
 
 personalRoutes.post('/:recordID',requireAuth,  PersonalController.creaPersonal2s);
@@ -403,6 +405,13 @@ dtarifaRoutes.get('/:id/:id2', requireAuth, DtarifaController.getDtarifa);
 dtarifaRoutes.post('/:id',requireAuth,  DtarifaController.creaDtarifa2s);
 dtarifaRoutes.delete('/:id/:userID',requireAuth,  DtarifaController.deleteDtarifa);
 
+
+
+
+//---------------------------------------estudiantes ov
+apiRoutes.use('/carne', carneRoutes);
+carneRoutes.get('/', requireAuth, CarneController.getCarne);
+carneRoutes.get('/:codigo', CarneController.getCarne);
 
 
 //---------------------------------------estudiantes ov
