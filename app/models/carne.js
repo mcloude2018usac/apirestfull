@@ -15,6 +15,7 @@ var mongoose =require("mongoose");
         ano	: { type : Number },
         correo	: { type : String },
         cui	: { type : String },
+        facultad	: { type : Number },
         activo	: { type : Number }
         });
 
