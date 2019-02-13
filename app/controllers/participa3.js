@@ -51,7 +51,7 @@ else{
                 todo.telefono    	=	req.body.telefono    	||	todo.telefono    	;
                 todo.correo 	=	req.body.correo	||	todo.correo 	;
                 
-                
+                todo.tipo   	=	req.body.tipo    	||	todo.tipo   	; 
                 todo.unidad   	=	req.body.unidad    	||	todo.unidad   	;
                 todo.motivo   	=	req.body.motivo    	||	todo.motivo   	;
                 todo.f1 	=	req.body.f1 	||	todo.f1 	;
@@ -80,7 +80,7 @@ else{
                     apellido    	: req.body.apellido    	,
                     telefono 	: req.body.telefono 	,
                     correo    	: req.body.correo   	,
-                    
+                    tipo 	: req.body.tipo 	, 
                     unidad 	: req.body.unidad 	,
                     motivo 	: req.body.motivo	,
                     f1 	: req.body.f1 	,

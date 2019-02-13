@@ -218,10 +218,11 @@ if(req.params.recordID!=='crea')
 }
 else{
 
+    console.log(req.body)
     Userperfil.find(  { userId:req.body.userId
     }).exec(function(err, todosa10) {
             if (err){ res.send(err); }
-
+  console.log(todosa10)
             if(todosa10.length==0)   {    res.status(500).send('No existe'); }
             else
             { 

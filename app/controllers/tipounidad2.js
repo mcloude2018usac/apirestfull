@@ -2,6 +2,7 @@
 var Tipounidad2 = require('../models/tipounidad2');
 var Bitacora = require('../models/bitacora');
 var Asignapap = require('../models/asignapap');
+var Pagopap = require('../models/pagospap');
 
 exports.getTipounidad2 = function(req, res, next){
        if(req.params.id)
@@ -32,7 +33,6 @@ exports.getTipounidad2 = function(req, res, next){
 }
 
 function getNextSequenceValue2(noboleta,req, res){
-console.log(noboleta)
 
 
                 Asignapap.findById({ _id:noboleta}, function (err, todo)  {
@@ -69,6 +69,130 @@ exports.deleteTipounidad2 = function(req, res, next){
 
 function splitLines(t) { return t.split(/\r\n|\r|\n/); }
 
+function getNextSequenceValue3(bb, req,res){
+
+    Pagopap.find( {  $or : [
+        { $and : [ { ordenpago :bb[0] }] },
+        { $and : [ { noboleta : bb[6] }] }]
+}).then(todos => {
+             
+    if(todos.length>0)   { 
+//actualiza
+
+
+       }
+    else
+    {     
+      //insertar el pago
+
+
+
+
+       // console.log('pasa pago2')
+        Asignapap.find( {  $or : [
+            { $and : [ { noboleta :bb[0] }] },
+            { $and : [ { noboleta : bb[6] }] }]
+    }).then(todoaaab => {
+
+     //   console.log(todoaaab);
+                if(todoaaab.length>0)   {
+                    Pagopap.create({ 
+                        ordenpago  		:bb[0] ,
+                        carne  		: bb[1],
+                        nombre   		:  bb[2],
+                        rubro  		:  bb[3],
+                        valor  		:  bb[4],
+                        fecha		: bb[5],
+                        noboleta  		:  bb[6],
+                        ua		:  bb[7],
+                        pagado:1,
+                        cui  		: todoaaab[0].cui,
+                        carne  		: todoaaab[0].carne,
+                        nov  		: todoaaab[0].nov,
+                        nombre  		: todoaaab[0].nombre,
+                        saldo  		: todoaaab[0].montodeuda,
+                        debe  		: todoaaab[0].montodeuda,
+                        haber  		: bb[4],
+                        saldo2:Number(todoaaab[0].montodeuda)-Number(bb[4]),
+                        pago: todoaaab[0].monto,
+                        lenguaje	: todoaaab[0].lenguaje,
+                        matematica	: todoaaab[0].matematica,
+                        fisica	: todoaaab[0].fisica,
+                        biologia	: todoaaab[0].biologia,
+                        quimica	: todoaaab[0].quimica,
+                        monto: todoaaab[0].monto,
+                        montodeuda: todoaaab[0].montodeuda,
+                        cursosaplica: todoaaab[0].cursosaplica,
+                        noboleta: todoaaab[0].noboleta
+                        
+                       
+                    });
+                
+                    getNextSequenceValue2(todoaaab[0]._id,req, res);
+                 //res.json({op:'ok'});
+                
+                   }
+                   else{
+                    Pagopap.create({ 
+                        ordenpago  		:bb[0] ,
+                        carne  		: bb[1],
+                        nombre   		:  bb[2],
+                        rubro  		:  bb[3],
+                        valor  		:  bb[4],
+                        fecha		: bb[5],
+                        noboleta  		:  bb[6],
+                        ua		:  bb[7],
+                        pagado:0,
+                        cui  		: '_',
+                        carne  		: '_',
+                        nov  		: '_',
+                        nombre  		: '_',
+                        saldo  		: 0,
+                        debe  		: 0,
+                        haber  		: 0,
+                        saldo2:0,
+                        pago: 0,
+                        lenguaje	: false,
+                        matematica	: false,
+                        fisica	: false,
+                        biologia	: false,
+                        quimica	:false,
+                        monto: 0,
+                        montodeuda: 0,
+                        cursosaplica: 'Ninguno',
+                        noboleta: '_'
+                        
+                       
+                    });
+
+                   }
+                   
+                   
+          
+             
+    
+            
+        })
+        .catch(err => {
+            console.log(err.message)
+            res.status(500).send(err.message);  
+        })
+
+
+
+
+
+
+     }
+
+    
+
+})
+.catch(err => {
+    res.status(500).send(err.message);  
+})
+
+}
 
 exports.creaTipounidad22s = function(req, res, next){
    
@@ -77,6 +201,10 @@ exports.creaTipounidad22s = function(req, res, next){
 
     if(req.params.recordID=='upload')
     {  
+
+
+//console.log(req.body.texto);
+
 
         
         var a ;
@@ -87,37 +215,24 @@ exports.creaTipounidad22s = function(req, res, next){
             for (var i = 1; i < a.length; i++) {
 
                 var myData3cc=a[i] 
+                if(myData3cc!='')
+                {
                 var bb=myData3cc.split(';')    
-                
-               
+                console.log(bb)
+                getNextSequenceValue3(bb,req, res);  
+                }
+          
 
 
-                Asignapap.find( {  $or : [
-                    { $and : [ { noboleta :bb[0] }] },
-                    { $and : [ { noboleta : bb[6] }] }]
-            }).exec( function (err, todoaaab)  {
-        
-                    if (err) {  res.send(err);  }
-                    else
-                    {  
-                        if(todoaaab.length>0)   {
+
                
-                            getNextSequenceValue2(todoaaab[0]._id,req, res);
-            
-                        
-                           }
-                  
-                     
-            
-                    }
-                });
 
                                     
                
             }
 
-           
             res.json({op:'ok'});
+           
         }
         else
         {

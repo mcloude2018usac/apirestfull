@@ -7,7 +7,7 @@ var Area_evento = require('../models/area_evento');
 var Aread_evento = require('../models/aread_evento');
 var csv      = require('csv-express');
 var Evento = require('../models/eventos');
-
+var Pagopap = require('../models/pagospap');
 
 
 var Participa = require('../models/participa');
@@ -483,7 +483,7 @@ else
                                 
                                 });
 
-        break;
+        break;  
         case 'excel-asigna2':
 
         var filename   = "asignacionesPAP.csv";
@@ -521,6 +521,45 @@ else
                 }
         
         });
+
+break;
+
+case 'excel-asigna3':
+
+var filename   = "CuentacorrientePAP.csv";
+Pagopap.find({}).sort({'pagado':1}).exec(function(err, todos2) {
+        if (err){ res.send(err); }
+        
+
+        if(todos2.length>0)   {  
+
+                res.json(todos2);
+/*
+                var myData = [];
+                for(var i = 0; i < todos2.length;i++){
+
+                        var ll=''
+                        if(todos2[i].idmateria=='Lenguaje'){ll='3'}
+                        if(todos2[i].idmateria=='Matematica'){ll='4'}
+                        if(todos2[i].idmateria=='Fisica'){ll='2'}
+                        if(todos2[i].idmateria=='Quimica'){ll='5'}
+                        if(todos2[i].idmateria=='Biologia'){ll='1'}
+
+                        
+                myData.push({materia:idpap.materia,codigounidad:todos2[i].idunidadacademica.codigo,unidadacademica:todos2[i].idunidadacademica.nombre,edificio:cleanName(todos2[i].idedificio.nombre),salon:cleanName(todos2[i].idsalon.nombre)
+                       
+                 });
+                }
+                
+                res.statusCode = 200;
+                res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+                res.setHeader("Content-Disposition", 'attachment; filename='+filename);
+                res.csv(myData, true);
+        */
+                
+        }
+
+});
 
 break;
         default:
