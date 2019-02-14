@@ -616,9 +616,9 @@ participaRoutes.delete('/:id/:userID',requireAuth,  ParticipaController.deletePa
 
 //-----------------------------------PARTICIPA3
 apiRoutes.use('/participa3s', participa3Routes);
-participa3Routes.get('/:id',  Participa3Controller.getParticipa3);
-participa3Routes.get('/:id/:id2',  Participa3Controller.getParticipa3);
-participa3Routes.post('/:id',  Participa3Controller.creaParticipa32s);
+participa3Routes.get('/:id',requireAuth,  Participa3Controller.getParticipa3);
+participa3Routes.get('/:id/:id2',requireAuth,  Participa3Controller.getParticipa3);
+participa3Routes.post('/:id',requireAuth, Participa3Controller.creaParticipa32s);
 participa3Routes.delete('/:id/:userID',requireAuth,  Participa3Controller.deleteParticipa3);
 
 
