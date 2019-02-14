@@ -412,6 +412,7 @@ dtarifaRoutes.delete('/:id/:userID',requireAuth,  DtarifaController.deleteDtarif
 apiRoutes.use('/carne', carneRoutes);
 carneRoutes.get('/', requireAuth, CarneController.getCarne);
 carneRoutes.get('/:codigo', CarneController.getCarne);
+carneRoutes.get('/:id/:codigo', CarneController.getCarne);
 
 
 //---------------------------------------estudiantes ov
