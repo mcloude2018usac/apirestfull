@@ -1,21 +1,19 @@
 var mongoose =require("mongoose");
     var CarneSchema 		=	new  mongoose.Schema({
         carne	: { type : String },
-        nombre1	: { type : String },
-        nombre2	: { type : String },
         nombre	: { type : String },
-        primer_apellido	: { type : String },
-        segundo_apellido	: { type : String },
         direccion	: { type : String },
-        municipio	: { type : Number },
-        depto	: { type : Number },
-        fecha_nac	: { type :Date },
-        sexo	: { type : Number },
-        telefono	: { type : String    },
-        ano	: { type : Number },
-        correo	: { type : String },
         cui	: { type : String },
-        facultad	: { type : Number },
+        nov	: { type : String },
+        codfac	: { type : Number },
+        facultad	: { type : String },
+        codcarr	: { type : Number },
+        carrera	: { type : String },
+        fec_nac	: { type :Date },
+        telefono	: { type : String    },
+        sexo	: { type : Number },
+        civil	: { type : Number },
+        correo	: { type : String },
         activo	: { type : Number }
         });
 
