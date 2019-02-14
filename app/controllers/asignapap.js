@@ -84,31 +84,7 @@ function getNextSequenceValue2(myData3,myData3cc,req,res,i,todo){
 function getNextSequenceValue(myData3,myData3aa,req,res,todo){
 
 
-      if(myData3aa.length>0)
-      { 
-          Nuevosalon.create({ 
-              nombre:'Solicitando salon para Unidad academica: ' + myData3aa[0].idunidadacademica.nombre + ', Materia: '+  myData3aa[0].idmateria +', Edificio: '+  myData3aa[0].idedificio.nombre +' y Salon: '+  myData3aa[0].idsalon.nombre ,
-              estado        	: 'Solicitando' ,
-              correo:''       	
-          });
-
-          
-
-
-          const mailO = {
-              destino: 'mario.morales@mcloude.com', // list of receivers
-              subject: 'Solicitud de nuevo salon PAP', // Subject line
-              html: 'Solicitando salon para Unidad academica PAP: ' + myData3aa[0].idunidadacademica.nombre + ', Materia: '+  myData3aa[0].idmateria +', Edificio: '+  myData3aa[0].idedificio.nombre +' y Salon: '+  myData3aa[0].idsalon.nombre ,// plain text body
-              actualiza: 0// plain text body
-            };
-          
-
-          mailt.getMail2(mailO,res);
-//            console.log('No existe cupo para asignarse esta materia: '+  myData3aa[0].idmateria +' para el edificio: '+  myData3aa[0].idedificio.nombre +' salon: '+  myData3aa[0].idsalon.nombre +' , realize la asignacion mas tarde')
-          res.status(500).send('No existe disponibilidad para asignarse , Inténtelo más tarde')    
-      }
-      else
-      {
+    
 
              
                                   
@@ -123,7 +99,7 @@ function getNextSequenceValue(myData3,myData3aa,req,res,todo){
                                 
 
            
-      }
+      
 }
 
 /*
@@ -351,7 +327,7 @@ else{
             
                 var cii=0;
                 //las materias qye tengo que ganar
-            console.log(myData0a)
+       //     console.log(myData0a)
               for(var i = 0; i < myData0a.length;i++){
                   //todo lo que esta planificado en el plan   
 
@@ -385,10 +361,10 @@ else{
                   {  //  console.log(' NOOOO encontre cupo para ' + myData[cii].idmateria )
                       myData3aa.push({_id:myData[cii]._id,idedificio:myData[cii].idedificio,idsalon:myData[cii].idsalon
                           ,idhorario:myData[cii].idhorario,idmateria:myData[cii].idmateria
-                          ,idtipounidad:myData[ii].idtipounidad,
-                          idjornada:myData[ii].idjornada,
-                          idunidadacademica: myData[ii].idunidadacademica,
-                          idperiodo:myData[ii].idperiodo
+                          ,idtipounidad:myData[cii].idtipounidad,
+                          idjornada:myData[cii].idjornada,
+                          idunidadacademica: myData[cii].idunidadacademica,
+                          idperiodo:myData[cii].idperiodo
                           ,capacidad:myData[cii].capacidad,asignados:'0',fexamen:'',codfac:myData[cii].codfac});
             
                   }
@@ -398,10 +374,39 @@ else{
             
             console.log(myData3)
             console.log(myData3aa)
+
+            if(myData3aa.length>0)
+            { 
+                Nuevosalon.create({ 
+                    nombre:'Solicitando salon para Unidad academica: ' + myData3aa[0].idunidadacademica.nombre + ', Materia: '+  myData3aa[0].idmateria +', Edificio: '+  myData3aa[0].idedificio.nombre +' y Salon: '+  myData3aa[0].idsalon.nombre ,
+                    estado        	: 'Solicitando' ,
+                    correo:''       	
+                });
+      
+                
+      
+      
+                const mailO = {
+                    destino: 'mario.morales@mcloude.com', // list of receivers
+                    subject: 'Solicitud de nuevo salon PAP', // Subject line
+                    html: 'Solicitando salon para Unidad academica PAP: ' + myData3aa[0].idunidadacademica.nombre + ', Materia: '+  myData3aa[0].idmateria +', Edificio: '+  myData3aa[0].idedificio.nombre +' y Salon: '+  myData3aa[0].idsalon.nombre ,// plain text body
+                    actualiza: 0// plain text body
+                  };
+                
+      
+                mailt.getMail2(mailO,res);
+      //            console.log('No existe cupo para asignarse esta materia: '+  myData3aa[0].idmateria +' para el edificio: '+  myData3aa[0].idedificio.nombre +' salon: '+  myData3aa[0].idsalon.nombre +' , realize la asignacion mas tarde')
+                res.status(500).send('No existe disponibilidad para asignarse , Inténtelo más tarde')    
+            }
+            else
+            {
+                getNextSequenceValue(myData3,myData3aa,req,res,todos);
+                res.json(todos);
+            }
            
-                  getNextSequenceValue(myData3,myData3aa,req,res,todos);
+                 
              
-                  res.json(todos);
+                  
                                    
             
             
