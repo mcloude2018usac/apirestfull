@@ -9,16 +9,20 @@ var csv      = require('csv-express');
 var Evento = require('../models/eventos');
 var Pagopap = require('../models/pagospap');
 
+var Unidadplan2 = require('../models/unidadplan2');
+
 
 var Participa = require('../models/participa');
 var Participa2 = require('../models/participa2');
 var Facplan = require('../models/unidadplan');
 var Facplan2 = require('../models/unidadplan2');
 var cursoeve=require('../models/aread_evento');
+var Userperfil = require('../models/userperfil2');
+var Asignapap = require('../models/asignapap');
 
 var request = require('request');
 
-var Asignaest = require('../models/asignaestudiante');
+var Asignaest = require('../models/asignaestudiantepap');
 
 var cleanName = function(str) {
         if (str == '') return str; // jQuery
@@ -36,42 +40,27 @@ var cleanName = function(str) {
         return str.toUpperCase();
     };
 
-    function getNextSequenceValue2(myData){
-        //  console.log('asignado antes:')
-         // console.log(myData3cc);
-           Asignaest.find({idtipounidad        	: myData.idtipounidad        	,
-               idunidadacademica        	: myData.idunidadacademica  , 
-               idperiodo        	: myData.idperiodo      	,
-               idedificio:myData.idedificio,
-               idsalon:myData.idsalon,
-               idhorario:myData.idhorario,
-               idmateria:myData.idmateria
-                     }).lean().exec({}, function(err,myasigcupo) {
-               if (err) res.send(err);
-                     var asigno=0
-                     asigno=myasigcupo.length;
-      
-                      if(asigno!=myData.asignados)
-                     {
-                             
-                      //  console.log( myData)
-                        console.log(asigno + '(estuiantes) = ' + myData.asignados + 'planificacion')
-                   
-                       
-                     }
-                   
-                     
-
-                              
-           });
-      }
-
+   
       function logErrors(err, req, res, next) {
         console.error(err.stack);
         next(err);
       }
 
 
+      function getNextSequenceValue2(salonn, idd,cuentaaa){
+
+        Unidadplan2.findById({ _id: idd }, function (err, todo)  {
+                if (err) {  res.send(err);  }
+                else
+                {  
+                    todo.asignados    	=	cuentaaa
+                    todo.save(function (err, todo){
+                        if (err)     {  res.status(500).send(err.message)   }
+                      //  res.json(todo);
+                    });
+                }
+            });
+      }
 
 exports.getCombofijo = function(req, res, next){
        var sql='';
@@ -338,31 +327,7 @@ else
 }
 
         //Facplan
-        Facplan.find({ _id: req.body.unidadacademica.nombre  },function(err, todos) {
-                if (err){ // res.send(err);
-                      //  if(err) return next(err);
-                      console.log('aqui quedo')
-                        res.status(500).send('No existe ');
-                       
-                }
-               
-                var aa=0;
-            
-                for(var i = 0; i < todos.length;i++){
-                   if(todos[i].asignados>0)
-                   {
-                               // aa=aa+todos[i].asignados
-                     //console.log(todos[i].idtipounidad,todos[i].idunidadacademica,todos[i].idperiodo,todos[i].idedificio,todos[i].idsalon);   
-                     getNextSequenceValue2(todos[i]);
-
-                
-        }     
-     
-                }
-                console.log('total asignados fac plan: ')
-                //res.json(todos);
-        });
-
+      
 
         break;
 
@@ -524,40 +489,144 @@ else
 
 break;
 
+case 'excel-asigna33xxx':
+
+var myDataxxx = [];
+
+Unidadplan2.find({}).exec(function(err, todos20) {
+        if (err){ res.send(err); }
+ var cuentatt=1
+        Asignaest.find({}).exec(function(err, todos300) {
+                if (err){ res.send(err); }
+      var  cuenta=1;
+                for(var i = 0; i < todos20.length;i++){
+                cuenta=0;
+                        for(var j = 0; j < todos300.length;j++){
+                                if(todos20[i].idsalon.nombre==todos300[j].idsalon.nombre)
+                                {
+                                        cuenta=cuenta+1;
+                                        cuentatt=cuentatt+1;
+
+
+                                }
+                        }
+console.log(todos20[i].idsalon.nombre + ' ' + todos20[i]._id + ' ' +cuenta);
+                       getNextSequenceValue2( todos20[i].idsalon.nombre,todos20[i]._id,cuenta);
+                }
+
+
+                    
+                    //    myDataxxx.push({salon:todos20[i].idsalon.nombre,id:todos20[i]._id  ,cuenta2:cuenta});
+res.json({cantidad:cuentatt});
+                      
+
+
+        });
+
+});
+
+
+
+
+
+
+break;
 case 'excel-asigna3':
 
-var filename   = "CuentacorrientePAP.csv";
-Pagopap.find({}).sort({'pagado':1}).exec(function(err, todos2) {
+var filename   = "Fichapap.csv";
+
+Userperfil.find({}).exec(function(err, todos20) {
         if (err){ res.send(err); }
-        
+     
+                        Asignapap.find({}).exec(function(err, todos2) {
+                                if (err){ res.send(err); }
+                           
+                                if(todos2.length>0)   {  
+                                         var myData = [];
+                                        for(var i = 0; i < todos20.length;i++){
 
-        if(todos2.length>0)   {  
+                                                for(var j = 0; j < todos2.length;j++){
+                                                        if(todos20[i].usuarionew==todos2[j].usuarionew)
+                                                        {
 
-                res.json(todos2);
-/*
-                var myData = [];
-                for(var i = 0; i < todos2.length;i++){
+                                                             
+                                                
+                                        myData.push({usuarionew:todos20[i].usuarionew,idasigna:todos2[j]._id,nov:todos20[i].nov,carne:todos20[i].carne,
+                                                codigounidad:todos2[j].idunidadacademica.codigo,unidadacademica:todos2[j].idunidadacademica.nombre
+                                                ,cui:todos2[j].cui ,noboleta:todos2[j].noboleta ,montoboleta:todos2[j].montodeuda,cursosaplica:todos2[j].cursosaplica
+                                                ,montopago:todos2[j].monto,nombre:todos2[j].nombre
+                                        });
+                                                  break;
+                                        
 
-                        var ll=''
-                        if(todos2[i].idmateria=='Lenguaje'){ll='3'}
-                        if(todos2[i].idmateria=='Matematica'){ll='4'}
-                        if(todos2[i].idmateria=='Fisica'){ll='2'}
-                        if(todos2[i].idmateria=='Quimica'){ll='5'}
-                        if(todos2[i].idmateria=='Biologia'){ll='1'}
+                                                        }  
+                                                }
+                                              
 
-                        
-                myData.push({materia:idpap.materia,codigounidad:todos2[i].idunidadacademica.codigo,unidadacademica:todos2[i].idunidadacademica.nombre,edificio:cleanName(todos2[i].idedificio.nombre),salon:cleanName(todos2[i].idsalon.nombre)
-                       
-                 });
-                }
+                                        }
+
+                                        Asignaest.find({}).exec(function(err, todos200) {
+                                                if (err){ res.send(err); }
+
+                                                var myData2 = [];
+                     var  aaa=1;
+                                                for(var j = 0; j < todos200.length;j++){
+                                                        aaa=1;
+                                                           for(var i = 0; i < myData.length;i++){
+
+                                                       
+                                                                if(todos200[j].idasigna==myData[i].idasigna)
+                                                                {
+
+                                                                                  
+                                                                        myData2.push({idasigna:myData[i].idasigna,nov:myData[i].nov,carne:myData[i].carne,
+                                                                                nombre:myData[i].nombre,montopago:myData[i].montopago,
+                                                                                codigounidad:myData[i].codunidad,unidadacademica:myData[i].unidadacademica
+                                                                                ,cui:myData[i].cui ,noboleta:myData[i].noboleta ,montoboleta:myData[i].montoboleta,
+                                                                                cursosaplica:myData[i].cursosaplica,
+                                                                                edificio:todos200[j].idedificio.nombre,
+                                                                                salon:todos200[j].idsalon.nombre,
+                                                                                jornada:todos200[j].idjornada,
+                                                                                horario:todos200[j].idhorario,
+                                                                                materia:todos200[j].idmateria,
+                                                                                noasignado:todos200[j].noasignado,cantidad:1
+                                                                        });
+                                                                        aaa=0;
+                                                                                break;
+
+                                                                }
+                                                        }
+                                                                if(aaa==1)
+                                                                {
+                                                                       
+
+                           
+                                                                              console.log(todos200[j]._id)
+
+                                                                            
+
+                                                                        
+
+                                                                }
+
+                                                }
+
+                                                res.statusCode = 200;
+                                                res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+                                                res.setHeader("Content-Disposition", 'attachment; filename='+filename);
+                                                res.csv(myData2, true);
+                                             //   res.json(myData2);
+
+
+                                        });
+
+                                     
                 
-                res.statusCode = 200;
-                res.setHeader('Content-Type', 'text/csv; charset=utf-8');
-                res.setHeader("Content-Disposition", 'attachment; filename='+filename);
-                res.csv(myData, true);
-        */
-                
-        }
+                                      
+                                
+                                }
+
+                        });
 
 });
 
