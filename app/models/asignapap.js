@@ -1,6 +1,6 @@
 var mongoose =require("mongoose");
 var AsignapapSchema = new mongoose.Schema({
-    userId : {        type: String,        required: true    },
+    userId : {        type: String,        required: true  },
     idunidadacademica   		: {    id	: { type : String, required : true },   nombre	: { type : String, required : true }     ,   codigo	: { type : String, required : true }       },
     idperiodo   		: {type : String, required : true},
     noboleta: {        type: String,        required: true    },
