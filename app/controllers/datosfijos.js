@@ -511,7 +511,7 @@ Unidadplan2.find({}).exec(function(err, todos20) {
                                 }
                         }
 console.log(todos20[i].idsalon.nombre + ' ' + todos20[i]._id + ' ' +cuenta);
-                       getNextSequenceValue2( todos20[i].idsalon.nombre,todos20[i]._id,cuenta);
+                   //    getNextSequenceValue2( todos20[i].idsalon.nombre,todos20[i]._id,cuenta);
                 }
 
 
@@ -531,6 +531,179 @@ res.json({cantidad:cuentatt});
 
 
 break;
+
+case 'excel-papest':
+
+var myDataxxx = [];
+
+Userperfil.find({}).exec(function(err, todos20) {
+        if (err){ res.send(err); }
+ var cuentatt=1
+ Asignapap.find({}).exec(function(err, todos300) {
+                if (err){ res.send(err); }
+      var  cuenta=0;
+      var data1=[];
+                for(var i = 0; i < todos20.length;i++){
+               cuenta=0;
+                        for(var j = 0; j < todos300.length;j++){
+                                if(todos20[i].userId==todos300[j].userId)
+                                {
+                                     cuenta=1;
+                                }
+                        }
+                        if(cuenta==1)
+                        {}
+                        else
+                        { console.log(todos20[i])
+                             data1.push({id:todos20[i]._id})
+
+                        }
+
+                      
+                }
+
+
+                    
+                    
+res.json({data1});
+                      
+
+
+        });
+
+});
+
+
+
+
+
+
+break;
+
+case 'excel-asigna3reduce':
+
+
+Asignapap.aggregate(
+        [
+                { 
+                        "$group" : {
+                            "_id" : {
+                                "userId" : "$userId"
+                            }, 
+                            "COUNT" : {
+                                "$sum" : 1
+                            }
+                        }
+                    }, 
+                    { 
+                        "$project" : {
+                            "userId" : "$_id.userId", 
+                            "COUNT" : "$COUNT", 
+                            "_id" :0
+                        }
+                    }, 
+                    { 
+                        "$match" : {
+                            "COUNT" : {
+                                "$gt" :1
+                            }
+                        }
+                    }
+        ], function (err, result) {
+                if (err) {
+                    next(err);
+                } else {
+
+                        var  data1=[]
+                 
+                        Asignapap.find({}).exec(function(err, todos20) {
+                                if (err)
+                                { res.send(err); }
+
+                                for(var i = 0; i < result.length;i++){
+                                        var encuentra=[]
+                                        for(var j = 0; j < todos20.length;j++){
+
+                                                if(todos20[j].userId==result[i].userId)
+                                                {
+
+                                                     encuentra.push({id:todos20[j]._id });   
+                                                //     data1.push({id:todos20[i]._id + ' ' + todos20[i].cursosaplica +' ' + todos20[i].usuarionew + ' ' +result[j].COUNT + ' '  + result[j].userId});   
+
+
+                                                     //break;
+
+                                                }
+
+
+                                        }
+                                       // console.log(encuentra.length)
+                                        for(var k = 0; k <encuentra.length-1;k++){
+                                                data1.push({id:encuentra[k].id});   
+                                                        console.log(encuentra[k].id)
+                                                 //  Asignapap.findByIdAndRemove({ _id: encuentra[k].id }, function(err, todoxxx) {
+                                                     //
+                                                        //    });
+                                        }
+
+                                     
+
+                                      
+
+                                }
+
+                  
+                              //  res.json(data1);
+                                
+
+                                Asignaest.find({}).exec(function(err, todos200) {
+                                        if (err)
+                                        { res.send(err); }
+                                        var data2=[]        
+                                        for(var i = 0; i < todos200.length;i++){
+                                                for(var j = 0; j < data1.length;j++){
+        
+                                                        if(todos200[i].idasigna==data1[j].id)
+                                                        {
+                                                            //    console.log(todos200[i].nombre + ' ' + todos200[i].idmateria + ' ' + todos200[i].idhorario)
+                                                             data2.push({id:todos200[i]._id,nombre:todos200[i].nombre,materia:todos200[i].idmateria,horario:todos200[i].idhorario,usu1: todos200[i].usuarionew});   
+                                                           console.log(todos200[i]._id)
+                                                          //   Asignaest.findByIdAndRemove({ _id: todos200[i]._id  }, function(err, todoxxx) {
+                                                               // res.json(todo);
+                                                          //  });
+
+
+                                                            break;
+
+        
+                                                        }
+        
+        
+                                                }
+                                        }  
+
+
+                                           
+                                                      
+                                        
+                                        res.json(data2);
+
+                                });
+
+
+                                
+                        
+                        });
+
+
+                    
+                }
+            });
+
+    
+  //  res.json(aa);
+    break;
+
 case 'excel-asigna3':
 
 var filename   = "Fichapap.csv";
@@ -601,7 +774,7 @@ Userperfil.find({}).exec(function(err, todos20) {
                                                                        
 
                            
-                                                                              console.log(todos200[j]._id)
+                                                                              console.log(todos200[j]._id+ ' '+ todos200[j].userId)
 
                                                                             
 
