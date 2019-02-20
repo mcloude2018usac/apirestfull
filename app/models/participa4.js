@@ -1,14 +1,7 @@
 var mongoose =require('mongoose');
-var Participa2Schema = new mongoose.Schema({
+var Participa4Schema = new mongoose.Schema({
 
-    idtipoevento : {
-        id :  { type : String, required : true }, nombre : { type : String, required : true }, codigo :  { type : String, required : true }
-    },
-    idarea : {
-        id :  { type : String, required : true },   nombre :  { type : String, required : true } },
-    idevento: {
-        type: String,   required: true 
-    },
+   
     nombre: {
         type: String,
         required: true
@@ -33,26 +26,26 @@ var Participa2Schema = new mongoose.Schema({
         type: String,
         required: false
     },
-    unidad: {
+    hlenguaje: {
         type: String,
         required: false
     } ,
-    otros: {
+    hbiologia: {
+        type: String
+    },
+    hquimica: {
+        type: String
+    },
+    hmate: {
         type: String
     },
     estado: {
         type: String,
         required: true
-    },
-    cuenta: {
-        type: String
-      
-    },
-    
-    fecha: { type: String }
+    }    
     ,usuarionew	: { type : String },      usuarioup	: { type : String }
 }, {
     timestamps: true
 });
 
-module.exports = mongoose.model('Participa2', Participa2Schema);
+module.exports = mongoose.model('Participa4', Participa4Schema);
