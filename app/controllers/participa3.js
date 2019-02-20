@@ -4,7 +4,9 @@ var Bitacora = require('../models/bitacora');
 
 exports.getParticipa3 = function(req, res, next){
     if(req.params.id2)
-    {   Participa3.find({idevento:req.params.id,_id:req.params.id2},function(err, todos) {
+    {  
+       
+        Participa3.find({idevento:req.params.id,_id:req.params.id2},function(err, todos) {
             if (err){ res.send(err); }
            
             if(todos.length>0)   {    res.json(todos);   }

@@ -10,7 +10,7 @@ var Evento = require('../models/eventos');
 var Pagopap = require('../models/pagospap');
 
 var Unidadplan2 = require('../models/unidadplan2');
-
+var Cuentaccoriente = require('../models/asignapapccorriente');
 
 var Participa = require('../models/participa');
 var Participa2 = require('../models/participa2');
@@ -254,7 +254,6 @@ exports.getCombofijo = function(req, res, next){
         break;
         
         case 'participantes2':
-
         cursoeve.find({},function(err, todos0) {
                         if (err){  res.send(err);  }      
                                 Participa2.find({},function(err, todos) {
@@ -266,6 +265,7 @@ exports.getCombofijo = function(req, res, next){
                                                         if(todos0[ii]._id==todos[i].idevento)
                                                         {
                                                            tevento=  todos0[ii].nombre   
+                                                           break;
                                                         }
                                                 }        
                                                 //resp.push({tipocurso:todos[i].idtipoevento.nombre,area:todos[i].idarea.nombre,curso:tevento,nombre:todos[i].nombre + ' ' +todos[i].apellido,genero:todos[i].genero,correo:todos[i].correo,telefono:todos[i].telefono,edad:todos[i].edad});
@@ -274,6 +274,7 @@ exports.getCombofijo = function(req, res, next){
                                         res.json(resp);
                                 });
                 });
+                
         break;
         case 'buses-nelson':
                                 request('http://190.143.151.236:8500/ws/databuses.cfm', function (error, response, body) {
@@ -581,6 +582,151 @@ res.json({data1});
 
 break;
 
+
+case 'excel-papcuenta':
+
+var myDataxxx = [];
+
+Userperfil.find({}).exec(function(err, todos20) {
+        if (err){ res.send(err); }
+ var cuentatt=1
+ Asignapap.find({}).exec(function(err, todos300) {
+                if (err){ res.send(err); }
+   
+      var data1=[];
+                for(var i = 0; i < todos20.length;i++){
+                        for(var j = 0; j < todos300.length;j++){
+                                if(todos20[i].userId==todos300[j].userId)
+                                {  var cc='';var cc2=''
+                                cc=todos20[i].carne;  cc2=todos20[i].nov;
+                                        if(todos20[i].carne=='0')   {   cc='';     }
+                                        if(todos20[i].nov=='0')   {   cc2='';     }
+                                        data1.push({idperfil:todos20[i]._id,
+                                                idasigna:todos300[j]._id,
+                                                nov:cc2,
+                                                carne:cc,
+                                                nombre:todos300[j].nombre,
+                                                noboleta:todos300[j].noboleta,
+                                                monto:todos300[j].monto,
+                                                cui:todos300[j].cui
+                                        
+                                        })
+                                  break;
+                                }
+                        }
+                      
+                      
+                }
+
+//busca las asignaciones
+                Asignaest.find({}).exec(function(err, todos500) {
+                        if (err){ res.send(err); }
+
+
+                        var data2=[];
+                        for(var i = 0; i < data1.length;i++){
+                                for(var j = 0; j < todos500.length;j++){
+                                        if(data1[i].idasigna==todos500[j].idasigna)
+                                        { 
+                                                data2.push({idperfil:data1[i].idperfil,
+                                                        idasigna:data1[i].idasigna,
+                                                        nov:data1[i].nov,
+                                                        carne:data1[i].carne,
+                                                        nombre:data1[i].nombre,
+                                                        noboleta:data1[i].noboleta,
+                                                        monto:data1[i].monto,
+                                                        cui:data1[i].cui,
+                                                        idtipounidad:todos500[j].idtipounidad.nombre,
+                                                        idunidadacademica:todos500[j].idunidadacademica.nombre,
+                                                        idperiodo:todos500[j].idperiodo.nombre,
+                                                        idedificio:todos500[j].idedificio.nombre,
+                                                        idsalon:todos500[j].idsalon.nombre,
+                                                        idjornada:todos500[j].idjornada,
+                                                        idestudiante:todos500[j].idestudiante,
+                                                        idhorario:todos500[j].idhorario,
+                                                        idmateria:todos500[j].idmateria,
+                                                        usuarionew:todos500[j].usuarionew,
+                                                        deudaactual:1000,
+                                                        deposito1:0,
+                                                        deporsito2:0,
+                                                        deposito3:0,
+                                                        deposito4:0,
+                                                        deposito5:0,
+                                                        saldoactual:1000,
+                                                        noboleta2:0,
+                                                        noboleta3:0,
+                                                        noboleta4:0,
+                                                        noboleta5:0
+                                                
+                                                })
+
+                                                Cuentaccoriente.
+
+                                                Curso.create({ 
+                                                        idperfil:data1[i].idperfil,
+                                                        idasigna:data1[i].idasigna,
+                                                        nov:data1[i].nov,
+                                                        carne:data1[i].carne,
+                                                        nombre:data1[i].nombre,
+                                                        noboleta:data1[i].noboleta,
+                                                        monto:data1[i].monto,
+                                                        cui:data1[i].cui,
+                                                        idtipounidad:todos500[j].idtipounidad.nombre,
+                                                        idunidadacademica:todos500[j].idunidadacademica.nombre,
+                                                        idperiodo:todos500[j].idperiodo.nombre,
+                                                        idedificio:todos500[j].idedificio.nombre,
+                                                        idsalon:todos500[j].idsalon.nombre,
+                                                        idjornada:todos500[j].idjornada,
+                                                        idestudiante:todos500[j].idestudiante,
+                                                        idhorario:todos500[j].idhorario,
+                                                        idmateria:todos500[j].idmateria,
+                                                        usuarionew:todos500[j].usuarionew,
+                                                        deudaactual:1000,
+                                                        deposito1:0,
+                                                        deporsito2:0,
+                                                        deposito3:0,
+                                                        deposito4:0,
+                                                        deposito5:0,
+                                                        saldoactual:1000,
+                                                        noboleta2:0,
+                                                        noboleta3:0,
+                                                        noboleta4:0,
+                                                        noboleta5:0
+
+
+                                                 }
+                                                        , function(err, todo) {
+                                                        if (err){ res.status(500).send(err.message)    }
+                                                    
+                                                     
+                                                
+                                                     
+                                                        
+                                                
+                                                    });
+
+
+                                          
+                                                
+                                        }
+                                }
+                              
+                              
+                        }
+                                            
+res.json({data2});
+                     
+                });
+        });
+
+});
+
+
+
+
+
+
+break;
 case 'excel-asigna3reduce':
 
 
