@@ -6,6 +6,7 @@ var AuthenticationController = require('./controllers/authentication'),
     ParticipaController = require('./controllers/participa'),
     Participa2Controller = require('./controllers/participa2'),
     Participa3Controller = require('./controllers/participa3'),
+    Participa4Controller = require('./controllers/participa4'),
     ConferenciaController = require('./controllers/conferencia'),
     DcatalogoController = require('./controllers/dcatalogo'),
     SuscriptorsaldoController = require('./controllers/suscriptorsaldo'),
@@ -81,6 +82,7 @@ module.exports = function(app){
         userperfilRoutes = express.Router(),
         participa2Routes = express.Router(),
         participa3Routes = express.Router(),
+        participa4Routes = express.Router(),
         conferenciaRoutes = express.Router(),
         dcatalogoRoutes = express.Router(),
         suscriptorsaldoRoutes = express.Router(),
@@ -620,6 +622,15 @@ participa3Routes.get('/:id',requireAuth,  Participa3Controller.getParticipa3);
 participa3Routes.get('/:id/:id2',requireAuth,  Participa3Controller.getParticipa3);
 participa3Routes.post('/:id',requireAuth, Participa3Controller.creaParticipa32s);
 participa3Routes.delete('/:id/:userID',requireAuth,  Participa3Controller.deleteParticipa3);
+
+
+//-----------------------------------PARTICIPA4
+apiRoutes.use('/participa4s', participa4Routes);
+participa4Routes.get('/:id',requireAuth,  Participa4Controller.getParticipa4);
+participa4Routes.get('/:id/:id2',  Participa4Controller.getParticipa4);
+participa4Routes.post('/:id', Participa4Controller.creaParticipa42s);
+participa4Routes.delete('/:id/:userID',requireAuth,  Participa4Controller.deleteParticipa4);
+
 
 
 //-----------------------------------PARTICIPA2
