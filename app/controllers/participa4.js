@@ -10,7 +10,7 @@ function onlyUnique(value, index, self) {
 exports.getParticipa4 = function(req, res, next){
     if(req.params.id2)
     {   
-        console.log(req.params.id2)
+      
         if(req.params.id2=='materia')
         {
             Tipo.find({},function(err, todos) {
@@ -75,14 +75,31 @@ exports.getParticipa4 = function(req, res, next){
             }
             else
             {
-                Participa4.find({idevento:req.params.id,_id:req.params.id2},function(err, todos) {
-                    if (err){ res.send(err); }
-                   
-                    if(todos.length>0)   {    res.json(todos);   }
-                    else
-                    {  res.status(500).send('NO EXISTE REGISTRO');      }
-                    
-                });
+             
+                if(req.params.id2=='todos')
+                {
+                    Tipo.find({},function(err, todos) {
+                        if (err){ res.send(err); }
+                     
+                        res.json(todos);
+                       
+                        
+                    });
+        
+                }
+                else
+                {
+
+                    Participa4.find({},function(err, todos) {
+                        if (err){ res.send(err); }
+                       
+                        if(todos.length>0)   {    res.json(todos);   }
+                        else
+                        {  res.status(500).send('NO EXISTE REGISTRO');      }
+                        
+                    });
+                }
+               
                 
             }
 
