@@ -1,25 +1,19 @@
 
-//var aws = require("aws-sdk");
-//var ses = new aws.SES({"accessKeyId": "AKIAJU5GENLM4JCBYF6Q"
-//, "secretAccessKey": "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", "region": "us-east-1"});
-
-var Participa = require('../models/participa');
-
-var Participa2 = require('../models/participa2');
 var nodemailer = require('nodemailer');
-var transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-           user: 'usacenlinea2018@gmail.com',
-           pass: 'ocitocit'
-       }
-   });
+
 
 
    
    
 exports.getMail2 = function(req1, res){
 
+    var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+               user: 'usacenlinea2018@gmail.com',
+               pass: 'ocitocit'
+           }
+       });
   const mailOptions = {
     from: 'usacenlinea2018@gmail.com', // sender address
     to: req1.destino, // list of receivers
@@ -44,7 +38,14 @@ exports.getMail2 = function(req1, res){
 }
 
 exports.getMail = function(req, res, next){
-
+    var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+               user: 'usacenlinea2018@gmail.com',
+               pass: 'ocitocit'
+           }
+       });
+       
   const mailOptions = {
     from: 'usacenlinea2018@gmail.com', // sender address
     to: req.body.destino+';mario.morales@mcloude.com', // list of receivers
