@@ -16,7 +16,7 @@ exports.getParticipa3 = function(req, res, next){
         });
     }
     else
-    { Participa3.find({idevento:req.params.id},function(err, todos) {
+    { Participa3.find({},function(err, todos) {
            if (err){  res.send(err);  }
             res.json(todos);
         });
@@ -47,21 +47,12 @@ else{
             if (err) {  res.send(err);  }
             else
             {  
-                todo.cui        	=	req.body.cui        	||	todo.cui        	;         
-               todo.nombre        	=	req.body.nombre        	||	todo.nombre        	;
-                todo.apellido 	=	req.body.apellido	||	todo.apellido 	;
-                todo.telefono    	=	req.body.telefono    	||	todo.telefono    	;
-                todo.correo 	=	req.body.correo	||	todo.correo 	;
-                
-                todo.tipo   	=	req.body.tipo    	||	todo.tipo   	; 
-                todo.unidad   	=	req.body.unidad    	||	todo.unidad   	;
-                todo.motivo   	=	req.body.motivo    	||	todo.motivo   	;
-                todo.f1 	=	req.body.f1 	||	todo.f1 	;
-                todo.f2 	=	req.body.f2 	||	todo.f2 	;
-                todo.f3 	=	req.body.f3 	||	todo.f3 	;
-               
-              
-                todo.save(function (err, todo){
+                todo.estado       	=	req.body.estado        	||	todo.estado        	;         
+               todo.notamedio        	=	req.body.notamedio        	||	todo.notamedio        	;
+               todo.notafin        	=	req.body.notafin        	||	todo.notafin        	;
+
+
+               todo.save(function (err, todo){
                     if (err)     {  res.status(500).send(err.message)   }
                     res.json(todo);
                 });
@@ -87,7 +78,11 @@ else{
                     motivo 	: req.body.motivo	,
                     f1 	: req.body.f1 	,
                     f2 	: req.body.f2 	,
-                    f3 	: req.body.f3 	
+                    f3 	: req.body.f3 	,
+                    estado:'Solicitando requerimiento',
+                    notamedio:'',
+                    notafin:''           
+
                 }
                     , function(err, todo) {
                     if (err){   res.status(500).send(err.message)    }
