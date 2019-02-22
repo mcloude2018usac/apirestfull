@@ -74,7 +74,7 @@ exports.getCombofijo = function(req, res, next){
         });
         break;
         case 'areasd-evento':
-        Aread_evento.find({'idtipoevento.codigo':req.params.id2,'idarea.id':req.params.id3},function(err, todos) {
+        Aread_evento.find({'idtipoevento.codigo':req.params.id2,'idarea.id':req.params.id3,estado:1},function(err, todos) {
                 if (err){  res.send(err);  }
                 res.json(todos);
         });
