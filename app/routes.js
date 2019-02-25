@@ -44,6 +44,7 @@ var AuthenticationController = require('./controllers/authentication'),
     TipounidadController = require('./controllers/tipounidad'),
     Tipounidad2Controller = require('./controllers/tipounidad2'),
     DepartamentoController = require('./controllers/departamento'),
+    DenunciaunidadController = require('./controllers/denunciaunidad'),
   
     EdificiousacController = require('./controllers/unidadedificio'),
     PeriodousacController = require('./controllers/unidadperiodo'),
@@ -119,6 +120,7 @@ module.exports = function(app){
         busRoutes = express.Router(),
         afiliadoRoutes = express.Router(),
         departamentoRoutes = express.Router(),
+        denunciaunidadRoutes = express.Router(),
         mailRoutes = express.Router(),
         personalRoutes = express.Router(),
         asignapcbRoutes = express.Router(),
@@ -595,6 +597,16 @@ departamentoRoutes.get('/',requireAuth, DepartamentoController.getDepartamento);
 departamentoRoutes.get('/:id', requireAuth, DepartamentoController.getDepartamento);
 departamentoRoutes.post('/:recordID', requireAuth, DepartamentoController.creaDepartamento2s);
 departamentoRoutes.delete('/:recordID/:userID',requireAuth, DepartamentoController.deleteDepartamento);
+
+
+//-----------------------------------DENUNCIA UNIDAD
+apiRoutes.use('/denunciaunidads', denunciaunidadRoutes);
+denunciaunidadRoutes.get('/',requireAuth, DenunciaunidadController.getDenunciaunidad);
+denunciaunidadRoutes.get('/:id', requireAuth, DenunciaunidadController.getDenunciaunidad);
+denunciaunidadRoutes.post('/:recordID', requireAuth, DenunciaunidadController.creaDenunciaunidad2s);
+denunciaunidadRoutes.delete('/:recordID/:userID',requireAuth, DenunciaunidadController.deleteDenunciaunidad);
+
+
 
 
 //-----------------------------------NUEVO SALON
