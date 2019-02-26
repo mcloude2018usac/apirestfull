@@ -602,7 +602,8 @@ departamentoRoutes.delete('/:recordID/:userID',requireAuth, DepartamentoControll
 //-----------------------------------DENUNCIA UNIDAD
 apiRoutes.use('/denunciaunidads', denunciaunidadRoutes);
 denunciaunidadRoutes.get('/',requireAuth, DenunciaunidadController.getDenunciaunidad);
-denunciaunidadRoutes.get('/:id', requireAuth, DenunciaunidadController.getDenunciaunidad);
+denunciaunidadRoutes.get('/:id',requireAuth,  DenunciaunidadController.getDenunciaunidad);
+denunciaunidadRoutes.get('/:id/:id2',requireAuth, DenunciaunidadController.getDenunciaunidad);
 denunciaunidadRoutes.post('/:recordID', requireAuth, DenunciaunidadController.creaDenunciaunidad2s);
 denunciaunidadRoutes.delete('/:recordID/:userID',requireAuth, DenunciaunidadController.deleteDenunciaunidad);
 
