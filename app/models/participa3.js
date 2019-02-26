@@ -23,8 +23,9 @@ var Participa3Schema = new mongoose.Schema({
     },
     tipo: {
         type: String,
-        required: false
+        required: false, ref:'Dcatalogo'
     } ,
+   
     unidad: {
         type: String,
         required: false
