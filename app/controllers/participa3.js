@@ -16,7 +16,7 @@ exports.getParticipa3 = function(req, res, next){
         });
     }
     else
-    { Participa3.find({},function(err, todos) {
+    { Participa3.find({}).populate('tipo').exec(function(err, todos) {
            if (err){  res.send(err);  }
             res.json(todos);
         });
@@ -62,7 +62,7 @@ else{
     }
     else{
 
-     
+     console.log(req.body)
 
                     Bitacora.create(req.body.bitacora);
                   
@@ -74,6 +74,7 @@ else{
                     telefono 	: req.body.telefono 	,
                     correo    	: req.body.correo   	,
                     tipo 	: req.body.tipo 	, 
+                   
                     unidad 	: req.body.unidad 	,
                     motivo 	: req.body.motivo	,
                     f1 	: req.body.f1 	,

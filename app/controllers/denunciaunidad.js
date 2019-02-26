@@ -3,11 +3,25 @@ var Denunciaunidad = require('../models/denunciaunidad');
 var Bitacora = require('../models/bitacora');
 
 exports.getDenunciaunidad = function(req, res, next){
+
+    console.log(req.params.id + ' ' +req.params.id2);
+    if(req.params.id2)
+    {  
+
+        Denunciaunidad.find({'unidad':req.params.id2}).exec(function(err, todos) {
+            if (err){  res.send(err);  }
+             res.json(todos);
+         });
+
+       
+       
+    }
+    else
+    {
        if(req.params.id)
         {  
            
-                Denunciaunidad.find({_id:req.params.id}
-                    ,null, {sort: {unidad: 1}},function(err, todos) {
+                Denunciaunidad.find({_id:req.params.id}).exec(function(err, todos) {
                     if (err){ res.send(err); }
                    
                     if(todos.length>0)   {    res.json(todos);   }
@@ -19,11 +33,11 @@ exports.getDenunciaunidad = function(req, res, next){
            
         }
         else
-        { Denunciaunidad.find({},function(err, todos) {
+        { Denunciaunidad.find({}).populate('unidad').populate('categoria').exec(function(err, todos) {
                if (err){  res.send(err);  }
                 res.json(todos);
             });
-        }
+        }}
 
  
 }
@@ -48,6 +62,7 @@ if(req.params.recordID!=='crea')
         {  
             todo.categoria        	=	req.body.categoria        	||	todo.categoria        	;
             todo.unidad        	=	req.body.unidad        	||	todo.unidad        	;
+            todo.nombre        	=	req.body.nombre        	||	todo.nombre        	;
             todo.usuarioup=req.body.bitacora.email;
             
             
@@ -61,16 +76,18 @@ if(req.params.recordID!=='crea')
 }
 else{
 
-    Denunciaunidad.find({unidad:req.body.unidad  },function(err, todos) {
+   
+    Denunciaunidad.find({unidad:req.body.unidad ,categoria:req.body.categoria },function(err, todos) {
         if (err){ res.send(err); }
       
-        if(todos.length>0)   {    res.status(500).send('Codigo ya existe'); }
+        if(todos.length>0)   {    res.status(500).send('Ya existe esta unidad relacionada con esta categoria'); }
         else
-        {   
+        {   console.log(req.body)
 
             Denunciaunidad.create({
                 categoria        	: req.body.categoria        	,
                 unidad        	: req.body.unidad       ,
+                nombre        	: req.body.nombre       ,
                 usuarionew:req.body.bitacora.email, 
               }
                 , function(err, todo) {
