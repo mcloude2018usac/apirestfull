@@ -16,7 +16,11 @@ exports.getParticipa3 = function(req, res, next){
         });
     }
     else
-    { Participa3.find({}).populate('tipo').exec(function(err, todos) {
+    { 
+       
+        var aa=(req.params.id).split(',')
+
+        Participa3.find({tipo:{$in:aa}}).populate('tipo').exec(function(err, todos) {
            if (err){  res.send(err);  }
             res.json(todos);
         });
