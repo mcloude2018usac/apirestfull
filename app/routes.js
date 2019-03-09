@@ -12,6 +12,9 @@ var AuthenticationController = require('./controllers/authentication'),
     SuscriptorsaldoController = require('./controllers/suscriptorsaldo'),
     PersonalController = require('./controllers/personal'),
     EventoController = require('./controllers/eventos'),
+    FrmmovilController = require('./controllers/frmmovil'),
+    FrmcatController = require('./controllers/formcat'),
+    FrmmovildController = require('./controllers/frmmovild'),
     PerfilController = require('./controllers/perfil'),
     EmpresaController = require('./controllers/empresa'),
     ModuloController = require('./controllers/moduloxx'),
@@ -45,7 +48,7 @@ var AuthenticationController = require('./controllers/authentication'),
     Tipounidad2Controller = require('./controllers/tipounidad2'),
     DepartamentoController = require('./controllers/departamento'),
     DenunciaunidadController = require('./controllers/denunciaunidad'),
-  
+    CatusuarioController = require('./controllers/catusuario'),
     EdificiousacController = require('./controllers/unidadedificio'),
     PeriodousacController = require('./controllers/unidadperiodo'),
     EdificiosalonController = require('./controllers/unidadedificiosalon'),
@@ -96,6 +99,9 @@ module.exports = function(app){
         datosfijosRoutes = express.Router(),
         datosfijo2sRoutes = express.Router(),
         eventoRoutes = express.Router(),
+        frmmovilRoutes = express.Router(),
+        frmcatRoutes = express.Router(),
+        frmmovildRoutes = express.Router(),
         perfilRoutes = express.Router(),
         mailRoutes = express.Router(),
         estudianteovRoutes = express.Router(),
@@ -121,6 +127,7 @@ module.exports = function(app){
         afiliadoRoutes = express.Router(),
         departamentoRoutes = express.Router(),
         denunciaunidadRoutes = express.Router(),
+        catusuarioRoutes = express.Router(),
         mailRoutes = express.Router(),
         personalRoutes = express.Router(),
         asignapcbRoutes = express.Router(),
@@ -315,6 +322,35 @@ perfilRoutes.get('/:id1/:id2',requireAuth,  PerfilController.getPerfil);
 perfilRoutes.post('/:recordID',requireAuth,  PerfilController.creaPerfil2s);
 perfilRoutes.delete('/:recordID/:userID',requireAuth,  PerfilController.deletePerfil);
 
+
+
+//-----------------------------------FRMCAT
+apiRoutes.use('/frmcats', frmcatRoutes);
+frmcatRoutes.get('/',requireAuth, FrmcatController.getFormcat);
+frmcatRoutes.get('/:id',requireAuth,  FrmcatController.getFormcat);
+frmcatRoutes.get('/:id/:id2',requireAuth,  FrmcatController.getFormcat);
+frmcatRoutes.post('/:recordID', requireAuth,  FrmcatController.creaFormcat2s);
+frmcatRoutes.delete('/:recordID/:userID',requireAuth,  FrmcatController.deleteFormcat);
+
+
+
+
+//-----------------------------------FRMMOVIL
+apiRoutes.use('/frmmovils', frmmovilRoutes);
+frmmovilRoutes.get('/',requireAuth, FrmmovilController.getFrmmovil);
+frmmovilRoutes.get('/:id',requireAuth, FrmmovilController.getFrmmovil);
+frmmovilRoutes.get('/:id/:id2', FrmmovilController.getFrmmovil);
+frmmovilRoutes.post('/:recordID',requireAuth,  FrmmovilController.creaFrmmovil2s);
+frmmovilRoutes.delete('/:recordID/:userID',requireAuth,  FrmmovilController.deleteFrmmovil);
+
+
+
+//-----------------------------------FRMMOVILD
+apiRoutes.use('/frmmovilds', frmmovildRoutes);
+frmmovildRoutes.get('/:id',requireAuth,  FrmmovildController.getFrmmovild);
+frmmovildRoutes.get('/:id/:id2',requireAuth,  FrmmovildController.getFrmmovild);
+frmmovildRoutes.post('/:id',requireAuth,  FrmmovildController.creaFrmmovild2s);
+frmmovildRoutes.delete('/:id/:userID',requireAuth, FrmmovildController.deleteFrmmovild);
 
 
 //-----------------------------------CONFERENCIAS
@@ -608,6 +644,13 @@ denunciaunidadRoutes.post('/:recordID', requireAuth, DenunciaunidadController.cr
 denunciaunidadRoutes.delete('/:recordID/:userID',requireAuth, DenunciaunidadController.deleteDenunciaunidad);
 
 
+//-----------------------------------categorias usuarios
+apiRoutes.use('/catusuarios', catusuarioRoutes);
+catusuarioRoutes.get('/',requireAuth, CatusuarioController.getCatusuario);
+catusuarioRoutes.get('/:id',requireAuth,  CatusuarioController.getCatusuario);
+catusuarioRoutes.get('/:id/:id2',requireAuth, CatusuarioController.getCatusuario);
+catusuarioRoutes.post('/:recordID', requireAuth, CatusuarioController.creaCatusuario2s);
+catusuarioRoutes.delete('/:recordID/:userID',requireAuth, CatusuarioController.deleteCatusuario);
 
 
 //-----------------------------------NUEVO SALON
