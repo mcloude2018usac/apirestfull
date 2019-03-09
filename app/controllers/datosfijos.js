@@ -260,16 +260,18 @@ exports.getCombofijo = function(req, res, next){
                                         if (err){  res.send(err);  }
                                         var resp=[]
                                         var tevento=''
+                                        var ubica=''
                                         for(var i = 0; i < todos.length;i++){
                                                 for(var ii = 0; ii < todos0.length;ii++){
                                                         if(todos0[ii]._id==todos[i].idevento)
                                                         {
                                                            tevento=  todos0[ii].nombre   
+                                                           ubica= 'Edificio: '+todos0[ii].edificio + '  Salon: ' +  todos0[ii].salon     
                                                            break;
                                                         }
                                                 }        
                                                 //resp.push({tipocurso:todos[i].idtipoevento.nombre,area:todos[i].idarea.nombre,curso:tevento,nombre:todos[i].nombre + ' ' +todos[i].apellido,genero:todos[i].genero,correo:todos[i].correo,telefono:todos[i].telefono,edad:todos[i].edad});
-                                                resp.push({tipocurso:todos[i].idtipoevento.nombre,area:todos[i].idarea.nombre,curso:tevento});
+                                                resp.push({ubica:ubica,tipocurso:todos[i].idtipoevento.nombre,area:todos[i].idarea.nombre,curso:tevento});
                                         }
                                         res.json(resp);
                                 });
@@ -348,7 +350,7 @@ else
 
                                         //   res.json(todos2);
 
-                                                Evento.find({impresion:'Activo'}).lean().exec({}, function(err,todos) {
+                                                Evento.find({}).lean().exec({}, function(err,todos) {
                                                         if (err) res.send(err);
                                                         var myData = [];
                                                         var cc=0;
@@ -363,8 +365,12 @@ else
                                                                                 
                                                                 }       
 
+                                                                var d =new Date( todos[i].fechaini).toISOString().substr(0,10);   
+                                                                var n = d.split('-')   
+                                        
 
-                                                        myData.push({nombre:cleanName(todos[i].nombre),Noparticipantes:cc});
+                                                        myData.push({nombre:cleanName(todos[i].nombre),fechaini:d,
+                                                                ubicacion:todos[i].ubicacion,Noparticipantes:cc});
                                                         cc=0;
                                                         }
                                                         
@@ -491,6 +497,8 @@ else
 
 break;
 
+
+
 case 'excel-asigna33xxx':
 
 var myDataxxx = [];
@@ -513,7 +521,7 @@ Unidadplan2.find({}).exec(function(err, todos20) {
                                 }
                         }
 console.log(todos20[i].idsalon.nombre + ' ' + todos20[i]._id + ' ' +cuenta);
-                   //    getNextSequenceValue2( todos20[i].idsalon.nombre,todos20[i]._id,cuenta);
+                    getNextSequenceValue2( todos20[i].idsalon.nombre,todos20[i]._id,cuenta);
                 }
 
 
@@ -660,8 +668,8 @@ Userperfil.find({}).exec(function(err, todos20) {
                                                 
                                                 })
 
-                                                Cuentaccoriente.
-
+                                              //  Cuentaccoriente.
+/*
                                                 Curso.create({ 
                                                         idperfil:data1[i].idperfil,
                                                         idasigna:data1[i].idasigna,
@@ -704,7 +712,7 @@ Userperfil.find({}).exec(function(err, todos20) {
                                                         
                                                 
                                                     });
-
+*/
 
                                           
                                                 

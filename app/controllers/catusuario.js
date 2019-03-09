@@ -1,0 +1,112 @@
+
+var Catusuario = require('../models/catusuario');
+var Bitacora = require('../models/bitacora');
+
+exports.getCatusuario = function(req, res, next){
+    if(req.params.id2)
+    {  
+        if(req.params.id2=='categoria')
+        {
+            Catusuario.find({'idcategoria':req.params.id}).populate('idusuario').populate('idformulario').exec(function(err, todos) {
+                if (err){  res.send(err);  }
+                 res.json(todos);
+             });
+    
+        }
+        else
+        {
+        }
+    }
+    else
+    {
+       if(req.params.id)
+        {  
+                Catusuario.find({_id:req.params.id}).exec(function(err, todos) {
+                    if (err){ res.send(err); }
+                    if(todos.length>0)   {    res.json(todos);   }
+                    
+                });
+        }
+        else
+        { Catusuario.find({}).populate('idusuario').populate('idformulario').exec(function(err, todos) {
+               if (err){  res.send(err);  }
+                res.json(todos);
+            });
+        }}
+ 
+}
+exports.deleteCatusuario = function(req, res, next){
+   
+    Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina Categoria usuario '});
+    Catusuario.findByIdAndRemove({ _id: req.params.recordID  }, function(err, todo) {
+        res.json(todo);
+    });
+}
+
+
+exports.creaCatusuario2s = function(req, res, next){
+   
+ 
+   
+if(req.params.recordID!=='crea')
+{  Bitacora.create(req.body.bitacora);
+    Catusuario.findById({ _id: req.params.recordID }, function (err, todo)  {
+        if (err) {  res.send(err);  }
+        else
+        {  
+            todo.idcategoria        	=	req.body.idcategoria        	||	todo.idcategoria        	;
+            todo.idusuario        	=	req.body.idusuario        	||	todo.idusuario        	;
+            todo.idformulario        	=	req.body.idformulario        	||	todo.idformulario        	;
+            todo.nombre        	=	req.body.nombre        	||	todo.nombre        	;
+            todo.usuarioup=req.body.bitacora.email;
+            
+            
+            todo.save(function (err, todo){
+                if (err)     {  res.status(500).send(err.message)   }
+                res.json(todo);
+            });
+        }
+    });
+
+}
+else{
+
+    Bitacora.create(req.body.bitacora);
+    Catusuario.find({idusuario:req.body.idusuario ,idcategoria:req.body.idcategoria,idformulario        	: req.body.idformulario        },function(err, todos) {
+        if (err){ res.send(err); }
+      
+        if(todos.length>0)   {    res.status(500).send('Ya existe un formulario asignado a este usuario'); }
+        else
+        {   
+
+            Catusuario.create({
+                idcategoria        	: req.body.idcategoria        	,
+                idusuario        	: req.body.idusuario       ,
+                idformulario        	: req.body.idformulario       ,
+                nombre        	: req.body.nombre       ,
+                usuarionew:req.body.bitacora.email, 
+              }
+                , function(err, todo) {
+                if (err){ 
+                   
+                    res.status(500).send(err.message)    }
+            
+                res.json(todo);
+        
+             
+                
+        
+            });
+
+            
+             }
+        
+    });
+   
+ 
+}
+
+}
+
+
+
