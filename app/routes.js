@@ -316,7 +316,7 @@ eventoRoutes.delete('/:recordID/:userID',requireAuth,  EventoController.deleteEv
 
 //-----------------------------------PERFIL
 apiRoutes.use('/perfils', perfilRoutes);
-perfilRoutes.get('/',PerfilController.getPerfil);
+perfilRoutes.get('/',requireAuth,PerfilController.getPerfil);
 perfilRoutes.get('/:id',requireAuth,  PerfilController.getPerfil);
 perfilRoutes.get('/:id1/:id2',requireAuth,  PerfilController.getPerfil);
 perfilRoutes.post('/:recordID',requireAuth,  PerfilController.creaPerfil2s);
@@ -339,10 +339,12 @@ frmcatRoutes.delete('/:recordID/:userID',requireAuth,  FrmcatController.deleteFo
 apiRoutes.use('/frmmovils', frmmovilRoutes);
 frmmovilRoutes.get('/',requireAuth, FrmmovilController.getFrmmovil);
 frmmovilRoutes.get('/:id',requireAuth, FrmmovilController.getFrmmovil);
-frmmovilRoutes.get('/:id/:id2', FrmmovilController.getFrmmovil);
+frmmovilRoutes.get('/:id/:id2',requireAuth, FrmmovilController.getFrmmovil);
+frmmovilRoutes.get('/:id/:id2/:id3',requireAuth, FrmmovilController.getFrmmovil);
 frmmovilRoutes.post('/:recordID',requireAuth,  FrmmovilController.creaFrmmovil2s);
+frmmovilRoutes.post('/:recordID/:recordID2',requireAuth,  FrmmovilController.creaFrmmovil3s);
 frmmovilRoutes.delete('/:recordID/:userID',requireAuth,  FrmmovilController.deleteFrmmovil);
-
+frmmovilRoutes.delete('/:recordID/:recordID2/:userID',requireAuth,  FrmmovilController.deleteFrmmovil2);
 
 
 //-----------------------------------FRMMOVILD
