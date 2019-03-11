@@ -78,7 +78,6 @@ exports.creaFormcat2s = function(req, res, next){
             if (err) {  res.send(err);  }
             else
             {  
-                
                 todo.idunidad        	=	req.body.idunidad        	||	todo.idunidad;        	;
                 todo.nombre        	=	req.body.nombre        	||	todo.nombre        	;
                 todo.usuarioup=req.body.bitacora.email;

@@ -2,6 +2,11 @@
 var Catusuario = require('../models/catusuario');
 var Bitacora = require('../models/bitacora');
 
+function onlyUnique(value, index, self) { 
+    return self.indexOf(value) === index;
+}
+
+
 exports.getCatusuario = function(req, res, next){
     if(req.params.id2)
     {  
@@ -15,6 +20,41 @@ exports.getCatusuario = function(req, res, next){
         }
         else
         {
+            if(req.params.id2=='categoriausr')
+            {
+                Catusuario.find({'idusuario':req.params.id}).populate('idcategoria').exec(function(err, todos) {
+                    if (err){  res.send(err);  }
+                    var myData = [];
+                    for(var i = 0; i < todos.length;i++){
+                        myData.push({_id:todos[i].idcategoria._id,nombre:todos[i].idcategoria.nombre });
+                    }
+    
+
+                    var unique =   myData.filter( onlyUnique );
+
+                    var myData2 = [];
+                    var arre=['yellow','red','green','blue','purple','violet','turquoise']    
+                    var j=0;
+                                 for(var i = 0; i < unique.length;i++){
+                                    if(j==6){j=0;} 
+                                     myData2.push({_id:unique[i]._id,nombre:unique[i].nombre,"colort":"box " + arre[j] });
+                                 }
+                 
+                                  res.json(myData2);
+
+
+                  
+
+
+                 });
+        
+            }
+            else
+            {
+    
+                
+            }
+
         }
     }
     else

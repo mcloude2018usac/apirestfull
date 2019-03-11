@@ -115,7 +115,7 @@ else{
 
                         required :'true' 	,
                         placeholder :'Ingrese un '+ req.body.title+'  Valido'	,
-                        display :'selected'	,
+                        display :'true'	,
                         selected :true 	,
                         disabled :'false' 	,
                         hidden :'false' 	,
