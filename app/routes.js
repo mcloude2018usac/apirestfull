@@ -14,6 +14,7 @@ var AuthenticationController = require('./controllers/authentication'),
     EventoController = require('./controllers/eventos'),
     FrmmovilController = require('./controllers/frmmovil'),
     FrmcatController = require('./controllers/formcat'),
+    Frmcat2Controller = require('./controllers/frmcat2'),
     FrmmovildController = require('./controllers/frmmovild'),
     PerfilController = require('./controllers/perfil'),
     EmpresaController = require('./controllers/empresa'),
@@ -101,6 +102,7 @@ module.exports = function(app){
         eventoRoutes = express.Router(),
         frmmovilRoutes = express.Router(),
         frmcatRoutes = express.Router(),
+        frmcat2Routes = express.Router(),
         frmmovildRoutes = express.Router(),
         perfilRoutes = express.Router(),
         mailRoutes = express.Router(),
@@ -328,10 +330,19 @@ perfilRoutes.delete('/:recordID/:userID',requireAuth,  PerfilController.deletePe
 apiRoutes.use('/frmcats', frmcatRoutes);
 frmcatRoutes.get('/',requireAuth, FrmcatController.getFormcat);
 frmcatRoutes.get('/:id',requireAuth,  FrmcatController.getFormcat);
-frmcatRoutes.get('/:id/:id2',requireAuth,  FrmcatController.getFormcat);
+frmcatRoutes.get('/:id/:id2', requireAuth,  FrmcatController.getFormcat);
 frmcatRoutes.post('/:recordID', requireAuth,  FrmcatController.creaFormcat2s);
 frmcatRoutes.delete('/:recordID/:userID',requireAuth,  FrmcatController.deleteFormcat);
 
+
+
+//-----------------------------------FRMCAT2
+apiRoutes.use('/frmcat2s', frmcat2Routes);
+frmcat2Routes.get('/',requireAuth, Frmcat2Controller.getFormcat2);
+frmcat2Routes.get('/:id/:id2', requireAuth,  Frmcat2Controller.getFormcat2);
+frmcat2Routes.get('/:id', requireAuth,  Frmcat2Controller.getFormcat2);
+frmcat2Routes.post('/:recordID', requireAuth,  Frmcat2Controller.creaFormcat22s);
+frmcat2Routes.delete('/:recordID/:userID',requireAuth,  Frmcat2Controller.deleteFormcat2);
 
 
 
@@ -339,7 +350,7 @@ frmcatRoutes.delete('/:recordID/:userID',requireAuth,  FrmcatController.deleteFo
 apiRoutes.use('/frmmovils', frmmovilRoutes);
 frmmovilRoutes.get('/',requireAuth, FrmmovilController.getFrmmovil);
 frmmovilRoutes.get('/:id',requireAuth, FrmmovilController.getFrmmovil);
-frmmovilRoutes.get('/:id/:id2',requireAuth, FrmmovilController.getFrmmovil);
+frmmovilRoutes.get('/:id/:id2', FrmmovilController.getFrmmovil);
 frmmovilRoutes.get('/:id/:id2/:id3',requireAuth, FrmmovilController.getFrmmovil);
 frmmovilRoutes.post('/:recordID',requireAuth,  FrmmovilController.creaFrmmovil2s);
 frmmovilRoutes.post('/:recordID/:recordID2',requireAuth,  FrmmovilController.creaFrmmovil3s);
@@ -650,7 +661,7 @@ denunciaunidadRoutes.delete('/:recordID/:userID',requireAuth, DenunciaunidadCont
 apiRoutes.use('/catusuarios', catusuarioRoutes);
 catusuarioRoutes.get('/',requireAuth, CatusuarioController.getCatusuario);
 catusuarioRoutes.get('/:id',requireAuth,  CatusuarioController.getCatusuario);
-catusuarioRoutes.get('/:id/:id2',requireAuth, CatusuarioController.getCatusuario);
+catusuarioRoutes.get('/:id/:id2', CatusuarioController.getCatusuario);
 catusuarioRoutes.post('/:recordID', requireAuth, CatusuarioController.creaCatusuario2s);
 catusuarioRoutes.delete('/:recordID/:userID',requireAuth, CatusuarioController.deleteCatusuario);
 
