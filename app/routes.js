@@ -350,7 +350,7 @@ frmcat2Routes.delete('/:recordID/:userID',requireAuth,  Frmcat2Controller.delete
 apiRoutes.use('/frmmovils', frmmovilRoutes);
 frmmovilRoutes.get('/',requireAuth, FrmmovilController.getFrmmovil);
 frmmovilRoutes.get('/:id',requireAuth, FrmmovilController.getFrmmovil);
-frmmovilRoutes.get('/:id/:id2', FrmmovilController.getFrmmovil);
+frmmovilRoutes.get('/:id/:id2',requireAuth, FrmmovilController.getFrmmovil);
 frmmovilRoutes.get('/:id/:id2/:id3',requireAuth, FrmmovilController.getFrmmovil);
 frmmovilRoutes.post('/:recordID',requireAuth,  FrmmovilController.creaFrmmovil2s);
 frmmovilRoutes.post('/:recordID/:recordID2',requireAuth,  FrmmovilController.creaFrmmovil3s);
