@@ -1,8 +1,5 @@
 
 var nodemailer = require('nodemailer');
-
-
-
    
    
 exports.getMail2 = function(req1, res){

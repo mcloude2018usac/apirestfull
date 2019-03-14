@@ -3,6 +3,7 @@ var Frmmovil = require('../models/frmmovil');
 var Frmmovild = require('../models/frmmovild');
 var Bitacora = require('../models/bitacora');
 var Catusuario = require('../models/catusuario');
+var Formcat2 = require('../models/frmcat2');
                             
 function onlyUnique(value, index, self) { 
     return self.indexOf(value) === index;
@@ -43,6 +44,15 @@ switch(value) {
       var jsonObject = JSON.parse(JSONString);
       return jsonObject;
   }
+
+
+  function objectFindByKey(array, key, value) {
+    return array[0][0];
+  //  return this.array(function(x) { return x[key] })
+
+}
+
+
   
   // Convert javascript object to json string.
   function objectToString(jsObject) {
@@ -55,6 +65,36 @@ switch(value) {
   }
   
  
+  function daarreglo(data,op) {
+  
+    var val=[]
+
+    //return data.map(function(item,index){      return item.idunidad === op;   });
+     //val = data.filter(function(item){        return item.idunidad === op;   });
+   // val= data.forEach(function(item,index){      return item.idunidad === op;   });
+  
+    for(var i = 0; i <data.length; i++) {
+             if(data[i].idunidad==op)
+             {
+
+                val.push({key:data[i]._id,label:data[i].nombre});
+             }
+    }
+    
+   return val;
+
+    
+}
+
+
+var objectToArray = function(obj) {
+    var _arr = [];
+
+    for (var key in obj) {
+        _arr.push([key, obj[key]]);
+    }
+    return _arr;
+}
  
 exports.getFrmmovil = function(req, res, next){
 
@@ -114,7 +154,7 @@ exports.getFrmmovil = function(req, res, next){
             for(var i = 0; i < todos.length;i++){
                 if(todos[i].display=='true')
                 {
-                    data.push(todos[i].name)
+                    data.push({name:todos[i].name,nombre:todos[i].title})
                 }
                 
             }
@@ -129,8 +169,16 @@ exports.getFrmmovil = function(req, res, next){
                                         if(todos.length>0)   {     
                                             var cad=''
                                             for(var i = 0; i < todos.length;i++){
-     
-                                                cad=cad+'"'+todos[i].nombre+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
+                                                
+                                                if(todos[i].type.nombre=='Lista de valores')
+                                                {
+                                                    cad=cad+'"'+todos[i].nombre+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
+                                                }
+                                                else
+                                                {
+                                                    cad=cad+'"'+todos[i].nombre+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
+                                                }
+                                                
                                             
                                             }
                                             cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" }'
@@ -144,7 +192,39 @@ exports.getFrmmovil = function(req, res, next){
                                                 var  frmtt= mongoose.model(namess,tt);
                                                 frmtt.find({},function(err, todos2) {
                                                     if (err){  res.send(err);  }
-                                                    res.json(todos2); 
+
+                                                    Frmmovild.find({idmovil:req.params.id},function(err, todos100) {
+                                                        if (err){  res.send(err);  }
+                                                        var cad2=''
+                                                        for(var i = 0; i < todos100.length;i++){
+                                                            var bb=todos100[i]['name'];
+                                                            for(var j = 0; j < todos2.length;j++){
+                                                                var bb1=todos2[j][bb]
+                                                                var bb10 =todos100[i]['title'];
+                                                                    if( j==todos2.length-1)
+                                                                    {
+                                                                        cad2=cad2+'"'+bb10+'"' + ':'  + '"'+ bb1  + '"'+ ',';
+                                                           
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        cad2=cad2+'"'+bb10+'"' + ':'  + '"'+ bb1  + '"'+ ',';
+                                                                    }
+                                                               
+                                                            }
+
+                                                            
+                                                         
+                                                            
+                                                        }
+                                                        cad2='{' + cad2.substr(0,cad2.length-1) + '}'
+                                                        var jsonObject2 = stringToObject(cad2);
+                                                        res.json(jsonObject2);
+                                                        
+                                                    });
+
+
+                                                  
                                                   
                                                 });
                                               } catch(e) {
@@ -153,8 +233,39 @@ exports.getFrmmovil = function(req, res, next){
                                       
                                                 frmtt.find({},function(err, todos2) {
                                                      if (err){  res.send(err);  }
-                                                     res.json(todos2); 
-                                                   
+                                                     Frmmovild.find({idmovil:req.params.id},function(err, todos100) {
+                                                        if (err){  res.send(err);  }
+                                                        var cad2=''
+                                                        for(var i = 0; i < todos100.length;i++){
+                                                            var bb=todos100[i]['name'];
+                                                            for(var j = 0; j < todos2.length;j++){
+                                                                var bb1=todos2[j][bb]
+                                                                var bb10 =todos100[i]['title'];
+                                                                    if( j==todos2.length-1)
+                                                                    {
+                                                                        cad2=cad2+'"'+bb10+'"' + ':'  + '"'+ bb1  + '"'+ ',';
+                                                           
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        cad2=cad2+'"'+bb10+'"' + ':'  + '"'+ bb1  + '"'+ ',';
+                                                                    }
+                                                               
+                                                            }
+
+                                                            
+                                                         
+                                                            
+                                                        }
+                                                        cad2='{' + cad2.substr(0,cad2.length-1) + '}'
+                                                        var obj = stringToObject(cad2);
+                                                        var arrar22 = objectToArray(obj)
+                                                          
+                                                        res.json(todos2);
+                                                        
+                                                    });
+
+
                                                  });
                                               }
     
@@ -169,35 +280,50 @@ exports.getFrmmovil = function(req, res, next){
   case 'formulariod':
   var namess=req.params.id
  
-  Frmmovild.find({idmovil:req.params.id}).populate('type').exec(function(err, todos) {
-      if (err){ res.send(err); }
-                          if(todos.length>0)   {   
-                              
-                            var data=[];
-                            for(var i = 0; i < todos.length;i++){
-                                data.push({    
-                                idmovil	:  todos[i].idmovil._id,
-                                type   		: datipo2(todos[i].type.nombre) ,
-                                name   		: todos[i].name,
-                                nombre   		:  todos[i].nombre,
-                                order:	  todos[i].order,
-                                title:   todos[i].title,
-                                estado	:  todos[i].estado,
-                                required: 	 todos[i].required,
-                                placeholder:  todos[i].placeholder,
-                                display:  todos[i].display,
-                                selected:  todos[i].selected,
-                                disabled:  todos[i].disabled,
-                                hidden:   todos[i].hidden,
-                                position:  todos[i].position,
-                                labelsizefondt:  todos[i].labelsizefondt,
-                                });
+  Formcat2.find({idformulario:req.params.id}).exec(function(err, todos1) {
+    if (err){ res.send(err); }
+                        if(todos1.length>0)   {   
+                        }
 
+                        Frmmovild.find({idmovil:req.params.id}).populate('type').exec(function(err, todos) {
+                            if (err){ res.send(err); }
+                                                if(todos.length>0)   {   
+                                                  
+                                                  var data=[];
+                                                  for(var i = 0; i < todos.length;i++){
 
+                                                     
+                                                      data.push({  
+                                                      _id :  todos[i]._id, 
+                                                      idmovil	:  todos[i].idmovil._id,
+                                                      type   		: datipo2(todos[i].type.nombre) ,
+                                                      name   		: todos[i].name,
+                                                      nombre   		:  todos[i].nombre,
+                                                      order:	  todos[i].order,
+                                                      title:   todos[i].title,
+                                                      estado	:  todos[i].estado,
+                                                      required: 	 todos[i].required,
+                                                      placeholder:  todos[i].placeholder,
+                                                      display:  todos[i].display,
+                                                      selected:  todos[i].selected,
+                                                      disabled:  todos[i].disabled,
+                                                      hidden:   todos[i].hidden,
+                                                      position:  todos[i].position,
+                                                      labelsizefondt:  todos[i].labelsizefondt,
+                                                      categoria:  todos[i].categoria,
+                                                      combofijo:  todos[i].combofijo,
+                                                      options:daarreglo(todos1,todos[i]._id)
+                                                      });
+                      
+                      
+                                                  }
+                                                  res.json(data); 
                             }
-                            res.json(data); 
-      }
-  });
+                        });
+
+
+    });
+ 
 
 break;
             default:
@@ -246,7 +372,18 @@ exports.deleteFrmmovil2 = function(req, res, next){
                                  var cad=''
                                 for(var i = 0; i < todos.length;i++){
                                
-                                    cad=cad+'"'+todos[i].nombre+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
+                                  //  cad=cad+'"'+todos[i].nombre+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
+
+                                  if(todos[i].type.nombre=='Lista de valores')
+                                  {
+                                      cad=cad+'"'+todos[i].nombre+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
+                                  }
+                                  else
+                                  {
+                                      cad=cad+'"'+todos[i].nombre+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
+                                  }
+
+
                                 }
 
                                 cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"}'
@@ -258,10 +395,9 @@ exports.deleteFrmmovil2 = function(req, res, next){
                                 var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
 
                                 try {
-                                    console.log('bueno')
-                                    console.log(jsonObject)
+                                 
                                     var  frmtt= mongoose.model(namess,tt);
-                                    console.log('bueno2')
+                                  
                                     frmtt.findByIdAndRemove({ _id: req.params.recordID }, function(err, todo) {
                                        
                                             res.json(todo);
@@ -271,9 +407,9 @@ exports.deleteFrmmovil2 = function(req, res, next){
 
                                   
                                   } catch(e) {
-                                      console.log(e)
+                                 
                                     var  frmtt= mongoose.model(namess);
-                                    console.log('error PASSAAA')
+                                  
                                     frmtt.findByIdAndRemove({ _id: req.params.recordID }, function(err, todo) {
                                         res.json(todo);
                                     });
@@ -299,7 +435,15 @@ if(req.params.recordID!=='crea')
                                  var cad=''
                                 for(var i = 0; i < todos.length;i++){
                                
-                                    cad=cad+'"'+todos[i].nombre+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
+                                    //cad=cad+'"'+todos[i].nombre+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
+                                    if(todos[i].type.nombre=='Lista de valores')
+                                    {
+                                        cad=cad+'"'+todos[i].nombre+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
+                                    }
+                                    else
+                                    {
+                                        cad=cad+'"'+todos[i].nombre+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
+                                    }
                                 }
 
                                 cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"}'
@@ -331,7 +475,7 @@ if(req.params.recordID!=='crea')
 */
                                   
                                   } catch(e) {
-                                      console.log('error')
+                                    
                                     var  frmtt= mongoose.model(namess);
                                     frmtt.update({ _id: req.params.recordID }, req.body.estructura, function(err, todo3) {
                                         if (err){       res.status(500).send(err.message)    }
@@ -368,7 +512,15 @@ else{
                                  var cad=''
                                 for(var i = 0; i < todos.length;i++){
                                
-                                    cad=cad+'"'+todos[i].nombre+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
+                                   // cad=cad+'"'+todos[i].nombre+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
+                                   if(todos[i].type.nombre=='Lista de valores')
+                                   {
+                                       cad=cad+'"'+todos[i].nombre+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
+                                   }
+                                   else
+                                   {
+                                       cad=cad+'"'+todos[i].nombre+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
+                                   }
                                 }
 
                                 cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"}'
@@ -390,7 +542,7 @@ else{
                                         });
                                   
                                   } catch(e) {
-                                      console.log('error')
+                                    
                                     var  frmtt= mongoose.model(namess);
                                     frmtt.create(req.body.estructura
                                         , function(err, todo3) {
@@ -419,7 +571,7 @@ else{
 
 exports.creaFrmmovil2s = function(req, res, next){
    
- console.log('entra a dos')
+
     Bitacora.create(req.body.bitacora);
 if(req.params.recordID!=='crea')
 { 

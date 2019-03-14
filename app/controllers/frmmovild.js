@@ -75,6 +75,10 @@ if(req.params.id!=='crea')
             todo.hidden		=	    req.body.hidden        	||	todo.hidden        	;
             todo.position		=	req.body.position        	||	todo.position        	;
             todo.labelsizefondt		=	req.body.labelsizefondt        	||	todo.labelsizefondt        	;
+
+            todo.categoria   			=	req.body.categoria        	||	todo.categoria        	;
+            todo.combofijo   			=	req.body.combofijo        	   	;
+
             todo.usuarioup=req.body.bitacora.email;
             
             
@@ -122,6 +126,8 @@ else{
                         
                         position :'fixed' 	,
                         labelsizefondt :'14'	,
+                        categoria:'' ,
+                        combofijo:'true',
                     
                         usuarionew:req.body.bitacora.email
                 }

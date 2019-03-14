@@ -18,7 +18,7 @@ exports.getFormcat = function(req, res, next){
                     for(var i = 0; i < todos.length;i++){
 
                          if(j==6){j=0;} 
-                            myData.push({"_id":"5c7d3c3131b6300e184bc270","nombre":todos[i].nombre,"colort":"box " + arre[j]});
+                            myData.push({"_id":todos[i]._id,"nombre":todos[i].nombre,"colort":"box " + arre[j]});
                             j=j+1;
                     }
                                                             
@@ -38,14 +38,40 @@ exports.getFormcat = function(req, res, next){
         else
         {
 
+            if(req.params.id=='movil')    {
+                Formcat.find({idunidad:req.params.id2},function(err, todos) {
+                    if (err){ res.send(err); }
+                   
+                    if(todos.length>0)   {  
+                    
+                        var myData2 = [];
+                        for(var i = 0; i < todos.length;i++){
+                           myData2.push({key:todos[i]._id,label:todos[i].nombre});
+                       }
+       
+                        res.json(myData2);
+
+                       
+                    
+                    }
+                  
+                    
+                });
+    
+            }
+            else
+            {
+
+                Formcat.find({idunidad:req.params.id2},function(err, todos) {
+                    if (err){ res.send(err); }
+                   
+                    if(todos.length>0)   {    res.json(todos);   }
+                  
+                    
+                });
+    
+            }  
         
-            Formcat.find({idunidad:req.params.id2},function(err, todos) {
-                if (err){ res.send(err); }
-               
-                if(todos.length>0)   {    res.json(todos);   }
-              
-                
-            });
     
 
 
