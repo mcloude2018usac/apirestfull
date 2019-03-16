@@ -18,7 +18,7 @@ var mongoose =require("mongoose");
        
         position: { type : String, required : true },
         labelsizefondt: { type : String, required : true },
-        categoria: { type : String, required : true },
+        categoria: { type : String },
         combofijo: { type : String },
         usuarionew	: { type : String },      usuarioup	: { type : String }}, {
         timestamps: true
