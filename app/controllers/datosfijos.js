@@ -62,6 +62,26 @@ var cleanName = function(str) {
             });
       }
 
+
+      
+  function buscaarray(data,asigna,perfil,horario,materia) {
+        var val=0
+        for(var i = 0; i <data.length; i++) {
+                 if(data[i].idasigna==asigna && data[i].idperfil==perfil  && data[i].idhorario==horario 
+                        && data[i].idmateria==materia  )
+                 {
+                        val=1;
+                    break;
+                 }
+        }
+        
+       return val;
+    
+        
+    }
+
+
+
 exports.getCombofijo = function(req, res, next){
        var sql='';
 
@@ -595,6 +615,10 @@ case 'excel-papcuenta':
 
 var myDataxxx = [];
 
+
+Cuentaccoriente.find({}).exec(function(err, todos20ab) {
+        if (err){ res.send(err); }
+
 Userperfil.find({}).exec(function(err, todos20) {
         if (err){ res.send(err); }
  var cuentatt=1
@@ -606,7 +630,7 @@ Userperfil.find({}).exec(function(err, todos20) {
                         for(var j = 0; j < todos300.length;j++){
                                 if(todos20[i].userId==todos300[j].userId)
                                 {  var cc='';var cc2=''
-                                cc=todos20[i].carne;  cc2=todos20[i].nov;
+                                       cc=todos20[i].carne;  cc2=todos20[i].nov;
                                         if(todos20[i].carne=='0')   {   cc='';     }
                                         if(todos20[i].nov=='0')   {   cc2='';     }
                                         data1.push({idperfil:todos20[i]._id,
@@ -636,73 +660,37 @@ Userperfil.find({}).exec(function(err, todos20) {
                                 for(var j = 0; j < todos500.length;j++){
                                         if(data1[i].idasigna==todos500[j].idasigna)
                                         { 
-                                                data2.push({idperfil:data1[i].idperfil,
-                                                        idasigna:data1[i].idasigna,
-                                                        nov:data1[i].nov,
-                                                        carne:data1[i].carne,
-                                                        nombre:data1[i].nombre,
-                                                        noboleta:data1[i].noboleta,
-                                                        monto:data1[i].monto,
-                                                        cui:data1[i].cui,
-                                                        idtipounidad:todos500[j].idtipounidad.nombre,
-                                                        idunidadacademica:todos500[j].idunidadacademica.nombre,
-                                                        idperiodo:todos500[j].idperiodo.nombre,
-                                                        idedificio:todos500[j].idedificio.nombre,
-                                                        idsalon:todos500[j].idsalon.nombre,
-                                                        idjornada:todos500[j].idjornada,
-                                                        idestudiante:todos500[j].idestudiante,
-                                                        idhorario:todos500[j].idhorario,
-                                                        idmateria:todos500[j].idmateria,
-                                                        usuarionew:todos500[j].usuarionew,
-                                                        deudaactual:1000,
-                                                        deposito1:0,
-                                                        deporsito2:0,
-                                                        deposito3:0,
-                                                        deposito4:0,
-                                                        deposito5:0,
-                                                        saldoactual:1000,
-                                                        noboleta2:0,
-                                                        noboleta3:0,
-                                                        noboleta4:0,
-                                                        noboleta5:0
                                                 
-                                                })
-
-                                              //  Cuentaccoriente.
-/*
-                                                Curso.create({ 
-                                                        idperfil:data1[i].idperfil,
-                                                        idasigna:data1[i].idasigna,
-                                                        nov:data1[i].nov,
-                                                        carne:data1[i].carne,
-                                                        nombre:data1[i].nombre,
-                                                        noboleta:data1[i].noboleta,
-                                                        monto:data1[i].monto,
-                                                        cui:data1[i].cui,
-                                                        idtipounidad:todos500[j].idtipounidad.nombre,
-                                                        idunidadacademica:todos500[j].idunidadacademica.nombre,
-                                                        idperiodo:todos500[j].idperiodo.nombre,
-                                                        idedificio:todos500[j].idedificio.nombre,
-                                                        idsalon:todos500[j].idsalon.nombre,
-                                                        idjornada:todos500[j].idjornada,
-                                                        idestudiante:todos500[j].idestudiante,
-                                                        idhorario:todos500[j].idhorario,
-                                                        idmateria:todos500[j].idmateria,
-                                                        usuarionew:todos500[j].usuarionew,
-                                                        deudaactual:1000,
-                                                        deposito1:0,
-                                                        deporsito2:0,
-                                                        deposito3:0,
-                                                        deposito4:0,
-                                                        deposito5:0,
-                                                        saldoactual:1000,
-                                                        noboleta2:0,
-                                                        noboleta3:0,
-                                                        noboleta4:0,
-                                                        noboleta5:0
-
-
-                                                 }
+                                                var val = buscaarray(todos20ab, data1[i].idasigna , data1[i].idperfil
+                                                       , todos500[j].idhorario,todos500[j].idmateria);
+                                              
+                                                        console.log(val)
+                                               if(val==0)
+                                               {         
+                                               Cuentaccoriente.create({ 
+                                                idperfil:data1[i].idperfil,
+                                                idasigna:data1[i].idasigna,
+                                                nov:data1[i].nov,
+                                                carne:data1[i].carne,
+                                                nombre:data1[i].nombre,
+                                                noboleta:data1[i].noboleta,
+                                                monto:data1[i].monto,
+                                                cui:data1[i].cui,
+                                                idtipounidad:todos500[j].idtipounidad.nombre,
+                                                idunidadacademica:todos500[j].idunidadacademica.nombre,
+                                                idperiodo:todos500[j].idperiodo.nombre,
+                                                idedificio:todos500[j].idedificio.nombre,
+                                                idsalon:todos500[j].idsalon.nombre,
+                                                idjornada:todos500[j].idjornada,
+                                                idestudiante:todos500[j].idestudiante,
+                                                idhorario:todos500[j].idhorario,
+                                                idmateria:todos500[j].idmateria,
+                                                usuarionew:todos500[j].usuarionew,
+                                                deudaactual:1000,
+                                                deposito1:0, deporsito2:0, deposito3:0,  deposito4:0, deposito5:0,
+                                                saldoactual:1000,
+                                                noboleta2:0,   noboleta3:0,      noboleta4:0,    noboleta5:0
+                                                }
                                                         , function(err, todo) {
                                                         if (err){ res.status(500).send(err.message)    }
                                                     
@@ -712,7 +700,7 @@ Userperfil.find({}).exec(function(err, todos20) {
                                                         
                                                 
                                                     });
-*/
+                                                }
 
                                           
                                                 
@@ -722,13 +710,13 @@ Userperfil.find({}).exec(function(err, todos20) {
                               
                         }
                                             
-res.json({data2});
+res.json(todos500);
                      
                 });
         });
 
 });
-
+});
 
 
 
@@ -872,11 +860,11 @@ Userperfil.find({}).exec(function(err, todos20) {
                                 if(todos2.length>0)   {  
                                          var myData = [];
                                         for(var i = 0; i < todos20.length;i++){
-
+                                                var ii=0;
                                                 for(var j = 0; j < todos2.length;j++){
                                                         if(todos20[i].usuarionew==todos2[j].usuarionew)
                                                         {
-
+ii=1;
                                                              
                                                 
                                         myData.push({usuarionew:todos20[i].usuarionew,idasigna:todos2[j]._id,nov:todos20[i].nov,carne:todos20[i].carne,
@@ -889,15 +877,33 @@ Userperfil.find({}).exec(function(err, todos20) {
 
                                                         }  
                                                 }
-                                              
+                                              if(ii==0)
+                                              {//encuentra todos los userperfil que no tengan asiganpap
+                                             //   console.log(todos20[i]);
+                                                console.log(todos20[i]._id  + ',' + todos20[i].userId + ',' + todos20[i].cui+ ',' + todos20[i].nov + ',' + todos20[i].nombre1+ ' ' + todos20[i].nombre2 + ' ' + todos20[i].nombre3+ ' ' + todos20[i].nombre4+ ',' + todos20[i].usuarionew);
+                                              //  console.log(todos20[i]._id + ','+todos20[i].cui + ',' + ','+todos20[i].nombre1 + ' ' + todos[i].nombre2+ ' '+ todos20[i].nombre3 + ' ' + todos[i].nombre4 + ','+todos20[i].carne + ','+todos20[i].userId+ ','+todos20[i].usuarionew )
+                                          /*    date: 2019-02-25T15:05:19.484Z,
+                                              _id: 5c74042f8859720016d9b40d,
+                                              userId: '5bbd134e20477c0013e36754',
+                                              cui: '3035538710110',
+                                              nov: '2018039111',
+                                              nombre1: 'Luis',
+                                              nombre2: 'Fernando',
+                                              nombre3: 'Chajón',
+                                              nombre4: 'Hernández',
+                                              telefono: '49092537',
+                                              fechanac: 2001-04-18T00:00:00.000Z,
+                                              genero: 'Masculino',
+                                              */
+                                              }
 
                                         }
-
+                                                //busca todos los usuarios que tengan asinacion papa
                                         Asignaest.find({}).exec(function(err, todos200) {
                                                 if (err){ res.send(err); }
 
                                                 var myData2 = [];
-                     var  aaa=1;
+                                                 var  aaa=1;
                                                 for(var j = 0; j < todos200.length;j++){
                                                         aaa=1;
                                                            for(var i = 0; i < myData.length;i++){
@@ -928,8 +934,9 @@ Userperfil.find({}).exec(function(err, todos20) {
                                                                 {
                                                                        
 
-                           
-                                                                              console.log(todos200[j]._id+ ' '+ todos200[j].userId)
+                                                                                //encuentra todos los asigna papa que no tengan asignacion
+                                                                                //hay que borrar o volver a generar
+                                                                              console.log(todos200[j].idasigna + ','+ todos200[j].nombre+ ','+ todos200[j].idestudiante+ ','+ todos200[j].no_orientacion+ ','+ todos200[j].idmateria+ ' '+ todos200[j].jornada+ ' '+ todos200[j].idhorario + ' '+ todos200[j].idsalon.nombre)
 
                                                                             
 

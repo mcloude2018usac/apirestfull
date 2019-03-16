@@ -131,7 +131,7 @@ exports.getFrmmovil = function(req, res, next){
     else
     {
     if(req.params.id2)
-    { 
+    { console.log('entra en dos')
         switch(req.params.id2) {
             case 'estado':
                     Frmmovil.find({estado:req.params.id},function(err, todos) {
@@ -148,14 +148,13 @@ exports.getFrmmovil = function(req, res, next){
               });
         break;
         case 'formulariocamposver':
-        Frmmovild.find({idmovil:req.params.id},function(err, todos) {
+        Frmmovild.find({idmovil:req.params.id, display : "true"},function(err, todos) {
             if (err){  res.send(err);  }
             var data=[]
             for(var i = 0; i < todos.length;i++){
-                if(todos[i].display=='true')
-                {
+                
                     data.push({name:todos[i].name,nombre:todos[i].title})
-                }
+                
                 
             }
             res.json(data);
@@ -163,6 +162,7 @@ exports.getFrmmovil = function(req, res, next){
         });
         break;
         case 'formulario':
+        console.log('entra en formulario')
             var namess=req.params.id
                 Frmmovild.find({idmovil:req.params.id, display : "true"}).populate('type').exec(function(err, todos) {
                     if (err){ res.send(err); }
@@ -172,11 +172,11 @@ exports.getFrmmovil = function(req, res, next){
                                                 
                                                 if(todos[i].type.nombre=='Lista de valores')
                                                 {
-                                                    cad=cad+'"'+todos[i].nombre+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
+                                                    cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
                                                 }
                                                 else
                                                 {
-                                                    cad=cad+'"'+todos[i].nombre+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
+                                                    cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
                                                 }
                                                 
                                             
@@ -192,7 +192,8 @@ exports.getFrmmovil = function(req, res, next){
                                                 var  frmtt= mongoose.model(namess,tt);
                                                 frmtt.find({},function(err, todos2) {
                                                     if (err){  res.send(err);  }
-
+                                                    res.json(todos2);
+/*
                                                     Frmmovild.find({idmovil:req.params.id},function(err, todos100) {
                                                         if (err){  res.send(err);  }
                                                         var cad2=''
@@ -222,7 +223,7 @@ exports.getFrmmovil = function(req, res, next){
                                                         res.json(jsonObject2);
                                                         
                                                     });
-
+*/
 
                                                   
                                                   
@@ -233,6 +234,8 @@ exports.getFrmmovil = function(req, res, next){
                                       
                                                 frmtt.find({},function(err, todos2) {
                                                      if (err){  res.send(err);  }
+                                                     res.json(todos2);
+/*
                                                      Frmmovild.find({idmovil:req.params.id},function(err, todos100) {
                                                         if (err){  res.send(err);  }
                                                         var cad2=''
@@ -264,7 +267,7 @@ exports.getFrmmovil = function(req, res, next){
                                                         res.json(todos2);
                                                         
                                                     });
-
+*/
 
                                                  });
                                               }
@@ -376,11 +379,11 @@ exports.deleteFrmmovil2 = function(req, res, next){
 
                                   if(todos[i].type.nombre=='Lista de valores')
                                   {
-                                      cad=cad+'"'+todos[i].nombre+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
+                                      cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
                                   }
                                   else
                                   {
-                                      cad=cad+'"'+todos[i].nombre+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
+                                      cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
                                   }
 
 
@@ -438,11 +441,11 @@ if(req.params.recordID!=='crea')
                                     //cad=cad+'"'+todos[i].nombre+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
                                     if(todos[i].type.nombre=='Lista de valores')
                                     {
-                                        cad=cad+'"'+todos[i].nombre+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
+                                        cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
                                     }
                                     else
                                     {
-                                        cad=cad+'"'+todos[i].nombre+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
+                                        cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
                                     }
                                 }
 
@@ -450,7 +453,7 @@ if(req.params.recordID!=='crea')
                                 cad='{' + cad + '}'
                                 var jsonObject = stringToObject(cad);
                                
-                              
+                              console.log(jsonObject)
                                 var mongoose = require("mongoose");
                                 var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
 
@@ -515,24 +518,25 @@ else{
                                    // cad=cad+'"'+todos[i].nombre+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
                                    if(todos[i].type.nombre=='Lista de valores')
                                    {
-                                       cad=cad+'"'+todos[i].nombre+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
+                                       cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
                                    }
                                    else
                                    {
-                                       cad=cad+'"'+todos[i].nombre+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
+                                       cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
                                    }
                                 }
 
                                 cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"}'
                                 cad='{' + cad + '}'
                                 var jsonObject = stringToObject(cad);
-                               
+                                console.log(jsonObject)
                               
                                 var mongoose = require("mongoose");
                                 var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
 
                                 try {
                                     var  frmtt= mongoose.model(namess,tt);
+                                    console.log(req.body.estructura)
                                     frmtt.create(req.body.estructura
                                         , function(err, todo3) {
                                         if (err){       res.status(500).send(err.message)    }
@@ -544,6 +548,7 @@ else{
                                   } catch(e) {
                                     
                                     var  frmtt= mongoose.model(namess);
+                                    console.log(req.body.estructura)
                                     frmtt.create(req.body.estructura
                                         , function(err, todo3) {
                                         if (err){       res.status(500).send(err.message)    }

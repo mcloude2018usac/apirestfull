@@ -92,16 +92,18 @@ if(req.params.id!=='crea')
 }
 else{
   
+    var nombret=req.body.name 	    
+    nombret=(nombret).toLowerCase().replace(' ','').replace(/[|&;$%@"<>()+,]/g,'');
 
     Frmmovild.find({ idmovil	:req.body.idmovil 	,
        
-        name   	:req.body.name 	    	
+        name   	:nombret
       
         
          },function(err, todos) {
         if (err){ res.send(err); }
       
-        if(todos.length>0)   {    res.status(500).send('Ya existe un tipo campo con este nombre'); }
+        if(todos.length>0)   {    res.status(500).send('Ya existe un tipo campo con este nombre : ' + nombret); }
         else
         {   
 
@@ -110,8 +112,8 @@ else{
 
                         idmovil	:req.body.idmovil 	,
                         type   	:req.body.type 	,
-                        name   	:req.body.name 	,
-                        nombre	:req.body.name 	,
+                        name   	:nombret 	,
+                        nombre	:req.body.nombre	,
                         order   :req.body.order 	,
                         title :req.body.title 	,
                         estado 	: req.body.estado 	,
