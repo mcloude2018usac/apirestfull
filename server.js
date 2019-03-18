@@ -2,6 +2,7 @@ var express  = require('express');
 
 const cron = require("node-cron");
 var crntt = require('./app/controllers/crontabfunc');
+var correop= require('./app/controllers/mailprueba');
 //const fs = require("fs");
 var app      = express();
 var mongoose = require('mongoose');
@@ -72,6 +73,8 @@ function errorHandler(err, req, res, next) {
   res.status(500);
   res.render('error', { error: err });
 }
+
+//correop.mandacorreoprueba();
 
 /*
 
