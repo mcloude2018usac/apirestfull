@@ -7,7 +7,7 @@ var Facplan = require('../models/unidadplan2');
 var mailt = require('../controllers/mail');
 var Asignaest = require('../models/asignaestudiantepap');
 var Asignapap = require('../models/asignapap');
-
+var cuentacorr= require('../models/asignapapccorriente');
 
 
 
@@ -131,7 +131,23 @@ exports.getAsignapap = function(req, res, next){
                 
                 res.json(todos);
             });
-             }
+        }
+        else
+        {
+
+
+            if(req.params.id=='cuentacorriente')
+            {
+               
+                cuentacorr.find({"userId":req.params.id2}).exec(function(err, todos) {
+                    if (err){ res.send(err); }
+    
+                    
+                    res.json(todos);
+                });
+            }
+
+        }
     }
     else
     {

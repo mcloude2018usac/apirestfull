@@ -664,12 +664,14 @@ Userperfil.find({}).exec(function(err, todos20) {
                                                 var val = buscaarray(todos20ab, data1[i].idasigna , data1[i].idperfil
                                                        , todos500[j].idhorario,todos500[j].idmateria);
                                               
-                                                        console.log(val)
+                                                
                                                if(val==0)
                                                {         
                                                Cuentaccoriente.create({ 
                                                 idperfil:data1[i].idperfil,
                                                 idasigna:data1[i].idasigna,
+                                                userId:todos500[j].idestudiante,
+                                                periodo:todos500[j].idperiodo.nombre,
                                                 nov:data1[i].nov,
                                                 carne:data1[i].carne,
                                                 nombre:data1[i].nombre,

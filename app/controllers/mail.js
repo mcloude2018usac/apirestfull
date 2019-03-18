@@ -5,14 +5,19 @@ var nodemailer = require('nodemailer');
 exports.getMail2 = function(req1, res){
 
     var transporter = nodemailer.createTransport({
-        service: 'gmail',
+        host: 'email-smtp.us-west-2.amazonaws.com',
+        port: 587,
+       
         auth: {
-               user: 'usacenlinea2018@gmail.com',
-               pass: 'ocitocit'
+               user: 'AKIAIT7X75D5KB4GSILQ',
+               pass: 'BO9iQ1hEr/JmGpqSrE32JakwkIP2SjjdY70TL3jg7gE6'
            }
        });
+
+
+  
   const mailOptions = {
-    from: 'usacenlinea2018@gmail.com', // sender address
+    from: 'usac3.0@gmail.com', // sender address
     to: req1.destino, // list of receivers
     subject: req1.subjet, // Subject line
     html: req1.html
@@ -36,15 +41,18 @@ exports.getMail2 = function(req1, res){
 
 exports.getMail = function(req, res, next){
     var transporter = nodemailer.createTransport({
-        service: 'gmail',
+        host: 'email-smtp.us-west-2.amazonaws.com',
+        port: 587,
+       
         auth: {
-               user: 'usacenlinea2018@gmail.com',
-               pass: 'ocitocit'
+               user: 'AKIAIT7X75D5KB4GSILQ',
+               pass: 'BO9iQ1hEr/JmGpqSrE32JakwkIP2SjjdY70TL3jg7gE6'
            }
        });
+
        
   const mailOptions = {
-    from: 'usacenlinea2018@gmail.com', // sender address
+    from: 'usac3.0@gmail.com', // sender address
     to: req.body.destino+';mario.morales@mcloude.com', // list of receivers
     subject: req.body.subjet, // Subject line
     html: req.body.html
