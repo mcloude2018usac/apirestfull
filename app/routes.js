@@ -726,7 +726,7 @@ datosfijo2sRoutes.get('/:id/:id2/:id3',requireAuth,  Datosfijo2sController.getCo
 //-----------------------------------MAIL
 apiRoutes.use('/mails', mailRoutes);
 mailRoutes.post('/:id',  MailController.getMail);
-mailRoutes.post('/:id',  MailController.getMail2);
+//mailRoutes.post('/:id',  MailController.getMail2);
 
 //-----------------------------------QR
 apiRoutes.use('/qrs',qrimagenRoutes);
