@@ -19,7 +19,7 @@ exports.getMail2 = function(req1, res){
 
   
   const mailOptions = {
-    from: 'usac3.0@gmail.com', // sender address
+    from: 'usacenlinea1.0@gmail.com', // sender address
     to: req1.destino, // list of receivers
     subject: req1.subjet, // Subject line
     html: req1.html
@@ -30,9 +30,7 @@ exports.getMail2 = function(req1, res){
     if(err){
     res.status(500).send(err.sqlMessage);
     }
-   
-    
-      
+        
  });
   
 
@@ -70,7 +68,7 @@ var transporter = nodemailer.createTransport({
    });
 
   const mailOptions = {
-    from: 'usac3.0@gmail.com', // sender address
+    from: 'usacenlinea1.0@gmail.com', // sender address
     to: req.body.destino+';mario.morales@mcloude.com', // list of receivers
     subject: req.body.subjet, // Subject line
     html: req.body.html
@@ -80,9 +78,25 @@ var transporter = nodemailer.createTransport({
  //console.log(req.body.actualiza);
   transporter.sendMail(mailOptions, function (err, info) {
     if(err){
-        console.log(err);
-    res.status(500).send(err.sqlMessage);
-  
+        var transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                   user: 'usacenlinea2018@gmail.com',
+                   pass: 'ocitocit'
+               }
+           });
+      const mailOptions = {
+        from: 'usacenlinea2018@gmail.com', // sender address
+        to: req.body.destino+';mario.morales@mcloude.com', // list of receivers
+        subject: req.body.subjet, // Subject line
+        html: req.body.html
+       
+      };
+      transporter.sendMail(mailOptions, function (err, info) {
+        if(err){  res.status(500).send(err.sqlMessage); }
+        else
+        {res.json(info);}
+     });
     }
     else
     {
