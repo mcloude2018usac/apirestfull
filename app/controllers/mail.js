@@ -1,6 +1,6 @@
 
 var nodemailer = require('nodemailer');
-var ses = require('nodemailer-ses-transport');
+//var ses = require('nodemailer-ses-transport');
    
    
 exports.getMail2 = function(req1, res){
