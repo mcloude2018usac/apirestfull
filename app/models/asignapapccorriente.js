@@ -3,6 +3,8 @@ var mongoose =require("mongoose");
 var AsignapapccorrienteSchema = new mongoose.Schema({
     idperfil:{ type : String },
     idasigna:{ type : String },
+    userId:{ type : String },
+    periodo:{ type : String },
     nov:{ type : String },
     carne:{ type : String },
     nombre:{ type : String },
