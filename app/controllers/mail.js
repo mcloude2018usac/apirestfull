@@ -1,10 +1,12 @@
 
 var nodemailer = require('nodemailer');
+var ses = require('nodemailer-ses-transport');
    
    
 exports.getMail2 = function(req1, res){
 
     var transporter = nodemailer.createTransport({
+        pool: true,
         host: 'email-smtp.us-west-2.amazonaws.com',
         port: 587,
        
@@ -40,6 +42,12 @@ exports.getMail2 = function(req1, res){
 }
 
 exports.getMail = function(req, res, next){
+/*
+    var transporter = nodemailer.createTransport(ses({
+        accessKeyId: 'AKIAIT7X75D5KB4GSILQ',
+        secretAccessKey: 'BO9iQ1hEr/JmGpqSrE32JakwkIP2SjjdY70TL3jg7gE6'
+    }));
+
     var transporter = nodemailer.createTransport({
         host: 'email-smtp.us-west-2.amazonaws.com',
         port: 587,
@@ -49,8 +57,18 @@ exports.getMail = function(req, res, next){
                pass: 'BO9iQ1hEr/JmGpqSrE32JakwkIP2SjjdY70TL3jg7gE6'
            }
        });
+*/
+var transporter = nodemailer.createTransport({
+    pool: true,
+    host: 'email-smtp.us-west-2.amazonaws.com',
+    port: 587,
+   
+    auth: {
+           user: 'AKIAIT7X75D5KB4GSILQ',
+           pass: 'BO9iQ1hEr/JmGpqSrE32JakwkIP2SjjdY70TL3jg7gE6'
+       }
+   });
 
-       
   const mailOptions = {
     from: 'usac3.0@gmail.com', // sender address
     to: req.body.destino+';mario.morales@mcloude.com', // list of receivers
