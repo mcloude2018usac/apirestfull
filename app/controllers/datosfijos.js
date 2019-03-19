@@ -689,7 +689,7 @@ Userperfil.find({}).exec(function(err, todos20) {
                                                 idmateria:todos500[j].idmateria,
                                                 usuarionew:todos500[j].usuarionew,
                                                 deudaactual:1000,
-                                                deposito1:0, deporsito2:0, deposito3:0,  deposito4:0, deposito5:0,
+                                                deposito1:0, deposito2:0, deposito3:0,  deposito4:0, deposito5:0,
                                                 saldoactual:1000,
                                                 noboleta2:0,   noboleta3:0,      noboleta4:0,    noboleta5:0
                                                 }
