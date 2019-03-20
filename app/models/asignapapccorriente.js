@@ -23,7 +23,7 @@ var AsignapapccorrienteSchema = new mongoose.Schema({
     usuarionew:{ type : String },
     deudaactual:{ type : Number },
     deposito1:{ type : Number },
-    deporsito2:{ type : Number },
+    deposito2:{ type : Number },
     deposito3:{ type : Number },
     deposito4:{ type : Number },
     deposito5:{ type : Number },
