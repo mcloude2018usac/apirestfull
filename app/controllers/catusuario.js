@@ -38,6 +38,7 @@ exports.getCatusuario = function(req, res, next){
                                  for(var i = 0; i < unique.length;i++){
                                     if(j==6){j=0;} 
                                      myData2.push({_id:unique[i]._id,nombre:unique[i].nombre,"colort":"box " + arre[j] });
+                                     j=j+1;
                                  }
                  
                                   res.json(myData2);

@@ -15,7 +15,7 @@ exports.getFrmmovild = function(req, res, next){
                     });
               break;
               case 'tipoformulario':
-              Frmmovild.find({idmovil:req.params.id}).populate('type').exec(function(err, todos) {
+              Frmmovild.find({idmovil:req.params.id}).populate('type').sort([['order', 1]]).exec(function(err, todos) {
                 if (err){ res.send(err); }
                
                 if(todos.length>0)   {    res.json(todos);   }
@@ -64,12 +64,16 @@ if(req.params.id!=='crea')
     Frmmovild.findById({ _id: req.params.id }, function (err, todo)  {
         if (err) {  res.send(err);  }
         else
-        { 
+        { console.log(req.body)
+            var rr= req.body.display 
+            var rr2= req.body.required
+            if(req.body.tipo=="Etiqueta")
+            {rr='false';rr2='false'}
+
                  
-            todo.type   			=	req.body.type        	||	todo.type        	;
-            todo.required		=	req.body.required        	||	todo.required        	;
+            todo.required		=	rr2             	;
             todo.placeholder		=	req.body.placeholder        	||	todo.placeholder        	;
-            todo.display		=	    req.body.display        	||	todo.display        	;
+            todo.display		=	    rr        	       	;
             todo.selected		=	req.body.selected        	||	todo.selected        	;
             todo.disabled		=	req.body.disabled        	||	todo.disabled        	;
             todo.hidden		=	    req.body.hidden        	||	todo.hidden        	;
@@ -105,23 +109,24 @@ else{
       
         if(todos.length>0)   {    res.status(500).send('Ya existe un tipo campo con este nombre : ' + nombret); }
         else
-        {   
-
+        {   var rr='true'
+            if(req.body.type=="5c86c965eddda7022c5d3443")
+            {rr='false'}
 
                     Frmmovild.create({ 
 
                         idmovil	:req.body.idmovil 	,
                         type   	:req.body.type 	,
                         name   	:nombret 	,
-                        nombre	:req.body.nombre	,
+                        nombre:	nombret  + ' ' + req.body.title  + ' ' +req.body.type	,
                         order   :req.body.order 	,
                         title :req.body.title 	,
                         estado 	: req.body.estado 	,
 
 
-                        required :'true' 	,
+                        required :rr	,
                         placeholder :'Ingrese un '+ req.body.title+'  Valido'	,
-                        display :'true'	,
+                        display :rr,
                         selected :true 	,
                         disabled :'false' 	,
                         hidden :'false' 	,

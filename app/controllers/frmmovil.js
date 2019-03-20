@@ -162,70 +162,55 @@ exports.getFrmmovil = function(req, res, next){
         });
         break;
         case 'formulario':
-        console.log('entra en formulario')
             var namess=req.params.id
-                Frmmovild.find({idmovil:req.params.id, display : "true"}).populate('type').exec(function(err, todos) {
+                Frmmovild.find({idmovil:req.params.id, display : "true"}).populate('type').sort([['order', 1]]).exec(function(err, todos) {
                     if (err){ res.send(err); }
-                                        if(todos.length>0)   {     
+                                        if(todos.length>0)   {  
+                                        //    console.log(todos)   
                                             var cad=''
                                             for(var i = 0; i < todos.length;i++){
-                                                
+                                                console.log(todos[i].type.nombre)
+                                                if(todos[i].type.nombre!='Etiqueta')
+                                                {  
                                                 if(todos[i].type.nombre=='Lista de valores')
                                                 {
-                                                    cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
+                                                    if(todos[i].required=='false')
+                                                    {
+                                                        cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String"},   "label"	: { "type" : "String" }},';
+                                                    }
+                                                    else
+                                                    {
+                                                            cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
+                                                    }
+            
                                                 }
                                                 else
                                                 {
-                                                    cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
+                                                          if(todos[i].required=='false')
+                                                        {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '"},';
+                                                        }
+                                                        else
+                                                        {
+                                                            cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
+                                                        }
                                                 }
-                                                
+                                            }
                                             
                                             }
                                             cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" }'
                                             cad='{' + cad + '}'
     
                                             var jsonObject = stringToObject(cad);
+                                           
                                             var mongoose = require("mongoose");
                                             var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
-    
+                                            
                                             try {
                                                 var  frmtt= mongoose.model(namess,tt);
                                                 frmtt.find({},function(err, todos2) {
                                                     if (err){  res.send(err);  }
+                                                  //  console.log(todos2)
                                                     res.json(todos2);
-/*
-                                                    Frmmovild.find({idmovil:req.params.id},function(err, todos100) {
-                                                        if (err){  res.send(err);  }
-                                                        var cad2=''
-                                                        for(var i = 0; i < todos100.length;i++){
-                                                            var bb=todos100[i]['name'];
-                                                            for(var j = 0; j < todos2.length;j++){
-                                                                var bb1=todos2[j][bb]
-                                                                var bb10 =todos100[i]['title'];
-                                                                    if( j==todos2.length-1)
-                                                                    {
-                                                                        cad2=cad2+'"'+bb10+'"' + ':'  + '"'+ bb1  + '"'+ ',';
-                                                           
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        cad2=cad2+'"'+bb10+'"' + ':'  + '"'+ bb1  + '"'+ ',';
-                                                                    }
-                                                               
-                                                            }
-
-                                                            
-                                                         
-                                                            
-                                                        }
-                                                        cad2='{' + cad2.substr(0,cad2.length-1) + '}'
-                                                        var jsonObject2 = stringToObject(cad2);
-                                                        res.json(jsonObject2);
-                                                        
-                                                    });
-*/
-
-                                                  
                                                   
                                                 });
                                               } catch(e) {
@@ -235,40 +220,7 @@ exports.getFrmmovil = function(req, res, next){
                                                 frmtt.find({},function(err, todos2) {
                                                      if (err){  res.send(err);  }
                                                      res.json(todos2);
-/*
-                                                     Frmmovild.find({idmovil:req.params.id},function(err, todos100) {
-                                                        if (err){  res.send(err);  }
-                                                        var cad2=''
-                                                        for(var i = 0; i < todos100.length;i++){
-                                                            var bb=todos100[i]['name'];
-                                                            for(var j = 0; j < todos2.length;j++){
-                                                                var bb1=todos2[j][bb]
-                                                                var bb10 =todos100[i]['title'];
-                                                                    if( j==todos2.length-1)
-                                                                    {
-                                                                        cad2=cad2+'"'+bb10+'"' + ':'  + '"'+ bb1  + '"'+ ',';
-                                                           
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        cad2=cad2+'"'+bb10+'"' + ':'  + '"'+ bb1  + '"'+ ',';
-                                                                    }
-                                                               
-                                                            }
-
-                                                            
-                                                         
-                                                            
-                                                        }
-                                                        cad2='{' + cad2.substr(0,cad2.length-1) + '}'
-                                                        var obj = stringToObject(cad2);
-                                                        var arrar22 = objectToArray(obj)
-                                                          
-                                                        res.json(todos2);
-                                                        
-                                                    });
-*/
-
+                                                   //  console.log(todos2)
                                                  });
                                               }
     
@@ -379,11 +331,26 @@ exports.deleteFrmmovil2 = function(req, res, next){
 
                                   if(todos[i].type.nombre=='Lista de valores')
                                   {
-                                      cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
+                                    if(todos[i].required=='false')
+                                    {
+                                        cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String"},   "label"	: { "type" : "String" }},';
+                                    }
+                                    else
+                                    {
+                                            cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
+                                    }
+
                                   }
                                   else
                                   {
-                                      cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
+                                      if(todos[i].required=='false')
+                                      {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '"},';
+                                      }
+                                      else
+                                      {
+                                        cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
+                                      }
+                                      
                                   }
 
 
@@ -441,11 +408,26 @@ if(req.params.recordID!=='crea')
                                     //cad=cad+'"'+todos[i].nombre+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
                                     if(todos[i].type.nombre=='Lista de valores')
                                     {
-                                        cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
+                                        
+                                        if(todos[i].required=='false')
+                                        {
+                                            cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String"},   "label"	: { "type" : "String" }},';
+                                        }
+                                        else
+                                        {
+                                                cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
+                                        }
+
                                     }
                                     else
                                     {
-                                        cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
+                                        if(todos[i].required=='false')
+                                        {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '"},';
+                                        }
+                                        else
+                                        {
+                                          cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
+                                        }
                                     }
                                 }
 
@@ -518,11 +500,25 @@ else{
                                    // cad=cad+'"'+todos[i].nombre+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
                                    if(todos[i].type.nombre=='Lista de valores')
                                    {
-                                       cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
+                                        if(todos[i].required=='false')
+                                        {
+                                            cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String"},   "label"	: { "type" : "String" }},';
+                                        }
+                                        else
+                                        {
+                                                cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
+                                        }
+                                       
                                    }
                                    else
                                    {
-                                       cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
+                                        if(todos[i].required=='false')
+                                        {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '"},';
+                                        }
+                                        else
+                                        {
+                                        cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
+                                        }
                                    }
                                 }
 
