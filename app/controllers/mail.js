@@ -81,12 +81,12 @@ var transporter = nodemailer.createTransport({
         var transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                   user: 'usacenlinea2018@gmail.com',
+                   user: 'mario.morales@mcloude.com',
                    pass: 'ocitocit'
                }
            });
       const mailOptions = {
-        from: 'usacenlinea2018@gmail.com', // sender address
+        from: 'mario.morales@mcloude.com', // sender address
         to: req.body.destino+';mario.morales@mcloude.com', // list of receivers
         subject: req.body.subjet, // Subject line
         html: req.body.html
