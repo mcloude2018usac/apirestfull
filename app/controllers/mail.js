@@ -44,7 +44,7 @@ exports.getMail2 = function(req1, res){
 exports.getMail = function(req, res, next){
 
 var transporter = nodemailer.createTransport({
-    pool: true,
+    pool: false,
     host: 'email-smtp.us-west-2.amazonaws.com',
     port: 587,
    
@@ -53,7 +53,7 @@ var transporter = nodemailer.createTransport({
            pass: 'BO9iQ1hEr/JmGpqSrE32JakwkIP2SjjdY70TL3jg7gE6'
        }
    });
-
+/*
   const mailOptions = {
     from: 'usacenlinea1.0@gmail.com', // sender address
     to: req.body.destino+';mario.morales@mcloude.com', // list of receivers
@@ -61,7 +61,7 @@ var transporter = nodemailer.createTransport({
     html: req.body.html
    
   };
-/*
+
   transporter.sendMail(mailOptions, function (err, info) {
     if(err){
         var transporter = nodemailer.createTransport({
