@@ -1,12 +1,10 @@
 
 var nodemailer = require('nodemailer');
 var transporter = nodemailer.createTransport({
-        host: 'email-smtp.us-west-2.amazonaws.com',
-        port: 587,
-       
+        service: 'gmail',
         auth: {
-               user: 'AKIAIT7X75D5KB4GSILQ',
-               pass: 'BO9iQ1hEr/JmGpqSrE32JakwkIP2SjjdY70TL3jg7gE6'
+               user: 'usacenlinea1.0@usacenlinea.net',
+               pass: 'Amazon1518'
            }
        });
 
@@ -82,7 +80,7 @@ var mandaeventos = function(){
                                                 chtml=chtml+ "</table>"
 
                                                 const mailOptions = {
-                                                        from: 'usac3.0@gmail.com', // sender address
+                                                        from: 'usacenlinea1.0@usacenlinea.net', // sender address
                                                         to: 'mario.morales@mcloude.com;sararuiz_4@hotmail.com', // list of receivers
                                                         subject: 'Gestion de Eventos', // Subject line
                                                         html:chtml,// plain text body

@@ -5,6 +5,16 @@ var nodemailer = require('nodemailer');
    
 exports.getMail2 = function(req1, res){
 
+
+    var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+               user: 'usacenlinea1.0@usacenlinea.net',
+               pass: 'Amazon1518'
+           }
+       });
+
+       /*
     var transporter = nodemailer.createTransport({
         pool: true,
         host: 'email-smtp.us-west-2.amazonaws.com',
@@ -16,7 +26,7 @@ exports.getMail2 = function(req1, res){
            }
        });
 
-
+*/
   
   const mailOptions = {
     from: 'usacenlinea1.0@gmail.com', // sender address
@@ -43,6 +53,16 @@ exports.getMail2 = function(req1, res){
 
 exports.getMail = function(req, res, next){
 
+
+    var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+               user: 'usacenlinea1.0@usacenlinea.net',
+               pass: 'Amazon1518'
+           }
+       });
+    
+/*
 var transporter = nodemailer.createTransport({
     pool: false,
     host: 'email-smtp.us-west-2.amazonaws.com',
@@ -53,7 +73,7 @@ var transporter = nodemailer.createTransport({
            pass: 'BO9iQ1hEr/JmGpqSrE32JakwkIP2SjjdY70TL3jg7gE6'
        }
    });
-/*
+
   const mailOptions = {
     from: 'usacenlinea1.0@gmail.com', // sender address
     to: req.body.destino+';mario.morales@mcloude.com', // list of receivers
