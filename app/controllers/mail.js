@@ -37,25 +37,12 @@ exports.getMail2 = function(req1, res){
 
 
     
-}
+}   
+
+
 
 exports.getMail = function(req, res, next){
-/*
-    var transporter = nodemailer.createTransport(ses({
-        accessKeyId: 'AKIAIT7X75D5KB4GSILQ',
-        secretAccessKey: 'BO9iQ1hEr/JmGpqSrE32JakwkIP2SjjdY70TL3jg7gE6'
-    }));
 
-    var transporter = nodemailer.createTransport({
-        host: 'email-smtp.us-west-2.amazonaws.com',
-        port: 587,
-       
-        auth: {
-               user: 'AKIAIT7X75D5KB4GSILQ',
-               pass: 'BO9iQ1hEr/JmGpqSrE32JakwkIP2SjjdY70TL3jg7gE6'
-           }
-       });
-*/
 var transporter = nodemailer.createTransport({
     pool: true,
     host: 'email-smtp.us-west-2.amazonaws.com',
@@ -74,8 +61,7 @@ var transporter = nodemailer.createTransport({
     html: req.body.html
    
   };
-
- //console.log(req.body.actualiza);
+/*
   transporter.sendMail(mailOptions, function (err, info) {
     if(err){
         var transporter = nodemailer.createTransport({
@@ -85,6 +71,7 @@ var transporter = nodemailer.createTransport({
                    pass: 'ocitocit'
                }
            });
+           */
       const mailOptions = {
         from: 'mario.morales@mcloude.com', // sender address
         to: req.body.destino+';mario.morales@mcloude.com', // list of receivers
@@ -97,10 +84,12 @@ var transporter = nodemailer.createTransport({
         else
         {res.json(info);}
      });
-    }
-    else
-    {
-/*
+    //}    else   {res.json(info);    }});
+  
+
+
+
+    /*
       switch(req.body.actualiza.tipo) {
         case 'participantes':
         cosnole.log('actualiza entra participa333333333333332');
@@ -140,17 +129,4 @@ var transporter = nodemailer.createTransport({
         res.json(info);
     }
 */
-res.json(info);
-                 
-                      
-
-    }
-    
-      
- });
-  
-
-
-
-    
 }
