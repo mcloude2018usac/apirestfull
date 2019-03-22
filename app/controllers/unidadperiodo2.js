@@ -15,10 +15,21 @@ exports.getUnidadperiodo2 = function(req, res, next){
         {
             if(req.params.id2)
             {  
-                Unidadperiodo2.find({estado :'Activo'},function(err, todos) {
-                    if (err){  res.send(err);  }
-                     res.json(todos);
-                 });
+                            if(req.params.id2=='activo')
+                        {  
+                            Unidadperiodo2.find({estado :'Activo'},function(err, todos) {
+                                if (err){  res.send(err);  }
+                                res.json(todos);
+                            });
+                        }
+                        else{
+                            Unidadperiodo2.find({}).sort({estado:1}).exec(function(err, todos) {
+                                if (err){  res.send(err);  }
+                                res.json(todos);
+                            });
+
+                        }
+                            
                     
             }
             else

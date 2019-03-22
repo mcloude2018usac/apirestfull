@@ -119,12 +119,22 @@ function roundxx(value, decimals) {
   
 exports.getAsignapap = function(req, res, next){
 
+    if(req.params.id3)
+    { 
+        cuentacorr.find({"userId":req.params.id2,"periodo":req.params.id3}).exec(function(err, todos) {
+            if (err){ res.send(err); }
+
+            
+            res.json(todos);
+        });
+    }
+    else{
     if(req.params.id2)
     { 
 
         if(req.params.id=='noboleta')
         {
-            console.log(req.params.id2)
+           
             Asignapap.find({"noboleta":req.params.id2}).exec(function(err, todos) {
                 if (err){ res.send(err); }
 
@@ -145,6 +155,21 @@ exports.getAsignapap = function(req, res, next){
                     
                     res.json(todos);
                 });
+            }
+            else
+            {
+                if(req.params.id=='cuentacorriente2')
+                {
+                   
+                    cuentacorr.find({"userId":req.params.id2}).exec(function(err, todos) {
+                        if (err){ res.send(err); }
+        
+                        
+                        res.json(todos);
+                    });
+                }
+
+
             }
 
         }
@@ -169,7 +194,7 @@ exports.getAsignapap = function(req, res, next){
                 res.json(todos);
             });
         }
-    }
+    }}
     
  
 }

@@ -75,6 +75,7 @@ if(req.params.id!=='crea')
             todo.placeholder		=	req.body.placeholder        	||	todo.placeholder        	;
             todo.display		=	    rr        	       	;
             todo.selected		=	req.body.selected        	||	todo.selected        	;
+            todo.default		=	req.body.default        	||	todo.default        	;
             todo.disabled		=	req.body.disabled        	||	todo.disabled        	;
             todo.hidden		=	    req.body.hidden        	||	todo.hidden        	;
             todo.position		=	req.body.position        	||	todo.position        	;
@@ -122,7 +123,7 @@ else{
                         order   :req.body.order 	,
                         title :req.body.title 	,
                         estado 	: req.body.estado 	,
-
+                        default 	: '' 	,
 
                         required :rr	,
                         placeholder :'Ingrese un '+ req.body.title+'  Valido'	,

@@ -59,7 +59,7 @@ switch(value) {
   
       var jsonString = JSON.stringify(jsObject);
   
-      console.log("New JSON String : " + jsonString);
+    //  console.log("New JSON String : " + jsonString);
   
       return jsonString;
   }
@@ -131,7 +131,7 @@ exports.getFrmmovil = function(req, res, next){
     else
     {
     if(req.params.id2)
-    { console.log('entra en dos')
+    { 
         switch(req.params.id2) {
             case 'estado':
                     Frmmovil.find({estado:req.params.id},function(err, todos) {
@@ -166,10 +166,10 @@ exports.getFrmmovil = function(req, res, next){
                 Frmmovild.find({idmovil:req.params.id, display : "true"}).populate('type').sort([['order', 1]]).exec(function(err, todos) {
                     if (err){ res.send(err); }
                                         if(todos.length>0)   {  
-                                        //    console.log(todos)   
+                                       
                                             var cad=''
                                             for(var i = 0; i < todos.length;i++){
-                                                console.log(todos[i].type.nombre)
+                                               
                                                 if(todos[i].type.nombre!='Etiqueta')
                                                 {  
                                                 if(todos[i].type.nombre=='Lista de valores')
@@ -209,7 +209,7 @@ exports.getFrmmovil = function(req, res, next){
                                                 var  frmtt= mongoose.model(namess,tt);
                                                 frmtt.find({},function(err, todos2) {
                                                     if (err){  res.send(err);  }
-                                                  //  console.log(todos2)
+                                                
                                                     res.json(todos2);
                                                   
                                                 });
@@ -220,7 +220,7 @@ exports.getFrmmovil = function(req, res, next){
                                                 frmtt.find({},function(err, todos2) {
                                                      if (err){  res.send(err);  }
                                                      res.json(todos2);
-                                                   //  console.log(todos2)
+                                                 
                                                  });
                                               }
     
@@ -253,6 +253,7 @@ exports.getFrmmovil = function(req, res, next){
                                                       idmovil	:  todos[i].idmovil._id,
                                                       type   		: datipo2(todos[i].type.nombre) ,
                                                       name   		: todos[i].name,
+                                                      default:todos[i].default,
                                                       nombre   		:  todos[i].nombre,
                                                       order:	  todos[i].order,
                                                       title:   todos[i].title,
@@ -435,7 +436,7 @@ if(req.params.recordID!=='crea')
                                 cad='{' + cad + '}'
                                 var jsonObject = stringToObject(cad);
                                
-                              console.log(jsonObject)
+                             // console.log(jsonObject)
                                 var mongoose = require("mongoose");
                                 var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
 
@@ -525,14 +526,14 @@ else{
                                 cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"}'
                                 cad='{' + cad + '}'
                                 var jsonObject = stringToObject(cad);
-                                console.log(jsonObject)
+                                //console.log(jsonObject)
                               
                                 var mongoose = require("mongoose");
                                 var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
 
                                 try {
                                     var  frmtt= mongoose.model(namess,tt);
-                                    console.log(req.body.estructura)
+                                   
                                     frmtt.create(req.body.estructura
                                         , function(err, todo3) {
                                         if (err){       res.status(500).send(err.message)    }
@@ -544,7 +545,7 @@ else{
                                   } catch(e) {
                                     
                                     var  frmtt= mongoose.model(namess);
-                                    console.log(req.body.estructura)
+                                  
                                     frmtt.create(req.body.estructura
                                         , function(err, todo3) {
                                         if (err){       res.status(500).send(err.message)    }
