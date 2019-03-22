@@ -20,6 +20,7 @@ var mongoose =require("mongoose");
         labelsizefondt: { type : String, required : true },
         categoria: { type : String },
         combofijo: { type : String },
+        default: { type : String },
         usuarionew	: { type : String },      usuarioup	: { type : String }}, {
         timestamps: true
         });
