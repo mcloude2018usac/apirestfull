@@ -261,6 +261,7 @@ reversionsaldoRoutes.delete('/:recordID/:userID',requireAuth,  ReversionsaldoCon
 apiRoutes.use('/asignapaps', asignapapRoutes);
 asignapapRoutes.get('/:id',requireAuth, AsignapapController.getAsignapap);
 asignapapRoutes.get('/:id/:id2', AsignapapController.getAsignapap);
+asignapapRoutes.get('/:id/:id2/:id3', AsignapapController.getAsignapap);
 asignapapRoutes.post('/:recordID',requireAuth,  AsignapapController.creaAsignapap2s);
 asignapapRoutes.delete('/:recordID/:userID',requireAuth,  AsignapapController.deleteAsignapap);
 
