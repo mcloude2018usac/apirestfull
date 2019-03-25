@@ -1,10 +1,90 @@
 
 var Denunciaunidad = require('../models/denunciaunidad');
 var Bitacora = require('../models/bitacora');
+var Denuncia = require('../models/participa3');
+var dCatalogo = require('../models/dcatalogo');
+var denunciaunidad = require('../models/denunciaunidad');
+
+var datipo = function(datat,op) {
+    var rr=''
+    for (var i = 0; i < datat.length; i++) {
+            if (datat[i]._id == op) {
+                rr=datat[i].nombre
+                break;
+            }
+        
+    }
+
+    return rr;
+};
+
 
 exports.getDenunciaunidad = function(req, res, next){
+    if(req.params.id3)
+    {  
+                                var f1=req.params.id1
+                                var f2=req.params.id2
+                                 var filtro;
+                                if(req.params.id3=='TODOS' )
+                                {
+                                    filtro={
+                                        "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
+                                        "$lt": new Date(f2 +'T24:00:00.000Z')}
+                                    };
+                                }
+                                else
+                                {
+                                         filtro={"tipo":req.params.id3,
+                                            "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
+                                            "$lt": new Date(f2 +'T24:00:00.000Z')}
+                                        };
+                                }
+                                dCatalogo.find({idcatalogo:'5c6394cbcffe290016d494b5'},function(err, todos10) {
+                                    if (err){ res.send(err); }
 
-    console.log(req.params.id + ' ' +req.params.id2);
+                                                Denuncia.aggregate([
+                                                    { $match: filtro},
+                                                
+                                                    { $group: {
+                                                    _id:  { tipo:"$tipo", estado:"$estado"},
+                                                    "cantidad":{$sum:1}
+                                                    },
+                                                }
+                                                ], function (err, todos) {
+                                                    if (err){ res.send(err); }
+
+                                                    var myData = [];
+                                                    for(var i = 0; i < todos.length;i++){
+                                                        console.log(todos[i])
+                                                         myData.push({tipo:datipo(todos10,todos[i]._id.tipo),cantidad:todos[i].cantidad,estado:todos[i]._id.estado });
+                                                    }
+                                                   
+
+                                                    denunciaunidad.find({estado:'Ejecutando'}).populate('unidad').populate('categoria').exec(function(err, todos100) {
+                                                        if (err){ res.send(err); }
+
+                                                        var myData2 = [];
+                                                        for(var i = 0; i < todos100.length;i++){
+
+                                                                for(var j = 0; j < myData.length;j++){
+                                                                    if(todos100[i].categoria.nombre==myData[j].tipo)
+                                                                    {
+                                                                        myData2.push({tipo:myData[j].tipo,estado:myData[j].estado,
+                                                                            cantidad:myData[j].cantidad,
+                                                                            unidad:todos100[i].unidad.nombre });
+                                                                    }
+                                                                    
+                                                                }
+                                                                
+                                                        }
+
+                                                        res.json(myData2);
+                                                    });         
+                                                });
+                            });
+    }
+    else
+    {   
     if(req.params.id2)
     {  
 
@@ -37,7 +117,7 @@ exports.getDenunciaunidad = function(req, res, next){
                if (err){  res.send(err);  }
                 res.json(todos);
             });
-        }}
+        }}}
 
  
 }
@@ -63,6 +143,7 @@ if(req.params.recordID!=='crea')
             todo.categoria        	=	req.body.categoria        	||	todo.categoria        	;
             todo.unidad        	=	req.body.unidad        	||	todo.unidad        	;
             todo.nombre        	=	req.body.nombre        	||	todo.nombre        	;
+            todo.estado        	=	req.body.estado        	||	todo.estado        	;
             todo.usuarioup=req.body.bitacora.email;
             
             
@@ -88,6 +169,7 @@ else{
                 categoria        	: req.body.categoria        	,
                 unidad        	: req.body.unidad       ,
                 nombre        	: req.body.nombre       ,
+                estado        	: req.body.estado       ,
                 usuarionew:req.body.bitacora.email, 
               }
                 , function(err, todo) {
