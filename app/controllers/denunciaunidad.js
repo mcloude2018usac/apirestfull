@@ -29,8 +29,30 @@ exports.getDenunciaunidad = function(req, res, next){
 
         if(req.params.id3=='denunciasxxx')
     {  
-        Denuncia.find({estado:req.params.id,tipo:req.params.id2},function(err, todos10) {
+
+        var ee=''
+        if(req.params.id=='1')
+   {
+      ee='Solicitando requerimiento'
+   }
+
+   
+   if(req.params.id=='2')
+   {
+      ee='Denuncia en proceso'
+   }
+
+   
+   if(req.params.id=='3')
+   {
+      ee='Denuncia finalizada'
+   }
+
+console.log(ee + ' ' + req.params.id2)
+        Denuncia.find({estado:ee,tipo:req.params.id2},function(err, todos10) {
             if (err){ res.send(err); }
+            res.json(todos10);
+
         });
 
     }
