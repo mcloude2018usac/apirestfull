@@ -47,7 +47,7 @@ exports.getDenunciaunidad = function(req, res, next){
                                                 }
                                                 ], function (err, todos) {
                                                     if (err){ res.send(err); }
-                                                    console.log(todos)
+                                              //      console.log(todos)
                                                     var myData = [];
                                                     for(var i = 0; i < todos.length;i++){
                                                      //   console.log(todos[i])
@@ -205,7 +205,7 @@ else{
       
         if(todos.length>0)   {    res.status(500).send('Ya existe esta unidad relacionada con esta categoria'); }
         else
-        {   console.log(req.body)
+        {  // console.log(req.body)
 
             Denunciaunidad.create({
                 categoria        	: req.body.categoria        	,
