@@ -26,13 +26,14 @@ function onlyUnique(value, index, self) {
 exports.getDenunciaunidad = function(req, res, next){
     if(req.params.id3)
     {  
-                                var f1=req.params.id1
+                                var f1=req.params.id
                                 var f2=req.params.id2
                                
                             
                                 dCatalogo.find({idcatalogo:'5c6394cbcffe290016d494b5'},function(err, todos10) {
                                     if (err){ res.send(err); }
 
+                               
                                                 Denuncia.aggregate([
                                                     { $match:{
                                                         "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
@@ -46,7 +47,7 @@ exports.getDenunciaunidad = function(req, res, next){
                                                 }
                                                 ], function (err, todos) {
                                                     if (err){ res.send(err); }
-
+                                                    console.log(todos)
                                                     var myData = [];
                                                     for(var i = 0; i < todos.length;i++){
                                                      //   console.log(todos[i])
