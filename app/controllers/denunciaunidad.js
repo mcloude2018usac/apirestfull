@@ -74,7 +74,7 @@ exports.getDenunciaunidad = function(req, res, next){
                                                                     {
                                                                         myData2.push({tipo:myData[j].tipo,estado:myData[j].estado,
                                                                             cantidad:myData[j].cantidad,
-                                                                            unidad:todos100[i].unidad.nombre });
+                                                                            unidad:todos100[i].unidad.nombre,unidadestado: todos100[i].unidad.nombre + '-' +myData[j].estado });
                                                                     }
                                                                     
                                                                 }
