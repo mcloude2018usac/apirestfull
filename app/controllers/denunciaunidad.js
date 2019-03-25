@@ -28,26 +28,16 @@ exports.getDenunciaunidad = function(req, res, next){
     {  
                                 var f1=req.params.id1
                                 var f2=req.params.id2
-                                 var filtro;
-                                if(req.params.id3=='TODOS' )
-                                {
-                                    filtro={
-                                        "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
-                                        "$lt": new Date(f2 +'T24:00:00.000Z')}
-                                    };
-                                }
-                                else
-                                {
-                                         filtro={"tipo":req.params.id3,
-                                            "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
-                                            "$lt": new Date(f2 +'T24:00:00.000Z')}
-                                        };
-                                }
+                               
+                            
                                 dCatalogo.find({idcatalogo:'5c6394cbcffe290016d494b5'},function(err, todos10) {
                                     if (err){ res.send(err); }
 
                                                 Denuncia.aggregate([
-                                                    { $match: filtro},
+                                                    { $match:{
+                                                        "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
+                                                        "$lt": new Date(f2 +'T24:00:00.000Z')}
+                                                    }},
                                                 
                                                     { $group: {
                                                     _id:  { tipo:"$tipo", estado:"$estado"},
@@ -63,8 +53,17 @@ exports.getDenunciaunidad = function(req, res, next){
                                                          myData.push({tipo:datipo(todos10,todos[i]._id.tipo),cantidad:todos[i].cantidad,estado:todos[i]._id.estado });
                                                     }
                                                    
+                                                    var filtro;
+                                                    if(req.params.id3=='TODOS' )
+                                                    {
+                                                        filtro={     estado:'Ejecutando'   };
+                                                    }
+                                                    else
+                                                    {
+                                                        filtro={     estado:'Ejecutando' ,unidad: req.params.id3 };
+                                                    }
 
-                                                    denunciaunidad.find({estado:'Ejecutando'}).populate('unidad').populate('categoria').exec(function(err, todos100) {
+                                                    denunciaunidad.find(filtro).populate('unidad').populate('categoria').exec(function(err, todos100) {
                                                         if (err){ res.send(err); }
 
                                                         var myData2 = [];
@@ -112,7 +111,7 @@ exports.getDenunciaunidad = function(req, res, next){
                     var myData = [];
                     for(var i = 0; i < todos.length;i++){
                      //   console.log(todos[i])
-                         myData.push({_id:todos[i]._id,nombre:todos[i].unidad.nombre });
+                         myData.push({_id:todos[i].unidad._id,nombre:todos[i].unidad.nombre });
                     }
 
                     var unique =   myData.filter( onlyUnique );
