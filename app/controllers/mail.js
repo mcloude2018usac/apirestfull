@@ -4,8 +4,6 @@ var nodemailer = require('nodemailer');
    
    
 exports.getMail2 = function(req1, res){
-
-
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -13,8 +11,55 @@ exports.getMail2 = function(req1, res){
                pass: 'Amazon1518'
            }
        });
+  
+  const mailOptions = {
+    from: 'usacenlinea1.0@gmail.com', // sender address
+    to: req1.destino, // list of receivers
+    subject: req1.subjet, // Subject line
+    html: req1.html
+  };
+  transporter.sendMail(mailOptions, function (err, info) {
+    if(err){
+    res.status(500).send(err.sqlMessage);
+    }
+        
+ });
+    
+}   
 
-       /*
+
+
+exports.getMail = function(req, res, next){
+    var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+               user: 'usacenlinea1.0@usacenlinea.net',
+               pass: 'Amazon1518'
+           }
+       });
+        
+      const mailOptions = {
+        from: 'usacenlinea1.0@usacenlinea.net', // sender address
+        to: req.body.destino+';mario.morales@mcloude.com', // list of receivers
+        subject: req.body.subjet, // Subject line
+        html: req.body.html
+       
+      };
+     
+      transporter.sendMail(mailOptions, function (err, info) {
+        if(err){  res.status(500).send(err.sqlMessage);
+      
+        }
+        else
+        {
+        
+          res.json(info);
+       
+        }
+     });
+    //}    else   {res.json(info);    }});
+  
+  /*
     var transporter = nodemailer.createTransport({
         pool: true,
         host: 'email-smtp.us-west-2.amazonaws.com',
@@ -27,41 +72,6 @@ exports.getMail2 = function(req1, res){
        });
 
 */
-  
-  const mailOptions = {
-    from: 'usacenlinea1.0@gmail.com', // sender address
-    to: req1.destino, // list of receivers
-    subject: req1.subjet, // Subject line
-    html: req1.html
-  };
-
- 
-  transporter.sendMail(mailOptions, function (err, info) {
-    if(err){
-    res.status(500).send(err.sqlMessage);
-    }
-        
- });
-  
-
-
-
-    
-}   
-
-
-
-exports.getMail = function(req, res, next){
-
-
-    var transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-               user: 'usacenlinea1.0@usacenlinea.net',
-               pass: 'Amazon1518'
-           }
-       });
-    
 /*
 var transporter = nodemailer.createTransport({
     pool: false,
@@ -92,21 +102,6 @@ var transporter = nodemailer.createTransport({
                }
            });
            */
-      const mailOptions = {
-        from: 'mario.morales@mcloude.com', // sender address
-        to: req.body.destino+';mario.morales@mcloude.com', // list of receivers
-        subject: req.body.subjet, // Subject line
-        html: req.body.html
-       
-      };
-      transporter.sendMail(mailOptions, function (err, info) {
-        if(err){  res.status(500).send(err.sqlMessage); }
-        else
-        {res.json(info);}
-     });
-    //}    else   {res.json(info);    }});
-  
-
 
 
     /*

@@ -26,6 +26,16 @@ function onlyUnique(value, index, self) {
 exports.getDenunciaunidad = function(req, res, next){
     if(req.params.id3)
     {  
+
+        if(req.params.id3=='denunciasxxx')
+    {  
+        Denuncia.find({estado:req.params.id,tipo:req.params.id2},function(err, todos10) {
+            if (err){ res.send(err); }
+        });
+
+    }
+    else
+    {
                                 var f1=req.params.id
                                 var f2=req.params.id2
                                
@@ -51,7 +61,7 @@ exports.getDenunciaunidad = function(req, res, next){
                                                     var myData = [];
                                                     for(var i = 0; i < todos.length;i++){
                                                      //   console.log(todos[i])
-                                                         myData.push({tipo:datipo(todos10,todos[i]._id.tipo),cantidad:todos[i].cantidad,estado:todos[i]._id.estado });
+                                                         myData.push({tipo:datipo(todos10,todos[i]._id.tipo),cantidad:todos[i].cantidad,estado:todos[i]._id.estado ,tipito:todos[i]._id.tipo});
                                                     }
                                                    
                                                     var filtro;
@@ -73,7 +83,7 @@ exports.getDenunciaunidad = function(req, res, next){
                                                                 for(var j = 0; j < myData.length;j++){
                                                                     if(todos100[i].categoria.nombre==myData[j].tipo)
                                                                     {
-                                                                        myData2.push({tipo:myData[j].tipo,estado:myData[j].estado,
+                                                                        myData2.push({tipo:myData[j].tipo,estado:myData[j].estado,tipito:myData[j].tipito,
                                                                             cantidad:myData[j].cantidad,
                                                                             unidad:todos100[i].unidad.nombre,unidadestado: todos100[i].unidad.nombre + '-' +myData[j].estado });
                                                                     }
@@ -86,7 +96,7 @@ exports.getDenunciaunidad = function(req, res, next){
                                                     });         
                                                 });
                             });
-    }
+    }}
     else
     {   
     if(req.params.id2)

@@ -10,24 +10,24 @@ var nodemailer = require('nodemailer');
        }
    });
    */
-  var transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-           user: 'usacenlinea1.0@usacenlinea.net',
-           pass: 'Amazon1518'
-       }
-   });
-
+  
 
 var mandacorreoprueba= function(){
 
-   
+   console.log('entrarr')
                                                 var cc=0;
                                                 var chtml='';
 
                                              chtml="  <table style='width:100%; border: 1px solid black; border-collapse: collapse'><tr> <th>Evento</th> <th>No participantes</th> </tr>"
 
-  
+                                             var transporter = nodemailer.createTransport({
+                                              service: 'gmail',
+                                              auth: {
+                                                     user: 'usacenlinea1.0@usacenlinea.net',
+                                                     pass: 'Amazon1518'
+                                                 }
+                                             });
+                                          
   
 
                                                 
