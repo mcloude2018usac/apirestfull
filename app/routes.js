@@ -654,6 +654,8 @@ apiRoutes.use('/denunciaunidads', denunciaunidadRoutes);
 denunciaunidadRoutes.get('/',requireAuth, DenunciaunidadController.getDenunciaunidad);
 denunciaunidadRoutes.get('/:id',requireAuth,  DenunciaunidadController.getDenunciaunidad);
 denunciaunidadRoutes.get('/:id/:id2', DenunciaunidadController.getDenunciaunidad);
+denunciaunidadRoutes.get('/:id/:id2/:id3', DenunciaunidadController.getDenunciaunidad);
+
 denunciaunidadRoutes.post('/:recordID', requireAuth, DenunciaunidadController.creaDenunciaunidad2s);
 denunciaunidadRoutes.delete('/:recordID/:userID',requireAuth, DenunciaunidadController.deleteDenunciaunidad);
 
