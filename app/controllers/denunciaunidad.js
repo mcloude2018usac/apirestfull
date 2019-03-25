@@ -18,6 +18,10 @@ var datipo = function(datat,op) {
     return rr;
 };
 
+function onlyUnique(value, index, self) { 
+    return self.indexOf(value) === index;
+}
+
 
 exports.getDenunciaunidad = function(req, res, next){
     if(req.params.id3)
@@ -55,7 +59,7 @@ exports.getDenunciaunidad = function(req, res, next){
 
                                                     var myData = [];
                                                     for(var i = 0; i < todos.length;i++){
-                                                        console.log(todos[i])
+                                                     //   console.log(todos[i])
                                                          myData.push({tipo:datipo(todos10,todos[i]._id.tipo),cantidad:todos[i].cantidad,estado:todos[i]._id.estado });
                                                     }
                                                    
@@ -87,12 +91,50 @@ exports.getDenunciaunidad = function(req, res, next){
     {   
     if(req.params.id2)
     {  
+        if(req.params.id=='todos')
+        {
 
-        Denunciaunidad.find({'unidad':req.params.id2}).exec(function(err, todos) {
-            if (err){  res.send(err);  }
-             res.json(todos);
-         });
+            Denunciaunidad.find({'unidad':req.params.id2}).exec(function(err, todos) {
+                if (err){  res.send(err);  }
+                 res.json(todos);
+             });
+    
+        }
+        else
+        {
 
+            if(req.params.id=='unidadesejecutandose')
+            {
+
+                Denunciaunidad.find({estado:'Ejecutando'}).populate('unidad').populate('categoria').exec(function(err, todos) {
+                    if (err){  res.send(err);  }
+
+                    var myData = [];
+                    for(var i = 0; i < todos.length;i++){
+                     //   console.log(todos[i])
+                         myData.push({_id:todos[i]._id,nombre:todos[i].unidad.nombre });
+                    }
+
+                    var unique =   myData.filter( onlyUnique );
+
+                    var myData2 = [];
+                                 for(var i = 0; i < unique.length;i++){
+                                     myData2.push({_id:unique[i]._id,nombre:unique[i].nombre });
+                                 }
+                 
+                                  res.json(myData2);
+
+                     
+                 });
+    
+            }
+            
+
+    
+
+        }
+
+       
        
        
     }
