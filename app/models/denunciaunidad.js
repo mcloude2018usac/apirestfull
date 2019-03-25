@@ -3,6 +3,7 @@ var mongoose =require("mongoose");
         categoria	: { type : String, required : true , ref:'Dcatalogo' },
         unidad	: { type : String, required : true , ref:'Catalogo' },
         nombre	: { type : String, required : true },
+        estado	: { type : String },
         usuarionew	: { type : String },      usuarioup	: { type : String }
         }, {
         timestamps: true
