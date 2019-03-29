@@ -1,5 +1,6 @@
 var mongoose =require("mongoose");
     var Formcat2Schema 		=	new  mongoose.Schema({
+        idempresa		: { type : String, required : true },    
         idformulario  		: { type : String, required : true },
         idunidad  		: { type : String, required : true },
         nombre   		: { type : String, required : true},
