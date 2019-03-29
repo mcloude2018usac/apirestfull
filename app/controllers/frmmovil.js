@@ -16,7 +16,13 @@ switch(value) {
    case 'Numerico':  tt='Number';   break;
    case 'TextArea':   tt='String';   break;
    case 'Etiqueta':   tt='String';   break;
-   case 'Lista de valores':   tt='String';   break;
+   case 'Rango':   tt='Number';   break;
+   case 'Fecha':   tt='Date';   break;
+   case 'Fecha y Hora':   tt='Date';   break;
+   case 'Hora':   tt='Date';   break;
+   case 'Check':   tt='String';   break;
+   case 'Imagen':   tt='String';   break;
+   
     default:
       // code block
   }
@@ -27,10 +33,16 @@ switch(value) {
     var tt='';
     switch(value) {
         case 'Alfanumerico':  tt='text';   break;
-       case 'Numerico':  tt='number';   break;
+       case 'Numerico':  tt='Number';   break;
        case 'TextArea':   tt='textarea';   break;
        case 'Etiqueta':   tt='label';   break;
        case 'Lista de valores':   tt='select';   break;
+       case 'Rango':   tt='rango';   break;
+       case 'Fecha':   tt='fecha';   break;
+       case 'Fecha y Hora':   tt='fechahora';   break;
+       case 'Hora':   tt='hora';   break;
+       case 'Check':   tt='check';   break;
+       case 'Imagen':   tt='imagen';   break;
         default:
           // code block
       }
@@ -87,6 +99,144 @@ switch(value) {
 }
 
 
+
+function dafiltrocad(todos,id2,id3) {
+    var cad=''
+    var cadxx=''
+   
+    for(var i = 0; i < todos.length;i++){
+                                      
+       console.log(todos[i].type.nombre)
+        switch(todos[i].type.nombre) {
+            case 'Rango':  
+            if(todos[i].name==id2){cadxx='"' +id2 + '":' +id3 + ''  }
+            if(todos[i].required=='false')
+            {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '"},';
+            }
+            else
+            {
+                cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
+            }
+            break;
+             case 'Fecha': //ISODate("2018-08-08T15:00:56.875Z"),
+             if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+             else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+             if(todos[i].required=='false')
+             {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '"},';
+             }
+             else
+             {
+                
+                 cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
+             }
+              break;
+              case 'Hora': //ISODate("2018-08-08T15:00:56.875Z"),
+              if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+              else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+              if(todos[i].required=='false')
+              {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '"},';
+              }
+              else
+              {
+                 
+                  cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
+              }
+               break;
+              case 'Fecha y Hora': //ISODate("2018-08-08T15:00:56.875Z"),
+              if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+              else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+              if(todos[i].required=='false')
+              {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '"},';
+              }
+              else
+              {
+                 
+                  cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
+              }
+               break;
+              case 'Check': 
+              if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+              else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+              if(todos[i].required=='false')
+              {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '"},';
+              }
+              else
+              {
+                 
+                  cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
+              }
+               break;
+               case 'Imagen': 
+               if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+               else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+               if(todos[i].required=='false')
+               {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '"},';
+               }
+               else
+               {
+                  
+                   cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
+               }
+                break;
+         case 'Alfanumerico': 
+         if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+         else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+         if(todos[i].required=='false')
+         {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '"},';
+         }
+         else
+         {
+            
+             cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
+         }
+          break;
+        case 'Numerico':  
+        if(todos[i].name==id2){cadxx='"' +id2 + '":' +id3 + ''  }
+        if(todos[i].required=='false')
+        {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '"},';
+        }
+        else
+        {
+            cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
+        }
+        break;
+        case 'TextArea':  
+        if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+        else{cadxx='"' +id2 + '": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+//        if(todos[i].name==id2){cadxx='"' +id2 + '":"' +id3 + '"'  }
+   
+        if(todos[i].required=='false')
+        {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '"},';
+        }
+        else
+        {
+            cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
+        }
+          break;
+        case 'Etiqueta':   
+         break;
+        case 'Lista de valores': 
+        if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '.label":"' +id3 + '"' }
+         else{cadxx='"' +id2 + '.label": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+        if(todos[i].required=='false')
+             {
+                 cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String"},   "label"	: { "type" : "String" }},';
+             }
+             else
+             {
+                     cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
+             }
+
+          break;
+         default:
+           // code block
+       }
+
+     
+     }
+     return cad +'°'+cadxx
+}
+
 var objectToArray = function(obj) {
     var _arr = [];
 
@@ -97,58 +247,98 @@ var objectToArray = function(obj) {
 }
  
 exports.getFrmmovil = function(req, res, next){
-
-    if(req.params.id3)
+    if(req.params.id4)
     {
-        if(req.params.id3=='formulariod')
+        if(req.params.id4=='categoriausr')
         {
-            console.log(req.params.id2);
-
+            Catusuario.find({'idcategoria':req.params.id,'idusuario':req.params.id2,idempresa:req.params.id3}).populate('idformulario').exec(function(err, todos) {
+                if (err){  res.send(err);  }
+                var myData = [];
+              
+                for(var i = 0; i < todos.length;i++){
+                    myData.push({_id:todos[i].idformulario._id,categoria:todos[i].idformulario.categoria,nombre:todos[i].idformulario.nombre,foto:todos[i].idformulario.foto,estado:todos[i].idformulario.estado });
+                }
+               
+    
+                var unique =   myData.filter( onlyUnique );
+              
+                var myData2 = [];
+                              for(var i = 0; i < unique.length;i++){
+                                 myData2.push({_id:unique[i]._id,categoria:todos[i].idformulario.categoria,nombre:unique[i].nombre,foto:unique[i].foto,estado:unique[i].estado});
+                             }
+             
+                              res.json(myData2);
+                            });
 
         }
         else
-        {    
-        Catusuario.find({'idcategoria':req.params.id,'idusuario':req.params.id2}).populate('idformulario').exec(function(err, todos) {
-            if (err){  res.send(err);  }
-            var myData = [];
-          
-            for(var i = 0; i < todos.length;i++){
-                myData.push({_id:todos[i].idformulario._id,categoria:todos[i].idformulario.categoria,nombre:todos[i].idformulario.nombre,foto:todos[i].idformulario.foto,estado:todos[i].idformulario.estado });
+        {
+        var namess=req.params.id //formulario
+        //req.params.id2   campo   req.params.id3   informacion
+        Frmmovild.find({idmovil:req.params.id, display : "true"}).populate('type').sort([['order', 1]]).exec(function(err, todos) {
+            if (err){ res.send(err); }
+                                if(todos.length>0)   {  
+                               
+                                    var cad=''
+                                    var cadxx=''
+                                    var cad3=(dafiltrocad(todos,req.params.id2,req.params.id3)).split('°')
+                                    cad=cad3[0]
+                                    cadxx='{'+ cad3[1] + '}'
+                                    cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                    cad='{' + cad + '}'
+                                    var jsonObject = stringToObject(cad);
+                                    var mongoose = require("mongoose");
+                                    var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                                   
+                                    try {
+                                        var  frmtt= mongoose.model(namess,tt);
+                                        
+                                        frmtt.find(JSON.parse(cadxx) ,function(err, todos2) {
+                                            if (err){  res.send(err);  }
+                                        
+                                            res.json(todos2);
+                                          
+                                        });
+                                      } catch(e) {
+                                         // console.log(e)
+                                        var  frmtt= mongoose.model(namess);
+                              
+                                        frmtt.find(JSON.parse(cadxx) ,function(err, todos2) {
+                                             if (err){  res.send(err);  }
+                                             res.json(todos2);
+                                         
+                                         });
+                                      }
+
+
+                                 
+                    
             }
-           
+        });
+    }
 
-            var unique =   myData.filter( onlyUnique );
-          
-            var myData2 = [];
-                          for(var i = 0; i < unique.length;i++){
-                             myData2.push({_id:unique[i]._id,categoria:todos[i].idformulario.categoria,nombre:unique[i].nombre,foto:unique[i].foto,estado:unique[i].estado});
-                         }
-         
-                          res.json(myData2);
-                        });
-
-    }}
-    else
-    {
-    if(req.params.id2)
+    }
+    else{
+   
+    if(req.params.id3)
     { 
         switch(req.params.id2) {
             case 'estado':
-                    Frmmovil.find({estado:req.params.id},function(err, todos) {
+                    Frmmovil.find({estado:req.params.id,idempresa:req.params.id3},function(err, todos) {
                         if (err){  res.send(err);  }
                         res.json(todos);
                         
                     });
               break;
               case 'categoria':
-              Frmmovil.find({categoria:req.params.id},function(err, todos) {
+              Frmmovil.find({categoria:req.params.id,idempresa:req.params.id3},function(err, todos) {
                   if (err){  res.send(err);  }
                   res.json(todos);
                   
               });
         break;
         case 'formulariocamposver':
-        Frmmovild.find({idmovil:req.params.id, display : "true"},function(err, todos) {
+        Frmmovild.find({idmovil:req.params.id, display : "true",idempresa:req.params.id3},function(err, todos) {
             if (err){  res.send(err);  }
             var data=[]
             for(var i = 0; i < todos.length;i++){
@@ -160,56 +350,49 @@ exports.getFrmmovil = function(req, res, next){
             res.json(data);
             
         });
+
+        break;
+        case 'formulariocamposver2':
+        Frmmovild.find({idmovil:req.params.id, display : "true",idempresa:req.params.id3},function(err, todos) {
+            if (err){  res.send(err);  }
+            var data=[]
+            for(var i = 0; i < todos.length;i++){
+                
+                    data.push({_id:todos[i].name,nombre:todos[i].title})
+                
+                
+            }
+            res.json(data);
+            
+        });
         break;
         case 'formulario':
             var namess=req.params.id
-                Frmmovild.find({idmovil:req.params.id, display : "true"}).populate('type').sort([['order', 1]]).exec(function(err, todos) {
+                Frmmovild.find({idmovil:req.params.id, display : "true",idempresa:req.params.id3}).populate('type').sort([['order', 1]]).exec(function(err, todos) {
                     if (err){ res.send(err); }
                                         if(todos.length>0)   {  
                                        
                                             var cad=''
-                                            for(var i = 0; i < todos.length;i++){
-                                               
-                                                if(todos[i].type.nombre!='Etiqueta')
-                                                {  
-                                                if(todos[i].type.nombre=='Lista de valores')
-                                                {
-                                                    if(todos[i].required=='false')
-                                                    {
-                                                        cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String"},   "label"	: { "type" : "String" }},';
-                                                    }
-                                                    else
-                                                    {
-                                                            cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
-                                                    }
-            
-                                                }
-                                                else
-                                                {
-                                                          if(todos[i].required=='false')
-                                                        {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '"},';
-                                                        }
-                                                        else
-                                                        {
-                                                            cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
-                                                        }
-                                                }
-                                            }
-                                            
-                                            }
-                                            cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" }'
+                                            var cadxx=''
+                                            var cad3=(dafiltrocad(todos,'','')).split('°')
+                                            cad=cad3[0]
+                                            cadxx='{'+ cad3[1] + '}'
+                                            cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
                                             cad='{' + cad + '}'
-    
+                                            cadxx='{' + cadxx + '}'
+                                          //  console.log(cadxx)
                                             var jsonObject = stringToObject(cad);
+                                         //   var jsonObject2 = stringToObject(cadxx);
                                            
                                             var mongoose = require("mongoose");
                                             var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
                                             
+                                           //  console.log(cadxx);   
                                             try {
                                                 var  frmtt= mongoose.model(namess,tt);
-                                                frmtt.find({},function(err, todos2) {
-                                                    if (err){  res.send(err);  }
-                                                
+                                                frmtt.find({} ,function(err, todos2) {
+                                                    if (err){  res.send(err); }
+                                                    
                                                     res.json(todos2);
                                                   
                                                 });
@@ -217,8 +400,10 @@ exports.getFrmmovil = function(req, res, next){
                                                  // console.log(e)
                                                 var  frmtt= mongoose.model(namess);
                                       
-                                                frmtt.find({},function(err, todos2) {
-                                                     if (err){  res.send(err);  }
+                                                frmtt.find( {} ,function(err, todos2) {
+                                                     if (err){  res.send(err);
+                                                    }
+                                                 
                                                      res.json(todos2);
                                                  
                                                  });
@@ -235,7 +420,7 @@ exports.getFrmmovil = function(req, res, next){
   case 'formulariod':
   var namess=req.params.id
  
-  Formcat2.find({idformulario:req.params.id}).exec(function(err, todos1) {
+  Formcat2.find({idformulario:req.params.id,idempresa:req.params.id3}).exec(function(err, todos1) {
     if (err){ res.send(err); }
                         if(todos1.length>0)   {   
                         }
@@ -268,7 +453,10 @@ exports.getFrmmovil = function(req, res, next){
                                                       labelsizefondt:  todos[i].labelsizefondt,
                                                       categoria:  todos[i].categoria,
                                                       combofijo:  todos[i].combofijo,
-                                                      options:daarreglo(todos1,todos[i]._id)
+                                                      options:daarreglo(todos1,todos[i]._id),
+                                                      fondoetiqueta: todos[i].fondoetiqueta,
+                                                      coloretiqueta: todos[i].coloretiqueta,
+                                                      	blike: todos[i].blike
                                                       });
                       
                       
@@ -282,29 +470,47 @@ exports.getFrmmovil = function(req, res, next){
  
 
 break;
-            default:
-              // code block
+            default://busqueda de formulario
+           
+             
           }
     }
     else
     {
-                if(req.params.id)
+                if(req.params.id2)
                 { 
-                        Frmmovil.find({_id:req.params.id},function(err, todos) {
-                            if (err){ res.send(err); }
-                        
-                            if(todos.length>0)   {    res.json(todos);   }
-                            else
-                            {  res.status(500).send('NO EXISTE REGISTRO');      }
-                            
+                    if(req.params.id=='todos')
+                    {
+
+                    
+                    Frmmovil.find({idempresa:req.params.id2}).populate('categoria').exec(function(err, todos) {
+                        if (err){  res.send(err);  }
+                            res.json(todos);
                         });
-                
+                    }
                 }
                 else
-                {             Frmmovil.find({}).populate('categoria').exec(function(err, todos) {
-                                if (err){  res.send(err);  }
-                                    res.json(todos);
-                                });
+                {            
+
+                                if(req.params.id)
+                                { 
+                                        Frmmovil.find({_id:req.params.id},function(err, todos) {
+                                            if (err){ res.send(err); }
+                                        
+                                            if(todos.length>0)   {    res.json(todos);   }
+                                            else
+                                            {  res.status(500).send('NO EXISTE REGISTRO');      }
+                                            
+                                        });
+                                
+                                }
+                                else
+                                {             Frmmovil.find({}).populate('categoria').exec(function(err, todos) {
+                                                if (err){  res.send(err);  }
+                                                    res.json(todos);
+                                                });
+                                }
+
                 }
 }}
 }
@@ -326,38 +532,13 @@ exports.deleteFrmmovil2 = function(req, res, next){
         if (err){ res.send(err); }
                             if(todos.length>0)   {     
                                  var cad=''
-                                for(var i = 0; i < todos.length;i++){
-                               
-                                  //  cad=cad+'"'+todos[i].nombre+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
-
-                                  if(todos[i].type.nombre=='Lista de valores')
-                                  {
-                                    if(todos[i].required=='false')
-                                    {
-                                        cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String"},   "label"	: { "type" : "String" }},';
-                                    }
-                                    else
-                                    {
-                                            cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
-                                    }
-
-                                  }
-                                  else
-                                  {
-                                      if(todos[i].required=='false')
-                                      {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '"},';
-                                      }
-                                      else
-                                      {
-                                        cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
-                                      }
-                                      
-                                  }
 
 
-                                }
-
-                                cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"}'
+                                
+                                var cad3=(dafiltrocad(todos,'','')).split('°')
+                                cad=cad3[0]
+                               // cadxx='{'+ cad3[1] + '}'
+                                cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" }'
                                 cad='{' + cad + '}'
                                 var jsonObject = stringToObject(cad);
                                
@@ -404,39 +585,14 @@ if(req.params.recordID!=='crea')
         if (err){ res.send(err); }
                             if(todos.length>0)   {     
                                  var cad=''
-                                for(var i = 0; i < todos.length;i++){
                                
-                                    //cad=cad+'"'+todos[i].nombre+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
-                                    if(todos[i].type.nombre=='Lista de valores')
-                                    {
-                                        
-                                        if(todos[i].required=='false')
-                                        {
-                                            cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String"},   "label"	: { "type" : "String" }},';
-                                        }
-                                        else
-                                        {
-                                                cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
-                                        }
-
-                                    }
-                                    else
-                                    {
-                                        if(todos[i].required=='false')
-                                        {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '"},';
-                                        }
-                                        else
-                                        {
-                                          cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
-                                        }
-                                    }
-                                }
-
-                                cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"}'
+                               var cad3=(dafiltrocad(todos,'','')).split('°')
+                               cad=cad3[0]
+                                cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" }'
                                 cad='{' + cad + '}'
                                 var jsonObject = stringToObject(cad);
                                
-                             // console.log(jsonObject)
+                              console.log(jsonObject)
                                 var mongoose = require("mongoose");
                                 var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
 
@@ -448,17 +604,7 @@ if(req.params.recordID!=='crea')
                                         res.json(todo3);
                                         });
 
-/*
-                                    frmtt.findByIdAndRemove({ _id: req.params.recordID }, function(err, todo) {
-                                        frmtt.create(req.body.estructura
-                                            , function(err, todo3) {
-                                            if (err){       res.status(500).send(err.message)    }
-                                        
-                                            res.json(todo3);
-                                        
-                                            });
-                                    });
-*/
+
                                   
                                   } catch(e) {
                                     
@@ -467,16 +613,6 @@ if(req.params.recordID!=='crea')
                                         if (err){       res.status(500).send(err.message)    }
                                         res.json(todo3);
                                         });
-
-                                  /*  frmtt.findByIdAndRemove({ _id: req.params.recordID }, function(err, todo) {
-                                        frmtt.create(req.body.estructura
-                                            , function(err, todo3) {
-                                            if (err){       res.status(500).send(err.message)    }
-                                        
-                                            res.json(todo3);
-                                        
-                                            });
-                                    });*/
 
                                   }
 
@@ -494,39 +630,16 @@ else{
     Bitacora.create(req.body.bitacora);
     Frmmovild.find({idmovil:req.body.idform}).populate('type').exec(function(err, todos) {
         if (err){ res.send(err); }
-                            if(todos.length>0)   {     
-                                 var cad=''
-                                for(var i = 0; i < todos.length;i++){
+                            if(todos.length>0)   {  
                                
-                                   // cad=cad+'"'+todos[i].nombre+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
-                                   if(todos[i].type.nombre=='Lista de valores')
-                                   {
-                                        if(todos[i].required=='false')
-                                        {
-                                            cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String"},   "label"	: { "type" : "String" }},';
-                                        }
-                                        else
-                                        {
-                                                cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
-                                        }
-                                       
-                                   }
-                                   else
-                                   {
-                                        if(todos[i].required=='false')
-                                        {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '"},';
-                                        }
-                                        else
-                                        {
-                                        cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
-                                        }
-                                   }
-                                }
-
-                                cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"}'
+                                 var cad=''
+                                 var cad3=(dafiltrocad(todos,'','')).split('°')
+                                 cad=cad3[0]
+                                cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" }'
                                 cad='{' + cad + '}'
                                 var jsonObject = stringToObject(cad);
-                                //console.log(jsonObject)
+                                console.log(jsonObject)
+                                console.log(req.body.estructura)
                               
                                 var mongoose = require("mongoose");
                                 var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
@@ -536,8 +649,8 @@ else{
                                    
                                     frmtt.create(req.body.estructura
                                         , function(err, todo3) {
-                                        if (err){       res.status(500).send(err.message)    }
-                                    
+                                        if (err){  console.log(err.message);     res.status(500).send(err.message)    }
+                                                console.log(todo3)
                                         res.json(todo3);
                                     
                                         });
@@ -548,8 +661,8 @@ else{
                                   
                                     frmtt.create(req.body.estructura
                                         , function(err, todo3) {
-                                        if (err){       res.status(500).send(err.message)    }
-                                    
+                                        if (err){     console.log(err.message);    res.status(500).send(err.message)    }
+                                        console.log(todo3)
                                         res.json(todo3);
                                     
                                         });
@@ -580,7 +693,7 @@ if(req.params.recordID!=='crea')
     Frmmovil.findById({ _id: req.params.recordID }, function (err, todo)  {
         if (err) {  res.send(err);  }
         else
-        { 
+        {   todo.idempresa       	=	req.body.idempresa        	||	todo.idempresa;   
             todo.categoria        	=	req.body.categoria        	||	todo.categoria        	;
             todo.nombre        	=	req.body.nombre        	||	todo.nombre        	;
             todo.foto    	=	req.body.foto    	||	todo.foto    	;
@@ -610,6 +723,7 @@ else{
         {   
 
                     Frmmovil.create({ 
+                        idempresa      	: req.body.idempresa     	,
                         categoria        	: req.body.categoria        	,
                         nombre        	: req.body.nombre        	,
                         foto    	: req.body.foto    	,

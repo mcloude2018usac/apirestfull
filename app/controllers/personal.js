@@ -29,6 +29,29 @@ exports.getPersonal = function(req, res, next){
     }
     else
     {
+        if(req.params.id3)
+        {
+
+            if(req.params.id2=='persona')
+            {
+    
+                Personal.find({cui:req.params.email,APP:req.params.id3}).populate('unidad').populate('tiposuscriptor')
+                .exec(function(err, todos) {
+                    if (err){ res.send(err); }
+                
+                    if(todos.length>0)   {    res.json(todos);    }
+                    else
+                    {  res.status(500).send('NO EXISTE REGISTRO');      }
+                    
+                });
+    
+              
+            }
+
+        }
+        else
+        {
+
     if(req.params.id2)
     {
         if(req.params.id2=='personasaldito')
@@ -374,7 +397,7 @@ exports.getPersonal = function(req, res, next){
                
               
             }
-}}
+}}}
 }
 exports.deletePersonal = function(req, res, next){
     Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina Usuario '});

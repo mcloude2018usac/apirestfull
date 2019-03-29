@@ -24,9 +24,9 @@ exports.getFrmmovild = function(req, res, next){
             });
             break;
             case 'tipofrmorden':
-            Frmmovild.find({idmovil:req.params.id}).sort([['createdAt', -1]]).exec(function(err, todos) {
+            Frmmovild.find({idmovil:req.params.id}).sort([['order', -1]]).exec(function(err, todos) {
               if (err){ res.send(err); }
-             
+           
               if(todos.length>0)   {    res.json({orden:todos[0].order});   }
              
               
@@ -65,21 +65,31 @@ if(req.params.id!=='crea')
         if (err) {  res.send(err);  }
         else
         { console.log(req.body)
+
+            console.log(req.body)
             var rr= req.body.display 
             var rr2= req.body.required
             if(req.body.tipo=="Etiqueta")
             {rr='false';rr2='false'}
 
-                 
-            todo.required		=	rr2             	;
+            todo.nombre       	=	req.body.name       + ' ' + req.body.title  + ' ' +req.body.type	  	||	todo.name + ' ' + todo.title + ' ' + todo.type;    
+            todo.order       	=	req.body.order        	||	todo.order;    
+            todo.title       	=	req.body.title        	||	todo.title;    
+            todo.estado       	=	req.body.estado        	||	todo.estado;    
+            todo.type       	=	req.body.type        	||	todo.type;    
+            todo.idempresa       	=	req.body.idempresa        	||	todo.idempresa;      
+            todo.required		=	rr2         	||	todo.required    	;
             todo.placeholder		=	req.body.placeholder        	||	todo.placeholder        	;
-            todo.display		=	    rr        	       	;
+            todo.display		=	    rr        	   	||	todo.display   	;
             todo.selected		=	req.body.selected        	||	todo.selected        	;
             todo.default		=	req.body.default        	||	todo.default        	;
             todo.disabled		=	req.body.disabled        	||	todo.disabled        	;
             todo.hidden		=	    req.body.hidden        	||	todo.hidden        	;
             todo.position		=	req.body.position        	||	todo.position        	;
             todo.labelsizefondt		=	req.body.labelsizefondt        	||	todo.labelsizefondt        	;
+            todo.blike=req.body.blike        	||	todo.blike        	;
+            todo.fondoetiqueta= req.body.fondoetiqueta        	||	todo.fondoetiqueta        ,
+            todo.coloretiqueta=  req.body.coloretiqueta        	||	todo.coloretiqueta       ,
 
             todo.categoria   			=	req.body.categoria        	||	todo.categoria        	;
             todo.combofijo   			=	req.body.combofijo        	   	;
@@ -115,7 +125,7 @@ else{
             {rr='false'}
 
                     Frmmovild.create({ 
-
+                        idempresa      	: req.body.idempresa     	,
                         idmovil	:req.body.idmovil 	,
                         type   	:req.body.type 	,
                         name   	:nombret 	,
@@ -131,7 +141,10 @@ else{
                         selected :true 	,
                         disabled :'false' 	,
                         hidden :'false' 	,
-                        
+                        blike:  'false',
+                        fondoetiqueta: 'cbg117',
+                        coloretiqueta:  'cco104',
+
                         position :'fixed' 	,
                         labelsizefondt :'14'	,
                         categoria:'' ,

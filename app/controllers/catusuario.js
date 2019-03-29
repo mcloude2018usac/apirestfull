@@ -8,11 +8,11 @@ function onlyUnique(value, index, self) {
 
 
 exports.getCatusuario = function(req, res, next){
-    if(req.params.id2)
+    if(req.params.id3)
     {  
         if(req.params.id2=='categoria')
         {
-            Catusuario.find({'idcategoria':req.params.id}).populate('idusuario').populate('idformulario').exec(function(err, todos) {
+            Catusuario.find({'idcategoria':req.params.id,idempresa:req.params.id3}).populate('idusuario').populate('idformulario').exec(function(err, todos) {
                 if (err){  res.send(err);  }
                  res.json(todos);
              });
@@ -22,7 +22,7 @@ exports.getCatusuario = function(req, res, next){
         {
             if(req.params.id2=='categoriausr')
             {
-                Catusuario.find({'idusuario':req.params.id}).populate('idcategoria').exec(function(err, todos) {
+                Catusuario.find({'idusuario':req.params.id,idempresa:req.params.id3}).populate('idcategoria').exec(function(err, todos) {
                     if (err){  res.send(err);  }
                     var myData = [];
                     for(var i = 0; i < todos.length;i++){
@@ -94,7 +94,7 @@ if(req.params.recordID!=='crea')
     Catusuario.findById({ _id: req.params.recordID }, function (err, todo)  {
         if (err) {  res.send(err);  }
         else
-        {  
+        {   todo.idempresa        	=	req.body.idempresa        	||	todo.idempresa        	;
             todo.idcategoria        	=	req.body.idcategoria        	||	todo.idcategoria        	;
             todo.idusuario        	=	req.body.idusuario        	||	todo.idusuario        	;
             todo.idformulario        	=	req.body.idformulario        	||	todo.idformulario        	;
@@ -121,6 +121,7 @@ else{
         {   
 
             Catusuario.create({
+                idempresa        	: req.body.idempresa        	,
                 idcategoria        	: req.body.idcategoria        	,
                 idusuario        	: req.body.idusuario       ,
                 idformulario        	: req.body.idformulario       ,

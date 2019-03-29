@@ -3,11 +3,11 @@ var Formcat = require('../models/formcat');
 var Bitacora = require('../models/bitacora');
 
 exports.getFormcat = function(req, res, next){
-    if(req.params.id2)
+    if(req.params.id3)
     {  
         
         if(req.params.id=='grupo')    {  
-            Formcat.find({idunidad:req.params.id2},function(err, todos) {
+            Formcat.find({idunidad:req.params.id2,idempresa:req.params.id3},function(err, todos) {
                 if (err){ res.send(err); }
                
                 if(todos.length>0)   {   
@@ -39,7 +39,7 @@ exports.getFormcat = function(req, res, next){
         {
 
             if(req.params.id=='movil')    {
-                Formcat.find({idunidad:req.params.id2},function(err, todos) {
+                Formcat.find({idunidad:req.params.id2,idempresa:req.params.id3},function(err, todos) {
                     if (err){ res.send(err); }
                    
                     if(todos.length>0)   {  
@@ -61,8 +61,8 @@ exports.getFormcat = function(req, res, next){
             }
             else
             {
-
-                Formcat.find({idunidad:req.params.id2},function(err, todos) {
+console.log(req.params.id3)
+                Formcat.find({idunidad:req.params.id2,idempresa:req.params.id3},function(err, todos) {
                     if (err){ res.send(err); }
                    
                     if(todos.length>0)   {    res.json(todos);   }
@@ -103,7 +103,7 @@ exports.creaFormcat2s = function(req, res, next){
         Formcat.findById({ _id: req.params.recordID}, function (err, todo)  {
             if (err) {  res.send(err);  }
             else
-            {  
+            {   todo.idempresa       	=	req.body.idempresa        	||	todo.idempresa;  
                 todo.idunidad        	=	req.body.idunidad        	||	todo.idunidad;        	;
                 todo.nombre        	=	req.body.nombre        	||	todo.nombre        	;
                 todo.usuarioup=req.body.bitacora.email;
@@ -125,7 +125,9 @@ exports.creaFormcat2s = function(req, res, next){
             else
             {   
                             Bitacora.create(req.body.bitacora);
-                        Formcat.create({  idunidad      	: req.body.idunidad     	,
+                        Formcat.create({  
+                            idempresa      	: req.body.idempresa     	,
+                            idunidad      	: req.body.idunidad     	,
                             nombre        	: req.body.nombre        	,
                             usuarionew:req.body.bitacora.email 	
                             
