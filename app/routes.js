@@ -168,6 +168,7 @@ module.exports = function(app){
 //-----------------------------------PERSONAL
 apiRoutes.use('/personals', personalRoutes);
 personalRoutes.get('/',requireAuth, PersonalController.getPersonal);
+personalRoutes.get('/:email/:id2/:id3',requireAuth, PersonalController.getPersonal);
 personalRoutes.get('/:email/:id2',requireAuth, PersonalController.getPersonal);
 personalRoutes.get('/:email/:id2/:id3/:id4/:id5/:id6/:id7', requireAuth,PersonalController.getPersonal);
 personalRoutes.get('/:email', PersonalController.getPersonal);
@@ -331,16 +332,16 @@ perfilRoutes.delete('/:recordID/:userID',requireAuth,  PerfilController.deletePe
 apiRoutes.use('/frmcats', frmcatRoutes);
 frmcatRoutes.get('/',requireAuth, FrmcatController.getFormcat);
 frmcatRoutes.get('/:id',requireAuth,  FrmcatController.getFormcat);
-frmcatRoutes.get('/:id/:id2', requireAuth,  FrmcatController.getFormcat);
+frmcatRoutes.get('/:id/:id2/:id3', requireAuth,  FrmcatController.getFormcat);
 frmcatRoutes.post('/:recordID', requireAuth,  FrmcatController.creaFormcat2s);
 frmcatRoutes.delete('/:recordID/:userID',requireAuth,  FrmcatController.deleteFormcat);
-
+ 
 
 
 //-----------------------------------FRMCAT2
 apiRoutes.use('/frmcat2s', frmcat2Routes);
 frmcat2Routes.get('/',requireAuth, Frmcat2Controller.getFormcat2);
-frmcat2Routes.get('/:id/:id2', requireAuth,  Frmcat2Controller.getFormcat2);
+frmcat2Routes.get('/:id/:id2/:id3', requireAuth,  Frmcat2Controller.getFormcat2);
 frmcat2Routes.get('/:id', requireAuth,  Frmcat2Controller.getFormcat2);
 frmcat2Routes.post('/:recordID', requireAuth,  Frmcat2Controller.creaFormcat22s);
 frmcat2Routes.delete('/:recordID/:userID',requireAuth,  Frmcat2Controller.deleteFormcat2);
@@ -353,6 +354,7 @@ frmmovilRoutes.get('/',requireAuth, FrmmovilController.getFrmmovil);
 frmmovilRoutes.get('/:id',requireAuth, FrmmovilController.getFrmmovil);
 frmmovilRoutes.get('/:id/:id2',requireAuth, FrmmovilController.getFrmmovil);
 frmmovilRoutes.get('/:id/:id2/:id3',requireAuth, FrmmovilController.getFrmmovil);
+frmmovilRoutes.get('/:id/:id2/:id3/:id4',requireAuth, FrmmovilController.getFrmmovil);
 frmmovilRoutes.post('/:recordID',requireAuth,  FrmmovilController.creaFrmmovil2s);
 frmmovilRoutes.post('/:recordID/:recordID2',requireAuth,  FrmmovilController.creaFrmmovil3s);
 frmmovilRoutes.delete('/:recordID/:userID',requireAuth,  FrmmovilController.deleteFrmmovil);
@@ -664,7 +666,7 @@ denunciaunidadRoutes.delete('/:recordID/:userID',requireAuth, DenunciaunidadCont
 apiRoutes.use('/catusuarios', catusuarioRoutes);
 catusuarioRoutes.get('/',requireAuth, CatusuarioController.getCatusuario);
 catusuarioRoutes.get('/:id',requireAuth,  CatusuarioController.getCatusuario);
-catusuarioRoutes.get('/:id/:id2', CatusuarioController.getCatusuario);
+catusuarioRoutes.get('/:id/:id2/:id3', CatusuarioController.getCatusuario);
 catusuarioRoutes.post('/:recordID', requireAuth, CatusuarioController.creaCatusuario2s);
 catusuarioRoutes.delete('/:recordID/:userID',requireAuth, CatusuarioController.deleteCatusuario);
 
