@@ -7,6 +7,7 @@ var AuthenticationController = require('./controllers/authentication'),
     Participa2Controller = require('./controllers/participa2'),
     Participa3Controller = require('./controllers/participa3'),
     Participa4Controller = require('./controllers/participa4'),
+    MailmarketController = require('./controllers/marketmail'),
     ConferenciaController = require('./controllers/conferencia'),
     DcatalogoController = require('./controllers/dcatalogo'),
     SuscriptorsaldoController = require('./controllers/suscriptorsaldo'),
@@ -87,6 +88,7 @@ module.exports = function(app){
         userperfilRoutes = express.Router(),
         participa2Routes = express.Router(),
         participa3Routes = express.Router(),
+        mailmarketRoutes = express.Router(),
         participa4Routes = express.Router(),
         conferenciaRoutes = express.Router(),
         dcatalogoRoutes = express.Router(),
@@ -366,6 +368,7 @@ apiRoutes.use('/frmmovilds', frmmovildRoutes);
 frmmovildRoutes.get('/:id',requireAuth,  FrmmovildController.getFrmmovild);
 frmmovildRoutes.get('/:id/:id2',requireAuth,  FrmmovildController.getFrmmovild);
 frmmovildRoutes.post('/:id',requireAuth,  FrmmovildController.creaFrmmovild2s);
+frmmovildRoutes.post('/:id/:id2',requireAuth,  FrmmovildController.creaFrmmovild3s);
 frmmovildRoutes.delete('/:id/:userID',requireAuth, FrmmovildController.deleteFrmmovild);
 
 
@@ -696,6 +699,13 @@ participa3Routes.get('/:id',requireAuth,  Participa3Controller.getParticipa3);
 participa3Routes.get('/:id/:id2',requireAuth,  Participa3Controller.getParticipa3);
 participa3Routes.post('/:id',requireAuth, Participa3Controller.creaParticipa32s);
 participa3Routes.delete('/:id/:userID',requireAuth,  Participa3Controller.deleteParticipa3);
+
+//-----------------------------------MAILMARKET
+apiRoutes.use('/mailmarkets', mailmarketRoutes);
+mailmarketRoutes.get('/:id',requireAuth,  MailmarketController.getMarketemail);
+mailmarketRoutes.get('/:id/:id2',requireAuth,  MailmarketController.getMarketemail);
+mailmarketRoutes.post('/:id',requireAuth, MailmarketController.creaMarketemail2s);
+mailmarketRoutes.delete('/:id/:userID',requireAuth,  MailmarketController.deleteMarketemail);
 
 
 //-----------------------------------PARTICIPA4
