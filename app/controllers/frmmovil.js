@@ -106,7 +106,7 @@ function dafiltrocad(todos,id2,id3) {
    
     for(var i = 0; i < todos.length;i++){
                                       
-       console.log(todos[i].type.nombre)
+     //  console.log(todos[i].type.nombre)
         switch(todos[i].type.nombre) {
             case 'Rango':  
             if(todos[i].name==id2){cadxx='"' +id2 + '":' +id3 + ''  }
@@ -353,12 +353,16 @@ exports.getFrmmovil = function(req, res, next){
 
         break;
         case 'formulariocamposver2':
-        Frmmovild.find({idmovil:req.params.id, display : "true",idempresa:req.params.id3},function(err, todos) {
+        Frmmovild.find({idmovil:req.params.id, display : "true",idempresa:req.params.id3}).populate('type').exec(function(err, todos) {
             if (err){  res.send(err);  }
             var data=[]
             for(var i = 0; i < todos.length;i++){
-                
+                if(todos[i].type.nombre!='Imagen')
+                {
                     data.push({_id:todos[i].name,nombre:todos[i].title})
+
+                }
+                    
                 
                 
             }
@@ -456,7 +460,11 @@ exports.getFrmmovil = function(req, res, next){
                                                       options:daarreglo(todos1,todos[i]._id),
                                                       fondoetiqueta: todos[i].fondoetiqueta,
                                                       coloretiqueta: todos[i].coloretiqueta,
-                                                      	blike: todos[i].blike
+                                                      blike: todos[i].blike,
+                                                      rangomin: todos[i].rangomin,
+                                                      rangomax: todos[i].rangomax,
+                                                      rangostep: todos[i].rangostep,
+                                                      alfatypo: todos[i].alfatypo
                                                       });
                       
                       

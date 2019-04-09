@@ -86,7 +86,9 @@ else{
                     f3 	: req.body.f3 	,
                     estado:'Solicitando requerimiento',
                     notamedio:'',
-                    notafin:''           
+                    notafin:''     ,
+                    xpos 	: req.body.xpos 	,
+                    ypos 	: req.body.ypos	      
 
                 }
                     , function(err, todo) {
