@@ -39,8 +39,9 @@ var Participa3Schema = new mongoose.Schema({
     f3: {       type: String   },
     estado: {       type: String   },
     notamedio: {       type: String   },
-    notafin: {       type: String   }
-
+    notafin: {       type: String   },
+    xpos: {       type: Number   },
+    ypos: {       type: Number   }
     
 }, {
     timestamps: true

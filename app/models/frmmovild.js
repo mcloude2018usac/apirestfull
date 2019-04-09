@@ -24,7 +24,10 @@ var mongoose =require("mongoose");
         blike:  { type : String },
         fondoetiqueta:  { type : String },
         coloretiqueta:  { type : String },
-       
+        rangomin:	 { type : Number },
+        rangomax:	 { type : Number },
+        rangostep:	 { type : Number },
+        alfatypo: { type : String },
         default: { type : String },
         usuarionew	: { type : String },      usuarioup	: { type : String }}, {
         timestamps: true
