@@ -452,7 +452,7 @@ empresaRoutes.delete('/:recordID/:userID',requireAuth,  EmpresaController.delete
 
 //-----------------------------------Dcatalogo
 apiRoutes.use('/dcatalogos', dcatalogoRoutes);
-dcatalogoRoutes.get('/:id',requireAuth,  DcatalogoController.getDcatalogo);
+dcatalogoRoutes.get('/:id',  DcatalogoController.getDcatalogo);
 
 dcatalogoRoutes.get('/:id/:id2',requireAuth,  DcatalogoController.getDcatalogo);
 dcatalogoRoutes.post('/:id',requireAuth,  DcatalogoController.creaDcatalogo2s);
