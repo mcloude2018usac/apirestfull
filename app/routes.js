@@ -68,6 +68,14 @@ var AuthenticationController = require('./controllers/authentication'),
 
     AsignaestudianteController = require('./controllers/asignaestudiante'),
     AsignaestudiantepapController = require('./controllers/asignaestudiantepap'),
+
+    PlantillaController = require('./controllers/plantilla'),
+    PlantilladController = require('./controllers/plantillad'),
+    PlantilladmController = require('./controllers/plantilladm'),
+    PlantilladmcController = require('./controllers/plantilladmc'),
+    PlantillamdrecController = require('./controllers/plantillamdrec'),
+    PlantillamdevaController = require('./controllers/plantillamdeva'),
+
     AutorizaController = require('./controllers/autoriza'),
     express = require('express'),
     passportService = require('../config/passport'),
@@ -151,9 +159,16 @@ module.exports = function(app){
         facultadmateria2Routes = express.Router(),
         edificiosalon2Routes = express.Router(),
         unidadplan2Routes = express.Router(),
+        asignaestudianteRoutes = express.Router(),
+        asignaestudiantepapRoutes = express.Router(),
+        plantillaRoutes =  express.Router(),
+        plantilladRoutes = express.Router(),
+        plantilladmRoutes = express.Router(),
+        plantilladmcRoutes = express.Router(),
+        plantillamdrecRoutes = express.Router(),
+        plantillamdevaRoutes = express.Router();
+        
 
-        asignaestudianteRoutes = express.Router();
-        asignaestudiantepapRoutes = express.Router();
         apiRoutes.use('/auth', authRoutes);
         authRoutes.post('/register', AuthenticationController.register);
         authRoutes.post('/register2', AuthenticationController.register2);
@@ -384,20 +399,21 @@ conferenciaRoutes.delete('/:id/:userID',requireAuth, ConferenciaController.delet
 //-----------------------------------PERMISOS
 apiRoutes.use('/permisos', permisoRoutes);
 permisoRoutes.get('/:id',requireAuth,  PermisoController.getPermiso);
-permisoRoutes.get('/:id/:id2',requireAuth,  PermisoController.getPermiso);
+permisoRoutes.get('/:id/:id2/:id3',requireAuth,  PermisoController.getPermiso);
 permisoRoutes.post('/:id',requireAuth,  PermisoController.creaPermiso2s);
 permisoRoutes.delete('/:id/:userID',requireAuth,  PermisoController.deletePermiso);
 
 //-----------------------------------PERMISOS
 apiRoutes.use('/permiso2s', permiso2Routes);
 permiso2Routes.get('/:id/:id2',requireAuth,  Permiso2Controller.getPermison2);
-permiso2Routes.get('/:id/:id2/:id3',requireAuth,  Permiso2Controller.getPermison2);
+permiso2Routes.get('/:id/:id2/:id3/:id4',requireAuth,  Permiso2Controller.getPermison2);
 permiso2Routes.post('/:id',requireAuth,  Permiso2Controller.creaPermison22s);
 permiso2Routes.delete('/:id/:userID',requireAuth,  Permiso2Controller.deletePermison2);
 
 //-----------------------------------MODULO
 apiRoutes.use('/modulos', moduloRoutes);
 moduloRoutes.get('/', requireAuth,ModuloController.getModuloxx);
+moduloRoutes.get('/:id/:id2',requireAuth,  ModuloController.getModuloxx);
 moduloRoutes.get('/:id',requireAuth,  ModuloController.getModuloxx);
 moduloRoutes.post('/:recordID',requireAuth,  ModuloController.creaModuloxx2s);
 moduloRoutes.delete('/:recordID/:userID',requireAuth,  ModuloController.deleteModuloxx);
@@ -736,6 +752,65 @@ apiRoutes.use('/datosfijos2', datosfijo2sRoutes);
 datosfijo2sRoutes.get('/:id',requireAuth, Datosfijo2sController.getCombofijo);
 datosfijo2sRoutes.get('/:id/:id2', Datosfijo2sController.getCombofijo);
 datosfijo2sRoutes.get('/:id/:id2/:id3',requireAuth,  Datosfijo2sController.getCombofijo);
+
+
+//----------------------------------PLANTILLA
+apiRoutes.use('/plantillas', plantillaRoutes);
+plantillaRoutes.get('/',requireAuth, PlantillaController.getPlantilla);
+plantillaRoutes.get('/:id/:id2',requireAuth, PlantillaController.getPlantilla);
+plantillaRoutes.get('/:itd',requireAuth, PlantillaController.getPlantilla);
+plantillaRoutes.post('/:recordID',  PlantillaController.creaPlantilla2s);
+plantillaRoutes.delete('/:recordID/:userID',requireAuth,  PlantillaController.deletePlantilla);
+
+//-----------------------------------PLANTILLAD
+
+apiRoutes.use('/plantillads', plantilladRoutes);
+plantilladRoutes.get('/',requireAuth, PlantilladController.getPlantillad);
+plantilladRoutes.get('/:id/:id2',requireAuth, PlantilladController.getPlantillad);
+plantilladRoutes.post('/:id',requireAuth,  PlantilladController.creaPlantillad2s);
+plantilladRoutes.delete('/:id/:userID',requireAuth,  PlantilladController.deletePlantillad);
+
+
+//-----------------------------------PLANTILLADM
+
+apiRoutes.use('/plantilladms', plantilladmRoutes);
+plantilladmRoutes.get('/',requireAuth, PlantilladmController.getPlantilladm);
+plantilladmRoutes.get('/:id/:id2/:id3', PlantilladmController.getPlantilladm);
+plantilladmRoutes.post('/:id',requireAuth,  PlantilladmController.creaPlantilladm2s);
+plantilladmRoutes.delete('/:id/:userID',requireAuth,  PlantilladmController.deletePlantilladm);
+
+
+
+//-----------------------------------PLANTILLADMC
+
+apiRoutes.use('/plantilladmcs', plantilladmcRoutes);
+plantilladmcRoutes.get('/',requireAuth, PlantilladmcController.getPlantilladmc);
+plantilladmcRoutes.get('/:id/:id2/:id3', PlantilladmcController.getPlantilladmc);
+plantilladmcRoutes.post('/:id',  PlantilladmcController.creaPlantilladmc2s);
+plantilladmcRoutes.delete('/:id/:userID',requireAuth,  PlantilladmcController.deletePlantilladmc);
+
+
+
+
+//-----------------------------------PLANTILLAMDEVA
+
+apiRoutes.use('/plantillamdevas', plantillamdevaRoutes);
+plantillamdevaRoutes.get('/',requireAuth, PlantillamdevaController.getPlantillamdeva);
+plantillamdevaRoutes.get('/:id/:id2/:id3/:id4', PlantillamdevaController.getPlantillamdeva);
+plantillamdevaRoutes.post('/:id',  PlantillamdevaController.creaPlantillamdeva2s);
+plantillamdevaRoutes.delete('/:id/:userID',requireAuth,  PlantillamdevaController.deletePlantillamdeva);
+
+
+
+//-----------------------------------PLANTILLAMDrec
+
+apiRoutes.use('/plantillamdrecs', plantillamdrecRoutes);
+plantillamdrecRoutes.get('/',requireAuth, PlantillamdrecController.getPlantillamdrec);
+plantillamdrecRoutes.get('/:id/:id2/:id3/:id4', PlantillamdrecController.getPlantillamdrec);
+plantillamdrecRoutes.post('/:id',  PlantillamdrecController.creaPlantillamdrec2s);
+plantillamdrecRoutes.delete('/:id/:userID',requireAuth,  PlantillamdrecController.deletePlantillamdrec);
+
+
 
 
 //-----------------------------------MAIL

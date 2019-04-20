@@ -29,6 +29,8 @@ var mongoose =require("mongoose");
         rangostep:	 { type : Number },
         alfatypo: { type : String },
         default: { type : String },
+        respuesta: { type : String },
+        valor: { type : Number },
         usuarionew	: { type : String },      usuarioup	: { type : String }}, {
         timestamps: true
         });
