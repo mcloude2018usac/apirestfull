@@ -3,11 +3,11 @@ var Participa3Schema = new mongoose.Schema({
 
     cui: {
         type: String,
-        required: true
+        required: false
     }, 
     nombre: {
         type: String,
-        required: true
+        required: false
     },
     apellido: {
         type: String,
