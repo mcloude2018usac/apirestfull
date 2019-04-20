@@ -3,15 +3,37 @@ var Permison2 = require('../models/permison2');
 var Bitacora = require('../models/bitacora');
 
 exports.getPermison2 = function(req, res, next){
-    if(req.params.id3)
-    {   Permison2.find({idpermiso:req.params.id3,idrol:req.params.id2,_id:req.params.id},function(err, todos) {
-            if (err){ res.send(err); }
+    if(req.params.id4)
+    {  
+        
+        
            
-            if(todos.length>0)   {    res.json(todos);   }
-            else
-            {  res.status(500).send('NO EXISTE REGISTRO');      }
+        if(req.params.id4=='todos')
+        { 
+            Permison2.find({idpermiso:req.params.id3,idrol:req.params.id2,_id:req.params.id},function(err, todos) {
+                if (err){ res.send(err); }
+               
+                if(todos.length>0)   {    res.json(todos);   }
+                else
+                {  res.status(500).send('NO EXISTE REGISTRO');      }
+                
+            });
+        }
             
-        });
+        
+        if(req.params.id4=='orden')
+        { 
+            Permison2.find({idpermiso:req.params.id3,idrol:req.params.id2}).sort([['orden', -1]]).exec(function(err, todos) {
+                if (err){ res.send(err); }
+               
+                if(todos.length>0)   {    res.json({orden:todos[0].orden});   }
+                
+            });
+        }
+
+
+        
+    
     }
     else
     { Permison2.find({idrol:req.params.id,idpermiso:req.params.id2}).sort([['orden', 1]]).populate('nombre')

@@ -93,6 +93,8 @@ if(req.params.id!=='crea')
             todo.rangomax=req.body.rangomax        	||	todo.rangomax        	;
             todo.rangostep=req.body.rangostep        	||	todo.rangostep        	;
             todo.alfatypo=req.body.alfatypo        	||	todo.alfatypo        	;
+            todo.respuesta=req.body.respuesta        	||	todo.respuesta        	;
+            todo.valor=req.body.valor        	||	todo.valor        	;
             todo.usuarioup=req.body.bitacora.email;
             
             
@@ -153,6 +155,8 @@ else{
                         rangomax:	 1000,
                         rangostep:	 100,
                         alfatypo: '',
+                        respuesta:'',
+                        valor:0,
                         usuarionew:req.body.bitacora.email
                 }
                         , function(err, todo) {
@@ -251,6 +255,8 @@ else{
                         rangomax:	 1000,
                         rangostep:	 100,
                         alfatypo: '',
+                        respuesta:'',
+                        valor:0,
                         usuarionew:req.body.bitacora.email
                 }
                         , function(err, todo) {

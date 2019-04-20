@@ -3,15 +3,32 @@ var Permiso = require('../models/permiso');
 var Bitacora = require('../models/bitacora');
 
 exports.getPermiso = function(req, res, next){
-    if(req.params.id2)
-    {   Permiso.find({idrol:req.params.id2,_id:req.params.id},function(err, todos) {
-            if (err){ res.send(err); }
-           
-            if(todos.length>0)   {    res.json(todos);   }
-            else
-            {  res.status(500).send('NO EXISTE REGISTRO');      }
+    if(req.params.id3)
+    { 
+        
+        if(req.params.id3=='todos')
+        { 
+            Permiso.find({idrol:req.params.id2,_id:req.params.id},function(err, todos) {
+                if (err){ res.send(err); }
+               
+                if(todos.length>0)   {    res.json(todos);   }
+                else
+                {  res.status(500).send('NO EXISTE REGISTRO');      }
+                
+            });
+        }
             
-        });
+        
+        if(req.params.id3=='orden')
+        { 
+            Permiso.find({idrol:req.params.id2}).sort([['orden', -1]]).exec(function(err, todos) {
+                if (err){ res.send(err); }
+               
+                if(todos.length>0)   {    res.json({orden:todos[0].orden});   }
+                
+            });
+        }
+       
     }
     else
     { 

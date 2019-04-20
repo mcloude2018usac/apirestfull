@@ -38,6 +38,7 @@ exports.getPersonal = function(req, res, next){
                   
 
                         Personalsaldo.find({  $or : [
+                            { $and : [ { 'idsuscriptor.dpi' : req.params.email }] },
                             { $and : [ { codigo1 : req.params.email }] },
                             { $and : [ { codigo2 : req.params.email }] },
                             { $and : [ { codigo3 : req.params.email }] },

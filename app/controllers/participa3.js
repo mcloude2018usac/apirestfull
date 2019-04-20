@@ -66,7 +66,7 @@ else{
     }
     else{
 
-     console.log(req.body)
+    
 
                     Bitacora.create(req.body.bitacora);
                   

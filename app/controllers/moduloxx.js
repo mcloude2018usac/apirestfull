@@ -3,8 +3,32 @@ var Moduloxx = require('../models/moduloxx');
 var Bitacora = require('../models/bitacora');
 
 exports.getModuloxx = function(req, res, next){
-    if(req.params.id)
-    {   Moduloxx.find({_id:req.params.id},function(err, todos) {
+    if(req.params.id2)
+    {   
+
+        if(req.params.id2=='orden')
+        {  
+
+            Moduloxx.find({}).sort([['index', -1]]).exec(function(err, todos) {
+                if (err){  res.send(err);  }
+                if(todos.length>0)   {    res.json({orden:todos[0].index});   }
+             });
+        }
+        else{
+            Moduloxx.find({}).sort([['index', -1]]).exec(function(err, todos) {
+                if (err){  res.send(err);  }
+                 res.json(todos);
+             });
+
+        }
+      
+
+
+    }
+    else
+    {
+        
+        Moduloxx.find({_id:req.params.id},function(err, todos) {
             if (err){ res.send(err); }
            
             if(todos.length>0)   {    res.json(todos);   }
@@ -12,12 +36,8 @@ exports.getModuloxx = function(req, res, next){
             {  res.status(500).send('NO EXISTE REGISTRO');      }
             
         });
-    }
-    else
-    { Moduloxx.find().sort([['index', -1]]).exec(function(err, todos) {
-           if (err){  res.send(err);  }
-            res.json(todos);
-        });
+        
+      
     }
 }
 exports.deleteModuloxx = function(req, res, next){

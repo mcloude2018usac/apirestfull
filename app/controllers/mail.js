@@ -24,10 +24,10 @@ exports.getMail2 = function(req1, res){
     }
         
  });
-    
+       
 }   
 
-
+  
 
 exports.getMail = function(req, res, next){
     var transporter = nodemailer.createTransport({
