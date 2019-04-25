@@ -12,6 +12,7 @@ var MarketemailSchema = new mongoose.Schema({
         type: String,
         required: false
     },
+    fecha   		: { type : Date, required : true},
     f1: {       type: String   },
     f2: {       type: String   },
     estado: {       type: String   }
