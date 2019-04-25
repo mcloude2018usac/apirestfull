@@ -1,9 +1,7 @@
 var mongoose =require('mongoose');
 var MarketemailSchema = new mongoose.Schema({
-    nombre: {
-        type: String,
-        required: true
-    }, 
+    idempresa: {        type: String,        required: true    }, 
+    nombre: {        type: String,        required: true    }, 
     titulo: {
         type: String,
         required: true
@@ -13,6 +11,7 @@ var MarketemailSchema = new mongoose.Schema({
         required: false
     },
     fecha   		: { type : Date, required : true},
+    grupo: {       type: String , required : true ,ref:'Marketgrupo' },
     f1: {       type: String   },
     f2: {       type: String   },
     estado: {       type: String   }
