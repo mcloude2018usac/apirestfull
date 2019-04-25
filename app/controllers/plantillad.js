@@ -5,11 +5,11 @@ var Bitacora = require('../models/bitacora');
 exports.getPlantillad = function(req, res, next){
     if(req.params.id2)
     { 
-        
+        console.log()
         Plantillad.find({idplantilla:req.params.id,idempresa:req.params.id2},function(err, todos) {
             if (err){ res.send(err); }
            
-            if(todos.length>0)   {    res.json(todos);   }
+            res.json(todos);   
            
             
         });

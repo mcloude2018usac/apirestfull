@@ -57,6 +57,7 @@ else{
                todo.texto        	=	req.body.texto        	||	todo.texto        	;
                todo.f1        	=	req.body.f1        	||	todo.f1       	;
                todo.f2        	=	req.body.f2        	||	todo.f2        	;
+               todo.fecha        	=	req.body.fecha        	||	todo.fecha       	;
                todo.estado        	=	req.body.estado       	||	todo.estado        	;
 
                todo.save(function (err, todo){
@@ -77,6 +78,7 @@ else{
                     nombre       	: req.body.nombre       	,
                     titulo       	: req.body.titulo       	,
                     texto    	: req.body.texto    	,
+                    fecha 	: req.body.fecha 	,
                     f1 	: req.body.f1 	,
                     f2 	: req.body.f2 	,
                     estado:req.body.estado

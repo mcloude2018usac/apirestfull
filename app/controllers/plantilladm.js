@@ -28,7 +28,7 @@ exports.getPlantilladm = function(req, res, next){
             Plantilladm.find({idplantilla:req.params.id,idempresa:req.params.id2}).sort([['orden', -1]]).exec(function(err, todos) {
                 if (err){ res.send(err); }
                
-                if(todos.length>0)   {    res.json(todos);   }
+                   res.json(todos);   
                
                 
             });

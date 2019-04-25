@@ -7,9 +7,7 @@ exports.getPlantillamdeva = function(req, res, next){
     {   Plantillamdeva.find({idplantilla:req.params.id, idplantillad:req.params.id2, idplantilladm:req.params.id3,_id:req.params.id4},function(err, todos) {
             if (err){ res.send(err); }
            
-            if(todos.length>0)   {    res.json(todos);   }
-            else
-            {  res.status(500).send('NO EXISTE REGISTRO');      }
+               res.json(todos);  
             
         });
     }

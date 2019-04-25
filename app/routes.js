@@ -785,7 +785,7 @@ plantilladmRoutes.delete('/:id/:userID',requireAuth,  PlantilladmController.dele
 
 apiRoutes.use('/plantilladmcs', plantilladmcRoutes);
 plantilladmcRoutes.get('/',requireAuth, PlantilladmcController.getPlantilladmc);
-plantilladmcRoutes.get('/:id/:id2/:id3', PlantilladmcController.getPlantilladmc);
+plantilladmcRoutes.get('/:id/:id2/:id3/:id4', PlantilladmcController.getPlantilladmc);
 plantilladmcRoutes.post('/:id',  PlantilladmcController.creaPlantilladmc2s);
 plantilladmcRoutes.delete('/:id/:userID',requireAuth,  PlantilladmcController.deletePlantilladmc);
 
