@@ -7,22 +7,24 @@ var Bitacora = require('../models/bitacora');
 exports.getMarketemail = function(req, res, next){
     if(req.params.id2)
     {  
-       
-        Marketemail.find({idevento:req.params.id,_id:req.params.id2},function(err, todos) {
+       if(req.params.id2=='todo')
+       {
+
+        Marketemail.find({idempresa:req.params.id}).populate('grupo').exec(function(err, todos) {
             if (err){ res.send(err); }
            
-            if(todos.length>0)   {    res.json(todos);   }
-            else
-            {  res.status(500).send('NO EXISTE REGISTRO');      }
+            res.json(todos);   
             
         });
+       }
+       
     }
     else
     { 
        
        
 
-        Marketemail.find({}).exec(function(err, todos) {
+        Marketemail.find({}).populate('grupo').exec(function(err, todos) {
            if (err){  res.send(err);  }
             res.json(todos);
         });
@@ -58,6 +60,7 @@ else{
                todo.f1        	=	req.body.f1        	||	todo.f1       	;
                todo.f2        	=	req.body.f2        	||	todo.f2        	;
                todo.fecha        	=	req.body.fecha        	||	todo.fecha       	;
+               todo.grupo        	=	req.body.grupo        	||	todo.grupo       	;
                todo.estado        	=	req.body.estado       	||	todo.estado        	;
 
                todo.save(function (err, todo){
@@ -75,10 +78,12 @@ else{
                     Bitacora.create(req.body.bitacora);
                   
                 Marketemail.create({  
+                    idempresa       	: req.body.idempresa       	,
                     nombre       	: req.body.nombre       	,
                     titulo       	: req.body.titulo       	,
                     texto    	: req.body.texto    	,
                     fecha 	: req.body.fecha 	,
+                    grupo 	: req.body.grupo 	,
                     f1 	: req.body.f1 	,
                     f2 	: req.body.f2 	,
                     estado:req.body.estado
