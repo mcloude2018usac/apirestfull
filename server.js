@@ -16,8 +16,8 @@ var router = require('./app/routes');
 
 var mailt = require('./app/controllers/mail');
 
-
-mongoose.connect(databaseConfig.url);
+//mongoose.set('useCreateIndex', true);
+mongoose.connect(databaseConfig.url, { useNewUrlParser: true ,useCreateIndex: true });
 
   // schedule tasks to be run on the server
   cron.schedule("59 23 * * *", function() {
