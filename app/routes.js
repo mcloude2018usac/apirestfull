@@ -49,6 +49,8 @@ var AuthenticationController = require('./controllers/authentication'),
     TipounidadController = require('./controllers/tipounidad'),
     Tipounidad2Controller = require('./controllers/tipounidad2'),
     DepartamentoController = require('./controllers/departamento'),
+    MarketgrupoController = require('./controllers/marketgrupo'),
+    MarketgrupodController = require('./controllers/marketgrupod'),
     DenunciaunidadController = require('./controllers/denunciaunidad'),
     CatusuarioController = require('./controllers/catusuario'),
     EdificiousacController = require('./controllers/unidadedificio'),
@@ -138,6 +140,8 @@ module.exports = function(app){
         busRoutes = express.Router(),
         afiliadoRoutes = express.Router(),
         departamentoRoutes = express.Router(),
+        marketgrupoRoutes = express.Router(),
+        marketgrupodRoutes = express.Router(),
         denunciaunidadRoutes = express.Router(),
         catusuarioRoutes = express.Router(),
         mailRoutes = express.Router(),
@@ -668,6 +672,25 @@ departamentoRoutes.get('/',requireAuth, DepartamentoController.getDepartamento);
 departamentoRoutes.get('/:id', requireAuth, DepartamentoController.getDepartamento);
 departamentoRoutes.post('/:recordID', requireAuth, DepartamentoController.creaDepartamento2s);
 departamentoRoutes.delete('/:recordID/:userID',requireAuth, DepartamentoController.deleteDepartamento);
+
+
+//-----------------------------------MARKETGRUPO
+apiRoutes.use('/marketgrupos', marketgrupoRoutes);
+marketgrupoRoutes.get('/',requireAuth, MarketgrupoController.getMarketgrupo);
+marketgrupoRoutes.get('/:id/:id2', requireAuth, MarketgrupoController.getMarketgrupo);
+marketgrupoRoutes.post('/:recordID', requireAuth, MarketgrupoController.creaMarketgrupo2s);
+marketgrupoRoutes.delete('/:recordID/:userID',requireAuth, MarketgrupoController.deleteMarketgrupo);
+
+
+//-----------------------------------MARKETGRUPOD
+apiRoutes.use('/marketgrupods', marketgrupodRoutes);
+marketgrupodRoutes.get('/',requireAuth, MarketgrupodController.getMarketgrupod);
+marketgrupodRoutes.get('/:id/:id2/:id3', requireAuth, MarketgrupodController.getMarketgrupod);
+marketgrupodRoutes.post('/:recordID', requireAuth, MarketgrupodController.creaMarketgrupod2s);
+marketgrupodRoutes.delete('/:recordID/:userID',requireAuth, MarketgrupodController.deleteMarketgrupod);
+
+
+
 
 
 //-----------------------------------DENUNCIA UNIDAD
