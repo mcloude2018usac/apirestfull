@@ -4,12 +4,30 @@ var Bitacora = require('../models/bitacora');
 
 exports.getPlantilladmc = function(req, res, next){
     if(req.params.id4)
-    {   Plantilladmc.find({idplantilla:req.params.id, idempresa:req.params.id2,  idplantilladm:req.params.id3,_id:req.params.id4},function(err, todos) {
+    { 
+        if(req.params.id4=='todos')
+        {
+          Plantilladmc.find({idplantilla:req.params.id, idempresa:req.params.id2,  idplantilladm:req.params.id3},function(err, todos) {
             if (err){ res.send(err); }
            
               res.json(todos); 
           
         });
+    }
+
+    
+    if(req.params.id4=='orden')
+    { 
+
+        Plantilladmc.find({idplantilla:req.params.id, idempresa:req.params.id2,  idplantilladm:req.params.id3}).sort([['orden', -1]]).exec(function(err, todos) {
+            if (err){ res.send(err); }
+         
+            if(todos.length>0)   {    res.json({orden:todos[0].orden});   }
+        });
+
+    }
+
+
     }
     else
     { Plantilladmc.find({idplantilla:req.params.id, idempresa:req.params.id2, idplantilladm:req.params.id3},function(err, todos) {
@@ -36,8 +54,7 @@ exports.creaPlantilladmc2s = function(req, res, next){
             if (err) {  res.send(err);  }
             else
             {   todo.idplantilla        	=	req.body.idplantilla        	||	todo.idplantilla;        	
-                todo.idplantillad        	=	req.body.idplantillad        	||	todo.idplantillad;        	
-                todo.idplantilladm        	=	req.body.idplantilladm        	||	todo.idplantilladm;   
+                 todo.idplantilladm        	=	req.body.idplantilladm        	||	todo.idplantilladm;   
                 todo.tiporecurso        	=	req.body.tiporecurso        	||	todo.tiporecurso        	;
                 todo.nombre        	=	req.body.nombre        	||	todo.nombre        	;
                 todo.descripcion        	=	req.body.descripcion        	||	todo.descripcion        	;
@@ -61,8 +78,8 @@ exports.creaPlantilladmc2s = function(req, res, next){
     else{
         Bitacora.create(req.body.bitacora);
         var d = new Date();
-    Plantilladmc.create({  idplantilla       	: req.body.idplantilla       	,
-        idplantillad       	: req.body.idplantillad       	,
+    Plantilladmc.create({  idempresa       	: req.body.idempresa      	,
+         idplantilla       	: req.body.idplantilla       	,
         idplantilladm       	: req.body.idplantilladm       	,
         tiporecurso        	: req.body.tiporecurso        	, 
         nombre        	: req.body.nombre        	,
