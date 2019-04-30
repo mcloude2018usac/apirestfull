@@ -24,7 +24,8 @@ exports.getGaleriaimg = function(req, res, next){
                                 {
                                     console.log(todos)
                     const dataUrl = todos[0].imagen;
-                                        res.send(`<img src=${dataUrl}>`);
+                    res.send(dataUrl);
+                                    //    res.send(`<img src=${dataUrl}>`);
         
                                 }
                 else{
