@@ -2,6 +2,8 @@
 
 var Galeriaimg = require('../models/galeriaimg');
 var Bitacora = require('../models/bitacora');
+var http = require('http')
+  , fs = require('fs');
 
 exports.getGaleriaimg = function(req, res, next){
        if(req.params.id2)
@@ -22,11 +24,21 @@ exports.getGaleriaimg = function(req, res, next){
                     if (err){ res.send(err); }
                                 if(todos.length>0)
                                 {
-                                    console.log(todos)
-                    const dataUrl = todos[0].imagen;
-                    res.send(dataUrl);
-                                    //    res.send(`<img src=${dataUrl}>`);
-        
+                   const dataUrl = todos[0].imagen;
+                    let base64Image = dataUrl.split(';base64,').pop();
+
+
+fs.readFile('./fonts/sampleimage.jpg', function(err, data) {
+    if (err) throw err; // Fail if the file can't be read.
+
+
+var data2=Buffer.from(base64Image , 'base64')
+
+    
+      res.writeHead(200, {'Content-Type': 'image/jpeg'});
+      res.end(data2); // Send the file data to the browser.
+    
+  });
                                 }
                 else{
 
