@@ -3,9 +3,20 @@ var Plantillad = require('../models/plantillad');
 var Bitacora = require('../models/bitacora');
 
 exports.getPlantillad = function(req, res, next){
+    if(req.params.id3)
+    { 
+        Plantillad.find({idplantilla:req.params.id,idempresa:req.params.id2,tipo:req.params.id3},function(err, todos) {
+            if (err){ res.send(err); }
+           
+            res.json(todos);   
+           
+            
+        });
+    }
+    else{
     if(req.params.id2)
     { 
-        console.log()
+       
         Plantillad.find({idplantilla:req.params.id,idempresa:req.params.id2},function(err, todos) {
             if (err){ res.send(err); }
            
@@ -19,7 +30,7 @@ exports.getPlantillad = function(req, res, next){
            if (err){  res.send(err);  }
             res.json(todos);
         });
-    }
+    }}
 }
 exports.deletePlantillad = function(req, res, next){
    

@@ -54,7 +54,7 @@ else{
                 todo.estado       	=	req.body.estado        	||	todo.estado        	;         
                todo.notamedio        	=	req.body.notamedio        	||	todo.notamedio        	;
                todo.notafin        	=	req.body.notafin        	||	todo.notafin        	;
-
+               todo.tipo        	=	req.body.tipo        	||	todo.tipo        	;
 
                todo.save(function (err, todo){
                     if (err)     {  res.status(500).send(err.message)   }
