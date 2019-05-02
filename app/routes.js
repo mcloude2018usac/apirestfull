@@ -801,6 +801,7 @@ plantillaRoutes.delete('/:recordID/:userID',requireAuth,  PlantillaController.de
 apiRoutes.use('/plantillads', plantilladRoutes);
 plantilladRoutes.get('/',requireAuth, PlantilladController.getPlantillad);
 plantilladRoutes.get('/:id/:id2',requireAuth, PlantilladController.getPlantillad);
+plantilladRoutes.get('/:id/:id2/:id3',requireAuth, PlantilladController.getPlantillad);
 plantilladRoutes.post('/:id',requireAuth,  PlantilladController.creaPlantillad2s);
 plantilladRoutes.delete('/:id/:userID',requireAuth,  PlantilladController.deletePlantillad);
 
