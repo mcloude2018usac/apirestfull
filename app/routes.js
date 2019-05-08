@@ -37,6 +37,7 @@ var AuthenticationController = require('./controllers/authentication'),
     DtarifaController = require('./controllers/dtarifa'),
     AfiliadoController = require('./controllers/afiliado'),
     ComprasaldoController = require('./controllers/comprasaldo'),
+    EntradasdpiController = require('./controllers/entradasdpi'),
     ReversionsaldoController = require('./controllers/reversionsaldo'),
     SolcarneController = require('./controllers/solcarne'),
     AsignapapController = require('./controllers/asignapap'),
@@ -131,6 +132,7 @@ module.exports = function(app){
         dtarifaRoutes = express.Router(),
         suscriptorRoutes = express.Router(),
         comprasaldoRoutes = express.Router(),
+        entradasdpiRoutes = express.Router(),
         reversionsaldoRoutes = express.Router(),
         solcarneRoutes = express.Router(),
         asignapapRoutes = express.Router(),
@@ -193,7 +195,7 @@ apiRoutes.use('/personals', personalRoutes);
 personalRoutes.get('/',requireAuth, PersonalController.getPersonal);
 personalRoutes.get('/:email/:id2/:id3',requireAuth, PersonalController.getPersonal);
 personalRoutes.get('/:email/:id2',requireAuth, PersonalController.getPersonal);
-personalRoutes.get('/:email/:id2/:id3/:id4/:id5/:id6/:id7', requireAuth,PersonalController.getPersonal);
+personalRoutes.get('/:email/:id2/:id3/:id4/:id5/:id6/:id7/:id8/:id9', requireAuth,PersonalController.getPersonal);
 personalRoutes.get('/:email', PersonalController.getPersonal);
 personalRoutes.get('/:pagineo/:limit/:page',requireAuth,  PersonalController.getPersonal);
 
@@ -270,6 +272,15 @@ galeriaimgRoutes.get('/:id',requireAuth,  GaleriaimgController.getGaleriaimg);
 galeriaimgRoutes.get('/:id/:id2',  GaleriaimgController.getGaleriaimg);
 galeriaimgRoutes.post('/:recordID', requireAuth, GaleriaimgController.creaGaleriaimg2s);
 galeriaimgRoutes.delete('/:recordID/:userID',requireAuth,  GaleriaimgController.deleteGaleriaimg);
+
+//-----------------------------------ENTRADAS DPI----------------------------------
+
+apiRoutes.use('/Entradasdpis', entradasdpiRoutes);
+entradasdpiRoutes.get('/:id',requireAuth, EntradasdpiController.getEntradasdpi);
+entradasdpiRoutes.get('/:id/:id2',requireAuth,  EntradasdpiController.getEntradasdpi);
+
+entradasdpiRoutes.post('/:recordID',requireAuth,  EntradasdpiController.creaEntradasdpi2s);
+entradasdpiRoutes.delete('/:recordID/:userID',requireAuth,  EntradasdpiController.deleteEntradasdpi);
 
 
 //-----------------------------------COMPRA DE SALDO----------------------------------
