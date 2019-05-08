@@ -5,6 +5,7 @@ var Personalsaldo = require('../models/suscriptorsaldo');
 var Personalhis = require('../models/suscriptorhis');
 var Bitacora = require('../models/bitacora');
 var Tiposuscriptor = require('../models/tipo_suscriptor');
+var Entradasdpi = require('../models/entradasdpi');
 
 function roundxx(value, decimals) {
     //parseFloat(Math.round(num3 * 100) / 100).toFixed(2);
@@ -13,6 +14,7 @@ function roundxx(value, decimals) {
   }
 
 exports.getPersonal = function(req, res, next){
+
 
     if(req.params.page)
     {
@@ -30,9 +32,159 @@ exports.getPersonal = function(req, res, next){
     else
     {
         
-        if(req.params.id7)
+                if(req.params.id9)
                     {
             
+                        if(req.params.id2=='parqueodpisalida')
+                        {
+                                            Entradasdpi.find({ cui: req.params.email
+                                            ,estado:'PagoCancelado',estado2:'SalidaPendiente'}).sort([['_id', 1]]).limit(1).exec(function(err, todos10) {
+                                                    if (err){ res.send(err); }
+                                                    if(todos10.length>0)   { //obtienen el primero
+                                                       //actualizar estado
+
+                                                       Entradasdpi.findById({ _id:todos10[0]._id }, function (err, todo)  {
+                                                        if (err) {  res.send(err);  }
+                                                        else
+                                                        { 
+                                                       
+                                                                      
+                                                             todo.estado2        	=		'SalidaCancelada';
+                                                            
+                                                             todo.save(function (err, todo){
+                                                                 if (err)     {  console.log(err.message)   }
+                                               
+                                                                     Personalhis.create({idsuscriptor :{    id	:'5cce61cf84955d3c24507202', 
+                                                                          nombre	:  req.params.id5.replace("-"," ")       },
+                                                                           tipo   		: 'cobro_parqueo_dpi',descripcion   		: 'Cobro por servicio parqueo (dpi)', 
+                                                                           saldoanterior   		: 0,
+                                                                             monto   		: 0,                                  
+                                                                              saldoactual   		: 0,
+                                                                              idtrans   		: todo._id,
+                                                                              nodispositivo 		: req.params.id6,
+                                                                              noprov 		: req.params.id7,
+                                                                              idempresa 		: String(req.params.id8).replace("-"," "),
+                                                                    codigo1: req.params.email, usuarionew	: req.params.id4,      usuarioup	: req.params.id4});
+                               
+                                                                    res.json([{exito:'ok'}]);
+                             
+                                                                
+                                                             });
+                                                                
+                                                           
+                                                       
+                                                        }
+                                                    });
+                 
+                                                    
+
+                                                       
+
+                                                    }
+                                                    else
+                                                    {//sin registro de entrada
+
+                                                        res.json([{exito:'Error: No existe Entrada...'}]);
+
+
+                                                    }
+                                            });
+                          
+                        }
+                        else
+                        {
+                        if(req.params.id2=='parqueodpientrada')
+                        {
+                                            Entradasdpi.find({ cui: req.params.email
+                                            ,estado:'PagoPendiente'}).exec(function(err, todos10) {
+                                                    if (err){ res.send(err); }
+                                                    if(todos10.length>0)   { //ya existe una pendiente 
+                                                        res.json([{exito:'Error: Ya existe un ingreso...'}]);
+                                                    }
+                                                    else
+                                                    {//sin registro de entrada
+                                                        Personalsaldo.find({  'idsuscriptor.cui': req.params.email
+                                                    }).populate('idsuscriptor.id').exec(function(err, todos) {
+                                                            if (err){ res.send(err); }
+                                            
+                                                    
+                                                            if(todos.length>0)   { 
+                                                                console.log('encuentra suscriptor');
+                                                                Entradasdpi.create({
+                                                                    nombre	: req.params.id5.replace("-"," ")      ,
+                                                                    cui 	: req.params.email , 
+                                                                    tarifa  		: roundxx(req.params.id3 ,2),
+                                                                        idpersonal  		: todos[0]._id ,
+                                                                        estado 		: 'PagoPendiente',
+                                                                        estado2 		: 'SalidaPendiente',
+                                                                        nodispositivo 		: req.params.id6,
+                                                                        noprov 		: req.params.id7,
+                                                                       tentrada 		: req.params.id9,
+                                                                        idempresa 		:  String(req.params.id8).replace("-"," "),
+                                                                        usuarionew	: req.params.id4,      usuarioup	: req.params.id4
+                                                                        }
+                                                                        , function(err, todo22) {
+                                                                        if (err){ res.status(500).send(err.message)    }
+
+                                                                        Personalhis.create({idsuscriptor :{    id	:todos[0]._id , 
+                                                                        nombre	:  req.params.id5.replace("-"," ")       },
+                                                                         tipo   		: 'cobro_parqueo_dpi',descripcion   		: 'Entrada por servicio parqueo (dpi)', 
+                                                                         saldoanterior   		: 0,
+                                                                           monto   		: 0,                                  
+                                                                            saldoactual   		: 0,
+                                                                            idtrans   		: todo22._id,
+                                                                            nodispositivo 		: req.params.id6,
+                                                                            idempresa 		:  String(req.params.id8).replace("-"," "),
+                                                                            noprov 		: req.params.id7,
+                                                                  codigo1: req.params.email, usuarionew	: req.params.id4,      usuarioup	: req.params.id4});
+                             
+
+
+                                                                        res.json([{exito:'ok'}]);
+                                                                    });
+                                                            }
+                                                            else
+                                                            { //no existe registro  crear transaccion en botacora
+                                                                console.log('NO encuentra suscriptor');
+                                                                Entradasdpi.create({
+                                                                    nombre	: req.params.id5.replace("-"," ")      ,
+                                                                    cui 	: req.params.email, 
+                                                                    tarifa  		: roundxx(req.params.id3 ,2),
+                                                                        idpersonal  		: '',
+                                                                        estado 		: 'PagoPendiente',
+                                                                        estado2 		: 'SalidaPendiente',
+                                                                        nodispositivo 		: req.params.id6,
+                                                                                noprov 		: req.params.id7,
+                                                                                tentrada 		: req.params.id9,
+                                                                                idempresa 		: String(req.params.id8).replace("-"," "),
+                                                                        usuarionew	: req.params.id4,      usuarioup	: req.params.id4
+                                                                        }
+                                                                        , function(err, todo22) {
+                                                                        if (err){ res.status(500).send(err.message)    }
+
+                                                                        Personalhis.create({idsuscriptor :{    id	:'5cce61cf84955d3c24507202', 
+                                                                        nombre	:  req.params.id5.replace("-"," ")       },
+                                                                         tipo   		: 'cobro_parqueo_dpi',descripcion   		: 'Entrada por servicio parqueo (dpi)', 
+                                                                         saldoanterior   		: 0,
+                                                                           monto   		: 0,                                  
+                                                                            saldoactual   		: 0,
+                                                                            idtrans   		: todo22._id,
+                                                                            nodispositivo 		: req.params.id6,
+                                                                            idempresa 		: String(req.params.id8).replace("-"," "),
+                                                                            noprov 		: req.params.id7,
+                                                                  codigo1: req.params.email, usuarionew	: req.params.id4,      usuarioup	: req.params.id4});
+                             
+
+                                                                        res.json([{exito:'ok'}]);
+                                                                    });
+                                                            }
+                                                        });
+                                                    }
+                                            });
+                          
+                        }
+                        else
+                        {
                         
                         
                   
@@ -47,8 +199,6 @@ exports.getPersonal = function(req, res, next){
                     }).populate('idsuscriptor.id').exec(function(err, todos) {
                             if (err){ res.send(err); }
                             var myData = [];
-
-                          console.log(todos[0].idsuscriptor.id.tiposuscriptor);
 
                             if(todos.length>0)   { 
                                 Tiposuscriptor.findById({ _id:todos[0].idsuscriptor.id.tiposuscriptor}, function (err, todo15)  {
@@ -71,7 +221,8 @@ exports.getPersonal = function(req, res, next){
                                 
                                  todo.save(function (err, todo){
                                      if (err)     {  console.log(err.message)   }
-                                      myData.push({tarifa:roundxx(Number(req.params.id3),2),nombre:todos[0].idsuscriptor.id.nombre,cui:todos[0].idsuscriptor.id.cui
+                                      myData.push({tarifa:roundxx(Number(req.params.id3),2),
+                                        nombre:todos[0].idsuscriptor.id.nombre,cui:todos[0].idsuscriptor.id.cui
                                         ,saldo:roundxx(todos[0].saldoactual,2),
                                          id:todos[0]._id,saldoactual:roundxx(Number(todos[0].saldoactual)-Number(req.params.id3) ,2)});
                            //  {    id	:todo[0].idsuscriptor.id ,   nombre	: todo[0].idsuscriptor.nombre       },
@@ -89,6 +240,7 @@ exports.getPersonal = function(req, res, next){
                                                   idtrans   		: todo._id,
                                                   nodispositivo 		: req.params.id6,
                                                   noprov 		: req.params.id7,
+                                                  idempresa:'WebApp Usacenlinea',
                                         codigo1: req.params.email, usuarionew	: req.params.id4,      usuarioup	: req.params.id4});
    
                                           res.json(myData);
@@ -124,9 +276,9 @@ exports.getPersonal = function(req, res, next){
                       
                     
                     
+                        }
                     
-                    
-                    
+                        }
                     }
                     else{
         if(req.params.id3)
@@ -277,7 +429,7 @@ exports.getPersonal = function(req, res, next){
                 else
                 {
                     
-                    
+                  
 
                         if(req.params.id2=='tarjetasaldoenlineabus')
                         {
@@ -331,6 +483,7 @@ exports.getPersonal = function(req, res, next){
                                                       idtrans   		: todo._id,
                                                       nodispositivo 		: req.params.id6,
                                                       noprov 		: req.params.id7,
+                                                      idempresa:'WebApp Usacenlinea',
                                             codigo1: req.params.email, usuarionew	: req.params.id4,      usuarioup	: req.params.id4});
        
                                               res.json(myData);

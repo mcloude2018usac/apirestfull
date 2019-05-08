@@ -142,6 +142,7 @@ else{
                                         idtrans   		: todo22._id,
                                         nodispositivo 		: '0',
                                         noprov 		: '0',
+                                        idempresa:'WebApp Usacenlinea',
                               codigo1: '', usuarionew	: req.body.bitacora.email,      usuarioup	: req.body.bitacora.email});
                          
                                 res.json(todo22);

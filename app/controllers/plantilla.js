@@ -21,10 +21,13 @@ console.log(n[1] + '/' + n[2] + '/' + n[0])
 exports.getPlantilla = function(req, res, next){
     if(req.params.id2)
     { 
+     
        if(req.params.id2=='todos')
        {
+        console.log(req.params)
         Plantilla.find({idempresa:req.params.id}).populate('categoria').populate('unidad').exec(function(err, todos) {
             if (err){  res.send(err);  }
+            console.log(todos)
              res.json(todos);
          });
        }
