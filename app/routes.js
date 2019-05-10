@@ -277,7 +277,7 @@ galeriaimgRoutes.delete('/:recordID/:userID',requireAuth,  GaleriaimgController.
 
 apiRoutes.use('/Entradasdpis', entradasdpiRoutes);
 entradasdpiRoutes.get('/:id',requireAuth, EntradasdpiController.getEntradasdpi);
-entradasdpiRoutes.get('/:id/:id2',requireAuth,  EntradasdpiController.getEntradasdpi);
+entradasdpiRoutes.get('/:id/:id2',  EntradasdpiController.getEntradasdpi);
 
 entradasdpiRoutes.post('/:recordID',requireAuth,  EntradasdpiController.creaEntradasdpi2s);
 entradasdpiRoutes.delete('/:recordID/:userID',requireAuth,  EntradasdpiController.deleteEntradasdpi);
