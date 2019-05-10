@@ -84,7 +84,7 @@ exports.getPersonal = function(req, res, next){
                                                     else
                                                     {//sin registro de entrada
 
-                                                        res.json([{exito:'Error: No existe Entrada...'}]);
+                                                        res.json([{exito:'Error: Valide su salida...'}]);
 
 
                                                     }
@@ -109,7 +109,7 @@ exports.getPersonal = function(req, res, next){
                                             
                                                     
                                                             if(todos.length>0)   { 
-                                                                console.log('encuentra suscriptor');
+                                                                
                                                                 Entradasdpi.create({
                                                                     nombre	: req.params.id5.replace("-"," ")      ,
                                                                     cui 	: req.params.email , 
@@ -145,7 +145,7 @@ exports.getPersonal = function(req, res, next){
                                                             }
                                                             else
                                                             { //no existe registro  crear transaccion en botacora
-                                                                console.log('NO encuentra suscriptor');
+                                                            
                                                                 Entradasdpi.create({
                                                                     nombre	: req.params.id5.replace("-"," ")      ,
                                                                     cui 	: req.params.email, 
