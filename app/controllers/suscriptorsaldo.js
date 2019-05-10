@@ -58,22 +58,16 @@ exports.creaSuscriptorsaldo2s = function(req, res, next){
                 todo.usuarioup=req.body.bitacora.email;
                 todo.save(function (err, todo){
                     if (err)     {  res.status(500).send(err.message)   }
-                    
-                    
                     Solcarne.find({'idsuscriptor.id':req.body.idsuscriptor.id,estado:'No entregado'}).exec(function(err, todos10) {
                         if (err){ res.send(err); }
-                       
-                          
                         
                             Solcarne.findById({ _id:todos10[0]._id }, function (err, todo15)  {
                                 if (err) {  res.send(err);  }
                                 else
                                 {   
                                     var d =new Date().toISOString().substr(0,10);   
-                 
                                     todo15.estado    	=	'Disponible'  	;
                                     todo15.nota    	=	'Tu carné ya esta disponible en kiosko ['+d+']'    	;
-                                
                                     todo15.save(function (err, todo50){
                                         if (err)     {  res.status(500).send(err.message)   }
                                        

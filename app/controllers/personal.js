@@ -95,96 +95,173 @@ exports.getPersonal = function(req, res, next){
                         {
                         if(req.params.id2=='parqueodpientrada')
                         {
+
+
+                           
                                             Entradasdpi.find({ cui: req.params.email
-                                            ,estado:'PagoPendiente'}).exec(function(err, todos10) {
+                                            ,estado:'PagoPendiente', estado2:'SalidaPendiente'}).select({  "_id": 1}).exec(function(err, todos1) {
                                                     if (err){ res.send(err); }
-                                                    if(todos10.length>0)   { //ya existe una pendiente 
-                                                        res.json([{exito:'Error: Ya existe un ingreso...'}]);
+                                                    if(todos1.length>0)   { //ya existe una pendiente 
+
+                                                        res.json([{exito:'Error,Valide su salida...'}]);
+
+                                                        
                                                     }
                                                     else
-                                                    {//sin registro de entrada
-                                                        Personalsaldo.find({  'idsuscriptor.cui': req.params.email
-                                                    }).populate('idsuscriptor.id').exec(function(err, todos) {
-                                                            if (err){ res.send(err); }
-                                            
-                                                    
-                                                            if(todos.length>0)   { 
+                                                    {
+
+
+                                                        Entradasdpi.find({ cui: req.params.email
+                                                            ,estado:'PagoCancelado',estado2:'SalidaPendiente'}).select({  "_id": 1}).exec(function(err, todos10) {
+                                                                    if (err){ res.send(err); }
+                                                                    if(todos10.length>0)   {//saquelo
+                                                                        
+
+                                                                        Entradasdpi.findById({ _id:todos10[0]._id }, function (err, todo)  {
+                                                                            if (err) {  res.send(err);  }
+                                                                            else
+                                                                            { 
+                                                                        
+                                                                                        
+                                                                                todo.estado2        	=		'SalidaCancelada';
+                                                                                
+                                                                                todo.save(function (err, todo){
+                                                                                    if (err)     {  console.log(err.message)   }
                                                                 
-                                                                Entradasdpi.create({
-                                                                    nombre	: req.params.id5.replace("-"," ")      ,
-                                                                    cui 	: req.params.email , 
-                                                                    tarifa  		: roundxx(req.params.id3 ,2),
-                                                                        idpersonal  		: todos[0]._id ,
-                                                                        estado 		: 'PagoPendiente',
-                                                                        estado2 		: 'SalidaPendiente',
-                                                                        nodispositivo 		: req.params.id6,
-                                                                        noprov 		: req.params.id7,
-                                                                       tentrada 		: req.params.id9,
-                                                                        idempresa 		:  String(req.params.id8).replace("-"," "),
-                                                                        monto: 0,
-                                                                        horasdescuento: 0,
-                                                                        montodescuento: 0,
-                                                                        usuarionew	: req.params.id4,      usuarioup	: req.params.id4
-                                                                        }
-                                                                        , function(err, todo22) {
-                                                                        if (err){ res.status(500).send(err.message)    }
-
-                                                                        Personalhis.create({idsuscriptor :{    id	:todos[0]._id , 
-                                                                        nombre	:  req.params.id5.replace("-"," ")       },
-                                                                         tipo   		: 'cobro_parqueo_dpi',descripcion   		: 'Entrada por servicio parqueo (dpi)', 
-                                                                         saldoanterior   		: 0,
-                                                                           monto   		: 0,                                  
-                                                                            saldoactual   		: 0,
-                                                                            idtrans   		: todo22._id,
-                                                                            nodispositivo 		: req.params.id6,
-                                                                            idempresa 		:  String(req.params.id8).replace("-"," "),
-                                                                            noprov 		: req.params.id7,
-                                                                  codigo1: req.params.email, usuarionew	: req.params.id4,      usuarioup	: req.params.id4});
-                             
+                                                                                        Personalhis.create({idsuscriptor :{    id	:'5cce61cf84955d3c24507202', 
+                                                                                            nombre	:  req.params.id5.replace("-"," ")       },
+                                                                                            tipo   		: 'cobro_parqueo_dpi',descripcion   		: 'Cobro por servicio parqueo (dpi)', 
+                                                                                            saldoanterior   		: 0,
+                                                                                                monto   		: 0,                                  
+                                                                                                saldoactual   		: 0,
+                                                                                                idtrans   		: todo._id,
+                                                                                                nodispositivo 		: req.params.id6,
+                                                                                                noprov 		: req.params.id7,
+                                                                                                idempresa 		: String(req.params.id8).replace("-"," "),
+                                                                                        codigo1: req.params.email, usuarionew	: req.params.id4,      usuarioup	: req.params.id4});
+                                                
+                                                                                        res.json([{exito:'ok,** BUEN VIAJE **'}]);
+                                                
+                                                                                    
+                                                                                });
+                                                                                    
+                                                                            
+                                                                        
+                                                                            }
+                                                                        });
 
 
-                                                                        res.json([{exito:'ok'}]);
-                                                                    });
-                                                            }
-                                                            else
-                                                            { //no existe registro  crear transaccion en botacora
-                                                            
-                                                                Entradasdpi.create({
-                                                                    nombre	: req.params.id5.replace("-"," ")      ,
-                                                                    cui 	: req.params.email, 
-                                                                    tarifa  		: roundxx(req.params.id3 ,2),
-                                                                        idpersonal  		: '',
-                                                                        estado 		: 'PagoPendiente',
-                                                                        estado2 		: 'SalidaPendiente',
-                                                                        nodispositivo 		: req.params.id6,
-                                                                                noprov 		: req.params.id7,
-                                                                                tentrada 		: req.params.id9,
-                                                                                idempresa 		: String(req.params.id8).replace("-"," "),
-                                                                                monto: 0,
-                                                                                horasdescuento: 0,
-                                                                                montodescuento: 0,
-                                                                        usuarionew	: req.params.id4,      usuarioup	: req.params.id4
-                                                                        }
-                                                                        , function(err, todo22) {
-                                                                        if (err){ res.status(500).send(err.message)    }
+                                                                    }
+                                                                    else
+                                                                    {
 
-                                                                        Personalhis.create({idsuscriptor :{    id	:'5cce61cf84955d3c24507202', 
-                                                                        nombre	:  req.params.id5.replace("-"," ")       },
-                                                                         tipo   		: 'cobro_parqueo_dpi',descripcion   		: 'Entrada por servicio parqueo (dpi)', 
-                                                                         saldoanterior   		: 0,
-                                                                           monto   		: 0,                                  
-                                                                            saldoactual   		: 0,
-                                                                            idtrans   		: todo22._id,
-                                                                            nodispositivo 		: req.params.id6,
-                                                                            idempresa 		: String(req.params.id8).replace("-"," "),
-                                                                            noprov 		: req.params.id7,
-                                                                  codigo1: req.params.email, usuarionew	: req.params.id4,      usuarioup	: req.params.id4});
-                             
+                                                                        Entradasdpi.find({ cui: req.params.email
+                                                                            ,estado:'PagoCancelado',estado2:'SalidaCancelada'}).select({  "_id": 1}).exec(function(err, todos2) {
+                                                                                    if (err){ res.send(err); }
+                                                                                    if(todos2.length>0)   {
+                                                                                        res.json([{exito:'Error,Valide su salida...'}]);
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                
+                                                                                      
+                                                                                                         
+                                                                                        Personalsaldo.find({  'idsuscriptor.cui': req.params.email
+                                                                                                }).select({  "_id": 1}).exec(function(err, todos) {
+                                                                                                        if (err){ res.send(err); }
+                                                                                                        if(todos.length>0)   { 
+                                                                                                            Entradasdpi.create({
+                                                                                                                nombre	: req.params.id5.replace("-"," ")      ,
+                                                                                                                cui 	: req.params.email , 
+                                                                                                                tarifa  		: roundxx(req.params.id3 ,2),
+                                                                                                                    idpersonal  		: todos[0]._id ,
+                                                                                                                    estado 		: 'PagoPendiente',
+                                                                                                                    estado2 		: 'SalidaPendiente',
+                                                                                                                    nodispositivo 		: req.params.id6,
+                                                                                                                    noprov 		: req.params.id7,
+                                                                                                                tentrada 		: req.params.id9,
+                                                                                                                    idempresa 		:  String(req.params.id8).replace("-"," "),
+                                                                                                                    monto: 0,
+                                                                                                                    horasdescuento: 0,
+                                                                                                                    montodescuento: 0,
+                                                                                                                    usuarionew	: req.params.id4,      usuarioup	: req.params.id4
+                                                                                                                    }
+                                                                                                                    , function(err, todo22) {
+                                                                                                                    if (err){ res.status(500).send(err.message)    }
 
-                                                                        res.json([{exito:'ok'}]);
-                                                                    });
-                                                            }
-                                                        });
+                                                                                                                    Personalhis.create({idsuscriptor :{    id	:todos[0]._id , 
+                                                                                                                    nombre	:  req.params.id5.replace("-"," ")       },
+                                                                                                                    tipo   		: 'cobro_parqueo_dpi',descripcion   		: 'Entrada por servicio parqueo (dpi)', 
+                                                                                                                    saldoanterior   		: 0,
+                                                                                                                    monto   		: 0,                                  
+                                                                                                                        saldoactual   		: 0,
+                                                                                                                        idtrans   		: todo22._id,
+                                                                                                                        nodispositivo 		: req.params.id6,
+                                                                                                                        idempresa 		:  String(req.params.id8).replace("-"," "),
+                                                                                                                        noprov 		: req.params.id7,
+                                                                                                            codigo1: req.params.email, usuarionew	: req.params.id4,      usuarioup	: req.params.id4});
+                                                                                                                    res.json([{exito:'ok,** PASE ADELANTE **'}]);
+                                                                                                                });
+                                                                                                        }
+                                                                                                        else
+                                                                                                        { //no existe registro  crear transaccion en botacora
+                                                                                                            Entradasdpi.create({
+                                                                                                                nombre	: req.params.id5.replace("-"," ")      ,
+                                                                                                                cui 	: req.params.email, 
+                                                                                                                tarifa  		: roundxx(req.params.id3 ,2),
+                                                                                                                    idpersonal  		: '',
+                                                                                                                    estado 		: 'PagoPendiente',
+                                                                                                                    estado2 		: 'SalidaPendiente',
+                                                                                                                    nodispositivo 		: req.params.id6,
+                                                                                                                            noprov 		: req.params.id7,
+                                                                                                                            tentrada 		: req.params.id9,
+                                                                                                                            idempresa 		: String(req.params.id8).replace("-"," "),
+                                                                                                                            monto: 0,
+                                                                                                                            horasdescuento: 0,
+                                                                                                                            montodescuento: 0,
+                                                                                                                    usuarionew	: req.params.id4,      usuarioup	: req.params.id4
+                                                                                                                    }
+                                                                                                                    , function(err, todo22) {
+                                                                                                                    if (err){ res.status(500).send(err.message)    }
+                                                                                                                    Personalhis.create({idsuscriptor :{    id	:'5cce61cf84955d3c24507202', 
+                                                                                                                    nombre	:  req.params.id5.replace("-"," ")       },
+                                                                                                                    tipo   		: 'cobro_parqueo_dpi',descripcion   		: 'Entrada por servicio parqueo (dpi)', 
+                                                                                                                    saldoanterior   		: 0,
+                                                                                                                    monto   		: 0,                                  
+                                                                                                                        saldoactual   		: 0,
+                                                                                                                        idtrans   		: todo22._id,
+                                                                                                                        nodispositivo 		: req.params.id6,
+                                                                                                                        idempresa 		: String(req.params.id8).replace("-"," "),
+                                                                                                                        noprov 		: req.params.id7,
+                                                                                                            codigo1: req.params.email, usuarionew	: req.params.id4,      usuarioup	: req.params.id4});
+                                                                                                                    res.json([{exito:'ok,** PASE ADELANTE **'}]);
+                                                                                                                });
+                                                                                                        }
+                                                                                                    });   
+                
+                
+                
+                                                                                    }
+                
+                                                                                });
+
+
+
+                                                           
+
+
+                                                                    }
+
+                                                                });
+
+
+                                                       
+                                                        
+                                                        //sin registro de entrada
+                                                      
+
+
+
                                                     }
                                             });
                           

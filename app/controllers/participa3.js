@@ -7,58 +7,38 @@ exports.getParticipa3 = function(req, res, next){
     {  
         if(req.params.id2=='video')
         { 
-
             Participa3.find({_id:req.params.id},function(err, todos) {
                 if (err){ res.send(err); }
-               
                 if(todos.length>0)   {    res.json([{f3:todos[0].f3}]);   }
                 else{
-
                     res.json([{f3:''}]);
                 }
-                
             });
-
-            
         }
         else{
-   
             if(req.params.id2=='fotos')
             { 
-    
                 Participa3.find({_id:req.params.id},function(err, todos) {
                     if (err){ res.send(err); }
-                   
                     if(todos.length>0)   {    res.json([{f1:todos[0].f1,f2:todos[0].f2}]);   }
                     else{
-    
                         res.json([{f1:'',f2:''}]);
                     }
-                    
                 });
-    
-                
             }
         }
-        
-        
     }
     else
     { 
-       
         var aa=(req.params.id).split(',')
-
         Participa3.find({tipo:{$in:aa}}).populate('tipo').select({ "cui": 1,"nombre": 1,"tipo": 1,"correo": 1,"motivo": 1,
         "estado": 1,"notamedio": 1,"xpos": 1, "ypos": 1,        "_id": 1}).exec(function(err, todos) {
            if (err){  res.send(err);  }
-
-   res.json(todos);    
-
+               res.json(todos);    
         });
     }
 }
 exports.deleteParticipa3 = function(req, res, next){
-   
     Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina Participa3 '});
     Participa3.findByIdAndRemove({ _id: req.params.id  }, function(err, todo) {
         res.json(todo);
@@ -67,12 +47,8 @@ exports.deleteParticipa3 = function(req, res, next){
 
 
 exports.creaParticipa32s = function(req, res, next){
-   
- 
   if(req.params.id=='actualiza')
 { 
-   
-
 }
 else{
     if(req.params.id!=='crea')
