@@ -12,9 +12,9 @@ function roundxx(value, decimals) {
   
 exports.getEntradasdpi = function(req, res, next){
     if(req.params.id2)
-    {    if(req.params.id2=='cui')
-        {
-            Entradasdpi.find({'cui':req.params.id},function(err, todos) {
+    {    if(req.params.id2=='CUI')
+        { console.log('entra')
+            Entradasdpi.find({'cui':req.params.id}).sort([['createdAt', -1]]).exec(function(err, todos) {
                 if (err){ res.send(err); }
                
                    res.json(todos);   

@@ -121,6 +121,9 @@ exports.getPersonal = function(req, res, next){
                                                                         noprov 		: req.params.id7,
                                                                        tentrada 		: req.params.id9,
                                                                         idempresa 		:  String(req.params.id8).replace("-"," "),
+                                                                        monto: 0,
+                                                                        horasdescuento: 0,
+                                                                        montodescuento: 0,
                                                                         usuarionew	: req.params.id4,      usuarioup	: req.params.id4
                                                                         }
                                                                         , function(err, todo22) {
@@ -157,6 +160,9 @@ exports.getPersonal = function(req, res, next){
                                                                                 noprov 		: req.params.id7,
                                                                                 tentrada 		: req.params.id9,
                                                                                 idempresa 		: String(req.params.id8).replace("-"," "),
+                                                                                monto: 0,
+                                                                                horasdescuento: 0,
+                                                                                montodescuento: 0,
                                                                         usuarionew	: req.params.id4,      usuarioup	: req.params.id4
                                                                         }
                                                                         , function(err, todo22) {
