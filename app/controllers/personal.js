@@ -609,7 +609,7 @@ exports.getPersonal = function(req, res, next){
           }  }}}}
     }
     else
-    {
+    {   
         
             if(req.params.email)
             {  
@@ -630,7 +630,7 @@ exports.getPersonal = function(req, res, next){
             else
             {
 
-               
+               // res.status(500).send('NO EXISTE REGISTRO');
 
                         Personal.find(function(err, todos) {
                             if (err){  res.send(err);  }

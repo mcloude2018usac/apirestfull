@@ -7,7 +7,7 @@ exports.getPlantilladmc = function(req, res, next){
     { 
         if(req.params.id4=='todos')
         {
-          Plantilladmc.find({idplantilla:req.params.id, idempresa:req.params.id2,  idplantilladm:req.params.id3},function(err, todos) {
+          Plantilladmc.find({idplantilla:req.params.id, idempresa:req.params.id2,  idplantilladm:req.params.id3}).sort([['orden', 1]]).exec(function(err, todos) {
             if (err){ res.send(err); }
            
               res.json(todos); 
@@ -64,6 +64,7 @@ exports.creaPlantilladmc2s = function(req, res, next){
                 todo.url   	=	req.body.url    	||	todo.url    	;
                 todo.contenido 	=	req.body.contenido 	||	todo.contenido 	;
                 todo.estado 	=	req.body.estado 	||	todo.estado 	;
+                todo.estado2 	=	req.body.estado2 	||	todo.estado2 	;
                 todo.usuarioup=req.body.bitacora.email;
                 
               
@@ -91,6 +92,7 @@ exports.creaPlantilladmc2s = function(req, res, next){
         contenido    	: req.body.contenido    	,
       
         estado 	: req.body.estado 	,
+        estado2 	: 'Asignado' 	,
         usuarionew:req.body.bitacora.email
        }
         , function(err, todo) {

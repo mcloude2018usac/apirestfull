@@ -25,7 +25,7 @@ exports.getPlantilladm = function(req, res, next){
         
         if(req.params.id3=='todos')
         { 
-            Plantilladm.find({idplantilla:req.params.id,idempresa:req.params.id2}).sort([['orden', -1]]).exec(function(err, todos) {
+            Plantilladm.find({idplantilla:req.params.id,idempresa:req.params.id2}).sort([['orden', 1]]).exec(function(err, todos) {
                 if (err){ res.send(err); }
                
                    res.json(todos);   
@@ -84,7 +84,8 @@ exports.creaPlantilladm2s = function(req, res, next){
                 todo.orden 	=	req.body.orden 	||	todo.orden 	;
         
                 todo.estado 	=	req.body.estado 	||	todo.estado 	;
-         
+                todo.estado2 	=	req.body.estado2 	||	todo.estado2 	;
+                todo.porc1 	=	req.body.porc1 	||	todo.porc1 	;
                 todo.usuarioup=req.body.bitacora.email;
                 
               
@@ -110,6 +111,8 @@ exports.creaPlantilladm2s = function(req, res, next){
         foto    	: req.body.foto    	,
         orden    	: req.body.orden    	,        
         estado 	: req.body.estado 	,
+        estado2:'Asignado',
+        porc1:0,
         usuarionew:req.body.bitacora.email
        }
         , function(err, todo) {

@@ -24,10 +24,10 @@ exports.getPlantilla = function(req, res, next){
      
        if(req.params.id2=='todos')
        {
-        console.log(req.params)
+      
         Plantilla.find({idempresa:req.params.id}).populate('categoria').populate('unidad').exec(function(err, todos) {
             if (err){  res.send(err);  }
-            console.log(todos)
+       
              res.json(todos);
          });
        }
@@ -41,8 +41,8 @@ exports.getPlantilla = function(req, res, next){
          res.json({dias:diffDays});
 
 
-       }
-
+       }      
+  
       
        
     }
