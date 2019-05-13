@@ -18,10 +18,8 @@ var PlantilladmcSchema = new mongoose.Schema({
     marcas 	: { type : String },
     url: { type : String },
     contenido: { type : String, required : true },
-    estado: {
-        type: String,
-        required: true
-    }
+    estado: {      type: String,    required: true  },
+    estado2: {      type: String,    required: true  }
     ,usuarionew	: { type : String },      usuarioup	: { type : String }
 }, {
     timestamps: true

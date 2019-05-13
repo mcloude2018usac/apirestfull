@@ -14,10 +14,9 @@ var PlantilladmSchema = new mongoose.Schema({
     tiempodias: { type : Number, required : true },
     foto 	: { type : String, required : true },
     orden: { type : Number, required : true },
-    estado: {
-        type: String,
-        required: true
-    }
+    estado: {     type: String,      required: true    },
+    estado2: {     type: String,      required: true    },
+    porc1: { type : Number, required : true }
     ,usuarionew	: { type : String },      usuarioup	: { type : String }
 }, {
     timestamps: true
