@@ -6,6 +6,7 @@ var AuthenticationController = require('./controllers/authentication'),
     ParticipaController = require('./controllers/participa'),
     Participa2Controller = require('./controllers/participa2'),
     Participa3Controller = require('./controllers/participa3'),
+    Participa33Controller = require('./controllers/participa33'),
     Participa4Controller = require('./controllers/participa4'),
     MailmarketController = require('./controllers/marketmail'),
     ConferenciaController = require('./controllers/conferencia'),
@@ -100,6 +101,7 @@ module.exports = function(app){
         userperfilRoutes = express.Router(),
         participa2Routes = express.Router(),
         participa3Routes = express.Router(),
+        participa33Routes = express.Router(),
         mailmarketRoutes = express.Router(),
         participa4Routes = express.Router(),
         conferenciaRoutes = express.Router(),
@@ -761,10 +763,18 @@ participa3Routes.get('/:id/:id2',requireAuth,  Participa3Controller.getParticipa
 participa3Routes.post('/:id',requireAuth, Participa3Controller.creaParticipa32s);
 participa3Routes.delete('/:id/:userID',requireAuth,  Participa3Controller.deleteParticipa3);
 
+//-----------------------------------PARTICIPA3
+apiRoutes.use('/participa33s', participa33Routes);
+participa33Routes.get('/:id',requireAuth,  Participa33Controller.getParticipa33);
+participa33Routes.get('/:id/:id2',requireAuth,  Participa33Controller.getParticipa33);
+participa33Routes.post('/:id',requireAuth, Participa33Controller.creaParticipa332s);
+participa33Routes.delete('/:id/:userID',requireAuth,  Participa33Controller.deleteParticipa33);
+
 //-----------------------------------MAILMARKET
 apiRoutes.use('/mailmarkets', mailmarketRoutes);
 mailmarketRoutes.get('/:id',requireAuth,  MailmarketController.getMarketemail);
 mailmarketRoutes.get('/:id/:id2',requireAuth,  MailmarketController.getMarketemail);
+mailmarketRoutes.get('/:id/:id2/:id3',requireAuth,  MailmarketController.getMarketemail);
 mailmarketRoutes.post('/:id',requireAuth, MailmarketController.creaMarketemail2s);
 mailmarketRoutes.delete('/:id/:userID',requireAuth,  MailmarketController.deleteMarketemail);
 

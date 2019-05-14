@@ -1,6 +1,10 @@
 var mongoose =require('mongoose');
-var Participa3Schema = new mongoose.Schema({
+var Participa33Schema = new mongoose.Schema({
 
+    iddenuncia: {
+        type: String,
+        required: true
+    }, 
     cui: {
         type: String,
         required: false
@@ -36,7 +40,7 @@ var Participa3Schema = new mongoose.Schema({
    
     f1: {       type: String   },
     f2: {       type: String   },
-    f3: {       type: Buffer  },
+    f3: {       type: String   },
     estado: {       type: String   },
     notamedio: {       type: String   },
     notafin: {       type: String   },
@@ -47,4 +51,4 @@ var Participa3Schema = new mongoose.Schema({
     timestamps: true
 });
 
-module.exports = mongoose.model('Participa3', Participa3Schema);
+module.exports = mongoose.model('Participa33', Participa33Schema);
