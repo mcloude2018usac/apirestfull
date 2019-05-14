@@ -774,7 +774,7 @@ participa33Routes.delete('/:id/:userID',requireAuth,  Participa33Controller.dele
 apiRoutes.use('/mailmarkets', mailmarketRoutes);
 mailmarketRoutes.get('/:id',requireAuth,  MailmarketController.getMarketemail);
 mailmarketRoutes.get('/:id/:id2',requireAuth,  MailmarketController.getMarketemail);
-mailmarketRoutes.get('/:id/:id2/:id3',requireAuth,  MailmarketController.getMarketemail);
+mailmarketRoutes.get('/:id/:id2/:id3', MailmarketController.getMarketemail);
 mailmarketRoutes.post('/:id',requireAuth, MailmarketController.creaMarketemail2s);
 mailmarketRoutes.delete('/:id/:userID',requireAuth,  MailmarketController.deleteMarketemail);
 
