@@ -5,6 +5,22 @@ var Bitacora = require('../models/bitacora');
 //db.getCollection('carnes').find({ correo: {  $ne: null }}).count()
 
 exports.getMarketemail = function(req, res, next){
+    if(req.params.id3)
+    { 
+
+        if(req.params.id3=='plantillas')
+        {
+            Marketemail.find({idempresa:req.params.id,_id:req.params.id2}).exec(function(err, todos) {
+                if (err){ res.send(err); }
+               
+                res.json(todos);   
+                
+            });
+
+        }
+    }
+    else
+    {
     if(req.params.id2)
     {  
        if(req.params.id2=='todo')
@@ -28,7 +44,7 @@ exports.getMarketemail = function(req, res, next){
            if (err){  res.send(err);  }
             res.json(todos);
         });
-    }
+    }}
 }
 exports.deleteMarketemail = function(req, res, next){
    

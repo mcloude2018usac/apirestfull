@@ -5,12 +5,12 @@ exports.getCatalogo = function(req, res, next){
     if(req.params.id2)
     { //req.params.id=='UNIDADES' &&
 
-    if(req.params.id=='UNIDADES' && req.params.id2=='UNIDADES')
+    if(req.params.id==req.params.id2)
     {
-        Catalogo.find({tipo:'UNIDADES'},function(err, todos) {
+        Catalogo.find({tipo:req.params.id2},function(err, todos) {
             if (err){ res.send(err); }
            
-            if(todos.length>0)   {    res.json(todos);   }
+               res.json(todos);  
            
             
         });

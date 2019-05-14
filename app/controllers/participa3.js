@@ -1,6 +1,8 @@
 
 var Participa3 = require('../models/participa3');
 var Bitacora = require('../models/bitacora');
+var Buffer = require('buffer').Buffer;
+var zlib = require('zlib');
 
 exports.getParticipa3 = function(req, res, next){
     if(req.params.id2)
@@ -25,6 +27,18 @@ exports.getParticipa3 = function(req, res, next){
                         res.json([{f1:'',f2:''}]);
                     }
                 });
+            }
+            else{
+
+                if(req.params.id2=='denuncia')
+                { 
+                    Participa3.find({_id:req.params.id}).populate('tipo').exec(function(err, todos) {
+                        if (err){ res.send(err); }
+                    res.json(todos);
+                          
+                    });
+                }
+
             }
         }
     }
@@ -76,38 +90,67 @@ else{
     
 
                     Bitacora.create(req.body.bitacora);
-                  
-                Participa3.create({  
-                   
-                    cui       	: req.body.cui       	,
-                    nombre        	: req.body.nombre        	,
-                    apellido    	: req.body.apellido    	,
-                    telefono 	: req.body.telefono 	,
-                    correo    	: req.body.correo   	,
-                    tipo 	: req.body.tipo 	, 
-                   
-                    unidad 	: req.body.unidad 	,
-                    motivo 	: req.body.motivo	,
-                    f1 	: req.body.f1 	,
-                    f2 	: req.body.f2 	,
-                    f3 	: req.body.f3 	,
-                    estado:'Solicitando requerimiento',
-                    notamedio:'',
-                    notafin:''     ,
-                    xpos 	: req.body.xpos 	,
-                    ypos 	: req.body.ypos	      
+                 
 
-                }
-                    , function(err, todo) {
-                    if (err){   res.status(500).send(err.message)  
-                    console.log(err.message)  }
-                
-                    res.json(todo);
+var aaa=req.body.f3.split(',')
 
-                
-                    
 
-                });
+Participa3.create({  
+               
+    cui       	: req.body.cui       	,
+    nombre        	: req.body.nombre        	,
+    apellido    	: req.body.apellido    	,
+    telefono 	: req.body.telefono 	,
+    correo    	: req.body.correo   	,
+    tipo 	: req.body.tipo 	, 
+   
+    unidad 	: req.body.unidad 	,
+    motivo 	: req.body.motivo	,
+    f1 	: req.body.f1 	,
+    f2 	: req.body.f2 	,
+    f3 	: req.body.f3 	,
+    estado:'Solicitando requerimiento',
+    notamedio:'',
+    notafin:''     ,
+    xpos 	: req.body.xpos 	,
+    ypos 	: req.body.ypos	      
+
+}
+    , function(err, todo) {
+    if (err){   res.status(500).send(err.message)  
+    console.log(err.message)  }
+//   console.log(todo)
+    res.json(todo);
+
+});    
+
+  /*
+zlib.constants.Z_BEST_COMPRESSION=9
+  zlib.deflate(aaa[1], (err, buffer2) => {
+    if (!err) {
+      console.log(buffer2.toString('utf8').length);
+
+      var otro='data:video/mp4;base64,'+ buffer2.toString('utf8');
+    
+        
+
+
+      const buffer = Buffer.from(buffer2, 'base64');
+      zlib.unzip(buffer, (err, buffer) => {
+        if (!err) {
+    
+        } else {
+          // handle error
+        }
+      });
+
+
+    } else {
+      // handle error
+    }
+  });
+*/
+
       
 }
 }
