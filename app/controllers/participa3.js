@@ -1,10 +1,13 @@
 
 var Participa3 = require('../models/participa3');
 var Bitacora = require('../models/bitacora');
-var Buffer = require('buffer').Buffer;
-var zlib = require('zlib');
+
+var Denunciaunidad = require('../models/denunciaunidad');
+
 
 exports.getParticipa3 = function(req, res, next){
+
+ 
     if(req.params.id2)
     {  
         if(req.params.id2=='video')
@@ -38,19 +41,45 @@ exports.getParticipa3 = function(req, res, next){
                           
                     });
                 }
+                else
+                {
+                    if(req.params.id=='todos')
+                    { 
+
+                        Denunciaunidad.find({'unidad':req.params.id2}).exec(function(err, todos) {
+                            if (err){  res.send(err);  }
+                            var myData3 = [];
+                            for(var i = 0; i <  todos.length;i++){
+                                myData3.push(todos[i].categoria)
+                            }
+
+                            Participa3.find({tipo:{$in:myData3}}).populate('tipo').select({ "cui": 1,"nombre": 1,"tipo": 1,"correo": 1,"motivo": 1,
+                            "f3":1,"estado": 1,"notamedio": 1,"xpos": 1, "ypos": 1,        "_id": 1}).exec(function(err, todos2) {
+                               if (err){  res.send(err);  }
+
+                               var myData31 = [];
+                               for(var i = 0; i <  todos2.length;i++){
+                                myData31.push({_id:todos2[i]._id,cui:todos2[i].cui,nombre:todos2[i].tipo.nombre + ' ' +todos2[i].motivo ,correo:todos2[i].correo,motivo:todos2[i].motivo
+                                    ,estado:todos2[i].estado,notamedio:todos2[i].notamedio,tipo:todos2[i].tipo.nombre,tipoid:todos2[i].tipo._id,xpos:todos2[i].xpos,ypos:todos2[i].ypos,f3:todos2[i].f3})
+                            }
+
+                                   res.json(myData31);    
+                            });
+                         });
+
+
+
+
+                     
+                    
+                    }
+
+                }
 
             }
         }
     }
-    else
-    { 
-        var aa=(req.params.id).split(',')
-        Participa3.find({tipo:{$in:aa}}).populate('tipo').select({ "cui": 1,"nombre": 1,"tipo": 1,"correo": 1,"motivo": 1,
-        "estado": 1,"notamedio": 1,"xpos": 1, "ypos": 1,        "_id": 1}).exec(function(err, todos) {
-           if (err){  res.send(err);  }
-               res.json(todos);    
-        });
-    }
+    
 }
 exports.deleteParticipa3 = function(req, res, next){
     Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina Participa3 '});

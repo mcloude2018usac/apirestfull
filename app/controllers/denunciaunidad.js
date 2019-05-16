@@ -48,7 +48,6 @@ exports.getDenunciaunidad = function(req, res, next){
       ee='Denuncia finalizada'
    }
 
-console.log(ee + ' ' + req.params.id2)
         Denuncia.find({estado:ee,tipo:req.params.id2},function(err, todos10) {
             if (err){ res.send(err); }
             res.json(todos10);

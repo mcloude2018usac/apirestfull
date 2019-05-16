@@ -413,8 +413,7 @@ else{
             
               }
             
-            console.log(myData3)
-            console.log(myData3aa)
+        
 
             if(myData3aa.length>0)
             { 
