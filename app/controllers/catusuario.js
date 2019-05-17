@@ -1,6 +1,7 @@
 
 var Catusuario = require('../models/catusuario');
 var Bitacora = require('../models/bitacora');
+var Dcatalogo = require('../models/dcatalogo');
 
 function onlyUnique(value, index, self) { 
     return self.indexOf(value) === index;
@@ -8,6 +9,7 @@ function onlyUnique(value, index, self) {
 
 
 exports.getCatusuario = function(req, res, next){
+    
     if(req.params.id3)
     {  
         if(req.params.id2=='categoria')
@@ -52,7 +54,75 @@ exports.getCatusuario = function(req, res, next){
             }
             else
             {
+                if(req.params.id2=='categoriausr22')
+                {
+
+         
+                     Dcatalogo.find({idcatalogo:req.params.id,idempresa:req.params.idempresa},function(err, todos) {
+                        if (err){  res.send(err);  }
+                        var myData = [];
+                        for(var i = 0; i < todos.length;i++){
+                            myData.push({_id:todos[i]._id,nombre:todos[i].nombre });
+                        }
+        
     
+                        var unique =   myData.filter( onlyUnique );
+    
+                        var myData2 = [];
+                        var arre=['yellow','red','green','blue','purple','violet','turquoise']    
+                        var j=0;
+                                     for(var i = 0; i < unique.length;i++){
+                                        if(j==6){j=0;} 
+                                         myData2.push({_id:unique[i]._id,nombre:unique[i].nombre,"colort":"box " + arre[j] });
+                                         j=j+1;
+                                     }
+                     
+                                      res.json(myData2);
+    
+    
+                      
+    
+    
+                     });
+            
+                }
+                else
+                {
+        
+                    if(req.params.id2=='categoriausr222')
+                    {
+    
+             
+                         Dcatalogo.find({idcatalogo:req.params.id,_id:req.params.id3},function(err, todos) {
+                            if (err){  res.send(err);  }
+                            var myData = [];
+                            for(var i = 0; i < todos.length;i++){
+                                myData.push({_id:todos[i]._id,nombre:todos[i].nombre });
+                            }
+            
+        
+                            var unique =   myData.filter( onlyUnique );
+        
+                            var myData2 = [];
+                            var arre=['yellow','red','green','blue','purple','violet','turquoise']    
+                            var j=0;
+                                         for(var i = 0; i < unique.length;i++){
+                                            if(j==6){j=0;} 
+                                             myData2.push({_id:unique[i]._id,nombre:unique[i].nombre,"colort":"box " + arre[j] });
+                                             j=j+1;
+                                         }
+                         
+                                          res.json(myData2);
+        
+        
+                          
+        
+        
+                         });
+                
+                    }
+                    
+                }
                 
             }
 

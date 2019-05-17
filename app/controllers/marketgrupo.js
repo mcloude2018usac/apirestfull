@@ -3,12 +3,12 @@ var Marketgrupo = require('../models/marketgrupo');
 var Bitacora = require('../models/bitacora');
 
 exports.getMarketgrupo = function(req, res, next){
-       if(req.params.id2)
+       if(req.params.id3)
         {  
 
-            if(req.params.id2=='todos')
+            if(req.params.id3=='todos')
             {
-                Marketgrupo.find({idempresa:req.params.id}
+                Marketgrupo.find({idempresa:req.params.id,idcategoria:req.params.id2}
                     ,null, {sort: {codigo: 1}},function(err, todos) {
                     if (err){ res.send(err); }
                    
@@ -66,7 +66,7 @@ if(req.params.recordID!=='crea')
 }
 else{
 
-    Marketgrupo.find({codigo:req.body.codigo  },function(err, todos) {
+    Marketgrupo.find({codigo:req.body.codigo ,idcategoria:req.body.idcategoria },function(err, todos) {
         if (err){ res.send(err); }
       
         if(todos.length>0)   {    res.status(500).send('Codigo ya existe'); }
@@ -74,6 +74,7 @@ else{
         {   
 
             Marketgrupo.create({
+                idcategoria        	: req.body.idcategoria        	,
                 idempresa        	: req.body.idempresa        	,
                 nombre        	: req.body.nombre        	,
                 codigo        	: req.body.codigo       ,

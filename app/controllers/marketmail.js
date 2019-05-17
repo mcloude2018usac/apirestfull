@@ -5,6 +5,21 @@ var Bitacora = require('../models/bitacora');
 //db.getCollection('carnes').find({ correo: {  $ne: null }}).count()
 
 exports.getMarketemail = function(req, res, next){
+
+    if(req.params.id4)
+    { 
+        if(req.params.id3=='categoria')
+        {
+            Marketemail.find({idempresa:req.params.id,idcategoria:req.params.id2,usuarionew:req.params.id4}).populate('grupo').exec(function(err, todos) {
+                if (err){ res.send(err); }
+               
+                res.json(todos);   
+                
+            });
+
+        }
+    }
+    else{
     if(req.params.id3)
     { 
 
@@ -18,25 +33,26 @@ exports.getMarketemail = function(req, res, next){
             });
 
         }
+        else
+        {
+
+            if(req.params.id3=='categoria')
+            {
+                Marketemail.find({idempresa:req.params.id,idcategoria:req.params.id2}).populate('grupo').exec(function(err, todos) {
+                    if (err){ res.send(err); }
+                   
+                    res.json(todos);   
+                    
+                });
+    
+            }
+
+
+        }
     }
     else
     {
-    if(req.params.id2)
-    {  
-       if(req.params.id2=='todo')
-       {
-
-        Marketemail.find({idempresa:req.params.id}).populate('grupo').exec(function(err, todos) {
-            if (err){ res.send(err); }
-           
-            res.json(todos);   
-            
-        });
-       }
-       
-    }
-    else
-    { 
+  
        
        
 
@@ -78,6 +94,7 @@ else{
                todo.fecha        	=	req.body.fecha        	||	todo.fecha       	;
                todo.grupo        	=	req.body.grupo        	||	todo.grupo       	;
                todo.estado        	=	req.body.estado       	||	todo.estado        	;
+               todo.usuarioup=req.body.bitacora.email;
 
                todo.save(function (err, todo){
                     if (err)     {  res.status(500).send(err.message)   }
@@ -94,6 +111,7 @@ else{
                     Bitacora.create(req.body.bitacora);
                   
                 Marketemail.create({  
+                    idcategoria       	: req.body.idcategoria       	,
                     idempresa       	: req.body.idempresa       	,
                     nombre       	: req.body.nombre       	,
                     titulo       	: req.body.titulo       	,
@@ -102,7 +120,9 @@ else{
                     grupo 	: req.body.grupo 	,
                     f1 	: req.body.f1 	,
                     f2 	: req.body.f2 	,
-                    estado:req.body.estado
+                    estado:req.body.estado,
+                    usuarionew:req.body.bitacora.email
+                    
 
                 }
                     , function(err, todo) {
