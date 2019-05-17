@@ -3,26 +3,11 @@ var Bitacora = require('../models/bitacora');
 
 exports.getCatalogo = function(req, res, next){
     if(req.params.id2)
-    { //req.params.id=='UNIDADES' &&
-
-    if(req.params.id==req.params.id2)
-    {
-        Catalogo.find({tipo:req.params.id2},function(err, todos) {
-            if (err){ res.send(err); }
-           
-               res.json(todos);  
-           
-            
-        });
-
-
-    }
-    else
-    {
-        if( req.params.id2!='UNIDADES')
+    { 
+        if(req.params.id2=='UNIDADES' && req.params.id2!='UNIDADES')
         {
 
-            if(req.params.id=='5bae3259ce90232ba82c1cec' )
+            if(req.params.id=='5bae3259ce90232ba82c1cec')
             {//RETORNA TODOS
                 Catalogo.find({tipo:'UNIDADES'},function(err, todos) {
                     if (err){ res.send(err); }
@@ -64,7 +49,7 @@ exports.getCatalogo = function(req, res, next){
 
         }
    
-    }
+  
     }
     else
     {

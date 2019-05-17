@@ -1,110 +1,68 @@
 
+//var aws = require("aws-sdk");
+//var ses = new aws.SES({"accessKeyId": "AKIAJU5GENLM4JCBYF6Q"
+//, "secretAccessKey": "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", "region": "us-east-1"});
+
+var Participa = require('../models/participa');
+
+var Participa2 = require('../models/participa2');
 var nodemailer = require('nodemailer');
-//var ses = require('nodemailer-ses-transport');
+var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+           user: 'usacenlinea2018@gmail.com',
+           pass: 'ocitocit'
+       }
+   });
+
+
    
    
 exports.getMail2 = function(req1, res){
-    var transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-               user: 'usacenlinea1.0@usacenlinea.net',
-               pass: 'Amazon1518'
-           }
-       });
-  
+
   const mailOptions = {
-    from: 'usacenlinea1.0@gmail.com', // sender address
+    from: 'usacenlinea2018@gmail.com', // sender address
     to: req1.destino, // list of receivers
     subject: req1.subjet, // Subject line
     html: req1.html
   };
+
+ 
   transporter.sendMail(mailOptions, function (err, info) {
     if(err){
     res.status(500).send(err.sqlMessage);
     }
-        
+   
+    
+      
  });
-       
-}   
-
   
+
+
+
+    
+}
 
 exports.getMail = function(req, res, next){
-    var transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-               user: 'usacenlinea1.0@usacenlinea.net',
-               pass: 'Amazon1518'
-           }
-       });
-        
-      const mailOptions = {
-        from: 'usacenlinea1.0@usacenlinea.net', // sender address
-        to: req.body.destino+';mario.morales@mcloude.com', // list of receivers
-        subject: req.body.subjet, // Subject line
-        html: req.body.html
-       
-      };
-     
-      transporter.sendMail(mailOptions, function (err, info) {
-        if(err){  res.status(500).send(err.sqlMessage);
-      
-        }
-        else
-        {
-        
-          res.json(info);
-       
-        }
-     });
-    //}    else   {res.json(info);    }});
-  
-  /*
-    var transporter = nodemailer.createTransport({
-        pool: true,
-        host: 'email-smtp.us-west-2.amazonaws.com',
-        port: 587,
-       
-        auth: {
-               user: 'AKIAIT7X75D5KB4GSILQ',
-               pass: 'BO9iQ1hEr/JmGpqSrE32JakwkIP2SjjdY70TL3jg7gE6'
-           }
-       });
-
-*/
-/*
-var transporter = nodemailer.createTransport({
-    pool: false,
-    host: 'email-smtp.us-west-2.amazonaws.com',
-    port: 587,
-   
-    auth: {
-           user: 'AKIAIT7X75D5KB4GSILQ',
-           pass: 'BO9iQ1hEr/JmGpqSrE32JakwkIP2SjjdY70TL3jg7gE6'
-       }
-   });
 
   const mailOptions = {
-    from: 'usacenlinea1.0@gmail.com', // sender address
+    from: 'usacenlinea2018@gmail.com', // sender address
     to: req.body.destino+';mario.morales@mcloude.com', // list of receivers
     subject: req.body.subjet, // Subject line
     html: req.body.html
    
   };
 
+ //console.log(req.body.actualiza);
   transporter.sendMail(mailOptions, function (err, info) {
     if(err){
-        var transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                   user: 'mario.morales@mcloude.com',
-                   pass: 'ocitocit'
-               }
-           });
-           */
-
-
-    /*
+        console.log(err);
+    res.status(500).send(err.sqlMessage);
+  
+    }
+    else
+    {
+/*
       switch(req.body.actualiza.tipo) {
         case 'participantes':
         cosnole.log('actualiza entra participa333333333333332');
@@ -144,4 +102,17 @@ var transporter = nodemailer.createTransport({
         res.json(info);
     }
 */
+res.json(info);
+                 
+                      
+
+    }
+    
+      
+ });
+  
+
+
+
+    
 }

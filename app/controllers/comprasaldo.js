@@ -208,7 +208,6 @@ else{
                                 if (err){ res.status(500).send(err.message)    }
 
                                 Personalhis.create({idsuscriptor :{    id	:todos[0].idsuscriptor.id._id, 
-                                    idempresa:'WebApp Usacenlinea',
                                     nombre	: todos[0].idsuscriptor.id.nombre       },
                                      tipo   		: 'Compra Saldo (+)',descripcion   		: 'Operación de compra saldo (+)', 
                                      saldoanterior   		: roundxx(todos[0].saldoactual,2),

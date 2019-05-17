@@ -1,13 +1,12 @@
 
 var nodemailer = require('nodemailer');
 var transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-               user: 'usacenlinea1.0@usacenlinea.net',
-               pass: 'Amazon1518'
-           }
-       });
-
+    service: 'gmail',
+    auth: {
+           user: 'usacenlinea2018@gmail.com',
+           pass: 'ocitocit'
+       }
+   });
 var Evento = require('../models/eventos');
 
 var Participa = require('../models/participa');
@@ -80,7 +79,7 @@ var mandaeventos = function(){
                                                 chtml=chtml+ "</table>"
 
                                                 const mailOptions = {
-                                                        from: 'usacenlinea1.0@usacenlinea.net', // sender address
+                                                        from: 'usacenlinea2018@gmail.com', // sender address
                                                         to: 'mario.morales@mcloude.com;sararuiz_4@hotmail.com', // list of receivers
                                                         subject: 'Gestion de Eventos', // Subject line
                                                         html:chtml,// plain text body

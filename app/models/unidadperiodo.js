@@ -3,7 +3,6 @@ var mongoose =require("mongoose");
         idtipounidad   		: { type : String, required : true },
         idunidadacademica   		: { type : String, required : true },
         nombre	: { type : String, required : true }
-        ,estado	: { type : String, required : true }
         ,usuarionew	: { type : String },      usuarioup	: { type : String }
         }, {
         timestamps: true

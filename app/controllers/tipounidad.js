@@ -73,7 +73,7 @@ else{
             Tipounidad.create({
                 nombre        	: req.body.nombre        	,
                 codigo        	: req.body.codigo   ,
-                iddepartamento        	: req.body.iddepartamento   ,
+                idepartamento        	: req.body.iddepartamento   ,
                 abreviatura        	: req.body.abreviatura     ,
                 usuarionew:req.body.bitacora.email   
               }
