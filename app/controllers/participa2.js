@@ -57,7 +57,8 @@ exports.creaParticipa22s = function(req, res, next){
 }
 else{
     if(req.params.id!=='crea')
-    {  Bitacora.create(req.body.bitacora);
+    { 
+         Bitacora.create(req.body.bitacora);
         Participa2.findById({ _id: req.params.id}, function (err, todo)  {
             if (err) {  res.send(err);  }
             else
@@ -88,35 +89,48 @@ else{
     
     }
     else{
-        Bitacora.create(req.body.bitacora);
-        var d = new Date();
-    Participa2.create({  
-        
-        idtipoevento	: req.body.idtipoevento       	,
-        idarea	: req.body.idarea       	,
-        idevento       	: req.body.idevento       	,
-        nombre        	: req.body.nombre        	,
-        apellido    	: req.body.apellido    	,
-        genero    	: req.body.genero    	,
-        edad   	: req.body.edad 	,
-        correo    	: req.body.correo   	,
-        telefono 	: req.body.telefono 	,
-        unidad 	: req.body.unidad 	,
-        otros 	: req.body.otros 	,
-        estado 	: req.body.estado 	,
-        usuarionew:req.body.bitacora.email,
-        cuenta 	: '1' 	,
-        fecha:d.toISOString()	
-       }
-        , function(err, todo) {
-        if (err){   res.status(500).send(err.message)    }
-    
-        res.json(todo);
 
-     
-        
+        Participa2.find({  idtipoevento	: req.body.idtipoevento       	,
+            idarea	: req.body.idarea       	,
+            idevento       	: req.body.idevento       	,
+            correo    	: req.body.correo   	
+         },function(err, todos) {
+            if (err){ res.send(err); }
+          
+            if(todos.length>0)   {    res.status(500).send('Ya existes asignado este curso con este correo electronico'); }
+            else
+            {   
 
-    });
+                    Bitacora.create(req.body.bitacora);
+                    var d = new Date();
+                Participa2.create({  
+                    idtipoevento	: req.body.idtipoevento       	,
+                    idarea	: req.body.idarea       	,
+                    idevento       	: req.body.idevento       	,
+                    nombre        	: req.body.nombre        	,
+                    apellido    	: req.body.apellido    	,
+                    genero    	: req.body.genero    	,
+                    edad   	: req.body.edad 	,
+                    correo    	: req.body.correo   	,
+                    telefono 	: req.body.telefono 	,
+                    unidad 	: req.body.unidad 	,
+                    otros 	: req.body.otros 	,
+                    estado 	: req.body.estado 	,
+                    usuarionew:req.body.bitacora.email,
+                    cuenta 	: '1' 	,
+                    fecha:d.toISOString()	
+                }
+                    , function(err, todo) {
+                    if (err){   res.status(500).send(err.message)    }
+                
+                    res.json(todo);
+
+                
+                    
+
+                });
+            }
+        });
 }
 }
 
