@@ -30,8 +30,7 @@ exports.login = function(req, res, next){
     if(userInfo.estadoemail=="1")
     {
         Bitacora.create(req.body.bitacora);
-     //   console.log(req.user)
-    
+      
         res.status(200).json({
             token: 'JWT ' + generateToken(userInfo),
             user: userInfo
@@ -39,7 +38,7 @@ exports.login = function(req, res, next){
     
     }
     else{
-        res.status(500).json({error: 'Usuario no existe / No a confirmado su cuenta via correo electronico'});
+        res.status(500).json('No a confirmado su cuenta via correo electronico');
             
 
     }
@@ -98,7 +97,12 @@ exports.register = function(req, res, next){
             codpersonal    	: req.body.codpersonal   ,
             interno    	: req.body.interno  , 
             estadoemail   	: req.body.estadoemail ,  
-            tiposuscriptor   	: req.body.tiposuscriptor   
+            tiposuscriptor   	: req.body.tiposuscriptor   ,
+            APP : req.body.APP,
+            accesoestado:  req.body.accesoestado,
+            accesohora:  req.body.accesohora,
+            controlacceso:''
+            
          
         });
  
@@ -221,7 +225,7 @@ exports.roleAuthorization = function(roles){
         var user = req.user;
  
         User.find({_id:user._id,estadoemail:'1'}, function(err, foundUser){
- 
+ console.log(foundUser)
             if(err){
                 res.status(500).json({error: 'Usuario no existe / no se autenticado via correo electronico'});
                 return next(err);
