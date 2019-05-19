@@ -7,6 +7,7 @@ var Permiso = require('../models/permiso');
 var Permiso2 = require('../models/permison2');
 var Asignaest = require('../models/asignaestudiante');
 var User = require('../models/user');
+var Bus = require('../models/bus');
 
 var cleanName = function(str) {
         if (str == '') return str; // jQuery
@@ -96,19 +97,29 @@ exports.getCombofijo = function(req, res, next){
             break;
 
             case 'dtarifa':
-            Dtarifa.find({idtarifa:req.params.id2},function(err, todos) {
+            //busca el disppsitivo y se encuentra la tarifa
+            console.log(req.params)
+            Bus.findById({_id:req.params.id2},function(err, todos2) {
                 if (err){  res.send(err);  }
+                console.log(todos2)
+                Dtarifa.find({idtarifa:todos2.idtarifa.id},function(err, todos) {
+                        if (err){  res.send(err);  }
+        
+                        var myData = [];
+                        for(var i = 0; i < todos.length;i++){
+                                myData.push({nombre:todos[i].nombre + ',' + todos[i].horaini+ ',' + todos[i].horafin + ',' + todos[i].monto});
+                        }
+console.log(myData)
+                        res.json(myData);
+                                     
 
-                var myData = [];
-                for(var i = 0; i < todos.length;i++){
-                        myData.push({nombre:todos[i].nombre + ',' + todos[i].horaini+ ',' + todos[i].horafin + ',' + todos[i].monto});
-                }
-                                                        
+            });
+                                    
                 
 
 
 
-                 res.json(myData);
+               
              });
 
             break;

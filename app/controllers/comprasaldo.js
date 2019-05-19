@@ -2,14 +2,14 @@ var Comprasaldo = require('../models/comprasaldo');
 var Bitacora = require('../models/bitacora');
 var Personalhis = require('../models/suscriptorhis');
 var Personalsaldo = require('../models/suscriptorsaldo');
-
+var Entradasdpi = require('../models/entradasdpi');
 function roundxx(value, decimals) {
     //parseFloat(Math.round(num3 * 100) / 100).toFixed(2);
 
     return Number(Math.round(value+'e'+decimals)+'e-'+decimals).toFixed(2);
   }
 
-  
+  //comprasaldos
 exports.getComprasaldo = function(req, res, next){
     if(req.params.id2)
     {    if(req.params.id2=='vende')
@@ -111,6 +111,91 @@ exports.getComprasaldo = function(req, res, next){
                                     res.json(todos);
                                 });
                               
+                            }
+                            else
+                            {
+
+                                if(req.params.id2=='billingparqueo')
+                                {
+                                    var f1=req.params.id3
+                                    var f2=req.params.id4
+                                    var arr1 = f1.split("-");
+                                    var arr2 = f2.split("-");
+                                    var filtro;
+                                    if(req.params.id5=='TODOS' &&  req.params.id6=='TODOS')
+                                    {
+                                       
+                                        filtro={
+                                            "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
+                                            "$lt": new Date(f2 +'T24:00:00.000Z')}
+                                        };
+                            
+                                    }
+                                    else
+                                    {
+                                        if(req.params.id5!='TODOS' &&  req.params.id6=='TODOS')
+                                        {
+                                           
+                                            filtro={"noprov":req.params.id5,
+                                                "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
+                                                "$lt": new Date(f2 +'T24:00:00.000Z')}
+                                            };
+                                
+                                        }
+                                        else
+                                        {
+    
+                                            if(req.params.id5!='TODOS' &&  req.params.id6!='TODOS')
+                                        {
+                                           
+                                            filtro={"noprov":req.params.id5,"nodispositivo":req.params.id6,
+                                                "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
+                                                "$lt": new Date(f2 +'T24:00:00.000Z')}
+                                            };
+                                
+                                        }
+                                        else
+                                        {
+                                            filtro={"nodispositivo":req.params.id6,
+                                                "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
+                                                "$lt": new Date(f2 +'T24:00:00.000Z')}
+                                            };
+        
+        
+                                        }
+    
+    
+                                            filtro={"nodispositivo":req.params.id6,
+                                                "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
+                                                "$lt": new Date(f2 +'T24:00:00.000Z')}
+                                            };
+        
+        
+                                        }
+        
+    
+                                    }
+    
+                                    Entradasdpi.aggregate([
+                                        { $match: filtro},
+                                    
+                                        { $group: {
+                                           _id:  { $dateToString: { format: "%d-%m-%Y", date: "$createdAt" } },
+                                            monto: { $sum: "$monto"  },
+                                            cantidad: { $sum:   1  }
+                                        }}
+                                    ], function (err, todos) {
+                                        if (err){ res.send(err); }
+                                        res.json(todos);
+                                    });
+                                  
+                                }
+                                else
+                                {
+    
+                                    
+                                }
+
                             }
 
                     }

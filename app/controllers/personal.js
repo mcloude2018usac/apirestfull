@@ -32,7 +32,7 @@ exports.getPersonal = function(req, res, next){
     else
     {
         
-                if(req.params.id9)
+                if(req.params.id10)
                     {
             
                         if(req.params.id2=='parqueodpisalida')
@@ -102,7 +102,7 @@ exports.getPersonal = function(req, res, next){
                                             ,estado:'PagoPendiente', estado2:'SalidaPendiente'}).select({  "_id": 1}).exec(function(err, todos1) {
                                                     if (err){ res.send(err); }
                                                     if(todos1.length>0)   { //ya existe una pendiente 
-
+                                                        console.log('estado:PagoPendiente, estado2:SalidaPendiente')    
                                                         res.json([{exito:'Error,Valide su salida...'}]);
 
                                                         
@@ -116,7 +116,7 @@ exports.getPersonal = function(req, res, next){
                                                                     if (err){ res.send(err); }
                                                                     if(todos10.length>0)   {//saquelo
                                                                         
-
+                                                                        console.log('PagoCancelado, estado2:SalidaPendiente')    
                                                                         Entradasdpi.findById({ _id:todos10[0]._id }, function (err, todo)  {
                                                                             if (err) {  res.send(err);  }
                                                                             else
@@ -138,6 +138,7 @@ exports.getPersonal = function(req, res, next){
                                                                                                 nodispositivo 		: req.params.id6,
                                                                                                 noprov 		: req.params.id7,
                                                                                                 idempresa 		: String(req.params.id8).replace("-"," "),
+                                                                                                idempresa0 		: req.params.id10,
                                                                                         codigo1: req.params.email, usuarionew	: req.params.id4,      usuarioup	: req.params.id4});
                                                 
                                                                                         res.json([{exito:'ok,** BUEN VIAJE **'}]);
@@ -154,16 +155,19 @@ exports.getPersonal = function(req, res, next){
                                                                     }
                                                                     else
                                                                     {
-
+/*
                                                                         Entradasdpi.find({ cui: req.params.email
                                                                             ,estado:'PagoCancelado',estado2:'SalidaCancelada'}).select({  "_id": 1}).exec(function(err, todos2) {
                                                                                     if (err){ res.send(err); }
                                                                                     if(todos2.length>0)   {
                                                                                         res.json([{exito:'Error,Valide su salida...'}]);
+
+                                                                                        console.log('PagoCancelado, estado2:SalidaCancelada')    
+                                                                      
                                                                                     }
                                                                                     else
                                                                                     {
-                
+                */
                                                                                       
                                                                                                          
                                                                                         Personalsaldo.find({  'idsuscriptor.cui': req.params.email
@@ -184,6 +188,7 @@ exports.getPersonal = function(req, res, next){
                                                                                                                     monto: 0,
                                                                                                                     horasdescuento: 0,
                                                                                                                     montodescuento: 0,
+                                                                                                                    idempresa0 		: req.params.id10,
                                                                                                                     usuarionew	: req.params.id4,      usuarioup	: req.params.id4
                                                                                                                     }
                                                                                                                     , function(err, todo22) {
@@ -199,6 +204,7 @@ exports.getPersonal = function(req, res, next){
                                                                                                                         nodispositivo 		: req.params.id6,
                                                                                                                         idempresa 		:  String(req.params.id8).replace("-"," "),
                                                                                                                         noprov 		: req.params.id7,
+                                                                                                                        idempresa0 		: req.params.id10,
                                                                                                             codigo1: req.params.email, usuarionew	: req.params.id4,      usuarioup	: req.params.id4});
                                                                                                                     res.json([{exito:'ok,** PASE ADELANTE **'}]);
                                                                                                                 });
@@ -219,6 +225,7 @@ exports.getPersonal = function(req, res, next){
                                                                                                                             monto: 0,
                                                                                                                             horasdescuento: 0,
                                                                                                                             montodescuento: 0,
+                                                                                                                            idempresa0 		: req.params.id10,
                                                                                                                     usuarionew	: req.params.id4,      usuarioup	: req.params.id4
                                                                                                                     }
                                                                                                                     , function(err, todo22) {
@@ -233,6 +240,7 @@ exports.getPersonal = function(req, res, next){
                                                                                                                         nodispositivo 		: req.params.id6,
                                                                                                                         idempresa 		: String(req.params.id8).replace("-"," "),
                                                                                                                         noprov 		: req.params.id7,
+                                                                                                                        idempresa0 		: req.params.id10,
                                                                                                             codigo1: req.params.email, usuarionew	: req.params.id4,      usuarioup	: req.params.id4});
                                                                                                                     res.json([{exito:'ok,** PASE ADELANTE **'}]);
                                                                                                                 });
@@ -241,9 +249,9 @@ exports.getPersonal = function(req, res, next){
                 
                 
                 
-                                                                                    }
+                                                                              //      }
                 
-                                                                                });
+                                                                              //  });
 
 
 
