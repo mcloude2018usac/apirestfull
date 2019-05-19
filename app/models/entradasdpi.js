@@ -19,7 +19,8 @@ var mongoose =require("mongoose");
         monto: { type : Number },
         horasdescuento: { type : Number },
         montodescuento: { type : Number },
-        horascobradas: { type : Number }
+        horascobradas: { type : Number },
+        idempresa0   		: { type : String, required : true }
     }, {
         timestamps: true
         });

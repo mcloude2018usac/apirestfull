@@ -10,7 +10,8 @@ var mongoose =require("mongoose");
         codigo1: { type : String},
         idtrans   		: { type : String},
         nodispositivo 		: { type : String},
-        noprov 		: { type : String}
+        noprov 		: { type : String},
+        idempresa0   		: { type : String, required : true }
              ,usuarionew	: { type : String },      usuarioup	: { type : String }
        
         }, {

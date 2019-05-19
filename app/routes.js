@@ -197,7 +197,7 @@ apiRoutes.use('/personals', personalRoutes);
 personalRoutes.get('/',requireAuth, PersonalController.getPersonal);
 personalRoutes.get('/:email/:id2/:id3',requireAuth, PersonalController.getPersonal);
 personalRoutes.get('/:email/:id2',requireAuth, PersonalController.getPersonal);
-personalRoutes.get('/:email/:id2/:id3/:id4/:id5/:id6/:id7/:id8/:id9', requireAuth,PersonalController.getPersonal);
+personalRoutes.get('/:email/:id2/:id3/:id4/:id5/:id6/:id7/:id8/:id9/:id10', requireAuth,PersonalController.getPersonal);
 personalRoutes.get('/:email', PersonalController.getPersonal);
 personalRoutes.get('/:pagineo/:limit/:page',requireAuth,  PersonalController.getPersonal);
 
