@@ -16,7 +16,10 @@ var MarketemailSchema = new mongoose.Schema({
     f1: {       type: String   },
     f2: {       type: String   },
     estado: {       type: String   },
-    usuarionew	: { type : String },      usuarioup	: { type : String }
+    usuarionew	: { type : String },      usuarioup	: { type : String },
+    ubicacion: {        type: String  },
+    autor: {        type: String  },
+    presenta: {        type: String  }
   
 }, {
     timestamps: true
