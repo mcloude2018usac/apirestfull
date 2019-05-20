@@ -14,16 +14,27 @@ exports.getUsermsg = function(req, res, next){
         if(req.params.id2)
         {      
            
-          
+          if(req.params.id=='grupal')
+          {
+            Usermsg.find(  { toUserId:req.params.id2     }).sort([['createdAt', 1]]).populate('userId').exec(function(err, todos) {
+                if (err){ res.send(err); }
+                res.json(todos);
+            });
+
+          }
+          else{
+
+            Usermsg.find(  {  $or : [
+                { $and : [ { userId:req.params.id,toUserId:req.params.id2}] },
+                { $and : [ { toUserId:req.params.id,userId:req.params.id2 }] }]
+        }).sort([['createdAt', 1]]).exec(function(err, todos) {
+                if (err){ res.send(err); }
+                res.json(todos);
+            });
+          }
 
        //     5b282afdb358171c14bd3f86/5b7047adf0953c001442954c
-                Usermsg.find(  {  $or : [
-                    { $and : [ { userId:req.params.id,toUserId:req.params.id2}] },
-                    { $and : [ { toUserId:req.params.id,userId:req.params.id2 }] }]
-            }).sort([['createdAt', 1]]).exec(function(err, todos) {
-                    if (err){ res.send(err); }
-                    res.json(todos);
-                });
+             
              
            
         }
