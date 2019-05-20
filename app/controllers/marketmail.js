@@ -53,13 +53,28 @@ exports.getMarketemail = function(req, res, next){
     else
     {
   
+        if(req.params.id2=='plantillas')
+        {
+            Marketemail.find({idempresa:req.params.id,_id:req.params.id2}).exec(function(err, todos) {
+                if (err){ res.send(err); }
+               
+                res.json(todos);   
+                
+            });
+
+        }
+        else
+        {
+
+            Marketemail.find({}).populate('grupo').exec(function(err, todos) {
+                if (err){  res.send(err);  }
+                 res.json(todos);
+             });
+
+        }
        
        
 
-        Marketemail.find({}).populate('grupo').exec(function(err, todos) {
-           if (err){  res.send(err);  }
-            res.json(todos);
-        });
     }}
 }
 exports.deleteMarketemail = function(req, res, next){
@@ -94,6 +109,9 @@ else{
                todo.fecha        	=	req.body.fecha        	||	todo.fecha       	;
                todo.grupo        	=	req.body.grupo        	||	todo.grupo       	;
                todo.estado        	=	req.body.estado       	||	todo.estado        	;
+               todo.ubicacion        	=	req.body.ubicacion       	||	todo.ubicacion        	;
+               todo.autor        	=	req.body.autor       	||	todo.autor        	;
+               todo.presenta        	=	req.body.presenta       	||	todo.presenta        	;
                todo.usuarioup=req.body.bitacora.email;
 
                todo.save(function (err, todo){
@@ -121,6 +139,9 @@ else{
                     f1 	: req.body.f1 	,
                     f2 	: req.body.f2 	,
                     estado:req.body.estado,
+                    ubicacion 	: req.body.ubicacion 	,
+                    autor 	: req.body.autor 	,
+                    presenta 	: req.body.presenta 	,
                     usuarionew:req.body.bitacora.email
                     
 
