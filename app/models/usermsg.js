@@ -6,7 +6,8 @@ var mongoose =require("mongoose");
         message  		: { type : String},
         messageimg  		: { type : String},
         message2  		: { type : String},
-        userId2 :  	{ type : String }
+        userId2 :  	{ type : String },
+        imagen2 :  	{ type : String }
 
         }, {
         timestamps: true
