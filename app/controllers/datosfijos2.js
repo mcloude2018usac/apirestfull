@@ -7,7 +7,6 @@ var Permiso = require('../models/permiso');
 var Permiso2 = require('../models/permison2');
 var Asignaest = require('../models/asignaestudiante');
 var User = require('../models/user');
-var Bus = require('../models/bus');
 
 var cleanName = function(str) {
         if (str == '') return str; // jQuery
@@ -92,34 +91,24 @@ exports.getCombofijo = function(req, res, next){
        switch(req.params.id) {
     
         case 'catalogo-tipo':
-                        res.json([{id:'CATEGORIA DISEÑO PLANTILAS',nombre:'CATEGORIA DISEÑO PLANTILAS'},{id:'DIAS FESTIVOS',nombre:'DIAS FESTIVOS'},{id:'RUTAS',nombre:'RUTAS'},{id:'MATERIAS',nombre:'MATERIAS'},{id:'PERIODOSSUM',nombre:'PERIODOSSUM'},{id:'UNIDADES',nombre:'UNIDADES'} ,{id:'TARIFA COMPRA SALDO',nombre:'TARIFA COMPRA SALDO'} 
-                        ,{id:'TIPO UNIDADES',nombre:'TIPO UNIDADES'} ,{id:'TIPO DENUNCIAS',nombre:'TIPO DENUNCIAS'}]);
+                        res.json([{id:'DIAS FESTIVOS',nombre:'DIAS FESTIVOS'},{id:'RUTAS',nombre:'RUTAS'},{id:'MATERIAS',nombre:'MATERIAS'},{id:'PERIODOSSUM',nombre:'PERIODOSSUM'},{id:'UNIDADES',nombre:'UNIDADES'} ,{id:'TARIFA COMPRA SALDO',nombre:'TARIFA COMPRA SALDO'} 
+                        ,{id:'TIPO UNIDADES',nombre:'TIPO UNIDADES'}]);
             break;
 
             case 'dtarifa':
-            //busca el disppsitivo y se encuentra la tarifa
-            console.log(req.params)
-            Bus.findById({_id:req.params.id2},function(err, todos2) {
+            Dtarifa.find({idtarifa:req.params.id2},function(err, todos) {
                 if (err){  res.send(err);  }
-                console.log(todos2)
-                Dtarifa.find({idtarifa:todos2.idtarifa.id},function(err, todos) {
-                        if (err){  res.send(err);  }
-        
-                        var myData = [];
-                        for(var i = 0; i < todos.length;i++){
-                                myData.push({nombre:todos[i].nombre + ',' + todos[i].horaini+ ',' + todos[i].horafin + ',' + todos[i].monto});
-                        }
-console.log(myData)
-                        res.json(myData);
-                                     
 
-            });
-                                    
+                var myData = [];
+                for(var i = 0; i < todos.length;i++){
+                        myData.push({nombre:todos[i].nombre + ',' + todos[i].horaini+ ',' + todos[i].horafin + ',' + todos[i].monto});
+                }
+                                                        
                 
 
 
 
-               
+                 res.json(myData);
              });
 
             break;
@@ -156,8 +145,7 @@ console.log(myData)
      
         case 'user-rol':
         
-        
-                        Perfil.find({'unidad.id':req.params.id2}).populate('unidad.id')
+                        Perfil.find({'unidad.id':req.params.id2}).sort([['orden', 1]]).populate('unidad.id')
                         .exec(function(err, todos) {
                                 if (err){  res.send(err);  }
                                 res.json(todos);
@@ -174,10 +162,10 @@ console.log(myData)
                 if(todos.length>0)   {  
                         
                 
-                        Permiso.find({idrol:todos[0]._id}).sort([['orden', 1]]).exec(function(err, todos) {
+                        Permiso.find({idrol:todos[0]._id},function(err, todos) {
                                 if (err){ res.send(err); }
                                 
-                                Permiso2.find({idrol:todos[0].idrol}).sort([['orden', 1]]).exec(function(err, todos4) {
+                                Permiso2.find({idrol:todos[0].idrol},function(err, todos4) {
                                 if (err){ res.send(err); }
                                         
                                                     
@@ -200,7 +188,7 @@ console.log(myData)
                                                                                                 for(var j5 = 0; j5 < todos2.length;j5++){
                                                                                                         if(todos4[k].nombre==todos2[j5]._id)
                                                                                                         {   
-                                                                                                                childrem.push({nivel:todos2[j5].nivel,idrol:todos4[k].idrol,title:todos2[j5].nombre,component: todos2[j5].componente, tabComponent:todos2[j5].tabcomponente,name:todos2[j5].componente,index:todos2[j5].index,icon:todos2[j5].icono,estado:todos2[j5].estado,
+                                                                                                                childrem.push({idrol:todos4[k].idrol,title:todos2[j5].nombre,component: todos2[j5].componente, tabComponent:todos2[j5].tabcomponente,name:todos2[j5].componente,index:todos2[j5].index,icon:todos2[j5].icono,estado:todos2[j5].estado,
                                                                                                                         permiso:todos4[k].ingreso+','+todos4[k].consulta+','+todos4[k].eliminacion+','+todos4[k].creacion+','+todos4[k].actualizacion})
                                                                                                         }
                                                                                                 }
@@ -210,14 +198,14 @@ console.log(myData)
                                                                         //    console.log(todos[i].nombre);
                                                                                 if(childrem.length>0)
                                                                                 {
-                                                                                myData.push({nivel:todos2[j].nivel, idrol:todos[i].idrol,title:todos2[j].nombre,component: todos2[j].componente, tabComponent:todos2[j].tabcomponente,name:todos2[j].componente,index:todos2[j].index,icon:todos2[j].icono,estado:todos2[j].estado,
+                                                                                myData.push({idrol:todos[i].idrol,title:todos2[j].nombre,component: todos2[j].componente, tabComponent:todos2[j].tabcomponente,name:todos2[j].componente,index:todos2[j].index,icon:todos2[j].icono,estado:todos2[j].estado,
                                                                                         permiso:todos[i].ingreso+','+todos[i].consulta+','+todos[i].eliminacion+','+todos[i].creacion+','+todos[i].actualizacion,children:childrem});
                                                 
 
                                                                                 }
                                                                                 else
                                                                                 {
-                                                                                myData.push({nivel:todos2[j].nivel,idrol:todos[i].idrol,title:todos2[j].nombre,component: todos2[j].componente, tabComponent:todos2[j].tabcomponente,name:todos2[j].componente,index:todos2[j].index,icon:todos2[j].icono,estado:todos2[j].estado,
+                                                                                myData.push({idrol:todos[i].idrol,title:todos2[j].nombre,component: todos2[j].componente, tabComponent:todos2[j].tabcomponente,name:todos2[j].componente,index:todos2[j].index,icon:todos2[j].icono,estado:todos2[j].estado,
                                                                                         permiso:todos[i].ingreso+','+todos[i].consulta+','+todos[i].eliminacion+','+todos[i].creacion+','+todos[i].actualizacion});
                                                 
                                                                                 }

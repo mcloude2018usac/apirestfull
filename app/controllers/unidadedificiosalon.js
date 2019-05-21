@@ -66,7 +66,8 @@ if(req.params.recordID!=='crea')
 }
 else{
 
-
+  
+    console.log(req.body);
     
     Unidadedificiosalon.find({idtipounidad        	: req.body.idtipounidad        	,
         idunidadacademica: req.body.idunidadacademica,    idedificio: req.body.idedificio, nombre: req.body.nombre

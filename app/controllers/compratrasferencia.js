@@ -143,7 +143,6 @@ else{
                                                                     idtrans   		: todo22._id,
                                                                     nodispositivo 		: '0',
                                                                     noprov 		: '0',
-                                                                    idempresa:'WebApp Usacenlinea',
                                                           codigo1: '', usuarionew	: req.body.bitacora.email,      usuarioup	: req.body.bitacora.email});
                                                        
                                                            
@@ -154,7 +153,6 @@ else{
                                                                     monto   		: roundxx(Number(req.body.monto   ),2),                                  
                                                                     saldoactual   		: roundxx(Number(todos11[0].saldoactual)+Number(req.body.monto   ) ,2),
                                                                     idtrans   		: todo22._id,
-                                                                    idempresa:'WebApp Usacenlinea',
                                                                     nodispositivo  		: '0',
                                                                     noprov 		: '0',
                                                             codigo1: '', usuarionew	: req.body.bitacora.email,      usuarioup	: req.body.bitacora.email});
