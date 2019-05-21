@@ -1,6 +1,6 @@
 var mongoose =require("mongoose");
     var EventoSchema 		=	new  mongoose.Schema({
-        nombre   		: { type : String, required : true},
+        nombre   		: { type : String, required : true, max : 50 },
         fechaini   		: { type : Date, required : true},
         fechafin   		: { type : Date, required : true},
         ubicacion	: { type : String, required : true },

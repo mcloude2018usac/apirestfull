@@ -1,6 +1,5 @@
 var mongoose =require("mongoose");
     var SuscriptorhisSchema 		=	new  mongoose.Schema({
-        idempresa   		: { type : String, required : true },
         idsuscriptor :  		{    id	: { type : String, required : true, ref: 'User' },   nombre	: { type : String, required : true }        },
         tipo   		: { type : String},
         descripcion   		: { type : String},
@@ -10,8 +9,7 @@ var mongoose =require("mongoose");
         codigo1: { type : String},
         idtrans   		: { type : String},
         nodispositivo 		: { type : String},
-        noprov 		: { type : String},
-        idempresa0   		: { type : String, required : true }
+        noprov 		: { type : String}
              ,usuarionew	: { type : String },      usuarioup	: { type : String }
        
         }, {

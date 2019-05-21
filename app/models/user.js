@@ -20,8 +20,8 @@ var UserSchema = new mongoose.Schema({
     },
     nombre   		: { type : String, required : true },
     cui	: { type : String, required : true },
-    direccion	: { type : String},
-    telefono	: { type : String},
+    direccion	: { type : String, required : true },
+    telefono	: { type : String, required : true },
     foto 	: { type : String },
     lenguaje	: { type : String, required : true },
     sexo 	: { type : String },
@@ -34,11 +34,9 @@ var UserSchema = new mongoose.Schema({
     usuarionew	: { type : String },      usuarioup	: { type : String },
     fechanac   		: { type : Date},
     saldo 	: { type : String },
-    tiposuscriptor 	: { type : String , ref: 'Tiposuscriptor'} ,
-    APP: { type : String },
-    accesoestado: { type : String },
-    accesohora: { type : String },
-    controlacceso: { type : String }
+    tiposuscriptor 	: { type : String , ref: 'Tiposuscriptor'} 
+    
+    
  
 }, {
     timestamps: true
