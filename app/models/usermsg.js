@@ -4,7 +4,10 @@ var mongoose =require("mongoose");
         toUserId:  	{ type : String, required : true, ref: 'User' },
         status	: { type : String, required : true },
         message  		: { type : String},
-        messageimg  		: { type : String}
+        messageimg  		: { type : String},
+        message  		: { type : String},
+        userId2 :  	{ type : String, required : true, ref: 'User' }
+
         }, {
         timestamps: true
         });
