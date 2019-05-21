@@ -7,8 +7,7 @@ var Participa2Schema = new mongoose.Schema({
     idarea : {
         id :  { type : String, required : true },   nombre :  { type : String, required : true } },
     idevento: {
-        type: String,
-        required: true
+        type: String,   required: true 
     },
     nombre: {
         type: String,

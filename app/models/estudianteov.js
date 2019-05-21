@@ -3,7 +3,7 @@ var mongoose =require("mongoose");
 
     var EstudianteovSchema 		=	new  mongoose.Schema({
         bo_orientacion   		: { type : String},
-        nombre2   		: { type : String},
+        nombre1   		: { type : String},
         nombre2   		: { type : String},
         apellido1   		: { type : String},
         apellido2   		: { type : String},
