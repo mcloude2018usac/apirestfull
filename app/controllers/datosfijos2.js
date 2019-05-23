@@ -99,6 +99,29 @@ exports.getCombofijo = function(req, res, next){
             case 'dtarifa':
             //busca el disppsitivo y se encuentra la tarifa
             console.log(req.params)
+
+           
+                Dtarifa.find({idtarifa:req.params.id2},function(err, todos) {
+                        if (err){  res.send(err);  }
+        
+                        var myData = [];
+                        for(var i = 0; i < todos.length;i++){
+                                myData.push({nombre:todos[i].nombre + ',' + todos[i].horaini+ ',' + todos[i].horafin + ',' + todos[i].monto});
+                        }
+
+                        res.json(myData);
+                                     
+
+            });
+                                    
+                
+
+
+
+            break;
+            case 'dtarifa2':
+            //busca el disppsitivo y se encuentra la tarifa
+            console.log(req.params)
             Bus.findById({_id:req.params.id2},function(err, todos2) {
                 if (err){  res.send(err);  }
                 console.log(todos2)
@@ -109,7 +132,7 @@ exports.getCombofijo = function(req, res, next){
                         for(var i = 0; i < todos.length;i++){
                                 myData.push({nombre:todos[i].nombre + ',' + todos[i].horaini+ ',' + todos[i].horafin + ',' + todos[i].monto});
                         }
-console.log(myData)
+
                         res.json(myData);
                                      
 
