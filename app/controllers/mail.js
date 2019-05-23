@@ -8,7 +8,7 @@ exports.getMail2 = function(req1, res){
         service: 'gmail',
         auth: {
                user: 'usacenlinea1.0@usacenlinea.net',
-               pass: 'Amazon1518'
+               pass: 'Amazon1518@'
            }
        });
   
@@ -34,7 +34,7 @@ exports.getMail = function(req, res, next){
         service: 'gmail',
         auth: {
                user: 'usacenlinea1.0@usacenlinea.net',
-               pass: 'Amazon1518'
+               pass: 'Amazon1518@'
            }
        });
         
