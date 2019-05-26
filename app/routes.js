@@ -39,6 +39,7 @@ var AuthenticationController = require('./controllers/authentication'),
     AfiliadoController = require('./controllers/afiliado'),
     ComprasaldoController = require('./controllers/comprasaldo'),
     EntradasdpiController = require('./controllers/entradasdpi'),
+    EntradascasaController = require('./controllers/entradacasa'),
     ReversionsaldoController = require('./controllers/reversionsaldo'),
     SolcarneController = require('./controllers/solcarne'),
     AsignapapController = require('./controllers/asignapap'),
@@ -136,6 +137,7 @@ module.exports = function(app){
         comprasaldoRoutes = express.Router(),
         entradasdpiRoutes = express.Router(),
         reversionsaldoRoutes = express.Router(),
+        entradascasaRoutes = express.Router(),
         solcarneRoutes = express.Router(),
         asignapapRoutes = express.Router(),
         repcarneRoutes = express.Router(),
@@ -284,6 +286,16 @@ entradasdpiRoutes.get('/:id/:id2',  EntradasdpiController.getEntradasdpi);
 
 entradasdpiRoutes.post('/:recordID',requireAuth,  EntradasdpiController.creaEntradasdpi2s);
 entradasdpiRoutes.delete('/:recordID/:userID',requireAuth,  EntradasdpiController.deleteEntradasdpi);
+
+//-----------------------------------ENTRADAS CASA----------------------------------
+
+apiRoutes.use('/Entradascasas', entradascasaRoutes);
+entradascasaRoutes.get('/:id',requireAuth, EntradascasaController.getEntradacasa);
+entradascasaRoutes.get('/:id/:id2',  EntradascasaController.getEntradacasa);
+
+entradascasaRoutes.post('/:recordID',requireAuth,  EntradascasaController.creaEntradacasa2s);
+entradascasaRoutes.delete('/:recordID/:userID',requireAuth,  EntradascasaController.deleteEntradacasa);
+
 
 
 //-----------------------------------COMPRA DE SALDO----------------------------------
