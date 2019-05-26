@@ -632,7 +632,7 @@ exports.getPersonal = function(req, res, next){
         
             if(req.params.email)
             {  
-                
+                console.log(req.params.email)
                 Personal.find({email:req.params.email}).populate('unidad').populate('tiposuscriptor')
                 .then(todos => {
                    

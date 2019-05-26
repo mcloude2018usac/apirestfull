@@ -61,11 +61,10 @@ exports.getFormcat = function(req, res, next){
             }
             else
             {
-console.log(req.params.id3)
+console.log(req.params)
                 Formcat.find({idunidad:req.params.id2,idempresa:req.params.id3},function(err, todos) {
                     if (err){ res.send(err); }
-                   
-                    if(todos.length>0)   {    res.json(todos);   }
+                  res.json(todos);   
                   
                     
                 });

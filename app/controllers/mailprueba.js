@@ -2,12 +2,12 @@
 var nodemailer = require('nodemailer');
 
 var transporter = nodemailer.createTransport({
-    host: 'email-smtp.us-west-2.amazonaws.com',
-    port: 587,
+    host: 'smtp3.innovatelco.net',
+    port: 25,
    
     auth: {
-           user: 'AKIAIT7X75D5KB4GSILQ',
-           pass: 'BO9iQ1hEr/JmGpqSrE32JakwkIP2SjjdY70TL3jg7gE6'
+           user: 'usac@innovagt.net',
+           pass: 'Inn0va19!'
        }
    });
   
@@ -34,7 +34,7 @@ var mandacorreoprueba= function(){
                                                 chtml=chtml+ "</table>"
 
                                                 const mailOptions = {
-                                                        from: 'usacenlinea1.0@gmail.com', // sender address
+                                                        from: 'usac@innovagt.net', // sender address
                                                         to: 'usacenlinea1.0@gmail.com;mario.morales@mcloude.com', // list of receivers
                                                         subject: 'Gestion de Eventos', // Subject line
                                                         html:chtml,
