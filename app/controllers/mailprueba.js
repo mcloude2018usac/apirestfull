@@ -1,9 +1,11 @@
 
 var nodemailer = require('nodemailer');
-
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"; 
 var transporter = nodemailer.createTransport({
     host: 'smtp3.innovatelco.net',
     port: 25,
+    secure: false,
+    ignoreTLS: true,
    
     auth: {
            user: 'usac@innovagt.net',

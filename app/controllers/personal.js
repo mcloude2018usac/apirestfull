@@ -401,6 +401,22 @@ exports.getPersonal = function(req, res, next){
     
               
             }
+            else{
+
+                if(req.params.id2=='unidad')  
+                {
+        
+                    Personal.find({unidad:req.params.email}).exec(function(err, todos) {
+                        if (err){ res.send(err); }
+                    
+                         res.json(todos);    
+                        
+                    });
+        
+                  
+                }
+
+            }
 
         }
         else

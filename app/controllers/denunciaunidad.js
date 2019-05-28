@@ -127,6 +127,7 @@ exports.getDenunciaunidad = function(req, res, next){
 
             Denunciaunidad.find({'unidad':req.params.id2}).exec(function(err, todos) {
                 if (err){  res.send(err);  }
+                console.log(todos)
                  res.json(todos);
              });
     
@@ -186,8 +187,9 @@ exports.getDenunciaunidad = function(req, res, next){
            
         }
         else
-        { Denunciaunidad.find({}).populate('unidad').populate('categoria').exec(function(err, todos) {
+        { Denunciaunidad.find({}).populate('unidad').exec(function(err, todos) {
                if (err){  res.send(err);  }
+               console.log(todos)
                 res.json(todos);
             });
         }}}
@@ -209,11 +211,15 @@ exports.creaDenunciaunidad2s = function(req, res, next){
     Bitacora.create(req.body.bitacora);
 if(req.params.recordID!=='crea')
 { 
+
+    console.log(req.body);
     Denunciaunidad.findById({ _id: req.params.recordID }, function (err, todo)  {
         if (err) {  res.send(err);  }
         else
         {  
             todo.categoria        	=	req.body.categoria        	||	todo.categoria        	;
+            todo.jefeop        	=	req.body.jefeop        	||	todo.jefeop        	;
+            todo.operadores        	=	req.body.operadores        	||	todo.operadores        	;
             todo.unidad        	=	req.body.unidad        	||	todo.unidad        	;
             todo.nombre        	=	req.body.nombre        	||	todo.nombre        	;
             todo.estado        	=	req.body.estado        	||	todo.estado        	;
@@ -224,25 +230,28 @@ if(req.params.recordID!=='crea')
                 if (err)     {  res.status(500).send(err.message)   }
                 res.json(todo);
             });
-        }
+        }   
     });
 
 }
 else{
 
-   
+    console.log(req.body);
+
     Denunciaunidad.find({unidad:req.body.unidad ,categoria:req.body.categoria },function(err, todos) {
         if (err){ res.send(err); }
       
         if(todos.length>0)   {    res.status(500).send('Ya existe esta unidad relacionada con esta categoria'); }
         else
-        {  // console.log(req.body)
+        {   console.log(req.body)
 
             Denunciaunidad.create({
                 categoria        	: req.body.categoria        	,
                 unidad        	: req.body.unidad       ,
                 nombre        	: req.body.nombre       ,
                 estado        	: req.body.estado       ,
+                jefeop        	: req.body.jefeop       ,
+                operadores        	: req.body.operadores       ,
                 usuarionew:req.body.bitacora.email, 
               }
                 , function(err, todo) {
