@@ -33,8 +33,9 @@ exports.getMail = function(req, res, next){
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-               user: 'usacenlinea1.0@usacenlinea.net',
-               pass: 'Amazon1518@'
+               user: 'mario.morales@mcloude.com',
+               pass: 'ocitocit'
+              // pass: 'Amazon1518@'
            }
        });
         
@@ -45,9 +46,14 @@ exports.getMail = function(req, res, next){
         html: req.body.html
        
       };
+      console.log(mailOptions)
      
       transporter.sendMail(mailOptions, function (err, info) {
-        if(err){  res.status(500).send(err.sqlMessage);
+        if(err){ 
+          
+          console.log(err)
+          res.status(500).send(err.sqlMessage);
+          
       
         }
         else
