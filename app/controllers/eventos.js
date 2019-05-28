@@ -67,6 +67,7 @@ if(req.params.recordID!=='crea')
             todo.costo 	=	req.body.costo 	||	todo.costo 	;
             todo.impresion 	=	req.body.impresion 	||	todo.impresion 	;
             todo.nomax    	=	req.body.nomax    	||	todo.nomax    	;
+            todo.fecha    	=	req.body.fecha    	||	todo.fecha    	;
             todo.usuarioup=req.body.bitacora.email;
             
             
@@ -82,7 +83,7 @@ else{
    
     Evento.create({ nombre        	: req.body.nombre        	,
         fechaini 	: req.body.fechaini 	,
-     
+        fecha: req.body.fecha 	,
         fechafin    	: req.body.fechafin    	,
       
         foto    	: req.body.foto    	,

@@ -77,11 +77,21 @@ function roundxx(value, decimals) {
 exports.getEntradacasa = function(req, res, next){
     if(req.params.id2)
     {    if(req.params.id2=='CUI')
-        { console.log('entra')
-            Entradacasa.find({'cui':req.params.id}).sort([['createdAt', -1]]).exec(function(err, todos) {
+        { 
+            Entradacasa.find({'cui':req.params.id,estado:'Entrada'}).exec(function(err, todos) {
                 if (err){ res.send(err); }
                
-                   res.json(todos);   
+                if(todos.length>0)
+                {
+                    res.json([{es:'salida'}]);   
+                }
+                else{
+
+                    res.json([{es:'entrada'}]);   
+
+
+                }
+                   
                 
             });
       
