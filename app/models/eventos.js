@@ -8,6 +8,7 @@ var mongoose =require("mongoose");
         foto 	: { type : String, required : true },
         impresion	: { type : String, required : true },
         nomax: { type : Number },
+        fecha: { type : String },
         usuarionew	: { type : String },      usuarioup	: { type : String },
         date 		: { type: Date, default: Date.now }}, {
         timestamps: true
