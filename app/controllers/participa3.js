@@ -133,7 +133,7 @@ exports.creaParticipa32s = function(req, res, next){
         if (err) {  res.send(err);  }
         else
         {  
-            todo.estado       	=	'Cerrado'      	;         
+            todo.estado       	=	req.body.estado  	;         
         
            todo.save(function (err, todo){
                 if (err)     {  res.status(500).send(err.message)   }
@@ -145,7 +145,7 @@ exports.creaParticipa32s = function(req, res, next){
                         if (err) {  res.send(err);  }
                         else
                         {  
-                            todo2.estado       	=	'Cerrado'      	;         
+                            todo2.estado       	=	req.body.estado    	;         
                          
             
                            todo2.save(function (err, todo2){

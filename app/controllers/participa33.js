@@ -50,6 +50,20 @@ exports.getParticipa33 = function(req, res, next){
                           
                     });
                 }
+                else{
+
+                    if(req.params.id2=='seguir')
+                    { 
+                        console.log(req.params.id)
+                        Participa33.find({iddenuncia:req.params.id}).populate('idusuario').exec(function(err, todos) {
+                            if (err){ res.send(err); }
+                            console.log(todos)
+                        res.json(todos);
+                              
+                        });
+                    }
+
+                }
 
             }
         }
