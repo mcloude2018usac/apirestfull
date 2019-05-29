@@ -25,12 +25,20 @@ exports.getMarketemail = function(req, res, next){
 
         if(req.params.id3=='plantillas')
         {
-            Marketemail.find({idempresa:req.params.id,_id:req.params.id2}).exec(function(err, todos) {
-                if (err){ res.send(err); }
-               
-                res.json(todos);   
-                
-            });
+            if(req.params.id2) 
+            {
+
+                Marketemail.find({idempresa:req.params.id,_id:req.params.id2}).exec(function(err, todos) {
+                    if (err){ res.send(err); }
+                   
+                    res.json(todos);   
+                    
+                });
+            }
+            else{
+                res.status(500).send('Error link no valido') 
+            }
+          
 
         }
         else
