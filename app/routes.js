@@ -775,6 +775,7 @@ participaRoutes.delete('/:id/:userID',requireAuth,  ParticipaController.deletePa
 apiRoutes.use('/participa3s', participa3Routes);
 participa3Routes.get('/:id',requireAuth, Participa3Controller.getParticipa3);
 participa3Routes.get('/:id/:id2',requireAuth,  Participa3Controller.getParticipa3);
+participa3Routes.get('/:id/:id2/:id3',requireAuth,  Participa3Controller.getParticipa3);
 participa3Routes.post('/:id',requireAuth, Participa3Controller.creaParticipa32s);
 participa3Routes.delete('/:id/:userID',requireAuth,  Participa3Controller.deleteParticipa3);
 
@@ -782,6 +783,7 @@ participa3Routes.delete('/:id/:userID',requireAuth,  Participa3Controller.delete
 apiRoutes.use('/participa33s', participa33Routes);
 participa33Routes.get('/:id',requireAuth,  Participa33Controller.getParticipa33);
 participa33Routes.get('/:id/:id2',requireAuth,  Participa33Controller.getParticipa33);
+participa33Routes.get('/:id/:id2/:id3',requireAuth,  Participa33Controller.getParticipa33);
 participa33Routes.post('/:id',requireAuth, Participa33Controller.creaParticipa332s);
 participa33Routes.delete('/:id/:userID',requireAuth,  Participa33Controller.deleteParticipa33);
 
