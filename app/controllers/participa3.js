@@ -16,7 +16,7 @@ exports.getParticipa3 = function(req, res, next){
             for(var i = 0; i <  todos.length;i++){
                 var cat=todos[i].categoria
                 for(var i2 = 0; i2 <  cat.length;i2++){
-                    myData3.push(cat[i]._id)
+                    myData3.push(cat[i2]._id)
                 }
 
                
@@ -82,7 +82,7 @@ exports.getParticipa3 = function(req, res, next){
                             for(var i = 0; i <  todos.length;i++){
                                 var cat=todos[i].categoria
                                 for(var i2 = 0; i2 <  cat.length;i2++){
-                                    myData3.push(cat[i]._id)
+                                    myData3.push(cat[i2]._id)
                                 }
 
                                
