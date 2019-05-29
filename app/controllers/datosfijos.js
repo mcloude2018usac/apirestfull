@@ -10,6 +10,7 @@ var Evento = require('../models/eventos');
 var Pagopap = require('../models/pagospap');
 var Denunciaunidad = require('../models/denunciaunidad');
 var Participa3 = require('../models/participa3');
+var Participa33 = require('../models/participa33');
 var Unidadplan2 = require('../models/unidadplan2');
 var Cuentaccoriente = require('../models/asignapapccorriente');
 
@@ -446,30 +447,83 @@ else
         Denunciaunidad.find({'jefeop':req.params.id2}).exec(function(err, todos) {
                 if (err){  res.send(err);  }
                 var myData3 = [];
+                var myData32 = [];
                 for(var i = 0; i <  todos.length;i++){
                     var cat=todos[i].categoria
                     for(var i2 = 0; i2 <  cat.length;i2++){
-                        myData3.push(cat[i]._id)
+                        myData3.push(cat[i2]._id)
+                        myData32.push(cat[i2].nombre)
                     }
     
                    
                 }
+               
+
+               
     
-                Participa3.find({tipo:{$in:myData3}}).populate('tipo').select({ "createdAt":1,"cui": 1,"nombre": 1,"tipo": 1,"correo": 1,"motivo": 1,
-                "f3":1,"estado": 1,"notamedio": 1,"xpos": 1, "f1":1,"ypos": 1,        "_id": 1}).sort([['createdAt', 1]]).exec(function(err, todos2) {
-                   if (err){  res.send(err);  }
-    
-                   var myData31 = [];
-                   for(var i = 0; i <  todos2.length;i++){
-                    myData31.push({createdAt:todos2[i].createdAt,_id:todos2[i]._id,cui:todos2[i].cui,nombre2:todos2[i].nombre,nombre:todos2[i].tipo.nombre + ' ' +todos2[i].motivo ,correo:todos2[i].correo,motivo:todos2[i].motivo,motivo2:(todos2[i].motivo).substr(0,250),
-                     estado:todos2[i].estado,notamedio:todos2[i].notamedio,tipo:todos2[i].tipo.nombre,tipoid:todos2[i].tipo._id,xpos:todos2[i].xpos,ypos:todos2[i].ypos,f3:todos2[i].f3})
-                }
-    
-                       
+                Participa33.find({tipo:{$in:myData32}}).exec(function(err, todos22) {
+                        if (err){  res.send(err);  }
+         
+                        Participa3.find({tipo:{$in:myData3}}).populate('tipo').sort([['createdAt', 1]]).exec(function(err, todos2) {
+                                if (err){  res.send(err);  }
+             
+                                var myData31 = [];
+                                var mydata41=[]
+                                for(var i = 0; i <  todos2.length;i++){
+                                        var idusuario=''
+                                        var fechaasignada=''
+                                        var estadoasignada=''
+                                        for(var i2 = 0; i2 <  todos22.length;i2++){
+                                                if(todos2[i]._id==todos22[i2].iddenuncia)
+                                                {
+                                                        console.log(todos22[i2])
+                                                   idusuario=todos22[i2].idusuario;
+                                                 
+                                                   fechaasignada             =new Date( todos22[i2].createdAt).toISOString().substr(0,10)  ;
+                                                   estadoasignada            =todos22[i2].estado;
+                                                   break;
+
+                                                }
+                                        }
+
+                                 if(idusuario!='')
+                                 {
+                                         console.log('entra')
+                                        myData31.push({
+                                                nombre:todos2[i].nombre ,correo:todos2[i].correo
+                                                ,xpos:todos2[i].xpos,ypos:todos2[i].ypos,
+                                             estado:todos2[i].estado,tipo:todos2[i].tipo.nombre,
+                                             createdAt:new Date( todos2[i].createdAt).toISOString().substr(0,10)
+                                        ,usuarioseguimiento:todos22[0].idusuario,estadoseguimiento:estadoasignada,fechaseguimiento:fechaasignada})
+           
+
+                                 }     
+                                 else{
+
+                                        myData31.push({nombre:todos2[i].nombre ,correo:todos2[i].correo,
+                                                xpos:todos2[i].xpos,ypos:todos2[i].ypos,
+                                             estado:todos2[i].estado,tipo:todos2[i].tipo.nombre,
+                                             createdAt:new Date( todos2[i].createdAt).toISOString().substr(0,10)
+                                             ,usuarioseguimiento:'',estadoseguimiento:'',fechaseguimiento:''})
+           
+                                 }  
+
+
+                             }
+
+                                      
                 res.statusCode = 200;
                 res.setHeader('Content-Type', 'text/csv; charset=utf-8');
                 res.setHeader("Content-Disposition", 'attachment; filename='+filename);
                 res.csv(myData31, true);
+                 
+                       
+                
+                }
+                );
+
+            
+              
                 });
              });
 
