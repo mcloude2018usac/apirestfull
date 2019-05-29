@@ -1,8 +1,22 @@
 
 var Participa33 = require('../models/participa33');
 var Bitacora = require('../models/bitacora');
+var Participa3 = require('../models/participa3');
 
 exports.getParticipa33 = function(req, res, next){
+    if(req.params.id3)
+    {  
+        if(req.params.id3=='todos')
+        {
+            Participa33.find({idusuario:req.params.id,estado:req.params.id2},function(err, todos) {
+                if (err){ res.send(err); }
+                res.json(todos)
+            });
+        }
+        
+
+    }
+    else{
     if(req.params.id2)
     {  
         if(req.params.id2=='video')
@@ -42,11 +56,11 @@ exports.getParticipa33 = function(req, res, next){
     }   
     else
     { 
-        Participa33.find({_id:req.params.id},function(err, todos) {
+        Participa33.find({idusuario:req.params.id},function(err, todos) {
             if (err){ res.send(err); }
             res.json(todos)
         });
-    }
+    }}
 }
 exports.deleteParticipa33 = function(req, res, next){
     Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina Participa33 '});
@@ -67,15 +81,33 @@ else{
         Participa33.findById({ _id: req.params.id}, function (err, todo)  {
             if (err) {  res.send(err);  }
             else
-            {  
+            {   todo.motivo       	=	req.body.motivo        	||	todo.motivo        	;      
                 todo.estado       	=	req.body.estado        	||	todo.estado        	;         
-               todo.notamedio        	=	req.body.notamedio        	||	todo.notamedio        	;
-               todo.notafin        	=	req.body.notafin        	||	todo.notafin        	;
-               todo.tipo        	=	req.body.tipo        	||	todo.tipo        	;
+                todo.f1        	=	req.body.f1       	||	todo.f1        	;
+                todo.f2        	=	req.body.f2       	||	todo.f2        	;
+                todo.f3        	=	req.body.f3       	||	todo.f3        	;
+               todo.xpos        	=	req.body.xpos       	||	todo.xpos       	;
+               todo.ypos        	=	req.body.ypos       	||	todo.ypos       	;
 
                todo.save(function (err, todo){
                     if (err)     {  res.status(500).send(err.message)   }
-                    res.json(todo);
+
+                    Participa3.findById({ _id: req.body.iddenuncia   }, function (err, todo2)  {
+                        if (err) {  res.send(err);  }
+                        else
+                        {  
+                            todo2.estado       	=	req.body.estado      	;         
+                         
+            
+                           todo2.save(function (err, todo2){
+                                if (err)     {  res.status(500).send(err.message)   }
+                                res.json(todo2);
+                            });
+                        }
+                    });
+
+
+                  
                 });
             }
         });
@@ -101,18 +133,35 @@ else{
                     f1 	: req.body.f1 	,
                     f2 	: req.body.f2 	,
                     f3 	: req.body.f3 	,
-                    estado:'Realizando seguimiento',
+                    estado:'Asignado',
                     notamedio:'',
                     notafin:''     ,
                     xpos 	: req.body.xpos 	,
-                    ypos 	: req.body.ypos	      
-
+                    ypos 	: req.body.ypos	     , 
+                    idusuario 	: req.body.idusuario,	   
+                    motivo2 	: req.body.motivo2
                 }
                     , function(err, todo) {
                     if (err){   res.status(500).send(err.message)  
                     console.log(err.message)  }
+
+                    Participa3.findById({ _id: req.body.iddenuncia   }, function (err, todo2)  {
+                        if (err) {  res.send(err);  }
+                        else
+                        {  
+                            todo2.estado       	=	'Asignado'       	;         
+                         
+            
+                           todo2.save(function (err, todo2){
+                                if (err)     {  res.status(500).send(err.message)   }
+                                res.json(todo2);
+                            });
+                        }
+                    });
+
+
                 
-                    res.json(todo);
+                   
 
                 
                     

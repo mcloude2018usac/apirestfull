@@ -31,28 +31,28 @@ exports.getDenunciaunidad = function(req, res, next){
     {  
 
         var ee=''
-        if(req.params.id=='1')
-   {
-      ee='Solicitando requerimiento'
-   }
+                                                        if(req.params.id=='1')
+                                                {
+                                                    ee='Solicitando requerimiento'
+                                                }
 
-   
-   if(req.params.id=='2')
-   {
-      ee='Denuncia en proceso'
-   }
+                                                                        
+                                                                        if(req.params.id=='2')
+                                                                        {
+                                                                            ee='Denuncia en proceso'
+                                                                        }
 
-   
-   if(req.params.id=='3')
-   {
-      ee='Denuncia finalizada'
-   }
+                                                                        
+                                                                        if(req.params.id=='3')
+                                                                        {
+                                                                            ee='Denuncia finalizada'
+                                                                        }
 
-        Denuncia.find({estado:ee,tipo:req.params.id2},function(err, todos10) {
-            if (err){ res.send(err); }
-            res.json(todos10);
+                                                                                                            Denuncia.find({estado:ee,tipo:req.params.id2},function(err, todos10) {
+                                                                                                                if (err){ res.send(err); }
+                                                                                                                res.json(todos10);
 
-        });
+                                                                                                            });
 
     }
     else
@@ -122,6 +122,28 @@ exports.getDenunciaunidad = function(req, res, next){
     {   
     if(req.params.id2)
     {  
+        if(req.params.id=='jefeope')
+        {
+                
+            Denunciaunidad.find({'jefeop':req.params.id2}).exec(function(err, todos) {
+                if (err){  res.send(err);  }
+               
+                var myData = [];
+                for(var i = 0; i < todos.length;i++){
+                    for(var i2 = 0; i2 < todos[i].operadores.length;i2++){
+                        myData.push({nombre:todos[i].operadores[i2].nombre ,_id:todos[i].operadores[i2]._id});
+                    }
+                    
+            }
+
+               
+                 res.json(myData);
+             });
+    
+        }
+        else
+        {
+        
         if(req.params.id=='todos')
         {
 
@@ -161,7 +183,7 @@ exports.getDenunciaunidad = function(req, res, next){
     
             }
             
-
+        }
     
 
         }
