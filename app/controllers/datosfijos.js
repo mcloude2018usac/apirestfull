@@ -461,7 +461,7 @@ else
 
                
     
-                Participa33.find({tipo:{$in:myData32}}).exec(function(err, todos22) {
+                Participa33.find({tipo:{$in:myData32}}).populate('idusuario').exec(function(err, todos22) {
                         if (err){  res.send(err);  }
          
                         Participa3.find({tipo:{$in:myData3}}).populate('tipo').sort([['createdAt', 1]]).exec(function(err, todos2) {
@@ -476,8 +476,8 @@ else
                                         for(var i2 = 0; i2 <  todos22.length;i2++){
                                                 if(todos2[i]._id==todos22[i2].iddenuncia)
                                                 {
-                                                        console.log(todos22[i2])
-                                                   idusuario=todos22[i2].idusuario;
+                                                      
+                                                   idusuario=todos22[i2].idusuario.nombre;
                                                  
                                                    fechaasignada             =new Date( todos22[i2].createdAt).toISOString().substr(0,10)  ;
                                                    estadoasignada            =todos22[i2].estado;
@@ -494,7 +494,7 @@ else
                                                 ,xpos:todos2[i].xpos,ypos:todos2[i].ypos,
                                              estado:todos2[i].estado,tipo:todos2[i].tipo.nombre,
                                              createdAt:new Date( todos2[i].createdAt).toISOString().substr(0,10)
-                                        ,usuarioseguimiento:todos22[0].idusuario,estadoseguimiento:estadoasignada,fechaseguimiento:fechaasignada})
+                                        ,usuarioseguimiento:idusuario,estadoseguimiento:estadoasignada,fechaseguimiento:fechaasignada})
            
 
                                  }     
