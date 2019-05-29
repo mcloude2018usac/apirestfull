@@ -23,7 +23,7 @@ exports.getParticipa3 = function(req, res, next){
             }
 
             Participa3.find({tipo:{$in:myData3},estado:req.params.id3}).populate('tipo').select({ "createdAt":1,"cui": 1,"nombre": 1,"tipo": 1,"correo": 1,"motivo": 1,
-            "f3":1,"estado": 1,"notamedio": 1,"xpos": 1, "f1":1,"ypos": 1,        "_id": 1}).sort([['createdAt', 1]]).exec(function(err, todos2) {
+            "f3":1,"estado": 1,"notamedio": 1,"xpos": 1, "f1":1,"ypos": 1,        "_id": 1}).sort([['createdAt', -1]]).exec(function(err, todos2) {
                if (err){  res.send(err);  }
 
                var myData31 = [];
