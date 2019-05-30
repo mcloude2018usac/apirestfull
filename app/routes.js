@@ -737,7 +737,7 @@ apiRoutes.use('/denunciaunidads', denunciaunidadRoutes);
 denunciaunidadRoutes.get('/',requireAuth, DenunciaunidadController.getDenunciaunidad);
 denunciaunidadRoutes.get('/:id',requireAuth,  DenunciaunidadController.getDenunciaunidad);
 denunciaunidadRoutes.get('/:id/:id2',requireAuth, DenunciaunidadController.getDenunciaunidad);
-denunciaunidadRoutes.get('/:id/:id2/:id3',requireAuth, DenunciaunidadController.getDenunciaunidad);
+denunciaunidadRoutes.get('/:id/:id2/:id3',DenunciaunidadController.getDenunciaunidad);
 
 denunciaunidadRoutes.post('/:recordID', requireAuth, DenunciaunidadController.creaDenunciaunidad2s);
 denunciaunidadRoutes.delete('/:recordID/:userID',requireAuth, DenunciaunidadController.deleteDenunciaunidad);
@@ -776,6 +776,7 @@ apiRoutes.use('/participa3s', participa3Routes);
 participa3Routes.get('/:id',requireAuth, Participa3Controller.getParticipa3);
 participa3Routes.get('/:id/:id2',requireAuth,  Participa3Controller.getParticipa3);
 participa3Routes.get('/:id/:id2/:id3',requireAuth,  Participa3Controller.getParticipa3);
+participa3Routes.get('/:id/:id2/:id3/:id4',requireAuth,  Participa3Controller.getParticipa3);
 participa3Routes.post('/:id',requireAuth, Participa3Controller.creaParticipa32s);
 participa3Routes.delete('/:id/:userID',requireAuth,  Participa3Controller.deleteParticipa3);
 
