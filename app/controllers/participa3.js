@@ -22,12 +22,12 @@ exports.getParticipa3 = function(req, res, next){
             }
 
             Participa3.find({tipo:{$in:myData3},estado:req.params.id3,idusuario:req.params.id2}).populate('tipo').select({ "createdAt":1,"cui": 1,"nombre": 1,"tipo": 1,"correo": 1,"motivo": 1,
-            "f3":1,"estado": 1,"notamedio": 1,"xpos": 1, "f1":1,"ypos": 1,        "_id": 1}).sort([['createdAt', -1]]).exec(function(err, todos2) {
+            "motivo3":1,"f3":1,"estado": 1,"notamedio": 1,"xpos": 1, "f1":1,"ypos": 1,        "_id": 1}).sort([['createdAt', -1]]).exec(function(err, todos2) {
                if (err){  res.send(err);  }
 
                var myData31 = [];
                for(var i = 0; i <  todos2.length;i++){
-                myData31.push({createdAt:todos2[i].createdAt,_id:todos2[i]._id,cui:todos2[i].cui,nombre2:todos2[i].nombre,nombre:todos2[i].tipo.nombre + ' ' +todos2[i].motivo ,correo:todos2[i].correo,motivo:todos2[i].motivo,motivo2:(todos2[i].motivo).substr(0,250),
+                myData31.push({motivo3:todos2[i].motivo3, createdAt:todos2[i].createdAt,_id:todos2[i]._id,cui:todos2[i].cui,nombre2:todos2[i].nombre,nombre:todos2[i].tipo.nombre + ' ' +todos2[i].motivo ,correo:todos2[i].correo,motivo:todos2[i].motivo,motivo2:(todos2[i].motivo).substr(0,250),motivo33:(todos2[i].motivo3).substr(0,200),
                  estado:todos2[i].estado,notamedio:todos2[i].notamedio,tipo:todos2[i].tipo.nombre,tipoid:todos2[i].tipo._id,xpos:todos2[i].xpos,ypos:todos2[i].ypos,f3:todos2[i].f3})
             }
 
@@ -155,6 +155,50 @@ exports.deleteParticipa3 = function(req, res, next){
 
 
 exports.creaParticipa32s = function(req, res, next){
+    if(req.params.id=='actualizacierre')
+    { 
+    
+        Participa3.findById({ _id: req.body.id}, function (err, todo)  {
+            if (err) {  res.send(err);  }
+            else
+            {  
+                todo.estado       	=	req.body.estado  	; 
+               
+            
+               todo.save(function (err, todo){
+                    if (err)     {  res.status(500).send(err.message)   }
+                  
+                    Participa33.find({iddenuncia: req.body.id   }, function (err, todo22)  {
+                        if (err) {  res.send(err);  }
+                        
+                        Participa33.findById({_id: todo22[0]._id  }, function (err, todo2)  {
+                            if (err) {  res.send(err);  }
+                            else
+                            {  
+                                todo2.estado       	=	req.body.estado    	;         
+                             
+                
+                               todo2.save(function (err, todo2){
+                                    if (err)     {  res.status(500).send(err.message)   }
+                                    res.json(todo2);
+                                });
+                            }
+                        });
+                       
+                    });
+    
+    
+                  
+    
+    
+    
+                });
+            }
+        });
+    
+    
+    }
+    else{
   if(req.params.id=='actualiza')
 { 
 
@@ -163,19 +207,20 @@ exports.creaParticipa32s = function(req, res, next){
         else
         {  
             todo.estado       	=	req.body.estado  	; 
-           
+            todo.motivo3       	=	req.body.motivo3  	; 
         
            todo.save(function (err, todo){
                 if (err)     {  res.status(500).send(err.message)   }
               
                 Participa33.find({iddenuncia: req.body.id   }, function (err, todo22)  {
                     if (err) {  res.send(err);  }
-                    console.log(todo22)
+                    
                     Participa33.findById({_id: todo22[0]._id  }, function (err, todo2)  {
                         if (err) {  res.send(err);  }
                         else
                         {  
-                            todo2.estado       	=	req.body.estado    	;         
+                            todo2.estado       	=	req.body.estado    	;    
+                            todo2.motivo3       	=	req.body.motivo3  	;      
                          
             
                            todo2.save(function (err, todo2){
@@ -243,9 +288,10 @@ Participa3.create({
     f1 	: req.body.f1 	,
     f2 	: req.body.f2 	,
     f3 	: req.body.f3 	,
-    estado:'Solicitando requerimiento',
+    estado:'Pendiente',
     notamedio:'',
     notafin:''     ,
+    motivo3:'',
     xpos 	: req.body.xpos 	,
     ypos 	: req.body.ypos	      
 
@@ -286,7 +332,7 @@ zlib.constants.Z_BEST_COMPRESSION=9
 */
 
       
-}
+}}
 }
 
 }

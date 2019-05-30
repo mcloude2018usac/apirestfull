@@ -67,6 +67,7 @@ exports.getDenunciaunidad = function(req, res, next){
          
                             var myData31 = [];
                             var mydata41=[]
+                            var mydata42=[]
                             for(var i = 0; i <  todos2.length;i++){
                                     var idusuario=''
                                     var fechaasignada=''
@@ -93,17 +94,34 @@ exports.getDenunciaunidad = function(req, res, next){
    
 
                                     //ejecutadose
-                                    mydata41.push({horas:diff_hours(dt1, dt2),
+                                    if(todos2[i].estado=='Cerrado')
+                                    {
+
+                                        mydata42.push({horas:diff_hours(dt1, dt2),
                                             nombre:todos2[i].nombre ,correo:todos2[i].correo
                                             ,xpos:todos2[i].xpos,ypos:todos2[i].ypos,
                                          estado:todos2[i].estado,tipo:todos2[i].tipo.nombre,
                                          createdAt:new Date( todos2[i].createdAt).toISOString().substr(0,10)
                                     ,usuarioseguimiento:idusuario,estadoseguimiento:estadoasignada,fechaseguimiento:fechaasignada,cantidad:1})
        
+                                    }
+                                    else
+                                    {
+
+                                        mydata41.push({horas:diff_hours(dt1, dt2),
+                                            nombre:todos2[i].nombre ,correo:todos2[i].correo
+                                            ,xpos:todos2[i].xpos,ypos:todos2[i].ypos,
+                                         estado:todos2[i].estado,tipo:todos2[i].tipo.nombre,
+                                         createdAt:new Date( todos2[i].createdAt).toISOString().substr(0,10)
+                                    ,usuarioseguimiento:idusuario,estadoseguimiento:estadoasignada,fechaseguimiento:fechaasignada,cantidad:1})
+       
+                                    }
+                                   
 
                              }     
                              else{
                                     //activas
+
                                     myData31.push({horas:diff_hours(dt1, dt2),nombre:todos2[i].nombre ,correo:todos2[i].correo,
                                             xpos:todos2[i].xpos,ypos:todos2[i].ypos,
                                          estado:todos2[i].estado,tipo:todos2[i].tipo.nombre,
@@ -116,7 +134,7 @@ exports.getDenunciaunidad = function(req, res, next){
 
                          }
 
-      
+      //---------------------------------------------------------- ACTIVAS
                          var occurences = myData31.reduce(function (r, row) {
                             r[row.tipo] = ++r[row.tipo] || 1;
                             return r;
@@ -126,9 +144,48 @@ exports.getDenunciaunidad = function(req, res, next){
                             return { tipo: key, cantidad: occurences[key] };
                         });
                         
-                        console.log(result);
+//EJECUTANDOSE----------------------------------------------------------------
 
-                         res.json(result);     
+var occurences = mydata41.reduce(function (r, row) {
+    r[row.tipo] = ++r[row.tipo] || 1;
+    return r;
+}, {});
+
+var result2 = Object.keys(occurences).map(function (key) {
+    return { tipo: key, cantidad: occurences[key] };
+});
+
+//cerradas----------------------------------------------------------------
+
+var occurences = mydata42.reduce(function (r, row) {
+    r[row.tipo] = ++r[row.tipo] || 1;
+    return r;
+}, {});
+
+var result3 = Object.keys(occurences).map(function (key) {
+    return { tipo: key, cantidad: occurences[key] };
+});
+          
+
+
+//todos----------------------------------------------------------------
+
+var occurences = todos2.reduce(function (r, row) {
+    r[row.tipo.nombre] = ++r[row.tipo.nombre] || 1;
+    return r;
+}, {});
+
+
+var result4 = Object.keys(occurences).map(function (key) {
+    return { tipo: key, cantidad: occurences[key] };
+});
+          
+
+
+                      
+                        var myfinal = [];
+                        myfinal.push({activas:result,ejecucion:result2,cerradas:result3,todos:result4});
+                         res.json(myfinal);     
           
              
                    
