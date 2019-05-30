@@ -7,7 +7,36 @@ var Denunciaunidad = require('../models/denunciaunidad');
 
 
 exports.getParticipa3 = function(req, res, next){
+    if(req.params.id4)
+    {  
+        Denunciaunidad.find({'jefeop':req.params.id2}).exec(function(err, todos) {
+            if (err){  res.send(err);  }
+            var myData3 = [];
+            for(var i = 0; i <  todos.length;i++){
+                var cat=todos[i].categoria
+                for(var i2 = 0; i2 <  cat.length;i2++){
+                    myData3.push(cat[i2]._id)
+                }
 
+               
+            }
+
+            Participa3.find({tipo:{$in:myData3},estado:req.params.id3,idusuario:req.params.id2}).populate('tipo').select({ "createdAt":1,"cui": 1,"nombre": 1,"tipo": 1,"correo": 1,"motivo": 1,
+            "f3":1,"estado": 1,"notamedio": 1,"xpos": 1, "f1":1,"ypos": 1,        "_id": 1}).sort([['createdAt', -1]]).exec(function(err, todos2) {
+               if (err){  res.send(err);  }
+
+               var myData31 = [];
+               for(var i = 0; i <  todos2.length;i++){
+                myData31.push({createdAt:todos2[i].createdAt,_id:todos2[i]._id,cui:todos2[i].cui,nombre2:todos2[i].nombre,nombre:todos2[i].tipo.nombre + ' ' +todos2[i].motivo ,correo:todos2[i].correo,motivo:todos2[i].motivo,motivo2:(todos2[i].motivo).substr(0,250),
+                 estado:todos2[i].estado,notamedio:todos2[i].notamedio,tipo:todos2[i].tipo.nombre,tipoid:todos2[i].tipo._id,xpos:todos2[i].xpos,ypos:todos2[i].ypos,f3:todos2[i].f3})
+            }
+
+                   res.json(myData31);    
+            });
+         });
+
+    }
+    else{
     if(req.params.id3)
     {  
         Denunciaunidad.find({'jefeop':req.params.id2}).exec(function(err, todos) {
@@ -113,7 +142,7 @@ exports.getParticipa3 = function(req, res, next){
 
             }
         }
-    }
+    }}
 }
 
 }
@@ -133,7 +162,8 @@ exports.creaParticipa32s = function(req, res, next){
         if (err) {  res.send(err);  }
         else
         {  
-            todo.estado       	=	req.body.estado  	;         
+            todo.estado       	=	req.body.estado  	; 
+           
         
            todo.save(function (err, todo){
                 if (err)     {  res.status(500).send(err.message)   }

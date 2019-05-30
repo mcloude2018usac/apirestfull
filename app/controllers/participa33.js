@@ -164,7 +164,7 @@ else{
                         else
                         {  
                             todo2.estado       	=	'Asignado'       	;         
-                         
+                            todo2.idusuario =req.body.idusuario;
             
                            todo2.save(function (err, todo2){
                                 if (err)     {  res.status(500).send(err.message)   }

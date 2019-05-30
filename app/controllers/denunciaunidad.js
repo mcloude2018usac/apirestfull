@@ -4,6 +4,8 @@ var Bitacora = require('../models/bitacora');
 var Denuncia = require('../models/participa3');
 var dCatalogo = require('../models/dcatalogo');
 var denunciaunidad = require('../models/denunciaunidad');
+var Participa3 = require('../models/participa3');
+var Participa33 = require('../models/participa33');
 
 var datipo = function(datat,op) {
     var rr=''
@@ -23,6 +25,15 @@ function onlyUnique(value, index, self) {
 }
 
 
+function diff_hours(dt2, dt1) 
+{
+
+ var diff =(dt2.getTime() - dt1.getTime()) / 1000;
+ diff /= ( 60 * 60 * 24);
+ return Math.abs(Math.round(diff));
+ 
+}
+
 exports.getDenunciaunidad = function(req, res, next){
     if(req.params.id3)
     {  
@@ -30,29 +41,107 @@ exports.getDenunciaunidad = function(req, res, next){
         if(req.params.id3=='denunciasxxx')
     {  
 
-        var ee=''
-                                                        if(req.params.id=='1')
-                                                {
-                                                    ee='Solicitando requerimiento'
-                                                }
+     
+        Denunciaunidad.find({'jefeop':req.params.id2}).exec(function(err, todos) {
+            if (err){  res.send(err);  }
+            var myData3 = [];
+            var myData32 = [];
+            for(var i = 0; i <  todos.length;i++){
+                var cat=todos[i].categoria
+                for(var i2 = 0; i2 <  cat.length;i2++){
+                    myData3.push(cat[i2]._id)
+                    myData32.push(cat[i2].nombre)
+                }
 
-                                                                        
-                                                                        if(req.params.id=='2')
-                                                                        {
-                                                                            ee='Denuncia en proceso'
-                                                                        }
+               
+            }
+           
 
-                                                                        
-                                                                        if(req.params.id=='3')
-                                                                        {
-                                                                            ee='Denuncia finalizada'
-                                                                        }
+           
 
-                                                                                                            Denuncia.find({estado:ee,tipo:req.params.id2},function(err, todos10) {
-                                                                                                                if (err){ res.send(err); }
-                                                                                                                res.json(todos10);
+            Participa33.find({tipo:{$in:myData32}}).populate('idusuario').exec(function(err, todos22) {
+                    if (err){  res.send(err);  }
+     
+                    Participa3.find({tipo:{$in:myData3}}).populate('tipo').populate('idusuario').exec(function(err, todos2) {
+                            if (err){  res.send(err);  }
+         
+                            var myData31 = [];
+                            var mydata41=[]
+                            for(var i = 0; i <  todos2.length;i++){
+                                    var idusuario=''
+                                    var fechaasignada=''
+                                    var estadoasignada=''
+                                    for(var i2 = 0; i2 <  todos22.length;i2++){
+                                            if(todos2[i]._id==todos22[i2].iddenuncia)
+                                            {
+                                                  
+                                               idusuario=todos22[i2].idusuario.nombre;
+                                             
+                                               fechaasignada             =new Date( todos22[i2].createdAt).toISOString().substr(0,10)  ;
+                                               estadoasignada            =todos22[i2].estado;
+                                               break;
 
-                                                                                                            });
+                                            }
+                                    }
+
+                                                                
+                                dt1 = new Date(todos2[i].createdAt);
+                                dt2 = new Date();
+
+                             if(idusuario!='')
+                             {
+   
+
+                                    //ejecutadose
+                                    mydata41.push({horas:diff_hours(dt1, dt2),
+                                            nombre:todos2[i].nombre ,correo:todos2[i].correo
+                                            ,xpos:todos2[i].xpos,ypos:todos2[i].ypos,
+                                         estado:todos2[i].estado,tipo:todos2[i].tipo.nombre,
+                                         createdAt:new Date( todos2[i].createdAt).toISOString().substr(0,10)
+                                    ,usuarioseguimiento:idusuario,estadoseguimiento:estadoasignada,fechaseguimiento:fechaasignada,cantidad:1})
+       
+
+                             }     
+                             else{
+                                    //activas
+                                    myData31.push({horas:diff_hours(dt1, dt2),nombre:todos2[i].nombre ,correo:todos2[i].correo,
+                                            xpos:todos2[i].xpos,ypos:todos2[i].ypos,
+                                         estado:todos2[i].estado,tipo:todos2[i].tipo.nombre,
+                                         createdAt:new Date( todos2[i].createdAt).toISOString().substr(0,10)
+                                         ,usuarioseguimiento:'',estadoseguimiento:'',fechaseguimiento:''})
+                                         
+       
+                             }  
+
+
+                         }
+
+      
+                         var occurences = myData31.reduce(function (r, row) {
+                            r[row.tipo] = ++r[row.tipo] || 1;
+                            return r;
+                        }, {});
+                        
+                        var result = Object.keys(occurences).map(function (key) {
+                            return { tipo: key, cantidad: occurences[key] };
+                        });
+                        
+                        console.log(result);
+
+                         res.json(result);     
+          
+             
+                   
+            
+            }
+            );
+
+        
+          
+            });
+         });
+
+
 
     }
     else
@@ -168,6 +257,8 @@ exports.getDenunciaunidad = function(req, res, next){
                      //   console.log(todos[i])
                          myData.push({_id:todos[i].unidad._id,nombre:todos[i].unidad.nombre });
                     }
+
+                 
 
                     var unique =   myData.filter( onlyUnique );
 
