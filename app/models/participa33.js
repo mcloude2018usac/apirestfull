@@ -47,7 +47,8 @@ var Participa33Schema = new mongoose.Schema({
     xpos: {       type: Number   },
     ypos: {       type: Number   },
     idusuario	: { type : String , ref:'User'},
-    motivo2	: { type : String }
+    motivo2	: { type : String },
+    motivo3: {       type: String   },
     
 }, {
     timestamps: true
