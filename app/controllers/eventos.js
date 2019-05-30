@@ -21,12 +21,12 @@ exports.getEvento = function(req, res, next){
         }
         else
         {
-            Evento.find({_id:req.params.id},function(err, todos) {
+            Evento.find({_id:req.params.id,estado:'Activo'},function(err, todos) {
                 if (err){ res.send(err); }
                
                 if(todos.length>0)   {    res.json(todos);   }
                 else
-                {  res.status(500).send('NO EXISTE REGISTRO');      }
+                {  res.status(500).send('Evento se encuentra Inactivo');      }
                 
             });
         }
