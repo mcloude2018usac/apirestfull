@@ -768,6 +768,7 @@ autorizaRoutes.get('/:id',   AutorizaController.getAutoriza);
 apiRoutes.use('/participas', participaRoutes);
 participaRoutes.get('/:id',  ParticipaController.getParticipa);
 participaRoutes.get('/:id/:id2',  ParticipaController.getParticipa);
+participaRoutes.get('/:id/:id2/:id3',  ParticipaController.getParticipa);
 participaRoutes.post('/:id',  ParticipaController.creaParticipa2s);
 participaRoutes.delete('/:id/:userID',requireAuth,  ParticipaController.deleteParticipa);
 
