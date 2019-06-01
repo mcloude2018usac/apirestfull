@@ -101,7 +101,7 @@ exports.creaParticipa2s = function(req, res, next){
             var d = new Date();
 
 
-            todo.estado 	=	req.body.estado 	||	todo.estado 	;
+            todo.estado 	=	'Ingreso'	;
             todo.otros 	=	req.body.otros 	||	todo.otros 	;
             todo.cuenta 	=	Number(req.body.cuenta)+1 	||	Number(todo.cuenta)+1 	;
             todo.fecha 	=	d.toISOString()	;
