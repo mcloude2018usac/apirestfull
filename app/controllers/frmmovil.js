@@ -48,10 +48,7 @@ switch(value) {
       }
         return tt;
       }
-    
-//var newJsonString = objectToString(jsonObject);
-//console.log(newJsonString)
-  // Convert JSON format string to js object.
+
   function stringToObject(JSONString) {
       var jsonObject = JSON.parse(JSONString);
       return jsonObject;
@@ -71,8 +68,7 @@ switch(value) {
   
       var jsonString = JSON.stringify(jsObject);
   
-    //  console.log("New JSON String : " + jsonString);
-  
+   
       return jsonString;
   }
   
@@ -106,7 +102,7 @@ function dafiltrocad(todos,id2,id3) {
    
     for(var i = 0; i < todos.length;i++){
                                       
-     //  console.log(todos[i].type.nombre)
+     
         switch(todos[i].type.nombre) {
             case 'Rango':  
             if(todos[i].name==id2){cadxx='"' +id2 + '":' +id3 + ''  }
@@ -300,7 +296,7 @@ exports.getFrmmovil = function(req, res, next){
                                           
                                         });
                                       } catch(e) {
-                                         // console.log(e)
+                                         
                                         var  frmtt= mongoose.model(namess);
                               
                                         frmtt.find(JSON.parse(cadxx) ,function(err, todos2) {
@@ -384,14 +380,13 @@ exports.getFrmmovil = function(req, res, next){
                                             cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
                                             cad='{' + cad + '}'
                                             cadxx='{' + cadxx + '}'
-                                          //  console.log(cadxx)
+                                         
                                             var jsonObject = stringToObject(cad);
-                                         //   var jsonObject2 = stringToObject(cadxx);
-                                           
+                                          
                                             var mongoose = require("mongoose");
                                             var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
                                             
-                                           //  console.log(cadxx);   
+                                        
                                             try {
                                                 var  frmtt= mongoose.model(namess,tt);
                                                 frmtt.find({} ,function(err, todos2) {
@@ -401,7 +396,7 @@ exports.getFrmmovil = function(req, res, next){
                                                   
                                                 });
                                               } catch(e) {
-                                                 // console.log(e)
+                                                
                                                 var  frmtt= mongoose.model(namess);
                                       
                                                 frmtt.find( {} ,function(err, todos2) {
@@ -600,7 +595,7 @@ if(req.params.recordID!=='crea')
                                 cad='{' + cad + '}'
                                 var jsonObject = stringToObject(cad);
                                
-                              console.log(jsonObject)
+                          
                                 var mongoose = require("mongoose");
                                 var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
 
@@ -646,8 +641,6 @@ else{
                                 cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" }'
                                 cad='{' + cad + '}'
                                 var jsonObject = stringToObject(cad);
-                                console.log(jsonObject)
-                                console.log(req.body.estructura)
                               
                                 var mongoose = require("mongoose");
                                 var tt=  new mongoose.Schema(jsonObject, {timestamps:true });

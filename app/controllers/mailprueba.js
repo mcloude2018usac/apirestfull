@@ -16,7 +16,6 @@ var transporter = nodemailer.createTransport({
 
 var mandacorreoprueba= function(){
 
-   console.log('entrarr')
                                                 var cc=0;
                                                 var chtml='';
 

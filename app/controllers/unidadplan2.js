@@ -92,7 +92,7 @@ exports.creaUnidadplan22s = function(req, res, next){
    
  
     Bitacora.create(req.body.bitacora);
-    console.log(req.body)
+ 
 if(req.params.recordID!=='crea')
 { 
 

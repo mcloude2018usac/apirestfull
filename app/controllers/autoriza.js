@@ -25,7 +25,7 @@ exports.getAutoriza = function(req, res, next){
 }
 
 exports.creaAutorizar = function(req, res, next){
-    console.log( req.params.recordID)
+
         User.findById({_id: req.params.recordID}, function (err, todo)  {
             if (err) {  res.send(err);  }
             else

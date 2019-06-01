@@ -6,14 +6,13 @@ var Bitacora = require('../models/bitacora');
 var date_diff_indays = function(date1, date2) {
 
     var d =( date1 ).substr(0,10);  
-    console.log(d);
+    
     var n = d.split('-')  
   
     var d2 =( date2).substr(0,10);   
-    console.log(d2);
+  
     var n2 = d2.split('-')  
 
-console.log(n[1] + '/' + n[2] + '/' + n[0])
     dt1 = new Date(n[1] + '/' + n[2] + '/' + n[0]);
     dt2 = new Date(n2[1] + '/' + n2[2] + '/' + n2[0]);
     return Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate()) ) /(1000 * 60 * 60 * 24));

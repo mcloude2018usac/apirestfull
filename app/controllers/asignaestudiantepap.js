@@ -24,8 +24,7 @@ exports.getAsignaestudiantepap = function(req, res, next){
 
 
 function getNextSequenceValue2(myData3,myData3cc,req,res,i,todo){
-    //  console.log('asignado antes:')
-     // console.log(myData3cc);
+  
        Asignaest.find({idtipounidad        	: myData3[i].idtipounidad        	,
            idunidadacademica        	:myData3[i].idunidadacademica  , 
            idperiodo        	:myData3[i].idperiodo      	,
@@ -39,8 +38,7 @@ function getNextSequenceValue2(myData3,myData3cc,req,res,i,todo){
                  var asigno=0
                  asigno=myasigcupo.length;
                  asigno=asigno+1;
-                 console.log('jjjjjjjjjjjjjjjjjj')
-                 console.log(asigno)
+               
   
                            Asignaest.create({ 
                                idasigna:todo[0]._id,
@@ -75,7 +73,7 @@ function getNextSequenceValue2(myData3,myData3cc,req,res,i,todo){
                                    
                                    todo.save(function (err, todo){
                                        if (err)     {  console.log(err.message)   }
-                                       //console.log(todo);
+                                     
                                    });
                                }
                            });
@@ -196,8 +194,7 @@ exports.creaAsignaestudiantepap2s = function(req, res, next){
                           {//si hay cupo lo hago
                               
                               cii=0;
-                           //   console.log('encontre cupo para ' + myData[ii].idmateria )
-                              myData3.push({_id:myData[ii]._id,idedificio:myData[ii].idedificio,idsalon:myData[ii].idsalon
+                               myData3.push({_id:myData[ii]._id,idedificio:myData[ii].idedificio,idsalon:myData[ii].idsalon
                                 ,idtipounidad:myData[ii].idtipounidad,
                                 idjornada:myData[ii].idjornada,
                                 idunidadacademica: myData[ii].idunidadacademica,

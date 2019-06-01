@@ -89,7 +89,7 @@ exports.getCombofijo = function(req, res, next){
 
        switch(req.params.id) {
         case 'areas-evento':
-     console.log({'idtipoevento.codigo':req.params.id2});
+    
         Area_evento.find({'idtipoevento.codigo':req.params.id2},function(err, todos) {
                 if (err){  res.send(err);  }
                 res.json(todos);

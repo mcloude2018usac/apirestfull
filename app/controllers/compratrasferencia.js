@@ -84,11 +84,11 @@ else{
         if (err) {  res.send(err);  }
         else
         { 
-           // console.log(todos[0]);
+           
             Personalsaldo.findById({ _id:todos[0]._id }, function (err, todo3)  {
                 if (err) {  res.send(err);  }
                 else
-                {   // console.log(Number(todo3.saldoactual)+Number(req.body.monto ));
+                {  
                     if(Number(todo3.saldoactual)<Number(req.body.monto ))
                     {
 
@@ -99,19 +99,14 @@ else{
                        todo3.saldoactual        	=		Number(todo3.saldoactual)-Number(req.body.monto )    	;
                        todo3.save(function (err, todo){
                          if (err)     {  console.log(err.message)   }
-                       //  console.log(todo);
-                
-                           
-
-                            ///////////////////////////////////////////////////////////
-
+                   
 
                             Personalsaldo.find({'idsuscriptor.id':req.body.idsuscriptor2.id})
                                             .populate('idsuscriptor.id').exec(function(err, todos11) {
                                     if (err) {  res.send(err);  }
                                     else
                                     { 
-                                    // console.log(todos[0]);
+                                   
                                         Personalsaldo.findById({ _id:todos11[0]._id }, function (err, todo31)  {
                                             if (err) {  res.send(err);  }
                                             else
@@ -119,8 +114,6 @@ else{
                                                 todo31.saldoactual        	=		Number(todo31.saldoactual)+Number(req.body.monto )    	;
                                                 todo31.save(function (err, todo){
                                                     if (err)     {  console.log(err.message)   }
-                                                //  console.log(todo);
-                                            
                                                       
                                                     
                                                         Compratransferencia.create({ idsuscriptor        	: req.body.idsuscriptor        	,

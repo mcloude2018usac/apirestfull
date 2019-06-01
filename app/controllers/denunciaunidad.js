@@ -224,7 +224,7 @@ var result4 = Object.keys(occurences).map(function (key) {
                                                 }
                                                 ], function (err, todos) {
                                                     if (err){ res.send(err); }
-                                              //      console.log(todos)
+                                            
                                                     var myData = [];
                                                     for(var i = 0; i < todos.length;i++){
                                                      //   console.log(todos[i])
@@ -382,7 +382,7 @@ exports.creaDenunciaunidad2s = function(req, res, next){
 if(req.params.recordID!=='crea')
 { 
 
-    console.log(req.body);
+
     Denunciaunidad.findById({ _id: req.params.recordID }, function (err, todo)  {
         if (err) {  res.send(err);  }
         else
@@ -406,14 +406,14 @@ if(req.params.recordID!=='crea')
 }
 else{
 
-    console.log(req.body);
+  
 
-    Denunciaunidad.find({unidad:req.body.unidad ,categoria:req.body.categoria },function(err, todos) {
+    Denunciaunidad.find({unidad:req.body.unidad ,categoria:req.body.categoria,jefeop        	: req.body.jefeop  },function(err, todos) {
         if (err){ res.send(err); }
       
-        if(todos.length>0)   {    res.status(500).send('Ya existe esta unidad relacionada con esta categoria'); }
+        if(todos.length>0)   {    res.status(500).send('Ya existe esta unidad , categoria y jefe de operaciones'); }
         else
-        {   console.log(req.body)
+        {   
 
             Denunciaunidad.create({
                 categoria        	: req.body.categoria        	,

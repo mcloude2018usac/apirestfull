@@ -24,8 +24,7 @@ exports.getAsignaestudiantepap = function(req, res, next){
 
 
 function getNextSequenceValue2(myData3,myData3cc,req,res,i,todo){
-//  console.log('asignado antes:')
- // console.log(myData3cc);
+
    Asignaest.find({idtipounidad        	: myData3[i].idtipounidad        	,
        idunidadacademica        	:myData3[i].idunidadacademica  , 
        idperiodo        	:myData3[i].idperiodo      	,
@@ -74,7 +73,7 @@ function getNextSequenceValue2(myData3,myData3cc,req,res,i,todo){
                                
                                todo.save(function (err, todo){
                                    if (err)     {  console.log(err.message)   }
-                                   //console.log(todo);
+                                 
                                });
                            }
                        });
@@ -235,11 +234,10 @@ if(req.params.recordID!=='crea')
 }
 else{
 
-    console.log(req.body)
     Userperfil.find(  { userId:req.body.userId
     }).exec(function(err, todosa10) {
             if (err){ res.send(err); }
-  console.log(todosa10)
+ 
             if(todosa10.length==0)   {    res.status(500).send('No existe'); }
             else
             { 
@@ -261,7 +259,7 @@ else{
 
                 if(tt2==1)
                 {
-                  console.log('entrawwww')
+                 
                   res.status(500).send('No existe ninguna materia asignada'); 
             return;
   

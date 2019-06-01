@@ -77,7 +77,7 @@ function roundxx(value, decimals) {
 exports.getEntradasdpi = function(req, res, next){
     if(req.params.id2)
     {    if(req.params.id2=='CUI')
-        { console.log('entra')
+        { 
             Entradasdpi.find({'cui':req.params.id}).sort([['createdAt', -1]]).exec(function(err, todos) {
                 if (err){ res.send(err); }
                
@@ -174,7 +174,7 @@ if(req.params.recordID!=='crea')
     Entradasdpi.findById({ _id: req.params.recordID }, function (err, todo)  {
         if (err) {  res.send(err);  }
         else
-        {  console.log(req.body)
+        { 
             
             todo.nombrefactura=	req.body.nombrefactura        	||	todo.nombrefactura        	;
             todo.nitfactura=	req.body.nitfactura        	||	todo.nitfactura        	;

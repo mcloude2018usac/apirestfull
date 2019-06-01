@@ -141,7 +141,7 @@ exports.register2 = function(req, res, next){
     }
     Bitacora.create(bitacora);
 
-    console.log(email);
+
     User.findOne({email: email}, function(err, user){
  
         if(err){
@@ -149,7 +149,7 @@ exports.register2 = function(req, res, next){
         }
 
         
-    console.log(user);
+ 
         user.password=password2
         user.save(function(err){
  
@@ -225,7 +225,7 @@ exports.roleAuthorization = function(roles){
         var user = req.user;
  
         User.find({_id:user._id,estadoemail:'1'}, function(err, foundUser){
- console.log(foundUser)
+
             if(err){
                 res.status(500).json({error: 'Usuario no existe / no se autenticado via correo electronico'});
                 return next(err);

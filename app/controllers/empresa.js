@@ -54,7 +54,7 @@ exports.creaEmpresa2s = function(req, res, next){
    
  
     Bitacora.create(req.body.bitacora);
-    console.log(req.params.recordID);
+
 if(req.params.recordID!=='crea')
 { 
     Empresa.findById({ _id: req.params.recordID }, function (err, todo)  {

@@ -3,6 +3,65 @@ var Participa = require('../models/participa');
 var Bitacora = require('../models/bitacora');
 
 exports.getParticipa = function(req, res, next){
+    if(req.params.id3)
+    { 
+
+        if(req.params.id3=='repetido')
+        { 
+            var duplicates = [];
+            Participa.aggregate([
+                     
+                    {
+                        $match: {
+                            correo: {"$ne": ''} // correo es el campo por el que queremos borrar los duplicados
+                            ,idevento:'5cec20c9e927930016d78a8b'
+                        }
+                    },
+                    {
+                        $group: {
+                            _id: {correo: "$correo"},
+                            dups: {"$addToSet": "$_id"},
+                            count: {"$sum": 1}
+                        }
+                    },
+                    {
+                        $match: {
+                            count: {"$gt": 1}
+                        }
+                    }
+                ], function (err, result) {
+                    if (err) {
+                        console.error(err);
+                      //  return db.close();
+                    }
+         
+                    console.log(result)
+                    result.forEach(function (doc) {
+                        doc.dups.shift(); // Nos quedamos con el primer elemento
+                        doc.dups.forEach(function (dupId) {
+                            duplicates.push(dupId);
+                        });
+                    });
+
+                //    console.log(duplicates)
+                 //   res.json(duplicates); 
+         
+                    Participa.remove({_id: {$in: duplicates}}, function (err, result) {
+                        if (err) {
+                            console.error(err);
+                        }
+         
+                        res.json(duplicates); 
+                       
+                    });
+                    
+                });
+
+
+        }
+
+    }
+    else{
     if(req.params.id2)
     {   Participa.find({idevento:req.params.id,_id:req.params.id2},function(err, todos) {
             if (err){ res.send(err); }
@@ -19,6 +78,7 @@ exports.getParticipa = function(req, res, next){
             res.json(todos);
         });
     }
+}
 }
 exports.deleteParticipa = function(req, res, next){
    

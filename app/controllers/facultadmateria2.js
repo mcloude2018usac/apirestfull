@@ -41,7 +41,7 @@ exports.creaFacultadmateria22s = function(req, res, next){
     Bitacora.create(req.body.bitacora);
 if(req.params.recordID!=='crea')
 { 
-    console.log(req.body)
+ 
     Facultadmateria2.findById({ _id: req.params.recordID }, function (err, todo)  {
         if (err) {  res.send(err);  }
         else
@@ -57,7 +57,7 @@ if(req.params.recordID!=='crea')
             todo.quimica        	=	req.body.quimica             	;
             todo.usuarioup=req.body.bitacora.email;
 
-            console.log(todo)
+       
             todo.save(function (err, todo){
                 if (err)     {  res.status(500).send(err.message)   }
                 res.json(todo);

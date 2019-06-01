@@ -75,19 +75,115 @@ function roundxx(value, decimals) {
   }
 
 exports.getEntradacasa = function(req, res, next){
+
+    if(req.params.id3)
+    { if(req.params.id3=='todos')
+      {
+
+        Entradacasa.find(function(err, todos) {
+            if (err){  res.send(err);  }
+             res.json(todos);
+         });
+      }
+      else
+      {
+        if(req.params.id3=='filtro')
+        {
+                var cad= req.params.id;
+                var cuit=req.params.id2;
+
+                var aa=cad.split('.');
+                var f1 = aa[0]
+                var f2 = aa[1]
+                var nombret=aa[2]
+                var filtro;
+
+
+// createdAt: { "$gte": new Date('2019-05-01T00:00:00.000Z'),"$lt": new Date('2019-06-01T24:00:00.000Z')}
+//2019-05-01T00:00:00.000Z   2019-06-01T24:00:00.000Z
+               console.log(f1 +'T00:00:00.000Z' + '   ' + f2 +'T24:00:00.000Z')
+                if(nombret=='undefined' &&  cuit=='undefined')
+                {
+                    filtro={
+                        "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
+                        "$lt": new Date(f2 +'T24:00:00.000Z')}
+                    };
+                }
+                else
+                {
+                                if(nombret=='undefined')
+                                {
+                                    
+                                    filtro={cui:cuit,
+                                        "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
+                                        "$lt": new Date(f2 +'T24:00:00.000Z')}
+                                    };
+                                   
+                                }
+                                else
+                                {  
+                                            if(cuit=='undefined')
+                                            {
+                                                filtro={nombre:{ "$regex" : nombret, "$options" : "i" } ,
+                                                    "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
+                                                    "$lt": new Date(f2 +'T24:00:00.000Z')}
+                                                };
+                                            }
+                                            else{
+
+                                                filtro={nombre:{ "$regex" : nombret, "$options" : "i" } ,cui:cuit,
+                                                    "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
+                                                    "$lt": new Date(f2 +'T24:00:00.000Z')}
+                                                };
+                                            }
+                                }
+                }
+               
+
+
+
+
+            Entradacasa.find(filtro).sort([['createdAt', -1]]).exec(function(err, todos) {
+                if (err){  res.send(err);  }
+                 res.json(todos);
+               
+             });
+
+        }
+      
+  
+
+      }
+
+
+
+    }
+    else
+    {
     if(req.params.id2)
     {    if(req.params.id2=='CUI')
         { 
-            Entradacasa.find({'cui':req.params.id,estado:'Entrada'}).exec(function(err, todos) {
+            Entradacasa.find({'cui':req.params.id}).limit(5).sort([['createdAt', -1]]).exec(function(err, todos) {
                 if (err){ res.send(err); }
+                
                
                 if(todos.length>0)
-                {
-                    res.json([{es:'salida'}]);   
+                {  console.log(todos[0].estado)
+                    if(todos[0].estado=='Entrada')
+                    {
+                        res.json([{es:'saliendo'}]);   
+                    }
+
+                    if(todos[0].estado=='Salisa exitosa')
+                    {
+                        res.json([{es:'entrando'}]);   
+                    }
+                    
+                    
                 }
                 else{
 
-                    res.json([{es:'entrada'}]);   
+                    res.json([{es:'entrando'}]);   
 
 
                 }
@@ -163,7 +259,7 @@ exports.getEntradacasa = function(req, res, next){
             });
         }
 
-    }
+    }}
  
 }
 exports.deleteEntradacasa = function(req, res, next){

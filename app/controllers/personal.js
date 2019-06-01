@@ -102,7 +102,7 @@ exports.getPersonal = function(req, res, next){
                                             ,estado:'PagoPendiente', estado2:'SalidaPendiente'}).select({  "_id": 1}).exec(function(err, todos1) {
                                                     if (err){ res.send(err); }
                                                     if(todos1.length>0)   { //ya existe una pendiente 
-                                                        console.log('estado:PagoPendiente, estado2:SalidaPendiente')    
+                                                      
                                                         res.json([{exito:'Error,Valide su salida...'}]);
 
                                                         
@@ -116,7 +116,7 @@ exports.getPersonal = function(req, res, next){
                                                                     if (err){ res.send(err); }
                                                                     if(todos10.length>0)   {//saquelo
                                                                         
-                                                                        console.log('PagoCancelado, estado2:SalidaPendiente')    
+                                                                       
                                                                         Entradasdpi.findById({ _id:todos10[0]._id }, function (err, todo)  {
                                                                             if (err) {  res.send(err);  }
                                                                             else
@@ -162,8 +162,7 @@ exports.getPersonal = function(req, res, next){
                                                                                     if(todos2.length>0)   {
                                                                                         res.json([{exito:'Error,Valide su salida...'}]);
 
-                                                                                        console.log('PagoCancelado, estado2:SalidaCancelada')    
-                                                                      
+                                                                                  
                                                                                     }
                                                                                     else
                                                                                     {
@@ -477,7 +476,7 @@ exports.getPersonal = function(req, res, next){
                         Personalsaldo.find({'idsuscriptor.id':todos[0]._id},function(err, todos4) {
                             if (err){ res.send(err); }
 
-                           // console.log(todos4)
+                          
                             var myData = [];
                                     if(todos4.length>0)   {  
 
@@ -648,7 +647,7 @@ exports.getPersonal = function(req, res, next){
         
             if(req.params.email)
             {  
-                console.log(req.params.email)
+               
                 Personal.find({email:req.params.email}).populate('unidad').populate('tiposuscriptor')
                 .then(todos => {
                    

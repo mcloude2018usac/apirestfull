@@ -43,7 +43,7 @@ function getNextSequenceValue2(noboleta,req, res){
                                     
                                     todo.save(function (err, todo){
                                         if (err)     {  console.log(err.message)   }
-                                        //console.log(todo);
+                                       
                                     });
                                 }
                             });
@@ -88,13 +88,13 @@ function getNextSequenceValue3(bb, req,res){
 
 
 
-       // console.log('pasa pago2')
+     
         Asignapap.find( {  $or : [
             { $and : [ { noboleta :bb[0] }] },
             { $and : [ { noboleta : bb[6] }] }]
     }).then(todoaaab => {
 
-     //   console.log(todoaaab);
+     
                 if(todoaaab.length>0)   {
                     Pagopap.create({ 
                         ordenpago  		:bb[0] ,
@@ -174,7 +174,7 @@ function getNextSequenceValue3(bb, req,res){
             
         })
         .catch(err => {
-            console.log(err.message)
+           
             res.status(500).send(err.message);  
         })
 
@@ -203,10 +203,7 @@ exports.creaTipounidad22s = function(req, res, next){
     {  
 
 
-//console.log(req.body.texto);
 
-
-        
         var a ;
         a =  splitLines(req.body.texto);
 
@@ -218,7 +215,7 @@ exports.creaTipounidad22s = function(req, res, next){
                 if(myData3cc!='')
                 {
                 var bb=myData3cc.split(';')    
-                console.log(bb)
+             
                 getNextSequenceValue3(bb,req, res);  
                 }
           

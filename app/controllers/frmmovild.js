@@ -64,9 +64,9 @@ if(req.params.id!=='crea')
     Frmmovild.findById({ _id: req.params.id }, function (err, todo)  {
         if (err) {  res.send(err);  }
         else
-        { console.log(req.body)
+        { 
 
-            console.log(req.body)
+           
             var rr= req.body.display 
             var rr2= req.body.required
             if(req.body.tipo=="Etiqueta")

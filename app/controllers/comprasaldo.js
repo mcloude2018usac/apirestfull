@@ -266,15 +266,15 @@ else{
         if (err) {  res.send(err);  }
         else
         { 
-           // console.log(todos[0]);
+          
             Personalsaldo.findById({ _id:todos[0]._id }, function (err, todo3)  {
                 if (err) {  res.send(err);  }
                 else
-                {    console.log(Number(todo3.saldoactual)+Number(req.body.monto ));
+                {  
                        todo3.saldoactual        	=		Number(todo3.saldoactual)+Number(req.body.monto )    	;
                        todo3.save(function (err, todo){
                          if (err)     {  console.log(err.message)   }
-                       //  console.log(todo);
+                    
                 
                     
 

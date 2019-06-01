@@ -36,7 +36,7 @@ exports.creaSuscriptorsaldo2s = function(req, res, next){
 
     if(req.params.id!=='crea')
     {  Bitacora.create(req.body.bitacora);
-      // console.log(req.body);
+    
 
        
         Suscriptorsaldo.findById({ '_id': req.params.id}, function (err, todo)  {

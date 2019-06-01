@@ -46,12 +46,11 @@ exports.getMail = function(req, res, next){
         html: req.body.html
        
       };
-      console.log(mailOptions)
+   
      
       transporter.sendMail(mailOptions, function (err, info) {
         if(err){ 
-          
-          console.log(err)
+    
           res.status(500).send(err.sqlMessage);
           
       
@@ -135,7 +134,7 @@ var transporter = nodemailer.createTransport({
                         else
                         {  
                           cosnole.log('actualiza entra participa2');
-                          console.log(req.body.actualiza);
+                     
                             todo.estado 	=	req.body.actualiza.estado 	||req.body.actualiza.estado 	;
                         //  todo.otros 	=	req.body.actualiza.otros 	||	req.body.actualiza.otros 	;
                           

@@ -6,7 +6,7 @@ exports.getFormcat2 = function(req, res, next){
 
     if(req.params.id3)
     {
-        console.log(req.params.id3)
+       
         Formcat2.find({idformulario:req.params.id,idunidad:req.params.id2,idempresa:req.params.id3},function(err, todos) {
             if (err){ res.send(err); }
            
@@ -46,7 +46,6 @@ exports.creaFormcat22s = function(req, res, next){
     if(req.params.recordID!=='crea')
     {  Bitacora.create(req.body.bitacora);
 
-        console.log()
         Formcat2.findById({ _id: req.params.recordID}, function (err, todo)  {
             if (err) {  res.send(err);  }
             else
