@@ -7,6 +7,8 @@ var Denunciaunidad = require('../models/denunciaunidad');
 
 
 exports.getParticipa3 = function(req, res, next){
+
+  
     if(req.params.id4)
     {  
         Denunciaunidad.find({'jefeop':req.params.id2}).exec(function(err, todos) {
@@ -27,7 +29,14 @@ exports.getParticipa3 = function(req, res, next){
 
                var myData31 = [];
                for(var i = 0; i <  todos2.length;i++){
-                myData31.push({motivo3:todos2[i].motivo3, createdAt:todos2[i].createdAt,_id:todos2[i]._id,cui:todos2[i].cui,nombre2:todos2[i].nombre,nombre:todos2[i].tipo.nombre + ' ' +todos2[i].motivo ,correo:todos2[i].correo,motivo:todos2[i].motivo,motivo2:(todos2[i].motivo).substr(0,250),motivo33:(todos2[i].motivo3).substr(0,200),
+                var mm=todos2[i].motivo;
+                if(mm)   {    if(mm.length>250)   {mm=mm.substr(0,250)} }
+                else                {mm=''}
+
+                var mm2=todos2[i].motivo33;
+                if(mm2)   {    if(mm2.length>250)   {mm2=mm2.substr(0,250)} }
+                else                {mm2=''}
+                myData31.push({motivo3:todos2[i].motivo3, createdAt:todos2[i].createdAt,_id:todos2[i]._id,cui:todos2[i].cui,nombre2:todos2[i].nombre,nombre:todos2[i].tipo.nombre + ' ' +todos2[i].motivo ,correo:todos2[i].correo,motivo:todos2[i].motivo,motivo2:mm,motivo33:mm2,
                  estado:todos2[i].estado,notamedio:todos2[i].notamedio,tipo:todos2[i].tipo.nombre,tipoid:todos2[i].tipo._id,xpos:todos2[i].xpos,ypos:todos2[i].ypos,f3:todos2[i].f3})
             }
 
@@ -38,9 +47,12 @@ exports.getParticipa3 = function(req, res, next){
     }
     else{
     if(req.params.id3)
-    {  
+    { 
         Denunciaunidad.find({'jefeop':req.params.id2}).exec(function(err, todos) {
+
             if (err){  res.send(err);  }
+
+           
             var myData3 = [];
             for(var i = 0; i <  todos.length;i++){
                 var cat=todos[i].categoria
@@ -57,7 +69,11 @@ exports.getParticipa3 = function(req, res, next){
 
                var myData31 = [];
                for(var i = 0; i <  todos2.length;i++){
-                myData31.push({createdAt:todos2[i].createdAt,_id:todos2[i]._id,cui:todos2[i].cui,nombre2:todos2[i].nombre,nombre:todos2[i].tipo.nombre + ' ' +todos2[i].motivo ,correo:todos2[i].correo,motivo:todos2[i].motivo,motivo2:(todos2[i].motivo).substr(0,250),
+                   var mm=todos2[i].motivo;
+                    if(mm)   {    if(mm.length>250)   {mm=mm.substr(0,250)} }
+                    else                {mm=''}
+                   
+                myData31.push({createdAt:todos2[i].createdAt,_id:todos2[i]._id,cui:todos2[i].cui,nombre2:todos2[i].nombre,nombre:todos2[i].tipo.nombre + ' ' +todos2[i].motivo ,correo:todos2[i].correo,motivo:todos2[i].motivo,motivo2:mm,
                  estado:todos2[i].estado,notamedio:todos2[i].notamedio,tipo:todos2[i].tipo.nombre,tipoid:todos2[i].tipo._id,xpos:todos2[i].xpos,ypos:todos2[i].ypos,f3:todos2[i].f3})
             }
 
@@ -123,7 +139,12 @@ exports.getParticipa3 = function(req, res, next){
 
                                var myData31 = [];
                                for(var i = 0; i <  todos2.length;i++){
-                                myData31.push({createdAt:todos2[i].createdAt,_id:todos2[i]._id,cui:todos2[i].cui,nombre2:todos2[i].nombre,nombre:todos2[i].tipo.nombre + ' ' +todos2[i].motivo ,correo:todos2[i].correo,motivo:todos2[i].motivo,motivo2:(todos2[i].motivo).substr(0,250),
+                                var mm=todos2[i].motivo;
+                                if(mm)   {    if(mm.length>250)   {mm=mm.substr(0,250)} }
+                                else                {mm=''}
+
+                                
+                                myData31.push({createdAt:todos2[i].createdAt,_id:todos2[i]._id,cui:todos2[i].cui,nombre2:todos2[i].nombre,nombre:todos2[i].tipo.nombre + ' ' +todos2[i].motivo ,correo:todos2[i].correo,motivo:todos2[i].motivo,motivo2:mm,
                                  estado:todos2[i].estado,notamedio:todos2[i].notamedio,tipo:todos2[i].tipo.nombre,tipoid:todos2[i].tipo._id,xpos:todos2[i].xpos,ypos:todos2[i].ypos,f3:todos2[i].f3})
                             }
 
