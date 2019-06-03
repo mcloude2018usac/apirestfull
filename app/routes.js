@@ -221,6 +221,7 @@ empresaRoutes.delete('/:nit', requireAuth, EmpresaController.deleteEmpresa);
 apiRoutes.use('/suscriptors',suscriptorRoutes);
 suscriptorRoutes.get('/',requireAuth, SuscriptorController.getSuscriptor);
 suscriptorRoutes.get('/:nodpi',requireAuth,  SuscriptorController.getSuscriptor);
+suscriptorRoutes.get('/:nodpi/:id2',requireAuth,  SuscriptorController.getSuscriptor);
 suscriptorRoutes.post('/:nodpi',requireAuth,  SuscriptorController.creaSuscriptors);
 suscriptorRoutes.delete('/:nodpi',requireAuth,  SuscriptorController.deleteSuscriptor);
 
