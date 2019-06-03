@@ -45,6 +45,7 @@ exports.creaUnidadacademica2s = function(req, res, next){
                 todo.idtipounidad        	=	req.body.idtipounidad        	||	todo.idtipounidad;        	;
                 todo.nombre        	=	req.body.nombre        	||	todo.nombre        	;
                 todo.codigo        	=	req.body.codigo        	||	todo.codigo        	;
+                todo.estado        	=	req.body.estado        	||	todo.estado        	;
                 todo.usuarioup=req.body.bitacora.email;
                
 
@@ -70,6 +71,7 @@ exports.creaUnidadacademica2s = function(req, res, next){
             Unidadacademica.create({  idtipounidad      	: req.body.idtipounidad     	,
                 nombre        	: req.body.nombre        	,
                 codigo        	: req.body.codigo        ,
+                estado        	: req.body.estado        ,
                 usuarionew:req.body.bitacora.email	
             
             }

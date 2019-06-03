@@ -54,6 +54,20 @@ exports.getMarketemail = function(req, res, next){
                 });
     
             }
+            else{
+                if(req.params.id3=='help')
+                {
+                    Marketemail.find({idempresa:req.params.id,idcategoria:req.params.id2}).populate('grupo').exec(function(err, todos) {
+                        if (err){ res.send(err); }
+                       
+                        res.json(todos);   
+                        
+                    });
+        
+                }
+
+
+            }
 
 
         }

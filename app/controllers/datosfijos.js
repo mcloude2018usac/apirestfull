@@ -21,6 +21,7 @@ var Facplan2 = require('../models/unidadplan2');
 var cursoeve=require('../models/aread_evento');
 var Userperfil = require('../models/userperfil2');
 var Asignapap = require('../models/asignapap');
+var Marketemail = require('../models/marketemail');
 
 var request = require('request');
 
@@ -88,6 +89,15 @@ exports.getCombofijo = function(req, res, next){
        var sql='';
 
        switch(req.params.id) {
+        case 'help':
+        console.log('entra')
+        Marketemail.find({idempresa:req.params.id3,idcategoria:req.params.id2}).populate('grupo').exec(function(err, todos) {
+                if (err){ res.send(err); }
+               
+                res.json(todos);   
+                
+            });
+        break;
         case 'areas-evento':
     
         Area_evento.find({'idtipoevento.codigo':req.params.id2},function(err, todos) {

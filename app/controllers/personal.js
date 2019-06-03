@@ -384,6 +384,28 @@ exports.getPersonal = function(req, res, next){
                         {
         if(req.params.id3)
         {
+            if(req.params.id2=='actualizauser')
+            {
+              
+
+                Personal.find({ $or : [
+                        { $and : [ { email : req.params.email }] },
+                        { $and : [ { nov : req.params.email }] },
+                        { $and : [ { cui : req.params.email }] },
+                        { $and : [ { codpersonal : req.params.email }] }
+                     ]}).populate('unidad').populate('tiposuscriptor')
+                .exec(function(err, todos) {
+                    if (err){ res.send(err); }
+                
+                    if(todos.length>0)   {    res.json(todos);    }
+                    else
+                    {  res.status(500).send('NO EXISTE REGISTRO');      }
+                    
+                });
+    
+              
+            }
+            else{
 
             if(req.params.id2=='persona')
             {
@@ -414,7 +436,7 @@ exports.getPersonal = function(req, res, next){
         
                   
                 }
-
+            }
             }
 
         }
@@ -651,9 +673,8 @@ exports.getPersonal = function(req, res, next){
                 Personal.find({email:req.params.email}).populate('unidad').populate('tiposuscriptor')
                 .then(todos => {
                    
-                    if(todos.length>0)   {    res.json(todos);   }
-                    else
-                    {  res.status(500).send('NO EXISTE REGISTRO');      }
+                      res.json(todos);  
+                    
                 })
                 .catch(err => {
                     res.status(500).send(err.message);  
