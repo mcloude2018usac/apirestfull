@@ -589,6 +589,7 @@ edificiousacRoutes.delete('/:recordID/:userID',requireAuth,  EdificiousacControl
 apiRoutes.use('/unidadperiodos',periodousacRoutes);
 periodousacRoutes.get('/:id',requireAuth,  PeriodousacController.getUnidadperiodo);
 periodousacRoutes.get('/:id2/:id3',requireAuth,  PeriodousacController.getUnidadperiodo);
+periodousacRoutes.get('/:id2/:id3/:id4',requireAuth,  PeriodousacController.getUnidadperiodo);
 periodousacRoutes.post('/:recordID', requireAuth, PeriodousacController.creaUnidadperiodo2s);
 periodousacRoutes.delete('/:recordID/:userID',requireAuth,  PeriodousacController.deleteUnidadperiodo);
 
