@@ -21,7 +21,7 @@ exports.getEvento = function(req, res, next){
         }
         else
         {
-            Evento.find({_id:req.params.id,estado:'Activo'},function(err, todos) {
+            Evento.find({_id:req.params.id,impresion:'Activo'},function(err, todos) {
                 if (err){ res.send(err); }
                
                 if(todos.length>0)   {    res.json(todos);   }
