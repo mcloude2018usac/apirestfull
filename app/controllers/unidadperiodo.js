@@ -3,7 +3,29 @@ var Unidadperiodo = require('../models/unidadperiodo');
 var Bitacora = require('../models/bitacora');
 
 exports.getUnidadperiodo = function(req, res, next){
-       if(req.params.id)
+    if(req.params.id4)
+    { 
+
+        Unidadperiodo.find({},function(err, todos) {
+            if (err){ res.send(err); }
+           
+            var unique =   todos.filter( onlyUnique );
+              
+            var myData2 = [];
+                          for(var i = 0; i < unique.length;i++){
+                             myData2.push({nombre:unique[i].nombre});
+                         }
+         
+                          res.json(myData2);
+          
+
+            
+        });
+
+    }
+    else{
+
+        if(req.params.id)
         {  
            
                 Unidadperiodo.find({_id :req.params.id},function(err, todos) {
@@ -23,6 +45,9 @@ exports.getUnidadperiodo = function(req, res, next){
                 res.json(todos);
             });
         }
+
+    }
+      
 
  
 }
