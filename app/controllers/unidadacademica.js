@@ -4,15 +4,31 @@ var Bitacora = require('../models/bitacora');
 
 exports.getUnidadacademica = function(req, res, next){
     if(req.params.id2)
-    {   Unidadacademica.find({idtipounidad:req.params.id,_id:req.params.id2}
+    {   
+        if(req.params.id2=='todos')
+        {   
+            Unidadacademica.find({idtipounidad:req.params.id}
         ,null, {sort: {codigo: 1}},function(err, todos) {
-            if (err){ res.send(err); }
-           
-            if(todos.length>0)   {    res.json(todos);   }
-            else
-            {  res.status(500).send('NO EXISTE REGISTRO');      }
-            
-        });   
+           if (err){  res.send(err);  }
+            res.json(todos);
+        });
+        }
+        else
+        {
+            Unidadacademica.find({idtipounidad:req.params.id,_id:req.params.id2}
+                ,null, {sort: {codigo: 1}},function(err, todos) {
+                    if (err){ res.send(err); }
+                   
+                    if(todos.length>0)   {    res.json(todos);   }
+                    else
+                    {  res.status(500).send('NO EXISTE REGISTRO');      }
+                    
+                });   
+        }
+
+        
+        
+       
     }
     else
     { Unidadacademica.find({idtipounidad:req.params.id,estado:'Activo'}

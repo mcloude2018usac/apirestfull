@@ -544,7 +544,7 @@ else
 
                                 var filename   = "asignaciones.csv";
                                 
-                                Facplan.find({'idperiodo.nombre':req.params.id2}).sort({'idunidadacademica.codigo':1}).exec(function(err, todos2) {
+                                Facplan.find({'idperiodo.nombre':req.params.id2,'idunidadacademica.codigo':0}).sort({'idunidadacademica.codigo':1}).exec(function(err, todos2) {
                                         if (err){ res.send(err); }
                                         
 
@@ -581,9 +581,50 @@ else
                                 });
 
         break;  
+        case 'excel-asigna3':
+
+        var filename   = "asignaciones2.csv";
+        
+        Facplan.find({'idperiodo.nombre':req.params.id2, 'idunidadacademica.codigo': { $nin: [ 0] }}).sort({'idunidadacademica.codigo':1}).exec(function(err, todos2) {
+                if (err){ res.send(err); }
+                
+
+                if(todos2.length>0)   {  
+
+                        var myData = [];
+                        for(var i = 0; i < todos2.length;i++){
+
+                                var d =new Date( todos2[i].fexamen).toISOString()
+                                var n = d.toString();      
+                                var ll=''
+                                if(todos2[i].idmateria=='Lenguaje'){ll='3'}
+                                if(todos2[i].idmateria=='Matematica'){ll='4'}
+                                if(todos2[i].idmateria=='Fisica'){ll='2'}
+                                if(todos2[i].idmateria=='Quimica'){ll='5'}
+                                  if(todos2[i].idmateria=='Biologia'){ll='1'}
+
+                                
+                        myData.push({unidadacademica:cleanName(todos2[i].idtipounidad.nombre),periodo:cleanName(todos2[i].idperiodo.nombre),codigounidad:todos2[i].idunidadacademica.codigo,unidadacademica:todos2[i].idunidadacademica.nombre,edificio:cleanName(todos2[i].idedificio.nombre),salon:cleanName(todos2[i].idsalon.nombre)
+                                ,codigomateria:ll,materia:cleanName(todos2[i].idmateria),horario:cleanName(todos2[i].idhorario)
+                                ,capacidad:todos2[i].capacidad ,asignados:todos2[i].asignados
+                                ,fexamen:d.substr(0,10) ,codfac:todos2[i].codfac 
+                         });
+                        }
+                        
+                        res.statusCode = 200;
+                        res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+                        res.setHeader("Content-Disposition", 'attachment; filename='+filename);
+                        res.csv(myData, true);
+                
+                        
+                }
+        
+        });
+
+break;  
         case 'excel-asignaU':
 console.log(req.params)
-        var filename   = "asignaciones.csv";
+        var filename   = "asignacionesU.csv";
         
         Facplan.find({'idperiodo.nombre':req.params.id2,'idtipounidad.nombre':req.params.id3}).sort({'idunidadacademica.codigo':1}).exec(function(err, todos2) {
                 if (err){ res.send(err); }
