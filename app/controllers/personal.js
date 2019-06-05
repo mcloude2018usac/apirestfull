@@ -384,6 +384,8 @@ exports.getPersonal = function(req, res, next){
                         {
         if(req.params.id3)
         {
+      
+            
             if(req.params.id2=='actualizauser')
             {
               
@@ -438,7 +440,7 @@ exports.getPersonal = function(req, res, next){
                 }
             }
             }
-
+        
         }
         else
         {
@@ -711,6 +713,35 @@ exports.creaPersonal2s = function(req, res, next){
 
 if(req.params.recordID)
 {
+ 
+    if(req.params.recordID=='actualiza2')
+    {  
+        console.log(req.body)
+
+        Personal.findById({ _id: req.body._id}, function (err, todo)  {
+            if (err) {  res.send(err);  }
+            else
+            {   todo.email        	=	req.body.email            	;
+                todo.nombre        	=	req.body.nombre          	;
+                todo.cui 	=	req.body.cui 		;
+                todo.direccion   	=	req.body.direccion   	 	;
+                todo.telefono    	=	req.body.telefono      	;
+                   todo.nov    	=	req.body.nov    	;
+                todo.estadoemail=req.body.estadoemail;
+           
+    
+                todo.save(function (err, todo){
+                    if (err)     {  res.status(500).send(err)  
+                     }
+                 
+                    res.json(todo);
+                });
+            }
+        });
+
+    }
+    else
+    {
     Personal.findById({ _id: req.params.recordID }, function (err, todo)  {
         if (err) {  res.send(err);  }
         else
@@ -743,7 +774,7 @@ if(req.params.recordID)
         }
     });
 
-}
+}}
 
 
 
