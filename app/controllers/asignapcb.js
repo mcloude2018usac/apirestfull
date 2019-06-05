@@ -14,7 +14,7 @@ exports.getAsignapcb = function(req, res, next){
         Asignapcb.find({no_orientacion:req.params.id3},function(err, todos) {
             if (err){ res.send(err); }
            
-          res.json(todos);  
+          res.json(todos);   
             
             
         });
@@ -236,9 +236,9 @@ else{
 
 
 
-console.log({   no_orientacion        	: req.body.no_orientacion        	,
+console.log( { no_orientacion        	: req.body.no_orientacion        	,
     'idperiodo.nombre'        	: req.body.periodo.nombre        
-       });
+         } );
 
     Asignapcb.find({
         no_orientacion        	: req.body.no_orientacion        	,
@@ -251,14 +251,12 @@ console.log({   no_orientacion        	: req.body.no_orientacion     
         else
         { 
   //agregar periodo que se esta trabajando*************************************************************
-  console.log('facplan');
+  console.log({'idtipounidad.id'        	: req.body.tipounidad.id        	,
+    'idunidadacademica.id'        	: req.body.unidadacademica.id  });
   
-  console.log({idtipounidad        	: req.body.tipounidad        	,
-    idunidadacademica        	: req.body.unidadacademica  
- //,   asignados:{$lt:capacidad}    	
-         });
-Facplan.find({idtipounidad        	: req.body.tipounidad        	,
-    idunidadacademica        	: req.body.unidadacademica  
+ 
+Facplan.find({'idtipounidad.id'        	: req.body.tipounidad.id        	,
+'idunidadacademica.id'        	: req.body.unidadacademica.id  
  //,   asignados:{$lt:capacidad}    	
          }).lean().exec({}, function(err,myData) {
     if (err) res.send(err);
