@@ -544,7 +544,7 @@ else
 
                                 var filename   = "asignaciones.csv";
                                 
-                                Facplan.find({'idperiodo.nombre':req.params.id2,'idunidadacademica.codigo':0}).sort({'idunidadacademica.codigo':1}).exec(function(err, todos2) {
+                                Facplan.find({'idperiodo.nombre':req.params.id2,'idtipounidad.id':'5b97f1bceb1dab0ab0368cc6'}).sort({'idunidadacademica.codigo':1}).exec(function(err, todos2) {
                                         if (err){ res.send(err); }
                                         
 
@@ -585,7 +585,7 @@ else
 
         var filename   = "asignaciones2.csv";
         
-        Facplan.find({'idperiodo.nombre':req.params.id2, 'idunidadacademica.codigo': { $nin: [ 0] }}).sort({'idunidadacademica.codigo':1}).exec(function(err, todos2) {
+        Facplan.find({'idperiodo.nombre':req.params.id2, 'idtipounidad.id': { $nin: [ '5b97f1bceb1dab0ab0368cc6'] }}).sort({'idunidadacademica.codigo':1}).exec(function(err, todos2) {
                 if (err){ res.send(err); }
                 
 
