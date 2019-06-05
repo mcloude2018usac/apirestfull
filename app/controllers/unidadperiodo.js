@@ -40,7 +40,7 @@ exports.getUnidadperiodo = function(req, res, next){
            
         }
         else
-        { Unidadperiodo.find({idtipounidad :req.params.id2,idunidadacademica:req.params.id3},function(err, todos) {
+        { Unidadperiodo.find({idtipounidad :req.params.id2,idunidadacademica:req.params.id3,estado:'Activo'},function(err, todos) {
                if (err){  res.send(err);  }
                 res.json(todos);
             });

@@ -12,15 +12,15 @@ exports.getUnidadacademica = function(req, res, next){
             else
             {  res.status(500).send('NO EXISTE REGISTRO');      }
             
-        });
+        });   
     }
     else
-    { Unidadacademica.find({idtipounidad:req.params.id}
+    { Unidadacademica.find({idtipounidad:req.params.id,estado:'Activo'}
         ,null, {sort: {codigo: 1}},function(err, todos) {
            if (err){  res.send(err);  }
             res.json(todos);
         });
-    }
+    }   
 }
 exports.deleteUnidadacademica = function(req, res, next){
    

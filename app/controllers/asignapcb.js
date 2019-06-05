@@ -14,7 +14,7 @@ exports.getAsignapcb = function(req, res, next){
         Asignapcb.find({no_orientacion:req.params.id3},function(err, todos) {
             if (err){ res.send(err); }
            
-            if(todos.length>0)   {    res.json(todos);   }
+          res.json(todos);  
             
             
         });
