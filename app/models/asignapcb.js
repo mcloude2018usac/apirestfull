@@ -21,7 +21,10 @@ var AsignapcbSchema = new mongoose.Schema({
         required: true
     },
     date 		: { type: Date, default: Date.now }
-    ,usuarionew	: { type : String },      usuarioup	: { type : String }
+    ,usuarionew	: { type : String },      usuarioup	: { type : String },tipoasignacion	: { type : String },
+    idtipounidad2 :  		{    id	: { type : String },   nombre	: { type : String }        },
+    idunidadacademica2   		: {    id	: { type : String },   nombre	: { type : String }     ,   codigo	: { type : String}       }
+ 
 }, {
     timestamps: true
 });
