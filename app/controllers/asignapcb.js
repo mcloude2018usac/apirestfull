@@ -180,7 +180,10 @@ function getNextSequenceValue(myData3,myData3aa,req,res){
                             nombre 	: req.body.nombre, 	
                             idestudiante 	: req.body.idestudiante, 	
                             idinterno 	: req.body.idinterno,
-                            usuarionew:req.body.bitacora.email
+                            usuarionew:req.body.bitacora.email,
+                            idtipounidad2        	: req.body.tipounidad2        	,
+                            idunidadacademica2        	: req.body.unidadacademica2        	,
+                            tipoasignacion:req.body.tipoasignacion
                         }
                             , function(err, todo) {
                             if (err){ 
@@ -223,6 +226,9 @@ if(req.params.recordID!=='crea')
             todo.idestudiante    	=	req.body.idestudiante    	||	todo.idestudiante    	;
             todo.idinterno        	=	req.body.idinterno       	||	todo.idinterno        	;
             todo.usuarioup=req.body.bitacora.email;
+            todo.idtipounidad2        	={id:req.body.idtipounidad2.id,nombre:req.body.idtipounidad2.nombre   }   	;
+            todo.idunidadacademica2        	={id:req.body.idunidadacademica2.id,nombre:req.body.idunidadacademica2.nombre,codigo:req.body.idunidadacademica2.codigo   }   	;
+           
 
             todo.save(function (err, todo){
                 if (err)     {  res.status(500).send(err.message)   }
@@ -273,9 +279,24 @@ Facplan.find({'idtipounidad.id'        	: req.body.tipounidad.id     
     console.log({idtipounidad        	: req.body.tipounidad.id        	,
         idunidadacademica        	: req.body.unidadacademica.id 	
              });
-    Facmat.find({idtipounidad        	: req.body.tipounidad.id        	,
-        idunidadacademica        	: req.body.unidadacademica.id 	
-             }).lean().exec({}, function(err,myData0t) {
+   var filtromat
+       if(req.body.tipoasignacion=='manual')
+       {
+        filtromat={idtipounidad        	: req.body.tipounidad2.id        	,
+            idunidadacademica        	: req.body.unidadacademica2.id 	
+                 };
+       }
+       else
+       {
+        filtromat={idtipounidad        	: req.body.tipounidad.id        	,
+            idunidadacademica        	: req.body.unidadacademica.id 	
+                 };
+
+       }
+ console.log(req.body.tipoasignacion)
+       console.log(filtromat)
+
+    Facmat.find(filtromat).lean().exec({}, function(err,myData0t) {
      
         if (err) res.send(err);
 

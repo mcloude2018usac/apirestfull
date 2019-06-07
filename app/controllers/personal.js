@@ -428,7 +428,7 @@ exports.getPersonal = function(req, res, next){
 
                 if(req.params.id2=='unidad')  
                 {
-        
+                    console.log({unidad:req.params.email})
                     Personal.find({unidad:req.params.email}).exec(function(err, todos) {
                         if (err){ res.send(err); }
                     

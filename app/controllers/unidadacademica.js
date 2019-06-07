@@ -5,6 +5,17 @@ var Bitacora = require('../models/bitacora');
 exports.getUnidadacademica = function(req, res, next){
     if(req.params.id2)
     {   
+        if(req.params.id2=='todosinactivo')
+        {   
+            Unidadacademica.find({idtipounidad:req.params.id,estado:'Inactivo'}
+        ,null, {sort: {codigo: 1}},function(err, todos) {
+           if (err){  res.send(err);  }
+           console.log(todos)
+            res.json(todos);
+        });
+        }
+        else
+        {
         if(req.params.id2=='todos')
         {   
             Unidadacademica.find({idtipounidad:req.params.id}
@@ -25,7 +36,7 @@ exports.getUnidadacademica = function(req, res, next){
                     
                 });   
         }
-
+    }
         
         
        
@@ -34,6 +45,7 @@ exports.getUnidadacademica = function(req, res, next){
     { Unidadacademica.find({idtipounidad:req.params.id,estado:'Activo'}
         ,null, {sort: {codigo: 1}},function(err, todos) {
            if (err){  res.send(err);  }
+           
             res.json(todos);
         });
     }   

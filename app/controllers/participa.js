@@ -1,6 +1,7 @@
 
 var Participa = require('../models/participa');
 var Bitacora = require('../models/bitacora');
+var Estudiantevt = require('../models/estudiantevt');
 
 exports.getParticipa = function(req, res, next){
     if(req.params.id3)
@@ -9,17 +10,11 @@ exports.getParticipa = function(req, res, next){
         if(req.params.id3=='repetido')
         { 
             var duplicates = [];
-            Participa.aggregate([
-                     
-                    {
-                        $match: {
-                            correo: {"$ne": ''} // correo es el campo por el que queremos borrar los duplicados
-                            ,idevento:'5cec20c9e927930016d78a8b'
-                        }
+            Estudiantevt.aggregate([          //,idevento:'5cec20c9e927930016d78a8b' 
+                    { $match: {carnet: {"$ne": ''} }
                     },
-                    {
-                        $group: {
-                            _id: {correo: "$correo"},
+                    {   $group: {
+                            _id: {carnet: "$carnet"},
                             dups: {"$addToSet": "$_id"},
                             count: {"$sum": 1}
                         }
@@ -42,11 +37,7 @@ exports.getParticipa = function(req, res, next){
                             duplicates.push(dupId);
                         });
                     });
-
-                //    console.log(duplicates)
-                 //   res.json(duplicates); 
-         
-                    Participa.remove({_id: {$in: duplicates}}, function (err, result) {
+                    Estudiantevt.remove({_id: {$in: duplicates}}, function (err, result) {
                         if (err) {
                             console.error(err);
                         }
