@@ -27,8 +27,7 @@ exports.login = function(req, res, next){
 
     var userInfo = setUserInfo(req.user);
 
-    if(userInfo.estadoemail=="1")
-    {
+  //  if(userInfo.estadoemail=="1")    {
         Bitacora.create(req.body.bitacora);
       
         res.status(200).json({
@@ -36,12 +35,7 @@ exports.login = function(req, res, next){
             user: userInfo
         });
     
-    }
-    else{
-        res.status(500).json('No ha confirmado su cuenta via correo electronico');
-            
-
-    }
+   // }  else{        res.status(500).json('No ha confirmado su cuenta via correo electronico');                }
  
 }
  
