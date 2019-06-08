@@ -85,21 +85,35 @@ exports.creaParticipa2s = function(req, res, next){
  
   if(req.params.id=='actualiza')
 { 
+
+
     Participa.findById({ _id: req.body._id}, function (err, todo)  {
         if (err) {  res.send(err);  }
         else
         {  
             var d = new Date();
-
-
-            todo.estado 	=	'Ingreso'	;
-            todo.otros 	=	req.body.otros 	||	todo.otros 	;
-            todo.cuenta 	=	Number(req.body.cuenta)+1 	||	Number(todo.cuenta)+1 	;
-            todo.fecha 	=	d.toISOString()	;
-            todo.save(function (err, todo){
-                if (err)     {  res.status(500).send(err.message)   }
+            try {
+                todo.estado 	=	'Ingreso'	;
+                todo.otros 	=	req.body.otros 	||	todo.otros 	;
+                todo.cuenta 	=	Number(req.body.cuenta)+1 	||	Number(todo.cuenta)+1 	;
+                todo.fecha 	=	d.toISOString()	;
+                todo.save(function (err, todo){
+                    if (err)     {  res.status(500).send(err.message)   }
+                    res.json(todo);
+                });
+    
+              
+              } catch(e) {
                 res.json(todo);
-            });
+               
+              }
+
+
+
+
+       
+
+
         }
     });
 
