@@ -37,7 +37,7 @@ var ParticipaSchema = new mongoose.Schema({
     },
     estado: {
         type: String,
-        required: true
+        required: true,default: 'Ingreso'
     },
     cuenta: {
         type: String
