@@ -50,6 +50,7 @@ if(req.params.recordID!=='crea')
             todo.codigo        	=	req.body.codigo        	||	todo.codigo        	;
             todo.iddepartamento        	=	{id:req.body.iddepartamento.id,nombre:req.body.iddepartamento.nombre   }   	;
             todo.abreviatura        	=	req.body.abreviatura        	||	todo.abreviatura    	;
+            todo.estado        	=	req.body.estado        	||	todo.estado        	;
             todo.usuarioup=req.body.bitacora.email;
             
           
@@ -75,6 +76,7 @@ else{
                 codigo        	: req.body.codigo   ,
                 iddepartamento        	: req.body.iddepartamento   ,
                 abreviatura        	: req.body.abreviatura     ,
+                estado        	: req.body.estado     ,
                 usuarionew:req.body.bitacora.email   
               }
                 , function(err, todo) {
