@@ -83,25 +83,37 @@ exports.deleteAsignapcb = function(req, res, next){
 function getNextSequenceValue2(myData3,myData3cc,req,res,i,todo){
   //  console.log('asignado antes:')
    // console.log(myData3cc);
+   console.log('*************************************************************************************************')
+   console.log('*************************************************************************************************')
+   console.log('*******************************VERIFICA SI ALGUIEN SE ASIGNO***************************************************')
+   console.log({idtipounidad        	: req.body.tipounidad        	,
+    'idunidadacademica.id'        	: req.body.unidadacademica.id  , 
+    idperiodo        	: req.body.periodo      	,
+    idedificio:myData3[i].idedificio,
+    idsalon:myData3[i].idsalon,
+    idhorario:myData3[i].idhorario,
+    idmateria:myData3[i].idmateria
+          })
      Asignaest.find({idtipounidad        	: req.body.tipounidad        	,
-         idunidadacademica        	: req.body.unidadacademica  , 
+        'idunidadacademica.id'        	: req.body.unidadacademica.id   , 
          idperiodo        	: req.body.periodo      	,
          idedificio:myData3[i].idedificio,
          idsalon:myData3[i].idsalon,
          idhorario:myData3[i].idhorario,
          idmateria:myData3[i].idmateria
                }).lean().exec({}, function(err,myasigcupo) {
+
          if (err) res.send(err);
+         console.log('encuentra si existe alguno y le suma 1')
+         console.log(myasigcupo)
                var asigno=0
                asigno=myasigcupo.length;
                asigno=asigno+1;
-           //    console.log('calcula el asignado')
-            //   console.log('asignado :')
-              //  console.log(myData3cc);
+               console.log('asigno : '+ asigno)
                          Asignaest.create({ 
                              idasigna:todo._id,
                              idtipounidad        	: req.body.tipounidad        	,
-                             idunidadacademica        	: req.body.unidadacademica        	,
+                             idunidadacademica        	: req.body.unidadacademica     	,
                              idperiodo        	: req.body.periodo        	,
                              idedificio:myData3cc.idedificio,
                              idsalon:myData3cc.idsalon,
@@ -125,8 +137,8 @@ function getNextSequenceValue2(myData3,myData3cc,req,res,i,todo){
                          Facplan.findById({ _id:myData3cc._id }, function (err, todo)  {
                              if (err) {  res.send(err);  }
                              else
-                             { // console.log('asignados')
-                             //console.log(Number(todo.asignados))
+                             {  console.log('asignados')
+                             console.log(asigno)
                                   todo.asignados        	=		asigno     	;
                                  
                                  todo.save(function (err, todo){
@@ -171,7 +183,7 @@ function getNextSequenceValue(myData3,myData3aa,req,res){
         }
         else
         {
-
+console.log('asignannnnnnnnnnnnnnnnnnndo')
       
                         Asignapcb.create({ idtipounidad        	: req.body.tipounidad        	,
                             idunidadacademica        	: req.body.unidadacademica        	,
@@ -196,6 +208,8 @@ function getNextSequenceValue(myData3,myData3aa,req,res){
                                     
                                     for(var i = 0; i < myData3.length;i++){
                                        var myData3cc=myData3[i] 
+                                   //    console.log(myData3)
+                                  //     console.log(myData3cc)
                                        getNextSequenceValue2(myData3,myData3cc,req,res,i,todo);
 
                                     }
@@ -242,10 +256,6 @@ else{
 
 
 
-console.log( { no_orientacion        	: req.body.no_orientacion        	,
-    'idperiodo.nombre'        	: req.body.periodo.nombre        
-         } );
-
     Asignapcb.find({
         no_orientacion        	: req.body.no_orientacion        	,
         'idperiodo.nombre'        	: req.body.periodo.nombre        
@@ -257,9 +267,7 @@ console.log( { no_orientacion        	: req.body.no_orientacion     �
         else
         { 
   //agregar periodo que se esta trabajando*************************************************************
-  console.log({'idtipounidad.id'        	: req.body.tipounidad.id        	,
-    'idunidadacademica.id'        	: req.body.unidadacademica.id  });
-  
+
  
 Facplan.find({'idtipounidad.id'        	: req.body.tipounidad.id        	,
 'idunidadacademica.id'        	: req.body.unidadacademica.id  
@@ -275,10 +283,8 @@ Facplan.find({'idtipounidad.id'        	: req.body.tipounidad.id     
 
     }
 
-    console.log('facmat');
-    console.log({idtipounidad        	: req.body.tipounidad.id        	,
-        idunidadacademica        	: req.body.unidadacademica.id 	
-             });
+   // console.log('facmat');
+
    var filtromat
        if(req.body.tipoasignacion=='manual')
        {
@@ -293,8 +299,8 @@ Facplan.find({'idtipounidad.id'        	: req.body.tipounidad.id     
                  };
 
        }
- console.log(req.body.tipoasignacion)
-       console.log(filtromat)
+ //console.log(req.body.tipoasignacion)
+   //    console.log(filtromat)
 
     Facmat.find(filtromat).lean().exec({}, function(err,myData0t) {
      
@@ -325,15 +331,12 @@ Facplan.find({'idtipounidad.id'        	: req.body.tipounidad.id     
          //   return;
 
            }
-           console.log('asignaest');
-           console.log({idtipounidad        	: req.body.tipounidad        	,
-            idunidadacademica        	: req.body.unidadacademica        	,
-            no_orientacion        	: req.body.no_orientacion        	,
-            idestudiante:req.body.idestudiante,aprobado:'Aprobado',
-            idperiodo        	: req.body.periodo        });
+          // console.log('asignaest');
+           
        
            Asignaest.find({idtipounidad        	: req.body.tipounidad        	,
-            idunidadacademica        	: req.body.unidadacademica        	,
+            'idunidadacademica.id'        	: req.body.unidadacademica.id ,
+            //idunidadacademica        	: req.body.unidadacademica        	,
             no_orientacion        	: req.body.no_orientacion        	,
             idestudiante:req.body.idestudiante,aprobado:'Aprobado',
             idperiodo        	: req.body.periodo        }).lean().exec({}, function(err,myData2) {
@@ -454,6 +457,7 @@ if(myData0a.length==0)
 }
 else
 {
+   // console.log(myData3)
     getNextSequenceValue(myData3,myData3aa,req,res);
 
 }
