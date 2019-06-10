@@ -6,21 +6,32 @@ exports.getUnidadperiodo = function(req, res, next){
     if(req.params.id4)
     { 
 
-        Unidadperiodo.find({},function(err, todos) {
-            if (err){ res.send(err); }
-           
-            var unique =   todos.filter( onlyUnique );
-              
-            var myData2 = [];
-                          for(var i = 0; i < unique.length;i++){
-                             myData2.push({nombre:unique[i].nombre});
-                         }
-         
-                          res.json(myData2);
-          
+        if(req.params.id4=='todosver')
+        { 
+            Unidadperiodo.find({idtipounidad :req.params.id2,idunidadacademica:req.params.id3},function(err, todos) {
+                if (err){  res.send(err);  }
+                 res.json(todos);
+             });
+        }
+        else{
 
-            
-        });
+            Unidadperiodo.find({},function(err, todos) {
+                if (err){ res.send(err); }
+               
+                var unique =   todos.filter( onlyUnique );
+                  
+                var myData2 = [];
+                              for(var i = 0; i < unique.length;i++){
+                                 myData2.push({nombre:unique[i].nombre});
+                             }
+             
+                              res.json(myData2);
+              
+    
+                
+            });
+        }
+      
 
     }
     else{
