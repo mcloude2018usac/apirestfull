@@ -17,14 +17,6 @@ var router = require('./app/routes');
 var mailt = require('./app/controllers/mail');
 
 
-var admin = require("firebase-admin");
-
-var serviceAccount = require("./config/usacenlinea-firebase-adminsdk-oj0bn-c6de33b49f.json");
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://usacenlinea.firebaseio.com"
-});
 
 //mongoose.set('useCreateIndex', true);
 mongoose.connect(databaseConfig.url, { useNewUrlParser: true ,useCreateIndex: true });
