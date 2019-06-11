@@ -270,12 +270,12 @@ else{
 
  
 Facplan.find({'idtipounidad.id'        	: req.body.tipounidad.id        	,
-idunidadacademica       	: req.body.unidadacademica
+'idunidadacademica.id'        	: req.body.unidadacademica.id  
  //,   asignados:{$lt:capacidad}    	
          }).lean().exec({}, function(err,myData) {
     if (err) res.send(err);
 
-    
+    console.log(myData)
     if(myData.length==0)
     {
      res.status(500).send(' No existe  configurado salones para esta unidad academica')    
