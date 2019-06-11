@@ -270,7 +270,7 @@ else{
 
  
 Facplan.find({'idtipounidad.id'        	: req.body.tipounidad.id        	,
-'idunidadacademica.id'        	: req.body.unidadacademica.id  
+idunidadacademica       	: req.body.unidadacademica
  //,   asignados:{$lt:capacidad}    	
          }).lean().exec({}, function(err,myData) {
     if (err) res.send(err);
