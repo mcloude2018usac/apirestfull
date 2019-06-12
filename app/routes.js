@@ -704,7 +704,7 @@ asignaestudiantepapRoutes.post('/:recordID',requireAuth,  AsignaestudiantepapCon
 
 //-----------------------------------ASIGNA ESTUDIANTE
 apiRoutes.use('/asignaestudiantes', asignaestudianteRoutes);
-asignaestudianteRoutes.get('/:id',  AsignaestudianteController.getAsignaestudiante);
+asignaestudianteRoutes.get('/:id',requireAuth,  AsignaestudianteController.getAsignaestudiante);
 
 //-----------------------------------DEPARTAMENTO
 apiRoutes.use('/Departamentos', departamentoRoutes);
