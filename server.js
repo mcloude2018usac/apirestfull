@@ -48,8 +48,11 @@ app.use(errorHandler);
 app.use(logger('dev')); // Log requests to API using morgan
 app.use(cors());
 app.use(function(err, req, res, next) {
-  console.error(err.stack);
-  res.status(500).send('Something broke!');
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+
+
 }); 
 router(app);
 
