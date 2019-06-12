@@ -27,7 +27,7 @@ exports.getCarne = function(req, res, next){
             
                 if(todos.length>0)   {    res.json(todos);   }
                 else
-                {  res.status(500).send('NO EXISTE REGISTRO');      }
+                {  res.status(404).send('NO EXISTE REGISTRO');      }
                 
             });
       

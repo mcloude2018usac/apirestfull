@@ -1,6 +1,7 @@
 
 var Participa = require('../models/participa');
 var Bitacora = require('../models/bitacora');
+var Carne = require('../models/carne');
 var Estudiantevt = require('../models/estudiantevt');
 
 exports.getParticipa = function(req, res, next){
@@ -10,21 +11,22 @@ exports.getParticipa = function(req, res, next){
         if(req.params.id3=='repetido')
         { 
             var duplicates = [];
-            Estudiantevt.aggregate([          //,idevento:'5cec20c9e927930016d78a8b' 
-                    { $match: {carnet: {"$ne": ''} }
+           Carne.aggregate([          //,idevento:'5cec20c9e927930016d78a8b' 
+                    { $match: {carne: {"$ne": ''} }
                     },
                     {   $group: {
-                            _id: {carnet: "$carnet"},
+                            _id: {carne: "$carne"},
                             dups: {"$addToSet": "$_id"},
                             count: {"$sum": 1}
                         }
                     },
+                   
                     {
                         $match: {
                             count: {"$gt": 1}
                         }
                     }
-                ], function (err, result) {
+                ],function (err, result) {
                     if (err) {
                         console.error(err);
                       //  return db.close();
@@ -37,7 +39,7 @@ exports.getParticipa = function(req, res, next){
                             duplicates.push(dupId);
                         });
                     });
-                    Estudiantevt.remove({_id: {$in: duplicates}}, function (err, result) {
+                    Carne.remove({_id: {$in: duplicates}}, function (err, result) {
                         if (err) {
                             console.error(err);
                         }
@@ -46,7 +48,7 @@ exports.getParticipa = function(req, res, next){
                        
                     });
                     
-                });
+                } ).allowDiskUse(true);;
 
 
         }

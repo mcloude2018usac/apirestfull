@@ -28,7 +28,7 @@ exports.getAsignapcb = function(req, res, next){
            
             if(todos.length>0)   {    res.json(todos);   }
             else
-            {  res.status(500).send('NO EXISTE REGISTRO');      }
+            {  res.status(404).send('NO EXISTE REGISTRO');      }
             
         });
   
@@ -43,7 +43,7 @@ exports.getAsignapcb = function(req, res, next){
                    
                     if(todos.length>0)   {    res.json(todos);   }
                     else
-                    {  res.status(500).send('NO EXISTE REGISTRO');      }
+                    {  res.status(404).send('NO EXISTE REGISTRO');      }
                     
                 });
              
@@ -179,7 +179,7 @@ function getNextSequenceValue(myData3,myData3aa,req,res){
 
             mailt.getMail2(mailO,res);
 //            console.log('No existe cupo para asignarse esta materia: '+  myData3aa[0].idmateria +' para el edificio: '+  myData3aa[0].idedificio.nombre +' salon: '+  myData3aa[0].idsalon.nombre +' , realize la asignacion mas tarde')
-            res.status(500).send('No existe disponibilidad para asignarse , Inténtelo más tarde')    
+            res.status(404).send('No existe disponibilidad para asignarse , Inténtelo más tarde')    
         }
         else
         {
@@ -200,7 +200,7 @@ console.log('asignannnnnnnnnnnnnnnnnnndo')
                             , function(err, todo) {
                             if (err){ 
                             
-                                res.status(500).send(err.message)  
+                                res.status(404).send(err.message)  
                                 return;
                               }
                                         //crea todas las asignaciones nuevas que tiene que sacar
@@ -223,7 +223,7 @@ console.log('asignannnnnnnnnnnnnnnnnnndo')
 
 exports.creaAsignapcb2s = function(req, res, next){
    
-  //  res.status(500).send(' espere un momento ')    
+  //  res.status(404).send(' espere un momento ')    
    //  return;
 
     Bitacora.create(req.body.bitacora);
@@ -245,7 +245,7 @@ if(req.params.recordID!=='crea')
            
 
             todo.save(function (err, todo){
-                if (err)     {  res.status(500).send(err.message)   }
+                if (err)     {  res.status(404).send(err.message)   }
                 res.json(todo);
             });
         }
@@ -260,10 +260,10 @@ else{
         no_orientacion        	: req.body.no_orientacion        	,
         'idperiodo.nombre'        	: req.body.periodo.nombre        
         	 },function(err, todos) {
-        if (err){  if(err) return next(err);// res.status(500).send(err); 
+        if (err){  if(err) return next(err);// res.status(404).send(err); 
         return;}
       
-        if(todos.length>0)   {    res.status(500).send('Ya existe una Asignación para este periodo'); }
+        if(todos.length>0)   {    res.status(404).send('Ya existe una Asignación para este periodo'); }
         else
         { 
   //agregar periodo que se esta trabajando*************************************************************
@@ -278,7 +278,7 @@ Facplan.find({'idtipounidad.id'        	: req.body.tipounidad.id     
     
     if(myData.length==0)
     {
-     res.status(500).send(' No existe  configurado salones para esta unidad academica')    
+     res.status(404).send(' No existe  configurado salones para esta unidad academica')    
      return;
 
     }
@@ -308,7 +308,7 @@ Facplan.find({'idtipounidad.id'        	: req.body.tipounidad.id     
 
         if(myData0t.length==0)
     {
-     res.status(500).send(' No existe  configurado materias en unidad academica')    
+     res.status(404).send(' No existe  configurado materias en unidad academica')    
      return;
 
     }
@@ -327,7 +327,7 @@ Facplan.find({'idtipounidad.id'        	: req.body.tipounidad.id     
 
            if(myData0.length==0)
            {
-       //     res.status(500).send(' No existen materias configuradas para esta unidad academica')    
+       //     res.status(404).send(' No existen materias configuradas para esta unidad academica')    
          //   return;
 
            }
@@ -451,7 +451,7 @@ if(myData0a.length==0)
     for(var iii = 0; iii < req.body.resultadopcb.length;iii++){
        matganada=  matganada + '-' +req.body.resultadopcb[iii].idmateria + ' ' 
     }
-    res.status(500).send(' Prueba ya a sido ganada satisfactoriamente, no se puede volver asignar , Materias ganadas: '+ matganada)    
+    res.status(404).send(' Prueba ya a sido ganada satisfactoriamente, no se puede volver asignar , Materias ganadas: '+ matganada)    
     
 
 }
