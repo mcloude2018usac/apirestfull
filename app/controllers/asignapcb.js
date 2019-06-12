@@ -83,17 +83,7 @@ exports.deleteAsignapcb = function(req, res, next){
 function getNextSequenceValue2(myData3,myData3cc,req,res,i,todo){
   //  console.log('asignado antes:')
    // console.log(myData3cc);
-   console.log('*************************************************************************************************')
-   console.log('*************************************************************************************************')
-   console.log('*******************************VERIFICA SI ALGUIEN SE ASIGNO***************************************************')
-   console.log({idtipounidad        	: req.body.tipounidad        	,
-    'idunidadacademica.id'        	: req.body.unidadacademica.id  , 
-    idperiodo        	: req.body.periodo      	,
-    idedificio:myData3[i].idedificio,
-    idsalon:myData3[i].idsalon,
-    idhorario:myData3[i].idhorario,
-    idmateria:myData3[i].idmateria
-          })
+ 
      Asignaest.find({idtipounidad        	: req.body.tipounidad        	,
         'idunidadacademica.id'        	: req.body.unidadacademica.id   , 
          idperiodo        	: req.body.periodo      	,
@@ -104,12 +94,11 @@ function getNextSequenceValue2(myData3,myData3cc,req,res,i,todo){
                }).lean().exec({}, function(err,myasigcupo) {
 
          if (err) res.send(err);
-         console.log('encuentra si existe alguno y le suma 1')
-         console.log(myasigcupo)
+  
                var asigno=0
                asigno=myasigcupo.length;
                asigno=asigno+1;
-               console.log('asigno : '+ asigno)
+              
                          Asignaest.create({ 
                              idasigna:todo._id,
                              idtipounidad        	: req.body.tipounidad        	,
@@ -137,8 +126,7 @@ function getNextSequenceValue2(myData3,myData3cc,req,res,i,todo){
                          Facplan.findById({ _id:myData3cc._id }, function (err, todo)  {
                              if (err) {  res.send(err);  }
                              else
-                             {  console.log('asignados')
-                             console.log(asigno)
+                             {
                                   todo.asignados        	=		asigno     	;
                                  
                                  todo.save(function (err, todo){
@@ -183,7 +171,7 @@ function getNextSequenceValue(myData3,myData3aa,req,res){
         }
         else
         {
-console.log('asignannnnnnnnnnnnnnnnnnndo')
+
       
                         Asignapcb.create({ idtipounidad        	: req.body.tipounidad        	,
                             idunidadacademica        	: req.body.unidadacademica        	,
