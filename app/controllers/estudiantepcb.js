@@ -8,9 +8,8 @@ exports.getEstudiantepcb = function(req, res, next){
         Estudiantepcb.find({ORIENTACION:req.params.codigo},function(err, todos) {
             if (err){ res.send(err); }
         
-            if(todos.length>0)   {    res.json(todos);   }
-            else
-            {  res.status(404).send('NO EXISTE REGISTRO');      }
+               res.json(todos);   
+         
             
         });
   
