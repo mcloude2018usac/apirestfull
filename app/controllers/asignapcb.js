@@ -10,14 +10,20 @@ var Bitacora = require('../models/bitacora');
 exports.getAsignapcb = function(req, res, next){
     if(req.params.id3)
     { 
-        
-        Asignapcb.find({no_orientacion:req.params.id3},function(err, todos) {
-            if (err){ res.send(err); }
-           
-          res.json(todos);   
-            
-            
-        });
+                    if((req.params.id3).indexOf(',')>0)
+                    {console.log('nada')
+                        res.status(404).send('NO EXISTE REGISTRO');    
+                    }
+                    else{
+
+                            Asignapcb.find({no_orientacion:req.params.id3},function(err, todos) {
+                                if (err){ res.send(err); }
+                            
+                            res.json(todos);   
+                                
+                                
+                            });
+                        }
     }
     else
     {
