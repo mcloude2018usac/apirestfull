@@ -15,7 +15,7 @@ exports.getAsignapcb = function(req, res, next){
                         res.status(404).send('NO EXISTE REGISTRO');    
                     }
                     else{
-                        console.log('ENTRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA---------'+req.params.id3)
+                        console.log('ENTRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA---------'+req.params.id3  )
                             Asignapcb.find({no_orientacion:req.params.id3},function(err, todos) {
                                 if (err){ res.send(err); }
                             
@@ -404,7 +404,7 @@ Facplan.find({'idtipounidad.id'        	: req.body.tipounidad.id     
                             for(var ii = 0; ii < myData.length;ii++){
                                     if(myData0a[i].idmateria==myData[ii].idmateria )
                                     {
-                                            if( myData[ii].capacidad!=(myData[ii].asignados))
+                                            if( myData[ii].capacidad>=(myData[ii].asignados))
                                             {//si hay cupo lo hago
                                                 
                                                 cii=0;
