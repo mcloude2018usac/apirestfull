@@ -96,7 +96,8 @@ function getNextSequenceValue2(myData3,myData3cc,req,res,i,todo){
          idedificio:myData3[i].idedificio,
          idsalon:myData3[i].idsalon,
          idhorario:myData3[i].idhorario,
-         idmateria:myData3[i].idmateria
+         idmateria:myData3[i].idmateria,
+         codfac:myData3[i].codfac
                }).lean().exec({}, function(err,myasigcupo) {
 
          if (err) res.send(err);
