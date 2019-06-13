@@ -404,7 +404,7 @@ Facplan.find({'idtipounidad.id'        	: req.body.tipounidad.id     
                             for(var ii = 0; ii < myData.length;ii++){
                                     if(myData0a[i].idmateria==myData[ii].idmateria )
                                     {
-                                            if( myData[ii].capacidad>=(myData[ii].asignados))
+                                            if( myData[ii].capacidad>=(Number(myData[ii].asignados)-1))
                                             {//si hay cupo lo hago
                                                 
                                                 cii=0;
