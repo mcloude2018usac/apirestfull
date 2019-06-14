@@ -9,13 +9,27 @@ var Bitacora = require('../models/bitacora');
 
 exports.getAsignapcb = function(req, res, next){
     if(req.params.id3)
-    { console.log('ENTRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA---------')
+    { 
+        if(req.params.id3=='rptsun')
+        {//$where : "this.Grade1 > this.Grade2" }
+
+            Asignapcb.find({"idperiodo.nombre" : "2019-01"}   ).sort({   "asignados" : -1    }).exec(function(err, todos) {
+                if (err){ res.send(err); }
+            
+            res.json(todos);   
+                
+                
+            });
+
+
+        }
+        else{
                     if((req.params.id3).indexOf(',')>0)
                     {console.log('nada')
                         res.status(404).send('NO EXISTE REGISTRO');    
                     }
                     else{
-                        console.log('ENTRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA---------'+req.params.id3  )
+                        
                             Asignapcb.find({no_orientacion:req.params.id3},function(err, todos) {
                                 if (err){ res.send(err); }
                             
@@ -24,7 +38,7 @@ exports.getAsignapcb = function(req, res, next){
                                 
                             });
                         }
-    }
+    }}
     else
     {
     if(req.params.id)
@@ -153,8 +167,12 @@ function getNextSequenceValue(myData3,myData3aa,req,res){
  //myData3aa = si hay registros no hay vcupo
  //myData3 = lo que me puedo asignar
 
+
+
         if(myData3aa.length>0)
         { 
+
+           
             Nuevosalon.create({ 
                 nombre:'Solicitando salon para Unidad academica: ' + req.body.unidadacademica.nombre + ', Materia: '+  myData3aa[0].idmateria +', Edificio: '+  myData3aa[0].idedificio.nombre +' y Salon: '+  myData3aa[0].idsalon.nombre ,
                 estado        	: 'Solicitando' ,
@@ -178,7 +196,32 @@ function getNextSequenceValue(myData3,myData3aa,req,res){
         }
         else
         {
+            if(myData3.length==0)
+            { 
+                 
+            Nuevosalon.create({ 
+                nombre:'Solicitando salon para Unidad academica: ' + req.body.unidadacademica.nombre  ,
+                estado        	: 'Solicitando' ,
+                correo:''       	
+            });
 
+            
+
+
+            const mailO = {
+                destino: 'ambrosioaleman07@gmail.com;mario.morales@mcloude.com', // list of receivers
+                subject: 'Solicitud de nuevo salon', // Subject line
+                html: 'Solicitando salon para Unidad academica: ' + req.body.unidadacademica.nombre   ,// plain text body
+                actualiza: 0// plain text body
+              };
+            
+
+            mailt.getMail2(mailO,res);
+//            console.log('No existe cupo para asignarse esta materia: '+  myData3aa[0].idmateria +' para el edificio: '+  myData3aa[0].idedificio.nombre +' salon: '+  myData3aa[0].idsalon.nombre +' , realize la asignacion mas tarde')
+            res.status(404).send('No existe disponibilidad para asignarse , Inténtelo más tarde')    
+            }
+            else{
+    
       
                         Asignapcb.create({ idtipounidad        	: req.body.tipounidad        	,
                             idunidadacademica        	: req.body.unidadacademica        	,
@@ -213,7 +256,7 @@ function getNextSequenceValue(myData3,myData3aa,req,res){
 
                       
                 });
-        }
+        }}
  }
 
 exports.creaAsignapcb2s = function(req, res, next){
@@ -396,15 +439,17 @@ Facplan.find({'idtipounidad.id'        	: req.body.tipounidad.id     
       
                           var myData3 = [];
                           var myData3aa = [];
-                          
+                      
                           var cii=0;
+                          var cii2=0;
                           //las materias qye tengo que ganar
                          // console.log(myData);
                         for(var i = 0; i < myData0a.length;i++){
-                            //todo lo que esta planificado en el plan    
+                           
                             for(var ii = 0; ii < myData.length;ii++){
                                     if(myData0a[i].idmateria==myData[ii].idmateria )
-                                    {
+                                    {  console.log(myData0a[i].idmateria)
+                                        console.log(myData[ii].capacidad + ' ' +myData[ii].asignados)
                                             if( myData[ii].capacidad>=(Number(myData[ii].asignados)-1))
                                             {//si hay cupo lo hago
                                                 
@@ -418,7 +463,7 @@ Facplan.find({'idtipounidad.id'        	: req.body.tipounidad.id     
 
                                             }
                                             else
-                                            { 
+                                            {   
                                                 cii=ii;
                                                // break;
 
@@ -429,7 +474,7 @@ Facplan.find({'idtipounidad.id'        	: req.body.tipounidad.id     
 
                             //////////////////
                             if(cii>0)
-                            {  //  console.log(' NOOOO encontre cupo para ' + myData[cii].idmateria )
+                            {    console.log(' NOOOO encontre cupo para ' + myData[cii].idmateria )
                                 myData3aa.push({_id:myData[cii]._id,idedificio:myData[cii].idedificio,idsalon:myData[cii].idsalon
                                     ,idhorario:myData[cii].idhorario,idmateria:myData[cii].idmateria
                                     ,capacidad:myData[cii].capacidad,asignados:'0',fexamen:myData[cii].fexamen,codfac:myData[cii].codfac});
