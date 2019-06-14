@@ -13,12 +13,49 @@ exports.getAsignapcb = function(req, res, next){
         if(req.params.id3=='rptsun')
         {//$where : "this.Grade1 > this.Grade2" }
 
-            Asignapcb.find({"idperiodo.nombre" : "2019-01"}   ).sort({   "asignados" : -1    }).exec(function(err, todos) {
+        var projectDataForMatch = {
+            $project : {
+                _id : 1, //list all fields needed here
+                filterThisDoc : {
+                    $cond : {
+                        if  : {
+                            $lt : ["$asignados", "$capacidad"]
+                        },
+                    then : 1,
+                    else  : 0
+                } //or use compare operator $cmp
+            }
+        }
+        }
+        
+        var match = {
+            $match : {
+                filterThisDoc : 1
+            }
+        }
+
+
+        Facplan.aggregate([projectDataForMatch, match]  ).exec(function(err, todos) {
                 if (err){ res.send(err); }
-            
-            res.json(todos);   
+                var duplicates = [];
+                todos.forEach(function (doc) {duplicates.push(doc._id);  });
+
+           //     res.json(duplicates);   
+          
+
                 
-                
+                Facplan.find({_id: {$in: duplicates},'idperiodo.nombre':'2019-01'}).sort({   "asignados" : -1    }).select({ "idtipounidad.nombre":1,"idunidadacademica.nombre":1,"idedificio.nombre":1,"idsalon.nombre":1,"capacidad":1,"asignados":1}).exec(function(err, todos) {
+                    if (err){ res.send(err); }
+                    var cad='';
+                    for(var i = 0; i < todos.length;i++){
+                        cad=cad +'<p>'  + todos[i].idtipounidad.nombre  + '  '  + todos[i].idunidadacademica.nombre + '  '  + todos[i].idedificio.nombre  + '  '  + todos[i].idsalon.nombre  + ' --> '  + todos[i].capacidad + '  '  + todos[i].asignados  + '  '    +'</p>'
+                    }
+
+                    res.send(cad)
+                    
+                });
+
+
             });
 
 
