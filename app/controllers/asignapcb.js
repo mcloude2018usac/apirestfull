@@ -196,7 +196,7 @@ function getNextSequenceValue2(myData3,myData3cc,req,res,i,todo){
      });
 }
 
-function getNextSequenceValue(myData3,myData3aa,req,res){
+function getNextSequenceValue(myData3,myData3aa,req,res,necesito){
 //mydata=todo lo que tengo que ganar
 //mydata0=las materias que tengo que pasar
  //myData2= las que ya gane como estudiante
@@ -236,8 +236,10 @@ function getNextSequenceValue(myData3,myData3aa,req,res){
             if(myData3.length==0)
             { 
                  
+
+          
             Nuevosalon.create({ 
-                nombre:'Solicitando salon para Unidad academica: ' + req.body.unidadacademica.nombre  ,
+                nombre:'Solicitando salon para Unidad academica: ' + req.body.tipounidad.nombre + ' ' +  req.body.unidadacademica.nombre  + '-->' + necesito ,
                 estado        	: 'Solicitando' ,
                 correo:''       	
             });
@@ -248,7 +250,7 @@ function getNextSequenceValue(myData3,myData3aa,req,res){
             const mailO = {
                 destino: 'ambrosioaleman07@gmail.com;mario.morales@mcloude.com', // list of receivers
                 subject: 'Solicitud de nuevo salon', // Subject line
-                html: 'Solicitando salon para Unidad academica: ' + req.body.unidadacademica.nombre   ,// plain text body
+                html: 'Solicitando salon para Unidad academica: ' + req.body.tipounidad.nombre + ' ' + req.body.unidadacademica.nombre  + '-->' + necesito  ,// plain text body
                 actualiza: 0// plain text body
               };
             
@@ -435,6 +437,7 @@ Facplan.find({'idtipounidad.id'        	: req.body.tipounidad.id     
               
              for(var i = 0; i < myData0.length;i++){
                 var gane=0;
+               
                 //REVISAR LA MATERIA QUE TENGO QUE GANAR CON LAS QUE YA GANE PARA DESCARTARLA
                  for(var ii = 0; ii < myData2.length;ii++){
                   
@@ -476,7 +479,7 @@ Facplan.find({'idtipounidad.id'        	: req.body.tipounidad.id     
       
                           var myData3 = [];
                           var myData3aa = [];
-                      
+                          var necesito=''
                           var cii=0;
                           var cii2=0;
                           //las materias qye tengo que ganar
@@ -485,8 +488,8 @@ Facplan.find({'idtipounidad.id'        	: req.body.tipounidad.id     
                            
                             for(var ii = 0; ii < myData.length;ii++){
                                     if(myData0a[i].idmateria==myData[ii].idmateria )
-                                    {  console.log(myData0a[i].idmateria)
-                                        console.log(myData[ii].capacidad + ' ' +myData[ii].asignados)
+                                    {
+                                      necesito=necesito+' ' +myData0a[i].idmateria
                                             if( myData[ii].capacidad>=(Number(myData[ii].asignados)-1))
                                             {//si hay cupo lo hago
                                                 
@@ -535,7 +538,7 @@ if(myData0a.length==0)
 else
 {
    // console.log(myData3)
-    getNextSequenceValue(myData3,myData3aa,req,res);
+    getNextSequenceValue(myData3,myData3aa,req,res,necesito);
 
 }
 
