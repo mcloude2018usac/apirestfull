@@ -688,7 +688,7 @@ apiRoutes.use('/asignapcbs', asignapcbRoutes);
 asignapcbRoutes.get('/',requireAuth, AsignapcbController.getAsignapcb);
 asignapcbRoutes.get('/:id',requireAuth,  AsignapcbController.getAsignapcb);
 asignapcbRoutes.get('/:id/:id2',requireAuth,  AsignapcbController.getAsignapcb);
-asignapcbRoutes.get('/:id/:id2/:id3',requireAuth,  AsignapcbController.getAsignapcb);
+asignapcbRoutes.get('/:id/:id2/:id3', AsignapcbController.getAsignapcb);
 asignapcbRoutes.post('/:recordID', requireAuth, AsignapcbController.creaAsignapcb2s);
 asignapcbRoutes.delete('/:recordID/:userID',requireAuth,  AsignapcbController.deleteAsignapcb);
 
