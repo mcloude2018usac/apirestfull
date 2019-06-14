@@ -10,6 +10,83 @@ var Bitacora = require('../models/bitacora');
 exports.getAsignapcb = function(req, res, next){
     if(req.params.id3)
     { 
+        if(req.params.id3=='rptsun2')
+        {
+
+            
+            Asignaest.aggregate( [
+            { 
+                "$group" : {
+                    "_id" : {
+                        "idmateria" : "$idmateria", 
+                        "idtipounidad᎐nombre" : "$idtipounidad.nombre"
+                    }, 
+                    "COUNT(*)" : {
+                        "$sum" : 1
+                    }
+                }
+            }, 
+            { 
+                "$project" : {
+                    "idtipounidad.nombre" : "$_id.idtipounidad᎐nombre", 
+                    "idmateria" : "$_id.idmateria", 
+                    "cantidad" : "$COUNT(*)", 
+                    "_id" : 0
+                }
+            }, 
+            { 
+                "$sort" : {
+                    "idtipounidad.nombre" : 1
+                }
+            }
+        ]).exec(function(err, todos) {
+            if (err){ res.send(err); }
+            var unidad=''
+            unidad=todos[0].idtipounidad.nombre
+            var v1=0;    
+            var v2=0;
+            var v3=0;
+            var v4=0;
+            var v5=0;
+            var v6=0;
+            var cad=''
+            cad=cad +'<p>  UNIDAD  LENGUAJE   MATEMATICA   BIOLOGIA   FISICA   QUIMICA</p>'
+              
+
+            for(var i = 0; i < todos.length;i++){
+                 
+                    if(unidad==todos[i].idtipounidad.nombre)
+                    { console.log(unidad)
+                      console.log(todos[i].idmateria + '      ' + todos[i].cantidad)  
+                            if(todos[i].idmateria=='Lenguaje'){v1=todos[i].cantidad}
+                            if(todos[i].idmateria=='Matematica'){v2=todos[i].cantidad}
+                            if(todos[i].idmateria=='Biologia'){v3=todos[i].cantidad}
+                            if(todos[i].idmateria=='Fisica'){v4=todos[i].cantidad}
+                            if(todos[i].idmateria=='Quimica'){v5=todos[i].cantidad}
+
+                    }
+                    else
+                    {
+                        v6=v1+v2+v3+v4+v5
+                        cad=cad +'<p>'  +unidad  + '  '  + v1 + '  '  + v2  + '  '  + v3  + ' '  + v4 + '  '  + v5  + '  ' + v6  +'</p>'
+              
+                    unidad=todos[i].idtipounidad.nombre
+                    v1=0;v2=0;v3=0;v4=0;v5=0;v6=0
+
+                    }
+
+            }
+            
+            res.send(cad)
+
+
+
+
+        });
+
+        }
+        else
+        {
         if(req.params.id3=='rptsun')
         {//$where : "this.Grade1 > this.Grade2" }
 
@@ -58,7 +135,7 @@ exports.getAsignapcb = function(req, res, next){
 
             });
 
-
+        
         }
         else{
                     if((req.params.id3).indexOf(',')>0)
@@ -75,7 +152,7 @@ exports.getAsignapcb = function(req, res, next){
                                 
                             });
                         }
-    }}
+    }}}
     else
     {
     if(req.params.id)
