@@ -90,11 +90,11 @@ exports.getAsignapcb = function(req, res, next){
               
 
             for(var i = 0; i < todos.length;i++){
-                 
+                console.log(todos[i].idtipounidad.nombre + '*' +todos[i].idmateria + '*' + todos[i].cantidad+'*')  
                     if(unidad==todos[i].idtipounidad.nombre)
-                    { console.log(unidad)
-                      console.log(todos[i].idmateria + '      ' + todos[i].cantidad)  
-                            if(todos[i].idmateria=='Lenguaje'){v1=todos[i].cantidad}
+                    { 
+                     
+                            if(todos[i].idmateria=='Lenguaje'){v1=todos[i].cantidad; console.log('entra lenguaje')}
                             if(todos[i].idmateria=='Matematica'){v2=todos[i].cantidad}
                             if(todos[i].idmateria=='Biologia'){v3=todos[i].cantidad}
                             if(todos[i].idmateria=='Fisica'){v4=todos[i].cantidad}
@@ -103,6 +103,8 @@ exports.getAsignapcb = function(req, res, next){
                     }
                     else
                     {
+                        if(todos[i].idmateria=='Lenguaje'){v1=todos[i].cantidad; console.log('entra lenguaje')}
+                         
                         v6=v1+v2+v3+v4+v5
                         cad=cad +'<p>'  +unidad  + ';'  + v1 + ';'  + v2  + ';'  + v3  + ';'  + v4 + ';'  + v5  + ';' + v6  +'</p>'
               
