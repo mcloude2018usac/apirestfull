@@ -10,6 +10,42 @@ var Bitacora = require('../models/bitacora');
 exports.getAsignapcb = function(req, res, next){
     if(req.params.id3)
     { 
+        if(req.params.id3=='rptsun3')
+        {
+
+              
+            Asignapcb.aggregate( [
+                { 
+                    "$group" : {
+                        "_id" : {
+                            "idtipounidad᎐nombre" : "$idtipounidad.nombre"
+                        }, 
+                        "COUNT(*)" : {
+                            "$sum" : 1
+                        }
+                    }
+                }, 
+                { 
+                    "$project" : {
+                        "idtipounidad.nombre" : "$_id.idtipounidad᎐nombre", 
+                        "cantidad" : "$COUNT(*)", 
+                        "_id" : 0
+                    }
+                }
+            ]).exec(function(err, todos) {
+    var cad=''
+                for(var i = 0; i < todos.length;i++){
+                    cad=cad +'<p>'  +todos[i].idtipounidad.nombre  + '  '  + todos[i].cantidad +'</p>'
+              
+                  
+                }
+                res.send(cad)
+            });
+
+
+        }
+        else
+        {
         if(req.params.id3=='rptsun2')
         {
 
@@ -152,7 +188,7 @@ exports.getAsignapcb = function(req, res, next){
                                 
                             });
                         }
-    }}}
+    }}}}
     else
     {
     if(req.params.id)
@@ -408,8 +444,16 @@ if(req.params.recordID!=='crea')
 }
 else{
 
+var aa=0;
+if(aa==1)
+{
+    res.status(404).send('Asignación PCB a finalizado');
 
+}
+else
+{
 
+    
     Asignapcb.find({
         no_orientacion        	: req.body.no_orientacion        	,
         'idperiodo.nombre'        	: req.body.periodo.nombre        
@@ -634,6 +678,9 @@ else
     }
         
 });
+
+}
+
     
 
    
