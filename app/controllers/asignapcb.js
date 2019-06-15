@@ -35,7 +35,7 @@ exports.getAsignapcb = function(req, res, next){
             ]).exec(function(err, todos) {
     var cad=''
                 for(var i = 0; i < todos.length;i++){
-                    cad=cad +'<p>'  +todos[i].idtipounidad.nombre  + '  '  + todos[i].cantidad +'</p>'
+                    cad=cad +'<p>'  +todos[i].idtipounidad.nombre  + ';'  + todos[i].cantidad +'</p>'
               
                   
                 }
@@ -86,7 +86,7 @@ exports.getAsignapcb = function(req, res, next){
             var v5=0;
             var v6=0;
             var cad=''
-            cad=cad +'<p>  UNIDAD  LENGUAJE   MATEMATICA   BIOLOGIA   FISICA   QUIMICA</p>'
+            cad=cad +'<p>  UNIDAD;LENGUAJE;MATEMATICA;BIOLOGIA;FISICA;QUIMICA;TOTAL</p>'
               
 
             for(var i = 0; i < todos.length;i++){
@@ -104,7 +104,7 @@ exports.getAsignapcb = function(req, res, next){
                     else
                     {
                         v6=v1+v2+v3+v4+v5
-                        cad=cad +'<p>'  +unidad  + '  '  + v1 + '  '  + v2  + '  '  + v3  + ' '  + v4 + '  '  + v5  + '  ' + v6  +'</p>'
+                        cad=cad +'<p>'  +unidad  + ';'  + v1 + ';'  + v2  + ';'  + v3  + ';'  + v4 + ';'  + v5  + ';' + v6  +'</p>'
               
                     unidad=todos[i].idtipounidad.nombre
                     v1=0;v2=0;v3=0;v4=0;v5=0;v6=0
