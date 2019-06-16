@@ -25,7 +25,7 @@ var Marketemail = require('../models/marketemail');
 
 var request = require('request');
 
-var Asignaest = require('../models/asignaestudiantepap');
+var Asignaest = require('../models/asignaestudiante');
 
 var cleanName = function(str) {
         if (str == '') return str; // jQuery
@@ -161,12 +161,12 @@ exports.getCombofijo = function(req, res, next){
                 break;
         case 'tablaasignacion':
 //'idunidadacademica.codigo':'1'
-                        Asignaest.find({}).lean().exec(function(err, todos) {
+                        Asignaest.find({}).select({idperiodo: 1,no_orientacion:1,idmateria:1,date:1,idunidadacademica:1,codfac:1,noasignado:1}).lean().exec(function(err, todos) {
                         if (err){  res.send(err);  }    
                         var resp=[]
                         for(var i = 0; i < todos.length;i++){
                         var periodo=todos[i].idperiodo.nombre.split("-");
-                //   console.log(periodo)
+             //     console.log(todos.length)
                         var anio=Number(periodo[0])+1
                         var idmat=0
                         
