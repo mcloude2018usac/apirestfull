@@ -14,6 +14,9 @@ var Participa33 = require('../models/participa33');
 var Unidadplan2 = require('../models/unidadplan2');
 var Cuentaccoriente = require('../models/asignapapccorriente');
 
+
+var Unidadacademica = require('../models/unidadacademica');
+
 var Participa = require('../models/participa');
 var Participa2 = require('../models/participa2');
 var Facplan = require('../models/unidadplan');
@@ -98,6 +101,35 @@ exports.getCombofijo = function(req, res, next){
                 
             });
         break;
+        case 'actarea':
+
+        Unidadacademica.find({}).exec(function(err, todos) {
+                if (err){ res.send(err); }
+               /*
+                for (var i = 0; i < todos.length; i++) {
+
+                        Asignaest.updateMany({'idunidadacademica.id': todos[i].id}, {
+                                idunidadacademica :{id:todos[i]._id,nombre:todos[i].nombre,codigo:todos[i].codigo   }   	
+                            }, function(err, numberAffected, rawResponse) {
+                                    console.log(rawResponse)
+                                    console.log(numberAffected)
+                               //handle it
+                            })
+
+
+
+                            
+
+                }
+*/
+                res.json(todos);   
+                
+            });
+
+    
+      
+   
+        break;
         case 'areas-evento':
     
         Area_evento.find({'idtipoevento.codigo':req.params.id2},function(err, todos) {
@@ -161,7 +193,7 @@ exports.getCombofijo = function(req, res, next){
                 break;
         case 'tablaasignacion':
 //'idunidadacademica.codigo':'1'
-                        Asignaest.find({}).select({idperiodo: 1,no_orientacion:1,idmateria:1,date:1,idunidadacademica:1,codfac:1,noasignado:1}).lean().exec(function(err, todos) {
+                        Asignaest.find({ 'idtipounidad.id':'5b97f1bceb1dab0ab0368cc6'}).select({idperiodo: 1,no_orientacion:1,idmateria:1,date:1,idunidadacademica:1,codfac:1,noasignado:1}).lean().exec(function(err, todos) {
                         if (err){  res.send(err);  }    
                         var resp=[]
                         for(var i = 0; i < todos.length;i++){
@@ -241,6 +273,92 @@ exports.getCombofijo = function(req, res, next){
                 });
               
         break;
+        case 'tablaasignacioncentro':
+
+       
+       
+
+        //'idunidadacademica.codigo':'1'
+                                Asignaest.find({ 'idtipounidad.id': { $nin: [ '5b97f1bceb1dab0ab0368cc6'] }}).select({idperiodo: 1,no_orientacion:1,idmateria:1,date:1,idunidadacademica:1,codfac:1,noasignado:1}).lean().exec(function(err, todos) {
+                                if (err){  res.send(err);  }    
+                                var resp=[]
+                                for(var i = 0; i < todos.length;i++){
+                                var periodo=todos[i].idperiodo.nombre.split("-");
+                     //     console.log(todos.length)
+                                var anio=Number(periodo[0])+1
+                                var idmat=0
+                                
+                                if(todos[i].idmateria=='Biologia'){idmat=1}
+                                if(todos[i].idmateria=='Fisica'){idmat=2}
+                                if(todos[i].idmateria=='Lenguaje'){idmat=3}
+                                if(todos[i].idmateria=='Matematica'){idmat=4}
+                                if(todos[i].idmateria=='Quimica'){idmat=5}
+        
+                                var ll=todos[i].no_orientacion
+                                var tno=0;
+        
+                        
+        
+                                if(ll.length==10)
+                                {
+                                        tno=1
+                                }
+                                else
+                                {
+                                        tno=2
+                                }
+        
+                                var pp=''
+                                var noori=''
+        
+                                if(ll.length==10 || ll.length==9)
+                                {
+                                        pp=ll.substr(0,4);
+                                        noori=ll.substr(4,ll.length-1)
+        
+                                }
+                                else
+                                {
+                                                if(ll.length==7)
+                                                {
+                                                        pp=ll.substr(0,2);
+                                                        noori=ll.substr(2,ll.length-1)
+                        
+                                                        
+                                                }
+                                                else
+                                                {
+                                                        pp='0'
+                                                        noori=ll
+                        
+        
+                                                }
+        
+        
+                                }
+        
+        
+                                var d =new Date( todos[i].date).toISOString().substr(0,10);   
+                                var n = d.split('-')   
+        
+                                resp.push({periodo:pp,no_orientacion:noori,ingreso:tno
+                                        ,no_oportunidad:periodo[1]
+                                        ,anio_asignacion:anio,id_facultad:todos[i].idunidadacademica.codigo
+                                        ,codigo_fac:todos[i].codfac,no_asignado:todos[i].noasignado,id_materia:idmat,fecha:n[2] + '-'+ n[1] + '-' + n[0]});
+        
+                                
+        
+                                }
+                              //  res.json(resp);
+                                var filename   = "Tablaasignacion.csv";
+                                res.statusCode = 200;
+                                res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+                                res.setHeader("Content-Disposition", 'attachment; filename='+filename);
+                                res.csv(resp, true);
+                
+                        });
+                      
+                break;
         case 'tablainfoboleta':
 //'idunidadacademica.codigo':'1'
                         Facplan.find({}).lean().exec(function(err, todos) {
