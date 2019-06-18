@@ -72,7 +72,7 @@ exports.getAsignapcb = function(req, res, next){
             }, 
             { 
                 "$sort" : {
-                    "idtipounidad.nombre" : 1
+                    "idtipounidad" : 1
                 }
             }
         ]).exec(function(err, todos) {
@@ -90,26 +90,31 @@ exports.getAsignapcb = function(req, res, next){
               
 
             for(var i = 0; i < todos.length;i++){
-                console.log(todos[i].idtipounidad.nombre + '*' +todos[i].idmateria + '*' + todos[i].cantidad+'*')  
+              //  console.log(todos[i].idtipounidad.nombre + '*' +todos[i].idmateria + '*' + todos[i].cantidad+'*')  
                     if(unidad==todos[i].idtipounidad.nombre)
                     { 
-                     
-                            if(todos[i].idmateria=='Lenguaje'){v1=todos[i].cantidad; console.log('entra lenguaje')}
-                            if(todos[i].idmateria=='Matematica'){v2=todos[i].cantidad}
-                            if(todos[i].idmateria=='Biologia'){v3=todos[i].cantidad}
-                            if(todos[i].idmateria=='Fisica'){v4=todos[i].cantidad}
-                            if(todos[i].idmateria=='Quimica'){v5=todos[i].cantidad}
+                   
+                     console.log(i)
+                            if(todos[i].idmateria=='Lenguaje'){v1=v1 + todos[i].cantidad; console.log('entra ' + todos[i].idmateria + 'cantidad:  ' + todos[i].cantidad)}
+                            if(todos[i].idmateria=='Matematica'){v2=v2 +todos[i].cantidad}
+                            if(todos[i].idmateria=='Biologia'){v3=v3+todos[i].cantidad}
+                            if(todos[i].idmateria=='Fisica'){v4=v4+todos[i].cantidad}
+                            if(todos[i].idmateria=='Quimica'){v5=v5+todos[i].cantidad}
 
                     }
                     else
                     {
-                        if(todos[i].idmateria=='Lenguaje'){v1=todos[i].cantidad; console.log('entra lenguaje')}
-                         
+                      
                         v6=v1+v2+v3+v4+v5
                         cad=cad +'<p>'  +unidad  + ';'  + v1 + ';'  + v2  + ';'  + v3  + ';'  + v4 + ';'  + v5  + ';' + v6  +'</p>'
               
                     unidad=todos[i].idtipounidad.nombre
                     v1=0;v2=0;v3=0;v4=0;v5=0;v6=0
+                    if(todos[i].idmateria=='Lenguaje'){v1=v1 + todos[i].cantidad; console.log('entra ' + todos[i].idmateria + 'cantidad:  ' + todos[i].cantidad)}
+                    if(todos[i].idmateria=='Matematica'){v2=v2 +todos[i].cantidad}
+                    if(todos[i].idmateria=='Biologia'){v3=v3+todos[i].cantidad}
+                    if(todos[i].idmateria=='Fisica'){v4=v4+todos[i].cantidad}
+                    if(todos[i].idmateria=='Quimica'){v5=v5+todos[i].cantidad}
 
                     }
 
@@ -449,7 +454,7 @@ else{
 var aa=1;
 if(aa==1)
 {
-    res.status(404).send('Asignación PCB a finalizado');
+    res.status(404).send('Las fechas de inscripción PCB han finalizado.');
 
 }
 else
