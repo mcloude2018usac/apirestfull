@@ -279,7 +279,7 @@ exports.getCombofijo = function(req, res, next){
        
 
         //'idunidadacademica.codigo':'1'
-                                Asignaest.find({ 'idtipounidad.id': { $nin: [ '5b97f1bceb1dab0ab0368cc6'] }}).select({idperiodo: 1,no_orientacion:1,idmateria:1,date:1,idunidadacademica:1,codfac:1,noasignado:1}).lean().exec(function(err, todos) {
+                                Asignaest.find({ 'idtipounidad.id': { $nin: [ '5b97f1bceb1dab0ab0368cc6'] }}).select({idsalon:1,nombre:1,idperiodo: 1,no_orientacion:1,idmateria:1,date:1,idunidadacademica:1,codfac:1,noasignado:1}).lean().exec(function(err, todos) {
                                 if (err){  res.send(err);  }    
                                 var resp=[]
                                 for(var i = 0; i < todos.length;i++){
@@ -340,10 +340,14 @@ exports.getCombofijo = function(req, res, next){
         
                                 var d =new Date( todos[i].date).toISOString().substr(0,10);   
                                 var n = d.split('-')   
-        
-
-                                resp.push({no_asignado:todos[i].noasignado ,no_orientacion:ll,nombre:todos[i].nombre,centro:todos[i].idunidadacademica.codigo,
-                                        id_materia:idmat,salon:todos[i].idsalon.nombre,hora:todos[i].idhorario ,codigo_fac:todos[i].codfac,ingreso:tno
+                                var  nn=''
+                                console.log(todos[i])
+                                if(todos[i].nombre)      {nn=todos[i].nombre} 
+                                      
+                                resp.push({no_asignado:todos[i].noasignado ,no_orientacion:ll,nombre:nn,
+                                        centro:todos[i].idunidadacademica.codigo,
+                                        id_materia:idmat,salon:todos[i].idsalon.nombre,hora:todos[i].idhorario ,
+                                        codigo_fac:todos[i].codfac,ingreso:tno
                                         ,no_oportunidad:periodo[1]
                                         ,anio_asignacion:anio});
         
