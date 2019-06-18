@@ -341,10 +341,11 @@ exports.getCombofijo = function(req, res, next){
                                 var d =new Date( todos[i].date).toISOString().substr(0,10);   
                                 var n = d.split('-')   
         
-                                resp.push({periodo:pp,no_orientacion:ll,ingreso:tno
+
+                                resp.push({no_asignado:todos[i].noasignado ,no_orientacion:ll,nombre:todos[i].nombre,centro:todos[i].idunidadacademica.codigo,
+                                        id_materia:idmat,salon:todos[i].idsalon.nombre,hora:todos[i].idhorario ,codigo_fac:todos[i].codfac,ingreso:tno
                                         ,no_oportunidad:periodo[1]
-                                        ,anio_asignacion:anio,id_facultad:todos[i].idunidadacademica.codigo
-                                        ,codigo_fac:todos[i].codfac,no_asignado:todos[i].noasignado,id_materia:idmat,fecha:n[2] + '-'+ n[1] + '-' + n[0]});
+                                        ,anio_asignacion:anio});
         
                                 
         
