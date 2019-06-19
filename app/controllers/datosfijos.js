@@ -269,7 +269,7 @@ exports.getCombofijo = function(req, res, next){
                         res.setHeader('Content-Type', 'text/csv; charset=utf-8');
                         res.setHeader("Content-Disposition", 'attachment; filename='+filename);
                         res.csv(resp, true);
-        
+                        
                 });
               
         break;
@@ -279,7 +279,7 @@ exports.getCombofijo = function(req, res, next){
        
 
         //'idunidadacademica.codigo':'1'
-                                Asignaest.find({ 'idtipounidad.id': { $nin: [ '5b97f1bceb1dab0ab0368cc6'] }}).select({idsalon:1,nombre:1,idperiodo: 1,no_orientacion:1,idmateria:1,date:1,idunidadacademica:1,codfac:1,noasignado:1}).lean().exec(function(err, todos) {
+                                Asignaest.find({ 'idtipounidad.id': { $nin: [ '5b97f1bceb1dab0ab0368cc6'] }}).select({idhorario:1,idsalon:1,nombre:1,idperiodo: 1,no_orientacion:1,idmateria:1,date:1,idunidadacademica:1,codfac:1,noasignado:1}).lean().exec(function(err, todos) {
                                 if (err){  res.send(err);  }    
                                 var resp=[]
                                 for(var i = 0; i < todos.length;i++){
