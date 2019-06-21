@@ -94,8 +94,8 @@ exports.getAsignapcb = function(req, res, next){
                     if(unidad==todos[i].idtipounidad.nombre)
                     { 
                    
-                     console.log(i)
-                            if(todos[i].idmateria=='Lenguaje'){v1=v1 + todos[i].cantidad; console.log('entra ' + todos[i].idmateria + 'cantidad:  ' + todos[i].cantidad)}
+                   
+                            if(todos[i].idmateria=='Lenguaje'){v1=v1 + todos[i].cantidad;}
                             if(todos[i].idmateria=='Matematica'){v2=v2 +todos[i].cantidad}
                             if(todos[i].idmateria=='Biologia'){v3=v3+todos[i].cantidad}
                             if(todos[i].idmateria=='Fisica'){v4=v4+todos[i].cantidad}
@@ -110,7 +110,7 @@ exports.getAsignapcb = function(req, res, next){
               
                     unidad=todos[i].idtipounidad.nombre
                     v1=0;v2=0;v3=0;v4=0;v5=0;v6=0
-                    if(todos[i].idmateria=='Lenguaje'){v1=v1 + todos[i].cantidad; console.log('entra ' + todos[i].idmateria + 'cantidad:  ' + todos[i].cantidad)}
+                    if(todos[i].idmateria=='Lenguaje'){v1=v1 + todos[i].cantidad; }
                     if(todos[i].idmateria=='Matematica'){v2=v2 +todos[i].cantidad}
                     if(todos[i].idmateria=='Biologia'){v3=v3+todos[i].cantidad}
                     if(todos[i].idmateria=='Fisica'){v4=v4+todos[i].cantidad}
@@ -119,6 +119,12 @@ exports.getAsignapcb = function(req, res, next){
                     }
 
             }
+
+            v6=v1+v2+v3+v4+v5
+            cad=cad +'<p>'  +unidad  + ';'  + v1 + ';'  + v2  + ';'  + v3  + ';'  + v4 + ';'  + v5  + ';' + v6  +'</p>'
+  
+       
+
             
             res.send(cad)
 
