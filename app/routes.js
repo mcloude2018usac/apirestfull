@@ -191,7 +191,173 @@ module.exports = function(app){
             res.send({ content: 'Success'});
         });
  
-   
+   /*
+SINNNNNNNNNNNNNN AUTORIZACION
+   */
+//-----------------------------------USER PERFIL----------------------------------
+
+
+apiRoutes.use('/userperfils', userperfilRoutes);
+userperfilRoutes.get('/:id',  UserperfilController.getUserperfil);
+userperfilRoutes.post('/:recordID',requireAuth,  UserperfilController.creaUserperfil2s);
+userperfilRoutes.delete('/:recordID/:userID',requireAuth,  UserperfilController.deleteUserperfil);
+
+
+//---------------------------------------estudiantes ov
+apiRoutes.use('/carne', carneRoutes);
+carneRoutes.get('/', requireAuth, CarneController.getCarne);
+carneRoutes.get('/:codigo', CarneController.getCarne);
+carneRoutes.get('/:id/:codigo', CarneController.getCarne);
+
+
+//---------------------------------------estudiantes ov
+apiRoutes.use('/estudianteov', estudianteovRoutes);
+estudianteovRoutes.get('/', requireAuth, EstudianteovController.getEstudianteov);
+estudianteovRoutes.get('/:codigo',requireAuth, EstudianteovController.getEstudianteov);
+
+//---------------------------------------estudiantes vt
+apiRoutes.use('/estudiantevt', estudiantevtRoutes);
+estudiantevtRoutes.get('/', requireAuth, EstudiantevtController.getEstudiantevt);
+estudiantevtRoutes.get('/:codigo', EstudiantevtController.getEstudiantevt);
+estudiantevtRoutes.post('/:recordID', requireAuth, EstudiantevtController.creaEstudiantevts);
+
+//---------------------------------------estudiantes PCB
+apiRoutes.use('/estudiantepcb', estudiantepcbRoutes);
+estudiantepcbRoutes.get('/', requireAuth, EstudiantepcbController.getEstudiantepcb);
+estudiantepcbRoutes.get('/:codigo', EstudiantepcbController.getEstudiantepcb);
+
+
+
+
+
+//-----------------------------------AUTORIZA
+apiRoutes.use('/autorizar', autorizaRoutes);
+autorizaRoutes.get('/:id',   AutorizaController.getAutoriza);
+
+//-----------------------------------PARTICIPA  EVENTOS SARITA ASIGNACION
+apiRoutes.use('/participas', participaRoutes);
+participaRoutes.get('/:id',  ParticipaController.getParticipa);
+participaRoutes.get('/:id/:id2',  ParticipaController.getParticipa);
+participaRoutes.get('/:id/:id2/:id3',  ParticipaController.getParticipa);
+participaRoutes.post('/:id',  ParticipaController.creaParticipa2s);
+participaRoutes.delete('/:id/:userID',requireAuth,  ParticipaController.deleteParticipa);
+
+//-----------------------------------PARTICIPA4  CURSOS PREUNIVERSITARIOS SARITA
+apiRoutes.use('/participa4s', participa4Routes);
+participa4Routes.get('/:id',requireAuth,  Participa4Controller.getParticipa4);
+participa4Routes.get('/:id/:id2',  Participa4Controller.getParticipa4);
+participa4Routes.post('/:id', Participa4Controller.creaParticipa42s);
+participa4Routes.delete('/:id/:userID',requireAuth,  Participa4Controller.deleteParticipa4);
+
+
+
+//-----------------------------------PARTICIPA2  CURSOS LIBRES SARITA
+apiRoutes.use('/participa2s', participa2Routes);
+participa2Routes.get('/:id',  Participa2Controller.getParticipa2);
+participa2Routes.get('/:id/:id2',  Participa2Controller.getParticipa2);
+participa2Routes.post('/:id',  Participa2Controller.creaParticipa22s);
+participa2Routes.delete('/:id/:userID',requireAuth,  Participa2Controller.deleteParticipa2);
+
+
+
+
+
+//-----------------------------------MAIL
+apiRoutes.use('/mails', mailRoutes);
+mailRoutes.post('/:id',  MailController.getMail);
+//mailRoutes.post('/:id',  MailController.getMail2);
+
+//-----------------------------------QR
+apiRoutes.use('/qrs',qrimagenRoutes);
+qrimagenRoutes.get('/:key',  QrimagenController.getQR);
+app.use('/api', apiRoutes);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//----------------------------------------------------------------------------------------------------
+
+//-----------------------------------ENTRADAS DPI----------------------------------
+
+apiRoutes.use('/Entradasdpis', entradasdpiRoutes);
+entradasdpiRoutes.get('/:id',requireAuth, EntradasdpiController.getEntradasdpi);
+entradasdpiRoutes.get('/:id/:id2',requireAuth,  EntradasdpiController.getEntradasdpi);
+
+entradasdpiRoutes.post('/:recordID',requireAuth,  EntradasdpiController.creaEntradasdpi2s);
+entradasdpiRoutes.delete('/:recordID/:userID',requireAuth,  EntradasdpiController.deleteEntradasdpi);
+
+//-----------------------------------ENTRADAS CASA----------------------------------
+
+apiRoutes.use('/Entradascasas', entradascasaRoutes);
+entradascasaRoutes.get('/:id',requireAuth, EntradascasaController.getEntradacasa);
+entradascasaRoutes.get('/:id/:id2',requireAuth,  EntradascasaController.getEntradacasa);
+entradascasaRoutes.get('/:id/:id2/:id3',  EntradascasaController.getEntradacasa);
+
+entradascasaRoutes.post('/:recordID',requireAuth,  EntradascasaController.creaEntradacasa2s);
+entradascasaRoutes.delete('/:recordID/:userID',requireAuth,  EntradascasaController.deleteEntradacasa);
+
+
+//-----------------------------------BUS----------------------------------
+/*
+apiRoutes.use('/buss', busRoutes);
+busRoutes.get('/:id/:id2',requireAuth, busController.getBus);
+busRoutes.get('/:id/:id2/:id3',requireAuth,  busController.getBus);
+busRoutes.post('/:id',requireAuth,  busController.creaBuss);
+busRoutes.delete('/:id/:id2/:id3',requireAuth,  busController.deleteBus);
+*/
+apiRoutes.use('/buss',busRoutes);
+busRoutes.get('/:id',requireAuth,  busController.getBus);
+busRoutes.get('/:id2/:id3',requireAuth,  busController.getBus);
+busRoutes.post('/:recordID', requireAuth, busController.creaBus2s);
+busRoutes.delete('/:recordID/:userID',requireAuth,  busController.deleteBus);
+
+
+//-----------------------------------categorias usuarios
+apiRoutes.use('/catusuarios', catusuarioRoutes);
+catusuarioRoutes.get('/',requireAuth, CatusuarioController.getCatusuario);
+catusuarioRoutes.get('/:id',requireAuth,  CatusuarioController.getCatusuario);
+catusuarioRoutes.get('/:id/:id2/:id3',requireAuth, CatusuarioController.getCatusuario);
+catusuarioRoutes.post('/:recordID', requireAuth, CatusuarioController.creaCatusuario2s);
+catusuarioRoutes.delete('/:recordID/:userID',requireAuth, CatusuarioController.deleteCatusuario);
+
+
+//-----------------------------------MAILMARKET
+apiRoutes.use('/mailmarkets', mailmarketRoutes);
+mailmarketRoutes.get('/:id',requireAuth,  MailmarketController.getMarketemail);
+mailmarketRoutes.get('/:id/:id2',requireAuth,  MailmarketController.getMarketemail);
+mailmarketRoutes.get('/:id/:id2/:id3/:id4',requireAuth, MailmarketController.getMarketemail);
+mailmarketRoutes.get('/:id/:id2/:id3', MailmarketController.getMarketemail);//help del menu  sin login
+mailmarketRoutes.post('/:id',requireAuth, MailmarketController.creaMarketemail2s);
+mailmarketRoutes.delete('/:id/:userID',requireAuth,  MailmarketController.deleteMarketemail);
+
+
+
+//-----------------------------------DTARIFA
+apiRoutes.use('/dtarifas', dtarifaRoutes);
+dtarifaRoutes.get('/:id', requireAuth, DtarifaController.getDtarifa);
+dtarifaRoutes.get('/:id/:id2', requireAuth, DtarifaController.getDtarifa);
+dtarifaRoutes.post('/:id',requireAuth,  DtarifaController.creaDtarifa2s);
+dtarifaRoutes.delete('/:id/:userID',requireAuth,  DtarifaController.deleteDtarifa);
+
+
 
 
 //-----------------------------------PERSONAL
@@ -233,13 +399,6 @@ suscriptorsaldoRoutes.get('/:id/:id2',requireAuth,  SuscriptorsaldoController.ge
 suscriptorsaldoRoutes.post('/:id',requireAuth,  SuscriptorsaldoController.creaSuscriptorsaldo2s);
 suscriptorsaldoRoutes.delete('/:id/:userID',requireAuth,  SuscriptorsaldoController.deleteSuscriptorsaldo);
 
-//-----------------------------------USER PERFIL----------------------------------
-
-
-apiRoutes.use('/userperfils', userperfilRoutes);
-userperfilRoutes.get('/:id',  UserperfilController.getUserperfil);
-userperfilRoutes.post('/:recordID',requireAuth,  UserperfilController.creaUserperfil2s);
-userperfilRoutes.delete('/:recordID/:userID',requireAuth,  UserperfilController.deleteUserperfil);
 
 //-----------------------------------SUSCRIPTOR----------------------------------
 /*
@@ -256,47 +415,17 @@ afiliadoRoutes.get('/:id/:id2',requireAuth,  AfiliadoController.getAfiliado);
 afiliadoRoutes.post('/:id',requireAuth,  AfiliadoController.creaAfiliado2s);
 afiliadoRoutes.delete('/:id/:userID',requireAuth,  AfiliadoController.deleteAfiliado);
 
-//-----------------------------------BUS----------------------------------
-/*
-apiRoutes.use('/buss', busRoutes);
-busRoutes.get('/:id/:id2',requireAuth, busController.getBus);
-busRoutes.get('/:id/:id2/:id3',requireAuth,  busController.getBus);
-busRoutes.post('/:id',requireAuth,  busController.creaBuss);
-busRoutes.delete('/:id/:id2/:id3',requireAuth,  busController.deleteBus);
-*/
-apiRoutes.use('/buss',busRoutes);
-busRoutes.get('/:id',requireAuth,  busController.getBus);
-busRoutes.get('/:id2/:id3',  busController.getBus);
-busRoutes.post('/:recordID', requireAuth, busController.creaBus2s);
-busRoutes.delete('/:recordID/:userID',requireAuth,  busController.deleteBus);
 
 
 //-----------------------------------GALERIA IMAGENES----------------------------------
 
 apiRoutes.use('/galeriaimgs',galeriaimgRoutes);
 galeriaimgRoutes.get('/:id',requireAuth,  GaleriaimgController.getGaleriaimg);
-galeriaimgRoutes.get('/:id/:id2',  GaleriaimgController.getGaleriaimg);
+galeriaimgRoutes.get('/:id/:id2',requireAuth,  GaleriaimgController.getGaleriaimg);
 galeriaimgRoutes.post('/:recordID', requireAuth, GaleriaimgController.creaGaleriaimg2s);
 galeriaimgRoutes.delete('/:recordID/:userID',requireAuth,  GaleriaimgController.deleteGaleriaimg);
 
-//-----------------------------------ENTRADAS DPI----------------------------------
 
-apiRoutes.use('/Entradasdpis', entradasdpiRoutes);
-entradasdpiRoutes.get('/:id',requireAuth, EntradasdpiController.getEntradasdpi);
-entradasdpiRoutes.get('/:id/:id2',  EntradasdpiController.getEntradasdpi);
-
-entradasdpiRoutes.post('/:recordID',requireAuth,  EntradasdpiController.creaEntradasdpi2s);
-entradasdpiRoutes.delete('/:recordID/:userID',requireAuth,  EntradasdpiController.deleteEntradasdpi);
-
-//-----------------------------------ENTRADAS CASA----------------------------------
-
-apiRoutes.use('/Entradascasas', entradascasaRoutes);
-entradascasaRoutes.get('/:id',requireAuth, EntradascasaController.getEntradacasa);
-entradascasaRoutes.get('/:id/:id2',  EntradascasaController.getEntradacasa);
-entradascasaRoutes.get('/:id/:id2/:id3',  EntradascasaController.getEntradacasa);
-
-entradascasaRoutes.post('/:recordID',requireAuth,  EntradascasaController.creaEntradacasa2s);
-entradascasaRoutes.delete('/:recordID/:userID',requireAuth,  EntradascasaController.deleteEntradacasa);
 
 
 
@@ -321,8 +450,8 @@ reversionsaldoRoutes.delete('/:recordID/:userID',requireAuth,  ReversionsaldoCon
 
 apiRoutes.use('/asignapaps', asignapapRoutes);
 asignapapRoutes.get('/:id',requireAuth, AsignapapController.getAsignapap);
-asignapapRoutes.get('/:id/:id2', AsignapapController.getAsignapap);
-asignapapRoutes.get('/:id/:id2/:id3', AsignapapController.getAsignapap);
+asignapapRoutes.get('/:id/:id2',requireAuth, AsignapapController.getAsignapap);
+asignapapRoutes.get('/:id/:id2/:id3',requireAuth, AsignapapController.getAsignapap);
 asignapapRoutes.post('/:recordID',requireAuth,  AsignapapController.creaAsignapap2s);
 asignapapRoutes.delete('/:recordID/:userID',requireAuth,  AsignapapController.deleteAsignapap);
 
@@ -345,7 +474,7 @@ repcarneRoutes.delete('/:recordID/:userID',requireAuth,  RepcarneController.dele
 
 apiRoutes.use('/userchats', userchatRoutes);
 userchatRoutes.get('/:id',requireAuth, UserchatController.getUserchat);
-userchatRoutes.get('/:id/:id2',  UserchatController.getUserchat);
+userchatRoutes.get('/:id/:id2',requireAuth,  UserchatController.getUserchat);
 userchatRoutes.post('/:recordID',requireAuth,  UserchatController.creaUserchat2s);
 userchatRoutes.delete('/:recordID/:userID',requireAuth,  UserchatController.deleteUserchat);
 
@@ -355,7 +484,7 @@ userchatRoutes.delete('/:recordID/:userID',requireAuth,  UserchatController.dele
 
 apiRoutes.use('/usermsgs', usermsgRoutes);
 usermsgRoutes.get('/:id',requireAuth, UsermsgController.getUsermsg);
-usermsgRoutes.get('/:id/:id2',  UsermsgController.getUsermsg);
+usermsgRoutes.get('/:id/:id2',requireAuth,  UsermsgController.getUsermsg);
 //usermsgRoutes.post('/:recordID',requireAuth,  UsermsgController.creaUsermsg2s);
 usermsgRoutes.delete('/:recordID/:userID',requireAuth,  UsermsgController.deleteUsermsg);
 
@@ -503,51 +632,19 @@ dcatalogoRoutes.delete('/:id/:userID',requireAuth,  DcatalogoController.deleteDc
 
 //-----------------------------------TARIFA
 apiRoutes.use('/tarifas', tarifaRoutes);
-tarifaRoutes.get('/', TarifaController.getTarifa);
+tarifaRoutes.get('/',requireAuth, TarifaController.getTarifa);
 tarifaRoutes.get('/:id',requireAuth,  TarifaController.getTarifa);
 tarifaRoutes.post('/:recordID',requireAuth,  TarifaController.creaTarifa2s);
 tarifaRoutes.delete('/:recordID/:userID', requireAuth, TarifaController.deleteTarifa);
 
 //-----------------------------------user post
 apiRoutes.use('/userposts', userpostRoutes);
-userpostRoutes.get('/', UserpostController.getUserpost);
-userpostRoutes.get('/:id',  UserpostController.getUserpost);
-userpostRoutes.post('/:recordID',  UserpostController.creaUserpost2s);
+userpostRoutes.get('/',requireAuth, UserpostController.getUserpost);
+userpostRoutes.get('/:id',requireAuth,  UserpostController.getUserpost);
+userpostRoutes.post('/:recordID',requireAuth,  UserpostController.creaUserpost2s);
 
 
 
-//-----------------------------------DTARIFA
-apiRoutes.use('/dtarifas', dtarifaRoutes);
-dtarifaRoutes.get('/:id', requireAuth, DtarifaController.getDtarifa);
-dtarifaRoutes.get('/:id/:id2', requireAuth, DtarifaController.getDtarifa);
-dtarifaRoutes.post('/:id',requireAuth,  DtarifaController.creaDtarifa2s);
-dtarifaRoutes.delete('/:id/:userID',requireAuth,  DtarifaController.deleteDtarifa);
-
-
-
-
-//---------------------------------------estudiantes ov
-apiRoutes.use('/carne', carneRoutes);
-carneRoutes.get('/', requireAuth, CarneController.getCarne);
-carneRoutes.get('/:codigo', CarneController.getCarne);
-carneRoutes.get('/:id/:codigo', CarneController.getCarne);
-
-
-//---------------------------------------estudiantes ov
-apiRoutes.use('/estudianteov', estudianteovRoutes);
-estudianteovRoutes.get('/', requireAuth, EstudianteovController.getEstudianteov);
-estudianteovRoutes.get('/:codigo', EstudianteovController.getEstudianteov);
-
-//---------------------------------------estudiantes vt
-apiRoutes.use('/estudiantevt', estudiantevtRoutes);
-estudiantevtRoutes.get('/', requireAuth, EstudiantevtController.getEstudiantevt);
-estudiantevtRoutes.get('/:codigo', EstudiantevtController.getEstudiantevt);
-estudiantevtRoutes.post('/:recordID', requireAuth, EstudiantevtController.creaEstudiantevts);
-
-//---------------------------------------estudiantes PCB
-apiRoutes.use('/estudiantepcb', estudiantepcbRoutes);
-estudiantepcbRoutes.get('/', requireAuth, EstudiantepcbController.getEstudiantepcb);
-estudiantepcbRoutes.get('/:codigo', EstudiantepcbController.getEstudiantepcb);
 
 /*
 apiRoutes.use('/oracle', userRoutes);
@@ -607,7 +704,7 @@ edificiosalonRoutes.delete('/:recordID/:userID',requireAuth,  EdificiosalonContr
 apiRoutes.use('/unidadplans',unidadplanRoutes);
 unidadplanRoutes.get('/:id',requireAuth,  UnidadplanController.getUnidadplan);
 unidadplanRoutes.get('/:id2/:id3/:id4',requireAuth,  UnidadplanController.getUnidadplan);
-unidadplanRoutes.post('/:recordID',  UnidadplanController.creaUnidadplan2s);
+unidadplanRoutes.post('/:recordID',requireAuth,  UnidadplanController.creaUnidadplan2s);
 unidadplanRoutes.delete('/:recordID/:userID',requireAuth,  UnidadplanController.deleteUnidadplan);
 
 
@@ -688,7 +785,7 @@ apiRoutes.use('/asignapcbs', asignapcbRoutes);
 asignapcbRoutes.get('/',requireAuth, AsignapcbController.getAsignapcb);
 asignapcbRoutes.get('/:id',requireAuth,  AsignapcbController.getAsignapcb);
 asignapcbRoutes.get('/:id/:id2',requireAuth,  AsignapcbController.getAsignapcb);
-asignapcbRoutes.get('/:id/:id2/:id3', AsignapcbController.getAsignapcb);
+asignapcbRoutes.get('/:id/:id2/:id3',requireAuth, AsignapcbController.getAsignapcb);
 asignapcbRoutes.post('/:recordID', requireAuth, AsignapcbController.creaAsignapcb2s);
 asignapcbRoutes.delete('/:recordID/:userID',requireAuth,  AsignapcbController.deleteAsignapcb);
 
@@ -704,7 +801,7 @@ asignaestudiantepapRoutes.post('/:recordID',requireAuth,  AsignaestudiantepapCon
 
 //-----------------------------------ASIGNA ESTUDIANTE
 apiRoutes.use('/asignaestudiantes', asignaestudianteRoutes);
-asignaestudianteRoutes.get('/:id',requireAuth,  AsignaestudianteController.getAsignaestudiante);
+asignaestudianteRoutes.get('/:id', AsignaestudianteController.getAsignaestudiante);//IMPRIMIR PDF SEGUN QR
 
 //-----------------------------------DEPARTAMENTO
 apiRoutes.use('/Departamentos', departamentoRoutes);
@@ -739,19 +836,11 @@ apiRoutes.use('/denunciaunidads', denunciaunidadRoutes);
 denunciaunidadRoutes.get('/',requireAuth, DenunciaunidadController.getDenunciaunidad);
 denunciaunidadRoutes.get('/:id',requireAuth,  DenunciaunidadController.getDenunciaunidad);
 denunciaunidadRoutes.get('/:id/:id2',requireAuth, DenunciaunidadController.getDenunciaunidad);
-denunciaunidadRoutes.get('/:id/:id2/:id3',DenunciaunidadController.getDenunciaunidad);
+denunciaunidadRoutes.get('/:id/:id2/:id3',requireAuth,DenunciaunidadController.getDenunciaunidad);
 
 denunciaunidadRoutes.post('/:recordID', requireAuth, DenunciaunidadController.creaDenunciaunidad2s);
 denunciaunidadRoutes.delete('/:recordID/:userID',requireAuth, DenunciaunidadController.deleteDenunciaunidad);
 
-
-//-----------------------------------categorias usuarios
-apiRoutes.use('/catusuarios', catusuarioRoutes);
-catusuarioRoutes.get('/',requireAuth, CatusuarioController.getCatusuario);
-catusuarioRoutes.get('/:id',requireAuth,  CatusuarioController.getCatusuario);
-catusuarioRoutes.get('/:id/:id2/:id3', CatusuarioController.getCatusuario);
-catusuarioRoutes.post('/:recordID', requireAuth, CatusuarioController.creaCatusuario2s);
-catusuarioRoutes.delete('/:recordID/:userID',requireAuth, CatusuarioController.deleteCatusuario);
 
 
 //-----------------------------------NUEVO SALON
@@ -762,17 +851,6 @@ nuevosalonRoutes.post('/:recordID',requireAuth,  NuevosalonController.creaNuevos
 nuevosalonRoutes.delete('/:recordID/:userID',requireAuth,  NuevosalonController.deleteNuevosalon);
 
 
-//-----------------------------------AUTORIZA
-apiRoutes.use('/autorizar', autorizaRoutes);
-autorizaRoutes.get('/:id',   AutorizaController.getAutoriza);
-
-//-----------------------------------PARTICIPA
-apiRoutes.use('/participas', participaRoutes);
-participaRoutes.get('/:id',  ParticipaController.getParticipa);
-participaRoutes.get('/:id/:id2',  ParticipaController.getParticipa);
-participaRoutes.get('/:id/:id2/:id3',  ParticipaController.getParticipa);
-participaRoutes.post('/:id',  ParticipaController.creaParticipa2s);
-participaRoutes.delete('/:id/:userID',requireAuth,  ParticipaController.deleteParticipa);
 
 //-----------------------------------PARTICIPA3
 apiRoutes.use('/participa3s', participa3Routes);
@@ -790,32 +868,6 @@ participa33Routes.get('/:id/:id2',requireAuth,  Participa33Controller.getPartici
 participa33Routes.get('/:id/:id2/:id3',requireAuth,  Participa33Controller.getParticipa33);
 participa33Routes.post('/:id',requireAuth, Participa33Controller.creaParticipa332s);
 participa33Routes.delete('/:id/:userID',requireAuth,  Participa33Controller.deleteParticipa33);
-
-//-----------------------------------MAILMARKET
-apiRoutes.use('/mailmarkets', mailmarketRoutes);
-mailmarketRoutes.get('/:id',requireAuth,  MailmarketController.getMarketemail);
-mailmarketRoutes.get('/:id/:id2',requireAuth,  MailmarketController.getMarketemail);
-mailmarketRoutes.get('/:id/:id2/:id3/:id4',requireAuth, MailmarketController.getMarketemail);
-mailmarketRoutes.get('/:id/:id2/:id3', MailmarketController.getMarketemail);
-mailmarketRoutes.post('/:id',requireAuth, MailmarketController.creaMarketemail2s);
-mailmarketRoutes.delete('/:id/:userID',requireAuth,  MailmarketController.deleteMarketemail);
-
-
-//-----------------------------------PARTICIPA4
-apiRoutes.use('/participa4s', participa4Routes);
-participa4Routes.get('/:id',requireAuth,  Participa4Controller.getParticipa4);
-participa4Routes.get('/:id/:id2',  Participa4Controller.getParticipa4);
-participa4Routes.post('/:id', Participa4Controller.creaParticipa42s);
-participa4Routes.delete('/:id/:userID',requireAuth,  Participa4Controller.deleteParticipa4);
-
-
-
-//-----------------------------------PARTICIPA2
-apiRoutes.use('/participa2s', participa2Routes);
-participa2Routes.get('/:id',  Participa2Controller.getParticipa2);
-participa2Routes.get('/:id/:id2',  Participa2Controller.getParticipa2);
-participa2Routes.post('/:id',  Participa2Controller.creaParticipa22s);
-participa2Routes.delete('/:id/:userID',requireAuth,  Participa2Controller.deleteParticipa2);
 
 //-----------------------------------datos combo fijos
 apiRoutes.use('/datosfijos', datosfijosRoutes);
@@ -890,16 +942,6 @@ plantillamdrecRoutes.delete('/:id/:userID',requireAuth,  PlantillamdrecControlle
 
 
 
-
-//-----------------------------------MAIL
-apiRoutes.use('/mails', mailRoutes);
-mailRoutes.post('/:id',  MailController.getMail);
-//mailRoutes.post('/:id',  MailController.getMail2);
-
-//-----------------------------------QR
-apiRoutes.use('/qrs',qrimagenRoutes);
-qrimagenRoutes.get('/:key',  QrimagenController.getQR);
-app.use('/api', apiRoutes);
 
 //autorizaRoutes.post('/:recordID',  AutorizaController.creaAutorizar);
 /*
