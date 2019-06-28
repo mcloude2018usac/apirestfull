@@ -33,7 +33,7 @@ exports.getMail = function(req, res, next){
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-               user: 'mario.morales@mcloude.com',
+               user: 'usacenlinea1.0@usacenlinea.net',
                pass: 'ocitocit'
               // pass: 'Amazon1518@'
            }

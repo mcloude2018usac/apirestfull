@@ -3,6 +3,9 @@ var Participa = require('../models/participa');
 var Bitacora = require('../models/bitacora');
 var Carne = require('../models/carne');
 var Estudiantevt = require('../models/estudiantevt');
+var Datadpi = require('../models/datadpis');
+var User = require('../models/user');
+var Asignapcb= require('../models/asignapcb');
 
 exports.getParticipa = function(req, res, next){
     if(req.params.id3)
@@ -11,11 +14,11 @@ exports.getParticipa = function(req, res, next){
         if(req.params.id3=='repetido')
         { 
             var duplicates = [];
-           Carne.aggregate([          //,idevento:'5cec20c9e927930016d78a8b' 
-                    { $match: {carne: {"$ne": ''} }
+            Estudiantevt.aggregate([          //,idevento:'5cec20c9e927930016d78a8b' 
+                    { $match: {carnet: {"$ne": ''} }
                     },
                     {   $group: {
-                            _id: {carne: "$carne"},
+                            _id: {carnet: "$carnet"},
                             dups: {"$addToSet": "$_id"},
                             count: {"$sum": 1}
                         }
@@ -39,7 +42,17 @@ exports.getParticipa = function(req, res, next){
                             duplicates.push(dupId);
                         });
                     });
-                    Carne.remove({_id: {$in: duplicates}}, function (err, result) {
+
+                   
+                //    res.json(duplicates); 
+                    
+                  /* User.find({_id: {$in: duplicates}},function(err, todos) {
+                        if (err){ res.send(err); }
+                        res.json(todos); 
+                    });
+                    */
+                
+                   Estudiantevt.remove({_id: {$in: duplicates}}, function (err, result) {
                         if (err) {
                             console.error(err);
                         }
@@ -48,8 +61,68 @@ exports.getParticipa = function(req, res, next){
                        
                     });
                     
-                } ).allowDiskUse(true);;
+                    
+                } ).allowDiskUse(true);
 
+
+        }
+        else
+        {
+
+            if(req.params.id3=='modcui')
+            { 
+                
+
+                Datadpi.find({},function(err, todos) {
+                    if (err){ res.send(err); }
+                   
+                   User.find({tiposuscriptor:'5be1b6699c9f2200e8311574'},function(err, todos2) {
+                        if (err){ res.send(err); }
+                        var myData = [];
+                        for(var i = 0; i < todos2.length;i++){
+                            for(var i2 = 0; i2 < todos.length;i2++){
+                                        if(todos2[i].cui==todos[i2].cui)
+                                        {
+                                            var aa="db.users.update({_id:ObjectId('" + todos2[i]._id +"')},{$set: { nov:'"+todos[i2].nov+ "'}});"
+                                        //    myData.push({id:todos2[i]._id,nov:todos[i2].nov,cui:todos[i2].cui} );
+                                        myData.push({aa} );
+                                            break;
+                                        }
+
+                            }
+
+
+
+                        }
+
+                       
+
+/*
+                        for(var i = 0; i < myData.length;i++){
+                            var nn=myData[i].nov   
+                            User.findById({ _id: myData[i].id}, function (err, todo)  {
+                                if (err) {  res.send(err);  }
+                                else
+                                {  
+                                    
+                                    todo.nov        	=	nn    	;
+                                    todo.save(function (err, todo){
+                                        if (err)     {  res.status(500).send(err.message)   }
+                                     //   res.json(todo);
+                                    });
+                                }
+                            });
+                        }
+  */                      
+
+
+                        res.json(myData);
+                        
+                    });
+                    
+                });
+    
+            }
 
         }
 

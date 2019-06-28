@@ -53,6 +53,28 @@ var cleanName = function(str) {
       }
 
 
+      
+      function getNextSequenceValue2a(codfac2,idunidadacademicat,idedificiot,idsalont,idmateriat,idhorariot,cuentaaa,res){
+
+
+       console.log("codfac:'" +codfac2+ "','idunidadacademica.id':'" +idunidadacademicat+ "','idedificio.id':'" +idedificiot+ "','idsalon.id':'" +idsalont+ "','idmateria': '" +idmateriat+  "','idhorario':'" +idhorariot + "'   " + cuentaaa);
+
+
+        Facplan.findById({  codfac:codfac2 ,'idunidadacademica.id':idunidadacademicat,'idedificio.id':idedificiot,'idsalon.id':idsalont,idmateria:idmateriat ,idhorario:idhorariot }, function (err, todo)  {
+                if (err) { console.log(err.message)  }
+                else
+                {  
+                    todo.asignados    	=	cuentaaa
+                    todo.save(function (err, todo333){
+                        if (err)     { console.log(err.message)  }
+                      //  res.json(todo);
+                    });
+                }
+            });
+      }
+
+
+
       function getNextSequenceValue2(salonn, idd,cuentaaa){
 
         Unidadplan2.findById({ _id: idd }, function (err, todo)  {
@@ -870,6 +892,142 @@ res.json({cantidad:cuentatt});
 
 
 break;
+
+
+case 'excel-asigna33xxxcc':
+
+var myDataxxx = [];
+
+
+Facplan.find({  "idperiodo.nombre" : "2019-01", 'idtipounidad.id': { $nin: [ '5b97f1bceb1dab0ab0368cc6'] }}).exec(function(err, todos20) {
+        if (err){ res.send(err); }
+
+Asignaest.aggregate(
+        [
+                { 
+                    "$match" : {
+                        "idperiodo.nombre" : "2019-01",
+                        'idtipounidad.id': { $nin: [ '5b97f1bceb1dab0ab0368cc6'] }
+                    }
+                }, 
+                { 
+                    "$group" : {
+                        "_id" : {
+                            "codfac" : "$codfac", 
+                            "idunidadacademica᎐codigo" : "$idunidadacademica.codigo", 
+                            "idedificio᎐id" : "$idedificio.id", 
+                            "idhorario" : "$idhorario", 
+                            "idunidadacademica᎐id" : "$idunidadacademica.id", 
+                            "idsalon᎐id" : "$idsalon.id", 
+                            "idmateria" : "$idmateria"
+                        }, 
+                        "COUNT(*)" : {
+                            "$sum" : 1
+                        }
+                    }
+                }, 
+                { 
+                    "$project" : {
+                        "codfac" : "$_id.codfac", 
+                        "idunidadacademica.id" : "$_id.idunidadacademica᎐id", 
+                        "idunidadacademica.codigo" : "$_id.idunidadacademica᎐codigo", 
+                        "idedificio.id" : "$_id.idedificio᎐id", 
+                        "idsalon.id" : "$_id.idsalon᎐id", 
+                        "idmateria" : "$_id.idmateria", 
+                        "idhorario" : "$_id.idhorario", 
+                        "cantidad" : "$COUNT(*)", 
+                        "_id" : 0
+                    }
+                }
+            ], function (err, result) {
+                if (err) {
+                    next(err);
+                } else {
+
+                        var  data1=[]
+                        for(var j = 0; j < result.length;j++){
+                                var encuentra=0;
+                                for(var jj = 0; jj < todos20.length;jj++){
+
+                                        var ll=''
+                                        if(result[j].idmateria=='Lenguaje'){ll='3'}
+                                        if(result[j].idmateria=='Matematica'){ll='4'}
+                                        if(result[j].idmateria=='Fisica'){ll='2'}
+                                        if(result[j].idmateria=='Quimica'){ll='5'}
+                                        if(result[j].idmateria=='Biologia'){ll='1'}
+
+
+                                        if(result[j].codfac==todos20[jj].codfac &&  result[j].idunidadacademica.id==todos20[jj].idunidadacademica.id &&  result[j].idedificio.id==todos20[jj].idedificio.id &&  result[j].idsalon.id==todos20[jj].idsalon.id &&  result[j].idmateria==todos20[jj].idmateria &&  result[j].idhorario==todos20[jj].idhorario &&  result[j].cantidad==todos20[jj].asignados)
+                                        {
+                                                 encuentra=1;       
+
+                                        }
+                                        else{
+
+                                                if(result[j].codfac==todos20[jj].codfac &&  result[j].idunidadacademica.id==todos20[jj].idunidadacademica.id &&  result[j].idedificio.id==todos20[jj].idedificio.id &&  result[j].idsalon.id==todos20[jj].idsalon.id &&  result[j].idmateria==todos20[jj].idmateria &&  result[j].idhorario==todos20[jj].idhorario)
+                                        {
+                                                 encuentra=3;       
+
+                                        }
+                                       
+                                       
+
+                                        }
+
+                                                
+
+
+                                }
+
+                                if(encuentra==0)
+                                {
+                                             console.log(result[j])  
+
+                                }
+                                else
+                                {
+
+                                        if(encuentra==1)
+                                {
+                                           //   console.log('igualllllllllllllllll' +result[j])  
+
+                                }
+                                else
+                                {
+                                        getNextSequenceValue2a(result[j].codfac,result[j].idunidadacademica.id,result[j].idedificio.id,result[j].idsalon.id,result[j].idmateria,result[j].idhorario,result[j].cantidad,res);
+
+                                  
+
+                                      //  console.log('igualllllllllllllllll 33333333333333333333' +result[j])  
+                                }
+                                //getNextSequenceValue2a(result[j].codfac,result[j].idunidadacademica.id,result[j].idedificio.id,result[j].idsalon.id,result[j].idmateria,result[j].idhorario,result[j].cantidad,res);
+
+                                        
+
+                                }
+
+
+                        }
+//cons
+                     //   getNextSequenceValue2a( todos20[i].idsalon.nombre,todos20[i]._id,cuenta);
+                 
+                                  
+                    
+res.json({ result});
+
+                    
+                }
+            });
+
+        });
+  //  res.json(aa);
+    break;
+
+
+
+
+                    
+
 
 case 'excel-papest':
 
