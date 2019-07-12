@@ -63,6 +63,7 @@ var AuthenticationController = require('./controllers/authentication'),
     UnidadplanController = require('./controllers/unidadplan'),
     FacultadmateriaController = require('./controllers/facultadmateria'),
     UnidadacademicaController = require('./controllers/unidadacademica'),
+    PivotemonsterController = require('./controllers/pivotmoster'),
   
       
     Edificiousac2Controller = require('./controllers/unidadedificio2'),
@@ -99,6 +100,8 @@ module.exports = function(app){
     var apiRoutes = express.Router(),
         authRoutes = express.Router(),
         participaRoutes = express.Router(),
+        pivotemonsterRoutes = express.Router(),
+        
         userperfilRoutes = express.Router(),
         participa2Routes = express.Router(),
         participa3Routes = express.Router(),
@@ -228,7 +231,9 @@ estudiantepcbRoutes.get('/:codigo', EstudiantepcbController.getEstudiantepcb);
 
 
 
-
+//-----------------------------------AUTORIZA
+apiRoutes.use('/pivotem1', pivotemonsterRoutes);
+pivotemonsterRoutes.get('/:id/:id2/:id3',   PivotemonsterController.getPivotm);
 
 //-----------------------------------AUTORIZA
 apiRoutes.use('/autorizar', autorizaRoutes);
