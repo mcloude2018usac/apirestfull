@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link href="https://cdn.flexmonster.com/flexmonster.min.css" rel="stylesheet" type="text/css">
+	<script type="text/javascript" src="https://cdn.flexmonster.com/flexmonster.js"></script>
+</head>
+<body>
+
+	<div id="pivot"></div>
+	<script type="text/javascript">
+
+var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+	});
+	
+alert(vars['v1']);
+
+
+		new Flexmonster({
+			container: "#pivot",
+			componentFolder: "https://cdn.flexmonster.com/",
+			 global: {    localization: "loc/es.json" },
+			 width: "100%",
+			height: 630,
+			toolbar: true,
+			 //licenseKey: "XXXX-XXXX-XXXX-XXXX-XXXX"
+			 options: {    grid: {   type: "flat"    }    },
+			report: {
+				dataSource: {
+					dataSourceType: "ocsv",
+					filename: "/api/pivotem1/db1/denuncias/5b7047adf0953c001442954c"
+				},
+				 "options": {     "grid": {       "type": "flat"     }    }
+			}
+		})
+	</script>
+</body>
+</html>
