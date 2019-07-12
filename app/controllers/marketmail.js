@@ -1,8 +1,28 @@
 
 var Marketemail = require('../models/marketemail');
 var Bitacora = require('../models/bitacora');
+var Usermsg = require('../models/usermsg');
+var User = require('../models/user');
 
 //db.getCollection('carnes').find({ correo: {  $ne: null }}).count()
+
+var datipo = function(str,vector) {
+   var re='';
+   for(var i = 0; i < vector.length;i++){
+    if(vector[i]._id==str)
+    {
+    re=vector[i].nombre
+        break;
+
+    }
+   }
+
+
+
+
+    return re;
+};
+
 
 exports.getMarketemail = function(req, res, next){
 
@@ -21,8 +41,205 @@ exports.getMarketemail = function(req, res, next){
     }
     else{
     if(req.params.id3)
-    { 
+    {  
+        if(req.params.id3=='rptmsg')
+        {
+    
+    
+            var filtro='NA'
+            filtro2={ accesoestado: 'foro',nombre:req.params.id};
+            User.find(filtro2).exec(function(err, todos) {
+                if (err){ res.send(err); }
+    
+               
+    
+                var usuariosx = [];
+                var usuariosx2 = [];
+                for(var i = 0; i < todos.length;i++){
+                    usuariosx.push(''+ todos[i]._id + '');
+                    usuariosx2.push({_id:todos[i]._id,nombre:todos[i].nombre});
+                }
+    
+             //   "toUserId" : {"$in" :usuariosx }
+    
+                  
+                    Usermsg.find({"toUserId" : {"$in" :usuariosx }}).populate('userId').sort([['_id', 1]]).exec(function(err, todos2) {
+                    if (err){ res.send(err); }
+                   
+                   var tablax = [];
+                    for(var i = 0; i < todos2.length;i++){
+                        
+                        tablax.push({createdAt:todos2[i].createdAt,usuario:todos2[i].userId.nombre, tipo:datipo(todos2[i].toUserId,todos),msg:todos2[i].message});
+                    }
+    
+                    console.log(tablax);
+                   
+                    res.json( tablax);   
+                    
+                });
+    
+               
+              
+                
+            });
+    
+          
+    
+    
+        }
+        else
+        {    
+    if(req.params.id3=='rptmsg2')
+    {
 
+        var datav=req.params.id2.split(",");
+           
+        var filtro='NA'
+        for(var i = 0; i < datav.length;i++){
+            if(datav[i]=='TODOS@gmail.com')
+            {filtro='TODOS';
+                break;
+            }
+        }
+        var filtro2={};
+        if(filtro=='TODOS')
+        {
+        filtro2={ accesoestado: 'foro'}
+
+        }
+        else{
+        filtro2={email:{$in:datav}, accesoestado: 'foro'};
+        }
+        console.log(filtro2)
+        User.find(filtro2).exec(function(err, todos) {
+            if (err){ res.send(err); }
+
+           
+
+            var usuariosx = [];
+            var usuariosx2 = [];
+            for(var i = 0; i < todos.length;i++){
+                usuariosx.push(''+ todos[i]._id + '');
+                usuariosx2.push({_id:todos[i]._id,nombre:todos[i].nombre});
+            }
+
+         //   "toUserId" : {"$in" :usuariosx }
+
+              
+                Usermsg.find({"toUserId" : {"$in" :usuariosx }}).populate('userId').sort([['toUserId', 1]]).exec(function(err, todos2) {
+                if (err){ res.send(err); }
+               
+               var tablax = [];
+                for(var i = 0; i < todos2.length;i++){
+                    
+                    tablax.push({createdAt:todos2[i].createdAt,usuario:todos2[i].userId.nombre, tipo:datipo(todos2[i].toUserId,todos),msg:todos2[i].message});
+                }
+
+                
+               
+                res.json( tablax);   
+                
+            });
+
+           
+          
+            
+        });
+
+      
+
+
+    }
+    else
+    {
+        if(req.params.id3=='rptideas')
+        {
+  
+
+            var datav=req.params.id2.split(",");
+           
+            var filtro='NA'
+            for(var i = 0; i < datav.length;i++){
+                if(datav[i]=='TODOS@gmail.com')
+                {filtro='TODOS';
+                    break;
+                }
+            }
+            var filtro2={};
+            if(filtro=='TODOS')
+            {
+            filtro2={ accesoestado: 'foro'}
+
+            }
+            else{
+            filtro2={email:{$in:datav}, accesoestado: 'foro'};
+            }
+            console.log(filtro2)
+            User.find(filtro2).exec(function(err, todos) {
+                if (err){ res.send(err); }
+
+               
+
+                var usuariosx = [];
+                var usuariosx2 = [];
+                for(var i = 0; i < todos.length;i++){
+                    usuariosx.push(''+ todos[i]._id + '');
+                    usuariosx2.push({_id:todos[i]._id,nombre:todos[i].nombre});
+                }
+
+              
+                Usermsg.aggregate([  
+                    { 
+                        "$match" : {
+                            "toUserId" : {"$in" :usuariosx }
+                        }
+                    },
+                    {  
+                        
+                
+                        "$group" : {
+                            "_id" : {
+                                "toUserId" : "$toUserId"
+                            }, 
+                            "COUNT(*)" : { "$sum": 1   }
+                        }
+                    }, 
+                    { 
+                        "$project" : {
+                            "toUserId" : "$_id.toUserId", 
+                            "cantidad" : "$COUNT(*)", 
+                            "_id" : 0
+                        }
+                    },
+                    { 
+                        "$sort" : {
+                            "cantidad" : -1
+                        }
+                    }
+                ], function(err, todos2) {
+                    if (err){ res.send(err); }
+   
+                   var tablax = [];
+                    for(var i = 0; i < todos2.length;i++){
+                        tablax.push({tipo:datipo(todos2[i].toUserId,todos),cantidad:todos2[i].cantidad});
+                    }
+    
+                 
+                    res.json( tablax);   
+                    
+                });
+
+               
+              
+                
+            });
+
+          
+
+
+        }
+        else
+        {
         if(req.params.id3=='plantillas')
         {
             if(req.params.id2) 
@@ -70,7 +287,7 @@ exports.getMarketemail = function(req, res, next){
             }
 
 
-        }
+        }}}}
     }
     else
     {
