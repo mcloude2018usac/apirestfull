@@ -38,7 +38,8 @@ app
 .listen(process.env.PORT || 9090);
 console.log("App listening on port 9090");
 
-
+//app.use(express.static('app/controllers'));
+app.use(express.static('public'));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: false })); // Parses urlencoded bodies
 app.use(bodyParser.json({limit: '50mb'})); // Send JSON responses
 app.use(methodOverride());
@@ -49,7 +50,7 @@ app.use(logger('dev')); // Log requests to API using morgan
 app.use(cors());
 app.use(function(err, req, res, next) {
   console.error(err.stack);
-  res.status(500).send('Something broke!');
+  res.status(500).send('Rest api full 5.0!');
 }); 
 router(app);
 
@@ -109,6 +110,8 @@ function errorHandler(err, req, res, next) {
   res.status(500);
   res.render('error', { error: err });
 }
+
+//correop.massMailer(); 
 /*
 
 var querystring = require('querystring');
