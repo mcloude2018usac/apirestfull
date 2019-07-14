@@ -61,8 +61,11 @@ exports.getDenunciaunidad = function(req, res, next){
 
             Participa33.find({tipo:{$in:myData32}}).populate('idusuario').exec(function(err, todos22) {
                     if (err){  res.send(err);  }
+                    var arrxx=(req.params.id).split(',');
+                    var f1=(arrxx[0]).substr(0,10);  
+                    var f2=(arrxx[1]).substr(0,10);  
      
-                    Participa3.find({tipo:{$in:myData3}}).populate('tipo').populate('idusuario').exec(function(err, todos2) {
+                    Participa3.find({tipo:{$in:myData3},"createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),    "$lt": new Date(f2 +'T24:00:00.000Z')}}).populate('tipo').populate('idusuario').exec(function(err, todos2) {
                             if (err){  res.send(err);  }
          
                             var myData31 = [];
