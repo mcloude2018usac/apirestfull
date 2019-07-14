@@ -233,7 +233,8 @@ estudiantepcbRoutes.get('/:codigo', EstudiantepcbController.getEstudiantepcb);
 
 //-----------------------------------AUTORIZA
 apiRoutes.use('/pivotem1', pivotemonsterRoutes);
-pivotemonsterRoutes.get('/:id/:id2/:id3',   PivotemonsterController.getPivotm);
+pivotemonsterRoutes.get('/:id/:id2/:id3/:id4/:id5',   PivotemonsterController.getPivotm);
+pivotemonsterRoutes.get('/:id/:id2/:id3/:id4',   PivotemonsterController.getPivotm);
 
 //-----------------------------------AUTORIZA
 apiRoutes.use('/autorizar', autorizaRoutes);
