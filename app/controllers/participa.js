@@ -274,7 +274,7 @@ else{
                             else
                             {
 
-                                res.status(500).send('evento lleno') 
+                                res.status(500).send('Lo sentimos ya no existe cupo para este evento , Evento lleno') 
                             }
             
             
