@@ -6,6 +6,7 @@ var Estudiantevt = require('../models/estudiantevt');
 var Datadpi = require('../models/datadpis');
 var User = require('../models/user');
 var Asignapcb= require('../models/asignapcb');
+var Evento = require('../models/eventos');
 
 exports.getParticipa = function(req, res, next){
     if(req.params.id3)
@@ -227,31 +228,69 @@ else{
     
     }
     else{
-        Bitacora.create(req.body.bitacora);
-        var d = new Date();
-    Participa.create({  idevento       	: req.body.idevento       	,
-        nombre        	: req.body.nombre        	,
-        apellido    	: req.body.apellido    	,
-        genero    	: req.body.genero    	,
-        edad   	: req.body.edad 	,
-        correo    	: req.body.correo   	,
-        telefono 	: req.body.telefono 	,
-        unidad 	: req.body.unidad 	,
-        otros 	: req.body.otros 	,
-        estado 	: req.body.estado 	,
-        usuarionew:req.body.bitacora.email,
-        cuenta 	: '1' 	,
-        fecha:d.toISOString()	
-       }
-        , function(err, todo) {
-        if (err){   res.status(500).send(err.message)    }
-    
-        res.json(todo);
+
+         Evento.find({ _id      	: req.body.idevento   }, function (err, todo)  {
+            if (err) {  res.send(err);  }
+            else
+            {  
+                     var nopp=todo[0].nomax;
+                     Participa.find({  idevento       	: req.body.idevento   }, function (err, todo)  {
+                        if (err) {  res.send(err);  }
+                        else
+                        {  
+
+                            var cant=todo.length
+
+                            if(cant<=nopp)
+                            {
+
+                                Bitacora.create(req.body.bitacora);
+                                var d = new Date();
+                            Participa.create({  idevento       	: req.body.idevento       	,
+                                nombre        	: req.body.nombre        	,
+                                apellido    	: req.body.apellido    	,
+                                genero    	: req.body.genero    	,
+                                edad   	: req.body.edad 	,
+                                correo    	: req.body.correo   	,
+                                telefono 	: req.body.telefono 	,
+                                unidad 	: req.body.unidad 	,
+                                otros 	: req.body.otros 	,
+                                estado 	: req.body.estado 	,
+                                usuarionew:req.body.bitacora.email,
+                                cuenta 	: '1' 	,
+                                fecha:d.toISOString()	
+                               }
+                                , function(err, todo) {
+                                if (err){   res.status(500).send(err.message)    }
+                            
+                                res.json(todo);
+                        
+                             
+                                
+                        
+                            });
+
+                            }
+                            else
+                            {
+
+                                res.status(500).send('evento lleno') 
+                            }
+            
+            
+                        }
+                    });
+
+
+
+            }
+        });
+
+
+      
+
 
      
-        
-
-    });
 }
 }
 
