@@ -193,9 +193,7 @@ exports.getCombofijo = function(req, res, next){
         Perfil.find({nombre:req.params.id},function(err, todos) {
                 if (err){ res.send(err); }
                 
-               
                 if(todos.length>0)   {  
-                        
                 
                         Permiso.find({idrol:todos[0]._id}).sort([['orden', 1]]).exec(function(err, todos) {
                                 if (err){ res.send(err); }
@@ -203,14 +201,10 @@ exports.getCombofijo = function(req, res, next){
                                 Permiso2.find({idrol:todos[0].idrol}).sort([['orden', 1]]).exec(function(err, todos4) {
                                 if (err){ res.send(err); }
                                         
-                                                    
-                                        
                                         if(todos.length>0)   {  
                                                 
                                                 Moduloxx.find({},function(err, todos2) {
                                                         if (err){ res.send(err); }
-                                                
-                    
 
                                                         var myData = [];
                                                         for(var i = 0; i < todos.length;i++){

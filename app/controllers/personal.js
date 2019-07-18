@@ -689,10 +689,14 @@ exports.getPersonal = function(req, res, next){
 
                // res.status(500).send('NO EXISTE REGISTRO');
 
-                        Personal.find(function(err, todos) {
-                            if (err){  res.send(err);  }
-                                res.json(todos);
-                            });
+                        Personal.find({}).then(todos => {
+                   
+                            res.json(todos);  
+                          
+                      })
+                      .catch(err => {
+                          res.status(500).send(err.message);  
+                      })
                    
                
               

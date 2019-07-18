@@ -7,25 +7,34 @@ exports.getAutoriza = function(req, res, next){
     //res.send('echo');
   if(req.params.id)
   {
-    User.findById({_id: req.params.id}, function (err, todo)  {
-        if (err) {  res.send(err);  }
-        else
-        {  
-            
-            todo.estadoemail       	=	'1'        	;
-           
-            todo.save(function (err, todo){
-                if (err)     {  res.status(500).send(err.message)   }
-                res.redirect('http://usacenlinea.net');
-            });
-        }
-    });
+      if(mongoose.Types.ObjectId.isValid(req.params.id))
+      {
+        User.findById({_id: req.params.id}, function (err, todo)  {
+            if (err) {  res.send(err);  }
+            else
+            {  
+                
+                todo.estadoemail       	=	'1'        	;
+               
+                todo.save(function (err, todo){
+                    if (err)     {  res.status(500).send(err.message)   }
+                    res.redirect('http://usacenlinea.net');
+                });
+            }
+        });
+
+      }
+      else{
+        res.send('incorrecto.......................'); 
+      }
+  
 
 }
 }
 
 exports.creaAutorizar = function(req, res, next){
-
+    if(mongoose.Types.ObjectId.isValid(req.params.id))
+    {
         User.findById({_id: req.params.recordID}, function (err, todo)  {
             if (err) {  res.send(err);  }
             else
@@ -40,6 +49,12 @@ exports.creaAutorizar = function(req, res, next){
                 });
             }
         });
+    }
+    else{
+        res.send('incorrecto.......................'); 
+      }
+  
+
 
 }
 
