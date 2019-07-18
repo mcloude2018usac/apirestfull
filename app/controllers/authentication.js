@@ -3,6 +3,7 @@ var User = require('../models/user');
 var authConfig = require('../../config/auth');
 var Bitacora = require('../models/bitacora');
 var generator = require('generate-password');
+var mongoose = require('mongoose');
 
 function generateToken(user){
     return jwt.sign(user, authConfig.secret, {
@@ -11,29 +12,46 @@ function generateToken(user){
 }
  
 function setUserInfo(request){
-    return {
-        _id: request._id,
-        email: request.email,
-        role: request.role,
-        password:request.password,
-        estadoemail:request.estadoemail
-    };
+
+    if(mongoose.Types.ObjectId.isValid(request._id))
+    {
+        return {
+            _id: request._id,
+            email: request.email,
+            role: request.role,
+            password:request.password,
+            estadoemail:request.estadoemail
+        };
+    }
+    else{
+        return {
+            
+        };
+
+    }
+   
 }
  
 exports.login = function(req, res, next){
  
  
     
+    if(mongoose.Types.ObjectId.isValid(req.user._id))
+    {
+        var userInfo = setUserInfo(req.user);
 
-    var userInfo = setUserInfo(req.user);
-
-  //  if(userInfo.estadoemail=="1")    {
-        Bitacora.create(req.body.bitacora);
-      
-        res.status(200).json({
-            token: 'JWT ' + generateToken(userInfo),
-            user: userInfo
-        });
+        //  if(userInfo.estadoemail=="1")    {
+              Bitacora.create(req.body.bitacora);
+            
+              res.status(200).json({
+                  token: 'JWT ' + generateToken(userInfo),
+                  user: userInfo
+              });
+    }
+    else{
+        res.status(500).json('Sin autorización');     
+    }
+   
     
    // }  else{        res.status(500).json('No ha confirmado su cuenta via correo electronico');                }
  

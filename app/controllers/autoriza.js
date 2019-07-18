@@ -1,5 +1,6 @@
 
 var User = require('../models/user');
+var mongoose = require('mongoose');
 
 
 exports.getAutoriza = function(req, res, next){
