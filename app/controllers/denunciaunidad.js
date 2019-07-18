@@ -35,171 +35,290 @@ function diff_hours(dt2, dt1)
 }
 
 exports.getDenunciaunidad = function(req, res, next){
-    if(req.params.id3)
+    if(req.params.id5)
     {  
 
+   
+            if(req.params.id3=='denunciasxxx2')
+        {  
+    
+         
+            Denunciaunidad.find({'jefeop':req.params.id2}).exec(function(err, todos) {
+                if (err){  res.send(err);  }
+                var myData3 = [];
+                var myData32 = [];
+                for(var i = 0; i <  todos.length;i++){
+                    var cat=todos[i].categoria
+                    for(var i2 = 0; i2 <  cat.length;i2++){
+                        myData3.push(cat[i2]._id)
+                        myData32.push(cat[i2].nombre)
+                    }
+    
+                   
+                }
+               
+    
+               
+    
+                Participa33.find({tipo:{$in:myData32}}).populate('idusuario').exec(function(err, todos22) {
+                        if (err){  res.send(err);  }
+                        var arrxx=(req.params.id).split(',');
+                        var f1=(arrxx[0]).substr(0,10);  
+                        var f2=(arrxx[1]).substr(0,10);  
+         
+                        Participa3.find({tipo:{$in:myData3},"createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),    "$lt": new Date(f2 +'T24:00:00.000Z')}}).exec(function(err, todos2) {
+                                if (err){  res.send(err);  }
+             
+                              
+    
+                                                                    
+                   
+                            
+    
+    //todos----------------------------------------------------------------
+    console.log(todos2)
+    var occurences = todos2.reduce(function (r, row) {
+        r[row.estado] = ++r[row.estado] || 1;
+        return r;
+    }, {});
+    
+    
+    var result4 = Object.keys(occurences).map(function (key) {
+        return { tipo: key, cantidad: occurences[key] };
+    });
+              
+    
+    console.log(result4)
+                          
+                            var myfinal = [];
+                            myfinal.push({activas:null,ejecucion:null,cerradas:null,todos:result4});
+                             res.json(myfinal);     
+              
+                 
+                       
+
+                });
+    
+            
+              
+                });
+             });
+    
+    
+    
+        }
+        else
+        {
         if(req.params.id3=='denunciasxxx')
     {  
+                    var filtro;
+                    if(req.params.id4=='TODOS' &&  req.params.id5=='TODOS')
+                    {
+                        filtro={'jefeop':req.params.id2}
+                    }
+                    else{
+                        if(req.params.id4!='TODOS' &&  req.params.id5!='TODOS')
+                        {
+                            //req.params.id4     req.params.id5 --
 
-     
-        Denunciaunidad.find({'jefeop':req.params.id2}).exec(function(err, todos) {
-            if (err){  res.send(err);  }
-            var myData3 = [];
-            var myData32 = [];
-            for(var i = 0; i <  todos.length;i++){
-                var cat=todos[i].categoria
-                for(var i2 = 0; i2 <  cat.length;i2++){
-                    myData3.push(cat[i2]._id)
-                    myData32.push(cat[i2].nombre)
-                }
-
-               
-            }
-           
-
-           
-
-            Participa33.find({tipo:{$in:myData32}}).populate('idusuario').exec(function(err, todos22) {
-                    if (err){  res.send(err);  }
-                    var arrxx=(req.params.id).split(',');
-                    var f1=(arrxx[0]).substr(0,10);  
-                    var f2=(arrxx[1]).substr(0,10);  
-     
-                    Participa3.find({tipo:{$in:myData3},"createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),    "$lt": new Date(f2 +'T24:00:00.000Z')}}).populate('tipo').populate('idusuario').exec(function(err, todos2) {
-                            if (err){  res.send(err);  }
-         
-                            var myData31 = [];
-                            var mydata41=[]
-                            var mydata42=[]
-                            for(var i = 0; i <  todos2.length;i++){
-                                    var idusuario=''
-                                    var fechaasignada=''
-                                    var estadoasignada=''
-                                    for(var i2 = 0; i2 <  todos22.length;i2++){
-                                            if(todos2[i]._id==todos22[i2].iddenuncia)
-                                            {
-                                                  
-                                               idusuario=todos22[i2].idusuario.nombre;
-                                             
-                                               fechaasignada             =new Date( todos22[i2].createdAt).toISOString().substr(0,10)  ;
-                                               estadoasignada            =todos22[i2].estado;
-                                               break;
-
-                                            }
-                                    }
-
-                                                                
-                                dt1 = new Date(todos2[i].createdAt);
-                                dt2 = new Date();
-
-                             if(idusuario!='')
-                             {
-   
-
-                                    //ejecutadose
-                                    if(todos2[i].estado=='Cerrado')
-                                    {
-
-                                        mydata42.push({horas:diff_hours(dt1, dt2),
-                                            nombre:todos2[i].nombre ,correo:todos2[i].correo
-                                            ,xpos:todos2[i].xpos,ypos:todos2[i].ypos,
-                                         estado:todos2[i].estado,tipo:todos2[i].tipo.nombre,
-                                         createdAt:new Date( todos2[i].createdAt).toISOString().substr(0,10)
-                                    ,usuarioseguimiento:idusuario,estadoseguimiento:estadoasignada,fechaseguimiento:fechaasignada,cantidad:1})
-       
-                                    }
-                                    else
-                                    {
-
-                                        mydata41.push({horas:diff_hours(dt1, dt2),
-                                            nombre:todos2[i].nombre ,correo:todos2[i].correo
-                                            ,xpos:todos2[i].xpos,ypos:todos2[i].ypos,
-                                         estado:todos2[i].estado,tipo:todos2[i].tipo.nombre,
-                                         createdAt:new Date( todos2[i].createdAt).toISOString().substr(0,10)
-                                    ,usuarioseguimiento:idusuario,estadoseguimiento:estadoasignada,fechaseguimiento:fechaasignada,cantidad:1})
-       
-                                    }
-                                   
-
-                             }     
-                             else{
-                                    //activas
-
-                                    myData31.push({horas:diff_hours(dt1, dt2),nombre:todos2[i].nombre ,correo:todos2[i].correo,
-                                            xpos:todos2[i].xpos,ypos:todos2[i].ypos,
-                                         estado:todos2[i].estado,tipo:todos2[i].tipo.nombre,
-                                         createdAt:new Date( todos2[i].createdAt).toISOString().substr(0,10)
-                                         ,usuarioseguimiento:'',estadoseguimiento:'',fechaseguimiento:''})
-                                         
-       
-                             }  
-
-
-                         }
-
-      //---------------------------------------------------------- ACTIVAS
-                         var occurences = myData31.reduce(function (r, row) {
-                            r[row.tipo] = ++r[row.tipo] || 1;
-                            return r;
-                        }, {});
-                        
-                        var result = Object.keys(occurences).map(function (key) {
-                            return { tipo: key, cantidad: occurences[key] };
-                        });
-                        
-//EJECUTANDOSE----------------------------------------------------------------
-
-var occurences = mydata41.reduce(function (r, row) {
-    r[row.tipo] = ++r[row.tipo] || 1;
-    return r;
-}, {});
-
-var result2 = Object.keys(occurences).map(function (key) {
-    return { tipo: key, cantidad: occurences[key] };
-});
-
-//cerradas----------------------------------------------------------------
-
-var occurences = mydata42.reduce(function (r, row) {
-    r[row.tipo] = ++r[row.tipo] || 1;
-    return r;
-}, {});
-
-var result3 = Object.keys(occurences).map(function (key) {
-    return { tipo: key, cantidad: occurences[key] };
-});
-          
-
-
-//todos----------------------------------------------------------------
-
-var occurences = todos2.reduce(function (r, row) {
-    r[row.tipo.nombre] = ++r[row.tipo.nombre] || 1;
-    return r;
-}, {});
-
-
-var result4 = Object.keys(occurences).map(function (key) {
-    return { tipo: key, cantidad: occurences[key] };
-});
-          
-
-
-                      
-                        var myfinal = [];
-                        myfinal.push({activas:result,ejecucion:result2,cerradas:result3,todos:result4});
-                         res.json(myfinal);     
-          
-             
-                   
+                            //ir a traer todos los jefes de esa unidad a la tabla
+                            var aa=(req.params.id5).split(',')
+                            filtro={jefeop:{$in:aa}}
+                        }
+                        else{
+                
+                                        if(req.params.id4!='TODOS' &&  req.params.id5=='TODOS')
+                                        {
+                                            //req.params.id4     req.params.id5 --
+                
+                                            //ir a traer todos los jefes de esa unidad a la tabla
+                                            var aa=(req.params.id4).split(',')
+                                            filtro={jefeop:{$in:aa}}
+                                        }
+                                        else{
+                                                    if(req.params.id4=='TODOS' &&  req.params.id5!='TODOS')
+                                                    {
+                                                        //req.params.id4     req.params.id5 --
+                            
+                                                        //ir a traer todos los jefes de esa unidad a la tabla
+                                                        var aa=(req.params.id4).split(',')
+                                                        filtro={jefeop:{$in:aa}}
+                                                    }
+                                                    else{
             
-            }
-            );
+                                                        filtro={'jefeop':req.params.id2}
+            
+                                                    }   
+    
 
-        
-          
+
+                                        }   
+                            
+                        }
+                
+
+                    }
+
+console.log(filtro)
+                
+                    Denunciaunidad.find(filtro).exec(function(err, todos) {
+                        if (err){  res.send(err);  }
+                        var myData3 = [];
+                        var myData32 = [];
+                        for(var i = 0; i <  todos.length;i++){
+                            var cat=todos[i].categoria
+                            for(var i2 = 0; i2 <  cat.length;i2++){
+                                myData3.push(cat[i2]._id)
+                                myData32.push(cat[i2].nombre)
+                            }
+
+                        
+                        }
+                    
+
+                    
+
+                        Participa33.find({tipo:{$in:myData32}}).populate('idusuario').exec(function(err, todos22) {
+                                if (err){  res.send(err);  }
+                                var arrxx=(req.params.id).split(',');
+                                var f1=(arrxx[0]).substr(0,10);  
+                                var f2=(arrxx[1]).substr(0,10);  
+                
+                                Participa3.find({tipo:{$in:myData3},"createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),    "$lt": new Date(f2 +'T24:00:00.000Z')}}).populate('tipo').populate('idusuario').exec(function(err, todos2) {
+                                        if (err){  res.send(err);  }
+                    
+                                        var myData31 = [];
+                                        var mydata41=[]
+                                        var mydata42=[]
+                                        for(var i = 0; i <  todos2.length;i++){
+                                                var idusuario=''
+                                                var fechaasignada=''
+                                                var estadoasignada=''
+                                                for(var i2 = 0; i2 <  todos22.length;i2++){
+                                                        if(todos2[i]._id==todos22[i2].iddenuncia)
+                                                        {
+                                                            
+                                                        idusuario=todos22[i2].idusuario.nombre;
+                                                        
+                                                        fechaasignada             =new Date( todos22[i2].createdAt).toISOString().substr(0,10)  ;
+                                                        estadoasignada            =todos22[i2].estado;
+                                                        break;
+
+                                                        }
+                                                }
+
+                                                                            
+                                            dt1 = new Date(todos2[i].createdAt);
+                                            dt2 = new Date();
+
+                                        if(idusuario!='')
+                                        {
+            
+
+                                                //ejecutadose
+                                                if(todos2[i].estado=='Cerrado')
+                                                {
+
+                                                    mydata42.push({horas:diff_hours(dt1, dt2),
+                                                        nombre:todos2[i].nombre ,correo:todos2[i].correo
+                                                        ,xpos:todos2[i].xpos,ypos:todos2[i].ypos,
+                                                    estado:todos2[i].estado,tipo:todos2[i].tipo.nombre,
+                                                    createdAt:new Date( todos2[i].createdAt).toISOString().substr(0,10)
+                                                ,usuarioseguimiento:idusuario,estadoseguimiento:estadoasignada,fechaseguimiento:fechaasignada,cantidad:1})
+                
+                                                }
+                                                else
+                                                {
+
+                                                    mydata41.push({horas:diff_hours(dt1, dt2),
+                                                        nombre:todos2[i].nombre ,correo:todos2[i].correo
+                                                        ,xpos:todos2[i].xpos,ypos:todos2[i].ypos,
+                                                    estado:todos2[i].estado,tipo:todos2[i].tipo.nombre,
+                                                    createdAt:new Date( todos2[i].createdAt).toISOString().substr(0,10)
+                                                ,usuarioseguimiento:idusuario,estadoseguimiento:estadoasignada,fechaseguimiento:fechaasignada,cantidad:1})
+                
+                                                }
+                                            
+
+                                        }     
+                                        else{
+                                                //activas
+
+                                                myData31.push({horas:diff_hours(dt1, dt2),nombre:todos2[i].nombre ,correo:todos2[i].correo,
+                                                        xpos:todos2[i].xpos,ypos:todos2[i].ypos,
+                                                    estado:todos2[i].estado,tipo:todos2[i].tipo.nombre,
+                                                    createdAt:new Date( todos2[i].createdAt).toISOString().substr(0,10)
+                                                    ,usuarioseguimiento:'',estadoseguimiento:'',fechaseguimiento:''})
+                                                    
+                
+                                        }  
+
+
+                                    }
+
+                //---------------------------------------------------------- ACTIVAS
+                                    var occurences = myData31.reduce(function (r, row) {
+                                        r[row.tipo] = ++r[row.tipo] || 1;
+                                        return r;
+                                    }, {});
+                                    
+                                    var result = Object.keys(occurences).map(function (key) {
+                                        return { tipo: key, cantidad: occurences[key] };
+                                    });
+                                    
+            //EJECUTANDOSE----------------------------------------------------------------
+
+            var occurences = mydata41.reduce(function (r, row) {
+                r[row.tipo] = ++r[row.tipo] || 1;
+                return r;
+            }, {});
+
+            var result2 = Object.keys(occurences).map(function (key) {
+                return { tipo: key, cantidad: occurences[key] };
             });
-         });
+
+            //cerradas----------------------------------------------------------------
+
+            var occurences = mydata42.reduce(function (r, row) {
+                r[row.tipo] = ++r[row.tipo] || 1;
+                return r;
+            }, {});
+
+            var result3 = Object.keys(occurences).map(function (key) {
+                return { tipo: key, cantidad: occurences[key] };
+            });
+                    
+
+
+            //todos----------------------------------------------------------------
+
+            var occurences = todos2.reduce(function (r, row) {
+                r[row.tipo.nombre] = ++r[row.tipo.nombre] || 1;
+                return r;
+            }, {});
+
+
+            var result4 = Object.keys(occurences).map(function (key) {
+                return { tipo: key, cantidad: occurences[key] };
+            });
+                    
+
+
+                                
+                                    var myfinal = [];
+                                    myfinal.push({activas:result,ejecucion:result2,cerradas:result3,todos:result4});
+                                    res.json(myfinal);     
+                    
+                        
+                            
+                        
+                        }
+                        );
+
+                    
+                    
+                        });
+                    });
 
 
 
@@ -266,7 +385,7 @@ var result4 = Object.keys(occurences).map(function (key) {
                                                     });         
                                                 });
                             });
-    }}
+    }}}
     else
     {   
     if(req.params.id2)
