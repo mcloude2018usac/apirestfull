@@ -33,14 +33,14 @@ exports.getMail = function(req, res, next){
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-               user: 'mario.morales@mcloude.com',
-               pass: 'ocitocit'
-              // pass: 'Amazon1518@'
+               user: 'usacenlinea1.0@usacenlinea.net',
+              // pass: 'ocitocit'
+               pass: 'Amazon1518@'
            }
        });
         
       const mailOptions = {
-        from: 'mario.morales@mcloude.com', // sender address
+        from: 'usacenlinea1.0@usacenlinea.net', // sender address
         to: req.body.destino+';mario.morales@mcloude.com', // list of receivers
         subject: req.body.subjet, // Subject line
         html: req.body.html
