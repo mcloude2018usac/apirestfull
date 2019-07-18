@@ -110,7 +110,10 @@ exports.getDenunciaunidad = function(req, res, next){
         else
         {
         if(req.params.id3=='denunciasxxx')
-    {  
+    {  console.log(req.params.id4)
+        if(req.params.id4==undefined)      {     }     else{       req.params.id4='TODOS'      }
+        if(req.params.id5==undefined)      {     }     else{       req.params.id5='TODOS'      }
+
                     var filtro;
                     if(req.params.id4=='TODOS' &&  req.params.id5=='TODOS')
                     {
