@@ -15,11 +15,11 @@ exports.getParticipa = function(req, res, next){
         if(req.params.id3=='repetido')
         { 
             var duplicates = [];
-            Estudiantevt.aggregate([          //,idevento:'5cec20c9e927930016d78a8b' 
-                    { $match: {carnet: {"$ne": ''} }
+            Participa.aggregate([          //,idevento:'5cec20c9e927930016d78a8b' 
+                    { $match: {correo: {"$ne": ''} ,idevento:'5d237499ce6def00265704dc' }
                     },
                     {   $group: {
-                            _id: {carnet: "$carnet"},
+                            _id: {correo: "$correo"},
                             dups: {"$addToSet": "$_id"},
                             count: {"$sum": 1}
                         }
@@ -53,7 +53,7 @@ exports.getParticipa = function(req, res, next){
                     });
                     */
                 
-                   Estudiantevt.remove({_id: {$in: duplicates}}, function (err, result) {
+                  Participa.remove({_id: {$in: duplicates}}, function (err, result) {
                         if (err) {
                             console.error(err);
                         }
