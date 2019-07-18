@@ -25,6 +25,7 @@ var AuthenticationController = require('./controllers/authentication'),
     GaleriaimgController = require('./controllers/galeriaimg'),
     TiposuscriptorController = require('./controllers/tipo_suscriptor'),
     TarifaController = require('./controllers/tarifa'),
+    OrganigramaController = require('./controllers/organigrama'),
     UserpostController = require('./controllers/user_post'),
     NuevosalonController = require('./controllers/nuevosalon'),
     SuscriptorController = require('./controllers/suscriptor'),
@@ -101,7 +102,7 @@ module.exports = function(app){
         authRoutes = express.Router(),
         participaRoutes = express.Router(),
         pivotemonsterRoutes = express.Router(),
-        
+        organigramaRoutes = express.Router(),
         userperfilRoutes = express.Router(),
         participa2Routes = express.Router(),
         participa3Routes = express.Router(),
@@ -200,10 +201,18 @@ SINNNNNNNNNNNNNN AUTORIZACION
 //-----------------------------------USER PERFIL----------------------------------
 
 
+apiRoutes.use('/organigramas', organigramaRoutes);
+organigramaRoutes.get('/:id/:id2', OrganigramaController.getOrganigrama);
+
+
+//-----------------------------------ORGANIGRAMA----------------------------------
+
+
 apiRoutes.use('/userperfils', userperfilRoutes);
 userperfilRoutes.get('/:id',  UserperfilController.getUserperfil);
 userperfilRoutes.post('/:recordID',requireAuth,  UserperfilController.creaUserperfil2s);
 userperfilRoutes.delete('/:recordID/:userID',requireAuth,  UserperfilController.deleteUserperfil);
+
 
 
 //---------------------------------------estudiantes ov
@@ -842,7 +851,7 @@ apiRoutes.use('/denunciaunidads', denunciaunidadRoutes);
 denunciaunidadRoutes.get('/',requireAuth, DenunciaunidadController.getDenunciaunidad);
 denunciaunidadRoutes.get('/:id',requireAuth,  DenunciaunidadController.getDenunciaunidad);
 denunciaunidadRoutes.get('/:id/:id2',requireAuth, DenunciaunidadController.getDenunciaunidad);
-denunciaunidadRoutes.get('/:id/:id2/:id3',requireAuth,DenunciaunidadController.getDenunciaunidad);
+denunciaunidadRoutes.get('/:id/:id2/:id3/:id4/:id5',requireAuth,DenunciaunidadController.getDenunciaunidad);
 
 denunciaunidadRoutes.post('/:recordID', requireAuth, DenunciaunidadController.creaDenunciaunidad2s);
 denunciaunidadRoutes.delete('/:recordID/:userID',requireAuth, DenunciaunidadController.deleteDenunciaunidad);
