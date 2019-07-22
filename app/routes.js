@@ -189,6 +189,7 @@ module.exports = function(app){
         authRoutes.post('/register', AuthenticationController.register);
         authRoutes.post('/register2', AuthenticationController.register2);
         authRoutes.post('/register3', AuthenticationController.register3);
+        authRoutes.post('/register4', AuthenticationController.register4);
         authRoutes.post('/login', requireLogin, AuthenticationController.login);
         
         authRoutes.get('/protected', requireAuth, function(req, res){
