@@ -13,8 +13,7 @@ function generateToken(user){
  
 function setUserInfo(request){
 
-    if(mongoose.Types.ObjectId.isValid(request._id))
-    {
+  //  if(mongoose.Types.ObjectId.isValid(request._id))    {
         return {
             _id: request._id,
             email: request.email,
@@ -22,13 +21,8 @@ function setUserInfo(request){
             password:request.password,
             estadoemail:request.estadoemail
         };
-    }
-    else{
-        return {
-            
-        };
-
-    }
+ 
+    
    
 }
  
@@ -36,8 +30,7 @@ exports.login = function(req, res, next){
  
  
     
-    if(mongoose.Types.ObjectId.isValid(req.user._id))
-    {
+  
         var userInfo = setUserInfo(req.user);
 
         //  if(userInfo.estadoemail=="1")    {
@@ -47,10 +40,7 @@ exports.login = function(req, res, next){
                   token: 'JWT ' + generateToken(userInfo),
                   user: userInfo
               });
-    }
-    else{
-        res.status(500).json('Sin autorización');     
-    }
+    
    
     
    // }  else{        res.status(500).json('No ha confirmado su cuenta via correo electronico');                }
