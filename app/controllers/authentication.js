@@ -229,6 +229,57 @@ else
  
 }
 
+
+exports.register4 = function(req, res, next){
+ 
+    var email = req.body.email;
+    var cui= req.body.cui;
+    var bitacora= req.body.bitacora;
+ 
+    if(!email){
+        return res.status(422).send({error: 'You must enter an email address'});
+    }
+ 
+
+    Bitacora.create(bitacora);
+    User.findOne({email: email,cui:cui}, function(err, user){
+ 
+        if(err){
+            return next(err);
+        }
+        var password2= generator.generate({
+            length: 4,
+            numbers: true
+        });   
+
+
+if(user)
+{
+  //  var password2= user._id;
+        user.password='' + password2+'123@'
+        user.save(function(err){
+ 
+            if(err){
+                return next(err);
+            }
+ 
+          
+            res.json( password2+'123@');    
+ 
+        });
+ 
+
+}
+else
+{
+
+    res.status(500).send('Usuario con este CUI y EMAIL no se encuentra registrado en el sistema, por favor valide su informacón'); 
+
+}
+    
+    });
+ 
+}
  
 exports.roleAuthorization = function(roles){
  

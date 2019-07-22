@@ -114,24 +114,30 @@ exports.getDenunciaunidad = function(req, res, next){
         if(req.params.id4==undefined)      {     }     else{       req.params.id4='TODOS'      }
         if(req.params.id5==undefined)      {     }     else{       req.params.id5='TODOS'      }
 
+        
                     var filtro;
                     if(req.params.id4=='TODOS' &&  req.params.id5=='TODOS')
                     {
+                        console.log('ENTRA2222---------------------------------------------------')
                         filtro={'jefeop':req.params.id2}
                     }
                     else{
                         if(req.params.id4!='TODOS' &&  req.params.id5!='TODOS')
                         {
                             //req.params.id4     req.params.id5 --
-
+console.log('ENTRA---------------------------------------------------')
                             //ir a traer todos los jefes de esa unidad a la tabla
-                            var aa=(req.params.id5).split(',')
+                            var bb=(req.params.id5).substr(0,req.params.id5.length-1);
+                            console.log(bb)
+                            var aa=(bb).split(',')
+                            console.log(aa)
                             filtro={jefeop:{$in:aa}}
                         }
                         else{
                 
                                         if(req.params.id4!='TODOS' &&  req.params.id5=='TODOS')
                                         {
+                                            console.log('ENTRA4333---------------------------------------------------')
                                             //req.params.id4     req.params.id5 --
                 
                                             //ir a traer todos los jefes de esa unidad a la tabla
@@ -142,13 +148,13 @@ exports.getDenunciaunidad = function(req, res, next){
                                                     if(req.params.id4=='TODOS' &&  req.params.id5!='TODOS')
                                                     {
                                                         //req.params.id4     req.params.id5 --
-                            
+                                                        console.log('ENTRA333334444---------------------------------------------------')
                                                         //ir a traer todos los jefes de esa unidad a la tabla
                                                         var aa=(req.params.id4).split(',')
                                                         filtro={jefeop:{$in:aa}}
                                                     }
                                                     else{
-            
+                                                        console.log('ENTRA66666---------------------------------------------------')
                                                         filtro={'jefeop':req.params.id2}
             
                                                     }   
