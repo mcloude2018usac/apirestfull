@@ -671,7 +671,12 @@ exports.getPersonal = function(req, res, next){
         
             if(req.params.email)
             {  
-               
+               if(req.params.email=='')
+               {
+                res.status(500).send('NO EXISTE REGISTRO');
+               }
+               else
+               {
                 Personal.find({email:req.params.email}).populate('unidad').populate('tiposuscriptor')
                 .then(todos => {
                    
@@ -681,7 +686,7 @@ exports.getPersonal = function(req, res, next){
                 .catch(err => {
                     res.status(500).send(err.message);  
                 })
-                
+            }
              
             }
             else
