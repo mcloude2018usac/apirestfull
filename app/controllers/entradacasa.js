@@ -197,6 +197,8 @@ exports.getEntradacasa = function(req, res, next){
         {
             if(req.params.id2=='PDF')
             { 
+                res.send('err');
+            /*
                 Entradacasa.find({'_id':req.params.id}).exec(function(err, todos) {
                     if (err){ res.send(err); }
 
@@ -224,7 +226,7 @@ exports.getEntradacasa = function(req, res, next){
                 });
       
                 
-                
+                */
          
           
     

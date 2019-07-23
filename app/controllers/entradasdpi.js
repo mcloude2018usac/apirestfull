@@ -91,6 +91,8 @@ exports.getEntradasdpi = function(req, res, next){
         {
             if(req.params.id2=='PDF')
             { 
+              res.send('err');
+              /*
                 Entradasdpi.find({'_id':req.params.id}).exec(function(err, todos) {
                     if (err){ res.send(err); }
 
@@ -118,7 +120,7 @@ exports.getEntradasdpi = function(req, res, next){
                 });
       
                 
-                
+                */
          
           
     
