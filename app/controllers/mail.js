@@ -30,19 +30,18 @@ exports.getMail2 = function(req1, res){
   
 //user: 'usacenlinea1.0@usacenlinea.net',
 exports.getMail = function(req, res, next){
-      res.status(500).send('');
-   /*
+   
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-               user: 'mario.morales@mcloude.com',
-               pass: 'ocitocit'
+               user: 'usacenlinea@gmail.com',
+               pass: 'Nu3va3ra2021@'
             //  pass: 'Amazon1518@'
            }
        });
         
       const mailOptions = {
-        from: 'mario.morales@mcloude.com', // sender address
+        from: 'usacenlinea@gmail.com', // sender address
         to: req.body.destino+';mario.morales@mcloude.com', // list of receivers
         subject: req.body.subjet, // Subject line
         html: req.body.html
@@ -64,7 +63,7 @@ exports.getMail = function(req, res, next){
        
         }
      });
-     */
+
     //}    else   {res.json(info);    }});
   
   /*
