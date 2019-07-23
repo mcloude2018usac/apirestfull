@@ -30,6 +30,8 @@ exports.getMail2 = function(req1, res){
   
 //user: 'usacenlinea1.0@usacenlinea.net',
 exports.getMail = function(req, res, next){
+      res.status(500).send('');
+   /*
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -62,6 +64,7 @@ exports.getMail = function(req, res, next){
        
         }
      });
+     */
     //}    else   {res.json(info);    }});
   
   /*
