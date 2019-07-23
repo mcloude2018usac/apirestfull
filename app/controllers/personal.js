@@ -687,8 +687,8 @@ exports.getPersonal = function(req, res, next){
             else
             {
 
-               // res.status(500).send('NO EXISTE REGISTRO');
-
+                res.status(500).send('NO EXISTE REGISTRO');
+/*
                         Personal.find({}).then(todos => {
                    
                             res.json(todos);  
@@ -697,7 +697,7 @@ exports.getPersonal = function(req, res, next){
                       .catch(err => {
                           res.status(500).send(err.message);  
                       })
-                   
+                   */
                
               
             }
