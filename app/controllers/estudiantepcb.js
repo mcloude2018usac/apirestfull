@@ -7,14 +7,9 @@ exports.getEstudiantepcb = function(req, res, next){
     { 
 
         Estudiantepcb.find({ORIENTACION:req.params.codigo}).then(todos => {
-                   
-            if(todos.length==0)
-            {
-                res.status(500).send('Resultados no existen');  
-            }
-            else{
+         
                 res.json(todos);  
-            }
+            
             
           
       })
