@@ -170,7 +170,7 @@ exports.getAsignapcb = function(req, res, next){
           
 
                 
-                Facplan.find({_id: {$in: duplicates},'idperiodo.nombre':'2019-01'}).sort({   "asignados" : -1    }).select({ "idtipounidad.nombre":1,"idunidadacademica.nombre":1,"idedificio.nombre":1,"idsalon.nombre":1,"capacidad":1,"asignados":1}).exec(function(err, todos) {
+                Facplan.find({_id: {$in: duplicates},'idperiodo.nombre':'2019-02'}).sort({   "asignados" : -1    }).select({ "idtipounidad.nombre":1,"idunidadacademica.nombre":1,"idedificio.nombre":1,"idsalon.nombre":1,"capacidad":1,"asignados":1}).exec(function(err, todos) {
                     if (err){ res.send(err); }
                     var cad='';
                     for(var i = 0; i < todos.length;i++){
