@@ -720,7 +720,7 @@ edificiosalonRoutes.delete('/:recordID/:userID',requireAuth,  EdificiosalonContr
 //-----------------------------------unidad plan
 apiRoutes.use('/unidadplans',unidadplanRoutes);
 unidadplanRoutes.get('/:id',requireAuth,  UnidadplanController.getUnidadplan);
-unidadplanRoutes.get('/:id2/:id3/:id4',requireAuth,  UnidadplanController.getUnidadplan);
+unidadplanRoutes.get('/:id2/:id3/:id4',  UnidadplanController.getUnidadplan);
 unidadplanRoutes.post('/:recordID',requireAuth,  UnidadplanController.creaUnidadplan2s);
 unidadplanRoutes.delete('/:recordID/:userID',requireAuth,  UnidadplanController.deleteUnidadplan);
 
