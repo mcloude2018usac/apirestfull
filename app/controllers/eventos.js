@@ -3,6 +3,19 @@ var Evento = require('../models/eventos');
 var Bitacora = require('../models/bitacora');
 
 exports.getEvento = function(req, res, next){
+    if(req.params.id2)
+    { 
+        if(req.params.id2=='eventos')
+        {
+            Evento.find({impresion:'Activo'}).select({nombre:1,fechaini:1,fechafin:1,ubicacion: 1,no_max:1,foto:1,fecha:1}).lean().exec(function(err, todos) {
+                if (err){  res.send(err);  }
+                 res.json(todos);
+                
+            });
+
+        }
+    }
+    else{
     if(req.params.id)
     { 
         if(req.params.id=='activo')
@@ -32,14 +45,16 @@ exports.getEvento = function(req, res, next){
         }
 
         }   
+    
        
     }
     else
-    { Evento.find(function(err, todos) {
+    { Evento.find({impresion:'Activo'}).select({nombre:1,fechaini:1,fechafin:1,ubicacion: 1,no_max:1,foto:1,fecha:1}).exec(function(err, todos) {
            if (err){  res.send(err);  }
             res.json(todos);
         });
     }
+}
 }
 exports.deleteEvento = function(req, res, next){
    
