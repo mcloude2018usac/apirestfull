@@ -259,6 +259,7 @@ participaRoutes.get('/:id/:id2/:id3',  ParticipaController.getParticipa);
 participaRoutes.post('/:id',  ParticipaController.creaParticipa2s);
 participaRoutes.delete('/:id/:userID',requireAuth,  ParticipaController.deleteParticipa);
 
+
 //-----------------------------------PARTICIPA4  CURSOS PREUNIVERSITARIOS SARITA
 apiRoutes.use('/participa4s', participa4Routes);
 participa4Routes.get('/:id',requireAuth,  Participa4Controller.getParticipa4);
@@ -520,6 +521,7 @@ compratransferenciaRoutes.delete('/:recordID/:userID',requireAuth,  Compratrasfe
 apiRoutes.use('/eventos', eventoRoutes);
 eventoRoutes.get('/',requireAuth, EventoController.getEvento);
 eventoRoutes.get('/:id', EventoController.getEvento);
+eventoRoutes.get('/:id/:id2', EventoController.getEvento);
 eventoRoutes.post('/:recordID',  EventoController.creaEvento2s);
 eventoRoutes.delete('/:recordID/:userID',requireAuth,  EventoController.deleteEvento);
 
@@ -720,7 +722,7 @@ edificiosalonRoutes.delete('/:recordID/:userID',requireAuth,  EdificiosalonContr
 //-----------------------------------unidad plan
 apiRoutes.use('/unidadplans',unidadplanRoutes);
 unidadplanRoutes.get('/:id',requireAuth,  UnidadplanController.getUnidadplan);
-unidadplanRoutes.get('/:id2/:id3/:id4',  UnidadplanController.getUnidadplan);
+unidadplanRoutes.get('/:id2/:id3/:id4',requireAuth,  UnidadplanController.getUnidadplan);
 unidadplanRoutes.post('/:recordID',requireAuth,  UnidadplanController.creaUnidadplan2s);
 unidadplanRoutes.delete('/:recordID/:userID',requireAuth,  UnidadplanController.deleteUnidadplan);
 
