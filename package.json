@@ -1,51 +1,45 @@
 {
-  "name": "serverapi",
+  "name": "serverapiv12",
   "version": "1.0.0",
-  "description": "xxx",
-  "private": true,
+  "description": "\"# apirest\"",
   "main": "server.js",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "cors": "^2.8.5",
+    "csv-express": "^1.2.2",
+    "express": "^4.17.1",
+    "flexmonster-compressor": "^2.7.10",
+    "generate-password": "^1.4.2",
+    "jsonwebtoken": "^8.5.1",
+    "method-override": "^3.0.0",
+    "mongoose": "^5.6.6",
+    "mongoose-paginate": "^5.0.3",
+    "morgan": "^1.9.1",
+    "mysql": "^2.17.1",
+    "node-cron": "^2.0.3",
+    "node-fetch": "^2.6.0",
+    "nodemailer": "^6.3.0",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
+    "pdfkit": "^0.10.0",
+    "qr-image": "^3.2.0",
+    "request": "^2.88.0",
+    "throng": "^4.0.0"
+  },
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
-  "engines": {
-    "node": "8.9.4",
-    "npm": "5.6.0"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mariomorales2018/apitico.git"
   },
   "author": "",
-  "license": "GPL",
-  "dependencies": {
-    "async": "^3.0.1",
-    "bcrypt-nodejs": "0.0.3",
-    "body-parser": "^1.18.2",
-    "cors": "^2.8.4",
-    "csv-express": "^1.2.2",
-    "ejs": "^2.6.1",
-    "express": "^4.16.4",
-    "flexmonster-compressor": "^2.7.9",
-    "fs": "0.0.1-security",
-    "generate-password": "^1.4.1",
-    "jsonwebtoken": "^8.2.0",
-    "mailparser": "^2.7.1",
-    "method-override": "^3.0.0",
-    "mongodb": "^3.2.7",
-    "mongoose": "^5.5.3",
-    "mongoose-paginate": "^5.0.3",
-    "morgan": "^1.9.1",
-    "mysql": "^2.15.0",
-    "node-cron": "^1.2.1",
-    "nodemailer": "^4.6.7",
-    "npm": "^6.10.1",
-    "passport": "^0.4.0",
-    "passport-jwt": "^4.0.0",
-    "passport-local": "^1.0.0",
-    "pdfkit": "^0.9.1",
-    "qr-image": "^3.2.0",
-    "request": "^2.88.0",
-    "socket.io": "^2.2.0",
-    "throng": "^4.0.0",
-    "to": "^0.2.9",
-    "update": "^0.7.4",
-    "zlib": "^1.0.5"
-  }
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mariomorales2018/apitico/issues"
+  },
+  "homepage": "https://github.com/mariomorales2018/apitico#readme"
 }
