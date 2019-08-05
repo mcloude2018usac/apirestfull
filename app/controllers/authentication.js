@@ -29,11 +29,9 @@ function setUserInfo(request){
 exports.login = function(req, res, next){
  
  
-    
-  console.log('login')
- // console.log(req.user)
+
         var userInfo = setUserInfo(req.user);
-  console.log(req.user)
+ 
           if(userInfo.email=="-11")    {
               Bitacora.create({email: "api", permiso: "Ingreso", accion: "intento fallido"});
               
