@@ -30,20 +30,30 @@ exports.login = function(req, res, next){
  
  
     
-  
+  console.log('login')
+ // console.log(req.user)
         var userInfo = setUserInfo(req.user);
-
-        //  if(userInfo.estadoemail=="1")    {
-              Bitacora.create(req.body.bitacora);
-            
+  console.log(req.user)
+          if(userInfo.email=="-11")    {
+              Bitacora.create({email: "api", permiso: "Ingreso", accion: "intento fallido"});
+              
+                        
               res.status(200).json({
-                  token: 'JWT ' + generateToken(userInfo),
+                  token: 'null',
                   user: userInfo
               });
     
    
     
-   // }  else{        res.status(500).json('No ha confirmado su cuenta via correo electronico');                }
+    }  else{     
+        
+        
+        Bitacora.create(req.body.bitacora);
+                        
+              res.status(200).json({
+                  token: 'JWT ' + generateToken(userInfo),
+                  user: userInfo
+              });              }
  
 }
  
