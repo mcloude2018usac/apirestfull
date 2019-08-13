@@ -1,5 +1,6 @@
 var mongoose =require("mongoose");
     var ModuloxxSchema 		=	new  mongoose.Schema({
+        idempresa		: { type : String, required : true },  
         grupo   		: { type : String, required : true },
         nombre   		: { type : String, required : true },
         titulo   		: { type : String, required : true },

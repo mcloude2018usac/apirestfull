@@ -3,7 +3,7 @@ var bcrypt   = require('bcrypt-nodejs');
 var  mongoosePaginate= require('mongoose-paginate'); 
  
 var UserSchema = new mongoose.Schema({
- 
+    idempresa		: { type : String, required : true },  
     email: {
         type: String,
         lowercase: true,
