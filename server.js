@@ -20,6 +20,7 @@ const throng = require('throng')
 
 const WORKERS = process.env.WEB_CONCURRENCY || 1
 process.env.NODE_TLS_REJECT_UNAUTHORIZED=1
+
 throng({
   workers: WORKERS,
   lifetime: Infinity
@@ -111,6 +112,7 @@ function errorHandler(err, req, res, next) {
   res.render('error', { error: err });
 }
 
+//correop.dasoap(); 
 //correop.mandanoti(); 
 /*
 
