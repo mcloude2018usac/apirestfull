@@ -19,7 +19,7 @@ var mailt = require('./app/controllers/mail');
 const throng = require('throng')
 
 const WORKERS = process.env.WEB_CONCURRENCY || 1
-
+process.env.NODE_TLS_REJECT_UNAUTHORIZED=1
 throng({
   workers: WORKERS,
   lifetime: Infinity
