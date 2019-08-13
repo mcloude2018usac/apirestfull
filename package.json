@@ -25,6 +25,7 @@
     "pdfkit": "^0.10.0",
     "qr-image": "^3.2.0",
     "request": "^2.88.0",
+    "soap": "^0.29.0",
     "throng": "^4.0.0"
   },
   "devDependencies": {},
