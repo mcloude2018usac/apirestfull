@@ -381,12 +381,12 @@ dtarifaRoutes.delete('/:id/:userID',requireAuth,  DtarifaController.deleteDtarif
 //-----------------------------------PERSONAL
 apiRoutes.use('/personals', personalRoutes);
 personalRoutes.get('/',requireAuth, PersonalController.getPersonal);
+personalRoutes.get('/:email/:id2/:id3/:id4',requireAuth, PersonalController.getPersonal);
 personalRoutes.get('/:email/:id2/:id3',requireAuth, PersonalController.getPersonal);
-personalRoutes.get('/:email/:id2',requireAuth, PersonalController.getPersonal);
 personalRoutes.get('/:email/:id2/:id3/:id4/:id5/:id6/:id7/:id8/:id9/:id10', requireAuth,PersonalController.getPersonal);
 personalRoutes.get('/:email/:id2/:id3/:id4/:id5/:id6/:id7', requireAuth,PersonalController.getPersonal);
-personalRoutes.get('/:email', PersonalController.getPersonal);
-personalRoutes.get('/:pagineo/:limit/:page',requireAuth,  PersonalController.getPersonal);
+
+personalRoutes.get('/:pagineo/:limit/:page/:idempresa',requireAuth,  PersonalController.getPersonal);
 
 personalRoutes.post('/:recordID',requireAuth,  PersonalController.creaPersonal2s);
 personalRoutes.delete('/:recordID/:userID',requireAuth,  PersonalController.deletePersonal);
@@ -522,6 +522,8 @@ apiRoutes.use('/eventos', eventoRoutes);
 eventoRoutes.get('/',requireAuth, EventoController.getEvento);
 eventoRoutes.get('/:id', EventoController.getEvento);
 eventoRoutes.get('/:id/:id2', EventoController.getEvento);
+eventoRoutes.get('/:id/:id2/:id3', EventoController.getEvento);
+
 eventoRoutes.post('/:recordID',  EventoController.creaEvento2s);
 eventoRoutes.delete('/:recordID/:userID',requireAuth,  EventoController.deleteEvento);
 
@@ -530,7 +532,7 @@ eventoRoutes.delete('/:recordID/:userID',requireAuth,  EventoController.deleteEv
 apiRoutes.use('/perfils', perfilRoutes);
 perfilRoutes.get('/',requireAuth,PerfilController.getPerfil);
 perfilRoutes.get('/:id',requireAuth,  PerfilController.getPerfil);
-perfilRoutes.get('/:id1/:id2',requireAuth,  PerfilController.getPerfil);
+perfilRoutes.get('/:id1/:id2/:id3',requireAuth,  PerfilController.getPerfil);
 perfilRoutes.post('/:recordID',requireAuth,  PerfilController.creaPerfil2s);
 perfilRoutes.delete('/:recordID/:userID',requireAuth,  PerfilController.deletePerfil);
 
@@ -604,7 +606,7 @@ permiso2Routes.delete('/:id/:userID',requireAuth,  Permiso2Controller.deletePerm
 //-----------------------------------MODULO
 apiRoutes.use('/modulos', moduloRoutes);
 moduloRoutes.get('/', requireAuth,ModuloController.getModuloxx);
-moduloRoutes.get('/:id/:id2',requireAuth,  ModuloController.getModuloxx);
+moduloRoutes.get('/:id/:id2/:id3',requireAuth,  ModuloController.getModuloxx);
 moduloRoutes.get('/:id',requireAuth,  ModuloController.getModuloxx);
 moduloRoutes.post('/:recordID',requireAuth,  ModuloController.creaModuloxx2s);
 moduloRoutes.delete('/:recordID/:userID',requireAuth,  ModuloController.deleteModuloxx);

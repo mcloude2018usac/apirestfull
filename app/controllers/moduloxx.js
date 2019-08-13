@@ -3,19 +3,19 @@ var Moduloxx = require('../models/moduloxx');
 var Bitacora = require('../models/bitacora');
 
 exports.getModuloxx = function(req, res, next){
-    if(req.params.id2)
+    if(req.params.id3)
     {   
 
         if(req.params.id2=='orden')
         {  
 
-            Moduloxx.find({}).sort([['index', -1]]).exec(function(err, todos) {
+            Moduloxx.find({idempresa:req.params.id3}).sort([['index', -1]]).exec(function(err, todos) {
                 if (err){  res.send(err);  }
                 if(todos.length>0)   {    res.json({orden:todos[0].index});   }
              });
         }
         else{
-            Moduloxx.find({}).sort([['index', -1]]).exec(function(err, todos) {
+            Moduloxx.find({idempresa:req.params.id3}).sort([['index', -1]]).exec(function(err, todos) {
                 if (err){  res.send(err);  }
                  res.json(todos);
              });
@@ -58,7 +58,8 @@ if(req.params.recordID!=='crea')
     Moduloxx.findById({ _id: req.params.recordID }, function (err, todo)  {
         if (err) {  res.send(err);  }
         else
-        {   todo.grupo        	=	req.body.grupo        	||	todo.grupo        	;
+        {   todo.idempresa       	=	req.body.idempresa        	||	todo.idempresa;   
+             todo.grupo        	=	req.body.grupo        	||	todo.grupo        	;
             todo.nombre        	=	req.body.nombre        	||	todo.nombre        	;
             todo.titulo        	=	req.body.titulo        	||	todo.titulo        	;
             todo.componente        	=	req.body.componente        	||	todo.componente        	;
@@ -85,7 +86,9 @@ else{
         else
         {   
 
-            Moduloxx.create({ grupo        	: req.body.grupo        	,
+            Moduloxx.create({ 
+                idempresa      	: req.body.idempresa     	,
+                grupo        	: req.body.grupo        	,
                 nombre        	: req.body.nombre        	,
                 titulo       	: req.body.titulo       	,
                 componente       	: req.body.componente       	,

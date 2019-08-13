@@ -94,6 +94,7 @@ exports.register = function(req, res, next){
             email: email,
             password: password,
             role: req.body.role,
+            idempresa:req.body.idmepresa,
             nombre        	: req.body.nombre        	,
             cui 	: req.body.cui 	,
             foto 	: req.body.foto 	,
@@ -139,6 +140,7 @@ exports.register = function(req, res, next){
 exports.register2 = function(req, res, next){
  
     var email = req.body.email;
+    var empresa = req.body.idempresa;
     var password2 = req.body.password;
     var bitacora= req.body.bitacora;
  
@@ -152,7 +154,7 @@ exports.register2 = function(req, res, next){
     Bitacora.create(bitacora);
 
 
-    User.findOne({email: email}, function(err, user){
+    User.findOne({email: email, idempresa:empresa}, function(err, user){
  
         if(err){
             return next(err);
@@ -231,6 +233,7 @@ else
 exports.register4 = function(req, res, next){
  
     var email = req.body.email;
+    var empresa = req.body.idempresa;
     var cui= req.body.cui;
     var bitacora= req.body.bitacora;
  
@@ -240,7 +243,7 @@ exports.register4 = function(req, res, next){
  
 
     Bitacora.create(bitacora);
-    User.findOne({email: email,cui:cui}, function(err, user){
+    User.findOne({email: email,cui:cui,idempresa:empresa}, function(err, user){
  
         if(err){
             return next(err);

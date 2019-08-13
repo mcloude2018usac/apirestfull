@@ -22,7 +22,7 @@ exports.getPersonal = function(req, res, next){
         var pagex=    Number(req.params.page);
         var limitx=    Number(req.params.limit);
         
-        Personal.paginate({},{populate: ['unidad','tiposuscriptor'],lean:     false,page:pagex, limit:  limitx}).then(function(err, todos) {
+        Personal.paginate({idempresa:req.params.idempresa},{populate: ['unidad','tiposuscriptor'],lean:     false,page:pagex, limit:  limitx}).then(function(err, todos) {
             if (err){  res.send(err);  }
                 res.end(todos);
                 res.end();
@@ -382,15 +382,15 @@ exports.getPersonal = function(req, res, next){
                         }
                         else
                         {
-        if(req.params.id3)
+        if(req.params.id4)
         {
       
             
-            if(req.params.id2=='actualizauser')
+            if(req.params.id3=='actualizauser')
             {
               
 
-                Personal.find({ $or : [
+                Personal.find({idempresa:req.params.id4, $or : [
                         { $and : [ { email : req.params.email }] },
                         { $and : [ { nov : req.params.email }] },
                         { $and : [ { cui : req.params.email }] },
@@ -409,304 +409,252 @@ exports.getPersonal = function(req, res, next){
             }
             else{
 
-            if(req.params.id2=='persona')
-            {
-    
-                Personal.find({cui:req.params.email,APP:req.params.id3}).populate('unidad').populate('tiposuscriptor')
-                .exec(function(err, todos) {
-                    if (err){ res.send(err); }
-                
-                    if(todos.length>0)   {    res.json(todos);    }
-                    else
-                    {  res.status(500).send('NO EXISTE REGISTRO');      }
-                    
-                });
-    
-              
-            }
-            else{
+                switch(req.params.id2) {
+                    case 'persona':
 
-                if(req.params.id2=='unidad')  
-                {
+                            Personal.find({cui:req.params.email,APP:req.params.id3,idempresa:req.params.id4}).populate('unidad').populate('tiposuscriptor')
+                            .exec(function(err, todos) {
+                                if (err){ res.send(err); }
+                            
+                                if(todos.length>0)   {    res.json(todos);    }
+                                else
+                                {  res.status(500).send('NO EXISTE REGISTRO');      }
+                                
+                            });
+                    break;
+                    case 'unidad':
                     console.log({unidad:req.params.email})
-                    Personal.find({unidad:req.params.email}).exec(function(err, todos) {
+                    Personal.find({unidad:req.params.email,idempresa:req.params.id4}).exec(function(err, todos) {
                         if (err){ res.send(err); }
                     
                          res.json(todos);    
                         
                     });
         
-                  
+                    break;
                 }
-            }
-            }
-        
-        }
-        else
-        {
 
-    if(req.params.id2)
-    {
-        if(req.params.id2=='personasaldito')
-        {
-            Personal.find({cui:req.params.email}).exec(function(err, todos1) {
-                if (err){ res.send(err); }
-            
-                if(todos1.length>0)   {   
-            Personalsaldo.find({'idsuscriptor.id':todos1[0]._id}).populate('idsuscriptor.id').exec(function(err, todos) {
-                if (err){ res.send(err); }
-            
-                if(todos.length>0)   {    res.json(todos);    }
-                else
-                {  res.status(500).send('NO EXISTE REGISTRO');      }
-                
-            });
-
-        }
-        else
-        {  res.status(500).send('NO EXISTE REGISTRO');      }
-        
-    });
-          
-        }
-        else
-        {
-        if(req.params.id2=='persona')
-        {
-
-            Personal.find({cui:req.params.email}).populate('unidad').populate('tiposuscriptor')
-            .exec(function(err, todos) {
-                if (err){ res.send(err); }
-            
-                if(todos.length>0)   {    res.json(todos);    }
-                else
-                {  res.status(500).send('NO EXISTE REGISTRO');      }
-                
-            });
-
-          
-        }
-        else
-        {
-            if(req.params.id2=='personadisp')
-            {
-    
-                Personal.find({cui:req.params.email}).populate('unidad').populate('tiposuscriptor')
-                .exec(function(err, todos) {
-                    if (err){ res.send(err); }
-                
-                    if(todos.length>0)   {   
-
-                        Personalsaldo.find({'idsuscriptor.id':todos[0]._id},function(err, todos4) {
-                            if (err){ res.send(err); }
-
-                          
-                            var myData = [];
-                                    if(todos4.length>0)   {  
-
-                                        myData.push({_id:todos[0]._id,email:todos[0].email,estado:todos[0].estado,cui:todos[0].cui,direccion:todos[0].direccion,nombre:todos[0].nombre,foto:todos[0].foto,telefono:todos[0].telefono,sexo:todos[0].sexo,fechanac:todos[0].fechanac
-                                        ,tiposuscriptor:todos[0].tiposuscriptor.nombre,unidad:todos[0].unidad.nombre
-                                        ,saldo:'Q. '+roundxx(todos4[0].saldoactual,2),codigo1:todos4[0].codigo1,dispositivo1:todos4[0].dispositivo1
-                                        ,codigo2:todos4[0].codigo2,dispositivo2:todos4[0].dispositivo2
-                                        ,codigo3:todos4[0].codigo3,dispositivo3:todos4[0].dispositivo3
-                                        ,codigo4:todos4[0].codigo4,dispositivo4:todos4[0].dispositivo4
-                                        ,codigo5:todos4[0].codigo5,dispositivo5:todos4[0].dispositivo5,encuentra:'si',id2:todos4[0]._id});
-    
-
-                                    }
-                                    else
-                                    {
-
-                                        myData.push({_id:todos[0]._id,email:todos[0].email,estado:todos[0].estado,cui:todos[0].cui,direccion:todos[0].direccion,nombre:todos[0].nombre,foto:todos[0].foto,telefono:todos[0].telefono,sexo:todos[0].sexo,fechanac:todos[0].fechanac
-                                            ,tiposuscriptor:todos[0].tiposuscriptor.nombre,unidad:todos[0].unidad.nombre
-                                            ,saldo:'Q. 0.00',codigo1:'',dispositivo1:''
-                                            ,codigo2:'',dispositivo2:''
-                                            ,codigo3:'',dispositivo3:''
-                                            ,codigo4:'',dispositivo4:''
-                                            ,codigo5:'',dispositivo5:'',encuentra:'no',id2:''});
-
-                                    }
-
-                                    res.json(myData);
-                                });
-
-
-                      }
-                    else
-                    {  res.status(500).send('NO EXISTE REGISTRO');      }
-                    
-                });
-    
-              
-            }
-            else
-            {
-          
-                if(req.params.id2=='tarjetadisp')
-                {
-        
-                    Personalsaldo.find({  $or : [
-                        { $and : [ { codigo1 : req.params.email }] },
-                        { $and : [ { codigo2 : req.params.email }] },
-                        { $and : [ { codigo3 : req.params.email }] },
-                        { $and : [ { codigo4 : req.params.email }] },
-                        { $and : [ {codigo5 : req.params.email } ] }]
-                }).populate('idsuscriptor.id').exec(function(err, todos) {
-                        if (err){ res.send(err); }
-                        var myData = [];
-                        if(todos.length>0)   {  
-                            myData.push({nombre:todos[0].idsuscriptor.id.nombre,cui:todos[0].idsuscriptor.id.cui});
-
-                             res.json(myData);
-                        
-                        }
-                        else
-                        {  res.status(500).send('NO EXISTE REGISTRO');      }
-                        
-                    });
-        
-                  
-                }
-                else
-                {
-                    
-                  
-
-                        if(req.params.id2=='tarjetasaldoenlineabus')
-                        {
-                
-                            
-                            
-                      
-    
-                            Personalsaldo.find({  $or : [
-                                { $and : [ { codigo1 : req.params.email }] },
-                                { $and : [ { codigo2 : req.params.email }] },
-                                { $and : [ { codigo3 : req.params.email }] },
-                                { $and : [ { codigo4 : req.params.email }] },
-                                { $and : [ {codigo5 : req.params.email } ] }]
-                        }).populate('idsuscriptor.id').exec(function(err, todos) {
-                                if (err){ res.send(err); }
-                                var myData = [];
-    
-                         
-                                if(todos.length>0)   { 
-                             
-                                    Personalsaldo.findById({ _id:todos[0]._id }, function (err, todo)  {
-                                if (err) {  res.send(err);  }
-                                else
-                                { 
-                                  
-                                   
-                                    if(Number(todos[0].saldoactual)>=Number(req.params.id3))
-                                    {
-    
-                                              
-                                     todo.saldoactual        	=		Number(todos[0].saldoactual)-Number(req.params.id3)    	;
-                                    
-                                     todo.save(function (err, todo){
-                                         if (err)     {  console.log(err.message)   }
-                                          myData.push({tarifa:roundxx(Number(req.params.id3),2),nombre:todos[0].idsuscriptor.id.nombre,cui:todos[0].idsuscriptor.id.cui
-                                            ,saldo:roundxx(todos[0].saldoactual,2),
-                                             id:todos[0]._id,saldoactual:roundxx(Number(todos[0].saldoactual)-Number(req.params.id3) ,2)});
-                               //  {    id	:todo[0].idsuscriptor.id ,   nombre	: todo[0].idsuscriptor.nombre       },
-                               var cservicio='Cobro por servicio';
-                                                if(req.params.id5=='cobro_parqueo')
-                                                {
-                                                        cservicio='Cobro de servicio ,acceso (-)'
-                                                }
-                                             Personalhis.create({idsuscriptor :{    id	:todos[0].idsuscriptor.id._id, 
-                                                  nombre	: todos[0].idsuscriptor.id.nombre       },
-                                                   tipo   		: cservicio,descripcion   		: 'Cobro por servicio utilizado', 
-                                                   saldoanterior   		: roundxx(todos[0].saldoactual,2),
-                                                     monto   		: roundxx(Number(req.params.id3),2),                                  
-                                                      saldoactual   		: roundxx(Number(todos[0].saldoactual)-Number(req.params.id3) ,2),
-                                                      idtrans   		: todo._id,
-                                                      nodispositivo 		: req.params.id6,
-                                                      noprov 		: req.params.id7,
-                                                      idempresa:'WebApp Usacenlinea',
-                                            codigo1: req.params.email, usuarionew	: req.params.id4,      usuarioup	: req.params.id4});
        
-                                              res.json(myData);
-     
-                                        
-                                     });
-                                        
-                                    }
-                                    else
-                                    {
-                                         myData.push({nombre:'Saldo insuficiente para poder realizar operación',cui:'',saldo:todos[0].saldoactual,
-                                            id:99999,saldoactual:0});
-                
-                                             res.json(myData);
-    
-    
-    
-                                    }
-                               
-                                }
-                            });
-                 
+            }
+        
+        }
+        else
+        {
+
+    if(req.params.id3)
+    {
+            switch(req.params.id2) {
+                case 'personasaldito':
+
+                                Personal.find({cui:req.params.email,idempresa:req.params.id3}).exec(function(err, todos1) {
+                                    if (err){ res.send(err); }
                                 
+                                    if(todos1.length>0)   {   
+                                Personalsaldo.find({'idsuscriptor.id':todos1[0]._id}).populate('idsuscriptor.id').exec(function(err, todos) {
+                                    if (err){ res.send(err); }
+                                
+                                    if(todos.length>0)   {    res.json(todos);    }
+                                    else
+                                    {  res.status(500).send('NO EXISTE REGISTRO');      }
+                                    
+                                });
+                    
+                            }
+                            else
+                            {  res.status(500).send('NO EXISTE REGISTRO');      }
+                            
+                        });
+                break;
+                case 'persona':
+                        Personal.find({cui:req.params.email,idempresa:req.params.id3}).populate('unidad').populate('tiposuscriptor')
+                        .exec(function(err, todos) {
+                            if (err){ res.send(err); }
+                        
+                            if(todos.length>0)   {    res.json(todos);    }
+                            else
+                            {  res.status(500).send('NO EXISTE REGISTRO');      }
+                            
+                        });
+                break;
+                case 'personadisp':
+                            Personal.find({cui:req.params.email,idempresa:req.params.id3}).populate('unidad').populate('tiposuscriptor')
+                            .exec(function(err, todos) {
+                                if (err){ res.send(err); }
+                            
+                                if(todos.length>0)   {   
+
+                                    Personalsaldo.find({'idsuscriptor.id':todos[0]._id},function(err, todos4) {
+                                        if (err){ res.send(err); }
+
+                                    
+                                        var myData = [];
+                                                if(todos4.length>0)   {  
+
+                                                    myData.push({_id:todos[0]._id,email:todos[0].email,estado:todos[0].estado,cui:todos[0].cui,direccion:todos[0].direccion,nombre:todos[0].nombre,foto:todos[0].foto,telefono:todos[0].telefono,sexo:todos[0].sexo,fechanac:todos[0].fechanac
+                                                    ,tiposuscriptor:todos[0].tiposuscriptor.nombre,unidad:todos[0].unidad.nombre
+                                                    ,saldo:'Q. '+roundxx(todos4[0].saldoactual,2),codigo1:todos4[0].codigo1,dispositivo1:todos4[0].dispositivo1
+                                                    ,codigo2:todos4[0].codigo2,dispositivo2:todos4[0].dispositivo2
+                                                    ,codigo3:todos4[0].codigo3,dispositivo3:todos4[0].dispositivo3
+                                                    ,codigo4:todos4[0].codigo4,dispositivo4:todos4[0].dispositivo4
+                                                    ,codigo5:todos4[0].codigo5,dispositivo5:todos4[0].dispositivo5,encuentra:'si',id2:todos4[0]._id});
+                
+
+                                                }
+                                                else
+                                                {
+
+                                                    myData.push({_id:todos[0]._id,email:todos[0].email,estado:todos[0].estado,cui:todos[0].cui,direccion:todos[0].direccion,nombre:todos[0].nombre,foto:todos[0].foto,telefono:todos[0].telefono,sexo:todos[0].sexo,fechanac:todos[0].fechanac
+                                                        ,tiposuscriptor:todos[0].tiposuscriptor.nombre,unidad:todos[0].unidad.nombre
+                                                        ,saldo:'Q. 0.00',codigo1:'',dispositivo1:''
+                                                        ,codigo2:'',dispositivo2:''
+                                                        ,codigo3:'',dispositivo3:''
+                                                        ,codigo4:'',dispositivo4:''
+                                                        ,codigo5:'',dispositivo5:'',encuentra:'no',id2:''});
+
+                                                }
+
+                                                res.json(myData);
+                                            });
+
+
                                 }
                                 else
                                 {  res.status(500).send('NO EXISTE REGISTRO');      }
                                 
                             });
-                
-                          
-                        }
-                        else
-                        {
-    
+                break;
+                case 'tarjetadisp':
 
-                        Personal.find({unidad:req.params.id2},function(err, todos) {
+                                    Personalsaldo.find({ idempresa:req.params.id3, $or : [
+                                        { $and : [ { codigo1 : req.params.email }] },
+                                        { $and : [ { codigo2 : req.params.email }] },
+                                        { $and : [ { codigo3 : req.params.email }] },
+                                        { $and : [ { codigo4 : req.params.email }] },
+                                        { $and : [ {codigo5 : req.params.email } ] }]
+                                }).populate('idsuscriptor.id').exec(function(err, todos) {
+                                        if (err){ res.send(err); }
+                                        var myData = [];
+                                        if(todos.length>0)   {  
+                                            myData.push({nombre:todos[0].idsuscriptor.id.nombre,cui:todos[0].idsuscriptor.id.cui});
+
+                                            res.json(myData);
+                                        
+                                        }
+                                            else
+                                        {  res.status(500).send('NO EXISTE REGISTRO');      }
+                                        
+                                    });
+
+                break;
+                case 'tarjetasaldoenlineabus':
+                
+                                Personalsaldo.find({ idempresa:req.params.id3, $or : [
+                                    { $and : [ { codigo1 : req.params.email }] },
+                                    { $and : [ { codigo2 : req.params.email }] },
+                                    { $and : [ { codigo3 : req.params.email }] },
+                                    { $and : [ { codigo4 : req.params.email }] },
+                                    { $and : [ {codigo5 : req.params.email } ] }]
+                            }).populate('idsuscriptor.id').exec(function(err, todos) {
+                                    if (err){ res.send(err); }
+                                    var myData = [];
+
+                            
+                                    if(todos.length>0)   { 
+                                
+                                        Personalsaldo.findById({ _id:todos[0]._id }, function (err, todo)  {
+                                    if (err) {  res.send(err);  }
+                                    else
+                                    { 
+                                    
+                                    
+                                        if(Number(todos[0].saldoactual)>=Number(req.params.id3))
+                                        {
+
+                                                
+                                        todo.saldoactual        	=		Number(todos[0].saldoactual)-Number(req.params.id3)    	;
+                                        
+                                        todo.save(function (err, todo){
+                                            if (err)     {  console.log(err.message)   }
+                                            myData.push({tarifa:roundxx(Number(req.params.id3),2),nombre:todos[0].idsuscriptor.id.nombre,cui:todos[0].idsuscriptor.id.cui
+                                                ,saldo:roundxx(todos[0].saldoactual,2),
+                                                id:todos[0]._id,saldoactual:roundxx(Number(todos[0].saldoactual)-Number(req.params.id3) ,2)});
+                                //  {    id	:todo[0].idsuscriptor.id ,   nombre	: todo[0].idsuscriptor.nombre       },
+                                var cservicio='Cobro por servicio';
+                                                    if(req.params.id5=='cobro_parqueo')
+                                                    {
+                                                            cservicio='Cobro de servicio ,acceso (-)'
+                                                    }
+                                                Personalhis.create({idsuscriptor :{    id	:todos[0].idsuscriptor.id._id, 
+                                                    nombre	: todos[0].idsuscriptor.id.nombre       },
+                                                    tipo   		: cservicio,descripcion   		: 'Cobro por servicio utilizado', 
+                                                    saldoanterior   		: roundxx(todos[0].saldoactual,2),
+                                                        monto   		: roundxx(Number(req.params.id3),2),                                  
+                                                        saldoactual   		: roundxx(Number(todos[0].saldoactual)-Number(req.params.id3) ,2),
+                                                        idtrans   		: todo._id,
+                                                        nodispositivo 		: req.params.id6,
+                                                        noprov 		: req.params.id7,
+                                                        idempresa:'WebApp Usacenlinea',
+                                                codigo1: req.params.email, usuarionew	: req.params.id4,      usuarioup	: req.params.id4});
+
+                                                res.json(myData);
+
+                                            
+                                        });
+                                            
+                                        }
+                                        else
+                                        {
+                                            myData.push({nombre:'Saldo insuficiente para poder realizar operación',cui:'',saldo:todos[0].saldoactual,
+                                                id:99999,saldoactual:0});
+                    
+                                                res.json(myData);
+
+
+
+                                        }
+                                
+                                    }
+                                });
+                    
+                                    
+                                    }
+                                    else
+                                    {  res.status(500).send('NO EXISTE REGISTRO');      }
+                                    
+                                });
+                break;
+                case 'emailsolo':
+                                        if(req.params.email=='')
+                                        {
+                                        res.status(500).send('NO EXISTE REGISTRO');
+                                        }
+                                        else
+                                        {
+                                        Personal.find({email:req.params.email,idempresa:req.params.id3}).populate('unidad').populate('tiposuscriptor')
+                                        .then(todos => {
+                                            
+                                            res.json(todos);  
+                                            
+                                        })
+                                        .catch(err => {
+                                            res.status(500).send(err.message);  
+                                        })
+                                    }
+
+                                    break;
+               default :
+               
+                        Personal.find({idempresa:req.params.id3,unidad:req.params.id2},function(err, todos) {
                             if (err){  res.send(err);  }
                                 res.json(todos);
                             });
-          }  }}}}
-    }
-    else
-    {   
-        
-            if(req.params.email)
-            {  
-               if(req.params.email=='')
-               {
-                res.status(500).send('NO EXISTE REGISTRO');
-               }
-               else
-               {
-                Personal.find({email:req.params.email}).populate('unidad').populate('tiposuscriptor')
-                .then(todos => {
-                   
-                      res.json(todos);  
-                    
-                })
-                .catch(err => {
-                    res.status(500).send(err.message);  
-                })
-            }
-             
-            }
-            else
-            {
+                break;
 
-                res.status(500).send('NO EXISTE REGISTRO');
-/*
-                        Personal.find({}).then(todos => {
-                   
-                            res.json(todos);  
-                          
-                      })
-                      .catch(err => {
-                          res.status(500).send(err.message);  
-                      })
-                   */
-               
-              
             }
-}}}}}
+        
+        
+    }
+ }}}}
 }
 exports.deletePersonal = function(req, res, next){
     Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina Usuario '});
@@ -730,7 +678,8 @@ if(req.params.recordID)
         Personal.findById({ _id: req.body._id}, function (err, todo)  {
             if (err) {  res.send(err);  }
             else
-            {   todo.email        	=	req.body.email            	;
+            {   
+                  todo.email        	=	req.body.email            	;
                 todo.nombre        	=	req.body.nombre          	;
                 todo.cui 	=	req.body.cui 		;
                 todo.direccion   	=	req.body.direccion   	 	;
@@ -754,7 +703,8 @@ if(req.params.recordID)
     Personal.findById({ _id: req.params.recordID }, function (err, todo)  {
         if (err) {  res.send(err);  }
         else
-        {   todo.email        	=	req.body.email        	||	todo.email        	;
+        {  
+             todo.email        	=	req.body.email        	||	todo.email        	;
             todo.role        	=	req.body.role       	||	todo.role        	;
             todo.nombre        	=	req.body.nombre        	||	todo.nombre        	;
             todo.cui 	=	req.body.cui 	||	todo.cui 	;

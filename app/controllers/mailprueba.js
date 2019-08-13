@@ -1,6 +1,7 @@
 
 var nodemailer = require('nodemailer');
 
+
 var async = require("async");
 var http = require("http");
 var events = require('events').prototype;
@@ -116,7 +117,6 @@ var transporter = nodemailer.createTransport({
    });
   
 
-
 var mandacorreoprueba= function(){
 
                                                 var cc=0;
@@ -168,10 +168,58 @@ var mandacorreoprueba= function(){
 
     
 }
+//var serviceAccount = require("./adminsdk.json");
+
+const fetch = require('node-fetch');
+var mandanoti= function(){
+  
+    var key = 'AAAAQdgXqn0:APA91bGPmzDyRlrXuLxDcFG4NZTwIZSJDSFdmEXK2RpS18PIODjyN7g53nNPldgL8RsTOpb1KlFyV2vLqSdhkX88yM7bBXsDJevURqxvAnZHqzXxKUFBh07iU6hyeci4O_EjRJOGtATb'; //put your server key here
+    var to = 'cy1xkyrrRuY:APA91bGJd4tH0rLQXOXfLSQkBhJ1KDNvt7lhhfIAwzSxURbyfK5v4meMzzvIrQNHG6v-ccxoNRdMOIzrTMN7dA-xj4qVwANiotzIR4HGQG-HKASR6laT-DQiv1tewUYfL4hrbQXH4iHf';
+    var notification = {
+      'title': 'Portugal vs. Denmark',
+      'body': '5 to 1',
+      'icon': 'firebase-logo.png',
+      'click_action': 'http://localhost:8081'
+      
+    };
+    
+    fetch('https://fcm.googleapis.com/fcm/send', {
+      'method': 'POST',
+      'headers': {
+        'Authorization': 'key=' + key,
+        'Content-Type': 'application/json'
+      },
+      'body': JSON.stringify({
+        'notification': notification,
+        'to': to
+      })
+    }).then(function(response) {
+      console.log(response);
+    }).catch(function(error) {
+      console.error(error);
+    })
+
+
+}
+var soap = require('soap');
+var dasoap= function(){
+
+  var url = 'https://pruebassiif.usac.edu.gt/WSGeneracionOrdenPagoV2/WSGeneracionOrdenPagoV2SoapHttpPort?wsdl';
+var args = {UNIDAD: '30',EXTENSION:'2'};
+soap.createClient(url, function(err, client) {
+  client.generarOrdenPago(args, function(err, result) {
+      console.log(result);
+  });
+});
+
+
+}
 
 //new massMailer(); 
 //var mas = new massMailer();
 module.exports = {
     mandacorreoprueba: mandacorreoprueba,
-    massMailer: massMailer
+    massMailer: massMailer,
+    mandanoti:mandanoti,
+    dasoap:dasoap
       }

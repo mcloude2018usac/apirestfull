@@ -386,6 +386,97 @@ exports.getCombofijo = function(req, res, next){
                         });
                       
                 break;
+                case 'tablaasignacioncompleto':
+
+       
+       
+
+                //'idunidadacademica.codigo':'1'
+                                        Asignaest.find({ }).select({idhorario:1,idsalon:1,nombre:1,idperiodo: 1,no_orientacion:1,idmateria:1,date:1,idunidadacademica:1,codfac:1,noasignado:1}).lean().exec(function(err, todos) {
+                                        if (err){  res.send(err);  }    
+                                        var resp=[]
+                                        for(var i = 0; i < todos.length;i++){
+                                        var periodo=todos[i].idperiodo.nombre.split("-");
+                             //     console.log(todos.length)
+                                        var anio=Number(periodo[0])+1
+                                        var idmat=0
+                                        
+                                        if(todos[i].idmateria=='Biologia'){idmat=1}
+                                        if(todos[i].idmateria=='Fisica'){idmat=2}
+                                        if(todos[i].idmateria=='Lenguaje'){idmat=3}
+                                        if(todos[i].idmateria=='Matematica'){idmat=4}
+                                        if(todos[i].idmateria=='Quimica'){idmat=5}
+                
+                                        var ll=todos[i].no_orientacion
+                                        var tno=0;
+                
+                                
+                
+                                        if(ll.length==10)
+                                        {
+                                                tno=1
+                                        }
+                                        else
+                                        {
+                                                tno=2
+                                        }
+                
+                                        var pp=''
+                                        var noori=''
+                
+                                        if(ll.length==10 || ll.length==9)
+                                        {
+                                                pp=ll.substr(0,4);
+                                                noori=ll.substr(4,ll.length-1)
+                
+                                        }
+                                        else
+                                        {
+                                                        if(ll.length==7)
+                                                        {
+                                                                pp=ll.substr(0,2);
+                                                                noori=ll.substr(2,ll.length-1)
+                                
+                                                                
+                                                        }
+                                                        else
+                                                        {
+                                                                pp='0'
+                                                                noori=ll
+                                
+                
+                                                        }
+                
+                
+                                        }
+                
+                
+                                        var d =new Date( todos[i].date).toISOString().substr(0,10);   
+                                        var n = d.split('-')   
+                                        var  nn=''
+                                        console.log(todos[i])
+                                        if(todos[i].nombre)      {nn=todos[i].nombre} 
+                                              
+                                        resp.push({no_asignado:todos[i].noasignado ,no_orientacion:ll,nombre:nn,
+                                                centro:todos[i].idunidadacademica.codigo,
+                                                id_materia:idmat,salon:todos[i].idsalon.nombre,hora:todos[i].idhorario ,
+                                                codigo_fac:todos[i].codfac,ingreso:tno
+                                                ,no_oportunidad:periodo[1]
+                                                ,anio_asignacion:anio});
+                
+                                        
+                
+                                        }
+                                      //  res.json(resp);
+                                        var filename   = "Tablaasignacion.csv";
+                                        res.statusCode = 200;
+                                        res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+                                        res.setHeader("Content-Disposition", 'attachment; filename='+filename);
+                                        res.csv(resp, true);
+                        
+                                });
+                              
+                        break;
         case 'tablainfoboleta':
 //'idunidadacademica.codigo':'1'
                         Facplan.find({}).lean().exec(function(err, todos) {
@@ -527,7 +618,7 @@ else
 
                                         //   res.json(todos2);
 
-                                                Evento.find({}).lean().exec({}, function(err,todos) {
+                                                Evento.find({idempresa:req.params.id2}).lean().exec({}, function(err,todos) {
                                                         if (err) res.send(err);
                                                         var myData = [];
                                                         var cc=0;

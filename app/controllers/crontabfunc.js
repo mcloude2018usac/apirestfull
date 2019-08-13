@@ -46,7 +46,7 @@ var mandaeventos = function(){
 
                                      //   res.json(todos2);
 
-                                        Evento.find({impresion:'Activo'}).lean().exec({}, function(err,todos) {
+                                        Evento.find({impresion:'Activo',idempresa:'WebApp Usacenlinea'}).lean().exec({}, function(err,todos) {
                                                 if (err) res.send(err);
                                                 var myData = [];
                                                 var cc=0;

@@ -7,6 +7,9 @@ const path = require('path');
 var Usermsg = require('../models/usermsg');
 var User = require('../models/user');
 var Marketemail = require('../models/marketemail');
+var Asignaestudiante = require('../models/asignaestudiante');
+
+var Asignapcb = require('../models/asignapcb');
 
 exports.getPivotm = function(req, res, next){
 
@@ -17,6 +20,10 @@ exports.getPivotm = function(req, res, next){
                     case 'denuncias':         getdenunciasrpt(req, res, next);
                     break
                     case 'forochat':         getforochatrpt(req, res, next);
+                    break
+                     case 'asignasun':         getasignasunrpt(req, res, next);
+                    break
+                    case 'asignasun0':         getasignasun0rpt(req, res, next);
                     break
                     default:
                     break;
@@ -36,6 +43,53 @@ exports.getPivotm = function(req, res, next){
         
 
 }
+
+
+var getasignasunrpt = function(req, res, next) {
+    Asignaestudiante.find({}).exec(function(err, todos2) {
+        if (err){  res.send(err);  }
+                        var myData31 = [];
+                        for(var i = 0; i <  todos2.length;i++){
+                                    myData31.push({unidad:todos2[i].idtipounidad.nombre,cantidad:1,
+                                         periodo:todos2[i].idperiodo.nombre,edificio:todos2[i].idedificio.nombre
+                                        ,salon:todos2[i].idsalon.nombre
+                                        ,materia:todos2[i].idmateria  ,horario:todos2[i].idhorario})
+                                }
+                           //    console.log(myData31)
+                                let stream = compressor.compressJson(myData31);
+                              
+                                stream.on('data', data => res.write(data));
+                                stream.on('end', () => res.end()
+                                //  res.redirect('pivot.html');
+                                ); 
+                                var rutat=path.join(__dirname+'/pivotm.html')
+           
+    });
+
+}
+
+var getasignasun0rpt = function(req, res, next) {
+    Asignapcb.find({}).exec(function(err, todos2) {
+        if (err){  res.send(err);  }
+                        var myData31 = [];
+                        for(var i = 0; i <  todos2.length;i++){
+                                    myData31.push({tipounidad:todos2[i].idtipounidad.nombre,cantidad:1,
+                                        unidad:todos2[i].idunidadacademica.nombre,periodo:todos2[i].idperiodo.nombre
+                                       })
+                                }
+                           //    console.log(myData31)
+                                let stream = compressor.compressJson(myData31);
+                              
+                                stream.on('data', data => res.write(data));
+                                stream.on('end', () => res.end()
+                                //  res.redirect('pivot.html');
+                                ); 
+                                var rutat=path.join(__dirname+'/pivotm.html')
+           
+    });
+
+}
+
 
 var getdenunciasrpt = function(req, res, next) {
     Denunciaunidad.find({'jefeop':req.params.id3}).exec(function(err, todos) {

@@ -3,11 +3,11 @@ var Evento = require('../models/eventos');
 var Bitacora = require('../models/bitacora');
 
 exports.getEvento = function(req, res, next){
-    if(req.params.id2)
+    if(req.params.id3)
     { 
-        if(req.params.id2=='eventos')
+        if(req.params.id3=='eventos' )
         {
-            Evento.find({impresion:'Activo'}).select({nombre:1,fechaini:1,fechafin:1,ubicacion: 1,no_max:1,foto:1,fecha:1}).lean().exec(function(err, todos) {
+            Evento.find({impresion:'Activo' ,idempresa:req.params.id3}).select({nombre:1,fechaini:1,fechafin:1,ubicacion: 1,no_max:1,foto:1,fecha:1}).lean().exec(function(err, todos) {
                 if (err){  res.send(err);  }
                  res.json(todos);
                 
@@ -16,11 +16,19 @@ exports.getEvento = function(req, res, next){
         }
     }
     else{
-    if(req.params.id)
+    if(req.params.id2)
     { 
+        if(req.params.id=='todos')
+        {
+            Evento.find({idempresa:req.params.id2}).select({nombre:1,fechaini:1,fechafin:1,ubicacion: 1,no_max:1,foto:1,fecha:1}).exec(function(err, todos) {
+                if (err){  res.send(err);  }
+                 res.json(todos);
+             });
+        }
+        else{
         if(req.params.id=='activo')
         {
-            Evento.find({impresion:'Activo'},function(err, todos) {
+            Evento.find({impresion:'Activo',idempresa:req.params.id2},function(err, todos) {
                 if (err){  res.send(err);  }
                  res.json(todos);
                 
@@ -34,7 +42,7 @@ exports.getEvento = function(req, res, next){
         }
         else
         {
-            Evento.find({_id:req.params.id,impresion:'Activo'},function(err, todos) {
+            Evento.find({_id:req.params.id,impresion:'Activo',idempresa:req.params.id2},function(err, todos) {
                 if (err){ res.send(err); }
                
                 if(todos.length>0)   {    res.json(todos);   }
@@ -43,16 +51,13 @@ exports.getEvento = function(req, res, next){
                 
             });
         }
-
+    }
         }   
     
        
     }
     else
-    { Evento.find({impresion:'Activo'}).select({nombre:1,fechaini:1,fechafin:1,ubicacion: 1,no_max:1,foto:1,fecha:1}).exec(function(err, todos) {
-           if (err){  res.send(err);  }
-            res.json(todos);
-        });
+    { 
     }
 }
 }
@@ -74,7 +79,9 @@ if(req.params.recordID!=='crea')
     Evento.findById({ _id: req.params.recordID }, function (err, todo)  {
         if (err) {  res.send(err);  }
         else
-        {   todo.nombre        	=	req.body.nombre        	||	todo.nombre        	;
+        {   
+            todo.idempresa       	=	req.body.idempresa        	||	todo.idempresa;   
+            todo.nombre        	=	req.body.nombre        	||	todo.nombre        	;
             todo.fechaini 	=	req.body.fechaini	||	todo.fechaini 	;
              todo.fechafin 	=	req.body.fechafin	||	todo.fechafin 	;
             todo.foto    	=	req.body.foto    	||	todo.foto    	;
@@ -96,7 +103,9 @@ if(req.params.recordID!=='crea')
 }
 else{
    
-    Evento.create({ nombre        	: req.body.nombre        	,
+    Evento.create({
+        idempresa      	: req.body.idempresa     	,
+        nombre        	: req.body.nombre        	,
         fechaini 	: req.body.fechaini 	,
         fecha: req.body.fecha 	,
         fechafin    	: req.body.fechafin    	,
