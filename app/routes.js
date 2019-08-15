@@ -1,6 +1,8 @@
 var AuthenticationController = require('./controllers/authentication'), 
     OraController = require('./controllers/oraclesqlx'), 
     DatosfijosController = require('./controllers/datosfijos'),
+   SiifController = require('./controllers/siif'),
+   
     Datosfijo2sController = require('./controllers/datosfijos2'),
     UserperfilController = require('./controllers/userperfil'),
     ParticipaController = require('./controllers/participa'),
@@ -105,6 +107,7 @@ module.exports = function(app){
         organigramaRoutes = express.Router(),
         userperfilRoutes = express.Router(),
         participa2Routes = express.Router(),
+        siifRoutes = express.Router(),
         participa3Routes = express.Router(),
         participa33Routes = express.Router(),
         mailmarketRoutes = express.Router(),
@@ -199,6 +202,17 @@ module.exports = function(app){
    /*
 SINNNNNNNNNNNNNN AUTORIZACION
    */
+
+
+
+   //-----------------------------------SIIF----------------------------------
+
+
+apiRoutes.use('/siifs', siifRoutes);
+siifRoutes.get('/:id/:id2', SiifController.getsiif);
+
+
+
 //-----------------------------------USER PERFIL----------------------------------
 
 
@@ -213,6 +227,9 @@ apiRoutes.use('/userperfils', userperfilRoutes);
 userperfilRoutes.get('/:id',  UserperfilController.getUserperfil);
 userperfilRoutes.post('/:recordID',requireAuth,  UserperfilController.creaUserperfil2s);
 userperfilRoutes.delete('/:recordID/:userID',requireAuth,  UserperfilController.deleteUserperfil);
+
+
+
 
 
 
