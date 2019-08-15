@@ -88,7 +88,104 @@ var cleanName = function(str) {
 
 exports.getCombofijo = function(req, res, next){
        var sql='';
+if(req.params.id3)
+{
+        switch(req.params.id3) {
+    
+                case 'rolusuario':
 
+                Perfil.find({nombre:req.params.id,idempresa:req.params.id2},function(err, todos) {
+                        if (err){ res.send(err); }
+                        
+                        if(todos.length>0)   {  
+                        
+                                Permiso.find({idrol:todos[0]._id}).sort([['orden', 1]]).exec(function(err, todos) {
+                                        if (err){ res.send(err); }
+                                        
+                                        Permiso2.find({idrol:todos[0].idrol}).sort([['orden', 1]]).exec(function(err, todos4) {
+                                        if (err){ res.send(err); }
+                                                
+                                                if(todos.length>0)   {  
+                                                        
+                                                        Moduloxx.find({},function(err, todos2) {
+                                                                if (err){ res.send(err); }
+        
+                                                                var myData = [];
+                                                                for(var i = 0; i < todos.length;i++){
+                                                                        for(var j = 0; j < todos2.length;j++){
+                                                                                if(todos[i].nombre==todos2[j]._id)
+                                                                                {       var childrem=[]
+                                                                                        for(var k = 0; k < todos4.length;k++){
+                                                                                                if(todos4[k].idpermiso==todos[i]._id)
+                                                                                                {
+                                                                                                        for(var j5 = 0; j5 < todos2.length;j5++){
+                                                                                                                if(todos4[k].nombre==todos2[j5]._id)
+                                                                                                                {   
+                                                                                                                        childrem.push({nivel:todos2[j5].nivel,idrol:todos4[k].idrol,title:todos2[j5].nombre,component: todos2[j5].componente, tabComponent:todos2[j5].tabcomponente,name:todos2[j5].componente,index:todos2[j5].index,icon:todos2[j5].icono,estado:todos2[j5].estado,
+                                                                                                                                permiso:todos4[k].ingreso+','+todos4[k].consulta+','+todos4[k].eliminacion+','+todos4[k].creacion+','+todos4[k].actualizacion})
+                                                                                                                }
+                                                                                                        }
+                                                                                                }                                                 
+        
+                                                                                        }   
+                                                                                //    console.log(todos[i].nombre);
+                                                                                        if(childrem.length>0)
+                                                                                        {
+                                                                                        myData.push({nivel:todos2[j].nivel, idrol:todos[i].idrol,title:todos2[j].nombre,component: todos2[j].componente, tabComponent:todos2[j].tabcomponente,name:todos2[j].componente,index:todos2[j].index,icon:todos2[j].icono,estado:todos2[j].estado,
+                                                                                                permiso:todos[i].ingreso+','+todos[i].consulta+','+todos[i].eliminacion+','+todos[i].creacion+','+todos[i].actualizacion,children:childrem});
+                                                        
+        
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                        myData.push({nivel:todos2[j].nivel,idrol:todos[i].idrol,title:todos2[j].nombre,component: todos2[j].componente, tabComponent:todos2[j].tabcomponente,name:todos2[j].componente,index:todos2[j].index,icon:todos2[j].icono,estado:todos2[j].estado,
+                                                                                                permiso:todos[i].ingreso+','+todos[i].consulta+','+todos[i].eliminacion+','+todos[i].creacion+','+todos[i].actualizacion});
+                                                        
+                                                                                        }
+                                                                                        
+                                                                                        break;                
+                                                                                }
+        
+        
+                                                                        }          
+                                                                
+                                                                
+                                
+                                                                }
+                                
+                                                                res.json(myData);
+                                                        
+        
+        
+                                                        
+                                                });       
+        
+                                                
+                                                
+                                                }
+                                                else
+                                                {  res.status(500).send('NO EXISTE ROL ASIGNADO');      }
+        
+        
+        
+        
+                                        });         
+                                    });
+        
+                              
+                        
+                        
+                        }
+                        else
+                        {  res.status(500).send('NO EXISTE ROL ASIGNADO');      }
+                        
+                    });
+                    break;
+        }
+
+
+}
+else{
        switch(req.params.id) {
     
         case 'catalogo-tipo':
@@ -279,7 +376,7 @@ exports.getCombofijo = function(req, res, next){
 
 
     }
-
+}
 
 
 

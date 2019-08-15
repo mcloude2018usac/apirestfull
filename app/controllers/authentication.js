@@ -59,7 +59,7 @@ exports.register = function(req, res, next){
  
     var email = req.body.email;
     var password = req.body.password;
-   
+   var empresa=req.body.idempresa;
 
 
     var bitacora= req.body.bitacora;
@@ -76,7 +76,7 @@ exports.register = function(req, res, next){
 
 //email: email
 
-    User.findOne({  $or : [
+    User.findOne({idempresa:empresa,  $or : [
         { $and : [ { email : req.body.email }] },
         { $and : [ { nov : req.body.nov }] },
         { $and : [ {cui : req.body.cui } ] }]
@@ -94,7 +94,7 @@ exports.register = function(req, res, next){
             email: email,
             password: password,
             role: req.body.role,
-            idempresa:req.body.idmepresa,
+            idempresa:req.body.idempresa,
             nombre        	: req.body.nombre        	,
             cui 	: req.body.cui 	,
             foto 	: req.body.foto 	,
