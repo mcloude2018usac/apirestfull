@@ -108,7 +108,7 @@ var cleanName = function(str) {
         
     }
 
-
+    var request = require('request');
 
 exports.getCombofijo = function(req, res, next){
        var sql='';
@@ -123,7 +123,40 @@ exports.getCombofijo = function(req, res, next){
                 
             });
         break;
+        case 'registroest':
+
+                        request({
+                                url: "http://52.151.38.147:9090/api/datosfijos/" + req.params.id2+"/" + req.params.id3,
+                                method: "GET",
+                                gzip: true,
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Authorization':'123'
+                                  
+                    
+                    
+                                    
+                                },
+                                body: ''
+                            }, function (error, response, body){
+                       
+                                if (error){  console.log(error); res.send(error);  }
+                               
+                            
+                    
+                        
+                                  res.send(body);
+                        
+                    
+                    
+                    
+                            });
+
+
+
+        break;        
         case 'actarea':
+        
 
         Unidadacademica.find({}).exec(function(err, todos) {
                 if (err){ res.send(err); }

@@ -442,7 +442,7 @@ exports.getPersonal = function(req, res, next){
         {
 
     if(req.params.id3)
-    {
+    {console.log(req.params.id2)
             switch(req.params.id2) {
                 case 'personasaldito':
 
@@ -630,6 +630,7 @@ exports.getPersonal = function(req, res, next){
                                         }
                                         else
                                         {
+                                            console.log({email:req.params.email,idempresa:req.params.id3});
                                         Personal.find({email:req.params.email,idempresa:req.params.id3}).populate('unidad').populate('tiposuscriptor')
                                         .then(todos => {
                                             
