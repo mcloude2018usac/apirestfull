@@ -2,7 +2,14 @@ var AuthenticationController = require('./controllers/authentication'),
     OraController = require('./controllers/oraclesqlx'), 
     DatosfijosController = require('./controllers/datosfijos'),
    SiifController = require('./controllers/siif'),
-   
+   Unidadprofesor3Controller = require('./controllers/calusac/unidadprofesor3'),
+
+   Unidadnivel3Controller = require('./controllers/calusac/unidadnivel3'),
+   Unidadjornada3Controller = require('./controllers/calusac/unidadjornada3'),
+   Unidadhorario3Controller = require('./controllers/calusac/unidadhorario3'),
+   Unidadpago3Controller = require('./controllers/calusac/unidadpago3'),
+   Unidaddia3Controller = require('./controllers/calusac/unidaddia3'),
+
     Datosfijo2sController = require('./controllers/datosfijos2'),
     UserperfilController = require('./controllers/userperfil'),
     ParticipaController = require('./controllers/participa'),
@@ -53,6 +60,7 @@ var AuthenticationController = require('./controllers/authentication'),
     MailController = require('./controllers/mail'),
     QrimagenController = require('./controllers/qrimagen'),
     AsignapcbController = require('./controllers/asignapcb'),
+    AsignacalusacController = require('./controllers/calusac/asignacalusac'),
     TipounidadController = require('./controllers/tipounidad'),
     Tipounidad2Controller = require('./controllers/tipounidad2'),
     DepartamentoController = require('./controllers/departamento'),
@@ -67,7 +75,18 @@ var AuthenticationController = require('./controllers/authentication'),
     FacultadmateriaController = require('./controllers/facultadmateria'),
     UnidadacademicaController = require('./controllers/unidadacademica'),
     PivotemonsterController = require('./controllers/pivotmoster'),
-  
+
+    CostocalusacController = require('./controllers/calusac/calusaccostos'),
+
+    Tipounidad3Controller = require('./controllers/calusac/tipounidad3'),
+    Edificiousac3Controller = require('./controllers/calusac/unidadedificio3'),
+    Periodousac3Controller = require('./controllers/calusac/unidadperiodo3'),
+    Edificiosalon3Controller = require('./controllers/calusac/unidadedificiosalon3'),
+    Unidadplan3Controller = require('./controllers/calusac/unidadplan3'),
+    Facultadmateria3Controller = require('./controllers/calusac/facultadmateria3'),
+    Unidadacademica3Controller = require('./controllers/calusac/unidadacademica3'),
+
+
       
     Edificiousac2Controller = require('./controllers/unidadedificio2'),
     Periodousac2Controller = require('./controllers/unidadperiodo2'),
@@ -76,6 +95,7 @@ var AuthenticationController = require('./controllers/authentication'),
     Facultadmateria2Controller = require('./controllers/facultadmateria2'),
     Unidadacademica2Controller = require('./controllers/unidadacademica2'),
 
+    AsignaestudiantecalusacController = require('./controllers/calusac/asignaestudiantecalusac'),
     AsignaestudianteController = require('./controllers/asignaestudiante'),
     AsignaestudiantepapController = require('./controllers/asignaestudiantepap'),
 
@@ -162,6 +182,7 @@ module.exports = function(app){
         mailRoutes = express.Router(),
         personalRoutes = express.Router(),
         asignapcbRoutes = express.Router(),
+        asignacalusacRoutes = express.Router(),
         tipounidadRoutes = express.Router(),
         tipounidad2Routes = express.Router(),
         autorizaRoutes = express.Router(),
@@ -172,6 +193,23 @@ module.exports = function(app){
         edificiosalonRoutes = express.Router(),
         unidadplanRoutes = express.Router(),
 
+        unidadprofesor3Routes = express.Router(),
+
+        unidadnivel3Routes = express.Router(),
+        unidadjornada3Routes = express.Router(),
+        unidadhorario3Routes = express.Router(),
+        unidadpago3Routes = express.Router(),
+        unidaddia3Routes = express.Router(),
+
+        costocalusacRoutes = express.Router(),
+        tipounidad3Routes = express.Router(),
+        edificiousac3Routes = express.Router(),
+        periodousac3Routes = express.Router(),
+        unidadacademica3Routes = express.Router(),
+        facultadmateria3Routes = express.Router(),
+        edificiosalon3Routes = express.Router(),
+        unidadplan3Routes = express.Router(),
+
         edificiousac2Routes = express.Router(),
         periodousac2Routes = express.Router(),
         unidadacademica2Routes = express.Router(),
@@ -179,6 +217,7 @@ module.exports = function(app){
         edificiosalon2Routes = express.Router(),
         unidadplan2Routes = express.Router(),
         asignaestudianteRoutes = express.Router(),
+        asignaestudiantecalusacRoutes = express.Router(),
         asignaestudiantepapRoutes = express.Router(),
         plantillaRoutes =  express.Router(),
         plantilladRoutes = express.Router(),
@@ -757,6 +796,129 @@ facultadmateriaRoutes.delete('/:recordID/:userID', requireAuth, FacultadmateriaC
 
 
 
+
+//-----------------------------------TIPO UNIDAD3
+apiRoutes.use('/tipounidad3s', tipounidad3Routes);
+tipounidad3Routes.get('/',requireAuth, Tipounidad3Controller.getTipounidad3);
+tipounidad3Routes.get('/:id', requireAuth, Tipounidad3Controller.getTipounidad3);
+tipounidad3Routes.post('/:recordID', requireAuth, Tipounidad3Controller.creaTipounidad32s);
+tipounidad3Routes.delete('/:recordID/:userID',requireAuth,  Tipounidad3Controller.deleteTipounidad3);
+
+//-----------------------------------COSTO CALUSAC
+apiRoutes.use('/costocalusacs', costocalusacRoutes);
+costocalusacRoutes.get('/',requireAuth, CostocalusacController.getCalusaccosto);
+costocalusacRoutes.get('/:id', requireAuth, CostocalusacController.getCalusaccosto);
+costocalusacRoutes.get('/:id/:id2', requireAuth, CostocalusacController.getCalusaccosto);
+costocalusacRoutes.post('/:recordID', requireAuth, CostocalusacController.creaCalusaccosto2s);
+costocalusacRoutes.delete('/:recordID/:userID',requireAuth,  CostocalusacController.deleteCalusaccosto);
+
+
+
+//-----------------------------------unidad academica3
+apiRoutes.use('/unidadacademica3s', unidadacademica3Routes);
+unidadacademica3Routes.get('/:id', requireAuth, Unidadacademica3Controller.getUnidadacademica3);
+unidadacademica3Routes.get('/:id/:id2',requireAuth,  Unidadacademica3Controller.getUnidadacademica3);
+unidadacademica3Routes.post('/:id', requireAuth, Unidadacademica3Controller.creaUnidadacademica32s);
+unidadacademica3Routes.delete('/:id/:userID',requireAuth,  Unidadacademica3Controller.deleteUnidadacademica3);
+
+//-----------------------------------unidad edificio 3
+apiRoutes.use('/unidadedificio3s',edificiousac3Routes);
+edificiousac3Routes.get('/:id',requireAuth,  Edificiousac3Controller.getUnidadedificio3);
+edificiousac3Routes.get('/:id2/:id3',requireAuth,  Edificiousac3Controller.getUnidadedificio3);
+edificiousac3Routes.post('/:recordID', requireAuth, Edificiousac3Controller.creaUnidadedificio32s);
+edificiousac3Routes.delete('/:recordID/:userID',requireAuth,  Edificiousac3Controller.deleteUnidadedificio3);
+
+
+//-----------------------------------unidad periodo3
+apiRoutes.use('/unidadperiodo3s',periodousac3Routes);
+periodousac3Routes.get('/:id',requireAuth,  Periodousac3Controller.getUnidadperiodo3);
+periodousac3Routes.get('/:id2/:id3',requireAuth,  Periodousac3Controller.getUnidadperiodo3);
+periodousac3Routes.get('/:id2/:id3/:id4',requireAuth,  Periodousac3Controller.getUnidadperiodo3);
+periodousac3Routes.post('/:recordID', requireAuth, Periodousac3Controller.creaUnidadperiodo32s);
+periodousac3Routes.delete('/:recordID/:userID',requireAuth,  Periodousac3Controller.deleteUnidadperiodo3);
+
+//-----------------------------------unidad profesores 3
+apiRoutes.use('/unidadprofesor3s',unidadprofesor3Routes);
+unidadprofesor3Routes.get('/:id',requireAuth,  Unidadprofesor3Controller.getUnidadprofesor3);
+unidadprofesor3Routes.get('/:id2/:id3',requireAuth,  Unidadprofesor3Controller.getUnidadprofesor3);
+unidadprofesor3Routes.post('/:recordID', requireAuth, Unidadprofesor3Controller.creaUnidadprofesor32s);
+unidadprofesor3Routes.delete('/:recordID/:userID',requireAuth, Unidadprofesor3Controller.deleteUnidadprofesor3);
+
+
+//-----------------------------------unidad nivel 3
+apiRoutes.use('/unidadnivel3s',unidadnivel3Routes);
+unidadnivel3Routes.get('/:id',requireAuth,  Unidadnivel3Controller.getUnidadnivel3);
+unidadnivel3Routes.get('/:id2/:id3',requireAuth,  Unidadnivel3Controller.getUnidadnivel3);
+unidadnivel3Routes.post('/:recordID', requireAuth, Unidadnivel3Controller.creaUnidadnivel32s);
+unidadnivel3Routes.delete('/:recordID/:userID',requireAuth, Unidadnivel3Controller.deleteUnidadnivel3);
+
+
+
+//-----------------------------------unidad jornada 3
+apiRoutes.use('/unidadjornada3s',unidadjornada3Routes);
+unidadjornada3Routes.get('/:id',requireAuth,  Unidadjornada3Controller.getUnidadjornada3);
+unidadjornada3Routes.get('/:id2/:id3',requireAuth,  Unidadjornada3Controller.getUnidadjornada3);
+unidadjornada3Routes.post('/:recordID', requireAuth, Unidadjornada3Controller.creaUnidadjornada32s);
+unidadjornada3Routes.delete('/:recordID/:userID',requireAuth, Unidadjornada3Controller.deleteUnidadjornada3);
+
+
+
+//-----------------------------------unidad tipo costo
+apiRoutes.use('/unidadpago3s',unidadpago3Routes);
+unidadpago3Routes.get('/:id',requireAuth,  Unidadpago3Controller.getUnidadpago3);
+unidadpago3Routes.get('/:id2/:id3/:id4/:id5',requireAuth,  Unidadpago3Controller.getUnidadpago3);
+unidadpago3Routes.post('/:recordID', requireAuth, Unidadpago3Controller.creaUnidadpago32s);
+unidadpago3Routes.delete('/:recordID/:userID',requireAuth, Unidadpago3Controller.deleteUnidadpago3);
+
+
+
+//-----------------------------------unidad horario 3
+apiRoutes.use('/unidadhorario3s',unidadhorario3Routes);
+unidadhorario3Routes.get('/:id',requireAuth,  Unidadhorario3Controller.getUnidadhorario3);
+unidadhorario3Routes.get('/:id2/:id3',requireAuth,  Unidadhorario3Controller.getUnidadhorario3);
+unidadhorario3Routes.post('/:recordID', requireAuth, Unidadhorario3Controller.creaUnidadhorario32s);
+unidadhorario3Routes.delete('/:recordID/:userID',requireAuth, Unidadhorario3Controller.deleteUnidadhorario3);
+
+
+
+
+//-----------------------------------unidad dia 3
+apiRoutes.use('/unidaddia3s',unidaddia3Routes);
+unidaddia3Routes.get('/:id',requireAuth,  Unidaddia3Controller.getUnidaddia3);
+unidaddia3Routes.get('/:id2/:id3',requireAuth,  Unidaddia3Controller.getUnidaddia3);
+unidaddia3Routes.post('/:recordID', requireAuth, Unidaddia3Controller.creaUnidaddia32s);
+unidaddia3Routes.delete('/:recordID/:userID',requireAuth, Unidaddia3Controller.deleteUnidaddia3);
+
+
+
+
+//-----------------------------------unidad edificio salon3
+apiRoutes.use('/unidadedificiosalon3s',edificiosalon3Routes);
+edificiosalon3Routes.get('/:id', requireAuth, Edificiosalon3Controller.getUnidadedificiosalon3);
+edificiosalon3Routes.get('/:id2/:id3/:id4', requireAuth, Edificiosalon3Controller.getUnidadedificiosalon3);
+edificiosalon3Routes.post('/:recordID', requireAuth, Edificiosalon3Controller.creaUnidadedificiosalon32s);
+edificiosalon3Routes.delete('/:recordID/:userID',requireAuth,  Edificiosalon3Controller.deleteUnidadedificiosalon3);
+
+
+//-----------------------------------unidad plan3
+apiRoutes.use('/unidadplan3s',unidadplan3Routes);
+unidadplan3Routes.get('/:id',requireAuth,  Unidadplan3Controller.getUnidadplan3);
+unidadplan3Routes.get('/:id2/:id3/:id4',requireAuth,  Unidadplan3Controller.getUnidadplan3);
+unidadplan3Routes.post('/:recordID',requireAuth,  Unidadplan3Controller.creaUnidadplan32s);
+unidadplan3Routes.delete('/:recordID/:userID',requireAuth,  Unidadplan3Controller.deleteUnidadplan3);
+
+
+
+
+//-----------------------------------FACULTAD MATERIA3
+apiRoutes.use('/facultadmateria3s', facultadmateria3Routes);
+facultadmateria3Routes.get('/',requireAuth, Facultadmateria3Controller.getFacultadmateria3);
+facultadmateria3Routes.get('/:id/:id2',requireAuth,  Facultadmateria3Controller.getFacultadmateria3);
+facultadmateria3Routes.post('/:recordID',requireAuth,  Facultadmateria3Controller.creaFacultadmateria32s);
+facultadmateria3Routes.delete('/:recordID/:userID', requireAuth, Facultadmateria3Controller.deleteFacultadmateria3);
+
+
+
 //-----------------------------------TIPO UNIDAD
 apiRoutes.use('/tipounidad2s', tipounidad2Routes);
 tipounidad2Routes.get('/',requireAuth, Tipounidad2Controller.getTipounidad2);
@@ -778,6 +940,15 @@ edificiousac2Routes.get('/:id',requireAuth,  Edificiousac2Controller.getUnidaded
 edificiousac2Routes.get('/:id2/:id3',requireAuth,  Edificiousac2Controller.getUnidadedificio2);
 edificiousac2Routes.post('/:recordID', requireAuth, Edificiousac2Controller.creaUnidadedificio22s);
 edificiousac2Routes.delete('/:recordID/:userID',requireAuth,  Edificiousac2Controller.deleteUnidadedificio2);
+
+
+//-----------------------------------unidad edificio 
+apiRoutes.use('/unidadedificio2s',edificiousac2Routes);
+edificiousac2Routes.get('/:id',requireAuth,  Edificiousac2Controller.getUnidadedificio2);
+edificiousac2Routes.get('/:id2/:id3',requireAuth,  Edificiousac2Controller.getUnidadedificio2);
+edificiousac2Routes.post('/:recordID', requireAuth, Edificiousac2Controller.creaUnidadedificio22s);
+edificiousac2Routes.delete('/:recordID/:userID',requireAuth,  Edificiousac2Controller.deleteUnidadedificio2);
+
 
 
 //-----------------------------------unidad periodo
@@ -818,6 +989,17 @@ facultadmateria2Routes.delete('/:recordID/:userID', requireAuth, Facultadmateria
 
 
 
+//-----------------------------------ASIGNA CALUSAC
+apiRoutes.use('/asignacalusacs', asignacalusacRoutes);
+asignacalusacRoutes.get('/',requireAuth, AsignacalusacController.getAsignacalusac);
+asignacalusacRoutes.get('/:id',requireAuth,  AsignacalusacController.getAsignacalusac);
+asignacalusacRoutes.get('/:id/:id2',requireAuth,  AsignacalusacController.getAsignacalusac);
+asignacalusacRoutes.get('/:id/:id2/:id3', AsignacalusacController.getAsignacalusac);
+asignacalusacRoutes.post('/:recordID', requireAuth, AsignacalusacController.creaAsignacalusac2s);
+asignacalusacRoutes.delete('/:recordID/:userID',requireAuth,  AsignacalusacController.deleteAsignacalusac);
+
+
+
 //-----------------------------------ASIGNA PCB
 apiRoutes.use('/asignapcbs', asignapcbRoutes);
 asignapcbRoutes.get('/',requireAuth, AsignapcbController.getAsignapcb);
@@ -835,7 +1017,9 @@ asignaestudiantepapRoutes.get('/:id',requireAuth,  AsignaestudiantepapController
 //noboleta,codigofactultad,monto,cui,jornada,TIPOUNIDAD,CODIGOUNIDAD
 asignaestudiantepapRoutes.post('/:recordID',requireAuth,  AsignaestudiantepapController.creaAsignaestudiantepap2s);
 
-
+//-----------------------------------ASIGNA ESTUDIANTE CALUSAC
+apiRoutes.use('/asignaestudiantecalusacs', asignaestudiantecalusacRoutes);
+asignaestudiantecalusacRoutes.get('/:id', AsignaestudiantecalusacController.getAsignaestudiantecalusac);//IMPRIMIR PDF SEGUN QR
 
 //-----------------------------------ASIGNA ESTUDIANTE
 apiRoutes.use('/asignaestudiantes', asignaestudianteRoutes);
