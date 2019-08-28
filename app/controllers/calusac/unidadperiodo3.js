@@ -1,5 +1,5 @@
 
-var Unidadperiodo3 = require('../../models/calusac/Unidadperiodo3');
+var Unidadperiodo3 = require('../../models/calusac/unidadperiodo3');
 var Bitacora = require('../../models/bitacora');
 
 exports.getUnidadperiodo3 = function(req, res, next){

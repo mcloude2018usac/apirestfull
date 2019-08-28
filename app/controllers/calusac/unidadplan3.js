@@ -1,5 +1,5 @@
 
-var Unidadplan3 = require('../../models/calusac/Unidadplan3');
+var Unidadplan3 = require('../../models/calusac/unidadplan3');
 var Bitacora = require('../../models/bitacora');
 
 exports.getUnidadplan3 = function(req, res, next){

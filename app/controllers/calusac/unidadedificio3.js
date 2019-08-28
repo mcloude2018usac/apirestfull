@@ -1,5 +1,5 @@
 
-var Unidadedificio3 = require('../../models/calusac/Unidadedificio3');
+var Unidadedificio3 = require('../../models/calusac/unidadedificio3');
 var Bitacora = require('../../models/bitacora');
 
 exports.getUnidadedificio3 = function(req, res, next){

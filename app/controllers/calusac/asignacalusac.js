@@ -6,7 +6,7 @@ var mailt = require('../../controllers/mail');
 var Asignaest = require('../../models/calusac/asignaestudiantecalusac');
 var Asignacalusac = require('../../models/calusac/asignacalusac');
 var Bitacora = require('../../models/bitacora');
-var Facplan3 = require('../../models/calusac/Unidadplan3');
+var Facplan3 = require('../../models/calusac/unidadplan3');
 
 
 var request = require('request');

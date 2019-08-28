@@ -1,5 +1,5 @@
 
-var Unidadacademica3 = require('../../models/calusac/Unidadacademica3');
+var Unidadacademica3 = require('../../models/calusac/unidadacademica3');
 var Bitacora = require('../../models/bitacora');
 
 exports.getUnidadacademica3 = function(req, res, next){

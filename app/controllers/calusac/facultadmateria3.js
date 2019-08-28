@@ -1,5 +1,5 @@
 
-var Facultadmateria3 = require('../../models/calusac/Facultadmateria3');
+var Facultadmateria3 = require('../../models/calusac/facultadmateria3');
 var Bitacora = require('../../models/bitacora');
 
 exports.getFacultadmateria3 = function(req, res, next){
