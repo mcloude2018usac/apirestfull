@@ -14,11 +14,20 @@ var AsignacalusacSchema = new mongoose.Schema({
     direccion:{        type: String},
     telefono:{        type: String},
     correo:{        type: String},
+    idedificio: {    id	: { type : String },   nombre	: { type : String }        },
+    idsalon: {    id	: { type : String },   nombre	: { type : String }        },
+
     sexo:{        type: String},
     nivelacademico:{        type: String},
     codpersonal:{        type: String},
     dependencia:{        type: String},
     tipoa:{        type: String},
+    jornada:{        type: String},
+    nivel:{        type: String},
+    horario:{        type: String},
+    dia:{        type: String},
+    profesor:{        type: String},
+
     carneusac:{        type: String},
      carnecalusac:{        type: String},
      cml:{        type: String},
@@ -38,6 +47,10 @@ var AsignacalusacSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    foto1:{        type: String},
+    foto2:{        type: String},
+    foto3:{        type: String},
+    foto4:{        type: String},
     date 		: { type: Date, default: Date.now }
     ,usuarionew	: { type : String },      usuarioup	: { type : String },tipoasignacion	: { type : String }
  
