@@ -3,6 +3,20 @@ var Unidadnivel3 = require('../../models/calusac/unidadnivel3');
 var Bitacora = require('../../models/bitacora');
 
 exports.getUnidadnivel3 = function(req, res, next){
+    if(req.params.id4)
+    {  
+
+        
+        Unidadnivel3.find({idtipounidad :req.params.id2,idunidadacademica:req.params.id3,codigo:req.params.id4},function(err, todos) {
+            if (err){ res.send(err); }
+           
+            if(todos.length>0)   {    res.json(todos);   }
+            else
+            {  res.status(500).send('NO EXISTE REGISTRO');      }
+            
+        });
+    }
+    else{
        if(req.params.id)
         {  
            
@@ -23,7 +37,7 @@ exports.getUnidadnivel3 = function(req, res, next){
                 res.json(todos);
             });
         }
-
+    }
  
 }
 exports.deleteUnidadnivel3 = function(req, res, next){

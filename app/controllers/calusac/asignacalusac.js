@@ -238,7 +238,7 @@ console.log(myXMLText2)
                                             
                                                 Asignacalusac.find({idestudiante:req.params.id3}).populate('tipopago').exec(function(err, todos) {
                                                     if (err){ res.send(err); }
-                                                console.log(todos)
+                                             
                                                 res.json(todos);   
                                                     
                                                     
@@ -477,33 +477,126 @@ exports.creaAsignacalusac2s = function(req, res, next){
   //  res.status(404).send(' espere un momento ')    
    //  return;
 
-    Bitacora.create(req.body.bitacora);
+  
+
+  
 if(req.params.recordID!=='crea')
-{ 
+{   Bitacora.create(req.body.bitacora);
     Asignacalusac.findById({ _id: req.params.recordID }, function (err, todo)  {
         if (err) {  res.send(err);  }
         else
-        {   todo.idtipounidad        	={id:req.body.idtipounidad.id,nombre:req.body.idtipounidad.nombre   }   	;
-            todo.idunidadacademica        	={id:req.body.idunidadacademica.id,nombre:req.body.idunidadacademica.nombre,codigo:req.body.idunidadacademica.codigo   }   	;
-            todo.idperiodo        	=	{id:req.body.idperiodo.id,nombre:req.body.idperiodo.nombre   }   	;
-            todo.no_orientacion        	=	req.body.no_orientacion        	||	todo.no_orientacion        	;
-            todo.nombre    	=	req.body.nombre    	||	todo.nombre    	;
-            todo.idestudiante    	=	req.body.idestudiante    	||	todo.idestudiante    	;
-            todo.idinterno        	=	req.body.idinterno       	||	todo.idinterno        	;
-            todo.usuarioup=req.body.bitacora.email;
-            todo.idtipounidad2        	={id:req.body.idtipounidad2.id,nombre:req.body.idtipounidad2.nombre   }   	;
-            todo.idunidadacademica2        	={id:req.body.idunidadacademica2.id,nombre:req.body.idunidadacademica2.nombre,codigo:req.body.idunidadacademica2.codigo   }   	;
-           
+        { 
 
-            todo.save(function (err, todo){
-                if (err)     {  res.status(404).send(err.message)   }
-                res.json(todo);
+            var projectDataForMatch = {
+                $project : {
+                    _id : 1, //list all fields needed here
+                    filterThisDoc : {
+                        $cond : {
+                            if  : {
+                                $lt : ["$asignados", "$capacidad"]
+                            },
+                        then : 1,
+                        else  : 0
+                    } //or use compare operator $cmp
+                }
+            }
+            }
+            
+            var match = {
+                $match : {
+                    filterThisDoc : 1
+                }
+            }
+
+            
+            Facplan3.aggregate([projectDataForMatch, match]  ).exec(function(err, todos) {
+                if (err){ res.send(err); }
+               
+                var duplicates = [];
+                var asigno=0;
+                todos.forEach(function (doc) {duplicates.push(doc._id);  });
+
+                Facplan3.find({_id: {$in: duplicates},'idtipounidad.id'        	: todo.idtipounidad.id        	,
+                'idunidadacademica.id'        	: todo.idunidadacademica.id  ,
+                'idperiodo.id':todo.idperiodo.id  ,
+                idnivel:todo.nivel,
+                idjornada:todo.jornada,
+                idhorario:todo.horario,
+                iddia:todo.dia,
+                idprofesor:todo.profesor,
+                //,   asignados:{$lt:capacidad}    	
+                      }).lean().exec({}, function(err,myData) {
+                    if (err) res.send(err);
+
+                    if(myData.length==0)   {    res.status(404).send('No existe cupo en este salon'); }
+                    else
+                    {
+                      //  console.log(myData)
+                        asigno=myData[0].asignados;
+                      
+                        asigno=asigno+1;
+                       
+
+
+                                        Facplan3.findById({ _id:myData[0]._id }, function (err, todo300)  {
+                                            if (err) {  res.send(err);  }
+                                            else
+                                            {
+                                                todo300.asignados        	=		asigno     	;
+                                                console.log('asignados ahoraccc: ' + asigno)
+                                                todo300.save(function (err, todo400){
+                                                    if (err)     {  console.log(err.message)   }
+
+
+                                                    Asignacalusac.findById({ _id: req.params.recordID }, function (err, todo100)  {
+                                                        if (err) {  res.send(err);  }
+                                                        else
+                                                        { console.log({    id	: myData[0].idedificio.id,   nombre	: myData[0].idedificio.nombre        })
+                                                        console.log({  id	: myData[0].idsalon.id,   nombre	: myData[0].idsalon.nombre   })
+                                                            todo100.estadopago        	=		'Asignación exitosa'    	;
+                                                            todo100.idedificio=myData[0].idedificio,
+                                                            todo100.idsalon= myData[0].idsalon,
+                                                            todo100.carnecalusac= '3325882',
+                                                            
+                                                
+                                                            todo100.save(function (err, todo200){
+                                                                if (err)     {  console.log(err.message)   }
+                                                        
+                                                                res.json(todo200);
+                                                           
+                                                                
+                                                            });
+                                                        }
+                                                    });
+                                                    
+                                                    
+                                                });
+                                            }
+                                        });
+
+                      
+                     
+    
+
+                    }
+
+                });
+
+
             });
+
+
+
+               
+                        
+
+
         }
     });
 
 }
 else{
+    Bitacora.create(req.body.bitacora);
 
     Asignacalusac.find({
         no_orientacion        	: req.body.no_orientacion        	,
@@ -533,7 +626,18 @@ else{
                             cml       	: req.body.cml        	,
                             monto       	: req.body.monto        	,
                            rubro      	: req.body.rubro        	,
-                          
+                           nivel      	: req.body.nivel        	,
+                           jornada      	: req.body.jornada        	,
+                           horario      	: req.body.horario        	,
+                           dia      	: req.body.dia        	,
+                           profesor      	: req.body.profesor        	,
+                           foto1      	: req.body.foto1        	,
+                           foto2      	: req.body.foto2        	,
+                           foto3      	: req.body.foto3        	,
+                           foto4      	: req.body.foto4        	,
+                           idedificio: {    id	: '',   nombre	: ''        },
+                           idsalon: {    id	: '',   nombre	: ''       },
+
                             identificador      	: req.body.identificador        	,
                             fechanac:req.body.fechanac,
                             cui:req.body.cui,
