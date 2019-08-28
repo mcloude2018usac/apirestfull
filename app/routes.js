@@ -6,6 +6,7 @@ var AuthenticationController = require('./controllers/authentication'),
 
    Unidadnivel3Controller = require('./controllers/calusac/unidadnivel3'),
    Unidadjornada3Controller = require('./controllers/calusac/unidadjornada3'),
+   AsignanotasController = require('./controllers/calusac/asignanotas'),
    Unidadhorario3Controller = require('./controllers/calusac/unidadhorario3'),
    Unidadpago3Controller = require('./controllers/calusac/unidadpago3'),
    Unidaddia3Controller = require('./controllers/calusac/unidaddia3'),
@@ -197,6 +198,7 @@ module.exports = function(app){
 
         unidadnivel3Routes = express.Router(),
         unidadjornada3Routes = express.Router(),
+        asignanotasRoutes = express.Router(),
         unidadhorario3Routes = express.Router(),
         unidadpago3Routes = express.Router(),
         unidaddia3Routes = express.Router(),
@@ -849,8 +851,17 @@ unidadprofesor3Routes.delete('/:recordID/:userID',requireAuth, Unidadprofesor3Co
 apiRoutes.use('/unidadnivel3s',unidadnivel3Routes);
 unidadnivel3Routes.get('/:id',requireAuth,  Unidadnivel3Controller.getUnidadnivel3);
 unidadnivel3Routes.get('/:id2/:id3',requireAuth,  Unidadnivel3Controller.getUnidadnivel3);
+unidadnivel3Routes.get('/:id2/:id3/:id4',requireAuth,  Unidadnivel3Controller.getUnidadnivel3);
 unidadnivel3Routes.post('/:recordID', requireAuth, Unidadnivel3Controller.creaUnidadnivel32s);
 unidadnivel3Routes.delete('/:recordID/:userID',requireAuth, Unidadnivel3Controller.deleteUnidadnivel3);
+
+//-------------------------------------------------------------------asigna notas
+apiRoutes.use('/asignanotas',asignanotasRoutes);
+asignanotasRoutes.get('/:id',requireAuth,  AsignanotasController.getAsignanotas);
+asignanotasRoutes.get('/:id/:id2/:id3',requireAuth,  AsignanotasController.getAsignanotas);
+asignanotasRoutes.post('/:recordID', requireAuth, AsignanotasController.creaAsignanotas2s);
+asignanotasRoutes.delete('/:recordID/:userID',requireAuth, AsignanotasController.deleteAsignanotas);
+
 
 
 

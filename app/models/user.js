@@ -38,7 +38,8 @@ var UserSchema = new mongoose.Schema({
     APP: { type : String },
     accesoestado: { type : String },
     accesohora: { type : String },
-    controlacceso: { type : String }
+    controlacceso: { type : String },
+    carnecalusac 	: { type : String }
  
 }, {
     timestamps: true
