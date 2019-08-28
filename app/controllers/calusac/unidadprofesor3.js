@@ -1,5 +1,5 @@
 
-var Unidadprofesor3 = require('../../models/calusac/Unidadprofesor3');
+var Unidadprofesor3 = require('../../models/calusac/unidadprofesor3');
 var Bitacora = require('../../models/bitacora');
 
 exports.getUnidadprofesor3 = function(req, res, next){
