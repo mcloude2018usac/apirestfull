@@ -112,7 +112,8 @@ exports.register = function(req, res, next){
             APP : req.body.APP,
             accesoestado:  req.body.accesoestado,
             accesohora:  req.body.accesohora,
-            controlacceso:''
+            controlacceso:'',
+            carnecalusac:''
             
          
         });
