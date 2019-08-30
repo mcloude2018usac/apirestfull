@@ -386,9 +386,17 @@ exports.getPersonal = function(req, res, next){
         {
       
             
-            if(req.params.id3=='actualizauser')
+            if(req.params.id2=='actualizauser')
             {
               
+
+
+                console.log({idempresa:req.params.id4, $or : [
+                    { $and : [ { email : req.params.email }] },
+                    { $and : [ { nov : req.params.email }] },
+                    { $and : [ { cui : req.params.email }] },
+                    { $and : [ { codpersonal : req.params.email }] }
+                 ]})
 
                 Personal.find({idempresa:req.params.id4, $or : [
                         { $and : [ { email : req.params.email }] },
