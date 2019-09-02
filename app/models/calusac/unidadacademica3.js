@@ -4,6 +4,9 @@ var mongoose =require("mongoose");
         idtipounidad   		: { type : String, required : true },
         nombre	: { type : String, required : true },
         codigo	: { type : Number, required : true },
+        ididioma	: { type :String, required : true, ref:'Unidadidioma3' },
+        idtipocurso	: { type :String, required : true, ref:'Unidadtipocurso3' },
+        idtipogrupo	: { type :String, required : true, ref:'Unidadtipogrupo3' },
         estado	: { type : String }
         ,usuarionew	: { type : String },      usuarioup	: { type : String }
         }, {

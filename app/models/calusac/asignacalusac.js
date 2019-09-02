@@ -22,10 +22,10 @@ var AsignacalusacSchema = new mongoose.Schema({
     codpersonal:{        type: String},
     dependencia:{        type: String},
     tipoa:{        type: String},
-    jornada:{        type: String},
-    nivel:{        type: String},
-    horario:{        type: String},
-    dia:{        type: String},
+    jornada:{        type: String ,ref:'Unidadjornada3' },
+    nivel:{        type: String ,ref:'Unidadnivel3' },
+    horario:{        type: String ,ref:'Unidadhorario3' },
+    dia:{        type: String ,ref:'Unidaddia3' },
     profesor:{        type: String},
 
     carneusac:{        type: String},
@@ -34,7 +34,11 @@ var AsignacalusacSchema = new mongoose.Schema({
 
      monto:{        type: String},
      rubro:{        type: String},
+     ididioma:{        type: String},
+     idtipogrupo:{        type: String},
+     idtipocurso:{        type: String},
      identificador:{        type: String},
+     nidentificador:{        type: String},
     nombre: {
         type: String,
         required: true
