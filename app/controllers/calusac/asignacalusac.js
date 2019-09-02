@@ -252,7 +252,7 @@ exports.getAsignacalusac = function(req, res, next){
                                         }
                                         else{
                                             
-                                                Asignacalusac.find({idestudiante:req.params.id3}).populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia').exec(function(err, todos) {
+                                                Asignacalusac.find({idestudiante:req.params.id3}).populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia').populate('profesor').exec(function(err, todos) {
                                                     if (err){ res.send(err); }
                                              console.log(todos)
                                                 res.json(todos);   
