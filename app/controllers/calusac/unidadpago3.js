@@ -8,7 +8,7 @@ exports.getUnidadpago3 = function(req, res, next){
            
             if(req.params.id5=='tipo')
             {
-                Unidadpago3.find({idtipounidad :req.params.id2,idunidadacademica:req.params.id3,tipo:req.params.id4},function(err, todos) {
+                Unidadpago3.find({idtipounidad :req.params.id2,idunidadacademica:req.params.id3,tipo:req.params.id4}).populate('nivel').exec(function(err, todos) {
                     if (err){  res.send(err);  }
                      res.json(todos);
                  });
@@ -19,8 +19,9 @@ exports.getUnidadpago3 = function(req, res, next){
             {
                 if(req.params.id5=='todos')
             {  console.log({idtipounidad :req.params.id2,idunidadacademica:req.params.id3})
-                Unidadpago3.find({idtipounidad :req.params.id2,idunidadacademica:req.params.id3},function(err, todos) {
+                Unidadpago3.find({idtipounidad :req.params.id2,idunidadacademica:req.params.id3}).populate('nivel').exec(function(err, todos) {
                     if (err){  res.send(err);  }
+                    console.log(todos)
                      res.json(todos);
                  });
                     
@@ -32,7 +33,7 @@ exports.getUnidadpago3 = function(req, res, next){
         {
             
             
-            Unidadpago3.find({_id :req.params.id},function(err, todos) {
+            Unidadpago3.find({_id :req.params.id}).populate('nivel').exec(function(err, todos) {
                 if (err){ res.send(err); }
                
                 if(todos.length>0)   {    res.json(todos);   }
@@ -67,9 +68,12 @@ if(req.params.recordID!=='crea')
 
             todo.codigo        	=	req.body.codigo        	||	todo.codigo        	;   
             todo.tipo       	=	req.body.tipo        	||	todo.tipo        	;   
+            todo.tipogrupo       	=	req.body.tipogrupo        	||	todo.tipogrupo        	;   
+            todo.tipocurso       	=	req.body.tipocurso        	||	todo.tipocurso        	;   
             todo.idtipounidad        	=	req.body.idtipounidad        	||	todo.idtipounidad        	;
             todo.idunidadacademica        	=	req.body.idunidadacademica        	||	todo.idunidadacademica        	;
-            todo.nombre        	=	req.body.nombre        	      	;
+            todo.nivel        	=	req.body.nivel        	      	;
+            todo.nombre        	=	req.body.nombre      
             todo.costo       	=	req.body.costo    
             todo.estado        	=	req.body.estado    
             todo.usuarioup=req.body.bitacora.email;
@@ -103,7 +107,10 @@ else{
             idtipounidad        	: req.body.idtipounidad        	,
             idunidadacademica: req.body.idunidadacademica,
             tipo: req.body.tipo,
+            tipocurso: req.body.tipocurso,
+            tipogrupo: req.body.tipogrupo,
             codigo: req.body.codigo,
+            nivel: req.body.nivel,
             nombre: req.body.nombre,
             costo: req.body.costo,
             estado: req.body.estado,

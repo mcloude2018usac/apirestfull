@@ -17,15 +17,31 @@ exports.getAsignacalusac = function(req, res, next){
     { 
 
         switch(req.params.id3) {
+            case 'todosautoriza':
+                    Asignacalusac.find({estadopago:{ $nin: [ 'Pendiente de pago' ]}}).populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia').exec(function(err, todos) {
+                        if (err){ res.send(err); }
+                 
+                    res.json(todos);   
+                        
+                        
+                    });
+                break;
+                      case 'todosautorizaestado':
+                    Asignacalusac.find({estadopago:req.params.id2}).populate('tipopago').exec(function(err, todos) {
+                        if (err){ res.send(err); }
+                 
+                    res.json(todos);   
+                        
+                        
+                    });
+                break;
             case 'ordenpago':
             var op= req.params.id2.split(',')
             var myXMLText2 = '<?xml version="1.0" encoding="utf-8"?><Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/"><Body><getData xmlns="urn:miserviciowsdl"><carnet>'+op[0]+'</carnet><unidad>00</unidad><extension>00</extension><carrera>00</carrera><nombre>'+op[1]+'</nombre><monto>'+op[2]+'</monto><anio>'+op[3]+'</anio><rubro>'+op[4]+'</rubro><variante_rubro>1</variante_rubro><subtotal>'+op[2]+'</subtotal></getData></Body></Envelope>'
 
             var myXMLText = '<?xml version="1.0" encoding="utf-8"?><Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/"><Body><getData xmlns="urn:miserviciowsdl"><carnet>29993154</carnet><unidad>00</unidad><extension>00</extension><carrera>00</carrera><nombre>Carmen Maria Cante</nombre><monto>240</monto><anio>2019</anio><rubro>145</rubro><variante_rubro>1</variante_rubro><subtotal>240</subtotal></getData></Body></Envelope>'
 
-console.log(myXMLText)
 
-console.log(myXMLText2)
      
 
             request({
@@ -231,14 +247,14 @@ console.log(myXMLText2)
             default:
 
                                         if((req.params.id3).indexOf(',')>0)
-                                        {console.log('nada')
+                                        {
                                             res.status(404).send('NO EXISTE REGISTRO');    
                                         }
                                         else{
                                             
-                                                Asignacalusac.find({idestudiante:req.params.id3}).populate('tipopago').exec(function(err, todos) {
+                                                Asignacalusac.find({idestudiante:req.params.id3}).populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia').exec(function(err, todos) {
                                                     if (err){ res.send(err); }
-                                             
+                                             console.log(todos)
                                                 res.json(todos);   
                                                     
                                                     
@@ -481,118 +497,154 @@ exports.creaAsignacalusac2s = function(req, res, next){
 
   
 if(req.params.recordID!=='crea')
-{   Bitacora.create(req.body.bitacora);
-    Asignacalusac.findById({ _id: req.params.recordID }, function (err, todo)  {
-        if (err) {  res.send(err);  }
-        else
-        { 
-
-            var projectDataForMatch = {
-                $project : {
-                    _id : 1, //list all fields needed here
-                    filterThisDoc : {
-                        $cond : {
-                            if  : {
-                                $lt : ["$asignados", "$capacidad"]
-                            },
-                        then : 1,
-                        else  : 0
-                    } //or use compare operator $cmp
-                }
-            }
-            }
-            
-            var match = {
-                $match : {
-                    filterThisDoc : 1
-                }
-            }
-
-            
-            Facplan3.aggregate([projectDataForMatch, match]  ).exec(function(err, todos) {
-                if (err){ res.send(err); }
-               
-                var duplicates = [];
-                var asigno=0;
-                todos.forEach(function (doc) {duplicates.push(doc._id);  });
-
-                Facplan3.find({_id: {$in: duplicates},'idtipounidad.id'        	: todo.idtipounidad.id        	,
-                'idunidadacademica.id'        	: todo.idunidadacademica.id  ,
-                'idperiodo.id':todo.idperiodo.id  ,
-                idnivel:todo.nivel,
-                idjornada:todo.jornada,
-                idhorario:todo.horario,
-                iddia:todo.dia,
-                idprofesor:todo.profesor,
-                //,   asignados:{$lt:capacidad}    	
-                      }).lean().exec({}, function(err,myData) {
-                    if (err) res.send(err);
-
-                    if(myData.length==0)   {    res.status(404).send('No existe cupo en este salon'); }
-                    else
-                    {
-                      //  console.log(myData)
-                        asigno=myData[0].asignados;
-                      
-                        asigno=asigno+1;
-                       
-
-
-                                        Facplan3.findById({ _id:myData[0]._id }, function (err, todo300)  {
-                                            if (err) {  res.send(err);  }
-                                            else
-                                            {
-                                                todo300.asignados        	=		asigno     	;
-                                                console.log('asignados ahoraccc: ' + asigno)
-                                                todo300.save(function (err, todo400){
-                                                    if (err)     {  console.log(err.message)   }
-
-
-                                                    Asignacalusac.findById({ _id: req.params.recordID }, function (err, todo100)  {
-                                                        if (err) {  res.send(err);  }
-                                                        else
-                                                        { console.log({    id	: myData[0].idedificio.id,   nombre	: myData[0].idedificio.nombre        })
-                                                        console.log({  id	: myData[0].idsalon.id,   nombre	: myData[0].idsalon.nombre   })
-                                                            todo100.estadopago        	=		'Asignación exitosa'    	;
-                                                            todo100.idedificio=myData[0].idedificio,
-                                                            todo100.idsalon= myData[0].idsalon,
-                                                            todo100.carnecalusac= '3325882',
-                                                            
-                                                
-                                                            todo100.save(function (err, todo200){
-                                                                if (err)     {  console.log(err.message)   }
-                                                        
-                                                                res.json(todo200);
-                                                           
-                                                                
-                                                            });
-                                                        }
-                                                    });
-                                                    
-                                                    
-                                                });
-                                            }
-                                        });
-
-                      
-                     
+{ 
     
-
-                    }
-
-                });
+    if( req.body.operacion=='cambiaestado')
+    {
 
 
-            });
-
-
-
+        Asignacalusac.findById({ _id: req.params.recordID }, function (err, todo100)  {
+            if (err) {  res.send(err);  }
+            else
+            { 
+                todo100.estadopago        	=		req.body.estadopago   	;
                
-                        
+    
+                todo100.save(function (err, todo200){
+                    if (err)     {  console.log(err.message)   }
+            
+                    res.json(todo200);
+               
+                    
+                });
+            }
+        });
 
 
-        }
-    });
+    }
+    else
+    {
+        Bitacora.create(req.body.bitacora);
+        Asignacalusac.findById({ _id: req.params.recordID }, function (err, todo)  {
+            if (err) {  res.send(err);  }
+            else
+            { 
+    
+                var projectDataForMatch = {
+                    $project : {
+                        _id : 1, //list all fields needed here
+                        filterThisDoc : {
+                            $cond : {
+                                if  : {
+                                    $lt : ["$asignados", "$capacidad"]
+                                },
+                            then : 1,
+                            else  : 0
+                        } //or use compare operator $cmp
+                    }
+                }
+                }
+                
+                var match = {
+                    $match : {
+                        filterThisDoc : 1
+                    }
+                }
+    
+                
+                Facplan3.aggregate([projectDataForMatch, match]  ).exec(function(err, todos) {
+                    if (err){ res.send(err); }
+                   console.log(todos)
+                    var duplicates = [];
+                    var asigno=0;
+                    todos.forEach(function (doc) {duplicates.push(doc._id);  });
+    
+              
+                    Facplan3.find({_id: {$in: duplicates},'idtipounidad.id'        	: todo.idtipounidad.id        	,
+                    'idunidadacademica.id'        	: todo.idunidadacademica.id  ,
+                    'idperiodo.id':todo.idperiodo.id  ,
+                    idnivel:todo.nivel,
+                    idjornada:req.body.jornada,
+                    idhorario:req.body.horario,
+                    iddia:req.body.dia,
+                    idprofesor:req.body.profesor
+                    //,   asignados:{$lt:capacidad}    	
+                          }).lean().exec({}, function(err,myData) {
+                        if (err) res.send(err);
+    
+                        if(myData.length==0)   {    res.status(404).send('Ya no existe cupo para este seccion , por favor seleccione otra seccion'); }
+                        else
+                        {
+                          //  console.log(myData)
+                            asigno=myData[0].asignados;
+                          
+                            asigno=asigno+1;
+                           
+    
+    
+                                            Facplan3.findById({ _id:myData[0]._id }, function (err, todo300)  {
+                                                if (err) {  res.send(err);  }
+                                                else
+                                                {
+                                                    todo300.asignados        	=		asigno     	;
+                                                    console.log('asignados ahoraccc: ' + asigno)
+                                                    todo300.save(function (err, todo400){
+                                                        if (err)     {  console.log(err.message)   }
+    
+    
+                                                        Asignacalusac.findById({ _id: req.params.recordID }, function (err, todo100)  {
+                                                            if (err) {  res.send(err);  }
+                                                            else
+                                                            { console.log({    id	: myData[0].idedificio.id,   nombre	: myData[0].idedificio.nombre        })
+                                                            console.log({  id	: myData[0].idsalon.id,   nombre	: myData[0].idsalon.nombre   })
+                                                                todo100.estadopago        	=		'Asignación exitosa'    	;
+                                                                todo100.idedificio=myData[0].idedificio,
+                                                                todo100.idsalon= myData[0].idsalon,
+                                                                todo100.carnecalusac= '3325882',
+                                                                todo100.jornada=req.body.jornada,
+                                                                todo100.horario=req.body.horario,
+                                                                todo100.dia=req.body.dia,
+                                                                todo100.profesor=req.body.profesor
+                                                             //   todo100.nivel=todo.nivel
+                                                                
+                                                    
+                                                                todo100.save(function (err, todo200){
+                                                                    if (err)     {  console.log(err.message)   }
+                                                            
+                                                                    res.json(todo200);
+                                                               
+                                                                    
+                                                                });
+                                                            }
+                                                        });
+                                                        
+                                                        
+                                                    });
+                                                }
+                                            });
+    
+                          
+                         
+        
+    
+                        }
+    
+                    });
+    
+    
+                });
+    
+    
+    
+                   
+                            
+    
+    
+            }
+        });
+
+    }
+
 
 }
 else{
@@ -627,10 +679,12 @@ else{
                             monto       	: req.body.monto        	,
                            rubro      	: req.body.rubro        	,
                            nivel      	: req.body.nivel        	,
-                           jornada      	: req.body.jornada        	,
-                           horario      	: req.body.horario        	,
-                           dia      	: req.body.dia        	,
-                           profesor      	: req.body.profesor        	,
+                           
+                           ididioma      	: req.body.ididioma        	,
+                           idtipocurso      	: req.body.idtipocurso        	,
+                           idtipogrupo      	: req.body.idtipogrupo        	,
+
+                           nidentificador:req.body.nidentificador       	,
                            foto1      	: req.body.foto1        	,
                            foto2      	: req.body.foto2        	,
                            foto3      	: req.body.foto3        	,

@@ -8,7 +8,7 @@ exports.getUnidadacademica3 = function(req, res, next){
         if(req.params.id2=='todosinactivo')
         {   
             Unidadacademica3.find({idtipounidad:req.params.id,estado:'Inactivo'}
-        ,null, {sort: {codigo: 1}},function(err, todos) {
+        ,null, {sort: {codigo: 1}}).populate('ididioma','idtipocurso','idtipogrupo').exec(function(err, todos) {
            if (err){  res.send(err);  }
            console.log(todos)
             res.json(todos);
@@ -19,15 +19,17 @@ exports.getUnidadacademica3 = function(req, res, next){
         if(req.params.id2=='todos')
         {   
             Unidadacademica3.find({idtipounidad:req.params.id}
-        ,null, {sort: {codigo: 1}},function(err, todos) {
+        ,null, {sort: {codigo: 1}})
+        .populate('ididioma').populate('idtipocurso').populate('idtipogrupo').exec(function(err, todos) {
            if (err){  res.send(err);  }
+           console.log(todos)
             res.json(todos);
         });
         }
-        else
+        else   
         {
             Unidadacademica3.find({idtipounidad:req.params.id,_id:req.params.id2}
-                ,null, {sort: {codigo: 1}},function(err, todos) {
+                ,null, {sort: {codigo: 1}}).populate('ididioma','idtipocurso','idtipogrupo').exec(function(err, todos) {
                     if (err){ res.send(err); }
                    
                     if(todos.length>0)   {    res.json(todos);   }
@@ -73,6 +75,9 @@ exports.creaUnidadacademica32s = function(req, res, next){
                 todo.idtipounidad        	=	req.body.idtipounidad        	||	todo.idtipounidad;        	;
                 todo.nombre        	=	req.body.nombre        	||	todo.nombre        	;
                 todo.codigo        	=	req.body.codigo        	||	todo.codigo        	;
+                todo.ididioma        	=	req.body.ididioma        	||	todo.ididioma        	;
+                todo.idtipocurso        	=	req.body.idtipocurso        	||	todo.idtipocurso        	;
+                todo.idtipogrupo        	=	req.body.idtipogrupo        	||	todo.idtipogrupo        	;
                 todo.estado        	=	req.body.estado        	||	todo.estado        	;
                 todo.usuarioup=req.body.bitacora.email;
                
@@ -99,6 +104,9 @@ exports.creaUnidadacademica32s = function(req, res, next){
             Unidadacademica3.create({  idtipounidad      	: req.body.idtipounidad     	,
                 nombre        	: req.body.nombre        	,
                 codigo        	: req.body.codigo        ,
+                ididioma        	: req.body.ididioma        ,
+                idtipocurso        	: req.body.idtipocurso        ,
+                idtipogrupo        	: req.body.idtipogrupo        ,
                 estado        	: req.body.estado        ,
                 usuarionew:req.body.bitacora.email	
             
