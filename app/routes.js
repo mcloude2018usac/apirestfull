@@ -19,6 +19,8 @@ var AuthenticationController = require('./controllers/authentication'),
     Participa33Controller = require('./controllers/participa33'),
     Participa4Controller = require('./controllers/participa4'),
     MailmarketController = require('./controllers/marketmail'),
+    ReglamentoController = require('./controllers/abogados/reglamento'),
+    ReglamentodController = require('./controllers/abogados/reglamentod'),
     ConferenciaController = require('./controllers/conferencia'),
     DcatalogoController = require('./controllers/dcatalogo'),
     SuscriptorsaldoController = require('./controllers/suscriptorsaldo'),
@@ -81,6 +83,10 @@ var AuthenticationController = require('./controllers/authentication'),
 
     Tipounidad3Controller = require('./controllers/calusac/tipounidad3'),
     Edificiousac3Controller = require('./controllers/calusac/unidadedificio3'),
+    Idiomausac3Controller = require('./controllers/calusac/unidadidioma3'),
+    Unidadtipogrupo3Controller = require('./controllers/calusac/unidadtipogrupo3'),
+    Unidadtipocurso3Controller = require('./controllers/calusac/unidadtipocurso3'),
+
     Periodousac3Controller = require('./controllers/calusac/unidadperiodo3'),
     Edificiosalon3Controller = require('./controllers/calusac/unidadedificiosalon3'),
     Unidadplan3Controller = require('./controllers/calusac/unidadplan3'),
@@ -132,6 +138,8 @@ module.exports = function(app){
         participa3Routes = express.Router(),
         participa33Routes = express.Router(),
         mailmarketRoutes = express.Router(),
+        reglamentoRoutes = express.Router(),
+        reglamentodRoutes = express.Router(),
         participa4Routes = express.Router(),
         conferenciaRoutes = express.Router(),
         dcatalogoRoutes = express.Router(),
@@ -206,6 +214,9 @@ module.exports = function(app){
         costocalusacRoutes = express.Router(),
         tipounidad3Routes = express.Router(),
         edificiousac3Routes = express.Router(),
+        idiomausac3Routes = express.Router(),
+        unidadtipogrupo3Routes = express.Router(),
+        unidadtipocurso3Routes = express.Router(),
         periodousac3Routes = express.Router(),
         unidadacademica3Routes = express.Router(),
         facultadmateria3Routes = express.Router(),
@@ -413,6 +424,27 @@ catusuarioRoutes.get('/:id',requireAuth,  CatusuarioController.getCatusuario);
 catusuarioRoutes.get('/:id/:id2/:id3',requireAuth, CatusuarioController.getCatusuario);
 catusuarioRoutes.post('/:recordID', requireAuth, CatusuarioController.creaCatusuario2s);
 catusuarioRoutes.delete('/:recordID/:userID',requireAuth, CatusuarioController.deleteCatusuario);
+
+
+//-----------------------------------REGLAMENTO
+apiRoutes.use('/reglamentos', reglamentoRoutes);
+reglamentoRoutes.get('/:id',requireAuth,  ReglamentoController.getReglamento);
+reglamentoRoutes.get('/:id/:id2',requireAuth,  ReglamentoController.getReglamento);
+reglamentoRoutes.get('/:id/:id2/:id3/:id4',requireAuth, ReglamentoController.getReglamento);
+reglamentoRoutes.get('/:id/:id2/:id3', ReglamentoController.getReglamento);//help del menu  sin login
+reglamentoRoutes.post('/:id',requireAuth, ReglamentoController.creaReglamento2s);
+reglamentoRoutes.delete('/:id/:userID',requireAuth,  ReglamentoController.deleteReglamento);
+
+//-----------------------------------REGLAMENTOD
+apiRoutes.use('/reglamentods', reglamentodRoutes);
+reglamentodRoutes.get('/:id',requireAuth,  ReglamentodController.getReglamentod);
+reglamentodRoutes.get('/:id/:id2/:id3',requireAuth,  ReglamentodController.getReglamentod);
+
+reglamentodRoutes.post('/:id',requireAuth, ReglamentodController.creaReglamentod2s);
+reglamentodRoutes.delete('/:id/:userID',requireAuth,  ReglamentodController.deleteReglamentod);
+
+
+
 
 
 //-----------------------------------MAILMARKET
@@ -829,6 +861,37 @@ edificiousac3Routes.get('/:id',requireAuth,  Edificiousac3Controller.getUnidaded
 edificiousac3Routes.get('/:id2/:id3',requireAuth,  Edificiousac3Controller.getUnidadedificio3);
 edificiousac3Routes.post('/:recordID', requireAuth, Edificiousac3Controller.creaUnidadedificio32s);
 edificiousac3Routes.delete('/:recordID/:userID',requireAuth,  Edificiousac3Controller.deleteUnidadedificio3);
+
+
+
+//-----------------------------------unidad idioma 3
+apiRoutes.use('/unidadidioma3s',idiomausac3Routes);
+idiomausac3Routes.get('/:id',requireAuth,  Idiomausac3Controller.getUnidadidioma3);
+idiomausac3Routes.get('/:id2/:id3',requireAuth,  Idiomausac3Controller.getUnidadidioma3);
+idiomausac3Routes.post('/:recordID', requireAuth, Idiomausac3Controller.creaUnidadidioma32s);
+idiomausac3Routes.delete('/:recordID/:userID',requireAuth,  Idiomausac3Controller.deleteUnidadidioma3);
+
+
+
+//-----------------------------------unidad tipogrupo 3
+apiRoutes.use('/unidadtipogrupo3s',unidadtipogrupo3Routes);
+unidadtipogrupo3Routes.get('/:id',requireAuth,  Unidadtipogrupo3Controller.getUnidadtipogrupo3);
+unidadtipogrupo3Routes.get('/:id2/:id3',requireAuth,  Unidadtipogrupo3Controller.getUnidadtipogrupo3);
+unidadtipogrupo3Routes.post('/:recordID', requireAuth, Unidadtipogrupo3Controller.creaUnidadtipogrupo32s);
+unidadtipogrupo3Routes.delete('/:recordID/:userID',requireAuth,  Unidadtipogrupo3Controller.deleteUnidadtipogrupo3);
+
+
+//-----------------------------------unidad tipocurso 3
+apiRoutes.use('/unidadtipocurso3s',unidadtipocurso3Routes);
+unidadtipocurso3Routes.get('/:id',requireAuth,  Unidadtipocurso3Controller.getUnidadtipocurso3);
+unidadtipocurso3Routes.get('/:id2/:id3',requireAuth,  Unidadtipocurso3Controller.getUnidadtipocurso3);
+unidadtipocurso3Routes.post('/:recordID', requireAuth, Unidadtipocurso3Controller.creaUnidadtipocurso32s);
+unidadtipocurso3Routes.delete('/:recordID/:userID',requireAuth,  Unidadtipocurso3Controller.deleteUnidadtipocurso3);
+
+
+
+
+
 
 
 //-----------------------------------unidad periodo3
