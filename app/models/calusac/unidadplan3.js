@@ -23,10 +23,7 @@ var mongoose =require("mongoose");
             type: String,
             required: true,ref:'Unidadhorario3'
         },
-        iddia: {
-            type: String,
-            required: true,ref:'Unidaddia3'
-        },
+      
         idprofesor: {
             type: String,
             required: true,ref:'Unidadprofesor3'
@@ -40,8 +37,7 @@ var mongoose =require("mongoose");
         },
        
         codfac: {
-            type: String,
-            required: true
+            type: String
         },
         date 		: { type: Date, default: Date.now }
         ,usuarionew	: { type : String },      usuarioup	: { type : String }

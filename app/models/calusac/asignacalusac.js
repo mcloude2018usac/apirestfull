@@ -16,7 +16,7 @@ var AsignacalusacSchema = new mongoose.Schema({
     correo:{        type: String},
     idedificio: {    id	: { type : String },   nombre	: { type : String }        },
     idsalon: {    id	: { type : String },   nombre	: { type : String }        },
-
+    ano:{        type: String},
     sexo:{        type: String},
     nivelacademico:{        type: String},
     codpersonal:{        type: String},
@@ -25,7 +25,7 @@ var AsignacalusacSchema = new mongoose.Schema({
     jornada:{        type: String ,ref:'Unidadjornada3' },
     nivel:{        type: String ,ref:'Unidadnivel3' },
     horario:{        type: String ,ref:'Unidadhorario3' },
-    dia:{        type: String ,ref:'Unidaddia3' },
+
     profesor:{        type: String,ref:'Unidadprofesor3'},
 
     carneusac:{        type: String},
@@ -34,9 +34,10 @@ var AsignacalusacSchema = new mongoose.Schema({
 
      monto:{        type: String},
      rubro:{        type: String},
-     ididioma:{        type: String},
-     idtipogrupo:{        type: String},
-     idtipocurso:{        type: String},
+     ididioma:{        type: String,ref:'Unidadidioma3'},
+     idtipogrupo:{        type: String,ref:'Unidadtipogrupo3'},
+     idtipocurso:{        type: String,ref:'Unidadtipocurso3'},
+     idplanifica:{        type: String,ref:'Unidadplan3'},
      identificador:{        type: String},
      nidentificador:{        type: String},
     nombre: {
