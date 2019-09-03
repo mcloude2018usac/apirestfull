@@ -554,11 +554,21 @@ if(req.params.recordID!=='crea')
                 
                 Facplan3.aggregate([projectDataForMatch, match]  ).exec(function(err, todos) {
                     if (err){ res.send(err); }
-                   console.log(todos)
+                 
                     var duplicates = [];
                     var asigno=0;
                     todos.forEach(function (doc) {duplicates.push(doc._id);  });
     
+                    console.log({_id: {$in: duplicates},'idtipounidad.id'        	: todo.idtipounidad.id        	,
+                    'idunidadacademica.id'        	: todo.idunidadacademica.id  ,
+                    'idperiodo.id':todo.idperiodo.id  ,
+                    idnivel:todo.nivel,  //PONER ESTE
+                    idjornada:req.body.jornada,
+                    idhorario:req.body.horario,
+                 
+                    idprofesor:req.body.profesor
+                    //,   asignados:{$lt:capacidad}    	
+                          })
               
                     Facplan3.find({_id: {$in: duplicates},'idtipounidad.id'        	: todo.idtipounidad.id        	,
                     'idunidadacademica.id'        	: todo.idunidadacademica.id  ,
@@ -566,13 +576,13 @@ if(req.params.recordID!=='crea')
                     idnivel:todo.nivel,
                     idjornada:req.body.jornada,
                     idhorario:req.body.horario,
-                    iddia:req.body.dia,
+                 
                     idprofesor:req.body.profesor
                     //,   asignados:{$lt:capacidad}    	
                           }).lean().exec({}, function(err,myData) {
                         if (err) res.send(err);
     
-                        if(myData.length==0)   {    res.status(404).send('Ya no existe cupo para este seccion , por favor seleccione otra seccion'); }
+                        if(myData.length==0)   {    res.status(404).send('Cupo leno en salon / No existe definido salon en estratuctura '); }
                         else
                         {
                           //  console.log(myData)
@@ -603,8 +613,10 @@ if(req.params.recordID!=='crea')
                                                                 todo100.carnecalusac= '3325882',
                                                                 todo100.jornada=req.body.jornada,
                                                                 todo100.horario=req.body.horario,
-                                                                todo100.dia=req.body.dia,
-                                                                todo100.profesor=req.body.profesor
+                                                               
+                                                                todo100.profesor=req.body.profesor,
+                                                                todo100.idplanifica=myData[0]._id
+
                                                              //   todo100.nivel=todo.nivel
                                                                 
                                                     
@@ -679,6 +691,7 @@ else{
                             monto       	: req.body.monto        	,
                            rubro      	: req.body.rubro        	,
                            nivel      	: req.body.nivel        	,
+                           ano      	: req.body.ano        	,
                            
                            ididioma      	: req.body.ididioma        	,
                            idtipocurso      	: req.body.idtipocurso        	,

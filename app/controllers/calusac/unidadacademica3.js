@@ -29,7 +29,7 @@ exports.getUnidadacademica3 = function(req, res, next){
         else   
         {
             Unidadacademica3.find({idtipounidad:req.params.id,_id:req.params.id2}
-                ,null, {sort: {codigo: 1}}).populate('ididioma','idtipocurso','idtipogrupo').exec(function(err, todos) {
+                ,null, {sort: {codigo: 1}}).populate('ididioma').populate('idtipocurso').populate('idtipogrupo').exec(function(err, todos) {
                     if (err){ res.send(err); }
                    
                     if(todos.length>0)   {    res.json(todos);   }

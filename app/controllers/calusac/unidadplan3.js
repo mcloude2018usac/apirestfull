@@ -1,8 +1,77 @@
 
 var Unidadplan3 = require('../../models/calusac/unidadplan3');
 var Bitacora = require('../../models/bitacora');
+var Facplan3 = require('../../models/calusac/unidadplan3');
 
 exports.getUnidadplan3 = function(req, res, next){
+    if(req.params.id5)
+    {  
+
+        
+    switch(req.params.id4) {
+        case 'jornadas':
+
+            var projectDataForMatch = {
+                
+                $project : {
+                    _id : 1, //list all fields needed here
+                    filterThisDoc : {
+                        $cond : {
+                            if  : {
+                                $lt : ["$asignados", "$capacidad"]
+                            },
+                        then : 1,
+                        else  : 0
+                    } //or use compare operator $cmp
+                }
+            }
+            }
+            
+            var match = {
+                $match : {
+                    filterThisDoc : 1
+                }
+            }
+
+            Facplan3.aggregate([ projectDataForMatch, match]  ).exec(function(err, todos10) {
+                if (err){ res.send(err); }
+             
+                var duplicates = [];
+                var asigno=0;
+                todos10.forEach(function (doc) {duplicates.push(doc._id);  });
+
+                console.log(todos10)
+                console.log(duplicates)
+
+                Unidadplan3.find({_id: {$in: duplicates},'idtipounidad.id' :req.params.id,'idunidadacademica.id':req.params.id2,'idperiodo.id':req.params.id3})
+               .exec(function(err, todos) {
+                       if (err){  res.send(err);  }
+                 
+                      
+        
+                        res.json(todos);
+                    });
+
+
+
+            });
+
+     
+            
+
+        break
+        case 'horarios':
+        break
+        case 'profesores':
+        break
+        default:
+        break;
+
+    }
+
+
+    }
+    else{
        if(req.params.id)
         {  
            
@@ -18,8 +87,10 @@ exports.getUnidadplan3 = function(req, res, next){
            
         }
         else
-        { Unidadplan3.find({'idtipounidad.id' :req.params.id2,'idunidadacademica.id':req.params.id3,'idperiodo.id':req.params.id4})
-        .populate('idnivel').populate('idjornada').populate('idhorario').populate('iddia').populate('idprofesor').exec(function(err, todos) {
+        {
+            console.log
+            Unidadplan3.find({'idtipounidad.id' :req.params.id2,'idunidadacademica.id':req.params.id3,'idperiodo.id':req.params.id4})
+        .populate('idnivel').populate('idjornada').populate('idhorario').populate('idprofesor').exec(function(err, todos) {
                if (err){  res.send(err);  }
                /*var myData = [];
               
@@ -49,6 +120,7 @@ exports.getUnidadplan3 = function(req, res, next){
                 res.json(todos);
             });
         }
+    }
 
  
 }
@@ -83,7 +155,7 @@ if(req.params.recordID!=='crea')
             todo.idnivel=	req.body.idnivel        	||	todo.idnivel        	;
             todo.idjornada=	req.body.idjornada        	||	todo.idjornada        	;
             todo.idhorario=	req.body.idhorario        	||	todo.idhorario        	;
-            todo.iddia=	req.body.iddia        	||	todo.iddia        	;
+         
             todo.idprofesor=	req.body.idprofesor        	||	todo.idprofesor        	;
             
           
@@ -104,15 +176,18 @@ if(req.params.recordID!=='crea')
 else{
 
   
-    
+    console.log({'idtipounidad.id'        	: req.body.idtipounidad.id       
+     	,  'idunidadacademica.id': req.body.idunidadacademica.id,
+     'idperiodo.id': req.body.idperiodo.id,    'idedificio.id': req.body.idedificio.id, 
+       'idsalon': req.body.idsalon.id,   'idhorario.id': req.body.idhorario.id  })
 
-    Unidadplan3.find({idtipounidad        	: req.body.idtipounidad       
-         	,  idunidadacademica: req.body.idunidadacademica, 
-         idperiodo: req.body.idperiodo,    idedificio: req.body.idedificio, 
-           idsalon: req.body.idsalon,   idhorario: req.body.idhorario  },function(err, todos) {
+    Unidadplan3.find({'idtipounidad.id'        	: req.body.idtipounidad.id       
+         	,  'idunidadacademica.id': req.body.idunidadacademica.id,
+         'idperiodo.id': req.body.idperiodo.id,    'idedificio.id': req.body.idedificio.id, 
+           'idsalon.id': req.body.idsalon.id,   'idhorario': req.body.idhorario  },function(err, todos) {
         if (err){ res.send(err); }
       
-        if(todos.length>0)   {    res.status(500).send('Ya existe una planificacion para este salon y horario'); }
+        if(todos.length>0)   {    res.status(500).send('Ya existe una planificacion para este salon, jornada, y horario '); }
         else
         {   
 
@@ -126,7 +201,7 @@ else{
             idnivel: req.body.idnivel,
             idjornada: req.body.idjornada,
             idhorario: req.body.idhorario,
-            iddia: req.body.iddia,
+         
             idprofesor: req.body.idprofesor,
             capacidad: req.body.capacidad,
             asignados: req.body.asignados,

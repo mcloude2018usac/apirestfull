@@ -3,26 +3,11 @@ var Unidadhorario3 = require('../../models/calusac/unidadhorario3');
 var Bitacora = require('../../models/bitacora');
 
 exports.getUnidadhorario3 = function(req, res, next){
-       if(req.params.id)
-        {  
-           
-                Unidadhorario3.find({_id :req.params.id},function(err, todos) {
-                    if (err){ res.send(err); }
-                   
-                    if(todos.length>0)   {    res.json(todos);   }
-                    else
-                    {  res.status(500).send('NO EXISTE REGISTRO');      }
-                    
-                });
-             
-           
-        }
-        else
-        { Unidadhorario3.find({idtipounidad :req.params.id2,idunidadacademica:req.params.id3},function(err, todos) {
+    Unidadhorario3.find({idtipounidad :req.params.id2,idunidadacademica:req.params.id3,idjornada:req.params.id},function(err, todos) {
                if (err){  res.send(err);  }
                 res.json(todos);
             });
-        }
+        
 
  
 }
@@ -50,7 +35,9 @@ if(req.params.recordID!=='crea')
             todo.correo        	=	req.body.correo        	||	todo.correo        	;   
             todo.idtipounidad        	=	req.body.idtipounidad        	||	todo.idtipounidad        	;
             todo.idunidadacademica        	=	req.body.idunidadacademica        	||	todo.idunidadacademica        	;
+            todo.idjornada        	=	req.body.idjornada        	||	todo.idjornada        	;
             todo.nombre        	=	req.body.nombre        	      	;
+            todo.dia        	=	req.body.dia        	      	;
             todo.usuarioup=req.body.bitacora.email;
             
             
@@ -67,23 +54,26 @@ else{
   
     
     
-    Unidadhorario3.find({idtipounidad        	: req.body.idtipounidad        	,
-        idunidadacademica: req.body.idunidadacademica, nombre: req.body.nombre
+    Unidadhorario3.find({idtipounidad        	: req.body.idtipounidad        	,idjornada        	: req.body.idjornada ,
+        idunidadacademica: req.body.idunidadacademica, nombre: req.body.nombre, idunidadacademica: req.body.idunidadacademica,
+        dia: req.body.dia
       
         
          },function(err, todos) {
         if (err){ res.send(err); }
       
-        if(todos.length>0)   {    res.status(500).send('Ya existe un Edificio con este nombre'); }
+        if(todos.length>0)   {    res.status(500).send('Horario ya existe en catalogo'); }
         else
         {   
 
             Unidadhorario3.create({
             idtipounidad        	: req.body.idtipounidad        	,
+            idjornada        	: req.body.idjornada        	,
             idunidadacademica: req.body.idunidadacademica,
             correo: req.body.correo,
             codigo: req.body.codigo,
             nombre: req.body.nombre,
+            dia: req.body.dia,
             usuarionew:req.body.bitacora.email
         
               }
