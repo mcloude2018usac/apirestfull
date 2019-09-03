@@ -950,6 +950,7 @@ unidadpago3Routes.delete('/:recordID/:userID',requireAuth, Unidadpago3Controller
 apiRoutes.use('/unidadhorario3s',unidadhorario3Routes);
 unidadhorario3Routes.get('/:id',requireAuth,  Unidadhorario3Controller.getUnidadhorario3);
 unidadhorario3Routes.get('/:id2/:id3',requireAuth,  Unidadhorario3Controller.getUnidadhorario3);
+unidadhorario3Routes.get('/:id/:id2/:id3',requireAuth,  Unidadhorario3Controller.getUnidadhorario3);
 unidadhorario3Routes.post('/:recordID', requireAuth, Unidadhorario3Controller.creaUnidadhorario32s);
 unidadhorario3Routes.delete('/:recordID/:userID',requireAuth, Unidadhorario3Controller.deleteUnidadhorario3);
 
@@ -978,6 +979,7 @@ edificiosalon3Routes.delete('/:recordID/:userID',requireAuth,  Edificiosalon3Con
 apiRoutes.use('/unidadplan3s',unidadplan3Routes);
 unidadplan3Routes.get('/:id',requireAuth,  Unidadplan3Controller.getUnidadplan3);
 unidadplan3Routes.get('/:id2/:id3/:id4',requireAuth,  Unidadplan3Controller.getUnidadplan3);
+unidadplan3Routes.get('/:id/:id2/:id3/:id4/:id5',requireAuth,  Unidadplan3Controller.getUnidadplan3);
 unidadplan3Routes.post('/:recordID',requireAuth,  Unidadplan3Controller.creaUnidadplan32s);
 unidadplan3Routes.delete('/:recordID/:userID',requireAuth,  Unidadplan3Controller.deleteUnidadplan3);
 
