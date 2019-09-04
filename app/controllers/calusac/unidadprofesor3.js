@@ -48,6 +48,7 @@ if(req.params.recordID!=='crea')
 
             todo.codigo        	=	req.body.codigo        	||	todo.codigo        	;   
             todo.correo        	=	req.body.correo        	||	todo.correo        	;   
+            todo.cui        	=	req.body.cui        	||	todo.cui        	;   
             todo.idtipounidad        	=	req.body.idtipounidad        	||	todo.idtipounidad        	;
             todo.idunidadacademica        	=	req.body.idunidadacademica        	||	todo.idunidadacademica        	;
             todo.nombre        	=	req.body.nombre        	      	;
@@ -82,6 +83,7 @@ else{
             idtipounidad        	: req.body.idtipounidad        	,
             idunidadacademica: req.body.idunidadacademica,
             correo: req.body.correo,
+            correo: req.body.cui,
             codigo: req.body.codigo,
             nombre: req.body.nombre,
             usuarionew:req.body.bitacora.email

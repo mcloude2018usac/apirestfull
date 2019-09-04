@@ -47,6 +47,8 @@ if(req.params.recordID!=='crea')
         else
         {  
             todo.nombre        	=	req.body.nombre        	||	todo.nombre        	;
+            
+            todo.correlativocarne        	=	req.body.correlativocarne        	||	todo.correlativocarne        	;
             todo.codigo        	=	req.body.codigo        	||	todo.codigo        	;
             todo.iddepartamento        	=	{id:req.body.iddepartamento.id,nombre:req.body.iddepartamento.nombre   }   	;
             todo.abreviatura        	=	req.body.abreviatura        	||	todo.abreviatura    	;
@@ -75,6 +77,7 @@ else{
             Tipounidad3.create({
                 nombre        	: req.body.nombre        	,
                 codigo        	: req.body.codigo   ,
+                correlativocarne:req.body.correlativocarne,
                 iddepartamento        	: req.body.iddepartamento   ,
                 abreviatura        	: req.body.abreviatura     ,
                 estado        	: req.body.estado     ,
