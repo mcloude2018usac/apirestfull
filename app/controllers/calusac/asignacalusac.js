@@ -558,18 +558,7 @@ if(req.params.recordID!=='crea')
                     var duplicates = [];
                     var asigno=0;
                     todos.forEach(function (doc) {duplicates.push(doc._id);  });
-    
-                    console.log({_id: {$in: duplicates},'idtipounidad.id'        	: todo.idtipounidad.id        	,
-                    'idunidadacademica.id'        	: todo.idunidadacademica.id  ,
-                    'idperiodo.id':todo.idperiodo.id  ,
-                    idnivel:todo.nivel,  //PONER ESTE
-                    idjornada:req.body.jornada,
-                    idhorario:req.body.horario,
-                 
-                    idprofesor:req.body.profesor
-                    //,   asignados:{$lt:capacidad}    	
-                          })
-              
+                  
                     Facplan3.find({_id: {$in: duplicates},'idtipounidad.id'        	: todo.idtipounidad.id        	,
                     'idunidadacademica.id'        	: todo.idunidadacademica.id  ,
                     'idperiodo.id':todo.idperiodo.id  ,
@@ -605,8 +594,7 @@ if(req.params.recordID!=='crea')
                                                         Asignacalusac.findById({ _id: req.params.recordID }, function (err, todo100)  {
                                                             if (err) {  res.send(err);  }
                                                             else
-                                                            { console.log({    id	: myData[0].idedificio.id,   nombre	: myData[0].idedificio.nombre        })
-                                                            console.log({  id	: myData[0].idsalon.id,   nombre	: myData[0].idsalon.nombre   })
+                                                            {
                                                                 todo100.estadopago        	=		'Asignación exitosa'    	;
                                                                 todo100.idedificio=myData[0].idedificio,
                                                                 todo100.idsalon= myData[0].idsalon,
