@@ -9,6 +9,7 @@ var Unidadprofesor3 = require('../../models/calusac/unidadprofesor3');
 exports.getUnidadplan3 = function(req, res, next){
     if(req.params.id5)
     {  
+        console.log(req.params)
     switch(req.params.id5) {
         case 'jornadas':
             var projectDataForMatch = {
@@ -17,6 +18,7 @@ exports.getUnidadplan3 = function(req, res, next){
                   idtipounidad:1,
                   idunidadacademica:1,
                   idperiodo:1,
+                  idnivel:1,
                     filterThisDoc : {
                         $cond : {
                             if  : {
@@ -29,11 +31,12 @@ exports.getUnidadplan3 = function(req, res, next){
             }
             }
             var match = {
-                $match : {
+                $match : {  
                     filterThisDoc : 1,
-                    'idtipounidad.id' :req.params.id,'idunidadacademica.id':req.params.id2,'idperiodo.id':req.params.id3
+                    'idtipounidad.id' :req.params.id,'idunidadacademica.id':req.params.id2,'idperiodo.id':req.params.id3,'idnivel':req.params.id4
                 }
             }
+            console.log({  'idtipounidad.id' :req.params.id,'idunidadacademica.id':req.params.id2,'idperiodo.id':req.params.id3,'idnivel':req.params.id4})
             Facplan3.aggregate([ projectDataForMatch, match]  ).exec(function(err, todos10) {
                 if (err){ res.send(err); }
                 var duplicates = [];
@@ -72,10 +75,8 @@ exports.getUnidadplan3 = function(req, res, next){
             Facplan3.aggregate([ projectDataForMatch, match]  ).exec(function(err, todos10) {
                 if (err){ res.send(err); }
                 var duplicates = [];
-                console.log(todos10)
                 todos10.forEach(function (doc) {duplicates.push(doc.idhorario);  });
-                console.log({_id: {$in: duplicates},idtipounidad :req.params.id,idunidadacademica:req.params.id2})
-                 Unidadhorario3.find({_id: {$in: duplicates},idtipounidad :req.params.id,idunidadacademica:req.params.id2},function(err, todos) {
+                  Unidadhorario3.find({_id: {$in: duplicates},idtipounidad :req.params.id2,idunidadacademica:req.params.id2},function(err, todos) {
                     if (err){  res.send(err);  }
                      res.json(todos);
                  });
@@ -88,6 +89,7 @@ exports.getUnidadplan3 = function(req, res, next){
                   idtipounidad:1,
                   idunidadacademica:1,
                   idperiodo:1,
+                  idnivel:1,
                     filterThisDoc : {
                         $cond : {
                             if  : {
@@ -102,7 +104,7 @@ exports.getUnidadplan3 = function(req, res, next){
             var match = {
                 $match : {
                     filterThisDoc : 1,
-                    'idtipounidad.id' :req.params.id,'idunidadacademica.id':req.params.id2,'idperiodo.id':req.params.id3
+                    'idtipounidad.id' :req.params.id,'idunidadacademica.id':req.params.id2,'idperiodo.id':req.params.id3,'idnivel':req.params.id4
                 }
             }
             Facplan3.aggregate([ projectDataForMatch, match]  ).exec(function(err, todos10) {
