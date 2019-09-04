@@ -5,7 +5,8 @@ var mongoose =require("mongoose");
         idunidadacademica   		: { type : String, required : true },
         codigo	: { type : String, required : true },
         nombre	: { type : String, required : true },
-        correo	: { type : String, required : true }
+        correo	: { type : String, required : true },
+        cui	: { type : String, required : true }
         ,usuarionew	: { type : String },      usuarioup	: { type : String }
         }, {
         timestamps: true
