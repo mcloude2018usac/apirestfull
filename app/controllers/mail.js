@@ -2,158 +2,99 @@
 var nodemailer = require('nodemailer');
 //var ses = require('nodemailer-ses-transport');
    
+
+
+const REGION = 'us-east-1'
+const PROFILE = 'ses'
+const CREDENTIALS_FILE = 'credentials'
+const SOURCE = 'noreply@usacenlinea.info'
+const CHARSET = 'UTF-8'
+const RETURN_PATH = 'noreply@usacenlinea.info'
+const MULTIPART_TYPE = 'multipart/alternate'
+const HTML_TYPE = 'text/html;charset=utf-8'
+
+const util = require('util')
+const fs = require('fs')
+const AWS = require('aws-sdk')
+const mimemessage = require('mimemessage')
+
+const credentials = new AWS.SharedIniFileCredentials({filename: CREDENTIALS_FILE, profile: PROFILE})
+AWS.config.update({region: REGION})
+AWS.config.credentials = credentials
+const ses = new AWS.SES()
+
    
 exports.getMail2 = function(req1, res){
-    var transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-               user: 'usacenlinea1.0@usacenlinea.net',
-               pass: 'Amazon1518@'
-           }
-       });
-  
-  const mailOptions = {
-    from: 'usacenlinea1.0@gmail.com', // sender address
-    to: req1.destino, // list of receivers
-    subject: req1.subjet, // Subject line
-    html: req1.html
-  };
-  transporter.sendMail(mailOptions, function (err, info) {
-    if(err){
-    res.status(500).send(err.sqlMessage);
+
+  let params = {
+    Destination: {
+      BccAddresses:[req1.destino]
+    },
+    Message: {
+      Body: {
+        Html: {
+          Charset: CHARSET,
+          Data: req1.html
+        }
+      },
+      Subject: {
+        Charset: CHARSET,
+        Data:  req1.subjet
+      }
+    },
+    ReplyToAddresses: [],
+    ReturnPath: RETURN_PATH,
+    Source: SOURCE
+  }
+
+  ses.sendEmail(params, function(err, data) {
+    if (err) {
+      res.status(500).send(err.sqlMessage);
+      return
     }
-        
- });
-       
+    console.log(data)
+  })
+
+
 }   
 
   
 //user: 'usacenlinea1.0@usacenlinea.net',
 exports.getMail = function(req, res, next){
 
- //res.status(500).send('');
-  
-    var transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-               user: 'usacenlinea@gmail.com',
-               pass: 'Nu3va3ra2021@'
-            //  pass: 'Amazon1518@'
-           }
-       });
-        
-      const mailOptions = {
-        from: 'usacenlinea@gmail.com', // sender address
-        to: req.body.destino+';mario.morales@mcloude.com', // list of receivers
-        subject: req.body.subjet, // Subject line
-        html: req.body.html
-       
-      };
-   
-     
-      transporter.sendMail(mailOptions, function (err, info) {
-        if(err){ 
-    
-          res.status(500).send(err.sqlMessage);
-          
-      
+  let params = {
+    Destination: {
+      BccAddresses:[req.body.destino]
+    },
+    Message: {
+      Body: {
+        Html: {
+          Charset: CHARSET,
+          Data: req.body.html
         }
-        else
-        {
-        
-          res.json(info);
-       
-        }
-     });
+      },
+      Subject: {
+        Charset: CHARSET,
+        Data:  req.body.subjet
+      }
+    },
+    ReplyToAddresses: [],
+    ReturnPath: RETURN_PATH,
+    Source: SOURCE
+  }
 
-
-
-
-    //}    else   {res.json(info);    }});
-  
-  /*
-    var transporter = nodemailer.createTransport({
-        pool: true,
-        host: 'email-smtp.us-west-2.amazonaws.com',
-        port: 587,
-       
-        auth: {
-               user: 'AKIAIT7X75D5KB4GSILQ',
-               pass: 'BO9iQ1hEr/JmGpqSrE32JakwkIP2SjjdY70TL3jg7gE6'
-           }
-       });
-
-*/
-/*
-var transporter = nodemailer.createTransport({
-    pool: false,
-    host: 'email-smtp.us-west-2.amazonaws.com',
-    port: 587,
-   
-    auth: {
-           user: 'AKIAIT7X75D5KB4GSILQ',
-           pass: 'BO9iQ1hEr/JmGpqSrE32JakwkIP2SjjdY70TL3jg7gE6'
-       }
-   });
-
-  const mailOptions = {
-    from: 'usacenlinea1.0@gmail.com', // sender address
-    to: req.body.destino+';mario.morales@mcloude.com', // list of receivers
-    subject: req.body.subjet, // Subject line
-    html: req.body.html
-   
-  };
-
-  transporter.sendMail(mailOptions, function (err, info) {
-    if(err){
-        var transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                   user: 'mario.morales@mcloude.com',
-                   pass: 'ocitocit'
-               }
-           });
-           */
-
-
-    /*
-      switch(req.body.actualiza.tipo) {
-        case 'participantes':
-        cosnole.log('actualiza entra participa333333333333332');
-                      Participa.findById({ _id: req.body.actualiza.id}, function (err, todo)  {
-                        if (err) {  res.status(500).send(err.sqlMessage);  }
-                        else
-                        {  
-                            todo.estado 	=	req.body.actualiza.estado 	||req.body.actualiza.estado 	;
-                            todo.otros 	=	req.body.actualiza.otros 	||	req.body.actualiza.otros 	;
-                          
-                            todo.save(function (err, todo){
-                                if (err)     {  res.status(500).send(err.message)   }
-                                res.json(todo);
-                            });
-                        }
-                    });
-            break;
-        case 'participantes2':
-        cosnole.log('actualiza entra participa2ddddddddddddddddddddddd');
-                      Participa2.findById({ _id: req.body.actualiza.id}, function (err, todo)  {
-                        if (err) {  res.status(500).send(err.sqlMessage);  }
-                        else
-                        {  
-                          cosnole.log('actualiza entra participa2');
-                     
-                            todo.estado 	=	req.body.actualiza.estado 	||req.body.actualiza.estado 	;
-                        //  todo.otros 	=	req.body.actualiza.otros 	||	req.body.actualiza.otros 	;
-                          
-                            todo.save(function (err, todo){
-                                if (err)     {  res.status(500).send(err.message)   }
-                                res.json(todo);
-                            });
-                        }
-                    });
-            break;
-        default:
-        res.json(info);
+  ses.sendEmail(params, function(err, data) {
+    if (err) {
+      res.status(500).send(err.sqlMessage);
+      return
     }
-*/
+    res.json(data);
+  })
+
+
+  
+
+
+
+
 }

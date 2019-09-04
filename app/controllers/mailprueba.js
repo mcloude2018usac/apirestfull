@@ -28,6 +28,146 @@ var failure_email = [];
 var transporter;
 
 
+const REGION = 'us-east-1'
+const PROFILE = 'ses'
+const CREDENTIALS_FILE = 'credentials'
+const SOURCE = 'noreply@usacenlinea.info'
+const CHARSET = 'UTF-8'
+const RETURN_PATH = 'noreply@usacenlinea.info'
+const MULTIPART_TYPE = 'multipart/alternate'
+const HTML_TYPE = 'text/html;charset=utf-8'
+
+const util = require('util')
+const fs = require('fs')
+const AWS = require('aws-sdk')
+const mimemessage = require('mimemessage')
+
+const credentials = new AWS.SharedIniFileCredentials({filename: CREDENTIALS_FILE, profile: PROFILE})
+AWS.config.update({region: REGION})
+AWS.config.credentials = credentials
+const ses = new AWS.SES()
+
+
+var mandacorreoprueba2= function(){
+  sendEmail(['mario.morales@mcloude.com'],'pruebA','MENSAJE DE PRUEBA',['mario.morales@mcloude.com'])
+
+}
+
+
+function sendMails(bccAddresses, message, subject, replyToAddresses, attachments){
+  let i
+  let j
+  let batch
+  let batchSize = 50
+  if(attachments){
+    let msg
+    let alternateEntity
+    let htmlEntity
+    let attachmentEntity
+
+    msg = mimemessage.factory({
+      contentType: 'multipart/mixed',
+      body: []
+    })
+    msg.header('Subject', subject)
+    msg.header('From', SOURCE)
+
+    alternateEntity = mimemessage.factory({
+      contentType: MULTIPART_TYPE,
+      body: []
+    })
+    htmlEntity = mimemessage.factory({
+      contentType: HTML_TYPE,
+      body: message
+    })
+    alternateEntity.body.push(htmlEntity)
+    msg.body.push(alternateEntity)
+
+    attachments.forEach((attachment) => {
+      attachmentEntity = mimemessage.factory({
+        contentType: attachment.contentType,
+        contentTransferEncoding: 'base64',
+        body: base64_encode(attachment.url)
+      })
+      attachmentEntity.header('Content-Disposition', util.format('attachment ;filename="%s"', attachment.filename))
+      msg.body.push(attachmentEntity)
+    })
+
+    for (i=0, j=bccAddresses.length; i<j; i+=batchSize) {
+      batch = bccAddresses.slice(i,i+batchSize)
+      msg.header('Bcc', batch.join(','))
+      setTimeout(
+        sendRawEmail,
+        80 * i/batchSize,
+        msg
+      )
+    }
+  } else{
+    for (i=0, j=bccAddresses.length; i<j; i+=batchSize) {
+      batch = bccAddresses.slice(i,i+batchSize)
+      setTimeout(
+        sendEmail,
+        80 * i/batchSize,
+        batch, message, subject, replyToAddresses
+      )
+    }
+  }
+}
+
+function sendEmail(bccAddresses, message, subject, replyToAddresses){
+  let params = {
+    Destination: {
+      BccAddresses: bccAddresses
+    },
+    Message: {
+      Body: {
+        Html: {
+          Charset: CHARSET,
+          Data: message
+        }
+      },
+      Subject: {
+        Charset: CHARSET,
+        Data: subject
+      }
+    },
+    ReplyToAddresses: replyToAddresses,
+    ReturnPath: RETURN_PATH,
+    Source: SOURCE
+  }
+
+  ses.sendEmail(params, function(err, data) {
+    if (err) {
+      console.log(err, err.stack)
+      return
+    }
+    console.log(data)
+  })
+}
+
+function sendRawEmail(mimeMessage){
+  let params = {
+    Destinations: [
+    ],
+    RawMessage: {
+      Data: mimeMessage.toString()
+    },
+    Source: SOURCE,
+  }
+  ses.sendRawEmail(params, function(err, data) {
+    if (err) {
+      console.log(err, err.stack)
+      return
+    }
+    console.log(data)
+  })
+}
+
+function base64_encode(file) {
+  let bitmap = fs.readFileSync(file)
+  return new Buffer(bitmap).toString('base64')
+}
+
 
   var massMailer= function(){
  // var self = this;
@@ -219,6 +359,7 @@ soap.createClient(url, function(err, client) {
 //var mas = new massMailer();
 module.exports = {
     mandacorreoprueba: mandacorreoprueba,
+    mandacorreoprueba2: mandacorreoprueba2,
     massMailer: massMailer,
     mandanoti:mandanoti,
     dasoap:dasoap

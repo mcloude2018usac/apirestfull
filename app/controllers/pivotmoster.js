@@ -8,6 +8,7 @@ var Usermsg = require('../models/usermsg');
 var User = require('../models/user');
 var Marketemail = require('../models/marketemail');
 var Asignaestudiante = require('../models/asignaestudiante');
+var Asignacalusac = require('../models/calusac/asignacalusac');
 
 var Asignapcb = require('../models/asignapcb');
 
@@ -24,6 +25,8 @@ exports.getPivotm = function(req, res, next){
                      case 'asignasun':         getasignasunrpt(req, res, next);
                     break
                     case 'asignasun0':         getasignasun0rpt(req, res, next);
+                    break
+                    case 'asignacalusac':         getasignacalusacrpt(req, res, next);
                     break
                     default:
                     break;
@@ -54,6 +57,28 @@ var getasignasunrpt = function(req, res, next) {
                                          periodo:todos2[i].idperiodo.nombre,edificio:todos2[i].idedificio.nombre
                                         ,salon:todos2[i].idsalon.nombre
                                         ,materia:todos2[i].idmateria  ,horario:todos2[i].idhorario})
+                                }
+                           //    console.log(myData31)
+                                let stream = compressor.compressJson(myData31);
+                              
+                                stream.on('data', data => res.write(data));
+                                stream.on('end', () => res.end()
+                                //  res.redirect('pivot.html');
+                                ); 
+                                var rutat=path.join(__dirname+'/pivotm.html')
+           
+    });
+
+}
+
+var getasignacalusacrpt = function(req, res, next) {
+    Asignacalusac.find({}).populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia').populate('ididioma').populate('idtipocurso').populate('idtipogrupo').exec(function(err, todos2) {
+        if (err){  res.send(err);  }
+                        var myData31 = [];
+                        for(var i = 0; i <  todos2.length;i++){
+                                    myData31.push({tipounidad:todos2[i].idtipounidad.nombre,cantidad:1,
+                                        unidad:todos2[i].idunidadacademica.nombre,periodo:todos2[i].idperiodo.nombre
+                                       })
                                 }
                            //    console.log(myData31)
                                 let stream = compressor.compressJson(myData31);
