@@ -9,6 +9,7 @@ var User = require('../models/user');
 var Marketemail = require('../models/marketemail');
 var Asignaestudiante = require('../models/asignaestudiante');
 var Asignacalusac = require('../models/calusac/asignacalusac');
+var Plancalusac = require('../models/calusac/unidadplan3');
 
 var Asignapcb = require('../models/asignapcb');
 
@@ -27,6 +28,8 @@ exports.getPivotm = function(req, res, next){
                     case 'asignasun0':         getasignasun0rpt(req, res, next);
                     break
                     case 'asignacalusac':         getasignacalusacrpt(req, res, next);
+                    break
+                    case 'plancalusac':         getplancalusacrpt(req, res, next);
                     break
                     default:
                     break;
@@ -72,9 +75,10 @@ var getasignasunrpt = function(req, res, next) {
 }
 
 var getasignacalusacrpt = function(req, res, next) {
-    Asignacalusac.find({}).populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia').populate('ididioma').populate('idtipocurso').populate('idtipogrupo').exec(function(err, todos2) {
+    Asignacalusac.find({}).exec(function(err, todos2) {
         if (err){  res.send(err);  }
                         var myData31 = [];
+                        console.log(todos2)
                         for(var i = 0; i <  todos2.length;i++){
                                     myData31.push({tipounidad:todos2[i].idtipounidad.nombre,cantidad:1,
                                         unidad:todos2[i].idunidadacademica.nombre,periodo:todos2[i].idperiodo.nombre
@@ -93,6 +97,33 @@ var getasignacalusacrpt = function(req, res, next) {
 
 }
 
+
+var getplancalusacrpt = function(req, res, next) {
+    Plancalusac.find({}).populate('idjornada').populate('idnivel').populate('idhorario').populate('idprofesor').exec(function(err, todos2) {
+        if (err){  res.send(err);  }
+                        var myData31 = [];
+                        console.log(todos2)
+                        for(var i = 0; i <  todos2.length;i++){
+                                    myData31.push({ubicacion:todos2[i].idtipounidad.nombre,
+                                        curso:todos2[i].idunidadacademica.nombre,periodo:todos2[i].idperiodo.nombre,
+                                        edificio:todos2[i].idedificio.nombre,salon:todos2[i].idsalon.nombre,
+                                        nivel:todos2[i].idnivel.nombre,jornada:todos2[i].idjornada.nombre,horario:todos2[i].idhorario.nombre
+                                        ,dias:todos2[i].idhorario.dia   ,profesor:todos2[i].idprofesor.nombre
+                                        ,capacidad:todos2[i].capacidad
+                                        ,asignados:todos2[i].asignados,cupo:todos2[i].capacidad-todos2[i].asignados     ,cantidad:1                              })
+                                }
+                           //    console.log(myData31)
+                                let stream = compressor.compressJson(myData31);
+                              
+                                stream.on('data', data => res.write(data));
+                                stream.on('end', () => res.end()
+                                //  res.redirect('pivot.html');
+                                ); 
+                                var rutat=path.join(__dirname+'/pivotm.html')
+           
+    });
+
+}
 var getasignasun0rpt = function(req, res, next) {
     Asignapcb.find({}).exec(function(err, todos2) {
         if (err){  res.send(err);  }
