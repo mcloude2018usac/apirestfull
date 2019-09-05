@@ -37,9 +37,9 @@ exports.getAsignacalusac = function(req, res, next){
                 break;
             case 'ordenpago':
             var op= req.params.id2.split(',')
-            var myXMLText2 = '<?xml version="1.0" encoding="utf-8"?><Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/"><Body><getData xmlns="urn:miserviciowsdl"><carnet>'+op[0]+'</carnet><unidad>00</unidad><extension>00</extension><carrera>00</carrera><nombre>'+op[1]+'</nombre><monto>'+op[2]+'</monto><anio>'+op[3]+'</anio><rubro>'+op[4]+'</rubro><variante_rubro>1</variante_rubro><subtotal>'+op[2]+'</subtotal></getData></Body></Envelope>'
-
-            var myXMLText = '<?xml version="1.0" encoding="utf-8"?><Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/"><Body><getData xmlns="urn:miserviciowsdl"><carnet>29993154</carnet><unidad>00</unidad><extension>00</extension><carrera>00</carrera><nombre>Carmen Maria Cante</nombre><monto>240</monto><anio>2019</anio><rubro>145</rubro><variante_rubro>1</variante_rubro><subtotal>240</subtotal></getData></Body></Envelope>'
+          //    var myXMLText = '<?xml version="1.0" encoding="utf-8"?><Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/"><Body><getData xmlns="urn:miserviciowsdl"><carnet>'+op[0]+'</carnet><unidad>00</unidad><extension>00</extension><carrera>00</carrera><nombre>'+op[1]+'</nombre><monto>'+op[2]+'</monto><anio>'+op[3]+'</anio><rubro>'+op[4]+'</rubro><variante_rubro>1</variante_rubro><subtotal>'+op[2]+'</subtotal></getData></Body></Envelope>'
+               console.log(op[0])
+            var myXMLText = '<?xml version="1.0" encoding="utf-8"?><Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/"><Body><getData xmlns="urn:miserviciowsdl"><carnet>'+op[0]+'</carnet><unidad>00</unidad><extension>00</extension><carrera>00</carrera><nombre>' +op[1]+'</nombre><monto>'+op[2]+'</monto><anio>'+op[3]+'</anio><rubro>'+op[4]+'</rubro><variante_rubro>1</variante_rubro><subtotal>240</subtotal></getData></Body></Envelope>'
 
 
      
@@ -72,7 +72,7 @@ exports.getAsignacalusac = function(req, res, next){
                 var parser = new xml2js.Parser({explicitArray: true, trim: true});
                 parser.parseString(body, (err, result) => {
             
-                  res.send(result);
+                  res.json(JSON.stringify(result));
                 });
     
     
@@ -402,9 +402,9 @@ if(req.params.recordID!=='crea')
                         filterThisDoc : 1,
                         'idtipounidad.id' : todo.idtipounidad.id   ,'idunidadacademica.id':todo.idunidadacademica.id ,'idperiodo.id':todo.idperiodo.id 
                         ,idnivel:todo.nivel,
-idjornada:req.body.jornada,
-idhorario:req.body.horario,
-idprofesor:req.body.profesor
+                            idjornada:req.body.jornada,
+                            idhorario:req.body.horario,
+                            idprofesor:req.body.profesor
                     }
                 }
     
@@ -424,14 +424,14 @@ idprofesor:req.body.profesor
                           
                             asigno=asigno+1;
                            
-    
+                            
     
                                             Facplan3.findById({ _id:myData[0]._id }, function (err, todo300)  {
                                                 if (err) {  res.send(err);  }
                                                 else
                                                 {
                                                     todo300.asignados        	=		asigno     	;
-                                                    console.log('asignados ahoraccc: ' + asigno)
+                                                  
                                                     todo300.save(function (err, todo400){
                                                         if (err)     {  console.log(err.message)   }
     
@@ -439,27 +439,60 @@ idprofesor:req.body.profesor
                                                         Asignacalusac.findById({ _id: req.params.recordID }, function (err, todo100)  {
                                                             if (err) {  res.send(err);  }
                                                             else
-                                                            {
-                                                                todo100.estadopago        	=		'Asignación exitosa'    	;
-                                                                todo100.idedificio=myData[0].idedificio,
-                                                                todo100.idsalon= myData[0].idsalon,
-                                                                todo100.carnecalusac= '3325882',
-                                                                todo100.jornada=req.body.jornada,
-                                                                todo100.horario=req.body.horario,
-                                                               
-                                                                todo100.profesor=req.body.profesor,
-                                                                todo100.idplanifica=myData[0]._id
-
-                                                             //   todo100.nivel=todo.nivel
-                                                                
-                                                    
-                                                                todo100.save(function (err, todo200){
-                                                                    if (err)     {  console.log(err.message)   }
-                                                            
-                                                                    res.json(todo200);
-                                                               
+                                                            {console.log('**'+todo100.carnecalusac + '***')
+                                                                if (todo100.carnecalusac=='')
+                                                                {
+                                                                    todo100.estadopago        	=		'Asignación exitosa'    	;
+                                                                    todo100.idedificio=myData[0].idedificio,
+                                                                    todo100.idsalon= myData[0].idsalon,
+                                                                   
+                                                                   todo100.carnecalusac= '3915474',
+                                                                    todo100.jornada=req.body.jornada,
+                                                                    todo100.horario=req.body.horario,
+                                                                   
+                                                                    todo100.profesor=req.body.profesor,
+                                                                    todo100.idplanifica=myData[0]._id
+    
+                                                                 //   todo100.nivel=todo.nivel
                                                                     
-                                                                });
+                                                        
+                                                                    todo100.save(function (err, todo200){
+                                                                        if (err)     {  console.log(err.message)   }
+                                                                
+                                                                        res.json(todo200);
+                                                                   
+                                                                        
+                                                                    });
+
+                                                                }
+                                                                else
+                                                                {
+
+                                                                    todo100.estadopago        	=		'Asignación exitosa'    	;
+                                                                    todo100.idedificio=myData[0].idedificio,
+                                                                    todo100.idsalon= myData[0].idsalon,
+                                                                 
+                                                                    todo100.jornada=req.body.jornada,
+                                                                    todo100.horario=req.body.horario,
+                                                                   
+                                                                    todo100.profesor=req.body.profesor,
+                                                                    todo100.idplanifica=myData[0]._id
+    
+                                                                 //   todo100.nivel=todo.nivel
+                                                                    
+                                                        
+                                                                    todo100.save(function (err, todo200){
+                                                                        if (err)     {  console.log(err.message)   }
+                                                                
+                                                                        res.json(todo200);
+                                                                   
+                                                                        
+                                                                    });
+
+
+                                                                }
+
+
                                                             }
                                                         });
                                                         
@@ -525,6 +558,7 @@ else{
                            rubro      	: req.body.rubro        	,
                            nivel      	: req.body.nivel        	,
                            ano      	: req.body.ano        	,
+                           llave      	: req.body.llave        	,
                            
                            ididioma      	: req.body.ididioma        	,
                            idtipocurso      	: req.body.idtipocurso        	,
