@@ -31,7 +31,7 @@ var AsignacalusacSchema = new mongoose.Schema({
     carneusac:{        type: String},
      carnecalusac:{        type: String},
      cml:{        type: String},
-
+     llave:{        type: String},
      monto:{        type: String},
      rubro:{        type: String},
      ididioma:{        type: String,ref:'Unidadidioma3'},
