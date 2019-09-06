@@ -679,6 +679,32 @@ exports.creaPersonal2s = function(req, res, next){
 
 if(req.params.recordID)
 {
+    if(req.params.recordID=='actualizanov')
+    {  
+        console.log(req.body)
+
+        Personal.findById({ _id: req.body._id}, function (err, todo)  {
+            if (err) {  res.send(err);  }
+            else
+            {   
+               
+                todo.nombre        	=	req.body.nombre          	;
+                todo.cui 	=	req.body.cui 		;
+              
+           
+    
+                todo.save(function (err, todo){
+                    if (err)     {  res.status(500).send(err)  
+                     }
+                 
+                    res.json(todo);
+                });
+            }
+        });
+
+    }
+    else
+    {
  
     if(req.params.recordID=='actualiza2')
     {  
@@ -742,7 +768,7 @@ if(req.params.recordID)
         }
     });
 
-}}
+}}}
 
 
 
