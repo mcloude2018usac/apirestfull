@@ -696,7 +696,7 @@ if(req.params.recordID)
                 todo.save(function (err, todo){
                     if (err)     {  res.status(500).send(err)  
                      }
-                 consoel
+               
                     res.json(todo);
                 });
             }
