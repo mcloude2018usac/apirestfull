@@ -78,7 +78,6 @@ exports.register = function(req, res, next){
 
     User.findOne({idempresa:empresa,  $or : [
         { $and : [ { email : req.body.email }] },
-        { $and : [ { nov : req.body.nov }] },
         { $and : [ {cui : req.body.cui } ] }]
 }, function(err, existingUser){
  
