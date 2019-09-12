@@ -6,6 +6,7 @@ var mongoose =require("mongoose");
         idjornada   		: { type : String, required : true },
         codigo	: { type : String, required : true },
         nombre	: { type : String, required : true },
+        nombre2	: { type : String, required : true },
         dia	: { type : String, required : true },
           usuarionew	: { type : String },      usuarioup	: { type : String }
         }, {

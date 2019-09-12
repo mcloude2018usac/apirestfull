@@ -24,6 +24,10 @@ var ParticipaSchema = new mongoose.Schema({
         type: String,
         required: false
     },
+    cui: {
+        type: Number,
+        required: false
+    },
     telefono: {
         type: String,
         required: false
