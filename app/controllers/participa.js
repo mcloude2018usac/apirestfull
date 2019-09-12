@@ -219,6 +219,7 @@ else{
                 todo.genero 	=	req.body.genero	||	todo.genero 	;
                 todo.edad 	=	req.body.edad	||	todo.edad 	;
                 todo.correo 	=	req.body.correo	||	todo.correo 	;
+                todo.cui 	=	req.body.cui	||	todo.cui 	;
                 todo.telefono    	=	req.body.telefono    	||	todo.telefono    	;
                 todo.unidad   	=	req.body.unidad    	||	todo.unidad   	;
                 todo.otros   	=	req.body.otros    	||	todo.otros   	;
@@ -236,63 +237,86 @@ else{
     }
     else{
 
-         Evento.find({ _id      	: req.body.idevento   }, function (err, todo)  {
-            if (err) {  res.send(err);  }
-            else
-            {  
-                     var nopp=todo[0].nomax;
-                     Participa.find({  idevento       	: req.body.idevento   }, function (err, todo)  {
-                        if (err) {  res.send(err);  }
+            Participa.find({  idevento       	: req.body.idevento   , $or : [
+                { $and : [ { cui : req.body.cui }] },
+                { $and : [ { correo : req.body.correo }] },
+               
+              
+                ]}, function (err, todo20)  {
+                if (err) {  res.send(err);  }
+                else
+                {  
+                    if(todo20.length>0)
+                        {
+                            res.status(500).send('Ya te encuentras registrado con este correo o no documento en este evento') 
+                                     
+
+                        }
                         else
-                        {  
+                        {
+                            Evento.find({ _id      	: req.body.idevento   }, function (err, todo)  {
+                                if (err) {  res.send(err);  }
+                                else
+                                {  
+                                        var nopp=todo[0].nomax;
+                                        Participa.find({  idevento       	: req.body.idevento   }, function (err, todo)  {
+                                            if (err) {  res.send(err);  }
+                                            else
+                                            {  
 
-                            var cant=todo.length
+                                                var cant=todo.length
 
-                            if(cant<=nopp)
-                            {
+                                                if(cant<=nopp)
+                                                {
 
-                                Bitacora.create(req.body.bitacora);
-                                var d = new Date();
-                            Participa.create({  idevento       	: req.body.idevento       	,
-                                nombre        	: req.body.nombre        	,
-                                apellido    	: req.body.apellido    	,
-                                genero    	: req.body.genero    	,
-                                edad   	: req.body.edad 	,
-                                correo    	: req.body.correo   	,
-                                telefono 	: req.body.telefono 	,
-                                unidad 	: req.body.unidad 	,
-                                otros 	: req.body.otros 	,
-                                estado 	: req.body.estado 	,
-                                usuarionew:req.body.bitacora.email,
-                                cuenta 	: '1' 	,
-                                fecha:d.toISOString()	
-                               }
-                                , function(err, todo) {
-                                if (err){   res.status(500).send(err.message)    }
-                            
-                                res.json(todo);
-                        
-                             
+                                                    Bitacora.create(req.body.bitacora);
+                                                    var d = new Date();
+                                                Participa.create({  idevento       	: req.body.idevento       	,
+                                                    nombre        	: req.body.nombre        	,
+                                                    apellido    	: req.body.apellido    	,
+                                                    genero    	: req.body.genero    	,
+                                                    edad   	: req.body.edad 	,
+                                                    correo    	: req.body.correo   	,
+                                                    cui    	: req.body.cui   	,
+                                                    telefono 	: req.body.telefono 	,
+                                                    unidad 	: req.body.unidad 	,
+                                                    otros 	: req.body.otros 	,
+                                                    estado 	: req.body.estado 	,
+                                                    usuarionew:req.body.bitacora.email,
+                                                    cuenta 	: '1' 	,
+                                                    fecha:d.toISOString()	
+                                                }
+                                                    , function(err, todo) {
+                                                    if (err){   res.status(500).send(err.message)    }
+                                                
+                                                    res.json(todo);
+                                            
+                                                
+                                                    
+                                            
+                                                });
+
+                                                }
+                                                else
+                                                {
+
+                                                    res.status(500).send('Lo sentimos ya no existe cupo para este evento , Evento lleno') 
+                                                }
                                 
-                        
+                                
+                                            }
+                                        });
+
+
+
+                                }
                             });
 
-                            }
-                            else
-                            {
-
-                                res.status(500).send('Lo sentimos ya no existe cupo para este evento , Evento lleno') 
-                            }
-            
-            
                         }
-                    });
 
-
-
-            }
-        });
-
+                                      
+                }
+                });
 
       
 

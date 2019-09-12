@@ -37,6 +37,7 @@ if(req.params.recordID!=='crea')
             todo.idunidadacademica        	=	req.body.idunidadacademica        	||	todo.idunidadacademica        	;
             todo.idjornada        	=	req.body.idjornada        	||	todo.idjornada        	;
             todo.nombre        	=	req.body.nombre        	      	;
+            todo.nombre2        	=	req.body.nombre2        	      	;
             todo.dia        	=	req.body.dia        	      	;
             todo.usuarioup=req.body.bitacora.email;
             
@@ -73,6 +74,7 @@ else{
             correo: req.body.correo,
             codigo: req.body.codigo,
             nombre: req.body.nombre,
+            nombre2: req.body.nombre2,
             dia: req.body.dia,
             usuarionew:req.body.bitacora.email
         

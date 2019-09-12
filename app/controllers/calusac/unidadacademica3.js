@@ -78,6 +78,18 @@ exports.creaUnidadacademica32s = function(req, res, next){
                 todo.ididioma        	=	req.body.ididioma        	||	todo.ididioma        	;
                 todo.idtipocurso        	=	req.body.idtipocurso        	||	todo.idtipocurso        	;
                 todo.idtipogrupo        	=	req.body.idtipogrupo        	||	todo.idtipogrupo        	;
+
+
+                todo.aest		=	req.body.aest        	||	todo.aest        	;
+                todo.atrab	=	req.body.atrab        	||	todo.atrab        	;
+                todo.ahijotrab1=	req.body.ahijotrab1        	||	todo.ahijotrab1        	;
+                todo.ahijotrab2=	req.body.ahijotrab2        	||	todo.ahijotrab2        	;
+                todo.apoblacion=	req.body.apoblacion        	||	todo.apoblacion        	;
+                todo.aadol=	req.body.aadol        	||	todo.aadol        	;
+                todo.aext=	req.body.aext        	||	todo.aext        	;
+
+                
+
                 todo.estado        	=	req.body.estado        	||	todo.estado        	;
                 todo.usuarioup=req.body.bitacora.email;
                
@@ -107,6 +119,14 @@ exports.creaUnidadacademica32s = function(req, res, next){
                 ididioma        	: req.body.ididioma        ,
                 idtipocurso        	: req.body.idtipocurso        ,
                 idtipogrupo        	: req.body.idtipogrupo        ,
+                aest     	: req.body.aest        ,
+                atrab	: req.body.atrab        ,
+                ahijotrab1	: req.body.ahijotrab1        ,
+                ahijotrab2	: req.body.ahijotrab2        ,
+                apoblacion	: req.body.apoblacion        ,
+                aadol	: req.body.aadol        ,
+                aext	: req.body.aext        ,
+
                 estado        	: req.body.estado        ,
                 usuarionew:req.body.bitacora.email	
             

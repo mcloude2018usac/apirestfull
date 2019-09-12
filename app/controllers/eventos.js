@@ -1,18 +1,73 @@
 
 var Evento = require('../models/eventos');
 var Bitacora = require('../models/bitacora');
+var Participa = require('../models/participa');
 
 exports.getEvento = function(req, res, next){
     if(req.params.id3)
     { 
         if(req.params.id3=='eventos' )
         {
-            Evento.find({impresion:'Activo' ,idempresa:req.params.id3}).select({nombre:1,fechaini:1,fechafin:1,ubicacion: 1,no_max:1,foto:1,fecha:1}).lean().exec(function(err, todos) {
+            Evento.find({impresion:'Activo' ,idempresa:req.params.id3}).select({fecha:1,impresion:1,nombre:1,fechaini:1,fechafin:1,ubicacion: 1,no_max:1,foto:1,fecha:1}).lean().exec(function(err, todos) {
                 if (err){  res.send(err);  }
                  res.json(todos);
                 
             });
 
+        }
+        else
+        {
+            if(req.params.id3=='todos' )
+            {
+            Evento.find({idempresa:req.params.id,impresion:req.params.id2}).select({fecha:1,impresion:1,nombre:1,fechaini:1,fechafin:1,ubicacion: 1,no_max:1,foto:1,fecha:1}).exec(function(err, todos) {
+                if (err){  res.send(err);  }
+                 res.json(todos);
+             });
+
+            }
+            else
+            {
+
+                if(req.params.id3=='todosbuscaactivo' )
+                {
+                Evento.find({_id:req.params.id,impresion:'Activo'}).select({nomax:1,fecha:1,impresion:1,nombre:1,fechaini:1,
+                    fechafin:1,ubicacion: 1,no_max:1,foto:1,fecha:1}).exec(function(err, todos) {
+                    if (err){  res.status(500).send('Hubo un error en el sistema , por favor intente mas tarde');  }
+                   
+                    if(todos.length==0     ) {  res.status(500).send('El evento ya no se encuentra activo');  }
+                    else
+                    { var aa=todos[0].nomax;
+
+
+                        Participa.find({idevento:req.params.id},function(err, todos2) {
+                            if (err){ res.send(err); }
+                            var cuantos =todos2.length
+                            console.log('capacidad:' + aa + '  incritos:' +cuantos)
+                            if(cuantos<aa)
+                            {
+                                res.json(todos);
+                                
+                            }
+                            else
+                            {
+                                res.status(500).send('El cupo del evento ya se encuentra lleno');
+    
+                            }
+                          
+                            
+                        });
+
+
+                        
+
+                    }
+                    
+                  
+                 });
+    
+                }
+
+            }
         }
     }
     else{
@@ -20,7 +75,7 @@ exports.getEvento = function(req, res, next){
     { 
         if(req.params.id=='todos')
         {
-            Evento.find({idempresa:req.params.id2}).select({nombre:1,fechaini:1,fechafin:1,ubicacion: 1,no_max:1,foto:1,fecha:1}).exec(function(err, todos) {
+            Evento.find({idempresa:req.params.id2,impresion:req.params.id3}).select({fecha:1,impresion:1,nombre:1,fechaini:1,fechafin:1,ubicacion: 1,no_max:1,foto:1,fecha:1}).exec(function(err, todos) {
                 if (err){  res.send(err);  }
                  res.json(todos);
              });

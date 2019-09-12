@@ -22,7 +22,7 @@ var datipo = function(str,vector) {
     return re;
 };
 
-
+  
 exports.getReglamentod = function(req, res, next){
 
     if(req.params.id3)
@@ -31,12 +31,26 @@ exports.getReglamentod = function(req, res, next){
         {
             Reglamentod.find({idempresa:req.params.id,idreglamento:req.params.id2}).exec(function(err, todos) {
                 if (err){ res.send(err); }
-               
+              
                 res.json(todos);   
                 
             });
 
         }
+
+        if(req.params.id3=='busqueda')
+        {
+
+            Reglamentod.find({idempresa:req.params.id,nombre:   { $regex : req.params.id2, $options : 'i'}  }).populate('idreglamento').exec(function(err, todos) {
+                if (err){ res.send(err); }
+             
+                res.json(todos);   
+                
+            });
+
+        }
+
+
     }
    
        
@@ -66,6 +80,7 @@ exports.creaReglamentod2s = function(req, res, next){
             {  
                todo.notitulo       	=	req.body.notitulo        	||	todo.notitulo        	;         
                todo.titulo       	=	req.body.titulo        	||	todo.titulo        	;         
+               todo.nombre       	=	req.body.nombre        	||	todo.nombre        	;   
              
                todo.nocapitulo       	=	req.body.nocapitulo        	||	todo.nocapitulo        	;         
                todo.capitulo       	=	req.body.capitulo        	||	todo.capitulo        	;         
@@ -94,6 +109,7 @@ exports.creaReglamentod2s = function(req, res, next){
                     idempresa       	: req.body.idempresa       	,
                     notitulo       	: req.body.notitulo       	,
                     titulo       	: req.body.titulo       	,
+                    nombre       	: req.body.nombre       	,
                     nocapitulo       	: req.body.nocapitulo       	,
                     capitulo       	: req.body.capitulo       	,
 
