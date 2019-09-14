@@ -19,7 +19,7 @@ exports.getAutoriza = function(req, res, next){
                
                 todo.save(function (err, todo){
                     if (err)     {  res.status(500).send(err.message)   }
-                    res.redirect('http://usacenlinea.net');
+                    res.redirect('https://usac-enlinea.web.app/');
                 });
             }
         });
