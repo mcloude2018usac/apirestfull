@@ -90,6 +90,18 @@ else{
     }
     else{
 
+
+        Participa2.find({  idtipoevento	: req.body.idtipoevento       	,
+            idarea	: req.body.idarea       	,
+            idevento       	: req.body.idevento       	,
+         },function(err, todos100) {
+            if (err){ res.send(err); }
+       
+            if(todos.length>100)   {    res.status(500).send('Ya no existe cupo para este curso'); }
+            else
+            {   
+
+
         Participa2.find({  idtipoevento	: req.body.idtipoevento       	,
             idarea	: req.body.idarea       	,
             idevento       	: req.body.idevento       	,
@@ -103,7 +115,7 @@ else{
 
                     Bitacora.create(req.body.bitacora);
                     var d = new Date();
-                Participa2.create({  
+                    Participa2.create({  
                     idtipoevento	: req.body.idtipoevento       	,
                     idarea	: req.body.idarea       	,
                     idevento       	: req.body.idevento       	,
@@ -131,6 +143,9 @@ else{
                 });
             }
         });
+    }
+
+    });
 }
 }
 

@@ -45,10 +45,10 @@ exports.getParticipa4 = function(req, res, next){
         else
         {
             if(req.params.id2=='horario')
-            {
+            { console.log(req.params.id2)
                 Tipo.find({materia:req.params.id},function(err, todos) {
                     if (err){ res.send(err); }
-                   
+                   console.log(todos)
                     if(todos.length>0)   {   
                     
                     
