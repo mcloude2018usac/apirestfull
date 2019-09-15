@@ -93,7 +93,7 @@ else{
 
         Participa2.find({  idtipoevento	: req.body.idtipoevento       	,
             idarea	: req.body.idarea       	,
-            idevento       	: req.body.idevento       	,
+            idevento       	: req.body.idevento       	
          },function(err, todos100) {
             if (err){ res.send(err); }
        
