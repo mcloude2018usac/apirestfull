@@ -200,25 +200,33 @@ else{
                     var  tbio=0
                     var  tqui=0
                     var  tmat=0
+                    var  tfis=0
                     var  tlen2=0
                     var  tbio2=0
                     var  tqui2=0
                     var  tmat2=0
+                    var  tfis2=0
 
                     var  tlen2c=0
                     var  tbio2c=0
                     var  tqui2c=0
                     var  tmat2c=0
+                    var  tfis2c=0
                     
                     var id1=''
                     var id2=''
                     var id3=''
                     var id4=''
+                    var id5=''
                     var tcuantos=0; 
                     if(req.body.hlenguaje!='No Asignar')   {tlen=1;tcuantos=tcuantos+1             }
                     if(req.body.hbiologia!='No Asignar')   {tbio=1;tcuantos=tcuantos+1              }
                     if(req.body.hquimica!='No Asignar')   {tqui=1;tcuantos=tcuantos+1              }
                     if(req.body.hmate!='No Asignar')   {tmat=1;tcuantos=tcuantos+1              }
+                    if(req.body.hfisica!='No Asignar')   {tfis=1;tcuantos=tcuantos+1              }
+
+
+
 
                     for(var i = 0; i < myasigcupo.length;i++){
                         if(tlen==1)
@@ -246,6 +254,20 @@ else{
                                 }
                             }
                         }
+
+                        if(tfis==1)
+                        {
+                            if(myasigcupo[i].materia=='Física' && myasigcupo[i].horario==req.body.hfisica )
+                            {
+                                if(myasigcupo[i].capacidad>myasigcupo[i].asignados)
+                                {
+                                    tfis2=1;
+                                    tfis2c=myasigcupo[i].asignados+1;
+                                    id5=myasigcupo[i]._id
+                                }
+                            }
+                        }
+
 
                         if(tqui==1)
                         {
@@ -301,9 +323,16 @@ else{
                                 }
                                 else
                                 {
-           
+                                    if(tfis!=tfis2)
+                                    {
+                                       res.status(500).send('En Fisica ya no hay cupo, por favor seleccione otra materia ');
+                                    }
+                                    else
+                                    {
+               
 
                                     Bitacora.create(req.body.bitacora);
+
 
                                     Participa4.create({  
                                     
@@ -317,6 +346,7 @@ else{
                                         hbiologia: req.body.hbiologia ,
                                         hquimica: req.body.hquimica ,
                                         hmate: req.body.hmate ,
+                                        hfisica: req.body.hfisica ,
                                         
                     
                                         estado 	: req.body.estado 	,
@@ -373,6 +403,22 @@ else{
                                         });
                                 }
 
+                                if(tfis==1)
+                                { 
+                                      Tipo.findById({ _id:id5 }, function (err, todo)  {
+                                          if (err) {  res.send(err);  }
+                                          else
+                                          { 
+                                              todo.asignados        	=		tfis2c     	;
+                                              todo.save(function (err, todo){
+                                                  if (err)     {  console.log(err.message)   }
+                                              
+                                              });
+                                          }
+                                      });
+                              }
+
+
                                 if(tmat==1)
                                 { 
                                       Tipo.findById({ _id:id4 }, function (err, todo)  {
@@ -397,7 +443,7 @@ else{
                                         
                     
                                     });
-           
+                                }
                                 }
        
                             }
