@@ -192,9 +192,7 @@ else{
          },function(err, todos) {
             if (err){ res.send(err); }
           
-            if(todos.length>0)   {    res.status(500).send('Ya existes asignacion de cursos con este correo electronico'); }
-            else
-            {   
+         
 
                     var  tlen=0
                     var  tbio=0
@@ -456,7 +454,7 @@ else{
                      }
              
         
-            }
+            
         });
     });
 }
