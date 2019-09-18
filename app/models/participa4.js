@@ -39,6 +39,9 @@ var Participa4Schema = new mongoose.Schema({
     hmate: {
         type: String
     },
+    hfisica: {
+        type: String
+    },
     estado: {
         type: String,
         required: true

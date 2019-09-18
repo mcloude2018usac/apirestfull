@@ -7,6 +7,7 @@ var mongoose =require("mongoose");
         tipo	: { type : String, required : true },
         nombre	: { type : String, required : true },
         nivel	: { type : String, required : true,ref:'Unidadnivel3' },
+        jornada	: { type : String, required : true,ref:'Unidadjornada3' },
         tipogrupo	: { type : String, required : true,ref:'Unidadtipogrupo3' },
         tipocurso	: { type : String, required : true,ref:'Unidadtipocurso3' },
         estado	: { type : String, required : true },
