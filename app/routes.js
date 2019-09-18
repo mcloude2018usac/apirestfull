@@ -852,6 +852,9 @@ costocalusacRoutes.delete('/:recordID/:userID',requireAuth,  CostocalusacControl
 apiRoutes.use('/unidadacademica3s', unidadacademica3Routes);
 unidadacademica3Routes.get('/:id', requireAuth, Unidadacademica3Controller.getUnidadacademica3);
 unidadacademica3Routes.get('/:id/:id2',requireAuth,  Unidadacademica3Controller.getUnidadacademica3);
+
+unidadacademica3Routes.get('/:id/:id2/:id3',requireAuth,  Unidadacademica3Controller.getUnidadacademica3);
+
 unidadacademica3Routes.post('/:id', requireAuth, Unidadacademica3Controller.creaUnidadacademica32s);
 unidadacademica3Routes.delete('/:id/:userID',requireAuth,  Unidadacademica3Controller.deleteUnidadacademica3);
 
