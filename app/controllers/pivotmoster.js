@@ -10,6 +10,8 @@ var Marketemail = require('../models/marketemail');
 var Asignaestudiante = require('../models/asignaestudiante');
 var Asignacalusac = require('../models/calusac/asignacalusac');
 var Plancalusac = require('../models/calusac/unidadplan3');
+var cursoeve=require('../models/aread_evento');
+var Participa2 = require('../models/participa2');
 
 var Asignapcb = require('../models/asignapcb');
 
@@ -30,6 +32,8 @@ exports.getPivotm = function(req, res, next){
                     case 'asignacalusac':         getasignacalusacrpt(req, res, next);
                     break
                     case 'plancalusac':         getplancalusacrpt(req, res, next);
+                    break
+                    case 'cursoslibres':         getcursoslibresrpt(req, res, next);
                     break
                     default:
                     break;
@@ -97,6 +101,46 @@ var getasignacalusacrpt = function(req, res, next) {
 
 }
 
+
+
+
+var getcursoslibresrpt = function(req, res, next) {
+
+    cursoeve.find({},function(err, todos0) {
+        if (err){  res.send(err);  }      
+                Participa2.find({},function(err, todos) {
+                        if (err){  res.send(err);  }
+                        var resp=[]
+                        var tevento=''
+                        var ubica=''
+                        for(var i = 0; i < todos.length;i++){
+                                for(var ii = 0; ii < todos0.length;ii++){
+                                        if(todos0[ii]._id==todos[i].idevento)
+                                        {
+                                           tevento=  todos0[ii].nombre   
+                                           ubica= 'Edificio: '+todos0[ii].edificio + '  Salon: ' +  todos0[ii].salon     
+                                           break;
+                                        }
+                                }        
+                                //resp.push({tipocurso:todos[i].idtipoevento.nombre,area:todos[i].idarea.nombre,curso:tevento,nombre:todos[i].nombre + ' ' +todos[i].apellido,genero:todos[i].genero,correo:todos[i].correo,telefono:todos[i].telefono,edad:todos[i].edad});
+                                resp.push({ubica:ubica,tipocurso:todos[i].idtipoevento.nombre,area:todos[i].idarea.nombre,nombre:tevento,cantidad:1});
+                        }
+
+                        let stream = compressor.compressJson(resp);
+                              
+                        stream.on('data', data => res.write(data));
+                        stream.on('end', () => res.end()
+                        //  res.redirect('pivot.html');
+                        ); 
+                        var rutat=path.join(__dirname+'/pivotm.html')
+
+
+                });
+});
+
+
+
+}
 
 var getplancalusacrpt = function(req, res, next) {
     Plancalusac.find({}).populate('idjornada').populate('idnivel').populate('idhorario').populate('idprofesor').exec(function(err, todos2) {

@@ -60,11 +60,14 @@ if(req.params.recordID!=='crea')
         else
         {  
 
+            
+
             todo.codigo        	=	req.body.codigo        	||	todo.codigo        	;   
             todo.correo        	=	req.body.correo        	||	todo.correo        	;   
             todo.idtipounidad        	=	req.body.idtipounidad        	||	todo.idtipounidad        	;
             todo.idunidadacademica        	=	req.body.idunidadacademica        	||	todo.idunidadacademica        	;
             todo.nombre        	=	req.body.nombre        	      	;
+            todo.abreviatura        	=	req.body.abreviatura        	      	;
             todo.usuarioup=req.body.bitacora.email;
             
             
@@ -98,6 +101,7 @@ else{
             correo: req.body.correo,
             codigo: req.body.codigo,
             nombre: req.body.nombre,
+            abreviatura:req.body.abreviatura,
             usuarionew:req.body.bitacora.email
         
               }

@@ -3,6 +3,49 @@ var Unidadacademica3 = require('../../models/calusac/unidadacademica3');
 var Bitacora = require('../../models/bitacora');
 
 exports.getUnidadacademica3 = function(req, res, next){
+    if(req.params.id3)
+    {
+        var filtro;
+console.log(req.params)
+                    switch(req.params.id3) {
+                        case 'Estudiante':
+                            filtro={idtipounidad:req.params.id,estado:'Activo', aest:true};
+                        break;
+                        case 'Trabajador':
+                                filtro={idtipounidad:req.params.id,estado:'Activo', atrab:true};
+                        break;
+                   
+                        case 'Hijo Trabajador Adolescente':
+                                filtro={idtipounidad:req.params.id,estado:'Activo', ahijotrab1:true};
+                        break;
+                        case 'Hijo Trabajador Adulto':
+                                filtro={idtipounidad:req.params.id,estado:'Activo', ahijotrab2:true};
+                        break;
+                        case 'Población':
+                                filtro={idtipounidad:req.params.id,estado:'Activo', apoblacion:true};
+                        break;
+                        case 'Adolescente':
+                                filtro={idtipounidad:req.params.id,estado:'Activo', aadol:true};
+                        break;
+                        case 'Extranjero':
+                                filtro={idtipounidad:req.params.id,estado:'Activo', aext:true};
+                        break;
+                        default:
+                                filtro={idtipounidad:req.params.id,estado:'Activo'};
+
+                    }
+                            console.log(filtro)
+        Unidadacademica3.find(filtro
+        ,null, {sort: {codigo: 1}},function(err, todos) {
+           if (err){  res.send(err);  }
+           
+            res.json(todos);
+        });
+
+
+    }
+    else
+    {
     if(req.params.id2)
     {   
         if(req.params.id2=='todosinactivo')
@@ -51,6 +94,7 @@ exports.getUnidadacademica3 = function(req, res, next){
             res.json(todos);
         });
     }   
+}
 }
 exports.deleteUnidadacademica3 = function(req, res, next){
    
