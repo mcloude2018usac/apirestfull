@@ -77,8 +77,9 @@ exports.getUnidadplan3 = function(req, res, next){
             Facplan3.aggregate([ projectDataForMatch, match]  ).exec(function(err, todos10) {
                 if (err){ res.send(err); }
                 var duplicates = [];
-                todos10.forEach(function (doc) {duplicates.push(doc.idhorario);  });
-                  Unidadhorario3.find({_id: {$in: duplicates},idtipounidad :req.params.id2,idunidadacademica:req.params.id2},function(err, todos) {
+           
+                          todos10.forEach(function (doc) {duplicates.push(doc.idhorario);  });
+                  Unidadhorario3.find({_id: {$in: duplicates},idtipounidad :req.params.id,idunidadacademica:req.params.id},function(err, todos) {
                     if (err){  res.send(err);  }
                      res.json(todos);
                  });
@@ -150,7 +151,7 @@ exports.getUnidadplan3 = function(req, res, next){
                     var duplicates = [];
                     todos10.forEach(function (doc) {duplicates.push(doc.idnivel);  });
                     console.log({nivel: {$in: duplicates},idtipounidad :req.params.id2,idunidadacademica:req.params.id2,tipo:req.params.id4,jornada:req.params.id5})
-                   Unidadpago3.find({nivel: {$in: duplicates},idtipounidad :req.params.id2,idunidadacademica:req.params.id2,tipo:req.params.id4,jornada:req.params.id5}).populate('nivel').populate('jornada').exec(function(err, todos) {
+                   Unidadpago3.find({nivel: {$in: duplicates},idtipounidad :req.params.id2,idunidadacademica:req.params.id2,tipo:req.params.id4,jornada:req.params.id5}).populate('nivel').populate('jornada').sort([['codigo', 1]]).exec(function(err, todos) {
                         if (err){  res.send(err);  }
                      
                          res.json(todos);
