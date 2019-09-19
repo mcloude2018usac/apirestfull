@@ -59,6 +59,68 @@ exports.creaUnidadpago32s = function(req, res, next){
    
  
     Bitacora.create(req.body.bitacora);
+
+    if(req.body.operacion=='actualiza2')
+{
+
+var aa=req.body.niveles;
+
+Unidadpago3.find({idtipounidad :req.body.idtipounidad,idunidadacademica:req.body.idunidadacademica}).populate('nivel').populate('jornada').exec(function(err, todos) {
+    if (err){  res.send(err);  }
+
+
+
+    
+        for(var j = 0; j <aa.length;j++){
+            //console.log(aa[j])  
+            var vec=(aa[j].split('°'))
+            var encuentra=0;
+            for(var i = 0; i < todos.length;i++){
+                console.log(todos[i].nivel._id + '===' + vec[0] +'    '+  todos[i].tipo+ ' ===' + req.body.tipo + '     ' + todos[i].jornada._id + '==' + req.body.jornada )
+                if((todos[i].nivel._id==vec[0]) && (todos[i].tipo==req.body.tipo)  && (todos[i].jornada._id==req.body.jornada) )        {      encuentra=1;  break;        }
+            }
+
+            if(encuentra==0)
+            {
+                //crea
+                Unidadpago3.create({
+                    idtipounidad        	: req.body.idtipounidad        	,
+                    idunidadacademica: req.body.idunidadacademica,
+                    tipo: req.body.tipo,
+                    tipocurso: req.body.tipocurso,
+                    tipogrupo: req.body.tipogrupo,
+                    codigo: vec[1],
+                    nivel: vec[0],
+                    nombre: vec[2],
+                    jornada: req.body.jornada,
+                    costo: req.body.costo,
+                    estado: req.body.estado,
+                    usuarionew:req.body.bitacora.email
+                
+                      }          );
+
+
+            }
+        
+    
+        }
+    
+    
+    
+
+
+     res.json(todos);
+ });
+
+
+
+
+
+
+}
+else
+{
+
 if(req.params.recordID!=='crea')
 {
     Unidadpago3.findById({ _id: req.params.recordID }, function (err, todo)  {
@@ -138,7 +200,7 @@ else{
    
  
 }
-
+}
 }
 
 

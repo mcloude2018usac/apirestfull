@@ -447,7 +447,7 @@ if(req.params.recordID!=='crea')
                                                                     todo100.idsalon= myData[0].idsalon,
                                                                    
                                                                    todo100.carnecalusac= '3915474',
-                                                                    todo100.jornada=req.body.jornada,
+                                                                 
                                                                     todo100.horario=req.body.horario,
                                                                    
                                                                     todo100.profesor=req.body.profesor,
@@ -563,7 +563,7 @@ else{
                            ididioma      	: req.body.ididioma        	,
                            idtipocurso      	: req.body.idtipocurso        	,
                            idtipogrupo      	: req.body.idtipogrupo        	,
-
+                            jornada: req.body.jornada,        	
                            nidentificador:req.body.nidentificador       	,
                            foto1      	: req.body.foto1        	,
                            foto2      	: req.body.foto2        	,

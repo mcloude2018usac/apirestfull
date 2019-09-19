@@ -5,12 +5,14 @@ var Facplan3 = require('../../models/calusac/unidadplan3');
 var Unidadjornada3 = require('../../models/calusac/unidadjornada3');
 var Unidadhorario3 = require('../../models/calusac/unidadhorario3');
 var Unidadprofesor3 = require('../../models/calusac/unidadprofesor3');
+var Unidadpago3 = require('../../models/calusac/unidadpago3');
 
 exports.getUnidadplan3 = function(req, res, next){
     if(req.params.id5)
     {  
-        console.log(req.params)
+       
     switch(req.params.id5) {
+      
         case 'jornadas':
             var projectDataForMatch = {
                 $project : {
@@ -33,15 +35,15 @@ exports.getUnidadplan3 = function(req, res, next){
             var match = {
                 $match : {  
                     filterThisDoc : 1,
-                    'idtipounidad.id' :req.params.id,'idunidadacademica.id':req.params.id2,'idperiodo.id':req.params.id3,'idnivel':req.params.id4
+                    'idtipounidad.id' :req.params.id,'idunidadacademica.id':req.params.id2,'idperiodo.id':req.params.id3
                 }
             }
-            console.log({  'idtipounidad.id' :req.params.id,'idunidadacademica.id':req.params.id2,'idperiodo.id':req.params.id3,'idnivel':req.params.id4})
-            Facplan3.aggregate([ projectDataForMatch, match]  ).exec(function(err, todos10) {
+                 Facplan3.aggregate([ projectDataForMatch, match]  ).exec(function(err, todos10) {
                 if (err){ res.send(err); }
                 var duplicates = [];
+              
                 todos10.forEach(function (doc) {duplicates.push(doc.idjornada);  });
-                 Unidadjornada3.find({_id: {$in: duplicates},idtipounidad :req.params.id2,idunidadacademica:req.params.id2},function(err, todos) {
+                 Unidadjornada3.find({_id: {$in: duplicates},idtipounidad :req.params.id,idunidadacademica:req.params.id},function(err, todos) {
                     if (err){  res.send(err);  }
                      res.json(todos);
                  });
@@ -112,15 +114,53 @@ exports.getUnidadplan3 = function(req, res, next){
                
                 var duplicates = [];
                 todos10.forEach(function (doc) {duplicates.push(doc.idprofesor);  });
-                console.log({_id: {$in: duplicates},idtipounidad :req.params.id,idunidadacademica:req.params.id})
-                 Unidadprofesor3.find({_id: {$in: duplicates},idtipounidad :req.params.id,idunidadacademica:req.params.id},function(err, todos) {
+                  Unidadprofesor3.find({_id: {$in: duplicates},idtipounidad :req.params.id,idunidadacademica:req.params.id},function(err, todos) {
                     if (err){  res.send(err);  }
                      res.json(todos);
                  });
             });
         break
         default:
-        break;
+                var projectDataForMatch = {
+                    $project : {
+                      idjornada : 1, //list all fields needed here
+                      idtipounidad:1,
+                      idunidadacademica:1,
+                      idperiodo:1,
+                      idnivel:1,
+                        filterThisDoc : {
+                            $cond : {
+                                if  : {
+                                    $lt : ["$asignados", "$capacidad"]
+                                },
+                            then : 1,
+                            else  : 0
+                        } //or use compare operator $cmp
+                    }
+                }
+                }
+                var match = {
+                    $match : {  
+                        filterThisDoc : 1,
+                        'idtipounidad.id' :req.params.id,'idunidadacademica.id':req.params.id2,'idperiodo.id':req.params.id3,'idjornada':req.params.id5
+                    }
+                }
+                Facplan3.aggregate([ projectDataForMatch, match]  ).exec(function(err, todos10) {
+                    if (err){ res.send(err); }
+                    var duplicates = [];
+                    todos10.forEach(function (doc) {duplicates.push(doc.idnivel);  });
+                    console.log({nivel: {$in: duplicates},idtipounidad :req.params.id2,idunidadacademica:req.params.id2,tipo:req.params.id4,jornada:req.params.id5})
+                   Unidadpago3.find({nivel: {$in: duplicates},idtipounidad :req.params.id2,idunidadacademica:req.params.id2,tipo:req.params.id4,jornada:req.params.id5}).populate('nivel').populate('jornada').exec(function(err, todos) {
+                        if (err){  res.send(err);  }
+                     
+                         res.json(todos);
+                     });
+    
+                     
+
+                });
+            break
+
 
     }
 
