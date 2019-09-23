@@ -1,6 +1,7 @@
 var mongoose =require("mongoose");
 
     var PermisoSchema 		=	new  mongoose.Schema({
+        idempresa   		: { type : String, required : true },
         idrol   		: { type : String, required : true },
         nombre   		: { type : String, required : true , ref: 'Modulo'},
         icon   		: { type : String },

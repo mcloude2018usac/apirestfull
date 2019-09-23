@@ -1,5 +1,6 @@
 var mongoose =require("mongoose");
     var CatalogoSchema 		=	new  mongoose.Schema({
+        idempresa   		: { type : String, required : true },
         tipo   		: { type : String, required : true },
         nombre   		: { type : String},
         fecha   		: { type : Date},
