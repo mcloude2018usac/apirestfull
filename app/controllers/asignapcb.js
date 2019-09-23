@@ -486,7 +486,7 @@ Facplan.find({'idtipounidad.id'        	: req.body.tipounidad.id     
          }).sort([['createdAt', 1]]).lean().exec({}, function(err,myData) {
     if (err) res.send(err);
 
-    
+
     if(myData.length==0)
     {
      res.status(404).send(' No existe  configurado salones para esta unidad academica')    
@@ -628,7 +628,7 @@ Facplan.find({'idtipounidad.id'        	: req.body.tipounidad.id     
                                             {//si hay cupo lo hago
                                                 
                                                 cii=0;
-                                             //   console.log('encontre cupo para ' + myData[ii].idmateria )
+                                              //  console.log('encontre cupo para ' + myData[ii] )
                                                 myData3.push({_id:myData[ii]._id,idedificio:myData[ii].idedificio,idsalon:myData[ii].idsalon
                                                     ,idhorario:myData[ii].idhorario,idmateria:myData[ii].idmateria
                                                     ,capacidad:myData[ii].capacidad,asignados:'0',fexamen:myData[ii].fexamen,codfac:myData[ii].codfac});
