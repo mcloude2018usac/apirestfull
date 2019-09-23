@@ -705,7 +705,7 @@ moduloRoutes.delete('/:recordID/:userID',requireAuth,  ModuloController.deleteMo
 apiRoutes.use('/catalogos', catalogoRoutes);
 catalogoRoutes.get('/',requireAuth, CatalogoController.getCatalogo);
 catalogoRoutes.get('/:id',requireAuth,  CatalogoController.getCatalogo);
-catalogoRoutes.get('/:id/:id2',requireAuth,  CatalogoController.getCatalogo);
+catalogoRoutes.get('/:id/:id2/:id3',requireAuth,  CatalogoController.getCatalogo);
 catalogoRoutes.post('/:recordID',requireAuth,  CatalogoController.creaCatalogo2s);
 catalogoRoutes.delete('/:recordID/:userID',requireAuth,  CatalogoController.deleteCatalogo);
 
