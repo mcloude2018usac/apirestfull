@@ -457,7 +457,7 @@ if(req.params.recordID!=='crea')
 }
 else{
 
-var aa=1;
+var aa=0;
 if(aa==1) 
 {
     res.status(404).send('Las fechas de inscripción PCB han finalizado.');
@@ -624,7 +624,7 @@ Facplan.find({'idtipounidad.id'        	: req.body.tipounidad.id     
                                     if(myData0a[i].idmateria==myData[ii].idmateria )
                                     {
                                       necesito=necesito+' ' +myData0a[i].idmateria
-                                            if( myData[ii].capacidad>=(Number(myData[ii].asignados)-1))
+                                            if( myData[ii].capacidad>=(Number(myData[ii].asignados)-2))
                                             {//si hay cupo lo hago
                                                 
                                                 cii=0;

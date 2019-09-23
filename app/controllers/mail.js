@@ -49,7 +49,7 @@ exports.getMail2 = function(req1, res){
 
   ses.sendEmail(params, function(err, data) {
     if (err) {
-      res.status(500).send(err.sqlMessage);
+      res.status(500).send('error al enviar correo');
       return
     }
   
