@@ -170,7 +170,7 @@ exports.getAsignapcb = function(req, res, next){
           
 
                 
-                Facplan.find({_id: {$in: duplicates},'idperiodo.nombre':'2019-01'}).sort({   "asignados" : -1    }).select({ "idtipounidad.nombre":1,"idunidadacademica.nombre":1,"idedificio.nombre":1,"idsalon.nombre":1,"capacidad":1,"asignados":1}).exec(function(err, todos) {
+                Facplan.find({_id: {$in: duplicates},'idperiodo.nombre':'2019-03'}).sort({   "asignados" : -1    }).select({ "idtipounidad.nombre":1,"idunidadacademica.nombre":1,"idedificio.nombre":1,"idsalon.nombre":1,"capacidad":1,"asignados":1}).exec(function(err, todos) {
                     if (err){ res.send(err); }
                     var cad='';
                     for(var i = 0; i < todos.length;i++){
@@ -483,7 +483,7 @@ else
 Facplan.find({'idtipounidad.id'        	: req.body.tipounidad.id        	,
 'idunidadacademica.id'        	: req.body.unidadacademica.id  
  //,   asignados:{$lt:capacidad}    	
-         }).lean().exec({}, function(err,myData) {
+         })..sort([['createdAt', 1]]).lean().exec({}, function(err,myData) {
     if (err) res.send(err);
 
     
