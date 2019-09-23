@@ -4,7 +4,7 @@ var Bitacora = require('../../models/bitacora');
 var Facplan3 = require('../../models/calusac/unidadplan3');
 var Unidadjornada3 = require('../../models/calusac/unidadjornada3');
 var Unidadhorario3 = require('../../models/calusac/unidadhorario3');
-var Unidadprofesor3 = require('../../models/calusac/unidadprofesor3');
+var Unidadprofesor3 = require('../../models/user');
 var Unidadpago3 = require('../../models/calusac/unidadpago3');
 
 exports.getUnidadplan3 = function(req, res, next){
@@ -115,7 +115,7 @@ exports.getUnidadplan3 = function(req, res, next){
                
                 var duplicates = [];
                 todos10.forEach(function (doc) {duplicates.push(doc.idprofesor);  });
-                  Unidadprofesor3.find({_id: {$in: duplicates},idtipounidad :req.params.id,idunidadacademica:req.params.id},function(err, todos) {
+                  Unidadprofesor3.find({_id: {$in: duplicates}},function(err, todos) {
                     if (err){  res.send(err);  }
                      res.json(todos);
                  });

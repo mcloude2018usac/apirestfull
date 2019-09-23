@@ -431,7 +431,7 @@ exports.getPersonal = function(req, res, next){
                             });
                     break;
                     case 'unidad':
-                    console.log({unidad:req.params.email})
+                  
                     Personal.find({unidad:req.params.email,idempresa:req.params.id4}).exec(function(err, todos) {
                         if (err){ res.send(err); }
                     
