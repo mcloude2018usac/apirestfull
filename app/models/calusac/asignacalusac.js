@@ -26,7 +26,7 @@ var AsignacalusacSchema = new mongoose.Schema({
     nivel:{        type: String ,ref:'Unidadnivel3' },
     horario:{        type: String ,ref:'Unidadhorario3' },
 
-    profesor:{        type: String,ref:'Unidadprofesor3'},
+    profesor:{        type: String,ref:'User'},
 
     carneusac:{        type: String},
      carnecalusac:{        type: String},

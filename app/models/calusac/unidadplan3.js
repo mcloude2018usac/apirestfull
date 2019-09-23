@@ -26,7 +26,7 @@ var mongoose =require("mongoose");
       
         idprofesor: {
             type: String,
-            required: true,ref:'Unidadprofesor3'
+            required: true,ref:'User'
         },
         capacidad: {
             type: Number,
