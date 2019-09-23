@@ -113,7 +113,7 @@ else{
     }
     else{
 
-     console.log(req.body)
+  
 
                     Bitacora.create(req.body.bitacora);
                   
@@ -137,7 +137,7 @@ else{
                 }
                     , function(err, todo) {
                     if (err){   res.status(500).send(err.message)  
-                    console.log(err.message)  }
+                   }
                 
                     res.json(todo);
 

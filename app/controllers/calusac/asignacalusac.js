@@ -38,8 +38,7 @@ exports.getAsignacalusac = function(req, res, next){
             case 'ordenpago':
             var op= req.params.id2.split(',')
           //    var myXMLText = '<?xml version="1.0" encoding="utf-8"?><Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/"><Body><getData xmlns="urn:miserviciowsdl"><carnet>'+op[0]+'</carnet><unidad>00</unidad><extension>00</extension><carrera>00</carrera><nombre>'+op[1]+'</nombre><monto>'+op[2]+'</monto><anio>'+op[3]+'</anio><rubro>'+op[4]+'</rubro><variante_rubro>1</variante_rubro><subtotal>'+op[2]+'</subtotal></getData></Body></Envelope>'
-               console.log(op[0])
-            var myXMLText = '<?xml version="1.0" encoding="utf-8"?><Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/"><Body><getData xmlns="urn:miserviciowsdl"><carnet>'+op[0]+'</carnet><unidad>00</unidad><extension>00</extension><carrera>00</carrera><nombre>' +op[1]+'</nombre><monto>'+op[2]+'</monto><anio>'+op[3]+'</anio><rubro>'+op[4]+'</rubro><variante_rubro>1</variante_rubro><subtotal>240</subtotal></getData></Body></Envelope>'
+             var myXMLText = '<?xml version="1.0" encoding="utf-8"?><Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/"><Body><getData xmlns="urn:miserviciowsdl"><carnet>'+op[0]+'</carnet><unidad>00</unidad><extension>00</extension><carrera>00</carrera><nombre>' +op[1]+'</nombre><monto>'+op[2]+'</monto><anio>'+op[3]+'</anio><rubro>'+op[4]+'</rubro><variante_rubro>1</variante_rubro><subtotal>240</subtotal></getData></Body></Envelope>'
 
 
      
@@ -65,7 +64,7 @@ exports.getAsignacalusac = function(req, res, next){
                 body: myXMLText
             }, function (error, response, body){
        
-                if (error){  console.log(error); res.send(error);  }
+                if (error){   res.send(error);  }
                
             
                 var xml2js = require('xml2js');
@@ -155,7 +154,6 @@ exports.getAsignacalusac = function(req, res, next){
                                             
                                 
                                             for(var i = 0; i < todos.length;i++){
-                                            //  console.log(todos[i].idtipounidad.nombre + '*' +todos[i].idmateria + '*' + todos[i].cantidad+'*')  
                                                     if(unidad==todos[i].idtipounidad.nombre)
                                                     { 
                                                 
@@ -313,7 +311,7 @@ exports.deleteAsignacalusac = function(req, res, next){
 
 
     Asignaest.remove({idasigna: req.params.recordID  }, function(err, todo) {
-//console.log(todo);
+
         Asignacalusac.findByIdAndRemove({ _id: req.params.recordID  }, function(err, todo) {
 
             // Asignaest
@@ -416,7 +414,7 @@ if(req.params.recordID!=='crea')
                     Facplan3.aggregate([ projectDataForMatch, match] ).exec( function(err,myData) {
                         if (err) res.send(err);
   
-                        if(myData.length==0)   {    res.status(404).send('Cupo leno en salon / No existe definido salon en estratuctura '); }
+                        if(myData.length==0)   {    res.status(404).send('Cupo lleno en salon / No existe definido en estructura '); }
                         else
                         {
                          
@@ -439,7 +437,7 @@ if(req.params.recordID!=='crea')
                                                         Asignacalusac.findById({ _id: req.params.recordID }, function (err, todo100)  {
                                                             if (err) {  res.send(err);  }
                                                             else
-                                                            {console.log('**'+todo100.carnecalusac + '***')
+                                                            {
                                                                 if (todo100.carnecalusac=='')
                                                                 {
                                                                     todo100.estadopago        	=		'Asignación exitosa'    	;

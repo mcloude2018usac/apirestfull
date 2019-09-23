@@ -150,7 +150,6 @@ exports.getUnidadplan3 = function(req, res, next){
                     if (err){ res.send(err); }
                     var duplicates = [];
                     todos10.forEach(function (doc) {duplicates.push(doc.idnivel);  });
-                    console.log({nivel: {$in: duplicates},idtipounidad :req.params.id2,idunidadacademica:req.params.id2,tipo:req.params.id4,jornada:req.params.id5})
                    Unidadpago3.find({nivel: {$in: duplicates},idtipounidad :req.params.id2,idunidadacademica:req.params.id2,tipo:req.params.id4,jornada:req.params.id5}).populate('nivel').populate('jornada').sort([['codigo', 1]]).exec(function(err, todos) {
                         if (err){  res.send(err);  }
                      

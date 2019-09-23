@@ -72,7 +72,7 @@ Unidadpago3.find({idtipounidad :req.body.idtipounidad,idunidadacademica:req.body
 
     
         for(var j = 0; j <aa.length;j++){
-            //console.log(aa[j])  
+          
             var vec=(aa[j].split('°'))
             var encuentra=0;
             for(var i = 0; i < todos.length;i++){

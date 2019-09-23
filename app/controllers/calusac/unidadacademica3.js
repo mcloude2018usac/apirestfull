@@ -6,7 +6,7 @@ exports.getUnidadacademica3 = function(req, res, next){
     if(req.params.id3)
     {
         var filtro;
-console.log(req.params)
+
                     switch(req.params.id3) {
                         case 'Estudiante':
                             filtro={idtipounidad:req.params.id,estado:'Activo', aest:true};
@@ -34,7 +34,7 @@ console.log(req.params)
                                 filtro={idtipounidad:req.params.id,estado:'Activo'};
 
                     }
-                            console.log(filtro)
+                          
         Unidadacademica3.find(filtro
         ,null, {sort: {codigo: 1}},function(err, todos) {
            if (err){  res.send(err);  }
@@ -53,7 +53,7 @@ console.log(req.params)
             Unidadacademica3.find({idtipounidad:req.params.id,estado:'Inactivo'}
         ,null, {sort: {codigo: 1}}).populate('ididioma','idtipocurso','idtipogrupo').exec(function(err, todos) {
            if (err){  res.send(err);  }
-           console.log(todos)
+          
             res.json(todos);
         });
         }
@@ -65,7 +65,7 @@ console.log(req.params)
         ,null, {sort: {codigo: 1}})
         .populate('ididioma').populate('idtipocurso').populate('idtipogrupo').exec(function(err, todos) {
            if (err){  res.send(err);  }
-           console.log(todos)
+         
             res.json(todos);
         });
         }

@@ -5,13 +5,12 @@ var Bitacora = require('../../models/bitacora');
 exports.getAsignanotas = function(req, res, next){
        if(req.params.id)
         {  
-           console.log({carne :req.params.id,nonivel:req.params.id2,nocurso:req.params.id3})
                 Asignanotas.find({carne :req.params.id,nonivel:req.params.id2,nocurso:req.params.id3},function(err, todos) {
                     if (err){ res.send(err); }
                    
-                    if(todos.length>0)   {  console.log(todos);  res.json(todos);   }
+                    if(todos.length>0)   {   res.json(todos);   }
                     else
-                    { console.log('no existe'); res.status(500).send('NO EXISTE REGISTRO');      }
+                    { res.status(500).send('NO EXISTE REGISTRO');      }
                     
                 });
              

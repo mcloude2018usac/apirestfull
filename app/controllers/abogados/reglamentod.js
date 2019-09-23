@@ -100,7 +100,7 @@ exports.creaReglamentod2s = function(req, res, next){
     }
     else{
 
-     console.log(req.body)
+   
 
                     Bitacora.create(req.body.bitacora);
                   
@@ -122,7 +122,7 @@ exports.creaReglamentod2s = function(req, res, next){
                 }
                     , function(err, todo) {
                     if (err){   res.status(500).send(err.message)  
-                    console.log(err.message)  }
+                     }
                 
                     res.json(todo);
 
