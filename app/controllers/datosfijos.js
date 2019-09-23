@@ -166,8 +166,7 @@ exports.getCombofijo = function(req, res, next){
                         Asignaest.updateMany({'idunidadacademica.id': todos[i].id}, {
                                 idunidadacademica :{id:todos[i]._id,nombre:todos[i].nombre,codigo:todos[i].codigo   }   	
                             }, function(err, numberAffected, rawResponse) {
-                                    console.log(rawResponse)
-                                    console.log(numberAffected)
+                                 
                                //handle it
                             })
 
@@ -207,7 +206,7 @@ exports.getCombofijo = function(req, res, next){
                                 var resp=[]
                                 for(var i = 0; i < todos.length;i++){
                                 var periodo=todos[i].idperiodo.nombre.split("-");
-                        //   console.log(periodo)
+                       
                                 var anio=Number(periodo[0])+1
                                 var idmat=0
                                 
@@ -253,7 +252,7 @@ exports.getCombofijo = function(req, res, next){
                         var resp=[]
                         for(var i = 0; i < todos.length;i++){
                         var periodo=todos[i].idperiodo.nombre.split("-");
-             //     console.log(todos.length)
+           
                         var anio=Number(periodo[0])+1
                         var idmat=0
                         
@@ -339,7 +338,7 @@ exports.getCombofijo = function(req, res, next){
                                 var resp=[]
                                 for(var i = 0; i < todos.length;i++){
                                 var periodo=todos[i].idperiodo.nombre.split("-");
-                     //     console.log(todos.length)
+                   
                                 var anio=Number(periodo[0])+1
                                 var idmat=0
                                 
@@ -396,7 +395,7 @@ exports.getCombofijo = function(req, res, next){
                                 var d =new Date( todos[i].date).toISOString().substr(0,10);   
                                 var n = d.split('-')   
                                 var  nn=''
-                                console.log(todos[i])
+                              
                                 if(todos[i].nombre)      {nn=todos[i].nombre} 
                                       
                                 resp.push({no_asignado:todos[i].noasignado ,no_orientacion:ll,nombre:nn,
@@ -430,7 +429,7 @@ exports.getCombofijo = function(req, res, next){
                                         var resp=[]
                                         for(var i = 0; i < todos.length;i++){
                                         var periodo=todos[i].idperiodo.nombre.split("-");
-                             //     console.log(todos.length)
+                            
                                         var anio=Number(periodo[0])+1
                                         var idmat=0
                                         
@@ -620,13 +619,13 @@ if (query !== undef) {
         if ( typeof query  !== 'undefined' && query )
 {
   //do stuff if query is defined and not null
-  console.log('si')
+
   res.status(500).send('si ');
   return;
 }
 else
 {
-        console.log('no')
+     
         res.status(500).send('si ');
         return;
 }
@@ -767,7 +766,7 @@ else
 
                                  if(idusuario!='')
                                  {
-                                         console.log('entra')
+                                       
                                         myData31.push({
                                                 nombre:todos2[i].nombre ,correo:todos2[i].correo
                                                 ,xpos:todos2[i].xpos,ypos:todos2[i].ypos,
@@ -1113,7 +1112,7 @@ Asignaest.aggregate(
 
                                         if(encuentra==1)
                                 {
-                                           //   console.log('igualllllllllllllllll' +result[j])  
+                                        
 
                                 }
                                 else
@@ -1122,7 +1121,6 @@ Asignaest.aggregate(
 
                                   
 
-                                      //  console.log('igualllllllllllllllll 33333333333333333333' +result[j])  
                                 }
                                 //getNextSequenceValue2a(result[j].codfac,result[j].idunidadacademica.id,result[j].idedificio.id,result[j].idsalon.id,result[j].idmateria,result[j].idhorario,result[j].cantidad,res);
 
@@ -1175,7 +1173,7 @@ Userperfil.find({}).exec(function(err, todos20) {
                         if(cuenta==1)
                         {}
                         else
-                        { console.log(todos20[i])
+                        { 
                              data1.push({id:todos20[i]._id})
 
                         }
@@ -1373,10 +1371,10 @@ Asignapap.aggregate(
 
 
                                         }
-                                       // console.log(encuentra.length)
+                                      
                                         for(var k = 0; k <encuentra.length-1;k++){
                                                 data1.push({id:encuentra[k].id});   
-                                                        console.log(encuentra[k].id)
+                                                      
                                                  //  Asignapap.findByIdAndRemove({ _id: encuentra[k].id }, function(err, todoxxx) {
                                                      //
                                                         //    });
@@ -1401,10 +1399,7 @@ Asignapap.aggregate(
         
                                                         if(todos200[i].idasigna==data1[j].id)
                                                         {
-                                                            //    console.log(todos200[i].nombre + ' ' + todos200[i].idmateria + ' ' + todos200[i].idhorario)
-                                                             data2.push({id:todos200[i]._id,nombre:todos200[i].nombre,materia:todos200[i].idmateria,horario:todos200[i].idhorario,usu1: todos200[i].usuarionew});   
-                                                           console.log(todos200[i]._id)
-                                                          //   Asignaest.findByIdAndRemove({ _id: todos200[i]._id  }, function(err, todoxxx) {
+                                                              data2.push({id:todos200[i]._id,nombre:todos200[i].nombre,materia:todos200[i].idmateria,horario:todos200[i].idhorario,usu1: todos200[i].usuarionew});   
                                                                // res.json(todo);
                                                           //  });
 

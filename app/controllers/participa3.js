@@ -319,7 +319,7 @@ Participa3.create({
 }
     , function(err, todo) {
     if (err){   res.status(500).send(err.message)  
-    console.log(err.message)  }
+    }
 
     res.json(todo);
 

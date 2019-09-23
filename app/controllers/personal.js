@@ -641,7 +641,7 @@ exports.getPersonal = function(req, res, next){
                                             console.log({email:req.params.email,idempresa:req.params.id3});
                                         Personal.find({email:req.params.email,idempresa:req.params.id3}).populate('unidad').populate('tiposuscriptor')
                                         .then(todos => {
-                                            
+                                       //     console.log(todos)
                                             res.json(todos);  
                                             
                                         })

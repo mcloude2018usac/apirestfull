@@ -16,7 +16,7 @@ exports.getOrganigrama = function(req, res, next){
                
         Organigrama.find({'nivel1':req.params.id}).populate('nivel2').populate('nivel1').exec(function(err, todos) {
             if (err){ res.send(err); }
-        console.log(todos.length)
+       
 
         var unique =  todos.filter( onlyUnique );
         var myData2 = [];  

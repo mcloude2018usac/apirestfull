@@ -36,7 +36,7 @@ exports.getParticipa = function(req, res, next){
                       //  return db.close();
                     }
          
-                    console.log(result)
+                  
                     result.forEach(function (doc) {
                         doc.dups.shift(); // Nos quedamos con el primer elemento
                         doc.dups.forEach(function (dupId) {
@@ -169,8 +169,7 @@ exports.creaParticipa2s = function(req, res, next){
   if(req.params.id=='actualiza')
 { 
 
-    console.log('ACTUALIZA')
-    console.log(req.body)
+  
 
 
     Participa.findById({ _id: req.body._id}, function (err, todo)  {

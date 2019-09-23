@@ -38,7 +38,7 @@ function getNextSequenceValue2(myData3,myData3cc,req,res,i,todo){
              var asigno=0
              asigno=myasigcupo.length;
              asigno=asigno+1;
-             console.log(asigno)
+            
 
                        Asignaest.create({ 
                            idasigna:todo._id,
@@ -308,7 +308,7 @@ else{
   
             //noboleta,codigofactultad,monto,cui,tipo,codigotipo
             //id,id2,id3,id4,id5,id6
-            console.log(todos)
+           
             
           if(!todos)
           {
@@ -316,8 +316,6 @@ else{
             return;
           }
                     if(todos.length==0)   {  
-                        console.log('entrasssssssssssss')
-                      
                         res.status(500).send('No existe Asignación en sistema'); 
                        // return next(err)
                     return;
@@ -325,7 +323,7 @@ else{
                     else
                     { 
 
-                        console.log(todos)
+                    
               //agregar periodo que se esta trabajando*************************************************************
               var myData0 = [];
                         
@@ -340,7 +338,7 @@ else{
             
               if(tt==1)
               {
-                console.log('entrawwww')
+              
                 res.status(500).send('No existe ninguna materia asignada'); 
             return; 
 
@@ -366,7 +364,7 @@ else{
             
                 var cii=0;
                 //las materias qye tengo que ganar
-       //     console.log(myData0a)
+    
               for(var i = 0; i < myData0a.length;i++){
                   //todo lo que esta planificado en el plan   
 
@@ -397,7 +395,7 @@ else{
             
                   //////////////////
                   if(cii>0)
-                  {  //  console.log(' NOOOO encontre cupo para ' + myData[cii].idmateria )
+                  {  
                       myData3aa.push({_id:myData[cii]._id,idedificio:myData[cii].idedificio,idsalon:myData[cii].idsalon
                           ,idhorario:myData[cii].idhorario,idmateria:myData[cii].idmateria
                           ,idtipounidad:myData[cii].idtipounidad,
@@ -433,7 +431,6 @@ else{
                 
       
                 mailt.getMail2(mailO,res);
-      //            console.log('No existe cupo para asignarse esta materia: '+  myData3aa[0].idmateria +' para el edificio: '+  myData3aa[0].idedificio.nombre +' salon: '+  myData3aa[0].idsalon.nombre +' , realize la asignacion mas tarde')
                 res.status(500).send('No existe disponibilidad para asignarse , Inténtelo más tarde')    
             }
             else

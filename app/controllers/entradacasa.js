@@ -101,7 +101,7 @@ exports.getEntradacasa = function(req, res, next){
 
 // createdAt: { "$gte": new Date('2019-05-01T00:00:00.000Z'),"$lt": new Date('2019-06-01T24:00:00.000Z')}
 //2019-05-01T00:00:00.000Z   2019-06-01T24:00:00.000Z
-               console.log(f1 +'T00:00:00.000Z' + '   ' + f2 +'T24:00:00.000Z')
+              
                 if(nombret=='undefined' &&  cuit=='undefined')
                 {
                     filtro={
@@ -168,7 +168,7 @@ exports.getEntradacasa = function(req, res, next){
                 
                
                 if(todos.length>0)
-                {  console.log(todos[0].estado)
+                {
                     if(todos[0].estado=='Entrada')
                     {
                         res.json([{es:'saliendo'}]);   

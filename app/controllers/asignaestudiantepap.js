@@ -217,7 +217,7 @@ exports.creaAsignaestudiantepap2s = function(req, res, next){
     
           //////////////////
           if(cii>0)
-          {  //  console.log(' NOOOO encontre cupo para ' + myData[cii].idmateria )
+          {  
               myData3aa.push({_id:myData[cii]._id,idedificio:myData[cii].idedificio,idsalon:myData[cii].idsalon
                   ,idhorario:myData[cii].idhorario,idmateria:myData[cii].idmateria
                   ,idtipounidad:myData[ii].idtipounidad,

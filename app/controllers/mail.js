@@ -52,7 +52,7 @@ exports.getMail2 = function(req1, res){
       res.status(500).send(err.sqlMessage);
       return
     }
-    console.log(data)
+  
   })
 
 
@@ -84,8 +84,9 @@ exports.getMail = function(req, res, next){
   }
 
   ses.sendEmail(params, function(err, data) {
+   
     if (err) {
-      res.status(500).send(err.sqlMessage);
+      res.status(500).send('error al enviar correo');
       return
     }
     res.json(data);

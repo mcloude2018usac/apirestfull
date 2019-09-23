@@ -10,7 +10,7 @@ exports.getUnidadacademica = function(req, res, next){
             Unidadacademica.find({idtipounidad:req.params.id,estado:'Inactivo'}
         ,null, {sort: {codigo: 1}},function(err, todos) {
            if (err){  res.send(err);  }
-           console.log(todos)
+        
             res.json(todos);
         });
         }

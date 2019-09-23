@@ -157,7 +157,7 @@ else{
                 }
                     , function(err, todo) {
                     if (err){   res.status(500).send(err.message)  
-                    console.log(err.message)  }
+                 }
 
                     Participa3.findById({ _id: req.body.iddenuncia   }, function (err, todo2)  {
                         if (err) {  res.send(err);  }

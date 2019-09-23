@@ -141,7 +141,7 @@ function sendEmail(bccAddresses, message, subject, replyToAddresses){
       console.log(err, err.stack)
       return
     }
-    console.log(data)
+   
   })
 }
 

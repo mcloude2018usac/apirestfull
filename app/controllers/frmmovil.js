@@ -650,8 +650,8 @@ else{
                                    
                                     frmtt.create(req.body.estructura
                                         , function(err, todo3) {
-                                        if (err){  console.log(err.message);     res.status(500).send(err.message)    }
-                                                console.log(todo3)
+                                        if (err){      res.status(500).send(err.message)    }
+                                             
                                         res.json(todo3);
                                     
                                         });
@@ -662,8 +662,8 @@ else{
                                   
                                     frmtt.create(req.body.estructura
                                         , function(err, todo3) {
-                                        if (err){     console.log(err.message);    res.status(500).send(err.message)    }
-                                        console.log(todo3)
+                                        if (err){       res.status(500).send(err.message)    }
+                                      
                                         res.json(todo3);
                                     
                                         });

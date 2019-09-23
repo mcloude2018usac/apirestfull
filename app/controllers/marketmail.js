@@ -72,7 +72,7 @@ exports.getMarketemail = function(req, res, next){
                         tablax.push({createdAt:todos2[i].createdAt,usuario:todos2[i].userId.nombre, tipo:datipo(todos2[i].toUserId,todos),msg:todos2[i].message});
                     }
     
-                    console.log(tablax);
+                  
                    
                     res.json( tablax);   
                     
@@ -110,7 +110,7 @@ exports.getMarketemail = function(req, res, next){
         else{
         filtro2={email:{$in:datav}, accesoestado: 'foro'};
         }
-        console.log(filtro2)
+     
         User.find(filtro2).exec(function(err, todos) {
             if (err){ res.send(err); }
 
@@ -174,7 +174,7 @@ exports.getMarketemail = function(req, res, next){
             else{
             filtro2={email:{$in:datav}, accesoestado: 'foro'};
             }
-            console.log(filtro2)
+       
             User.find(filtro2).exec(function(err, todos) {
                 if (err){ res.send(err); }
 
@@ -363,7 +363,6 @@ else{
     }
     else{
 
-     console.log(req.body)
 
                     Bitacora.create(req.body.bitacora);
                   

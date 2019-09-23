@@ -42,7 +42,7 @@ exports.getEvento = function(req, res, next){
                         Participa.find({idevento:req.params.id},function(err, todos2) {
                             if (err){ res.send(err); }
                             var cuantos =todos2.length
-                            console.log('capacidad:' + aa + '  incritos:' +cuantos)
+                         
                             if(cuantos<aa)
                             {
                                 res.json(todos);

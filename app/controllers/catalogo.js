@@ -2,12 +2,12 @@ var Catalogo = require('../models/catalogo');
 var Bitacora = require('../models/bitacora');
 
 exports.getCatalogo = function(req, res, next){
-    if(req.params.id2)
+    if(req.params.id3)
     { //req.params.id=='UNIDADES' &&
 
     if(req.params.id==req.params.id2)
     {
-        Catalogo.find({tipo:req.params.id2},function(err, todos) {
+        Catalogo.find({tipo:req.params.id2,idempresa:req.params.id3},function(err, todos) {
             if (err){ res.send(err); }
            
                res.json(todos);  
@@ -24,7 +24,7 @@ exports.getCatalogo = function(req, res, next){
 
             if(req.params.id=='5bae3259ce90232ba82c1cec' )
             {//RETORNA TODOS
-                Catalogo.find({tipo:'UNIDADES'},function(err, todos) {
+                Catalogo.find({tipo:'UNIDADES',idempresa:req.params.id3},function(err, todos) {
                     if (err){ res.send(err); }
                    
                     if(todos.length>0)   {    res.json(todos);   }
@@ -53,7 +53,7 @@ exports.getCatalogo = function(req, res, next){
         else
         {
 
-            Catalogo.find({tipo:req.params.id2},function(err, todos) {
+            Catalogo.find({tipo:req.params.id2,idempresa:req.params.id3},function(err, todos) {
                 if (err){ res.send(err); }
                
                 if(todos.length>0)   {    res.json(todos);   }
@@ -134,7 +134,9 @@ else{
         else
         {   
 
-            Catalogo.create({ tipo        	: req.body.tipo        	,
+            Catalogo.create({ 
+                idempresa        	: req.body.idempresa       	,
+                tipo        	: req.body.tipo        	,
                 nombre        	: req.body.nombre        	,
                 fecha        	: req.body.fecha        	,
                 foto        	: req.body.foto        	,

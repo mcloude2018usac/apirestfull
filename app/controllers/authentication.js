@@ -19,7 +19,8 @@ function setUserInfo(request){
             email: request.email,
             role: request.role,
             password:request.password,
-            estadoemail:request.estadoemail
+            estadoemail:request.estadoemail,
+            idempresa:request.idempresa
         };
  
     
@@ -31,6 +32,7 @@ exports.login = function(req, res, next){
  
 
         var userInfo = setUserInfo(req.user);
+      
  
           if(userInfo.email=="-11")    {
               Bitacora.create({email: "api", permiso: "Ingreso", accion: "intento fallido"});
@@ -288,7 +290,7 @@ exports.roleAuthorization = function(roles){
  
         var user = req.user;
  
-        User.find({_id:user._id,estadoemail:'1'}, function(err, foundUser){
+        User.find({_id:user._id}, function(err, foundUser){
 
             if(err){
                 res.status(500).json({error: 'Usuario no existe / no se autenticado via correo electronico'});

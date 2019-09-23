@@ -34,7 +34,7 @@ exports.getEstudiantepcb = function(req, res, next){
 exports.getEstudiantepcb2 = function(req, res, next){
     if(req.params.codigo)
     { 
-        console.log('el resultado')
+      
 
         Estudiantepcb.find({ORIENTACION:req.params.codigo}).then(todos => {
                    
