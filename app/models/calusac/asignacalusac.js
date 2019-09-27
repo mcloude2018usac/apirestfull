@@ -56,6 +56,8 @@ var AsignacalusacSchema = new mongoose.Schema({
     foto2:{        type: String},
     foto3:{        type: String},
     foto4:{        type: String},
+     foto5:{        type: String},
+     noorden:{        type: String},
     date 		: { type: Date, default: Date.now }
     ,usuarionew	: { type : String },      usuarioup	: { type : String },tipoasignacion	: { type : String }
  
