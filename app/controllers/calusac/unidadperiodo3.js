@@ -103,14 +103,14 @@ else{
   
     
     
-    Unidadperiodo3.find({idtipounidad        	: req.body.idtipounidad        	,
-        idunidadacademica: req.body.idunidadacademica, nombre: req.body.nombre
+    Unidadperiodo3.find({'idtipounidad.id'        	: req.body.idtipounidad.id       
+     	,  'idunidadacademica.id': req.body.idunidadacademica.id, nombre: req.body.nombre, ano: req.body.ano
       
         
          },function(err, todos) {
         if (err){ res.send(err); }
       
-        if(todos.length>0)   {    res.status(500).send('Ya existe un Edificio con este nombre'); }
+        if(todos.length>0)   {    res.status(500).send('Ya existe unperiodo con esta configuración :' + req.body.nombre); }
         else
         {   
 

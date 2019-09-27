@@ -73,7 +73,7 @@ else{
          },function(err, todos) {
         if (err){ res.send(err); }
       
-        if(todos.length>0)   {    res.status(500).send('Ya existe un idioma con este nombre'); }
+        if(todos.length>0)   {    res.status(500).send('Ya existe un idioma con esta configuración :' + req.body.nombre  ); }
         else
         {   
 

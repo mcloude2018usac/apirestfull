@@ -57,13 +57,13 @@ else{
     
     Unidadhorario3.find({idtipounidad        	: req.body.idtipounidad        	,idjornada        	: req.body.idjornada ,
         idunidadacademica: req.body.idunidadacademica, nombre: req.body.nombre, idunidadacademica: req.body.idunidadacademica,
-        dia: req.body.dia
+        dia: req.body.dia, nombre2: req.body.nombre2
       
         
          },function(err, todos) {
         if (err){ res.send(err); }
       
-        if(todos.length>0)   {    res.status(500).send('Horario ya existe en catalogo'); }
+        if(todos.length>0)   {    res.status(500).send('Horario ya un horariocon esta configuración :' + req.body.nombre); }
         else
         {   
 

@@ -15,10 +15,43 @@ var xml2js = require ('xml2js');
 exports.getAsignacalusac = function(req, res, next){
     if(req.params.id3)
     { 
-
+        console.log(req.params)
         switch(req.params.id3) {
             case 'todosautoriza':
-                    Asignacalusac.find({estadopago:{ $nin: [ 'Pendiente de pago' ]}}).populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia').exec(function(err, todos) {
+
+         
+                    Asignacalusac.find({estadopago:{ $nin: [ 'Pendiente de pago' ]},     $or : [
+                        { $and : [ { cui : req.params.id2 }] },
+                        { $and : [ { noboletapago : req.params.id2 }] },
+                        { $and : [ { correo : req.params.id2 }] },
+                        { $and : [ { telefono : req.params.id2 }] },
+                        { $and : [ { identificador : req.params.id2 }] },
+                        { $and : [ { carnecalusac : req.params.id2 }] },
+                        { $and : [ {carneusac : req.params.id2 } ] }]
+                    }).populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia').exec(function(err, todos) {
+                        if (err){ res.send(err); console.log(err) }
+                 
+                    res.json(todos);   
+                    console.log(todos)
+                        
+                        
+                    });
+                    break;
+                    case 'todosautorizapago':
+                        console.log(req.params)
+
+
+
+                    Asignacalusac.find({estadopago:{ $in: [ 'Pendiente de pago' ]},     $or : [
+                        { $and : [ { cui : req.params.id2 }] },
+                        { $and : [ { noboletapago : req.params.id2 }] },
+                        { $and : [ { correo : req.params.id2 }] },
+                        { $and : [ { telefono : req.params.id2 }] },
+                        { $and : [ { identificador : req.params.id2 }] },
+                        { $and : [ { carnecalusac : req.params.id2 }] },
+                        { $and : [ {carneusac : req.params.id2 } ] }]
+                    
+                    }).populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia').exec(function(err, todos) {
                         if (err){ res.send(err); }
                  
                     res.json(todos);   
@@ -338,6 +371,32 @@ exports.creaAsignacalusac2s = function(req, res, next){
   
 if(req.params.recordID!=='crea')
 { 
+    if( req.body.operacion=='asignaorden')
+    {
+
+
+        Asignacalusac.findById({ _id: req.params.recordID }, function (err, todo100)  {
+            if (err) {  res.send(err);  }
+            else
+            { 
+                todo100.estadopago        	=		'Orden de pago cobrada exitosamente'   	;
+                todo100.foto5        	=req.body.foto5;
+                todo100.noorden        	=req.body.noorden;
+    
+                todo100.save(function (err, todo200){
+                    if (err)     {  console.log(err.message)   }
+            
+                    res.json(todo200);
+               
+                    
+                });
+            }
+        });
+
+
+    }
+    else
+    {
     
     if( req.body.operacion=='cambiaestado')
     {
@@ -400,12 +459,17 @@ if(req.params.recordID!=='crea')
                         filterThisDoc : 1,
                         'idtipounidad.id' : todo.idtipounidad.id   ,'idunidadacademica.id':todo.idunidadacademica.id ,'idperiodo.id':todo.idperiodo.id 
                         ,idnivel:todo.nivel,
-                            idjornada:req.body.jornada,
+                            idjornada:todo.jornada,
                             idhorario:req.body.horario,
                             idprofesor:req.body.profesor
                     }
                 }
     
+                console.log({ 'idtipounidad.id' : todo.idtipounidad.id   ,'idunidadacademica.id':todo.idunidadacademica.id ,'idperiodo.id':todo.idperiodo.id 
+                ,idnivel:todo.nivel,
+                    idjornada:todo.jornada,
+                    idhorario:req.body.horario,
+                    idprofesor:req.body.profesor})
         
           
                 var duplicates = [];
@@ -520,20 +584,24 @@ if(req.params.recordID!=='crea')
         });
 
     }
-
+    }
 
 }
 else{
     Bitacora.create(req.body.bitacora);
-
+// no puede asignarse el mismo curso 2 veces
     Asignacalusac.find({
-        no_orientacion        	: req.body.no_orientacion        	,
-        'idperiodo.nombre'        	: req.body.periodo.nombre        
+        'idtipounidad.id'        	: req.body.tipounidad.id        	,
+        'idunidadacademica.id'        	: req.body.unidadacademica.id    ,
+        identificador      	: req.body.identificador        	    	
+      
+        //'idperiodo.id'        	: req.body.periodo.id        	,   nivel      	: req.body.nivel        	,      jornada: req.body.jornada
+     
         	 },function(err, todos) {
         if (err){  if(err) return next(err);// res.status(404).send(err); 
         return;}
       
-        if(todos.length>0)   {    res.status(404).send('Ya existe una Asignación para esta unidad academica, curso y nivel'); }
+        if(todos.length>0)   {    res.status(404).send('Ya existe una Asignación para esta unidad academica, curso y nivel , en el cual se asigno el identificador : '  +req.body.identificador  + ' para el curso ' + req.body.unidadacademica.nombre ); }
         else  
         { 
 

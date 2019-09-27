@@ -148,10 +148,13 @@ exports.creaUnidadacademica32s = function(req, res, next){
     }
     else{
 
-        Unidadacademica3.find({ idtipounidad      	: req.body.idtipounidad  ,codigo:req.body.codigo  },function(err, todos) {
+        Unidadacademica3.find({ idtipounidad      	: req.body.idtipounidad  ,codigo:req.body.codigo ,  nombre        	: req.body.nombre     
+        ,ididioma        	: req.body.ididioma        ,
+        idtipocurso        	: req.body.idtipocurso        ,
+        idtipogrupo        	: req.body.idtipogrupo           	 },function(err, todos) {
             if (err){ res.send(err); }
           
-            if(todos.length>0)   {    res.status(500).send('Codigo ya existe'); }
+            if(todos.length>0)   {    res.status(500).send('Ya existe un curso con esta configuración :' + req.body.nombre); }
             else
             {   
 

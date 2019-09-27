@@ -73,7 +73,7 @@ else{
          },function(err, todos) {
         if (err){ res.send(err); }
       
-        if(todos.length>0)   {    res.status(500).send('Ya existe un tipo de curso con este nombre'); }
+        if(todos.length>0)   {    res.status(500).send('Ya existe un tipo grupo con esta configuración :' + req.body.nombre); }
         else
         {   
 

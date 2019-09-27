@@ -91,7 +91,7 @@ else{
          },function(err, todos) {
         if (err){ res.send(err); }
       
-        if(todos.length>0)   {    res.status(500).send('Ya existe un Edificio con este nombre'); }
+        if(todos.length>0)   {    res.status(500).send('Ya existe un nivelcon esta configuración :' + req.body.nombre); }
         else
         {   
 

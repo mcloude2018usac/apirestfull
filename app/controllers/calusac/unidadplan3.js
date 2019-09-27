@@ -86,12 +86,17 @@ exports.getUnidadplan3 = function(req, res, next){
             });
         break
         case 'profesores':
+
+        var id3v=req.params.id4.split('°')
+       
+
             var projectDataForMatch = {
                 $project : {
                   idprofesor : 1, //list all fields needed here
                   idtipounidad:1,
                   idunidadacademica:1,
                   idperiodo:1,
+                  idhorario:1,
                   idnivel:1,
                     filterThisDoc : {
                         $cond : {
@@ -107,7 +112,8 @@ exports.getUnidadplan3 = function(req, res, next){
             var match = {
                 $match : {
                     filterThisDoc : 1,
-                    'idtipounidad.id' :req.params.id,'idunidadacademica.id':req.params.id2,'idperiodo.id':req.params.id3,'idnivel':req.params.id4
+                    'idtipounidad.id' :req.params.id,'idunidadacademica.id':req.params.id2,'idperiodo.id':req.params.id3,'idnivel':id3v[0],
+                    'idhorario':id3v[1]
                 }
             }
             Facplan3.aggregate([ projectDataForMatch, match]  ).exec(function(err, todos10) {

@@ -188,6 +188,7 @@ console.log({nombre:req.params.id,idempresa:req.params.id2})
 else{
        switch(req.params.id) {
     
+      
         case 'catalogo-tipo':
                         res.json([{id:'CATEGORIA DISEÑO PLANTILAS',nombre:'CATEGORIA DISEÑO PLANTILAS'},{id:'DIAS FESTIVOS',nombre:'DIAS FESTIVOS'},{id:'RUTAS',nombre:'RUTAS'},{id:'MATERIAS',nombre:'MATERIAS'},{id:'PERIODOSSUM',nombre:'PERIODOSSUM'},{id:'UNIDADES',nombre:'UNIDADES'} ,{id:'TARIFA COMPRA SALDO',nombre:'TARIFA COMPRA SALDO'} 
                         ,{id:'TIPO UNIDADES',nombre:'TIPO UNIDADES'} ,{id:'TIPO DENUNCIAS',nombre:'TIPO DENUNCIAS'}]);

@@ -13,11 +13,13 @@ exports.getParticipa = function(req, res, next){
     { 
 
         if(req.params.id3=='repetido')
-        { 
+        { //http://127.0.0.1:9090/api/participas/1/2/repetido
             var duplicates = [];
             Estudiantevt.aggregate([          //,idevento:'5cec20c9e927930016d78a8b' 
                     { $match: {carnet: {"$ne": ''}  }
                     },
+                    { $sort : { carnet : -1 } }, 
+                    { $limit : 300000 },
                     {   $group: {
                             _id: {carnet: "$carnet"},
                             dups: {"$addToSet": "$_id"},

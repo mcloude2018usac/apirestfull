@@ -155,14 +155,21 @@ else{
   
     
     
-    Unidadpago3.find({idtipounidad        	: req.body.idtipounidad        	,tipo        	: req.body.tipo        	,
-        idunidadacademica: req.body.idunidadacademica, nombre: req.body.nombre
+    Unidadpago3.find({   idtipounidad        	: req.body.idtipounidad        	,
+        idunidadacademica: req.body.idunidadacademica,
+        tipo: req.body.tipo,
+        tipocurso: req.body.tipocurso,
+        tipogrupo: req.body.tipogrupo,
+        codigo: req.body.codigo,
+        nivel: req.body.nivel,
+        nombre: req.body.nombre,
+        jornada: req.body.jornada
       
         
          },function(err, todos) {
         if (err){ res.send(err); }
       
-        if(todos.length>0)   {    res.status(500).send('Ya existe un costo de servicio con este nombre'); }
+        if(todos.length>0)   {    res.status(500).send('Ya existe un pago con esta configuración :' + req.body.nombre); }
         else
         {   
 

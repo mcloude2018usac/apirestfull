@@ -25,6 +25,7 @@ var cursoeve=require('../models/aread_evento');
 var Userperfil = require('../models/userperfil2');
 var Asignapap = require('../models/asignapap');
 var Marketemail = require('../models/marketemail');
+var Asignaest = require('../models/asignaestudiante');
 
 var request = require('request');
 
@@ -109,7 +110,55 @@ var cleanName = function(str) {
     }
 
     var request = require('request');
+    function getNext(myData3,myData3aa,req,res,necesito){
+        request({
+                url: "https://rest2019externo.herokuapp.com/api/estudiantepcb/" + nov +"/resultado" ,
+                method: "GET",
+                gzip: true,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization':'123'
+                  
+    
+    
+                    
+                },
+                body: ''
+            }, function (error, response, body){
+       
+                if (error){  console.log(error); res.send(error);  }
 
+                var aa=JSON.parse(body)
+
+                for (var ii = 0; ii < aa.length; ii++) {
+                       
+                        console.log(mat)
+
+                        if(aa[ii].ID_MATERIA==mat  &&  aa[ii].APROBACION=='1')
+                        {
+                                console.log('APROBO ' + aa[ii].ORIENTACION + '  ' +aa[ii].ID_MATERIA)   
+
+                        }
+                        else{
+
+                                console.log('no APROBO ' + aa[ii].ORIENTACION + '  ' +aa[ii].ID_MATERIA)   
+
+                        }
+
+                            
+                }
+
+           
+               
+    
+               //   res.send(body);
+        
+    
+    
+    
+            });
+
+    }
 exports.getCombofijo = function(req, res, next){
        var sql='';
 
@@ -123,6 +172,71 @@ exports.getCombofijo = function(req, res, next){
                 
             });
         break;
+
+        case 'SUNRPT11':
+
+        var  nov='';
+        Asignaest.find({no_orientacion:'2018003645'}).exec(function(err, todos) {
+                if (err){ res.send(err); }
+
+                var myData = [];
+                for (var i = 0; i < todos.length; i++) {
+
+                        var mat=0;
+                        if( todos[i].idmateria=='Biologia'){mat=1;}
+                        if( todos[i].idmateria=='Fisica'){mat=2;}
+                        if( todos[i].idmateria=='Lenguaje'){mat=3;}
+                        if( todos[i].idmateria=='Matematica'){mat=4;}
+                        if( todos[i].idmateria=='Quimica'){mat=5;}
+
+                    
+
+
+                        myData.push({nov:todos[i].no_orientacion ,materia:mat});
+                        var nov=todos[i].no_orientacion
+                        console.log( ' ----------------- ' + todos[i].no_orientacion + ' ' + todos[i].idmateria + ' ' + mat) 
+                       
+
+
+                }
+
+console.log('TERMINA')
+              
+                res.json(myData);   
+                
+            });
+      /*
+
+                        request({
+                                url: "https://rest2019externo.herokuapp.com/api/estudiantepcb/" + nov +"/resultado" + req.params.id2+"/" + req.params.id3,
+                                method: "GET",
+                                gzip: true,
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Authorization':'123'
+                                  
+                    
+                    
+                                    
+                                },
+                                body: ''
+                            }, function (error, response, body){
+                       
+                                if (error){  console.log(error); res.send(error);  }
+                               
+                            
+                    
+                        
+                                  res.send(body);
+                        
+                    
+                    
+                    
+                            });
+*/
+
+
+        break;        
         case 'registroest':
 
                         request({

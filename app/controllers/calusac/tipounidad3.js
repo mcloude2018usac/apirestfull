@@ -67,10 +67,10 @@ if(req.params.recordID!=='crea')
 }
 else{
 
-    Tipounidad3.find({codigo:req.body.codigo  },function(err, todos) {
+    Tipounidad3.find({codigo:req.body.codigo , nombre        	: req.body.nombre ,  'iddepartamento.id'        	: req.body.iddepartamento.id },function(err, todos) {
         if (err){ res.send(err); }
       
-        if(todos.length>0)   {    res.status(500).send('Codigo ya existe'); }
+        if(todos.length>0)   {    res.status(500).send('Ya existe una sede con esta configuración :' + req.body.nombre   ); }
         else
         {   
 
