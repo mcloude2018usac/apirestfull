@@ -371,6 +371,32 @@ exports.creaAsignacalusac2s = function(req, res, next){
   
 if(req.params.recordID!=='crea')
 { 
+    if( req.body.operacion=='asigna2222')
+    {
+
+
+        Asignacalusac.findById({ _id: req.params.recordID }, function (err, todo100)  {
+            if (err) {  res.send(err);  }
+            else
+            { 
+                todo100.horario        	=		'Orden de pago cobrada exitosamente'   	;
+                todo100.profesor        	=req.body.foto5;
+              
+    
+                todo100.save(function (err, todo200){
+                    if (err)     {  console.log(err.message)   }
+            
+                    res.json(todo200);
+               
+                    
+                });
+            }
+        });
+
+
+    }
+    else
+    {
     if( req.body.operacion=='asignaorden')
     {
 
@@ -534,7 +560,7 @@ if(req.params.recordID!=='crea')
                                                                     todo100.idedificio=myData[0].idedificio,
                                                                     todo100.idsalon= myData[0].idsalon,
                                                                  
-                                                                    todo100.jornada=req.body.jornada,
+                                                                 //   todo100.jornada=req.body.jornada,
                                                                     todo100.horario=req.body.horario,
                                                                    
                                                                     todo100.profesor=req.body.profesor,
@@ -584,7 +610,7 @@ if(req.params.recordID!=='crea')
         });
 
     }
-    }
+    }}
 
 }
 else{
