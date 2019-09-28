@@ -17,6 +17,26 @@ exports.getAsignacalusac = function(req, res, next){
     { 
         console.log(req.params)
         switch(req.params.id3) {
+              case 'todosasignacalusac':
+
+         
+                    Asignacalusac.find({$or : [
+                        { $and : [ { cui : req.params.id2 }] },
+                        { $and : [ { noboletapago : req.params.id2 }] },
+                        { $and : [ { correo : req.params.id2 }] },
+                        { $and : [ { telefono : req.params.id2 }] },
+                        { $and : [ { identificador : req.params.id2 }] },
+                        { $and : [ { carnecalusac : req.params.id2 }] },
+                        { $and : [ {carneusac : req.params.id2 } ] }]
+                    }).populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia').exec(function(err, todos) {
+                        if (err){ res.send(err); console.log(err) }
+                 
+                    res.json(todos);   
+                   
+                        
+                        
+                    });
+                    break;
             case 'todosautoriza':
 
          
@@ -25,7 +45,7 @@ exports.getAsignacalusac = function(req, res, next){
                         if (err){ res.send(err); console.log(err) }
                  
                     res.json(todos);   
-                    console.log(todos)
+                 
                         
                         
                     });
