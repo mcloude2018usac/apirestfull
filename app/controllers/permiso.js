@@ -99,6 +99,7 @@ exports.creaPermiso2s = function(req, res, next){
                             { 
                                 Bitacora.create(req.body.bitacora);
                                 Permiso.create({  
+                                    idempresa        	: req.body.idempresa        	,
                                 idrol        	: req.body.idrol        	,
                                 nombre        	: req.body.nombre        	,
                                 ingreso    	: req.body.ingreso    	,

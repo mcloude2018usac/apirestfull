@@ -20,14 +20,7 @@ exports.getAsignacalusac = function(req, res, next){
             case 'todosautoriza':
 
          
-                    Asignacalusac.find({estadopago:{ $nin: [ 'Pendiente de pago' ]},     $or : [
-                        { $and : [ { cui : req.params.id2 }] },
-                        { $and : [ { noboletapago : req.params.id2 }] },
-                        { $and : [ { correo : req.params.id2 }] },
-                        { $and : [ { telefono : req.params.id2 }] },
-                        { $and : [ { identificador : req.params.id2 }] },
-                        { $and : [ { carnecalusac : req.params.id2 }] },
-                        { $and : [ {carneusac : req.params.id2 } ] }]
+                    Asignacalusac.find({estadopago:{ $nin: [ 'Pendiente de pago' ]}
                     }).populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia').exec(function(err, todos) {
                         if (err){ res.send(err); console.log(err) }
                  
