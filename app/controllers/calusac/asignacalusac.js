@@ -629,18 +629,68 @@ if(req.params.recordID!=='crea')
 else{
     Bitacora.create(req.body.bitacora);
 // no puede asignarse el mismo curso 2 veces
-    Asignacalusac.find({
-        'idtipounidad.id'        	: req.body.tipounidad.id        	,
-        'idunidadacademica.id'        	: req.body.unidadacademica.id    ,
-        identificador      	: req.body.identificador        	    	
-      
-        //'idperiodo.id'        	: req.body.periodo.id        	,   nivel      	: req.body.nivel        	,      jornada: req.body.jornada
-     
-        	 },function(err, todos) {
+var filtro;
+
+//Hijo Trabajador Adolescente
+if( req.body.tipoa =='Hijo Trabajador Adolescente' || req.body.tipoa =='Adolescente'  )
+{
+    
+    filtro= {'idtipounidad.id'        	: req.body.tipounidad.id        	,
+    'idunidadacademica.id'        	: req.body.unidadacademica.id    ,
+    identificador      	: req.body.identificador        	  }  ;
+
+}
+else
+{
+if( req.body.tipoa =='Extranjero' )
+{
+
+    filtro= {'idtipounidad.id'        	: req.body.tipounidad.id        	,
+    'idunidadacademica.id'        	: req.body.unidadacademica.id    ,
+    identificador      	: req.body.identificador        	  }  ;
+
+}
+else{
+
+    filtro= {'idtipounidad.id'        	: req.body.tipounidad.id        	,
+    'idunidadacademica.id'        	: req.body.unidadacademica.id    ,
+     cui:req.body.cui  }  ;
+
+}}
+
+
+    Asignacalusac.find(filtro,function(err, todos) {
         if (err){  if(err) return next(err);// res.status(404).send(err); 
         return;}
       
-        if(todos.length>0)   {    res.status(404).send('Ya existe una Asignación para esta unidad academica, curso y nivel , en el cual se asigno el identificador : '  +req.body.identificador  + ' para el curso ' + req.body.unidadacademica.nombre ); }
+        if(todos.length>0)   {  
+            
+       
+            //Hijo Trabajador Adolescente
+if( req.body.tipoa =='Hijo Trabajador Adolescente' || req.body.tipoa =='Adolescente'  )
+{
+    res.status(404).send('Ya existe una Asignación para esta unidad academica, curso y nivel , en el cual se asigno el identificador : '  +req.body.identificador  + ' para el curso ' + req.body.unidadacademica.nombre );
+  
+
+}
+else
+{
+if( req.body.tipoa =='Extranjero' )
+{
+    res.status(404).send('Ya existe una Asignación para esta unidad academica, curso y nivel , en el cual se asigno el identificador : '  +req.body.identificador  + ' para el curso ' + req.body.unidadacademica.nombre );
+  
+
+}
+else{
+    res.status(404).send('Ya existe una Asignación para esta unidad academica, curso y nivel , en el cual se asigno el cui : '  +req.body.cui  + ' para el curso ' + req.body.unidadacademica.nombre );
+  
+
+}}
+
+
+        
+        
+        }
         else  
         { 
 
