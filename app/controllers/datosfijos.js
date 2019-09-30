@@ -346,7 +346,7 @@ console.log('TERMINA')
                                 resp.push({periodo:periodo[0] ,no_oportunidad:periodo[1]
                                         ,anio_asignacion:anio,id_facultad:todos[i].idunidadacademica.nombre
                                         ,id_tipo:todos[i].idtipounidad.nombre
-                                        ,id_materia:todos[i].idmateria,noorientacion:todos[i].no_orientacion,id:todos[i]._id});
+                                        ,id_materia:todos[i].idmateria,noorientacion:todos[i].no_orientacion,id:todos[i]._id,nombre:todos[i].nombre});
                                 }
                               //  res.json(resp);
                               var filename   = "Tablaasignacion2.csv";
