@@ -41,7 +41,7 @@ exports.getAsignacalusac = function(req, res, next){
             case 'todosautoriza':
 console.log({userasignadoemail:req.params.id2   })
          
-                    Asignacalusac.find({userasignadoemail:req.params.id2 ,estadopago:{ $nin: [ 'Pendiente de pago' ]}  }).populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia').exec(function(err, todos) {
+                    Asignacalusac.find({userasignadoemail:req.params.id2,estadooperador:req.params.id ,estadopago:{ $nin: [ 'Pendiente de pago' ]}  }).populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia').exec(function(err, todos) {
                         if (err){ res.send(err); console.log(err) }
                  
                     res.json(todos);   
@@ -750,7 +750,7 @@ else{
                                     userasignado:'',
                                     userasignadoemail:'',
                                     ultrechazo:'',
-                                    estadooperador:'NUEVAS',
+                                    estadooperador:'NUEVOS',
                                     userejecutaemail:'',
                                     idunidadacademica        	: req.body.unidadacademica        	,
                                     no_orientacion        	: req.body.no_orientacion        	,
@@ -829,7 +829,7 @@ else{
                                             userasignadoemail:opexx2,
                                             userejecutaemail:'',
                                             ultrechazo:'',
-                                            estadooperador:'NUEVAS',
+                                            estadooperador:'NUEVOS',
                                             idunidadacademica        	: req.body.unidadacademica        	,
                                             no_orientacion        	: req.body.no_orientacion        	,
                                             idperiodo        	: req.body.periodo        	,
