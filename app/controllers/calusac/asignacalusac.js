@@ -8,6 +8,7 @@ var Asignacalusac = require('../../models/calusac/asignacalusac');
 var Bitacora = require('../../models/bitacora');
 var Facplan3 = require('../../models/calusac/unidadplan3');
 
+var Operadores = require('../../models/calusac/operadores');
 
 var request = require('request');
 var xml2js = require ('xml2js'); 
@@ -38,10 +39,9 @@ exports.getAsignacalusac = function(req, res, next){
                     });
                     break;
             case 'todosautoriza':
-
+console.log({userasignadoemail:req.params.id2   })
          
-                    Asignacalusac.find({estadopago:{ $nin: [ 'Pendiente de pago' ]}
-                    }).populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia').exec(function(err, todos) {
+                    Asignacalusac.find({userasignadoemail:req.params.id2   }).populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia').exec(function(err, todos) {
                         if (err){ res.send(err); console.log(err) }
                  
                     res.json(todos);   
@@ -51,7 +51,7 @@ exports.getAsignacalusac = function(req, res, next){
                     });
                     break;
                     case 'todosautorizapago':
-                        console.log(req.params)
+                        
 
 
 
@@ -298,7 +298,7 @@ exports.getAsignacalusac = function(req, res, next){
                                             
                                                 Asignacalusac.find({idestudiante:req.params.id3}).populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia').populate('profesor').populate('ididioma').exec(function(err, todos) {
                                                     if (err){ res.send(err); }
-                                  //          console.log(todos)
+                          
                                                 res.json(todos);   
                                                     
                                                     
@@ -384,6 +384,33 @@ exports.creaAsignacalusac2s = function(req, res, next){
   
 if(req.params.recordID!=='crea')
 { 
+
+    if( req.body.operacion=='mandacomentario')
+    {
+
+
+        Asignacalusac.findById({ _id: req.params.recordID }, function (err, todo100)  {
+            if (err) {  res.send(err);  }
+            else
+            { 
+                todo100.ultrechazo        	=		req.body.estadopago   	;
+               
+    
+                todo100.save(function (err, todo200){
+                    if (err)     {  console.log(err.message)   }
+            
+                    res.json(todo200);
+               
+                    
+                });
+            }
+        });
+
+
+    }
+    else
+    {
+  
     if( req.body.operacion=='asigna2222')
     {
 
@@ -624,39 +651,39 @@ if(req.params.recordID!=='crea')
 
     }
     }}
-
+    }
 }
 else{
     Bitacora.create(req.body.bitacora);
-// no puede asignarse el mismo curso 2 veces
-var filtro;
+            // no puede asignarse el mismo curso 2 veces
+            var filtro;
 
-//Hijo Trabajador Adolescente
-if( req.body.tipoa =='Hijo Trabajador Adolescente' || req.body.tipoa =='Adolescente'  )
-{
-    
-    filtro= {'idtipounidad.id'        	: req.body.tipounidad.id        	,
-    'idunidadacademica.id'        	: req.body.unidadacademica.id    ,
-    identificador      	: req.body.identificador        	  }  ;
+            //Hijo Trabajador Adolescente
+            if( req.body.tipoa =='Hijo Trabajador Adolescente' || req.body.tipoa =='Adolescente'  )
+            {
+                
+                filtro= {'idtipounidad.id'        	: req.body.tipounidad.id        	,
+                'idunidadacademica.id'        	: req.body.unidadacademica.id    ,
+                identificador      	: req.body.identificador    ,cui:'3333333'    	  }  ;
 
-}
-else
-{
-if( req.body.tipoa =='Extranjero' )
-{
+            }
+            else
+            {
+            if( req.body.tipoa =='Extranjero' )
+            {
 
-    filtro= {'idtipounidad.id'        	: req.body.tipounidad.id        	,
-    'idunidadacademica.id'        	: req.body.unidadacademica.id    ,
-    identificador      	: req.body.identificador        	  }  ;
+                filtro= {'idtipounidad.id'        	: req.body.tipounidad.id        	,
+                'idunidadacademica.id'        	: req.body.unidadacademica.id    ,
+                identificador      	: req.body.identificador       ,cui:'3333333'     	  }  ;
 
-}
-else{
+            }
+            else{
 
-    filtro= {'idtipounidad.id'        	: req.body.tipounidad.id        	,
-    'idunidadacademica.id'        	: req.body.unidadacademica.id    ,
-     cui:req.body.cui  }  ;
+                filtro= {'idtipounidad.id'        	: req.body.tipounidad.id        	,
+                'idunidadacademica.id'        	: req.body.unidadacademica.id    ,
+                cui:req.body.cui ,identificador:'1233333' }  ;
 
-}}
+            }}
 
 
     Asignacalusac.find(filtro,function(err, todos) {
@@ -667,25 +694,19 @@ else{
             
        
             //Hijo Trabajador Adolescente
-if( req.body.tipoa =='Hijo Trabajador Adolescente' || req.body.tipoa =='Adolescente'  )
-{
-    res.status(404).send('Ya existe una Asignación para esta unidad academica, curso y nivel , en el cual se asigno el identificador : '  +req.body.identificador  + ' para el curso ' + req.body.unidadacademica.nombre );
-  
-
-}
-else
-{
-if( req.body.tipoa =='Extranjero' )
-{
-    res.status(404).send('Ya existe una Asignación para esta unidad academica, curso y nivel , en el cual se asigno el identificador : '  +req.body.identificador  + ' para el curso ' + req.body.unidadacademica.nombre );
-  
-
-}
-else{
-    res.status(404).send('Ya existe una Asignación para esta unidad academica, curso y nivel , en el cual se asigno el cui : '  +req.body.cui  + ' para el curso ' + req.body.unidadacademica.nombre );
-  
-
-}}
+                        if( req.body.tipoa =='Hijo Trabajador Adolescente' || req.body.tipoa =='Adolescente'  )
+                        {
+                            res.status(404).send('Ya existe una Asignación para esta unidad academica, curso y nivel , en el cual se asigno el identificador : '  +req.body.identificador  + ' para el curso ' + req.body.unidadacademica.nombre );
+                        }
+                        else
+                        {
+                        if( req.body.tipoa =='Extranjero' )
+                        {
+                            res.status(404).send('Ya existe una Asignación para esta unidad academica, curso y nivel , en el cual se asigno el identificador : '  +req.body.identificador  + ' para el curso ' + req.body.unidadacademica.nombre );
+                        }
+                        else{
+                            res.status(404).send('Ya existe una Asignación para esta unidad academica, curso y nivel , en el cual se asigno el cui : '  +req.body.cui  + ' para el curso ' + req.body.unidadacademica.nombre );
+                        }}
 
 
         
@@ -693,76 +714,185 @@ else{
         }
         else  
         { 
+            //hagarra un aperador
 
-                        Asignacalusac.create({ idtipounidad        	: req.body.tipounidad        	,
-                            idunidadacademica        	: req.body.unidadacademica        	,
-                            no_orientacion        	: req.body.no_orientacion        	,
-                            idperiodo        	: req.body.periodo        	,
-                            nombre 	: req.body.nombre, 	
-                            idestudiante 	: req.body.idestudiante, 	
-                            idinterno 	: req.body.idinterno,
-                            usuarionew:req.body.bitacora.email,
-                            tipopago:req.body.tipopago,
-                            estadopago:req.body.estadopago,
-                            noboletapago:req.body.noboletapago,
-                            tipoa       	: req.body.tipoa        	,
-                            carneusac       	: req.body.carneusac        	,
-                            carnecalusac       	: req.body.carnecalusac        	,
-                            cml       	: req.body.cml        	,
-                            monto       	: req.body.monto        	,
-                           rubro      	: req.body.rubro        	,
-                           nivel      	: req.body.nivel        	,
-                           ano      	: req.body.ano        	,
-                           llave      	: req.body.llave        	,
-                           
-                           ididioma      	: req.body.ididioma        	,
-                           idtipocurso      	: req.body.idtipocurso        	,
-                           idtipogrupo      	: req.body.idtipogrupo        	,
-                            jornada: req.body.jornada,        	
-                           nidentificador:req.body.nidentificador       	,
-                           foto1      	: req.body.foto1        	,
-                           foto2      	: req.body.foto2        	,
-                           foto3      	: req.body.foto3        	,
-                           foto4      	: req.body.foto4        	,
-                           idedificio: {    id	: '',   nombre	: ''        },
-                           idsalon: {    id	: '',   nombre	: ''       },
-
-                            identificador      	: req.body.identificador        	,
-                            fechanac:req.body.fechanac,
-                            cui:req.body.cui,
-                            nopasaporte:req.body.nopasaporte,
-                            direccion:req.body.direccion,
-                            telefono:req.body.telefono,
-                            correo:req.body.correo,
-                            sexo:req.body.sexo,
-                            nivelacademico:req.body.nivelacademico,
-                            codpersonal:req.body.codpersonal,
-                            dependencia:req.body.dependencia,
-
-                          
-                            tipoasignacion:req.body.tipoasignacion
-                        }
-                            , function(err, todo) {
-                            if (err){ 
-                            
-                                res.status(404).send(err.message)  
-                                return;
-                            }
-                                        //crea todas las asignaciones nuevas que tiene que sacar
-                                    
-                                    /*
-                                    for(var i = 0; i < myData3.length;i++){
-                                    var myData3cc=myData3[i] 
+            if(req.body.estadopago=='Pendiente de pago')
+            {  // pasa de largo esperando el pago
+                                Asignacalusac.create({ idtipounidad        	: req.body.tipounidad        	,
+                                    userasignado:'',
+                                    userasignadoemail:'',
+                                    ultrechazo:'',
+                                    userejecutaemail:'',
+                                    idunidadacademica        	: req.body.unidadacademica        	,
+                                    no_orientacion        	: req.body.no_orientacion        	,
+                                    idperiodo        	: req.body.periodo        	,
+                                    nombre 	: req.body.nombre, 	
+                                    idestudiante 	: req.body.idestudiante, 	
+                                    idinterno 	: req.body.idinterno,
+                                    usuarionew:req.body.bitacora.email,
+                                    tipopago:req.body.tipopago,
+                                    estadopago:req.body.estadopago,
+                                    noboletapago:req.body.noboletapago,
+                                    tipoa       	: req.body.tipoa        	,
+                                    carneusac       	: req.body.carneusac        	,
+                                    carnecalusac       	: req.body.carnecalusac        	,
+                                    cml       	: req.body.cml        	,
+                                    monto       	: req.body.monto        	,
+                                rubro      	: req.body.rubro        	,
+                                nivel      	: req.body.nivel        	,
+                                ano      	: req.body.ano        	,
+                                llave      	: req.body.llave        	,
                                 
-                                    getNextSequenceValue2(myData3,myData3cc,req,res,i,todo);
+                                ididioma      	: req.body.ididioma        	,
+                                idtipocurso      	: req.body.idtipocurso        	,
+                                idtipogrupo      	: req.body.idtipogrupo        	,
+                                    jornada: req.body.jornada,        	
+                                nidentificador:req.body.nidentificador       	,
+                                foto1      	: req.body.foto1        	,
+                                foto2      	: req.body.foto2        	,
+                                foto3      	: req.body.foto3        	,
+                                foto4      	: req.body.foto4        	,
+                                idedificio: {    id	: '',   nombre	: ''        },
+                                idsalon: {    id	: '',   nombre	: ''       },
 
+                                    identificador      	: req.body.identificador        	,
+                                    fechanac:req.body.fechanac,
+                                    cui:req.body.cui,
+                                    nopasaporte:req.body.nopasaporte,
+                                    direccion:req.body.direccion,
+                                    telefono:req.body.telefono,
+                                    correo:req.body.correo,
+                                    sexo:req.body.sexo,
+                                    nivelacademico:req.body.nivelacademico,
+                                    codpersonal:req.body.codpersonal,
+                                    dependencia:req.body.dependencia,
+
+                                
+                                    tipoasignacion:req.body.tipoasignacion
+                                }
+                                    , function(err, todo) {
+                                    if (err){ 
+                                    
+                                        res.status(404).send(err.message)  
+                                    //  return;
                                     }
-                                    */
-                            
                                     res.json(todo);
+                                            
+                        
+                                    });
+
+                                }
+            
+            
+            else{//queda con el operador
+                                Operadores.find({}).sort([['encola', -1]]).exec(function(err, todosb) {
+                                    if (err){  if(err) return next(err);// res.status(404).send(err); 
+                                    return;}
+                                 
+                                
+                                    if(todosb.length>0)   {  
+                                        var opexx=todosb[0]._id
+                                        var opexx2=todosb[0].email
+                                     
+                    
+                                        Asignacalusac.create({ idtipounidad        	: req.body.tipounidad        	,
+                                            userasignado:opexx,
+                                            userasignadoemail:opexx2,
+                                            userejecutaemail:'',
+                                            ultrechazo:'',
+                                            idunidadacademica        	: req.body.unidadacademica        	,
+                                            no_orientacion        	: req.body.no_orientacion        	,
+                                            idperiodo        	: req.body.periodo        	,
+                                            nombre 	: req.body.nombre, 	
+                                            idestudiante 	: req.body.idestudiante, 	
+                                            idinterno 	: req.body.idinterno,
+                                            usuarionew:req.body.bitacora.email,
+                                            tipopago:req.body.tipopago,
+                                            estadopago:req.body.estadopago,
+                                            noboletapago:req.body.noboletapago,
+                                            tipoa       	: req.body.tipoa        	,
+                                            carneusac       	: req.body.carneusac        	,
+                                            carnecalusac       	: req.body.carnecalusac        	,
+                                            cml       	: req.body.cml        	,
+                                            monto       	: req.body.monto        	,
+                                        rubro      	: req.body.rubro        	,
+                                        nivel      	: req.body.nivel        	,
+                                        ano      	: req.body.ano        	,
+                                        llave      	: req.body.llave        	,
+                                        
+                                        ididioma      	: req.body.ididioma        	,
+                                        idtipocurso      	: req.body.idtipocurso        	,
+                                        idtipogrupo      	: req.body.idtipogrupo        	,
+                                            jornada: req.body.jornada,        	
+                                        nidentificador:req.body.nidentificador       	,
+                                        foto1      	: req.body.foto1        	,
+                                        foto2      	: req.body.foto2        	,
+                                        foto3      	: req.body.foto3        	,
+                                        foto4      	: req.body.foto4        	,
+                                        idedificio: {    id	: '',   nombre	: ''        },
+                                        idsalon: {    id	: '',   nombre	: ''       },
+                    
+                                            identificador      	: req.body.identificador        	,
+                                            fechanac:req.body.fechanac,
+                                            cui:req.body.cui,
+                                            nopasaporte:req.body.nopasaporte,
+                                            direccion:req.body.direccion,
+                                            telefono:req.body.telefono,
+                                            correo:req.body.correo,
+                                            sexo:req.body.sexo,
+                                            nivelacademico:req.body.nivelacademico,
+                                            codpersonal:req.body.codpersonal,
+                                            dependencia:req.body.dependencia,
+                    
+                                        
+                                            tipoasignacion:req.body.tipoasignacion
+                                        }
+                                            , function(err, todo) {
+                                            if (err){ 
+                                            
+                                                res.status(404).send(err.message)  
+                                            //  return;
+                                            }
+                                                    
+                                        Operadores.findById({ _id: opexx}, function (err, todo1000)  {
+                                                if (err) {  res.send(err);  }
+                                                else
+                                                {
+                                                
+                                                        todo1000.asignada      	=		todo1000.asignada+1    	;
+                                                        todo1000.encola      	=		(todo1000.asignada) - (todo1000.ejecutada)  	;
+                                                        
+                                            
+                                                        todo1000.save(function (err, todo200){
+                                                            if (err)     {  console.log(err.message)   }
+                                                    
+                                                            res.json(todo);
+                                                    
+                                                            
+                                                        });
+                    
+                                                    
+                                                
+                    
+                    
+                                                }
+                                            });
+                    
+                    
+                                            
+                                                
+                    
+                                    
+                                    });
+                                
+                                    }
+                                });
+
+            }
+
+         
 
                     
-                    });
 
         }});
 
