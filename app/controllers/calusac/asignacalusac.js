@@ -41,7 +41,7 @@ exports.getAsignacalusac = function(req, res, next){
             case 'todosautoriza':
 console.log({userasignadoemail:req.params.id2   })
          
-                    Asignacalusac.find({userasignadoemail:req.params.id2   }).populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia').exec(function(err, todos) {
+                    Asignacalusac.find({userasignadoemail:req.params.id2 ,estadopago:{ $nin: [ 'Pendiente de pago' ]}  }).populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia').exec(function(err, todos) {
                         if (err){ res.send(err); console.log(err) }
                  
                     res.json(todos);   
@@ -466,6 +466,8 @@ if(req.params.recordID!=='crea')
     
     if( req.body.operacion=='cambiaestado')
     {
+//decrementar 
+console.log(req.body);
 
 
         Asignacalusac.findById({ _id: req.params.recordID }, function (err, todo100)  {
@@ -473,12 +475,38 @@ if(req.params.recordID!=='crea')
             else
             { 
                 todo100.estadopago        	=		req.body.estadopago   	;
-               
+                todo100.userejecutaemail=req.body.userejecutaemail
+                todo100.estadooperador='AUTORIZADO'
     
                 todo100.save(function (err, todo200){
                     if (err)     {  console.log(err.message)   }
             
-                    res.json(todo200);
+
+                    Operadores.findById({ _id:req.body.userasignado}, function (err, todo1000)  {
+                        if (err) {  res.send(err);  }
+                        else
+                        {
+                        
+                                todo1000.ejecutada      	=		todo1000.ejecutada+1    	;
+                                todo1000.encola      	=		(todo1000.asignada) - (todo1000.ejecutada)  	;
+                    
+                                todo1000.save(function (err, todo200){
+                                    if (err)     {  console.log(err.message)   }
+                            
+                                    res.json(todo200);
+                            
+                                    
+                                });
+
+                            
+                        
+
+
+                        }
+                    });
+
+
+                 
                
                     
                 });
@@ -722,6 +750,7 @@ else{
                                     userasignado:'',
                                     userasignadoemail:'',
                                     ultrechazo:'',
+                                    estadooperador:'NUEVAS',
                                     userejecutaemail:'',
                                     idunidadacademica        	: req.body.unidadacademica        	,
                                     no_orientacion        	: req.body.no_orientacion        	,
@@ -800,6 +829,7 @@ else{
                                             userasignadoemail:opexx2,
                                             userejecutaemail:'',
                                             ultrechazo:'',
+                                            estadooperador:'NUEVAS',
                                             idunidadacademica        	: req.body.unidadacademica        	,
                                             no_orientacion        	: req.body.no_orientacion        	,
                                             idperiodo        	: req.body.periodo        	,
