@@ -82,6 +82,8 @@ var AuthenticationController = require('./controllers/authentication'),
     CostocalusacController = require('./controllers/calusac/calusaccostos'),
 
     Tipounidad3Controller = require('./controllers/calusac/tipounidad3'),
+    OperadoresController = require('./controllers/calusac/operadores'),
+
     Edificiousac3Controller = require('./controllers/calusac/unidadedificio3'),
     Idiomausac3Controller = require('./controllers/calusac/unidadidioma3'),
     Unidadtipogrupo3Controller = require('./controllers/calusac/unidadtipogrupo3'),
@@ -213,6 +215,7 @@ module.exports = function(app){
 
         costocalusacRoutes = express.Router(),
         tipounidad3Routes = express.Router(),
+        operadoresRoutes = express.Router(),
         edificiousac3Routes = express.Router(),
         idiomausac3Routes = express.Router(),
         unidadtipogrupo3Routes = express.Router(),
@@ -830,6 +833,10 @@ facultadmateriaRoutes.delete('/:recordID/:userID', requireAuth, FacultadmateriaC
 
 
 
+//----------------------------------OPERADORES
+apiRoutes.use('/operadoress', operadoresRoutes);
+operadoresRoutes.get('/',requireAuth, OperadoresController.getOperadores);
+operadoresRoutes.get('/:id', requireAuth, OperadoresController.getOperadores);
 
 //-----------------------------------TIPO UNIDAD3
 apiRoutes.use('/tipounidad3s', tipounidad3Routes);
