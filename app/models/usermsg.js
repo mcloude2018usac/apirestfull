@@ -4,7 +4,11 @@ var mongoose =require("mongoose");
         toUserId:  	{ type : String, required : true, ref: 'User' },
         status	: { type : String, required : true },
         message  		: { type : String},
-        messageimg  		: { type : String}
+        messageimg  		: { type : String},
+        message2  		: { type : String},
+        userId2 :  	{ type : String },
+        imagen2 :  	{ type : String }
+
         }, {
         timestamps: true
         });
@@ -12,3 +16,4 @@ var mongoose =require("mongoose");
 
 
 module.exports = mongoose.model('Usermsg', UsermsgSchema);
+
