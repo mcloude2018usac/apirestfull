@@ -394,7 +394,7 @@ if(req.params.recordID!=='crea')
             else
             { 
                 todo100.ultrechazo        	=		req.body.estadopago   	;
-               
+                todo100.estadooperador='EN PROCESO'
     
                 todo100.save(function (err, todo200){
                     if (err)     {  console.log(err.message)   }
@@ -477,7 +477,7 @@ console.log(req.body);
                 todo100.estadopago        	=		req.body.estadopago   	;
                 todo100.userejecutaemail=req.body.userejecutaemail
                 todo100.estadooperador='AUTORIZADO'
-    
+                
                 todo100.save(function (err, todo200){
                     if (err)     {  console.log(err.message)   }
             

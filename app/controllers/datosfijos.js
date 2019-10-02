@@ -16,7 +16,7 @@ var Cuentaccoriente = require('../models/asignapapccorriente');
 
 
 var Unidadacademica = require('../models/unidadacademica');
-
+var Asignapcb = require('../models/asignapcb');
 var Participa = require('../models/participa');
 var Participa2 = require('../models/participa2');
 var Facplan = require('../models/unidadplan');
@@ -26,6 +26,7 @@ var Userperfil = require('../models/userperfil2');
 var Asignapap = require('../models/asignapap');
 var Marketemail = require('../models/marketemail');
 var Asignaest = require('../models/asignaestudiante');
+var Personal = require('../models/user');
 
 var request = require('request');
 
@@ -312,7 +313,38 @@ console.log('TERMINA')
         });
         break;
 
-        
+        case 'tablaasignacion3':
+              
+                Asignapcb.find({"nombre" :'   '}).lean().exec(function(err, todos11) {
+                        if (err){  res.send(err);  }    
+
+                        var aaa=[];
+                        for(var ii = 0; ii < todos11.length;ii++){
+                                aaa.push(todos11[ii].idestudiante)
+                        }
+
+                        console.log(aaa)
+                        
+
+                        Personal.find({ email:{$in:aaa}}).lean().exec(function(err, todos) {
+                                        if (err){  res.send(err);  }    
+                                        var resp=[]
+                                 
+                                      //  res.json(resp);
+                                      var filename   = "Tablaasignacion3.csv";
+                                      res.statusCode = 200;
+                                      res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+                                      res.setHeader("Content-Disposition", 'attachment; filename='+filename);
+                                      res.csv(todos, true);
+                                      
+                        
+                                });
+                                
+                                });
+
+              
+                        break;
+
         case 'tablaasignacion2':
         //'idunidadacademica.codigo':'1'
                                 Asignaest.find({}).lean().exec(function(err, todos) {
