@@ -1,6 +1,6 @@
 var Usermsg = require('../models/usermsg');
 var Bitacora = require('../models/bitacora');
-
+var Personal = require('../models/user');
 
 function roundxx(value, decimals) {
     //parseFloat(Math.round(num3 * 100) / 100).toFixed(2);
@@ -13,25 +13,141 @@ exports.getUsermsg = function(req, res, next){
 
         if(req.params.id2)
         {      
-           
-          if(req.params.id=='grupal')
-          {
-            Usermsg.find(  { toUserId:req.params.id2     }).sort([['createdAt', 1]]).populate('userId').exec(function(err, todos) {
-                if (err){ res.send(err); }
-                res.json(todos);
-            });
+         
+            if(req.params.id=='chatunouno')
+            {
 
-          }
-          else{
+                Usermsg.aggregate( [
+                    { 
+                        "$match" : {
+                            "toUserId" : req.params.id2 , 
+                            "status" : "Pendiente"
+                        }
+                    }, 
+                    { 
+                        "$group" : {
+                            "_id" : {
+                                "userId" : "$userId"
+                            }, 
+                            "COUNT(*)" : {
+                                "$sum" : 1
+                            }
+                        }
+                    }, 
+                    { 
+                        "$project" : {
+                            "userId" : "$_id.userId", 
+                            "cant" : "$COUNT(*)", 
+                            "_id" : 0
+                        }
+                    }
+                ]).exec(function(err, todos) {
 
-            Usermsg.find(  {  $or : [
-                { $and : [ { userId:req.params.id,toUserId:req.params.id2}] },
-                { $and : [ { toUserId:req.params.id,userId:req.params.id2 }] }]
-        }).sort([['createdAt', 1]]).exec(function(err, todos) {
-                if (err){ res.send(err); }
-                res.json(todos);
-            });
-          }
+
+                                        Usermsg.aggregate( [
+                                            { 
+                                                "$match" : {
+                                                    "toUserId" :  req.params.id2, 
+                                                    "status" : "Procesado"
+                                                }
+                                            }, 
+                                            { 
+                                                "$group" : {
+                                                    "_id" : {
+                                                        "userId" : "$userId"
+                                                    }
+                                                }
+                                            }, 
+                                            { 
+                                                "$project" : {
+                                                    "userId" : "$_id.userId", 
+                                                    "_id" : 0
+                                                }
+                                            }
+                                        ]).exec(function(err, todos3) {
+                        
+                                            var aaa=[];
+                                            var bbb=[];
+                                            for(var ii = 0; ii < todos.length;ii++){
+                                                    aaa.push(todos[ii].userId)
+                                                    bbb.push({id:todos[ii].userId,cantidad:todos[ii].cant});
+                                            }
+
+                                            for(var ii = 0; ii < todos3.length;ii++){
+                                                aaa.push(todos3[ii].userId)
+                                              
+                                        }
+                                            
+
+                                                Personal.find({ _id:{$in:aaa}}).lean().exec(function(err, todos10) {
+                                                    if (err){  res.send(err);  }    
+                                                   
+                                                    var resp=[]
+
+                                                    for(var ii = 0; ii < todos10.length;ii++){
+                                                        var encuentra=0;
+                                                        var cuantos=0
+                                                        for(var i = 0; i < bbb.length;i++){
+                                                                    if(bbb[i].id==todos10[ii]._id)
+                                                                    {
+                                                                            encuentra=1;
+                                                                            cuantos=bbb[i].cantidad
+                                                                            break;
+                                                                    }
+
+                                                        }                         
+
+                                                                resp.push({_id:todos10[ii]._id ,email:todos10[ii].email,nombre:todos10[ii].nombre,
+                                                                    foto:todos10[ii].foto,
+                                                                    pendientes:cuantos});
+                                                    }
+                               
+
+
+                                                    res.json(resp);
+                                              
+                                                
+                                    
+                                            });
+                        
+                                            
+                            
+                            
+                                        });
+
+       
+       
+                });
+
+
+
+
+            }
+            else
+            {
+
+                if(req.params.id=='grupal')
+                {
+                  Usermsg.find(  { toUserId:req.params.id2     }).sort([['createdAt', 1]]).populate('userId').exec(function(err, todos) {
+                      if (err){ res.send(err); }
+                      res.json(todos);
+                  });
+      
+                }
+                else{
+      
+                  Usermsg.find(  {  $or : [
+                      { $and : [ { userId:req.params.id,toUserId:req.params.id2}] },
+                      { $and : [ { toUserId:req.params.id,userId:req.params.id2 }] }]
+                              }).sort([['createdAt', 1]]).exec(function(err, todos) {
+                      if (err){ res.send(err); }
+                      res.json(todos);
+                  });
+                }
+
+
+            }
+    
 
        //     5b282afdb358171c14bd3f86/5b7047adf0953c001442954c
              
