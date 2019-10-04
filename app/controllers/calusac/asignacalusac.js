@@ -384,7 +384,35 @@ exports.creaAsignacalusac2s = function(req, res, next){
   
 if(req.params.recordID!=='crea')
 { 
+    if( req.body.operacion=='actualizarinfor')
+    {
 
+
+        Asignacalusac.findById({ _id: req.params.recordID }, function (err, todo100)  {
+            if (err) {  res.send(err);  }
+            else
+            { 
+                todo100.foto1        	=		req.body.foto1   	;
+                todo100.foto2        	=		req.body.foto2   	;
+                todo100.foto3        	=		req.body.foto3   	;
+                todo100.foto4        	=		req.body.foto4   	;
+
+                todo100.estadooperador='ACTUALIZADAS'
+    
+                todo100.save(function (err, todo200){
+                    if (err)     {  console.log(err.message)   }
+            
+                    res.json(todo200);
+               
+                    
+                });
+            }
+        });
+
+
+    }
+    else
+    {
     if( req.body.operacion=='mandacomentario')
     {
 
@@ -678,7 +706,7 @@ console.log(req.body);
         });
 
     }
-    }}
+    }}}
     }
 }
 else{
