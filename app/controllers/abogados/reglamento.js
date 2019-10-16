@@ -29,13 +29,25 @@ exports.getReglamento = function(req, res, next){
     { 
         if(req.params.id3=='categoria')
         {
-            
-            Reglamento.find({idempresa:req.params.id,idcategoria:req.params.id2,usuarionew:req.params.id4}).populate('grupo').exec(function(err, todos) {
-                if (err){ res.send(err); }
-               
-                res.json(todos);   
-                
-            });
+            if(req.params.id4=='Administrador')
+            {
+                Reglamento.find({idempresa:req.params.id,idcategoria:req.params.id2}).populate('grupo').exec(function(err, todos) {
+                    if (err){ res.send(err); }
+                   
+                    res.json(todos);   
+                    
+                });
+    
+            }
+            else{
+                Reglamento.find({idempresa:req.params.id,idcategoria:req.params.id2,usuarionew:req.params.id4}).populate('grupo').exec(function(err, todos) {
+                    if (err){ res.send(err); }
+                   
+                    res.json(todos);   
+                    
+                });
+    
+            }
 
         }
     }
