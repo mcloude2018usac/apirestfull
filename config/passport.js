@@ -6,20 +6,37 @@ var ExtractJwt = require('passport-jwt').ExtractJwt;
 var LocalStrategy = require('passport-local').Strategy;
  
 var localOptions = {
-    usernameField: 'email'
+    usernameField: 'email',
+    passReqToCallback : true
 };
  
-var localLogin = new LocalStrategy(localOptions, function(email, password, done){
- 
+var localLogin = new LocalStrategy(localOptions, function(req,email, password, done){
+
+ var aa=req.body.idempresa;
+
     User.findOne({
-        email: email
+        email: email,idempresa:aa
+        
     }, function(err, user){
  
         if(err){
           
             return done(err);
         }
- 
+
+
+if(user==null){
+           
+    return done(null,  {
+        _id: '-1',
+        email: '-1',
+        role: 'Usuario (correo) Incorrecto.',
+        password:'-1',
+        estadoemail:'1',
+        idempresa:'1'
+    }, {error: 'Usuario (correo) incorrecto.'});
+}
+
         if(!user){
            
             return done(null,  {
@@ -27,7 +44,8 @@ var localLogin = new LocalStrategy(localOptions, function(email, password, done)
                 email: '-1',
                 role: 'Usuario (correo) Incorrecto.',
                 password:'-1',
-                estadoemail:'1'
+                estadoemail:user.estadoemail,
+                idempresa:user.idempresa,
             }, {error: 'Usuario (correo) incorrecto.'});
         }
  
@@ -44,7 +62,9 @@ var localLogin = new LocalStrategy(localOptions, function(email, password, done)
                     email: '-11',
                     role: 'Contraseña no valida. (si no se recuerda de su contraseña por favor de click en ¿SE TE OLVIDO TU CONTRASEÑA?)',
                     password:'-11',
-                    estadoemail:'1'
+                    estadoemail:'1',
+                    estadoemail:user.estadoemail,
+                    idempresa:user.idempresa,
                 }, {error: 'Contraseña no valida.'});
             }
  
@@ -72,7 +92,8 @@ var jwtLogin = new JwtStrategy(jwtOptions, function(payload, done){
                 email: '-1',
                 role: 'Usuario (correo) Incorrecto2.',
                 password:'-1',
-                estadoemail:'1'
+                estadoemail:'1',
+                idempresa:'1'
             });
         }
  
@@ -86,7 +107,8 @@ var jwtLogin = new JwtStrategy(jwtOptions, function(payload, done){
                 email: '-1',
                 role: 'Usuario (correo) Incorrecto.',
                 password:'-1',
-                estadoemail:'1'
+                estadoemail:'1',
+                idempresa:'1'
             });
         }
  
