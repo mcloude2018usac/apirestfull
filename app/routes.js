@@ -245,6 +245,7 @@ module.exports = function(app){
 
         apiRoutes.use('/auth', authRoutes);
         authRoutes.post('/register', AuthenticationController.register);
+        authRoutes.post('/registera', AuthenticationController.registera);
         authRoutes.post('/register2', AuthenticationController.register2);
         authRoutes.post('/register3', AuthenticationController.register3);
         authRoutes.post('/register4', AuthenticationController.register4);
@@ -699,7 +700,7 @@ permiso2Routes.delete('/:id/:userID',requireAuth,  Permiso2Controller.deletePerm
 //-----------------------------------MODULO
 apiRoutes.use('/modulos', moduloRoutes);
 moduloRoutes.get('/', requireAuth,ModuloController.getModuloxx);
-moduloRoutes.get('/:id/:id2/:id3',requireAuth,  ModuloController.getModuloxx);
+moduloRoutes.get('/:id/:id2/:id3/:id4',requireAuth,  ModuloController.getModuloxx);
 moduloRoutes.get('/:id',requireAuth,  ModuloController.getModuloxx);
 moduloRoutes.post('/:recordID',requireAuth,  ModuloController.creaModuloxx2s);
 moduloRoutes.delete('/:recordID/:userID',requireAuth,  ModuloController.deleteModuloxx);
@@ -718,6 +719,7 @@ apiRoutes.use('/tiposuscriptors', tiposuscriptorRoutes);
 tiposuscriptorRoutes.get('/',requireAuth, TiposuscriptorController.getTiposuscriptor);
 tiposuscriptorRoutes.get('/:id',requireAuth,  TiposuscriptorController.getTiposuscriptor);
 tiposuscriptorRoutes.get('/:id/:id2',requireAuth,  TiposuscriptorController.getTiposuscriptor);
+tiposuscriptorRoutes.get('/:id/:id2/:id3',requireAuth,  TiposuscriptorController.getTiposuscriptor);
 tiposuscriptorRoutes.post('/:recordID',requireAuth,  TiposuscriptorController.creaTiposuscriptor2s);
 tiposuscriptorRoutes.delete('/:recordID/:userID',requireAuth,  TiposuscriptorController.deleteTiposuscriptor);
 
