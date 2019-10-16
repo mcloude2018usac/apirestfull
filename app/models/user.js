@@ -4,6 +4,7 @@ var  mongoosePaginate= require('mongoose-paginate');
  
 var UserSchema = new mongoose.Schema({
     idempresa		: { type : String, required : true },  
+    idsucursal		: { type : String},
     email: {
         type: String,
         lowercase: true,
