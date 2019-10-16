@@ -35,7 +35,7 @@ exports.login = function(req, res, next){
       
  
           if(userInfo.email=="-11")    {
-              Bitacora.create({email: "api", permiso: "Ingreso", accion: "intento fallido"});
+              Bitacora.create({email: "api", permiso: "Ingreso", accion: "intento fallido",idempresa:userInfo.idempresa});
               
                         
               res.status(200).json({
@@ -94,6 +94,96 @@ exports.register = function(req, res, next){
         var user = new User({
             email: email,
             password: password,
+            role: req.body.role,
+            idempresa:req.body.idempresa,
+            nombre        	: req.body.nombre        	,
+            cui 	: req.body.cui 	,
+            foto 	: req.body.foto 	,
+            direccion   	: req.body.direccion   	,
+            telefono    	: req.body.telefono    	,
+            lenguaje    	: req.body.lenguaje    	,
+            sexo    	: req.body.sexo    	,
+            estado    	: req.body.estado ,
+            nov    	: req.body.nov   , 	
+            unidad    	: req.body.unidad   ,
+            codpersonal    	: req.body.codpersonal   ,
+            interno    	: req.body.interno  , 
+            estadoemail   	: req.body.estadoemail ,  
+            tiposuscriptor   	: req.body.tiposuscriptor   ,
+            APP : req.body.APP,
+            accesoestado:  req.body.accesoestado,
+            accesohora:  req.body.accesohora,
+            controlacceso:'',
+            carnecalusac:''
+            
+         
+        });
+ 
+        user.save(function(err, user){
+ 
+            if(err){
+                return next(err);
+            }
+ 
+            var userInfo = setUserInfo(user);
+ 
+            res.status(201).json({
+                token: 'JWT ' + generateToken(userInfo),
+                user: userInfo
+            })
+ 
+        });
+ 
+    });
+ 
+}
+
+
+ 
+exports.registera = function(req, res, next){
+ 
+    var email = req.body.email;
+    var password = req.body.password;
+   var empresa=req.body.idempresa;
+
+
+    var bitacora= req.body.bitacora;
+ 
+    if(!email){
+        return res.status(422).send({error: 'You must enter an email address'});
+    }
+ 
+    if(!password){
+        return res.status(422).send({error: 'You must enter a password'});
+    }
+    Bitacora.create(bitacora);
+    var password2= generator.generate({
+        length: 8,
+        numbers: true
+    });   
+
+
+
+//email: email
+
+    User.findOne({idempresa:empresa,  $or : [
+        { $and : [ { email : req.body.email }] },
+        { $and : [ {cui : req.body.cui } ] }]
+}, function(err, existingUser){
+ 
+        if(err){
+            return next(err);
+        }
+ 
+        if(existingUser){
+            return res.status(500).send('Esta direccion de correo electronico o Identificador ya esta en uso');
+        }
+ 
+        var password3='' + password2+'123@'
+
+        var user = new User({
+            email: email,
+            password: password3,
             role: req.body.role,
             idempresa:req.body.idempresa,
             nombre        	: req.body.nombre        	,

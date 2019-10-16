@@ -26,8 +26,7 @@ var cleanName = function(str) {
     };
 
     function getNextSequenceValue2(myData){
-        //  console.log('asignado antes:')
-         // console.log(myData3cc);
+   
            Asignaest.find({idtipounidad        	: myData.idtipounidad        	,
                idunidadacademica        	: myData.idunidadacademica  , 
                idperiodo        	: myData.idperiodo      	,
@@ -40,41 +39,17 @@ var cleanName = function(str) {
                      var asigno=0
                      asigno=myasigcupo.length;
       
-                    // console.log('asigno')
-                     //console.log(myasigcupo)
+                   
                       if(asigno!=myData.asignados)
                      {
                              
-                      //  console.log( myData)
+                 
                         console.log(asigno + '(estuiantes) = ' + myData.asignados + 'planificacion')
                    
                        
                      }
                    
-                     
-  /*
-         
-                               Facplan.findById({ _id:myData._id }, function (err, todo)  {
-                                   if (err) {  res.send(err);  }
-                                   else
-                                   { 
-                                           
-                                        console.log('asigno')
-                                        console.log(asigno)
-                     
-                                        // console.log('asignados')
-                                   //console.log(Number(todo.asignados))
-                                        todo.asignados        	=		asigno     	;
-                                       
-                                       todo.save(function (err, todo){
-                                           if (err)     {  console.log(err.message)   }
-                                           //console.log(todo);
-                                       });
-
-
-                                   }
-                               });
-                               */
+ 
                               
            });
       }
@@ -91,12 +66,21 @@ exports.getCombofijo = function(req, res, next){
 if(req.params.id3)
 {
         switch(req.params.id3) {
+                case 'user-rol':
+        
+        
+                                Perfil.find({'unidad.id':req.params.id,'idempresa':req.params.id2}).populate('unidad.id')
+                                .exec(function(err, todos) {
+                                        if (err){  res.send(err);  }
+                                        res.json(todos);
+                                });
+                break;
     
                 case 'rolusuario':
-console.log({nombre:req.params.id,idempresa:req.params.id2})
+
                 Perfil.find({nombre:req.params.id,idempresa:req.params.id2},function(err, todos) {
                         if (err){ res.send(err); }
-                        
+                       
                         if(todos.length>0)   {  
                         
                                 Permiso.find({idrol:todos[0]._id}).sort([['orden', 1]]).exec(function(err, todos) {
@@ -128,7 +112,8 @@ console.log({nombre:req.params.id,idempresa:req.params.id2})
                                                                                                 }                                                 
         
                                                                                         }   
-                                                                                //    console.log(todos[i].nombre);
+                                                                              
+
                                                                                         if(childrem.length>0)
                                                                                         {
                                                                                         myData.push({nivel:todos2[j].nivel, idrol:todos[i].idrol,title:todos2[j].nombre,component: todos2[j].componente, tabComponent:todos2[j].tabcomponente,name:todos2[j].componente,index:todos2[j].index,icon:todos2[j].icono,estado:todos2[j].estado,
@@ -196,7 +181,7 @@ else{
 
             case 'dtarifa':
             //busca el disppsitivo y se encuentra la tarifa
-            console.log(req.params)
+      
 
            
                 Dtarifa.find({idtarifa:req.params.id2},function(err, todos) {
@@ -219,10 +204,10 @@ else{
             break;
             case 'dtarifa2':
             //busca el disppsitivo y se encuentra la tarifa
-            console.log(req.params)
+    
             Bus.findById({_id:req.params.id2},function(err, todos2) {
                 if (err){  res.send(err);  }
-                console.log(todos2)
+            
                 Dtarifa.find({idtarifa:todos2.idtarifa.id},function(err, todos) {
                         if (err){  res.send(err);  }
         
@@ -275,19 +260,11 @@ else{
          
         break;
      
-        case 'user-rol':
-        
-        
-                        Perfil.find({'unidad.id':req.params.id2}).populate('unidad.id')
-                        .exec(function(err, todos) {
-                                if (err){  res.send(err);  }
-                                res.json(todos);
-                        });
-        break;
+       
   
   
         default:
-             console.log(req.params.id)
+        
 
              res.status(500).send('Resultado no encontrado'); 
              break;

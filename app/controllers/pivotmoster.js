@@ -32,6 +32,7 @@ exports.getPivotm = function(req, res, next){
                     case 'asignacalusac':         getasignacalusacrpt(req, res, next);
                     break
                     case 'plancalusac':         getplancalusacrpt(req, res, next);
+                  
                     break
                     case 'cursoslibres':         getcursoslibresrpt(req, res, next);
                     break
@@ -141,6 +142,9 @@ var getcursoslibresrpt = function(req, res, next) {
 
 
 }
+
+
+
 
 var getplancalusacrpt = function(req, res, next) {
     Plancalusac.find({}).populate('idjornada').populate('idnivel').populate('idhorario').populate('idprofesor').exec(function(err, todos2) {

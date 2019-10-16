@@ -59,8 +59,7 @@ var cleanName = function(str) {
       function getNextSequenceValue2a(codfac2,idunidadacademicat,idedificiot,idsalont,idmateriat,idhorariot,cuentaaa,res){
 
 
-       console.log("codfac:'" +codfac2+ "','idunidadacademica.id':'" +idunidadacademicat+ "','idedificio.id':'" +idedificiot+ "','idsalon.id':'" +idsalont+ "','idmateria': '" +idmateriat+  "','idhorario':'" +idhorariot + "'   " + cuentaaa);
-
+       
 
         Facplan.findById({  codfac:codfac2 ,'idunidadacademica.id':idunidadacademicat,'idedificio.id':idedificiot,'idsalon.id':idsalont,idmateria:idmateriat ,idhorario:idhorariot }, function (err, todo)  {
                 if (err) { console.log(err.message)  }
@@ -165,7 +164,6 @@ exports.getCombofijo = function(req, res, next){
 
        switch(req.params.id) {
         case 'help':
-        console.log('entra')
         Marketemail.find({idempresa:req.params.id3,idcategoria:req.params.id2}).populate('grupo').exec(function(err, todos) {
                 if (err){ res.send(err); }
                
@@ -632,7 +630,7 @@ console.log('TERMINA')
                                         var d =new Date( todos[i].date).toISOString().substr(0,10);   
                                         var n = d.split('-')   
                                         var  nn=''
-                                        console.log(todos[i])
+                                  
                                         if(todos[i].nombre)      {nn=todos[i].nombre} 
                                               
                                         resp.push({no_asignado:todos[i].noasignado ,no_orientacion:ll,nombre:nn,
@@ -1037,7 +1035,7 @@ else
 
 break;  
         case 'excel-asignaU':
-console.log(req.params)
+
         var filename   = "asignacionesU.csv";
         
         Facplan.find({'idperiodo.nombre':req.params.id2,'idtipounidad.nombre':req.params.id3}).sort({'idunidadacademica.codigo':1}).exec(function(err, todos2) {
@@ -1140,7 +1138,7 @@ Unidadplan2.find({}).exec(function(err, todos20) {
 
                                 }
                         }
-console.log(todos20[i].idsalon.nombre + ' ' + todos20[i]._id + ' ' +cuenta);
+
                     getNextSequenceValue2( todos20[i].idsalon.nombre,todos20[i]._id,cuenta);
                 }
 

@@ -10,7 +10,7 @@ exports.getPermison2 = function(req, res, next){
            
         if(req.params.id4=='todos')
         { 
-            Permison2.find({idpermiso:req.params.id3,idrol:req.params.id2,_id:req.params.id},function(err, todos) {
+            Permison2.find({idpermiso:req.params.id3,idrol:req.params.id2,_id:req.params.id,idempresa:req.params.id4},function(err, todos) {
                 if (err){ res.send(err); }
                
                 if(todos.length>0)   {    res.json(todos);   }
@@ -23,7 +23,7 @@ exports.getPermison2 = function(req, res, next){
         
         if(req.params.id4=='orden')
         { 
-            Permison2.find({idpermiso:req.params.id3,idrol:req.params.id2}).sort([['orden', -1]]).exec(function(err, todos) {
+            Permison2.find({idpermiso:req.params.id3,idrol:req.params.id2,idempresa:req.params.id4}).sort([['orden', -1]]).exec(function(err, todos) {
                 if (err){ res.send(err); }
                
                 if(todos.length>0)   {    res.json({orden:todos[0].orden});   }
@@ -36,7 +36,7 @@ exports.getPermison2 = function(req, res, next){
     
     }
     else
-    { Permison2.find({idrol:req.params.id,idpermiso:req.params.id2}).sort([['orden', 1]]).populate('nombre')
+    { Permison2.find({idrol:req.params.id,idpermiso:req.params.id2,idempresa:req.params.id3}).sort([['orden', 1]]).populate('nombre')
     .exec(function(err, todos) {
            if (err){  res.send(err);  }
            var myData = [];
@@ -104,6 +104,7 @@ exports.creaPermison22s = function(req, res, next){
                             { 
                                 Bitacora.create(req.body.bitacora);
                                 Permison2.create({  
+                                    idempresa        	: req.body.idempresa        	,
                                 idpermiso        	: req.body.idpermiso        	,
                                 idrol        	: req.body.idrol        	,
                                 nombre        	: req.body.nombre        	,

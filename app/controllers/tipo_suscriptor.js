@@ -2,40 +2,71 @@ var Tiposuscriptor = require('../models/tipo_suscriptor');
 var Bitacora = require('../models/bitacora');
 
 exports.getTiposuscriptor = function(req, res, next){
+    if(req.params.id3)
+    {
+      
+        if(req.params.id3=='solo')
+        {
+
+            Tiposuscriptor.find({idempresa:req.params.id2 , _id:req.params.id},function(err, todos) {
+                if (err){ res.send(err); }
+               
+                   res.json(todos);  
+                
+            });
+        }
+    
+
+
+    }
+    else{
     if(req.params.id2)
     { 
-        Tiposuscriptor.find({tipo:req.params.id2},function(err, todos) {
-            if (err){ res.send(err); }
-           
-            if(todos.length>0)   {    res.json(todos);   }
-            else
-            {  res.status(500).send('NO EXISTE REGISTRO');      }
-            
-        });
-  
+        if(req.params.id2=='todos')
+        {
+
+            Tiposuscriptor.find({idempresa:req.params.id},function(err, todos) {
+                if (err){ res.send(err); }
+               
+                   res.json(todos);  
+                
+            });
+        }
+        else
+        {
+            Tiposuscriptor.find({tipo:req.params.id2},function(err, todos) {
+                if (err){ res.send(err); }
+               
+                if(todos.length>0)   {    res.json(todos);   }
+                else
+                {  res.status(500).send('NO EXISTE REGISTRO');      }
+                
+            });
+        }
     }
     else
     {
-        if(req.params.id)
-        {  
-           
-                Tiposuscriptor.find({_id:req.params.id},function(err, todos) {
-                    if (err){ res.send(err); }
-                   
-                    if(todos.length>0)   {    res.json(todos);   }
-                    else
-                    {  res.status(500).send('NO EXISTE REGISTRO');      }
+                    if(req.params.id)
+                    {  
                     
-                });
-             
-           
-        }
-        else
-        { Tiposuscriptor.find(function(err, todos) {
-               if (err){  res.send(err);  }
-                res.json(todos);
-            });
-        }
+                            Tiposuscriptor.find({_id:req.params.id},function(err, todos) {
+                                if (err){ res.send(err); }
+                            
+                                if(todos.length>0)   {    res.json(todos);   }
+                                else
+                                {  res.status(500).send('NO EXISTE REGISTRO');      }
+                                
+                            });
+                        
+                    
+                    }
+                    else
+                    { Tiposuscriptor.find(function(err, todos) {
+                        if (err){  res.send(err);  }
+                            res.json(todos);
+                        });
+                    }
+    }
 
     }
  
@@ -81,6 +112,7 @@ else{
         {   
 
             Tiposuscriptor.create({ 
+                idempresa       	: req.body.idempresa       	,
                 nombre        	: req.body.nombre        	,
                 cobroparqueos        	: req.body.cobroparqueos        	,
                 usuarionew:req.body.bitacora.email

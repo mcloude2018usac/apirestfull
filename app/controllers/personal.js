@@ -19,15 +19,7 @@ exports.getPersonal = function(req, res, next){
     if(req.params.page)
     {
 
-        var pagex=    Number(req.params.page);
-        var limitx=    Number(req.params.limit);
-        
-        Personal.paginate({idempresa:req.params.idempresa},{populate: ['unidad','tiposuscriptor'],lean:     false,page:pagex, limit:  limitx}).then(function(err, todos) {
-            if (err){  res.send(err);  }
-                res.end(todos);
-                res.end();
-              //  next();
-            });
+     
     }
     else
     {
@@ -384,7 +376,8 @@ exports.getPersonal = function(req, res, next){
                         {
         if(req.params.id4)
         {
-      
+        console.log('entra')
+        console.log(req.params)   
             
             if(req.params.id2=='actualizauser')
             {
@@ -416,8 +409,23 @@ exports.getPersonal = function(req, res, next){
               
             }
             else{
-
+  console.log(req.params)   
                 switch(req.params.id2) {
+                    case 'pagineo':  
+                    console.log('entra')
+                       
+                            var pagex=    Number(req.params.id3);
+                            var limitx=    Number(req.params.email);
+                            
+                            Personal.paginate({idempresa:req.params.id4},{populate: ['unidad','tiposuscriptor'],lean:     false,page:pagex, limit:  limitx})
+                            .then(function(err, todos) {
+                                if (err){  res.send(err);  }
+                                console.log(todos)
+                                    res.end(todos);
+                                    res.end();
+                                  //  next();
+                                });
+break;
                     case 'persona':
 
                             Personal.find({cui:req.params.email,APP:req.params.id3,idempresa:req.params.id4}).populate('unidad').populate('tiposuscriptor')
@@ -651,12 +659,13 @@ exports.getPersonal = function(req, res, next){
                                     }
 
                                     break;
-               default :
-               
-                        Personal.find({idempresa:req.params.id3,unidad:req.params.id2},function(err, todos) {
-                            if (err){  res.send(err);  }
-                                res.json(todos);
-                            });
+        
+               case 'unidadper':
+               console.log(req.params);
+               Personal.find({idempresa:req.params.id3,unidad:req.params.email},function(err, todos) {
+                if (err){  res.send(err);  }
+                    res.json(todos);
+                });
                 break;
 
             }
