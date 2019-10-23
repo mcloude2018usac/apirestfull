@@ -9,6 +9,7 @@ var mongoose =require("mongoose");
         },
         abreviatura: { type : String},
         estado	: { type : String, required : true },
+        estado2	: { type : String, required : true },
         msg: { type : String},
         usuarionew	: { type : String },      usuarioup	: { type : String }
 

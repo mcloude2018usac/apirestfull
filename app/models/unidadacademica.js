@@ -4,7 +4,8 @@ var mongoose =require("mongoose");
         idtipounidad   		: { type : String, required : true },
         nombre	: { type : String, required : true },
         codigo	: { type : Number, required : true },
-        estado	: { type : String }
+        estado	: { type : String },
+         estado2	: { type : String }
         ,usuarionew	: { type : String },      usuarioup	: { type : String }
         }, {
         timestamps: true
