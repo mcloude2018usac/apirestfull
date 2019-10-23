@@ -74,6 +74,7 @@ exports.creaUnidadacademica2s = function(req, res, next){
                 todo.nombre        	=	req.body.nombre        	||	todo.nombre        	;
                 todo.codigo        	=	req.body.codigo        	||	todo.codigo        	;
                 todo.estado        	=	req.body.estado        	||	todo.estado        	;
+                todo.estado2        	=	req.body.estado2        	||	todo.estado2        	;
                 todo.usuarioup=req.body.bitacora.email;
                
 
@@ -100,6 +101,7 @@ exports.creaUnidadacademica2s = function(req, res, next){
                 nombre        	: req.body.nombre        	,
                 codigo        	: req.body.codigo        ,
                 estado        	: req.body.estado        ,
+                estado2        	: req.body.estado2        ,
                 usuarionew:req.body.bitacora.email	
             
             }

@@ -51,6 +51,7 @@ if(req.params.recordID!=='crea')
             todo.iddepartamento        	=	{id:req.body.iddepartamento.id,nombre:req.body.iddepartamento.nombre   }   	;
             todo.abreviatura        	=	req.body.abreviatura        	||	todo.abreviatura    	;
             todo.estado        	=	req.body.estado        	||	todo.estado        	;
+            todo.estado2        	=	req.body.estado2        	||	todo.estado2        	;
             todo.msg        	=	req.body.msg        	||	todo.msg        	;
             todo.usuarioup=req.body.bitacora.email;
             
@@ -78,6 +79,7 @@ else{
                 iddepartamento        	: req.body.iddepartamento   ,
                 abreviatura        	: req.body.abreviatura     ,
                 estado        	: req.body.estado     ,
+                estado2        	: req.body.estado2     ,
                 msg        	: req.body.msg     ,
                 usuarionew:req.body.bitacora.email   
               }
