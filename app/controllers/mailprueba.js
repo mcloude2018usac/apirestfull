@@ -53,6 +53,10 @@ var mandacorreoprueba2= function(){
 
 }
 
+var mandacorreo= function(){
+  sendEmail(['mario.morales@mcloude.com'],'pruebA','MENSAJE DE PRUEBA',['mario.morales@mcloude.com'])
+
+}
 
 function sendMails(bccAddresses, message, subject, replyToAddresses, attachments){
   let i
@@ -362,5 +366,6 @@ module.exports = {
     mandacorreoprueba2: mandacorreoprueba2,
     massMailer: massMailer,
     mandanoti:mandanoti,
-    dasoap:dasoap
+    dasoap:dasoap,
+    sendEmail:sendEmail
       }

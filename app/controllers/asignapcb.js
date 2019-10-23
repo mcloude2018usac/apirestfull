@@ -457,7 +457,7 @@ if(req.params.recordID!=='crea')
 }
 else{
 
-var aa=0;
+var aa=1;
 if(aa==1) 
 {
     res.status(404).send('Las fechas de inscripción PCB han finalizado.');
@@ -665,7 +665,7 @@ if(myData0a.length==0)
     for(var iii = 0; iii < req.body.resultadopcb.length;iii++){
        matganada=  matganada + '-' +req.body.resultadopcb[iii].idmateria + ' ' 
     }
-    res.status(404).send(' Prueba ya a sido ganada satisfactoriamente, no se puede volver asignar , Materias ganadas: '+ matganada)    
+    res.status(404).send(' Ya cuenta con resultados satisfactorios de PCB para esta Unidad Académica , Materias ganadas: '+ matganada)    
     
 
 }

@@ -8,20 +8,31 @@ exports.getPermiso = function(req, res, next){
         
         if(req.params.id3=='todos')
         { 
-            Permiso.find({idrol:req.params.id2,_id:req.params.id},function(err, todos) {
-                if (err){ res.send(err); }
-               
-                if(todos.length>0)   {    res.json(todos);   }
-                else
-                {  res.status(500).send('NO EXISTE REGISTRO');      }
-                
-            });
+            Permiso.find({idrol:req.params.id,idempresa:req.params.id2}).sort([['orden', 1]]).populate('nombre')
+            .exec(function(err, todos) {
+                   if (err){  res.send(err);  }
+                   var myData = [];
+                   for(var i = 0; i < todos.length;i++){
+                    myData.push({_id:todos[i]._id,idrol:todos[i].idrol,ingreso:todos[i].ingreso
+                        ,nombre:todos[i].nombre.nombre
+                        ,idmodulo:todos[i].nombre._id
+                        ,consulta:todos[i].consulta
+                        ,eliminacion:todos[i].eliminacion
+                        ,creacion:todos[i].creacion
+                        ,actualizacion:todos[i].actualizacion
+                        ,filtro:todos[i].filtro
+                        ,reporte:todos[i].reporte
+                        ,orden:todos[i].orden
+                        });
+                   }
+                    res.json(myData);
+                });
         }
             
         
         if(req.params.id3=='orden')
-        { 
-            Permiso.find({idrol:req.params.id2}).sort([['orden', -1]]).exec(function(err, todos) {
+        { console.log({idrol:req.params.id,idempresa:req.params.id2})
+            Permiso.find({idrol:req.params.id,idempresa:req.params.id2}).sort([['orden', -1]]).exec(function(err, todos) {
                 if (err){ res.send(err); }
                
                 if(todos.length>0)   {    res.json({orden:todos[0].orden});   }
@@ -30,26 +41,7 @@ exports.getPermiso = function(req, res, next){
         }
        
     }
-    else
-    { 
-    Permiso.find({idrol:req.params.id}).sort([['orden', 1]]).populate('nombre')
-    .exec(function(err, todos) {
-           if (err){  res.send(err);  }
-           var myData = [];
-           for(var i = 0; i < todos.length;i++){
-            myData.push({_id:todos[i]._id,idrol:todos[i].idrol,ingreso:todos[i].ingreso
-                ,nombre:todos[i].nombre.nombre
-                ,idmodulo:todos[i].nombre._id
-                ,consulta:todos[i].consulta
-                ,eliminacion:todos[i].eliminacion
-                ,creacion:todos[i].creacion
-                ,actualizacion:todos[i].actualizacion
-                ,orden:todos[i].orden
-                });
-           }
-            res.json(myData);
-        });
-    }
+   
 }
 exports.deletePermiso = function(req, res, next){
    
@@ -77,6 +69,8 @@ exports.creaPermiso2s = function(req, res, next){
                 todo.eliminacion 	=	req.body.eliminacion		;
                 todo.creacion 	=	req.body.creacion		;
                 todo.actualizacion    	=	req.body.actualizacion        	;
+                todo.filtro 	=	req.body.filtro		;
+                todo.reporte 	=	req.body.reporte		;
                 todo.orden    	=	req.body.orden        	;
                 todo.usuarioup=req.body.bitacora.email;
                 
@@ -107,6 +101,8 @@ exports.creaPermiso2s = function(req, res, next){
                                 eliminacion   	: req.body.eliminacion 	,
                                 creacion    	: req.body.creacion   	,
                                 actualizacion 	: req.body.actualizacion 	,
+                                filtro    	: req.body.filtro   	,
+                                reporte    	: req.body.reporte   	,
                                 orden 	: req.body.orden 	,
                                 usuarionew:req.body.bitacora.email
                             }

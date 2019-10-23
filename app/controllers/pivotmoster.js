@@ -12,7 +12,7 @@ var Asignacalusac = require('../models/calusac/asignacalusac');
 var Plancalusac = require('../models/calusac/unidadplan3');
 var cursoeve=require('../models/aread_evento');
 var Participa2 = require('../models/participa2');
-
+var Moduloxx = require('../models/moduloxx');
 var Asignapcb = require('../models/asignapcb');
 
 exports.getPivotm = function(req, res, next){
@@ -36,6 +36,8 @@ exports.getPivotm = function(req, res, next){
                     break
                     case 'cursoslibres':         getcursoslibresrpt(req, res, next);
                     break
+                    case 'catalogo':         getcatalogorpt(req, res, next);
+                    break
                     default:
                     break;
             
@@ -55,6 +57,33 @@ exports.getPivotm = function(req, res, next){
 
 }
 
+
+var getcatalogorpt = function(req, res, next) {
+    switch(req.params.id3) {
+        case 'modulos':
+
+            Moduloxx.find({idempresa:req.params.id4}).exec(function(err, todos) {
+                if (err){  res.send(err);  }
+                        
+                                        let stream = compressor.compressJson(todos);
+                                      
+                                        stream.on('data', data => res.write(data));
+                                        stream.on('end', () => res.end()
+                                        //  res.redirect('pivot.html');
+                                        ); 
+                                        var rutat=path.join(__dirname+'/pivotm.html')
+                   
+            });
+           
+        break
+        default:
+        break;
+
+    }
+
+
+
+}
 
 var getasignasunrpt = function(req, res, next) {
     Asignaestudiante.find({}).exec(function(err, todos2) {

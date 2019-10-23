@@ -8,22 +8,34 @@ exports.getPermison2 = function(req, res, next){
         
         
            
-        if(req.params.id4=='todos')
+        if(req.params.id4=='todos') 
         { 
-            Permison2.find({idpermiso:req.params.id3,idrol:req.params.id2,_id:req.params.id,idempresa:req.params.id4},function(err, todos) {
-                if (err){ res.send(err); }
-               
-                if(todos.length>0)   {    res.json(todos);   }
-                else
-                {  res.status(500).send('NO EXISTE REGISTRO');      }
-                
-            });
+            Permison2.find({idpermiso:req.params.id3,idrol:req.params.id2,idempresa:req.params.id}).sort([['orden', 1]]).populate('nombre')
+            .exec(function(err, todos) {
+                   if (err){  res.send(err);  }
+                   var myData = [];
+                   for(var i = 0; i < todos.length;i++){
+                    myData.push({_id:todos[i]._id,idpermiso:todos[i].idpermiso,
+                        idrol:todos[i].idrol,ingreso:todos[i].ingreso
+                        ,nombre:todos[i].nombre.nombre
+                        ,idmodulo:todos[i].nombre._id
+                        ,consulta:todos[i].consulta
+                        ,eliminacion:todos[i].eliminacion
+                        ,filtro:todos[i].filtro
+                        ,reporte:todos[i].reporte
+                        ,creacion:todos[i].creacion
+                        ,actualizacion:todos[i].actualizacion
+                        ,orden:todos[i].orden
+                        });
+                   }
+                    res.json(myData);
+                });
         }
             
         
         if(req.params.id4=='orden')
         { 
-            Permison2.find({idpermiso:req.params.id3,idrol:req.params.id2,idempresa:req.params.id4}).sort([['orden', -1]]).exec(function(err, todos) {
+            Permison2.find({idpermiso:req.params.id3,idrol:req.params.id2,idempresa:req.params.id}).sort([['orden', -1]]).exec(function(err, todos) {
                 if (err){ res.send(err); }
                
                 if(todos.length>0)   {    res.json({orden:todos[0].orden});   }
@@ -35,26 +47,7 @@ exports.getPermison2 = function(req, res, next){
         
     
     }
-    else
-    { Permison2.find({idrol:req.params.id,idpermiso:req.params.id2,idempresa:req.params.id3}).sort([['orden', 1]]).populate('nombre')
-    .exec(function(err, todos) {
-           if (err){  res.send(err);  }
-           var myData = [];
-           for(var i = 0; i < todos.length;i++){
-            myData.push({_id:todos[i]._id,idpermiso:todos[i].idpermiso,
-                idrol:todos[i].idrol,ingreso:todos[i].ingreso
-                ,nombre:todos[i].nombre.nombre
-                ,idmodulo:todos[i].nombre._id
-                ,consulta:todos[i].consulta
-                ,eliminacion:todos[i].eliminacion
-                ,creacion:todos[i].creacion
-                ,actualizacion:todos[i].actualizacion
-                ,orden:todos[i].orden
-                });
-           }
-            res.json(myData);
-        });
-    }
+   
 }
 exports.deletePermison2 = function(req, res, next){
    
@@ -81,6 +74,8 @@ exports.creaPermison22s = function(req, res, next){
                 todo.consulta 	=	req.body.consulta		;
                 todo.eliminacion 	=	req.body.eliminacion		;
                 todo.creacion 	=	req.body.creacion		;
+                todo.filtro 	=	req.body.filtro		;
+                todo.reporte 	=	req.body.reporte		;
                 todo.actualizacion    	=	req.body.actualizacion        	;
                 todo.orden    	=	req.body.orden        	;
                 todo.usuarioup=req.body.bitacora.email;
@@ -111,6 +106,8 @@ exports.creaPermison22s = function(req, res, next){
                                 ingreso    	: req.body.ingreso    	,
                                 consulta    	: req.body.consulta    	,
                                 eliminacion   	: req.body.eliminacion 	,
+                                filtro    	: req.body.filtro   	,
+                                reporte    	: req.body.reporte   	,
                                 creacion    	: req.body.creacion   	,
                                 actualizacion 	: req.body.actualizacion 	,
                                 orden 	: req.body.orden 	,

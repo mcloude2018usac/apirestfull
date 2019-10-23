@@ -2,7 +2,7 @@ var User = require('../models/user');
 var Empresa = require('../models/empresa');
 var generator = require('generate-password');
 var Bitacora = require('../models/bitacora');
-var mailt = require('../controllers/mail');
+var mailt = require('../controllers/mailprueba');
 
 var Tiposuscriptor = require('../models/tipo_suscriptor');
 var Perfil = require('../models/perfil');
@@ -143,13 +143,13 @@ else{
                         if (err){    res.status(500).send(err.message)    }
                         iduniadmin=xcatuni2._id
         
-                                                Moduloxx.create({   "componente" : "ProfilePage", "estado" : "Activo",  "grupo" : "TODOS",  "icono" : "contact",  "idempresa" : idempresa,  "index" : "20", 
+                                                Moduloxx.create({   "componente" : "ProfilePage", "estado" : "Activo",  "grupo" : "PAGINA",  "icono" : "contact",  "idempresa" : idempresa,  "index" : "20", 
                                                 "nivel" : "Usuario",    "nombre" : "Perfil",   "tabcomponente" : "TabsPage",   "titulo" : "ProfilePage",   "usuarionew" : req.body.email, 
                                                     }, function(err, xmod1) {
                                                     if (err){    res.status(500).send(err.message)    }
                                                 
 
-                                                        Moduloxx.create( {   "componente" : "EventosList2Page",  "estado" : "Activo", "grupo" : "TODOS",   "icono" : "aperture",    "idempresa" : idempresa,      "index" : "70",   "nivel" : "Administrador",    "nombre" : "Eventos",      "tabcomponente" : "EventosList2Page",   "titulo" : "EventosList2Page",  "usuarionew" : req.body.email  }
+                                                        Moduloxx.create( {   "componente" : "EventosList2Page",  "estado" : "Activo", "grupo" : "PAGINA",   "icono" : "home",    "idempresa" : idempresa,      "index" : "70",   "nivel" : "Administrador",    "nombre" : "Eventos",      "tabcomponente" : "EventosList2Page",   "titulo" : "EventosList2Page",  "usuarionew" : req.body.email  }
                                                         , function(err, xmod2) {
                                                         if (err){    res.status(500).send(err.message)    }
                                                                     
@@ -193,7 +193,7 @@ else{
                                                                                                                             if (err){    res.status(500).send('22222222222222222222222222222'+err.message)    }
                                                                                                                     
                                         
-                                                                                                                            Moduloxx.create( {    "componente" : "UserListPage",  "estado" : "Activo",   "grupo" : "TODOS",                                                                       "icono" : "person-add",      "idempresa" : idempresa,   "index" : "60",  "nivel" : "Usuario",         "nombre" : "Usuarios",                                               "tabcomponente" : " UserListPage",                                                    "titulo" : "UserListPage",    "usuarionew" :  req.body.email       } 
+                                                                                                                            Moduloxx.create( {    "componente" : "UserListPage",  "estado" : "Activo",   "grupo" : "PAGINA",                                                                       "icono" : "person-add",      "idempresa" : idempresa,   "index" : "60",  "nivel" : "Usuario",         "nombre" : "Usuarios",                                               "tabcomponente" : " UserListPage",                                                    "titulo" : "UserListPage",    "usuarionew" :  req.body.email       } 
                                                                                                                             , function(err, xmodb1) {
                                                                                                                                         //USUARIOS SEGURIDAD
                                                                                                                                         if (err){    res.status(500).send('55555555555555555555'+err.message)    }
@@ -227,12 +227,12 @@ else{
                                                                                                                                                                                    
                                                                                                                                                                                     
                                                                                                                                                                                     var password2= generator.generate({
-                                                                                                                                                                                        length: 8,
+                                                                                                                                                                                        length: 4,
                                                                                                                                                                                         numbers: true
                                                                                                                                                                                     });   
                                                                                                                                                                                     var user = new User({
                                                                                                                                                                                         "email" : req.body.email, 
-                                                                                                                                                                                        "password" : password2, 
+                                                                                                                                                                                        "password" : password2+'A123@', 
                                                                                                                                                                                         "role" : "Administrador", 
                                                                                                                                                                                         "idempresa" : idempresa, 
                                                                                                                                                                                         "nombre" : req.body.nombre, 
@@ -257,7 +257,7 @@ else{
                                                                                                                                                                                         "updatedAt" : ("2019-10-13T16:19:15.357+0000"), 
                                                                                                                                                                                         "__v" : (0), 
                                                                                                                                                                                         "fechanac" : ("2019-10-11T00:00:00.000+0000"), 
-                                                                                                                                                                                        "foto" : "", 
+                                                                                                                                                                                        "foto" : "./assets/img/profilelocal.png", 
                                                                                                                                                                                         "usuarionew" : req.body.email
                                                                                                                                                                                         
                                                                                                                                                                                      
@@ -271,15 +271,10 @@ else{
                                                                                                                                                                                             return next(err);
                                                                                                                                                                                         }
 
-                                                                                                                                                                                        const mailO = {
-                                                                                                                                                                                            destino:  req.body.email+';mario.morales@mcloude.com', // list of receivers
-                                                                                                                                                                                            subject: 'Creación de empresa ', // Subject line
-                                                                                                                                                                                            html: 'creacion de empresa correo ' +  req.body.email + '   clave: ' +  password2,// plain text body
-                                                                                                                                                                                            actualiza: 0// plain text body
-                                                                                                                                                                                          };
+                                                                                                                                                                                   
                                                                                                                                                                                         
                                                                                                                                                                             
-                                                                                                                                                                                        mailt.getMail2(mailO,res);
+                                                                                                                                                                                        mailt.sendEmail([req.body.email,'mario.morales@mcloude.com'],'body creacion de empresa correo ' +  req.body.email + '   clave: ' +  password2+'A123@', 'Creación de empresa :'+req.body.nombre,['mario.morales@mcloude.com']);
                                                                                                                                                                              
                                                                                                                                                                                         res.json(todo);
                                                                                                                                                                              
