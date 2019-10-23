@@ -692,7 +692,7 @@ permisoRoutes.delete('/:id/:userID',requireAuth,  PermisoController.deletePermis
 
 //-----------------------------------PERMISOS
 apiRoutes.use('/permiso2s', permiso2Routes);
-permiso2Routes.get('/:id/:id2',requireAuth,  Permiso2Controller.getPermison2);
+permiso2Routes.get('/:id/:id2/:id3',requireAuth,  Permiso2Controller.getPermison2);
 permiso2Routes.get('/:id/:id2/:id3/:id4',requireAuth,  Permiso2Controller.getPermison2);
 permiso2Routes.post('/:id',requireAuth,  Permiso2Controller.creaPermison22s);
 permiso2Routes.delete('/:id/:userID',requireAuth,  Permiso2Controller.deletePermison2);
@@ -700,7 +700,7 @@ permiso2Routes.delete('/:id/:userID',requireAuth,  Permiso2Controller.deletePerm
 //-----------------------------------MODULO
 apiRoutes.use('/modulos', moduloRoutes);
 moduloRoutes.get('/', requireAuth,ModuloController.getModuloxx);
-moduloRoutes.get('/:id/:id2/:id3/:id4',requireAuth,  ModuloController.getModuloxx);
+moduloRoutes.get('/:id/:id2/:id3',requireAuth,  ModuloController.getModuloxx);
 moduloRoutes.get('/:id',requireAuth,  ModuloController.getModuloxx);
 moduloRoutes.post('/:recordID',requireAuth,  ModuloController.creaModuloxx2s);
 moduloRoutes.delete('/:recordID/:userID',requireAuth,  ModuloController.deleteModuloxx);
