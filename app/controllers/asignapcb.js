@@ -345,15 +345,10 @@ function getNextSequenceValue(myData3,myData3aa,req,res,necesito){
             
 
 
-            const mailO = {
-                destino: 'ambrosioaleman07@gmail.com;mario.morales@mcloude.com', // list of receivers
-                subject: 'Solicitud de nuevo salon', // Subject line
-                html: 'Solicitando salon para Unidad academica: ' + req.body.unidadacademica.nombre + ', Materia: '+  myData3aa[0].idmateria +', Edificio: '+  myData3aa[0].idedificio.nombre +' y Salon: '+  myData3aa[0].idsalon.nombre ,// plain text body
-                actualiza: 0// plain text body
-              };
-            
+              mailt.sendEmail(['ambrosioaleman07@gmail.com','mario.morales@mcloude.com'],'Solicitando salon para Unidad academica: ' + req.body.unidadacademica.nombre + ', Materia: '+  myData3aa[0].idmateria +', Edificio: '+  myData3aa[0].idedificio.nombre +' y Salon: '+  myData3aa[0].idsalon.nombre, 'Solicitud de nuevo salon',['mario.morales@mcloude.com']);
+                                                                                                                                                                             
 
-            mailt.getMail2(mailO,res);
+
 //            console.log('No existe cupo para asignarse esta materia: '+  myData3aa[0].idmateria +' para el edificio: '+  myData3aa[0].idedificio.nombre +' salon: '+  myData3aa[0].idsalon.nombre +' , realize la asignacion mas tarde')
             res.status(404).send('No existe disponibilidad para asignarse , Inténtelo más tarde')    
         }
@@ -373,15 +368,11 @@ function getNextSequenceValue(myData3,myData3aa,req,res,necesito){
             
 
 
-            const mailO = {
-                destino: 'ambrosioaleman07@gmail.com;mario.morales@mcloude.com', // list of receivers
-                subject: 'Solicitud de nuevo salon', // Subject line
-                html: 'Solicitando salon para Unidad academica: ' + req.body.tipounidad.nombre + ' ' + req.body.unidadacademica.nombre  + '-->' + necesito  ,// plain text body
-                actualiza: 0// plain text body
-              };
-            
 
-            mailt.getMail2(mailO,res);
+       
+              mailt.sendEmail(['ambrosioaleman07@gmail.com','mario.morales@mcloude.com'], 'Solicitando salon para Unidad academica: ' + req.body.tipounidad.nombre + ' ' + req.body.unidadacademica.nombre  + '-->' + necesito, 'Solicitud de nuevo salon',['mario.morales@mcloude.com']);
+                                                                                                                                                                             
+
 //            console.log('No existe cupo para asignarse esta materia: '+  myData3aa[0].idmateria +' para el edificio: '+  myData3aa[0].idedificio.nombre +' salon: '+  myData3aa[0].idsalon.nombre +' , realize la asignacion mas tarde')
             res.status(404).send('No existe disponibilidad para asignarse , Inténtelo más tarde')    
             }
