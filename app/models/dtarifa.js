@@ -1,5 +1,6 @@
 var mongoose =require("mongoose");
     var DtarifaSchema 		=	new  mongoose.Schema({
+        idempresa   		: { type : String, required : true },
         idtarifa   		: { type : String, required : true },
         nombre   		: { type : String, required : true },
         horaini   		: { type : Number, required : true },

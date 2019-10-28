@@ -1,5 +1,6 @@
 var mongoose =require("mongoose");
     var SolcarneSchema 		=	new  mongoose.Schema({
+        idempresa   		: { type : String, required : true },
         idsuscriptor :  		{    id	: { type : String, required : true, ref: 'User' },   nombre	: { type : String, required : true }        },
         nombre	: { type : String, required : true },
         estado	: { type : String, required : true },

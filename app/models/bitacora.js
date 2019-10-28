@@ -16,6 +16,9 @@ var BitacoraSchema = new mongoose.Schema({
     idempresa: {
         type: String
     },
+    idafiliado: {
+        type: String
+    },
     date 		: { type: Date, default: Date.now }
 }, {
     timestamps: true

@@ -1,5 +1,6 @@
 var mongoose =require("mongoose");
     var EmpresaSchema 		=	new  mongoose.Schema({
+        idempresa0  		: { type : String, required : true },
         nit   		: { type : String, required : true },
         nombre   		: { type : String},
         razon   		: { type : String},

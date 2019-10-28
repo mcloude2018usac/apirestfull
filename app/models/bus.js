@@ -1,6 +1,7 @@
 var mongoose =require("mongoose");
     var BusSchema 		=	new  mongoose.Schema({
         idempresa   		: { type : String, required : true },
+        idempresa0  		: { type : String, required : true },
         idafiliado   		: { type : String, required : true },
         codigo	: { type : String },
         noplaca	: { type : String },
