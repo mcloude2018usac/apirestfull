@@ -175,8 +175,19 @@ else{
     
       
         case 'catalogo-tipo':
+                if(req.params.id2=='WebApp Usacenlinea')
+                {
                         res.json([{id:'CATEGORIA DISEÑO PLANTILAS',nombre:'CATEGORIA DISEÑO PLANTILAS'},{id:'DIAS FESTIVOS',nombre:'DIAS FESTIVOS'},{id:'RUTAS',nombre:'RUTAS'},{id:'MATERIAS',nombre:'MATERIAS'},{id:'PERIODOSSUM',nombre:'PERIODOSSUM'},{id:'UNIDADES',nombre:'UNIDADES'} ,{id:'TARIFA COMPRA SALDO',nombre:'TARIFA COMPRA SALDO'} 
                         ,{id:'TIPO UNIDADES',nombre:'TIPO UNIDADES'} ,{id:'TIPO DENUNCIAS',nombre:'TIPO DENUNCIAS'}]);
+
+
+                }
+                else
+                {
+                        res.json([{id:'CATEGORIA DISEÑO PLANTILAS',nombre:'CATEGORIA DISEÑO PLANTILAS'},{id:'DIAS FESTIVOS',nombre:'DIAS FESTIVOS'},{id:'RUTAS',nombre:'RUTAS'},{id:'MATERIAS',nombre:'MATERIAS'},{id:'UNIDADES',nombre:'UNIDADES'} ,{id:'TARIFA COMPRA SALDO',nombre:'TARIFA COMPRA SALDO'} 
+                        ,{id:'TIPO UNIDADES',nombre:'TIPO UNIDADES'} ,{id:'TIPO DENUNCIAS',nombre:'TIPO DENUNCIAS'}]);
+
+                }
             break;
 
             case 'dtarifa':

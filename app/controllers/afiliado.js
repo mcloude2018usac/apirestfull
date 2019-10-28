@@ -3,26 +3,22 @@ var Afiliado = require('../models/afiliado');
 var Bitacora = require('../models/bitacora');
 
 exports.getAfiliado = function(req, res, next){
+   
     if(req.params.id2)
-    {   Afiliado.find({idempresa:req.params.id,_id:req.params.id2},function(err, todos) {
+    { 
+      
+        Afiliado.find({idempresa:req.params.id,idempresa0:req.params.id2},function(err, todos) {
             if (err){ res.send(err); }
            
-            if(todos.length>0)   {    res.json(todos);   }
-            else
-            {  res.status(500).send('NO EXISTE REGISTRO');      }
+           res.json(todos);   
+          
             
-        });
-    }
-    else
-    { Afiliado.find({idempresa:req.params.id},function(err, todos) {
-           if (err){  res.send(err);  }
-            res.json(todos);
         });
     }
 }
 exports.deleteAfiliado = function(req, res, next){
    
-    Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina Afiliado '});
+    Bitacora.create({idempresa:req.params.idempresa,idafiliado:'',email: req.params.userID ,permiso:'Elimina',accion:'Elimina Afiliado '});
     Afiliado.findByIdAndRemove({ _id: req.params.id  }, function(err, todo) {
         res.json(todo);
     });
@@ -59,7 +55,9 @@ exports.creaAfiliado2s = function(req, res, next){
     }
     else{
         Bitacora.create(req.body.bitacora);
-    Afiliado.create({  idempresa      	: req.body.idempresa     	,
+    Afiliado.create({  
+        idempresa0      	: req.body.idempresa0     	,
+        idempresa      	: req.body.idempresa     	,
         dpi        	: req.body.dpi        	,
         nombre        	: req.body.nombre        	,
         apellido        	: req.body.apellido        	,

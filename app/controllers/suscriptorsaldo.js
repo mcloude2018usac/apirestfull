@@ -90,7 +90,10 @@ exports.creaSuscriptorsaldo2s = function(req, res, next){
     else{
       
         Bitacora.create(req.body.bitacora);
-    Suscriptorsaldo.create({  idsuscriptor      	: req.body.idsuscriptor     	,
+    
+    Suscriptorsaldo.create({  
+        idempresa      	: req.body.idempresa     	,
+        idsuscriptor      	: req.body.idsuscriptor     	,
         saldoactual        	: req.body.saldoactual        	,
         codigo1        	: req.body.codigo1        	,
         codigo2        	: req.body.codigo2        	,
@@ -106,15 +109,21 @@ exports.creaSuscriptorsaldo2s = function(req, res, next){
        }
         , function(err, todo) {
         if (err){ 
-          
+          console.log(err.message)
             res.status(500).send(err.message)    }
-    
+    console.log(todo)
              
-            Solcarne.find({'idsuscriptor.id':req.body.idsuscriptor.id,estado:'No entregado'}).exec(function(err, todos10) {
+            Solcarne.find({'idsuscriptor.id':req.body.idsuscriptor.id,estado:'No entregado',idempresa      	: req.body.idempresa     }).exec(function(err, todos10) {
                 if (err){ res.send(err); }
                
-                  
-                
+                  if(todos10.length==0)
+                  {
+
+                    res.json(todo);
+
+                  }
+                  else
+                  {
                     Solcarne.findById({ _id:todos10[0]._id }, function (err, todo15)  {
                         if (err) {  res.send(err);  }
                         else
@@ -128,14 +137,19 @@ exports.creaSuscriptorsaldo2s = function(req, res, next){
                         
                             todo15.save(function (err, todo50){
                                 if (err)     {  res.status(500).send(err.message)   }
+                                res.json(todo);
                                
                             });
                         }
                     });
+
+                  }
+                
+                   
                    
 
             });
-            res.json(todo);
+          
      
         
 

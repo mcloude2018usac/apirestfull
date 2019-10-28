@@ -3,8 +3,8 @@ var Tarifa = require('../models/tarifa');
 var Bitacora = require('../models/bitacora');
 
 exports.getTarifa = function(req, res, next){
-    if(req.params.id)
-    {   Tarifa.find({_id:req.params.id},function(err, todos) {
+    if(req.params.id2)
+    {   Tarifa.find({_id:req.params.id,idempresa:req.params.id2},function(err, todos) {
             if (err){ res.send(err); }
         
             if(todos.length>0)   {    res.json(todos);   }
@@ -14,7 +14,7 @@ exports.getTarifa = function(req, res, next){
         });
     }
     else
-    { Tarifa.find(function(err, todos) {
+    { Tarifa.find({idempresa:req.params.id},function(err, todos) {
            if (err){  res.send(err);  }
             res.json(todos);
         });
@@ -38,7 +38,7 @@ if(req.params.recordID!=='crea')
     Tarifa.findById({ _id: req.params.recordID }, function (err, todo)  {
         if (err) {  res.send(err);  }
         else
-        {   
+        {    todo.idempresa        	=	req.body.idempresa        	||	todo.idempresa;        	;
             todo.nombre        	=	req.body.nombre        	||	todo.nombre        	;
             todo.estado    	=	req.body.estado    	||	todo.estado    	;
             todo.usuarioup=req.body.bitacora.email;
@@ -60,6 +60,7 @@ else{
         {   
 
             Tarifa.create({
+                idempresa      	: req.body.idempresa     	,
                 nombre        	: req.body.nombre        	,
                 estado 	: req.body.estado 	,
                 usuarionew:req.body.bitacora.email

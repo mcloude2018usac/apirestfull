@@ -10,10 +10,10 @@ function roundxx(value, decimals) {
   
 exports.getSolcarne = function(req, res, next){
 
-        if(req.params.id)
+        if(req.params.id2)
         {  
            
-                Solcarne.find({'idsuscriptor.id':req.params.id}).sort([['createdAt', -1]]).exec(function(err, todos) {
+                Solcarne.find({'idsuscriptor.id':req.params.id, idempresa      	: req.params.id2     	}).sort([['createdAt', -1]]).exec(function(err, todos) {
                     if (err){ res.send(err); }
                     res.json(todos);
                 });
@@ -21,7 +21,7 @@ exports.getSolcarne = function(req, res, next){
            
         }
         else
-        { Solcarne.find(function(err, todos) {
+        { Solcarne.find({ idempresa      	: req.params.id},function(err, todos) {
                if (err){  res.send(err);  }
                 res.json(todos);
             });
@@ -64,7 +64,9 @@ if(req.params.recordID!=='crea')
 }
 else{
 
-                            Solcarne.create({ idsuscriptor        	: req.body.idsuscriptor        	,
+                            Solcarne.create({ 
+                                idempresa      	: req.body.idempresa     	,
+                                idsuscriptor        	: req.body.idsuscriptor        	,
                                 nombre        	: req.body.nombre        	,
                                 usuarionew:req.body.bitacora.email,
                                 estado 	: req.body.estado 	,

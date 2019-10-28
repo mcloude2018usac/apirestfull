@@ -4,27 +4,13 @@ var Bus = require('../models/bus');
 var Bitacora = require('../models/bitacora');
 
 exports.getBus = function(req, res, next){
-       if(req.params.id)
+       if(req.params.id4)
         {  
            
-                Bus.find({_id :req.params.id},function(err, todos) {
-                    if (err){ res.send(err); }
-                   
-                    if(todos.length>0)   {    res.json(todos);   }
-                    else
-                    {  res.status(500).send('NO EXISTE REGISTRO');      }
-                    
-                });
              
-           
-        }
-        else
-        { 
-            
-      
 
 
-            Bus.find({idempresa :req.params.id2,idafiliado:req.params.id3})
+            Bus.find({idempresa :req.params.id2,idafiliado:req.params.id3,idempresa0:req.params.id4})
         .populate('idtarifa.id')
         .populate('idruta.id')
         .exec(function(err, todos) {
@@ -37,7 +23,7 @@ exports.getBus = function(req, res, next){
 }
 exports.deleteBus = function(req, res, next){
    
-    Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina Bus '});
+    Bitacora.create({idempresa:req.params.idempresa,idafiliado:'',email: req.params.userID ,permiso:'Elimina',accion:'Elimina Bus '});
     Bus.findByIdAndRemove({ _id: req.params.recordID  }, function(err, todo) {
         res.json(todo);
     });
@@ -91,6 +77,7 @@ else{
         {   
 
             Bus.create({
+                idempresa0        	: req.body.idempresa0        	,
             idempresa        	: req.body.idempresa        	,
             idafiliado: req.body.idafiliado,
             codigo: req.body.codigo,

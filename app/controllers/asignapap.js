@@ -431,6 +431,7 @@ else{
                 
       
                 mailt.getMail2(mailO,res);
+                
                 res.status(500).send('No existe disponibilidad para asignarse , Inténtelo más tarde')    
             }
             else

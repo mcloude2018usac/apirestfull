@@ -14,11 +14,11 @@ var Moduloxx = require('../models/moduloxx');
 var User = require('../models/user');
 
 exports.getEmpresa = function(req, res, next){
-    if(req.params.id)
+    if(req.params.id2)
     { 
-        if(req.params.id=='activo')
+        if(req.params.id2=='todos')
         {
-            Empresa.find({estado:'Activo'},function(err, todos) {
+            Empresa.find({idempresa0:req.params.id},function(err, todos) {
                 if (err){  res.send(err);  }
                  res.json(todos);
                 
@@ -26,27 +26,24 @@ exports.getEmpresa = function(req, res, next){
         }
         else
         {
+            if(req.params.id2=='superusuario')
+            {
+                Empresa.find({},function(err, todos) {
+                    if (err){  res.send(err);  }
+                     res.json(todos);
+                    
+                });
+            }
 
-            if(req.params.id=='1' || req.params.id=='2')
-        {
         }
-        else
-        {
-            Empresa.find({_id:req.params.id},function(err, todos) {
-                if (err){ res.send(err); }
-               
-                if(todos.length>0)   {    res.json(todos);   }
-                else
-                {  res.status(500).send('NO EXISTE REGISTRO');      }
-                
-            });
-        }
+       
+       
 
-        }   
+    
        
     }
     else
-    { Empresa.find(function(err, todos) {
+    { Empresa.find({idempresa0:req.params.id},function(err, todos) {
            if (err){  res.send(err);  }
             res.json(todos);
         });
@@ -55,7 +52,7 @@ exports.getEmpresa = function(req, res, next){
 exports.deleteEmpresa = function(req, res, next){
 
 
-    Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina empresa'});
+    Bitacora.create({idempresa:req.params.idempresa,idafiliado:'',email: req.params.userID ,permiso:'Elimina',accion:'Elimina empresa'});
  
 
     Empresa.findByIdAndRemove({ _id: req.params.recordID  }, function(err, todo) {
@@ -107,7 +104,7 @@ if(req.params.recordID!=='crea')
 else{
    
     Empresa.create({ 
-        
+        idempresa0        	: req.body.idempresa0       	,
         nit        	: req.body.nit        	,
         nombre        	: req.body.nombre        	,
         razon 	: req.body.razon 	,

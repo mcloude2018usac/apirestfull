@@ -8,7 +8,7 @@ exports.getEvento = function(req, res, next){
     { 
         if(req.params.id3=='eventos' )
         {
-            Evento.find({impresion:'Activo' ,idempresa:req.params.id3}).select({fecha:1,impresion:1,nombre:1,fechaini:1,fechafin:1,ubicacion: 1,no_max:1,foto:1,fecha:1}).lean().exec(function(err, todos) {
+            Evento.find({impresion:'Activo' ,idempresa:req.params.id3}).select({costo:1,fecha:1,impresion:1,nombre:1,fechaini:1,fechafin:1,ubicacion: 1,nomax:1,foto:1,fecha:1}).lean().exec(function(err, todos) {
                 if (err){  res.send(err);  }
                  res.json(todos);
                 
@@ -19,7 +19,7 @@ exports.getEvento = function(req, res, next){
         {
             if(req.params.id3=='todos' )
             {
-            Evento.find({idempresa:req.params.id,impresion:req.params.id2}).select({fecha:1,impresion:1,nombre:1,fechaini:1,fechafin:1,ubicacion: 1,no_max:1,foto:1,fecha:1}).exec(function(err, todos) {
+            Evento.find({idempresa:req.params.id,impresion:req.params.id2}).select({costo:1,fecha:1,impresion:1,nombre:1,fechaini:1,fechafin:1,ubicacion: 1,nomax:1,foto:1,fecha:1}).exec(function(err, todos) {
                 if (err){  res.send(err);  }
                  res.json(todos);
              });
@@ -30,6 +30,8 @@ exports.getEvento = function(req, res, next){
 
                 if(req.params.id3=='todosbuscaactivo' )
                 {
+
+
                 Evento.find({_id:req.params.id,impresion:'Activo'}).select({nomax:1,fecha:1,impresion:1,nombre:1,fechaini:1,
                     fechafin:1,ubicacion: 1,no_max:1,foto:1,fecha:1}).exec(function(err, todos) {
                     if (err){  res.status(500).send('Hubo un error en el sistema , por favor intente mas tarde');  }

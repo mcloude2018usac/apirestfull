@@ -557,7 +557,10 @@ break;
                                         
                                         }
                                             else
-                                        {  res.status(500).send('NO EXISTE REGISTRO');      }
+                                        {  myData.push({nombre:'',cui:''});
+                                        res.json(myData);  
+                                        //    res.status(500).send('NO EXISTE REGISTRO');   
+                                           }
                                         
                                     });
 

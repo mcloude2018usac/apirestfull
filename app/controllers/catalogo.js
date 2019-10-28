@@ -68,24 +68,27 @@ exports.getCatalogo = function(req, res, next){
     }
     else
     {
-        if(req.params.id)
+        if(req.params.id2=='todos')
         {  
-           
-                Catalogo.find({_id:req.params.id},function(err, todos) {
-                    if (err){ res.send(err); }
-                   
-                    if(todos.length>0)   {    res.json(todos);   }
-                    else
-                    {  res.status(500).send('NO EXISTE REGISTRO');      }
-                    
-                });
+            Catalogo.find({idempresa:req.params.id},function(err, todos) {
+                if (err){ res.send(err); }
+               
+                 res.json(todos); 
+                
+            });
+               
              
            
         }
         else
-        { Catalogo.find(function(err, todos) {
-               if (err){  res.send(err);  }
-                res.json(todos);
+        { 
+            Catalogo.find({_id:req.params.id},function(err, todos) {
+                if (err){ res.send(err); }
+               
+                if(todos.length>0)   {    res.json(todos);   }
+                else
+                {  res.status(500).send('NO EXISTE REGISTRO');      }
+                
             });
         }
 
