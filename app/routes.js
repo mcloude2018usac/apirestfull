@@ -282,7 +282,7 @@ organigramaRoutes.get('/:id/:id2', OrganigramaController.getOrganigrama);
 apiRoutes.use('/userperfils', userperfilRoutes);
 userperfilRoutes.get('/:id',  UserperfilController.getUserperfil);
 userperfilRoutes.post('/:recordID',requireAuth,  UserperfilController.creaUserperfil2s);
-userperfilRoutes.delete('/:recordID/:userID',requireAuth,  UserperfilController.deleteUserperfil);
+userperfilRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  UserperfilController.deleteUserperfil);
 
 
 
@@ -330,7 +330,7 @@ participaRoutes.get('/:id',  ParticipaController.getParticipa);
 participaRoutes.get('/:id/:id2',  ParticipaController.getParticipa);
 participaRoutes.get('/:id/:id2/:id3',  ParticipaController.getParticipa);
 participaRoutes.post('/:id',  ParticipaController.creaParticipa2s);
-participaRoutes.delete('/:id/:userID',requireAuth,  ParticipaController.deleteParticipa);
+participaRoutes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  ParticipaController.deleteParticipa);
 
 
 //-----------------------------------PARTICIPA4  CURSOS PREUNIVERSITARIOS SARITA
@@ -338,7 +338,7 @@ apiRoutes.use('/participa4s', participa4Routes);
 participa4Routes.get('/:id',requireAuth,  Participa4Controller.getParticipa4);
 participa4Routes.get('/:id/:id2',  Participa4Controller.getParticipa4);
 participa4Routes.post('/:id', Participa4Controller.creaParticipa42s);
-participa4Routes.delete('/:id/:userID',requireAuth,  Participa4Controller.deleteParticipa4);
+participa4Routes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  Participa4Controller.deleteParticipa4);
 
 
 
@@ -347,7 +347,7 @@ apiRoutes.use('/participa2s', participa2Routes);
 participa2Routes.get('/:id',  Participa2Controller.getParticipa2);
 participa2Routes.get('/:id/:id2',  Participa2Controller.getParticipa2);
 participa2Routes.post('/:id',  Participa2Controller.creaParticipa22s);
-participa2Routes.delete('/:id/:userID',requireAuth,  Participa2Controller.deleteParticipa2);
+participa2Routes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  Participa2Controller.deleteParticipa2);
 
 
 
@@ -393,7 +393,7 @@ entradasdpiRoutes.get('/:id',requireAuth, EntradasdpiController.getEntradasdpi);
 entradasdpiRoutes.get('/:id/:id2',requireAuth,  EntradasdpiController.getEntradasdpi);
 
 entradasdpiRoutes.post('/:recordID',requireAuth,  EntradasdpiController.creaEntradasdpi2s);
-entradasdpiRoutes.delete('/:recordID/:userID',requireAuth,  EntradasdpiController.deleteEntradasdpi);
+entradasdpiRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  EntradasdpiController.deleteEntradasdpi);
 
 //-----------------------------------ENTRADAS CASA----------------------------------
 
@@ -403,7 +403,7 @@ entradascasaRoutes.get('/:id/:id2',requireAuth,  EntradascasaController.getEntra
 entradascasaRoutes.get('/:id/:id2/:id3',  EntradascasaController.getEntradacasa);
 
 entradascasaRoutes.post('/:recordID',requireAuth,  EntradascasaController.creaEntradacasa2s);
-entradascasaRoutes.delete('/:recordID/:userID',requireAuth,  EntradascasaController.deleteEntradacasa);
+entradascasaRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  EntradascasaController.deleteEntradacasa);
 
 
 //-----------------------------------BUS----------------------------------
@@ -416,9 +416,9 @@ busRoutes.delete('/:id/:id2/:id3',requireAuth,  busController.deleteBus);
 */
 apiRoutes.use('/buss',busRoutes);
 busRoutes.get('/:id',requireAuth,  busController.getBus);
-busRoutes.get('/:id2/:id3',requireAuth,  busController.getBus);
+busRoutes.get('/:id2/:id3/:id4',requireAuth,  busController.getBus);
 busRoutes.post('/:recordID', requireAuth, busController.creaBus2s);
-busRoutes.delete('/:recordID/:userID',requireAuth,  busController.deleteBus);
+busRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  busController.deleteBus);
 
 
 //-----------------------------------categorias usuarios
@@ -427,7 +427,7 @@ catusuarioRoutes.get('/',requireAuth, CatusuarioController.getCatusuario);
 catusuarioRoutes.get('/:id',requireAuth,  CatusuarioController.getCatusuario);
 catusuarioRoutes.get('/:id/:id2/:id3',requireAuth, CatusuarioController.getCatusuario);
 catusuarioRoutes.post('/:recordID', requireAuth, CatusuarioController.creaCatusuario2s);
-catusuarioRoutes.delete('/:recordID/:userID',requireAuth, CatusuarioController.deleteCatusuario);
+catusuarioRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth, CatusuarioController.deleteCatusuario);
 
 
 //-----------------------------------REGLAMENTO
@@ -437,7 +437,7 @@ reglamentoRoutes.get('/:id/:id2',requireAuth,  ReglamentoController.getReglament
 reglamentoRoutes.get('/:id/:id2/:id3/:id4',requireAuth, ReglamentoController.getReglamento);
 reglamentoRoutes.get('/:id/:id2/:id3', ReglamentoController.getReglamento);//help del menu  sin login
 reglamentoRoutes.post('/:id',requireAuth, ReglamentoController.creaReglamento2s);
-reglamentoRoutes.delete('/:id/:userID',requireAuth,  ReglamentoController.deleteReglamento);
+reglamentoRoutes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  ReglamentoController.deleteReglamento);
 
 //-----------------------------------REGLAMENTOD
 apiRoutes.use('/reglamentods', reglamentodRoutes);
@@ -445,7 +445,7 @@ reglamentodRoutes.get('/:id',requireAuth,  ReglamentodController.getReglamentod)
 reglamentodRoutes.get('/:id/:id2/:id3',requireAuth,  ReglamentodController.getReglamentod);
 
 reglamentodRoutes.post('/:id',requireAuth, ReglamentodController.creaReglamentod2s);
-reglamentodRoutes.delete('/:id/:userID',requireAuth,  ReglamentodController.deleteReglamentod);
+reglamentodRoutes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  ReglamentodController.deleteReglamentod);
 
 
 
@@ -458,16 +458,16 @@ mailmarketRoutes.get('/:id/:id2',requireAuth,  MailmarketController.getMarketema
 mailmarketRoutes.get('/:id/:id2/:id3/:id4',requireAuth, MailmarketController.getMarketemail);
 mailmarketRoutes.get('/:id/:id2/:id3', MailmarketController.getMarketemail);//help del menu  sin login
 mailmarketRoutes.post('/:id',requireAuth, MailmarketController.creaMarketemail2s);
-mailmarketRoutes.delete('/:id/:userID',requireAuth,  MailmarketController.deleteMarketemail);
+mailmarketRoutes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  MailmarketController.deleteMarketemail);
 
 
 
 //-----------------------------------DTARIFA
 apiRoutes.use('/dtarifas', dtarifaRoutes);
-dtarifaRoutes.get('/:id', requireAuth, DtarifaController.getDtarifa);
 dtarifaRoutes.get('/:id/:id2', requireAuth, DtarifaController.getDtarifa);
+dtarifaRoutes.get('/:id/:id2/:id3', requireAuth, DtarifaController.getDtarifa);
 dtarifaRoutes.post('/:id',requireAuth,  DtarifaController.creaDtarifa2s);
-dtarifaRoutes.delete('/:id/:userID',requireAuth,  DtarifaController.deleteDtarifa);
+dtarifaRoutes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  DtarifaController.deleteDtarifa);
 
 
 
@@ -483,7 +483,7 @@ personalRoutes.get('/:email/:id2/:id3/:id4/:id5/:id6/:id7', requireAuth,Personal
 personalRoutes.get('/:pagineo/:limit/:page/:idempresa',requireAuth,  PersonalController.getPersonal);
 
 personalRoutes.post('/:recordID',requireAuth,  PersonalController.creaPersonal2s);
-personalRoutes.delete('/:recordID/:userID',requireAuth,  PersonalController.deletePersonal);
+personalRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  PersonalController.deletePersonal);
 
 //-------------------------------------------------
 //-----------------------------------EMPRESA----------------------------------
@@ -501,7 +501,7 @@ suscriptorRoutes.get('/',requireAuth, SuscriptorController.getSuscriptor);
 suscriptorRoutes.get('/:nodpi',requireAuth,  SuscriptorController.getSuscriptor);
 suscriptorRoutes.get('/:nodpi/:id2',requireAuth,  SuscriptorController.getSuscriptor);
 suscriptorRoutes.post('/:nodpi',requireAuth,  SuscriptorController.creaSuscriptors);
-suscriptorRoutes.delete('/:nodpi',requireAuth,  SuscriptorController.deleteSuscriptor);
+suscriptorRoutes.delete('/:nodpi/:idempresa/:idafiliado',requireAuth,  SuscriptorController.deleteSuscriptor);
 
 
 //----------------------------------suscriptor saldo
@@ -509,7 +509,7 @@ apiRoutes.use('/suscriptorsaldos', suscriptorsaldoRoutes);
 suscriptorsaldoRoutes.get('/:id',requireAuth,  SuscriptorsaldoController.getSuscriptorsaldo);
 suscriptorsaldoRoutes.get('/:id/:id2',requireAuth,  SuscriptorsaldoController.getSuscriptorsaldo);
 suscriptorsaldoRoutes.post('/:id',requireAuth,  SuscriptorsaldoController.creaSuscriptorsaldo2s);
-suscriptorsaldoRoutes.delete('/:id/:userID',requireAuth,  SuscriptorsaldoController.deleteSuscriptorsaldo);
+suscriptorsaldoRoutes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  SuscriptorsaldoController.deleteSuscriptorsaldo);
 
 
 //-----------------------------------SUSCRIPTOR----------------------------------
@@ -522,10 +522,10 @@ afiliadoRoutes.delete('/:id/:id2',requireAuth,  AfiliadoController.deleteAfiliad
 */
 
 apiRoutes.use('/afiliados', afiliadoRoutes);
-afiliadoRoutes.get('/:id',requireAuth,  AfiliadoController.getAfiliado);
+
 afiliadoRoutes.get('/:id/:id2',requireAuth,  AfiliadoController.getAfiliado);
 afiliadoRoutes.post('/:id',requireAuth,  AfiliadoController.creaAfiliado2s);
-afiliadoRoutes.delete('/:id/:userID',requireAuth,  AfiliadoController.deleteAfiliado);
+afiliadoRoutes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  AfiliadoController.deleteAfiliado);
 
 
 
@@ -535,7 +535,7 @@ apiRoutes.use('/galeriaimgs',galeriaimgRoutes);
 galeriaimgRoutes.get('/:id',requireAuth,  GaleriaimgController.getGaleriaimg);
 galeriaimgRoutes.get('/:id/:id2',requireAuth,  GaleriaimgController.getGaleriaimg);
 galeriaimgRoutes.post('/:recordID', requireAuth, GaleriaimgController.creaGaleriaimg2s);
-galeriaimgRoutes.delete('/:recordID/:userID',requireAuth,  GaleriaimgController.deleteGaleriaimg);
+galeriaimgRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  GaleriaimgController.deleteGaleriaimg);
 
 
 
@@ -548,7 +548,7 @@ comprasaldoRoutes.get('/:id',requireAuth, ComprasaldoController.getComprasaldo);
 comprasaldoRoutes.get('/:id/:id2',requireAuth,  ComprasaldoController.getComprasaldo);
 comprasaldoRoutes.get('/:id/:id2/:id3/:id4/:id5/:id6',requireAuth,  ComprasaldoController.getComprasaldo);
 comprasaldoRoutes.post('/:recordID',requireAuth,  ComprasaldoController.creaComprasaldo2s);
-comprasaldoRoutes.delete('/:recordID/:userID',requireAuth,  ComprasaldoController.deleteComprasaldo);
+comprasaldoRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  ComprasaldoController.deleteComprasaldo);
 
 //-----------------------------------REVERSION DE SALDO----------------------------------
 
@@ -556,7 +556,7 @@ apiRoutes.use('/reversionsaldos', reversionsaldoRoutes);
 reversionsaldoRoutes.get('/:id',requireAuth, ReversionsaldoController.getReversionsaldo);
 reversionsaldoRoutes.get('/:id/:id2',requireAuth,  ReversionsaldoController.getReversionsaldo);
 reversionsaldoRoutes.post('/:recordID',requireAuth,  ReversionsaldoController.creaReversionsaldo2s);
-reversionsaldoRoutes.delete('/:recordID/:userID',requireAuth,  ReversionsaldoController.deleteReversionsaldo);
+reversionsaldoRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  ReversionsaldoController.deleteReversionsaldo);
 
 //-----------------------------------ASIGNA PAP----------------------------------
 
@@ -565,21 +565,21 @@ asignapapRoutes.get('/:id',requireAuth, AsignapapController.getAsignapap);
 asignapapRoutes.get('/:id/:id2',requireAuth, AsignapapController.getAsignapap);
 asignapapRoutes.get('/:id/:id2/:id3',requireAuth, AsignapapController.getAsignapap);
 asignapapRoutes.post('/:recordID',requireAuth,  AsignapapController.creaAsignapap2s);
-asignapapRoutes.delete('/:recordID/:userID',requireAuth,  AsignapapController.deleteAsignapap);
+asignapapRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  AsignapapController.deleteAsignapap);
 
 //-----------------------------------SOLICITUD DE SALDO----------------------------------
 
 apiRoutes.use('/solcarnes', solcarneRoutes);
-solcarneRoutes.get('/:id',requireAuth, SolcarneController.getSolcarne);
+solcarneRoutes.get('/:id/:id2',requireAuth, SolcarneController.getSolcarne);
 solcarneRoutes.post('/:recordID',requireAuth,  SolcarneController.creaSolcarne2s);
-solcarneRoutes.delete('/:recordID/:userID',requireAuth,  SolcarneController.deleteSolcarne);
+solcarneRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  SolcarneController.deleteSolcarne);
 
 //-----------------------------------REPOSICION DE SALDO----------------------------------
 
 apiRoutes.use('/repcarnes', repcarneRoutes);
 repcarneRoutes.get('/:id',requireAuth, RepcarneController.getRepcarne);
 repcarneRoutes.post('/:recordID',requireAuth,  RepcarneController.creaRepcarne2s);
-repcarneRoutes.delete('/:recordID/:userID',requireAuth,  RepcarneController.deleteRepcarne);
+repcarneRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  RepcarneController.deleteRepcarne);
 
 
 //-----------------------------------USER CHATS----------------------------------
@@ -588,7 +588,7 @@ apiRoutes.use('/userchats', userchatRoutes);
 userchatRoutes.get('/:id',requireAuth, UserchatController.getUserchat);
 userchatRoutes.get('/:id/:id2',requireAuth,  UserchatController.getUserchat);
 userchatRoutes.post('/:recordID',requireAuth,  UserchatController.creaUserchat2s);
-userchatRoutes.delete('/:recordID/:userID',requireAuth,  UserchatController.deleteUserchat);
+userchatRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  UserchatController.deleteUserchat);
 
 
 
@@ -598,7 +598,7 @@ apiRoutes.use('/usermsgs', usermsgRoutes);
 usermsgRoutes.get('/:id',requireAuth, UsermsgController.getUsermsg);
 usermsgRoutes.get('/:id/:id2',requireAuth,  UsermsgController.getUsermsg);
 //usermsgRoutes.post('/:recordID',requireAuth,  UsermsgController.creaUsermsg2s);
-usermsgRoutes.delete('/:recordID/:userID',requireAuth,  UsermsgController.deleteUsermsg);
+usermsgRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  UsermsgController.deleteUsermsg);
 
 
 
@@ -609,7 +609,7 @@ apiRoutes.use('/compratransferencias', compratransferenciaRoutes);
 compratransferenciaRoutes.get('/:id',requireAuth, CompratrasferenciaController.getCompratransferencia);
 compratransferenciaRoutes.get('/:id/:id2',requireAuth,  CompratrasferenciaController.getCompratransferencia);
 compratransferenciaRoutes.post('/:recordID',requireAuth,  CompratrasferenciaController.creaCompratransferencia2s);
-compratransferenciaRoutes.delete('/:recordID/:userID',requireAuth,  CompratrasferenciaController.deleteCompratransferencia);
+compratransferenciaRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  CompratrasferenciaController.deleteCompratransferencia);
 
 //-----------------------------------EVENTOS
 apiRoutes.use('/eventos', eventoRoutes);
@@ -619,7 +619,7 @@ eventoRoutes.get('/:id/:id2', EventoController.getEvento);
 eventoRoutes.get('/:id/:id2/:id3', EventoController.getEvento);
 
 eventoRoutes.post('/:recordID',  EventoController.creaEvento2s);
-eventoRoutes.delete('/:recordID/:userID',requireAuth,  EventoController.deleteEvento);
+eventoRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  EventoController.deleteEvento);
 
 
 //-----------------------------------PERFIL
@@ -628,7 +628,7 @@ perfilRoutes.get('/',requireAuth,PerfilController.getPerfil);
 perfilRoutes.get('/:id',requireAuth,  PerfilController.getPerfil);
 perfilRoutes.get('/:id1/:id2/:id3',requireAuth,  PerfilController.getPerfil);
 perfilRoutes.post('/:recordID',requireAuth,  PerfilController.creaPerfil2s);
-perfilRoutes.delete('/:recordID/:userID',requireAuth,  PerfilController.deletePerfil);
+perfilRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  PerfilController.deletePerfil);
 
 
 
@@ -638,7 +638,7 @@ frmcatRoutes.get('/',requireAuth, FrmcatController.getFormcat);
 frmcatRoutes.get('/:id',requireAuth,  FrmcatController.getFormcat);
 frmcatRoutes.get('/:id/:id2/:id3', requireAuth,  FrmcatController.getFormcat);
 frmcatRoutes.post('/:recordID', requireAuth,  FrmcatController.creaFormcat2s);
-frmcatRoutes.delete('/:recordID/:userID',requireAuth,  FrmcatController.deleteFormcat);
+frmcatRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  FrmcatController.deleteFormcat);
  
 
 
@@ -648,7 +648,7 @@ frmcat2Routes.get('/',requireAuth, Frmcat2Controller.getFormcat2);
 frmcat2Routes.get('/:id/:id2/:id3', requireAuth,  Frmcat2Controller.getFormcat2);
 frmcat2Routes.get('/:id', requireAuth,  Frmcat2Controller.getFormcat2);
 frmcat2Routes.post('/:recordID', requireAuth,  Frmcat2Controller.creaFormcat22s);
-frmcat2Routes.delete('/:recordID/:userID',requireAuth,  Frmcat2Controller.deleteFormcat2);
+frmcat2Routes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  Frmcat2Controller.deleteFormcat2);
 
 
 
@@ -661,7 +661,7 @@ frmmovilRoutes.get('/:id/:id2/:id3',requireAuth, FrmmovilController.getFrmmovil)
 frmmovilRoutes.get('/:id/:id2/:id3/:id4',requireAuth, FrmmovilController.getFrmmovil);
 frmmovilRoutes.post('/:recordID',requireAuth,  FrmmovilController.creaFrmmovil2s);
 frmmovilRoutes.post('/:recordID/:recordID2',requireAuth,  FrmmovilController.creaFrmmovil3s);
-frmmovilRoutes.delete('/:recordID/:userID',requireAuth,  FrmmovilController.deleteFrmmovil);
+frmmovilRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  FrmmovilController.deleteFrmmovil);
 frmmovilRoutes.delete('/:recordID/:recordID2/:userID',requireAuth,  FrmmovilController.deleteFrmmovil2);
 
 
@@ -671,7 +671,7 @@ frmmovildRoutes.get('/:id',requireAuth,  FrmmovildController.getFrmmovild);
 frmmovildRoutes.get('/:id/:id2',requireAuth,  FrmmovildController.getFrmmovild);
 frmmovildRoutes.post('/:id',requireAuth,  FrmmovildController.creaFrmmovild2s);
 frmmovildRoutes.post('/:id/:id2',requireAuth,  FrmmovildController.creaFrmmovild3s);
-frmmovildRoutes.delete('/:id/:userID',requireAuth, FrmmovildController.deleteFrmmovild);
+frmmovildRoutes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth, FrmmovildController.deleteFrmmovild);
 
 
 //-----------------------------------CONFERENCIAS
@@ -679,7 +679,7 @@ apiRoutes.use('/conferencias', conferenciaRoutes);
 conferenciaRoutes.get('/:id',requireAuth,  ConferenciaController.getConferencia);
 conferenciaRoutes.get('/:id/:id2',requireAuth,  ConferenciaController.getConferencia);
 conferenciaRoutes.post('/:id',requireAuth,  ConferenciaController.creaConferencia2s);
-conferenciaRoutes.delete('/:id/:userID',requireAuth, ConferenciaController.deleteConferencia);
+conferenciaRoutes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth, ConferenciaController.deleteConferencia);
 
 
 
@@ -688,14 +688,14 @@ apiRoutes.use('/permisos', permisoRoutes);
 permisoRoutes.get('/:id',requireAuth,  PermisoController.getPermiso);
 permisoRoutes.get('/:id/:id2/:id3',requireAuth,  PermisoController.getPermiso);
 permisoRoutes.post('/:id',requireAuth,  PermisoController.creaPermiso2s);
-permisoRoutes.delete('/:id/:userID',requireAuth,  PermisoController.deletePermiso);
+permisoRoutes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  PermisoController.deletePermiso);
 
 //-----------------------------------PERMISOS
 apiRoutes.use('/permiso2s', permiso2Routes);
 permiso2Routes.get('/:id/:id2/:id3',requireAuth,  Permiso2Controller.getPermison2);
 permiso2Routes.get('/:id/:id2/:id3/:id4',requireAuth,  Permiso2Controller.getPermison2);
 permiso2Routes.post('/:id',requireAuth,  Permiso2Controller.creaPermison22s);
-permiso2Routes.delete('/:id/:userID',requireAuth,  Permiso2Controller.deletePermison2);
+permiso2Routes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  Permiso2Controller.deletePermison2);
 
 //-----------------------------------MODULO
 apiRoutes.use('/modulos', moduloRoutes);
@@ -703,15 +703,15 @@ moduloRoutes.get('/', requireAuth,ModuloController.getModuloxx);
 moduloRoutes.get('/:id/:id2/:id3',requireAuth,  ModuloController.getModuloxx);
 moduloRoutes.get('/:id',requireAuth,  ModuloController.getModuloxx);
 moduloRoutes.post('/:recordID',requireAuth,  ModuloController.creaModuloxx2s);
-moduloRoutes.delete('/:recordID/:userID',requireAuth,  ModuloController.deleteModuloxx);
+moduloRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  ModuloController.deleteModuloxx);
 
 //-----------------------------------CATALOGO
 apiRoutes.use('/catalogos', catalogoRoutes);
 catalogoRoutes.get('/',requireAuth, CatalogoController.getCatalogo);
-catalogoRoutes.get('/:id',requireAuth,  CatalogoController.getCatalogo);
+catalogoRoutes.get('/:id/:id2',requireAuth,  CatalogoController.getCatalogo);
 catalogoRoutes.get('/:id/:id2/:id3',requireAuth,  CatalogoController.getCatalogo);
 catalogoRoutes.post('/:recordID',requireAuth,  CatalogoController.creaCatalogo2s);
-catalogoRoutes.delete('/:recordID/:userID',requireAuth,  CatalogoController.deleteCatalogo);
+catalogoRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  CatalogoController.deleteCatalogo);
 
 
 //-----------------------------------tipo suscriptor
@@ -721,7 +721,7 @@ tiposuscriptorRoutes.get('/:id',requireAuth,  TiposuscriptorController.getTiposu
 tiposuscriptorRoutes.get('/:id/:id2',requireAuth,  TiposuscriptorController.getTiposuscriptor);
 tiposuscriptorRoutes.get('/:id/:id2/:id3',requireAuth,  TiposuscriptorController.getTiposuscriptor);
 tiposuscriptorRoutes.post('/:recordID',requireAuth,  TiposuscriptorController.creaTiposuscriptor2s);
-tiposuscriptorRoutes.delete('/:recordID/:userID',requireAuth,  TiposuscriptorController.deleteTiposuscriptor);
+tiposuscriptorRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  TiposuscriptorController.deleteTiposuscriptor);
 
 
 
@@ -732,7 +732,7 @@ empresaRoutes.get('/',requireAuth, EmpresaController.getEmpresa);
 empresaRoutes.get('/:id',requireAuth,  EmpresaController.getEmpresa);
 empresaRoutes.get('/:id/:id2',requireAuth,  EmpresaController.getEmpresa);
 empresaRoutes.post('/:recordID',requireAuth,  EmpresaController.creaEmpresa2s);
-empresaRoutes.delete('/:recordID/:userID',requireAuth,  EmpresaController.deleteEmpresa);
+empresaRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  EmpresaController.deleteEmpresa);
 
 
 
@@ -744,14 +744,14 @@ dcatalogoRoutes.get('/:id',  DcatalogoController.getDcatalogo);
 
 dcatalogoRoutes.get('/:id/:id2',requireAuth,  DcatalogoController.getDcatalogo);
 dcatalogoRoutes.post('/:id',requireAuth,  DcatalogoController.creaDcatalogo2s);
-dcatalogoRoutes.delete('/:id/:userID',requireAuth,  DcatalogoController.deleteDcatalogo);
+dcatalogoRoutes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  DcatalogoController.deleteDcatalogo);
 
 //-----------------------------------TARIFA
 apiRoutes.use('/tarifas', tarifaRoutes);
-tarifaRoutes.get('/',requireAuth, TarifaController.getTarifa);
-tarifaRoutes.get('/:id',requireAuth,  TarifaController.getTarifa);
+tarifaRoutes.get('/:id',requireAuth, TarifaController.getTarifa);
+tarifaRoutes.get('/:id/:id2',requireAuth,  TarifaController.getTarifa);
 tarifaRoutes.post('/:recordID',requireAuth,  TarifaController.creaTarifa2s);
-tarifaRoutes.delete('/:recordID/:userID', requireAuth, TarifaController.deleteTarifa);
+tarifaRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado', requireAuth, TarifaController.deleteTarifa);
 
 //-----------------------------------user post
 apiRoutes.use('/userposts', userpostRoutes);
@@ -767,7 +767,7 @@ apiRoutes.use('/oracle', userRoutes);
 userRoutes.get('/', UserController.getUser);
 userRoutes.get('/:id',  UserController.getUser);
 userRoutes.post('/:recordID',  UserController.creaUser2s);
-userRoutes.delete('/:recordID/:userID',  UserController.deleteUser);
+userRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',  UserController.deleteUser);
 */
 /*
 
@@ -780,7 +780,7 @@ apiRoutes.use('/tipounidads', tipounidadRoutes);
 tipounidadRoutes.get('/',requireAuth, TipounidadController.getTipounidad);
 tipounidadRoutes.get('/:id', requireAuth, TipounidadController.getTipounidad);
 tipounidadRoutes.post('/:recordID', requireAuth, TipounidadController.creaTipounidad2s);
-tipounidadRoutes.delete('/:recordID/:userID',requireAuth,  TipounidadController.deleteTipounidad);
+tipounidadRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  TipounidadController.deleteTipounidad);
 
 
 //-----------------------------------unidad academica
@@ -788,14 +788,14 @@ apiRoutes.use('/unidadacademicas', unidadacademicaRoutes);
 unidadacademicaRoutes.get('/:id', requireAuth, UnidadacademicaController.getUnidadacademica);
 unidadacademicaRoutes.get('/:id/:id2',requireAuth,  UnidadacademicaController.getUnidadacademica);
 unidadacademicaRoutes.post('/:id', requireAuth, UnidadacademicaController.creaUnidadacademica2s);
-unidadacademicaRoutes.delete('/:id/:userID',requireAuth,  UnidadacademicaController.deleteUnidadacademica);
+unidadacademicaRoutes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  UnidadacademicaController.deleteUnidadacademica);
 
 //-----------------------------------unidad edificio 
 apiRoutes.use('/unidadedificios',edificiousacRoutes);
 edificiousacRoutes.get('/:id',requireAuth,  EdificiousacController.getUnidadedificio);
 edificiousacRoutes.get('/:id2/:id3',requireAuth,  EdificiousacController.getUnidadedificio);
 edificiousacRoutes.post('/:recordID', requireAuth, EdificiousacController.creaUnidadedificio2s);
-edificiousacRoutes.delete('/:recordID/:userID',requireAuth,  EdificiousacController.deleteUnidadedificio);
+edificiousacRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  EdificiousacController.deleteUnidadedificio);
 
 
 //-----------------------------------unidad periodo
@@ -804,7 +804,7 @@ periodousacRoutes.get('/:id',requireAuth,  PeriodousacController.getUnidadperiod
 periodousacRoutes.get('/:id2/:id3',requireAuth,  PeriodousacController.getUnidadperiodo);
 periodousacRoutes.get('/:id2/:id3/:id4',requireAuth,  PeriodousacController.getUnidadperiodo);
 periodousacRoutes.post('/:recordID', requireAuth, PeriodousacController.creaUnidadperiodo2s);
-periodousacRoutes.delete('/:recordID/:userID',requireAuth,  PeriodousacController.deleteUnidadperiodo);
+periodousacRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  PeriodousacController.deleteUnidadperiodo);
 
 
 
@@ -813,7 +813,7 @@ apiRoutes.use('/unidadedificiosalons',edificiosalonRoutes);
 edificiosalonRoutes.get('/:id', requireAuth, EdificiosalonController.getUnidadedificiosalon);
 edificiosalonRoutes.get('/:id2/:id3/:id4', requireAuth, EdificiosalonController.getUnidadedificiosalon);
 edificiosalonRoutes.post('/:recordID', requireAuth, EdificiosalonController.creaUnidadedificiosalon2s);
-edificiosalonRoutes.delete('/:recordID/:userID',requireAuth,  EdificiosalonController.deleteUnidadedificiosalon);
+edificiosalonRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  EdificiosalonController.deleteUnidadedificiosalon);
 
 
 //-----------------------------------unidad plan
@@ -821,7 +821,7 @@ apiRoutes.use('/unidadplans',unidadplanRoutes);
 unidadplanRoutes.get('/:id',requireAuth,  UnidadplanController.getUnidadplan);
 unidadplanRoutes.get('/:id2/:id3/:id4',requireAuth,  UnidadplanController.getUnidadplan);
 unidadplanRoutes.post('/:recordID',requireAuth,  UnidadplanController.creaUnidadplan2s);
-unidadplanRoutes.delete('/:recordID/:userID',requireAuth,  UnidadplanController.deleteUnidadplan);
+unidadplanRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  UnidadplanController.deleteUnidadplan);
 
 
 
@@ -831,7 +831,7 @@ apiRoutes.use('/facultadmaterias', facultadmateriaRoutes);
 facultadmateriaRoutes.get('/',requireAuth, FacultadmateriaController.getFacultadmateria);
 facultadmateriaRoutes.get('/:id/:id2',requireAuth,  FacultadmateriaController.getFacultadmateria);
 facultadmateriaRoutes.post('/:recordID',requireAuth,  FacultadmateriaController.creaFacultadmateria2s);
-facultadmateriaRoutes.delete('/:recordID/:userID', requireAuth, FacultadmateriaController.deleteFacultadmateria);
+facultadmateriaRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado', requireAuth, FacultadmateriaController.deleteFacultadmateria);
 
 
 
@@ -845,7 +845,7 @@ apiRoutes.use('/tipounidad3s', tipounidad3Routes);
 tipounidad3Routes.get('/',requireAuth, Tipounidad3Controller.getTipounidad3);
 tipounidad3Routes.get('/:id', requireAuth, Tipounidad3Controller.getTipounidad3);
 tipounidad3Routes.post('/:recordID', requireAuth, Tipounidad3Controller.creaTipounidad32s);
-tipounidad3Routes.delete('/:recordID/:userID',requireAuth,  Tipounidad3Controller.deleteTipounidad3);
+tipounidad3Routes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  Tipounidad3Controller.deleteTipounidad3);
 
 //-----------------------------------COSTO CALUSAC
 apiRoutes.use('/costocalusacs', costocalusacRoutes);
@@ -853,7 +853,7 @@ costocalusacRoutes.get('/',requireAuth, CostocalusacController.getCalusaccosto);
 costocalusacRoutes.get('/:id', requireAuth, CostocalusacController.getCalusaccosto);
 costocalusacRoutes.get('/:id/:id2', requireAuth, CostocalusacController.getCalusaccosto);
 costocalusacRoutes.post('/:recordID', requireAuth, CostocalusacController.creaCalusaccosto2s);
-costocalusacRoutes.delete('/:recordID/:userID',requireAuth,  CostocalusacController.deleteCalusaccosto);
+costocalusacRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  CostocalusacController.deleteCalusaccosto);
 
 
 
@@ -865,14 +865,14 @@ unidadacademica3Routes.get('/:id/:id2',requireAuth,  Unidadacademica3Controller.
 unidadacademica3Routes.get('/:id/:id2/:id3',requireAuth,  Unidadacademica3Controller.getUnidadacademica3);
 
 unidadacademica3Routes.post('/:id', requireAuth, Unidadacademica3Controller.creaUnidadacademica32s);
-unidadacademica3Routes.delete('/:id/:userID',requireAuth,  Unidadacademica3Controller.deleteUnidadacademica3);
+unidadacademica3Routes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  Unidadacademica3Controller.deleteUnidadacademica3);
 
 //-----------------------------------unidad edificio 3
 apiRoutes.use('/unidadedificio3s',edificiousac3Routes);
 edificiousac3Routes.get('/:id',requireAuth,  Edificiousac3Controller.getUnidadedificio3);
 edificiousac3Routes.get('/:id2/:id3',requireAuth,  Edificiousac3Controller.getUnidadedificio3);
 edificiousac3Routes.post('/:recordID', requireAuth, Edificiousac3Controller.creaUnidadedificio32s);
-edificiousac3Routes.delete('/:recordID/:userID',requireAuth,  Edificiousac3Controller.deleteUnidadedificio3);
+edificiousac3Routes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  Edificiousac3Controller.deleteUnidadedificio3);
 
 
 
@@ -881,7 +881,7 @@ apiRoutes.use('/unidadidioma3s',idiomausac3Routes);
 idiomausac3Routes.get('/:id',requireAuth,  Idiomausac3Controller.getUnidadidioma3);
 idiomausac3Routes.get('/:id2/:id3',requireAuth,  Idiomausac3Controller.getUnidadidioma3);
 idiomausac3Routes.post('/:recordID', requireAuth, Idiomausac3Controller.creaUnidadidioma32s);
-idiomausac3Routes.delete('/:recordID/:userID',requireAuth,  Idiomausac3Controller.deleteUnidadidioma3);
+idiomausac3Routes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  Idiomausac3Controller.deleteUnidadidioma3);
 
 
 
@@ -890,7 +890,7 @@ apiRoutes.use('/unidadtipogrupo3s',unidadtipogrupo3Routes);
 unidadtipogrupo3Routes.get('/:id',requireAuth,  Unidadtipogrupo3Controller.getUnidadtipogrupo3);
 unidadtipogrupo3Routes.get('/:id2/:id3',requireAuth,  Unidadtipogrupo3Controller.getUnidadtipogrupo3);
 unidadtipogrupo3Routes.post('/:recordID', requireAuth, Unidadtipogrupo3Controller.creaUnidadtipogrupo32s);
-unidadtipogrupo3Routes.delete('/:recordID/:userID',requireAuth,  Unidadtipogrupo3Controller.deleteUnidadtipogrupo3);
+unidadtipogrupo3Routes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  Unidadtipogrupo3Controller.deleteUnidadtipogrupo3);
 
 
 //-----------------------------------unidad tipocurso 3
@@ -898,7 +898,7 @@ apiRoutes.use('/unidadtipocurso3s',unidadtipocurso3Routes);
 unidadtipocurso3Routes.get('/:id',requireAuth,  Unidadtipocurso3Controller.getUnidadtipocurso3);
 unidadtipocurso3Routes.get('/:id2/:id3',requireAuth,  Unidadtipocurso3Controller.getUnidadtipocurso3);
 unidadtipocurso3Routes.post('/:recordID', requireAuth, Unidadtipocurso3Controller.creaUnidadtipocurso32s);
-unidadtipocurso3Routes.delete('/:recordID/:userID',requireAuth,  Unidadtipocurso3Controller.deleteUnidadtipocurso3);
+unidadtipocurso3Routes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  Unidadtipocurso3Controller.deleteUnidadtipocurso3);
 
 
 
@@ -912,14 +912,14 @@ periodousac3Routes.get('/:id',requireAuth,  Periodousac3Controller.getUnidadperi
 periodousac3Routes.get('/:id2/:id3',requireAuth,  Periodousac3Controller.getUnidadperiodo3);
 periodousac3Routes.get('/:id2/:id3/:id4',requireAuth,  Periodousac3Controller.getUnidadperiodo3);
 periodousac3Routes.post('/:recordID', requireAuth, Periodousac3Controller.creaUnidadperiodo32s);
-periodousac3Routes.delete('/:recordID/:userID',requireAuth,  Periodousac3Controller.deleteUnidadperiodo3);
+periodousac3Routes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  Periodousac3Controller.deleteUnidadperiodo3);
 
 //-----------------------------------unidad profesores 3
 apiRoutes.use('/unidadprofesor3s',unidadprofesor3Routes);
 unidadprofesor3Routes.get('/:id',requireAuth,  Unidadprofesor3Controller.getUnidadprofesor3);
 unidadprofesor3Routes.get('/:id2/:id3',requireAuth,  Unidadprofesor3Controller.getUnidadprofesor3);
 unidadprofesor3Routes.post('/:recordID', requireAuth, Unidadprofesor3Controller.creaUnidadprofesor32s);
-unidadprofesor3Routes.delete('/:recordID/:userID',requireAuth, Unidadprofesor3Controller.deleteUnidadprofesor3);
+unidadprofesor3Routes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth, Unidadprofesor3Controller.deleteUnidadprofesor3);
 
 
 //-----------------------------------unidad nivel 3
@@ -928,14 +928,14 @@ unidadnivel3Routes.get('/:id',requireAuth,  Unidadnivel3Controller.getUnidadnive
 unidadnivel3Routes.get('/:id2/:id3',requireAuth,  Unidadnivel3Controller.getUnidadnivel3);
 unidadnivel3Routes.get('/:id2/:id3/:id4',requireAuth,  Unidadnivel3Controller.getUnidadnivel3);
 unidadnivel3Routes.post('/:recordID', requireAuth, Unidadnivel3Controller.creaUnidadnivel32s);
-unidadnivel3Routes.delete('/:recordID/:userID',requireAuth, Unidadnivel3Controller.deleteUnidadnivel3);
+unidadnivel3Routes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth, Unidadnivel3Controller.deleteUnidadnivel3);
 
 //-------------------------------------------------------------------asigna notas
 apiRoutes.use('/asignanotas',asignanotasRoutes);
 asignanotasRoutes.get('/:id',requireAuth,  AsignanotasController.getAsignanotas);
 asignanotasRoutes.get('/:id/:id2/:id3',requireAuth,  AsignanotasController.getAsignanotas);
 asignanotasRoutes.post('/:recordID', requireAuth, AsignanotasController.creaAsignanotas2s);
-asignanotasRoutes.delete('/:recordID/:userID',requireAuth, AsignanotasController.deleteAsignanotas);
+asignanotasRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth, AsignanotasController.deleteAsignanotas);
 
 
 
@@ -945,7 +945,7 @@ apiRoutes.use('/unidadjornada3s',unidadjornada3Routes);
 unidadjornada3Routes.get('/:id',requireAuth,  Unidadjornada3Controller.getUnidadjornada3);
 unidadjornada3Routes.get('/:id2/:id3',requireAuth,  Unidadjornada3Controller.getUnidadjornada3);
 unidadjornada3Routes.post('/:recordID', requireAuth, Unidadjornada3Controller.creaUnidadjornada32s);
-unidadjornada3Routes.delete('/:recordID/:userID',requireAuth, Unidadjornada3Controller.deleteUnidadjornada3);
+unidadjornada3Routes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth, Unidadjornada3Controller.deleteUnidadjornada3);
 
 
 
@@ -954,7 +954,7 @@ apiRoutes.use('/unidadpago3s',unidadpago3Routes);
 unidadpago3Routes.get('/:id',requireAuth,  Unidadpago3Controller.getUnidadpago3);
 unidadpago3Routes.get('/:id2/:id3/:id4/:id5',requireAuth,  Unidadpago3Controller.getUnidadpago3);
 unidadpago3Routes.post('/:recordID', requireAuth, Unidadpago3Controller.creaUnidadpago32s);
-unidadpago3Routes.delete('/:recordID/:userID',requireAuth, Unidadpago3Controller.deleteUnidadpago3);
+unidadpago3Routes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth, Unidadpago3Controller.deleteUnidadpago3);
 
 
 
@@ -964,7 +964,7 @@ unidadhorario3Routes.get('/:id',requireAuth,  Unidadhorario3Controller.getUnidad
 unidadhorario3Routes.get('/:id2/:id3',requireAuth,  Unidadhorario3Controller.getUnidadhorario3);
 unidadhorario3Routes.get('/:id/:id2/:id3',requireAuth,  Unidadhorario3Controller.getUnidadhorario3);
 unidadhorario3Routes.post('/:recordID', requireAuth, Unidadhorario3Controller.creaUnidadhorario32s);
-unidadhorario3Routes.delete('/:recordID/:userID',requireAuth, Unidadhorario3Controller.deleteUnidadhorario3);
+unidadhorario3Routes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth, Unidadhorario3Controller.deleteUnidadhorario3);
 
 
 
@@ -974,7 +974,7 @@ apiRoutes.use('/unidaddia3s',unidaddia3Routes);
 unidaddia3Routes.get('/:id',requireAuth,  Unidaddia3Controller.getUnidaddia3);
 unidaddia3Routes.get('/:id2/:id3',requireAuth,  Unidaddia3Controller.getUnidaddia3);
 unidaddia3Routes.post('/:recordID', requireAuth, Unidaddia3Controller.creaUnidaddia32s);
-unidaddia3Routes.delete('/:recordID/:userID',requireAuth, Unidaddia3Controller.deleteUnidaddia3);
+unidaddia3Routes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth, Unidaddia3Controller.deleteUnidaddia3);
 
 
 
@@ -984,7 +984,7 @@ apiRoutes.use('/unidadedificiosalon3s',edificiosalon3Routes);
 edificiosalon3Routes.get('/:id', requireAuth, Edificiosalon3Controller.getUnidadedificiosalon3);
 edificiosalon3Routes.get('/:id2/:id3/:id4', requireAuth, Edificiosalon3Controller.getUnidadedificiosalon3);
 edificiosalon3Routes.post('/:recordID', requireAuth, Edificiosalon3Controller.creaUnidadedificiosalon32s);
-edificiosalon3Routes.delete('/:recordID/:userID',requireAuth,  Edificiosalon3Controller.deleteUnidadedificiosalon3);
+edificiosalon3Routes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  Edificiosalon3Controller.deleteUnidadedificiosalon3);
 
 
 //-----------------------------------unidad plan3
@@ -993,7 +993,7 @@ unidadplan3Routes.get('/:id',requireAuth,  Unidadplan3Controller.getUnidadplan3)
 unidadplan3Routes.get('/:id2/:id3/:id4',requireAuth,  Unidadplan3Controller.getUnidadplan3);
 unidadplan3Routes.get('/:id/:id2/:id3/:id4/:id5',requireAuth,  Unidadplan3Controller.getUnidadplan3);
 unidadplan3Routes.post('/:recordID',requireAuth,  Unidadplan3Controller.creaUnidadplan32s);
-unidadplan3Routes.delete('/:recordID/:userID',requireAuth,  Unidadplan3Controller.deleteUnidadplan3);
+unidadplan3Routes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  Unidadplan3Controller.deleteUnidadplan3);
 
 
 
@@ -1003,7 +1003,7 @@ apiRoutes.use('/facultadmateria3s', facultadmateria3Routes);
 facultadmateria3Routes.get('/',requireAuth, Facultadmateria3Controller.getFacultadmateria3);
 facultadmateria3Routes.get('/:id/:id2',requireAuth,  Facultadmateria3Controller.getFacultadmateria3);
 facultadmateria3Routes.post('/:recordID',requireAuth,  Facultadmateria3Controller.creaFacultadmateria32s);
-facultadmateria3Routes.delete('/:recordID/:userID', requireAuth, Facultadmateria3Controller.deleteFacultadmateria3);
+facultadmateria3Routes.delete('/:recordID/:userID/:idempresa/:idafiliado', requireAuth, Facultadmateria3Controller.deleteFacultadmateria3);
 
 
 
@@ -1012,7 +1012,7 @@ apiRoutes.use('/tipounidad2s', tipounidad2Routes);
 tipounidad2Routes.get('/',requireAuth, Tipounidad2Controller.getTipounidad2);
 tipounidad2Routes.get('/:id', requireAuth, Tipounidad2Controller.getTipounidad2);
 tipounidad2Routes.post('/:recordID', requireAuth, Tipounidad2Controller.creaTipounidad22s);
-tipounidad2Routes.delete('/:recordID/:userID',requireAuth,  Tipounidad2Controller.deleteTipounidad2);
+tipounidad2Routes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  Tipounidad2Controller.deleteTipounidad2);
 
 
 //-----------------------------------unidad academica
@@ -1020,14 +1020,14 @@ apiRoutes.use('/unidadacademica2s', unidadacademica2Routes);
 unidadacademica2Routes.get('/:id', requireAuth, Unidadacademica2Controller.getUnidadacademica2);
 unidadacademica2Routes.get('/:id/:id2',requireAuth,  Unidadacademica2Controller.getUnidadacademica2);
 unidadacademica2Routes.post('/:id', requireAuth, Unidadacademica2Controller.creaUnidadacademica22s);
-unidadacademica2Routes.delete('/:id/:userID',requireAuth,  Unidadacademica2Controller.deleteUnidadacademica2);
+unidadacademica2Routes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  Unidadacademica2Controller.deleteUnidadacademica2);
 
 //-----------------------------------unidad edificio 
 apiRoutes.use('/unidadedificio2s',edificiousac2Routes);
 edificiousac2Routes.get('/:id',requireAuth,  Edificiousac2Controller.getUnidadedificio2);
 edificiousac2Routes.get('/:id2/:id3',requireAuth,  Edificiousac2Controller.getUnidadedificio2);
 edificiousac2Routes.post('/:recordID', requireAuth, Edificiousac2Controller.creaUnidadedificio22s);
-edificiousac2Routes.delete('/:recordID/:userID',requireAuth,  Edificiousac2Controller.deleteUnidadedificio2);
+edificiousac2Routes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  Edificiousac2Controller.deleteUnidadedificio2);
 
 
 //-----------------------------------unidad edificio 
@@ -1035,7 +1035,7 @@ apiRoutes.use('/unidadedificio2s',edificiousac2Routes);
 edificiousac2Routes.get('/:id',requireAuth,  Edificiousac2Controller.getUnidadedificio2);
 edificiousac2Routes.get('/:id2/:id3',requireAuth,  Edificiousac2Controller.getUnidadedificio2);
 edificiousac2Routes.post('/:recordID', requireAuth, Edificiousac2Controller.creaUnidadedificio22s);
-edificiousac2Routes.delete('/:recordID/:userID',requireAuth,  Edificiousac2Controller.deleteUnidadedificio2);
+edificiousac2Routes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  Edificiousac2Controller.deleteUnidadedificio2);
 
 
 
@@ -1045,7 +1045,7 @@ periodousac2Routes.get('/:id',requireAuth,  Periodousac2Controller.getUnidadperi
 periodousac2Routes.get('/:id/:id2',requireAuth,  Periodousac2Controller.getUnidadperiodo2);
 periodousac2Routes.get('/:id/:id3',requireAuth,  Periodousac2Controller.getUnidadperiodo2);
 periodousac2Routes.post('/:recordID', requireAuth, Periodousac2Controller.creaUnidadperiodo22s);
-periodousac2Routes.delete('/:recordID/:userID',requireAuth,  Periodousac2Controller.deleteUnidadperiodo2);
+periodousac2Routes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  Periodousac2Controller.deleteUnidadperiodo2);
 
 
 
@@ -1054,7 +1054,7 @@ apiRoutes.use('/unidadedificiosalon2s',edificiosalon2Routes);
 edificiosalon2Routes.get('/:id', requireAuth, Edificiosalon2Controller.getUnidadedificiosalon2);
 edificiosalon2Routes.get('/:id2/:id3/:id4', requireAuth, Edificiosalon2Controller.getUnidadedificiosalon2);
 edificiosalon2Routes.post('/:recordID', requireAuth, Edificiosalon2Controller.creaUnidadedificiosalon22s);
-edificiosalon2Routes.delete('/:recordID/:userID',requireAuth,  Edificiosalon2Controller.deleteUnidadedificiosalon2);
+edificiosalon2Routes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  Edificiosalon2Controller.deleteUnidadedificiosalon2);
 
 
 //-----------------------------------unidad plan
@@ -1063,7 +1063,7 @@ unidadplan2Routes.get('/:id',requireAuth,  Unidadplan2Controller.getUnidadplan2)
 unidadplan2Routes.get('/:id/:id2/:id3/:id4/:id5',requireAuth,  Unidadplan2Controller.getUnidadplan2);
 unidadplan2Routes.get('/:id2/:id3/:id4',requireAuth,  Unidadplan2Controller.getUnidadplan2);
 unidadplan2Routes.post('/:recordID',requireAuth,  Unidadplan2Controller.creaUnidadplan22s);
-unidadplan2Routes.delete('/:recordID/:userID',requireAuth,  Unidadplan2Controller.deleteUnidadplan2);
+unidadplan2Routes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  Unidadplan2Controller.deleteUnidadplan2);
 
 
 
@@ -1073,7 +1073,7 @@ apiRoutes.use('/facultadmateria2s', facultadmateria2Routes);
 facultadmateria2Routes.get('/',requireAuth, Facultadmateria2Controller.getFacultadmateria2);
 facultadmateria2Routes.get('/:id/:id2',requireAuth,  Facultadmateria2Controller.getFacultadmateria2);
 facultadmateria2Routes.post('/:recordID',requireAuth,  Facultadmateria2Controller.creaFacultadmateria22s);
-facultadmateria2Routes.delete('/:recordID/:userID', requireAuth, Facultadmateria2Controller.deleteFacultadmateria2);
+facultadmateria2Routes.delete('/:recordID/:userID/:idempresa/:idafiliado', requireAuth, Facultadmateria2Controller.deleteFacultadmateria2);
 
 
 
@@ -1084,7 +1084,7 @@ asignacalusacRoutes.get('/:id',requireAuth,  AsignacalusacController.getAsignaca
 asignacalusacRoutes.get('/:id/:id2',requireAuth,  AsignacalusacController.getAsignacalusac);
 asignacalusacRoutes.get('/:id/:id2/:id3', AsignacalusacController.getAsignacalusac);
 asignacalusacRoutes.post('/:recordID', requireAuth, AsignacalusacController.creaAsignacalusac2s);
-asignacalusacRoutes.delete('/:recordID/:userID',requireAuth,  AsignacalusacController.deleteAsignacalusac);
+asignacalusacRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  AsignacalusacController.deleteAsignacalusac);
 
 
 
@@ -1095,7 +1095,7 @@ asignapcbRoutes.get('/:id',requireAuth,  AsignapcbController.getAsignapcb);
 asignapcbRoutes.get('/:id/:id2',requireAuth,  AsignapcbController.getAsignapcb);
 asignapcbRoutes.get('/:id/:id2/:id3', AsignapcbController.getAsignapcb);
 asignapcbRoutes.post('/:recordID', requireAuth, AsignapcbController.creaAsignapcb2s);
-asignapcbRoutes.delete('/:recordID/:userID',requireAuth,  AsignapcbController.deleteAsignapcb);
+asignapcbRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  AsignapcbController.deleteAsignapcb);
 
 
 //-----------------------------------ASIGNA ESTUDIANTE PAP
@@ -1118,7 +1118,7 @@ apiRoutes.use('/Departamentos', departamentoRoutes);
 departamentoRoutes.get('/',requireAuth, DepartamentoController.getDepartamento);
 departamentoRoutes.get('/:id', requireAuth, DepartamentoController.getDepartamento);
 departamentoRoutes.post('/:recordID', requireAuth, DepartamentoController.creaDepartamento2s);
-departamentoRoutes.delete('/:recordID/:userID',requireAuth, DepartamentoController.deleteDepartamento);
+departamentoRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth, DepartamentoController.deleteDepartamento);
 
 
 //-----------------------------------MARKETGRUPO
@@ -1127,7 +1127,7 @@ marketgrupoRoutes.get('/',requireAuth, MarketgrupoController.getMarketgrupo);
 
 marketgrupoRoutes.get('/:id/:id2/:id3', requireAuth, MarketgrupoController.getMarketgrupo);
 marketgrupoRoutes.post('/:recordID', requireAuth, MarketgrupoController.creaMarketgrupo2s);
-marketgrupoRoutes.delete('/:recordID/:userID',requireAuth, MarketgrupoController.deleteMarketgrupo);
+marketgrupoRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth, MarketgrupoController.deleteMarketgrupo);
 
 
 //-----------------------------------MARKETGRUPOD
@@ -1135,7 +1135,7 @@ apiRoutes.use('/marketgrupods', marketgrupodRoutes);
 marketgrupodRoutes.get('/',requireAuth, MarketgrupodController.getMarketgrupod);
 marketgrupodRoutes.get('/:id/:id2/:id3', requireAuth, MarketgrupodController.getMarketgrupod);
 marketgrupodRoutes.post('/:recordID', requireAuth, MarketgrupodController.creaMarketgrupod2s);
-marketgrupodRoutes.delete('/:recordID/:userID',requireAuth, MarketgrupodController.deleteMarketgrupod);
+marketgrupodRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth, MarketgrupodController.deleteMarketgrupod);
 
 
 
@@ -1149,7 +1149,7 @@ denunciaunidadRoutes.get('/:id/:id2',requireAuth, DenunciaunidadController.getDe
 denunciaunidadRoutes.get('/:id/:id2/:id3/:id4/:id5',requireAuth,DenunciaunidadController.getDenunciaunidad);
 
 denunciaunidadRoutes.post('/:recordID', requireAuth, DenunciaunidadController.creaDenunciaunidad2s);
-denunciaunidadRoutes.delete('/:recordID/:userID',requireAuth, DenunciaunidadController.deleteDenunciaunidad);
+denunciaunidadRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth, DenunciaunidadController.deleteDenunciaunidad);
 
 
 
@@ -1158,7 +1158,7 @@ apiRoutes.use('/nuevosalons', nuevosalonRoutes);
 nuevosalonRoutes.get('/',requireAuth, NuevosalonController.getNuevosalon);
 nuevosalonRoutes.get('/:id',requireAuth,  NuevosalonController.getNuevosalon);
 nuevosalonRoutes.post('/:recordID',requireAuth,  NuevosalonController.creaNuevosalon2s);
-nuevosalonRoutes.delete('/:recordID/:userID',requireAuth,  NuevosalonController.deleteNuevosalon);
+nuevosalonRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  NuevosalonController.deleteNuevosalon);
 
 
 
@@ -1169,7 +1169,7 @@ participa3Routes.get('/:id/:id2',requireAuth,  Participa3Controller.getParticipa
 participa3Routes.get('/:id/:id2/:id3',requireAuth,  Participa3Controller.getParticipa3);
 participa3Routes.get('/:id/:id2/:id3/:id4',requireAuth,  Participa3Controller.getParticipa3);
 participa3Routes.post('/:id',requireAuth, Participa3Controller.creaParticipa32s);
-participa3Routes.delete('/:id/:userID',requireAuth,  Participa3Controller.deleteParticipa3);
+participa3Routes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  Participa3Controller.deleteParticipa3);
 
 //-----------------------------------PARTICIPA3
 apiRoutes.use('/participa33s', participa33Routes);
@@ -1177,7 +1177,7 @@ participa33Routes.get('/:id',requireAuth,  Participa33Controller.getParticipa33)
 participa33Routes.get('/:id/:id2',requireAuth,  Participa33Controller.getParticipa33);
 participa33Routes.get('/:id/:id2/:id3',requireAuth,  Participa33Controller.getParticipa33);
 participa33Routes.post('/:id',requireAuth, Participa33Controller.creaParticipa332s);
-participa33Routes.delete('/:id/:userID',requireAuth,  Participa33Controller.deleteParticipa33);
+participa33Routes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  Participa33Controller.deleteParticipa33);
 
 //-----------------------------------datos combo fijos
 apiRoutes.use('/datosfijos', datosfijosRoutes);
@@ -1199,7 +1199,7 @@ plantillaRoutes.get('/',requireAuth, PlantillaController.getPlantilla);
 plantillaRoutes.get('/:id/:id2',requireAuth, PlantillaController.getPlantilla);
 plantillaRoutes.get('/:itd',requireAuth, PlantillaController.getPlantilla);
 plantillaRoutes.post('/:recordID',  PlantillaController.creaPlantilla2s);
-plantillaRoutes.delete('/:recordID/:userID',requireAuth,  PlantillaController.deletePlantilla);
+plantillaRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  PlantillaController.deletePlantilla);
 
 //-----------------------------------PLANTILLAD
 
@@ -1208,7 +1208,7 @@ plantilladRoutes.get('/',requireAuth, PlantilladController.getPlantillad);
 plantilladRoutes.get('/:id/:id2',requireAuth, PlantilladController.getPlantillad);
 plantilladRoutes.get('/:id/:id2/:id3',requireAuth, PlantilladController.getPlantillad);
 plantilladRoutes.post('/:id',requireAuth,  PlantilladController.creaPlantillad2s);
-plantilladRoutes.delete('/:id/:userID',requireAuth,  PlantilladController.deletePlantillad);
+plantilladRoutes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  PlantilladController.deletePlantillad);
 
 
 //-----------------------------------PLANTILLADM
@@ -1217,7 +1217,7 @@ apiRoutes.use('/plantilladms', plantilladmRoutes);
 plantilladmRoutes.get('/',requireAuth, PlantilladmController.getPlantilladm);
 plantilladmRoutes.get('/:id/:id2/:id3',requireAuth,  PlantilladmController.getPlantilladm);
 plantilladmRoutes.post('/:id',requireAuth,  PlantilladmController.creaPlantilladm2s);
-plantilladmRoutes.delete('/:id/:userID',requireAuth,  PlantilladmController.deletePlantilladm);
+plantilladmRoutes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  PlantilladmController.deletePlantilladm);
 
 
 
@@ -1227,7 +1227,7 @@ apiRoutes.use('/plantilladmcs', plantilladmcRoutes);
 plantilladmcRoutes.get('/',requireAuth, PlantilladmcController.getPlantilladmc);
 plantilladmcRoutes.get('/:id/:id2/:id3/:id4',requireAuth,  PlantilladmcController.getPlantilladmc);
 plantilladmcRoutes.post('/:id',requireAuth,   PlantilladmcController.creaPlantilladmc2s);
-plantilladmcRoutes.delete('/:id/:userID',requireAuth,  PlantilladmcController.deletePlantilladmc);
+plantilladmcRoutes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  PlantilladmcController.deletePlantilladmc);
 
 
 
@@ -1238,7 +1238,7 @@ apiRoutes.use('/plantillamdevas', plantillamdevaRoutes);
 plantillamdevaRoutes.get('/',requireAuth, PlantillamdevaController.getPlantillamdeva);
 plantillamdevaRoutes.get('/:id/:id2/:id3/:id4',requireAuth,  PlantillamdevaController.getPlantillamdeva);
 plantillamdevaRoutes.post('/:id',requireAuth,   PlantillamdevaController.creaPlantillamdeva2s);
-plantillamdevaRoutes.delete('/:id/:userID',requireAuth,  PlantillamdevaController.deletePlantillamdeva);
+plantillamdevaRoutes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  PlantillamdevaController.deletePlantillamdeva);
 
 
 
@@ -1248,7 +1248,7 @@ apiRoutes.use('/plantillamdrecs', plantillamdrecRoutes);
 plantillamdrecRoutes.get('/',requireAuth, PlantillamdrecController.getPlantillamdrec);
 plantillamdrecRoutes.get('/:id/:id2/:id3/:id4', requireAuth, PlantillamdrecController.getPlantillamdrec);
 plantillamdrecRoutes.post('/:id',requireAuth,   PlantillamdrecController.creaPlantillamdrec2s);
-plantillamdrecRoutes.delete('/:id/:userID',requireAuth,  PlantillamdrecController.deletePlantillamdrec);
+plantillamdrecRoutes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  PlantillamdrecController.deletePlantillamdrec);
 
 
 
