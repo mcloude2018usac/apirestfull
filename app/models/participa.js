@@ -1,5 +1,6 @@
 var mongoose =require("mongoose");
 var ParticipaSchema = new mongoose.Schema({
+    idempresa   		: { type : String, required : true },
     idevento: {
         type: String,
         required: true
