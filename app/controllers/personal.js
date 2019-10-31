@@ -700,7 +700,7 @@ if(req.params.recordID)
             else
             {   
                
-                todo.nombre        	=	req.body.nombre          	;
+             //   todo.nombre        	=	req.body.nombre          	;
                 todo.cui 	=	req.body.cui 		;
                 todo.nov 	=	req.body.nov 		;
            

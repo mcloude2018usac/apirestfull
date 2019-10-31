@@ -57,7 +57,9 @@ exports.creaDcatalogo2s = function(req, res, next){
     }
     else{
         Bitacora.create(req.body.bitacora);
-    Dcatalogo.create({  idcatalogo      	: req.body.idcatalogo     	,
+    Dcatalogo.create({
+        
+        idcatalogo      	: req.body.idcatalogo     	,
         nombre        	: req.body.nombre        	,
         fecha        	: req.body.fecha        	,
         foto        	: req.body.foto        	,

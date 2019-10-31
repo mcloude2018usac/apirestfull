@@ -3,6 +3,32 @@ var Estudiantevt = require('../models/estudiantevt');
 var Bitacora = require('../models/bitacora');
 
 exports.getEstudiantevt = function(req, res, next){
+
+    if(req.params.id2)
+    { 
+
+       
+
+        Estudiantevt.find(
+            { "carnet": { $regex:  req.params.id , $options: 'i' } ,
+         //   "nombre": { $regex:  req.params.id2 , $options: 'i' } 
+    
+    },function(err, todos) {
+            if (err){ res.send(err); }
+
+            var myData ='';
+            for(var i = 0; i < todos.length;i++){
+             myData= myData+ i + "----> db.asignaestudiantes.update({no_orientacion:'"+ req.params.id +"'},{$set: { no_orientacion:'"+ todos[i].carnet +"',nombre:'"+ todos[i].nombre +"' }}, { multi: true });             db.asignapcbs.update({no_orientacion:'"+ req.params.id +"'},{$set: { no_orientacion:'"+ todos[i].carnet +"',nombre:'"+ todos[i].nombre +"'}}, { multi: true });db.users.update({nov:'"+ req.params.id +"'},{$set: { nov:'"+ todos[i].carnet +"',nombre:'"+ todos[i].nombre +"'}}, { multi: true });             "   + "\n"              
+            }
+             //res.json(myData);
+             res.status(404).send(myData)  
+
+        
+            
+        });
+    }
+    else
+    {
     if(req.params.codigo)
     { 
         Estudiantevt.find({carnet:req.params.codigo},function(err, todos) {
@@ -19,7 +45,7 @@ exports.getEstudiantevt = function(req, res, next){
     {
 
     }
-    
+}
     
  
 }

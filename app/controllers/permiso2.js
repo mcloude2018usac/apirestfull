@@ -18,7 +18,7 @@ exports.getPermison2 = function(req, res, next){
                     myData.push({_id:todos[i]._id,idpermiso:todos[i].idpermiso,
                         idrol:todos[i].idrol,ingreso:todos[i].ingreso
                         ,nombre:todos[i].nombre.nombre
-                        ,idmodulo:todos[i].nombre._id
+                        ,idmodulo:{_id:todos[i].nombre._id,nombre:todos[i].nombre.nombre}
                         ,consulta:todos[i].consulta
                         ,eliminacion:todos[i].eliminacion
                         ,filtro:todos[i].filtro

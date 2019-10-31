@@ -3,8 +3,8 @@ var Conferencia = require('../models/conferencia');
 var Bitacora = require('../models/bitacora');
 
 exports.getConferencia = function(req, res, next){
-    if(req.params.id2)
-    {   Conferencia.find({idevento:req.params.id,_id:req.params.id2},function(err, todos) {
+    if(req.params.id3)
+    {   Conferencia.find({idevento:req.params.id,_id:req.params.id2,idempresa :req.params.id3},function(err, todos) {
             if (err){ res.send(err); }
            
             if(todos.length>0)   {    res.json(todos);   }
@@ -14,7 +14,7 @@ exports.getConferencia = function(req, res, next){
         });
     }
     else
-    { Conferencia.find({idevento:req.params.id},function(err, todos) {
+    { Conferencia.find({idevento:req.params.id,idempresa :req.params.id2},function(err, todos) {
            if (err){  res.send(err);  }
             res.json(todos);
         });
@@ -22,7 +22,7 @@ exports.getConferencia = function(req, res, next){
 }
 exports.deleteConferencia = function(req, res, next){
    
-    Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina Conferencia '});
+    Bitacora.create({idempresa:req.params.idempresa,idafiliado:req.params.idafiliado,email: req.params.userID ,permiso:'Elimina',accion:'Elimina Conferencia '});
     Conferencia.findByIdAndRemove({ _id: req.params.id  }, function(err, todo) {
         res.json(todo);
     });
@@ -62,7 +62,9 @@ exports.creaConferencia2s = function(req, res, next){
     }
     else{
         Bitacora.create(req.body.bitacora);
-    Conferencia.create({  idevento       	: req.body.idevento       	,
+    Conferencia.create({ 
+        idempresa        	: req.body.idempresa        	,
+        idevento       	: req.body.idevento       	,
         nombre        	: req.body.nombre        	,
         conferencista    	: req.body.conferencista    	,
         fechaini 	: req.body.fechaini 	,

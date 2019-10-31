@@ -9,11 +9,11 @@ var Asignapcb= require('../models/asignapcb');
 var Evento = require('../models/eventos');
 
 exports.getParticipa = function(req, res, next){
-    if(req.params.id3)
+    if(req.params.id4)
     { 
 
-        if(req.params.id3=='repetido')
-        { //http://127.0.0.1:9090/api/participas/1/2/repetido
+        if(req.params.id4=='repetido')
+        { //http://127.0.0.1:9090/api/participas/1/2/repetido/2
             var duplicates = [];
             Estudiantevt.aggregate([          //,idevento:'5cec20c9e927930016d78a8b' 
                     { $match: {carnet: {"$ne": ''}  }
@@ -69,14 +69,10 @@ exports.getParticipa = function(req, res, next){
 
 
         }
+        /*
         else
-        {
-
-            if(req.params.id3=='modcui')
-            { 
-                
-
-                Datadpi.find({},function(err, todos) {
+        {   if(req.params.id3=='modcui')
+            {   Datadpi.find({},function(err, todos) {
                     if (err){ res.send(err); }
                    
                    User.find({tiposuscriptor:'5be1b6699c9f2200e8311574'},function(err, todos2) {
@@ -91,55 +87,19 @@ exports.getParticipa = function(req, res, next){
                                         myData.push({aa} );
                                             break;
                                         }
-
                             }
-
-
-
                         }
-
-                       
-
-/*
-                        for(var i = 0; i < myData.length;i++){
-                            var nn=myData[i].nov   
-                            User.findById({ _id: myData[i].id}, function (err, todo)  {
-                                if (err) {  res.send(err);  }
-                                else
-                                {  
-                                    
-                                    todo.nov        	=	nn    	;
-                                    todo.save(function (err, todo){
-                                        if (err)     {  res.status(500).send(err.message)   }
-                                     //   res.json(todo);
-                                    });
-                                }
-                            });
-                        }
-  */                      
-
-
                         res.json(myData);
-                        
                     });
-                    
                 });
-    
             }
-            else
-            {
-                if(req.params.id3=='eventos')
-                { 
-                }    
-
-            }
-
         }
+        */
 
     }
     else{
-    if(req.params.id2)
-    {   Participa.find({idevento:req.params.id,_id:req.params.id2},function(err, todos) {
+    if(req.params.id3)
+    {   Participa.find({idevento:req.params.id,_id:req.params.id2,idempresa:req.params.id3},function(err, todos) {
             if (err){ res.send(err); }
            
             if(todos.length>0)   {    res.json(todos);   }
@@ -149,7 +109,7 @@ exports.getParticipa = function(req, res, next){
         });
     }
     else
-    { Participa.find({idevento:req.params.id},function(err, todos) {
+    { Participa.find({idevento:req.params.id,idempresa:req.params.id2},function(err, todos) {
            if (err){  res.send(err);  }
             res.json(todos);
         });
@@ -158,7 +118,7 @@ exports.getParticipa = function(req, res, next){
 }
 exports.deleteParticipa = function(req, res, next){
    
-    Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina Participa '});
+    Bitacora.create({idempresa:req.params.idempresa,idafiliado:req.params.idafiliado,email: req.params.userID ,permiso:'Elimina',accion:'Elimina Participa '});
     Participa.findByIdAndRemove({ _id: req.params.id  }, function(err, todo) {
         res.json(todo);
     });
@@ -238,7 +198,7 @@ else{
     }
     else{
 
-            Participa.find({  idevento       	: req.body.idevento   , $or : [
+            Participa.find({  idempresa       	: req.body.idempresa   ,idevento       	: req.body.idevento   , $or : [
                 { $and : [ { cui : req.body.cui }] },
                 { $and : [ { correo : req.body.correo }] },
                
@@ -272,7 +232,9 @@ else{
 
                                                     Bitacora.create(req.body.bitacora);
                                                     var d = new Date();
-                                                Participa.create({  idevento       	: req.body.idevento       	,
+                                                Participa.create({  
+                                                    idempresa       	: req.body.idempresa       	,
+                                                    idevento       	: req.body.idevento       	,
                                                     nombre        	: req.body.nombre        	,
                                                     apellido    	: req.body.apellido    	,
                                                     genero    	: req.body.genero    	,

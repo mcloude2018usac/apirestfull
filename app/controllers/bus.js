@@ -7,9 +7,6 @@ exports.getBus = function(req, res, next){
        if(req.params.id4)
         {  
            
-             
-
-
             Bus.find({idempresa :req.params.id2,idafiliado:req.params.id3,idempresa0:req.params.id4})
         .populate('idtarifa.id')
         .populate('idruta.id')
@@ -23,7 +20,7 @@ exports.getBus = function(req, res, next){
 }
 exports.deleteBus = function(req, res, next){
    
-    Bitacora.create({idempresa:req.params.idempresa,idafiliado:'',email: req.params.userID ,permiso:'Elimina',accion:'Elimina Bus '});
+    Bitacora.create({idempresa:req.params.idempresa,idafiliado:req.params.idafiliado,email: req.params.userID ,permiso:'Elimina',accion:'Elimina Bus '});
     Bus.findByIdAndRemove({ _id: req.params.recordID  }, function(err, todo) {
         res.json(todo);
     });

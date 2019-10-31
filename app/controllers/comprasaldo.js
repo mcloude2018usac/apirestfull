@@ -11,10 +11,10 @@ function roundxx(value, decimals) {
 
   //comprasaldos
 exports.getComprasaldo = function(req, res, next){
-    if(req.params.id2)
+    if(req.params.id3)
     {    if(req.params.id2=='vende')
         {
-            Comprasaldo.find({'idsuscriptor2.id':req.params.id},function(err, todos) {
+            Comprasaldo.find({'idsuscriptor2.id':req.params.id,idempresa:req.params.id2},function(err, todos) {
                 if (err){ res.send(err); }
                
                 if(todos.length>0)   {    res.json(todos);   }
@@ -47,7 +47,7 @@ exports.getComprasaldo = function(req, res, next){
                                 if(req.params.id5=='TODOS' &&  req.params.id6=='TODOS')
                                 {
                                    
-                                    filtro={
+                                    filtro={"idempresa":req.params.id7,
                                         "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
                                         "$lt": new Date(f2 +'T24:00:00.000Z')},"descripcion":'Cobro por servicio utilizado'
                                     };
@@ -58,7 +58,7 @@ exports.getComprasaldo = function(req, res, next){
                                     if(req.params.id5!='TODOS' &&  req.params.id6=='TODOS')
                                     {
                                        
-                                        filtro={"noprov":req.params.id5,
+                                        filtro={"noprov":req.params.id5,"idempresa":req.params.id7,
                                             "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
                                             "$lt": new Date(f2 +'T24:00:00.000Z')},"descripcion":'Cobro por servicio utilizado'
                                         };
@@ -70,7 +70,7 @@ exports.getComprasaldo = function(req, res, next){
                                         if(req.params.id5!='TODOS' &&  req.params.id6!='TODOS')
                                     {
                                        
-                                        filtro={"noprov":req.params.id5,"nodispositivo":req.params.id6,
+                                        filtro={"noprov":req.params.id5,"nodispositivo":req.params.id6,"idempresa":req.params.id7,
                                             "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
                                             "$lt": new Date(f2 +'T24:00:00.000Z')},"descripcion":'Cobro por servicio utilizado'
                                         };
@@ -78,7 +78,7 @@ exports.getComprasaldo = function(req, res, next){
                                     }
                                     else
                                     {
-                                        filtro={"nodispositivo":req.params.id6,
+                                        filtro={"nodispositivo":req.params.id6,"idempresa":req.params.id7,
                                             "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
                                             "$lt": new Date(f2 +'T24:00:00.000Z')},"descripcion":'Cobro por servicio utilizado'
                                         };
@@ -87,7 +87,7 @@ exports.getComprasaldo = function(req, res, next){
                                     }
 
 
-                                        filtro={"nodispositivo":req.params.id6,
+                                        filtro={"nodispositivo":req.params.id6,"idempresa":req.params.id7,
                                             "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
                                             "$lt": new Date(f2 +'T24:00:00.000Z')},"descripcion":'Cobro por servicio utilizado'
                                         };
@@ -125,7 +125,7 @@ exports.getComprasaldo = function(req, res, next){
                                     if(req.params.id5=='TODOS' &&  req.params.id6=='TODOS')
                                     {
                                        
-                                        filtro={
+                                        filtro={"idempresa":req.params.id7,
                                             "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
                                             "$lt": new Date(f2 +'T24:00:00.000Z')}
                                         };
@@ -136,7 +136,7 @@ exports.getComprasaldo = function(req, res, next){
                                         if(req.params.id5!='TODOS' &&  req.params.id6=='TODOS')
                                         {
                                            
-                                            filtro={"noprov":req.params.id5,
+                                            filtro={"noprov":req.params.id5,"idempresa":req.params.id7,
                                                 "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
                                                 "$lt": new Date(f2 +'T24:00:00.000Z')}
                                             };
@@ -148,7 +148,7 @@ exports.getComprasaldo = function(req, res, next){
                                             if(req.params.id5!='TODOS' &&  req.params.id6!='TODOS')
                                         {
                                            
-                                            filtro={"noprov":req.params.id5,"nodispositivo":req.params.id6,
+                                            filtro={"noprov":req.params.id5,"nodispositivo":req.params.id6,"idempresa":req.params.id7,
                                                 "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
                                                 "$lt": new Date(f2 +'T24:00:00.000Z')}
                                             };
@@ -156,7 +156,7 @@ exports.getComprasaldo = function(req, res, next){
                                         }
                                         else
                                         {
-                                            filtro={"nodispositivo":req.params.id6,
+                                            filtro={"nodispositivo":req.params.id6,"idempresa":req.params.id7,
                                                 "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
                                                 "$lt": new Date(f2 +'T24:00:00.000Z')}
                                             };
@@ -165,7 +165,7 @@ exports.getComprasaldo = function(req, res, next){
                                         }
     
     
-                                            filtro={"nodispositivo":req.params.id6,
+                                            filtro={"nodispositivo":req.params.id6,"idempresa":req.params.id7,
                                                 "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
                                                 "$lt": new Date(f2 +'T24:00:00.000Z')}
                                             };
@@ -205,9 +205,9 @@ exports.getComprasaldo = function(req, res, next){
     }
     else
     {
-        if(req.params.id)
+        if(req.params.id2)
         {  
-                 Comprasaldo.find({'idsuscriptor.id':req.params.id}).sort([['createdAt', -1]]).exec(function(err, todos) {
+                 Comprasaldo.find({'idsuscriptor.id':req.params.id,"idempresa":req.params.id2}).sort([['createdAt', -1]]).exec(function(err, todos) {
                     if (err){ res.send(err); }
                     res.json(todos);
                 });
@@ -215,7 +215,7 @@ exports.getComprasaldo = function(req, res, next){
            
         }
         else
-        { Comprasaldo.find(function(err, todos) {
+        { Comprasaldo.find({"idempresa":req.params.id},function(err, todos) {
                if (err){  res.send(err);  }
                 res.json(todos);
             });
@@ -261,7 +261,7 @@ else{
 
 
 
-    Personalsaldo.find({'idsuscriptor.id':req.body.idsuscriptor.id})
+    Personalsaldo.find({'idsuscriptor.id':req.body.idsuscriptor.id,    idempresa        	: req.body.idempresa        	})
                 .populate('idsuscriptor.id').exec(function(err, todos) {
         if (err) {  res.send(err);  }
         else
@@ -281,7 +281,9 @@ else{
                            
 
 
-                            Comprasaldo.create({ idsuscriptor        	: req.body.idsuscriptor        	,
+                            Comprasaldo.create({ 
+                                idempresa        	: req.body.idempresa        	,
+                                idsuscriptor        	: req.body.idsuscriptor        	,
                                 monto        	: req.body.monto        	,
                                 nombre        	: req.body.nombre        	,
                                 url        	: req.body.url        	,
@@ -293,7 +295,7 @@ else{
                                 if (err){ res.status(500).send(err.message)    }
 
                                 Personalhis.create({idsuscriptor :{    id	:todos[0].idsuscriptor.id._id, 
-                                    idempresa:'WebApp Usacenlinea',
+                                    idempresa        	: req.body.idempresa        	,
                                     nombre	: todos[0].idsuscriptor.id.nombre       },
                                      tipo   		: 'Compra Saldo (+)',descripcion   		: 'Operación de compra saldo (+)', 
                                      saldoanterior   		: roundxx(todos[0].saldoactual,2),
