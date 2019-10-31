@@ -304,6 +304,7 @@ estudianteovRoutes.get('/:codigo',requireAuth, EstudianteovController.getEstudia
 //---------------------------------------estudiantes vt
 apiRoutes.use('/estudiantevt', estudiantevtRoutes);
 estudiantevtRoutes.get('/', requireAuth, EstudiantevtController.getEstudiantevt);
+estudiantevtRoutes.get('/:id/:id2', EstudiantevtController.getEstudiantevt);
 estudiantevtRoutes.get('/:codigo', EstudiantevtController.getEstudiantevt);
 estudiantevtRoutes.post('/:recordID', requireAuth, EstudiantevtController.creaEstudiantevts);
 
@@ -323,12 +324,12 @@ pivotemonsterRoutes.get('/:id/:id2/:id3/:id4',   PivotemonsterController.getPivo
 //-----------------------------------AUTORIZA
 apiRoutes.use('/autorizar', autorizaRoutes);
 autorizaRoutes.get('/:id',   AutorizaController.getAutoriza);
-
+        
 //-----------------------------------PARTICIPA  EVENTOS SARITA ASIGNACION
 apiRoutes.use('/participas', participaRoutes);
-participaRoutes.get('/:id',  ParticipaController.getParticipa);
 participaRoutes.get('/:id/:id2',  ParticipaController.getParticipa);
 participaRoutes.get('/:id/:id2/:id3',  ParticipaController.getParticipa);
+participaRoutes.get('/:id/:id2/:id3/:id4',  ParticipaController.getParticipa);
 participaRoutes.post('/:id',  ParticipaController.creaParticipa2s);
 participaRoutes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  ParticipaController.deleteParticipa);
 
@@ -544,9 +545,9 @@ galeriaimgRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,
 //-----------------------------------COMPRA DE SALDO----------------------------------
 
 apiRoutes.use('/comprasaldos', comprasaldoRoutes);
-comprasaldoRoutes.get('/:id',requireAuth, ComprasaldoController.getComprasaldo);
-comprasaldoRoutes.get('/:id/:id2',requireAuth,  ComprasaldoController.getComprasaldo);
-comprasaldoRoutes.get('/:id/:id2/:id3/:id4/:id5/:id6',requireAuth,  ComprasaldoController.getComprasaldo);
+comprasaldoRoutes.get('/:id/:id2',requireAuth, ComprasaldoController.getComprasaldo);
+comprasaldoRoutes.get('/:id/:id2/:id3',requireAuth,  ComprasaldoController.getComprasaldo);
+comprasaldoRoutes.get('/:id/:id2/:id3/:id4/:id5/:id6/:id7',requireAuth,  ComprasaldoController.getComprasaldo);
 comprasaldoRoutes.post('/:recordID',requireAuth,  ComprasaldoController.creaComprasaldo2s);
 comprasaldoRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  ComprasaldoController.deleteComprasaldo);
 
@@ -676,8 +677,8 @@ frmmovildRoutes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth, Frmmov
 
 //-----------------------------------CONFERENCIAS
 apiRoutes.use('/conferencias', conferenciaRoutes);
-conferenciaRoutes.get('/:id',requireAuth,  ConferenciaController.getConferencia);
 conferenciaRoutes.get('/:id/:id2',requireAuth,  ConferenciaController.getConferencia);
+conferenciaRoutes.get('/:id/:id2/:id3',requireAuth,  ConferenciaController.getConferencia);
 conferenciaRoutes.post('/:id',requireAuth,  ConferenciaController.creaConferencia2s);
 conferenciaRoutes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth, ConferenciaController.deleteConferencia);
 
