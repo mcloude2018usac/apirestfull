@@ -11,8 +11,8 @@ var mongoose =require("mongoose");
         idtrans   		: { type : String},
         nodispositivo 		: { type : String},
         noprov 		: { type : String},
-        idempresa0   		: { type : String, required : true }
-             ,usuarionew	: { type : String },      usuarioup	: { type : String }
+        idempresa0   		: { type : String},
+    usuarionew	: { type : String },      usuarioup	: { type : String }
        
         }, {
         timestamps: true

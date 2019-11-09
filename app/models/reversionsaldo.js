@@ -1,5 +1,6 @@
 var mongoose =require("mongoose");
     var ReversionsaldoSchema 		=	new  mongoose.Schema({
+        idempresa   		: { type : String, required : true },
         idsuscriptor :  		{    id	: { type : String, required : true, ref: 'User' },   nombre	: { type : String, required : true }        },
         monto   		: { type : Number},
         nombre   		: { type : String},
