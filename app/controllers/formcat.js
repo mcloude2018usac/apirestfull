@@ -63,8 +63,16 @@ exports.getFormcat = function(req, res, next){
             {
 
                 Formcat.find({idunidad:req.params.id2,idempresa:req.params.id3},function(err, todos) {
-                    if (err){ res.send(err); }
-                  res.json(todos);   
+
+
+             
+                var myData2 = [];
+                    for(var i = 0; i < todos.length;i++){
+                       myData2.push({id:todos[i]._id,nombre:todos[i].nombre});
+                   }
+   
+                    res.json(myData2);
+
                   
                     
                 });
@@ -88,7 +96,7 @@ exports.deleteFormcat = function(req, res, next){
    
     Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina categoria de formulario '});
     Formcat.findByIdAndRemove({ _id: req.params.recordID }, function(err, todo) {
-        res.json(todo);
+        res.json({id:todo.id,nombre:todo.nombre});
     });
 }
 
@@ -109,7 +117,8 @@ exports.creaFormcat2s = function(req, res, next){
 
                 todo.save(function (err, todo){
                     if (err)     {  res.status(500).send(err.message)   }
-                    res.json(todo);
+                    res.json({id:todo.id,nombre:todo.nombre});
+                    
                 });
             }
         });
@@ -135,7 +144,7 @@ exports.creaFormcat2s = function(req, res, next){
                             
                                 res.status(500).send(err.message)    }
                         
-                            res.json(todo);
+                            res.json({id:todo.id,nombre:todo.nombre});
 
                         
                             

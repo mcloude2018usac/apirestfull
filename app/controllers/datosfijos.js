@@ -162,6 +162,8 @@ var cleanName = function(str) {
 exports.getCombofijo = function(req, res, next){
        var sql='';
 
+       console.log(req.params)
+
        switch(req.params.id) {
         case 'help':
         Marketemail.find({idempresa:req.params.id3,idcategoria:req.params.id2}).populate('grupo').exec(function(err, todos) {
@@ -833,12 +835,13 @@ else
 
         break;
         case 'excel-participa':
+                console.log(req.params.id2)
 
                                 var filename   = "participantes.csv";
                                 
-                                Participa.find({idevento:req.params.id2,estado:'Ingreso'}).sort({nombre:1}).exec(function(err, todos2) {
+                                Participa.find({idevento:req.params.id2}).sort({nombre:1}).exec(function(err, todos2) {
                                         if (err){ res.send(err); }
-                                        
+                                        console.log(todos2)
 
                                         if(todos2.length>0)   {  
 

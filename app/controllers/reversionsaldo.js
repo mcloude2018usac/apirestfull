@@ -11,11 +11,11 @@ function roundxx(value, decimals) {
 
   
 exports.getReversionsaldo = function(req, res, next){
-    if(req.params.id2)
+    if(req.params.id3)
     { 
         if(req.params.id2=='vende')
         {
-            Reversionsaldo.find({'idsuscriptor2.id':req.params.id},function(err, todos) {
+            Reversionsaldo.find({'idsuscriptor2.id':req.params.id,idempresa:req.params.id3},function(err, todos) {
                 if (err){ res.send(err); }
                
                 if(todos.length>0)   {    res.json(todos);   }
@@ -31,7 +31,7 @@ exports.getReversionsaldo = function(req, res, next){
 
                     if(req.params.id2=='historial')
                     {
-                        Personalhis.find({'idsuscriptor.id':req.params.id}).sort([['createdAt', -1]]).exec(function(err, todos) {
+                        Personalhis.find({'idsuscriptor.id':req.params.id,idempresa:req.params.id3}).sort([['createdAt', -1]]).exec(function(err, todos) {
                             if (err){ res.send(err); }
                             res.json(todos);
                         });
@@ -43,10 +43,10 @@ exports.getReversionsaldo = function(req, res, next){
     }
     else
     {
-        if(req.params.id)
+        if(req.params.id2)
         {  
            
-                Reversionsaldo.find({'idsuscriptor.id':req.params.id}).sort([['createdAt', -1]]).exec(function(err, todos) {
+                Reversionsaldo.find({'idsuscriptor.id':req.params.id,idempresa:req.params.id2}).sort([['createdAt', -1]]).exec(function(err, todos) {
                     if (err){ res.send(err); }
                     res.json(todos);
                 });
@@ -54,7 +54,7 @@ exports.getReversionsaldo = function(req, res, next){
            
         }
         else
-        { Reversionsaldo.find(function(err, todos) {
+        { Reversionsaldo.find({idempresa:req.params.id},function(err, todos) {
                if (err){  res.send(err);  }
                 res.json(todos);
             });
@@ -65,7 +65,7 @@ exports.getReversionsaldo = function(req, res, next){
 }
 exports.deleteReversionsaldo = function(req, res, next){
    
-    Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina compra saldo'});
+    Bitacora.create({idempresa:req.params.idempresa,idafiliado:req.params.idafiliado,email: req.params.userID ,permiso:'Elimina',accion:'Elimina compra saldo'});
     Reversionsaldo.findByIdAndRemove({ _id: req.params.recordID  }, function(err, todo) {
         res.json(todo);
     });
@@ -101,7 +101,7 @@ else{
 
 
 
-    Personalsaldo.find({'idsuscriptor.id':req.body.idsuscriptor.id})
+    Personalsaldo.find({'idsuscriptor.id':req.body.idsuscriptor.id ,idempresa        	: req.body.idempresa        	})
                 .populate('idsuscriptor.id').exec(function(err, todos) {
         if (err) {  res.send(err);  }
         else
@@ -121,7 +121,9 @@ else{
                            
 
 
-                            Reversionsaldo.create({ idsuscriptor        	: req.body.idsuscriptor        	,
+                            Reversionsaldo.create({ 
+                                idempresa        	: req.body.idempresa        	,
+                                idsuscriptor        	: req.body.idsuscriptor        	,
                                 monto        	: req.body.monto        	,
                                 nombre        	: req.body.nombre        	,
                                 url        	: req.body.url        	,
@@ -133,7 +135,10 @@ else{
                                 , function(err, todo22) {
                                 if (err){ res.status(500).send(err.message)    }
 
-                                Personalhis.create({idsuscriptor :{    id	:todos[0].idsuscriptor.id._id, 
+                                Personalhis.create({
+                                    idempresa        	: req.body.idempresa        	,
+                                    idempresa0        	: req.body.idempresa,
+                                    idsuscriptor :{    id	:todos[0].idsuscriptor.id._id, 
                                     nombre	: todos[0].idsuscriptor.id.nombre       },
                                      tipo   		: 'Reversion de Saldo (-)',descripcion   		: 'Operación de reversion de saldo', 
                                      saldoanterior   		: roundxx(todos[0].saldoactual,2),
@@ -142,7 +147,7 @@ else{
                                         idtrans   		: todo22._id,
                                         nodispositivo 		: '0',
                                         noprov 		: '0',
-                                        idempresa:'WebApp Usacenlinea',
+                                     
                               codigo1: '', usuarionew	: req.body.bitacora.email,      usuarioup	: req.body.bitacora.email});
                          
                                 res.json(todo22);

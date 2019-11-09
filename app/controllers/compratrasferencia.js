@@ -9,9 +9,9 @@ function roundxx(value, decimals) {
     return Number(Math.round(value+'e'+decimals)+'e-'+decimals).toFixed(2);
   }
 exports.getCompratransferencia = function(req, res, next){
-    if(req.params.id2)
+    if(req.params.id3)
     { 
-        Compratransferencia.find({tipo:req.params.id2},function(err, todos) {
+        Compratransferencia.find({tipo:req.params.id2,idempresa:req.params.id3},function(err, todos) {
             if (err){ res.send(err); }
            
             if(todos.length>0)   {    res.json(todos);   }
@@ -23,10 +23,10 @@ exports.getCompratransferencia = function(req, res, next){
     }
     else
     {
-        if(req.params.id)
+        if(req.params.id2)
         {  
            
-            Compratransferencia.find({'idsuscriptor.id':req.params.id}).sort([['createdAt', -1]]).populate('idsuscriptor2.id').exec(function(err, todos) {
+            Compratransferencia.find({'idsuscriptor.id':req.params.id,idempresa:req.params.id2}).sort([['createdAt', -1]]).populate('idsuscriptor2.id').exec(function(err, todos) {
                 if (err){ res.send(err); }
                 res.json(todos);
             });
@@ -35,7 +35,7 @@ exports.getCompratransferencia = function(req, res, next){
            
         }
         else
-        { Compratransferencia.find(function(err, todos) {
+        { Compratransferencia.find({idempresa:req.params.id},function(err, todos) {
                if (err){  res.send(err);  }
                 res.json(todos);
             });
@@ -46,7 +46,7 @@ exports.getCompratransferencia = function(req, res, next){
 }
 exports.deleteCompratransferencia = function(req, res, next){
    
-    Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina compra saldo'});
+    Bitacora.create({idempresa:req.params.idempresa,idafiliado:req.params.idafiliado,email: req.params.userID ,permiso:'Elimina',accion:'Elimina compra saldo'});
     Compratransferencia.findByIdAndRemove({ _id: req.params.recordID  }, function(err, todo) {
         res.json(todo);
     });
@@ -78,13 +78,13 @@ if(req.params.recordID!=='crea')
 
 }
 else{
-
-    Personalsaldo.find({'idsuscriptor.id':req.body.idsuscriptor.id})
+console.log({'idsuscriptor.id':req.body.idsuscriptor.id,idempresa        	: req.body.idempresa})
+    Personalsaldo.find({'idsuscriptor.id':req.body.idsuscriptor.id,idempresa        	: req.body.idempresa})
                 .populate('idsuscriptor.id').exec(function(err, todos) {
         if (err) {  res.send(err);  }
         else
         { 
-           
+           console.log(todos)
             Personalsaldo.findById({ _id:todos[0]._id }, function (err, todo3)  {
                 if (err) {  res.send(err);  }
                 else
@@ -101,7 +101,7 @@ else{
                          if (err)     {  console.log(err.message)   }
                    
 
-                            Personalsaldo.find({'idsuscriptor.id':req.body.idsuscriptor2.id})
+                            Personalsaldo.find({'idsuscriptor.id':req.body.idsuscriptor2.id,idempresa        	: req.body.idempresa})
                                             .populate('idsuscriptor.id').exec(function(err, todos11) {
                                     if (err) {  res.send(err);  }
                                     else
@@ -116,7 +116,9 @@ else{
                                                     if (err)     {  console.log(err.message)   }
                                                       
                                                     
-                                                        Compratransferencia.create({ idsuscriptor        	: req.body.idsuscriptor        	,
+                                                        Compratransferencia.create({ 
+                                                            idempresa        	: req.body.idempresa        	,
+                                                            idsuscriptor        	: req.body.idsuscriptor        	,
                                                             idsuscriptor2        	: req.body.idsuscriptor2        	,
                                                             monto        	: req.body.monto        	,
                                                             nombre        	: req.body.nombre        	,
@@ -127,7 +129,10 @@ else{
                                                             if (err){ res.status(500).send(err.message)    }
 
 
-                                                            Personalhis.create({idsuscriptor :{    id	:todos[0].idsuscriptor.id._id, 
+                                                            Personalhis.create({
+                                                                idempresa        	: req.body.idempresa,
+                                                                idempresa0        	: req.body.idempresa,
+                                                                idsuscriptor :{    id	:todos[0].idsuscriptor.id._id, 
                                                                 nombre	: todos[0].idsuscriptor.id.nombre       },
                                                                  tipo   		: 'Trasferencia de Saldo (-)',descripcion   		: 'Operación de Trasferencia de saldo (-)', 
                                                                  saldoanterior   		: roundxx(todos[0].saldoactual,2),
@@ -136,18 +141,21 @@ else{
                                                                     idtrans   		: todo22._id,
                                                                     nodispositivo 		: '0',
                                                                     noprov 		: '0',
-                                                                    idempresa:'WebApp Usacenlinea',
+                                                                    
                                                           codigo1: '', usuarionew	: req.body.bitacora.email,      usuarioup	: req.body.bitacora.email});
                                                        
                                                            
-                                                            Personalhis.create({idsuscriptor :{    id	:todos11[0].idsuscriptor.id._id, 
+                                                            Personalhis.create({
+                                                                idempresa        	: req.body.idempresa,
+                                                                idempresa0        	: req.body.idempresa,
+                                                                idsuscriptor :{    id	:todos11[0].idsuscriptor.id._id, 
                                                                 nombre	: todos11[0].idsuscriptor.id.nombre       },
                                                                 tipo   		: 'Trasferencia de Saldo (+)',descripcion   		: 'Operación de Trasferencia de saldo saldo (+)', 
                                                                 saldoanterior   		: roundxx(todos11[0].saldoactual,2),
                                                                     monto   		: roundxx(Number(req.body.monto   ),2),                                  
                                                                     saldoactual   		: roundxx(Number(todos11[0].saldoactual)+Number(req.body.monto   ) ,2),
                                                                     idtrans   		: todo22._id,
-                                                                    idempresa:'WebApp Usacenlinea',
+                                                                   
                                                                     nodispositivo  		: '0',
                                                                     noprov 		: '0',
                                                             codigo1: '', usuarionew	: req.body.bitacora.email,      usuarioup	: req.body.bitacora.email});

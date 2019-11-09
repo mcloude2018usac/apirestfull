@@ -11,6 +11,164 @@ function roundxx(value, decimals) {
 
   //comprasaldos
 exports.getComprasaldo = function(req, res, next){
+
+    if(req.params.id7)
+    {
+
+        if(req.params.id2=='billing')
+        {
+            var f1=req.params.id3
+            var f2=req.params.id4
+            var arr1 = f1.split("-");
+            var arr2 = f2.split("-");
+            var filtro;
+            if(req.params.id5=='TODOS' &&  req.params.id6=='TODOS')
+            {
+               
+                filtro={"idempresa":req.params.id7,
+                    "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
+                    "$lt": new Date(f2 +'T24:00:00.000Z')},"descripcion":'Cobro por servicio utilizado'
+                };
+    
+            }
+            else
+            {
+                if(req.params.id5!='TODOS' &&  req.params.id6=='TODOS')
+                {
+                   
+                    filtro={"noprov":req.params.id5,"idempresa":req.params.id7,
+                        "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
+                        "$lt": new Date(f2 +'T24:00:00.000Z')},"descripcion":'Cobro por servicio utilizado'
+                    };
+        
+                }
+                else
+                {
+
+                    if(req.params.id5!='TODOS' &&  req.params.id6!='TODOS')
+                {
+                   
+                    filtro={"noprov":req.params.id5,"nodispositivo":req.params.id6,"idempresa":req.params.id7,
+                        "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
+                        "$lt": new Date(f2 +'T24:00:00.000Z')},"descripcion":'Cobro por servicio utilizado'
+                    };
+        
+                }
+                else
+                {
+                    filtro={"nodispositivo":req.params.id6,"idempresa":req.params.id7,
+                        "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
+                        "$lt": new Date(f2 +'T24:00:00.000Z')},"descripcion":'Cobro por servicio utilizado'
+                    };
+
+
+                }
+
+
+                  
+
+
+                }
+
+
+            }
+console.log(filtro)
+            Personalhis.aggregate([
+                { $match: filtro},
+            
+                { $group: {
+                   _id:  { $dateToString: { format: "%d-%m-%Y", date: "$createdAt" } },
+                    monto: { $sum: "$monto"  },
+                    cantidad: { $sum:   1  }
+                }}
+            ], function (err, todos) {
+                if (err){ res.send(err); }
+                res.json(todos);
+            });
+          
+        }
+        else
+        {
+
+            if(req.params.id2=='billingparqueo')
+            {
+                var f1=req.params.id3
+                var f2=req.params.id4
+                var arr1 = f1.split("-");
+                var arr2 = f2.split("-");
+                var filtro;
+                if(req.params.id5=='TODOS' &&  req.params.id6=='TODOS')
+                {
+                   
+                    filtro={"idempresa":req.params.id7,
+                        "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
+                        "$lt": new Date(f2 +'T24:00:00.000Z')}
+                    };
+        
+                }
+                else
+                {
+                    if(req.params.id5!='TODOS' &&  req.params.id6=='TODOS')
+                    {
+                       
+                        filtro={"noprov":req.params.id5,"idempresa":req.params.id7,
+                            "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
+                            "$lt": new Date(f2 +'T24:00:00.000Z')}
+                        };
+            
+                    }
+                    else
+                    {
+
+                        if(req.params.id5!='TODOS' &&  req.params.id6!='TODOS')
+                    {
+                       
+                        filtro={"noprov":req.params.id5,"nodispositivo":req.params.id6,"idempresa":req.params.id7,
+                            "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
+                            "$lt": new Date(f2 +'T24:00:00.000Z')}
+                        };
+            
+                    }
+                    else
+                    {
+                        filtro={"nodispositivo":req.params.id6,"idempresa":req.params.id7,
+                            "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
+                            "$lt": new Date(f2 +'T24:00:00.000Z')}
+                        };
+
+
+                    }
+
+
+                        filtro={"nodispositivo":req.params.id6,"idempresa":req.params.id7,
+                            "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
+                            "$lt": new Date(f2 +'T24:00:00.000Z')}
+                        };
+
+
+                    }
+
+
+                }
+
+                Entradasdpi.aggregate([
+                    { $match: filtro},
+                
+                    { $group: {
+                       _id:  { $dateToString: { format: "%d-%m-%Y", date: "$createdAt" } },
+                        monto: { $sum: "$monto"  },
+                        cantidad: { $sum:   1  }
+                    }}
+                ], function (err, todos) {
+                    if (err){ res.send(err); }
+                    res.json(todos);
+                });
+              
+            }
+           
+        }
+    }
+    else{
     if(req.params.id3)
     {    if(req.params.id2=='vende')
         {
@@ -37,166 +195,7 @@ exports.getComprasaldo = function(req, res, next){
                     }
                     else
                     {
-                            if(req.params.id2=='billing')
-                            {
-                                var f1=req.params.id3
-                                var f2=req.params.id4
-                                var arr1 = f1.split("-");
-                                var arr2 = f2.split("-");
-                                var filtro;
-                                if(req.params.id5=='TODOS' &&  req.params.id6=='TODOS')
-                                {
-                                   
-                                    filtro={"idempresa":req.params.id7,
-                                        "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
-                                        "$lt": new Date(f2 +'T24:00:00.000Z')},"descripcion":'Cobro por servicio utilizado'
-                                    };
-                        
-                                }
-                                else
-                                {
-                                    if(req.params.id5!='TODOS' &&  req.params.id6=='TODOS')
-                                    {
-                                       
-                                        filtro={"noprov":req.params.id5,"idempresa":req.params.id7,
-                                            "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
-                                            "$lt": new Date(f2 +'T24:00:00.000Z')},"descripcion":'Cobro por servicio utilizado'
-                                        };
-                            
-                                    }
-                                    else
-                                    {
-
-                                        if(req.params.id5!='TODOS' &&  req.params.id6!='TODOS')
-                                    {
-                                       
-                                        filtro={"noprov":req.params.id5,"nodispositivo":req.params.id6,"idempresa":req.params.id7,
-                                            "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
-                                            "$lt": new Date(f2 +'T24:00:00.000Z')},"descripcion":'Cobro por servicio utilizado'
-                                        };
-                            
-                                    }
-                                    else
-                                    {
-                                        filtro={"nodispositivo":req.params.id6,"idempresa":req.params.id7,
-                                            "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
-                                            "$lt": new Date(f2 +'T24:00:00.000Z')},"descripcion":'Cobro por servicio utilizado'
-                                        };
-    
-    
-                                    }
-
-
-                                        filtro={"nodispositivo":req.params.id6,"idempresa":req.params.id7,
-                                            "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
-                                            "$lt": new Date(f2 +'T24:00:00.000Z')},"descripcion":'Cobro por servicio utilizado'
-                                        };
-    
-    
-                                    }
-    
-
-                                }
-
-                                Personalhis.aggregate([
-                                    { $match: filtro},
-                                
-                                    { $group: {
-                                       _id:  { $dateToString: { format: "%d-%m-%Y", date: "$createdAt" } },
-                                        monto: { $sum: "$monto"  },
-                                        cantidad: { $sum:   1  }
-                                    }}
-                                ], function (err, todos) {
-                                    if (err){ res.send(err); }
-                                    res.json(todos);
-                                });
-                              
-                            }
-                            else
-                            {
-
-                                if(req.params.id2=='billingparqueo')
-                                {
-                                    var f1=req.params.id3
-                                    var f2=req.params.id4
-                                    var arr1 = f1.split("-");
-                                    var arr2 = f2.split("-");
-                                    var filtro;
-                                    if(req.params.id5=='TODOS' &&  req.params.id6=='TODOS')
-                                    {
-                                       
-                                        filtro={"idempresa":req.params.id7,
-                                            "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
-                                            "$lt": new Date(f2 +'T24:00:00.000Z')}
-                                        };
-                            
-                                    }
-                                    else
-                                    {
-                                        if(req.params.id5!='TODOS' &&  req.params.id6=='TODOS')
-                                        {
-                                           
-                                            filtro={"noprov":req.params.id5,"idempresa":req.params.id7,
-                                                "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
-                                                "$lt": new Date(f2 +'T24:00:00.000Z')}
-                                            };
-                                
-                                        }
-                                        else
-                                        {
-    
-                                            if(req.params.id5!='TODOS' &&  req.params.id6!='TODOS')
-                                        {
-                                           
-                                            filtro={"noprov":req.params.id5,"nodispositivo":req.params.id6,"idempresa":req.params.id7,
-                                                "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
-                                                "$lt": new Date(f2 +'T24:00:00.000Z')}
-                                            };
-                                
-                                        }
-                                        else
-                                        {
-                                            filtro={"nodispositivo":req.params.id6,"idempresa":req.params.id7,
-                                                "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
-                                                "$lt": new Date(f2 +'T24:00:00.000Z')}
-                                            };
-        
-        
-                                        }
-    
-    
-                                            filtro={"nodispositivo":req.params.id6,"idempresa":req.params.id7,
-                                                "createdAt": {"$gte": new Date(f1 +'T00:00:00.000Z'),
-                                                "$lt": new Date(f2 +'T24:00:00.000Z')}
-                                            };
-        
-        
-                                        }
-        
-    
-                                    }
-    
-                                    Entradasdpi.aggregate([
-                                        { $match: filtro},
-                                    
-                                        { $group: {
-                                           _id:  { $dateToString: { format: "%d-%m-%Y", date: "$createdAt" } },
-                                            monto: { $sum: "$monto"  },
-                                            cantidad: { $sum:   1  }
-                                        }}
-                                    ], function (err, todos) {
-                                        if (err){ res.send(err); }
-                                        res.json(todos);
-                                    });
-                                  
-                                }
-                                else
-                                {
-    
-                                    
-                                }
-
-                            }
+                           
 
                     }
 
@@ -222,11 +221,11 @@ exports.getComprasaldo = function(req, res, next){
         }
 
     }
- 
+}
 }
 exports.deleteComprasaldo = function(req, res, next){
    
-    Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina compra saldo'});
+    Bitacora.create({idempresa:req.params.idempresa,idafiliado:req.params.idafiliado,email: req.params.userID ,permiso:'Elimina',accion:'Elimina compra saldo'});
     Comprasaldo.findByIdAndRemove({ _id: req.params.recordID  }, function(err, todo) {
         res.json(todo);
     });
@@ -259,7 +258,7 @@ if(req.params.recordID!=='crea')
 }
 else{
 
-
+console.log({'idsuscriptor.id':req.body.idsuscriptor.id,    idempresa        	: req.body.idempresa        	})
 
     Personalsaldo.find({'idsuscriptor.id':req.body.idsuscriptor.id,    idempresa        	: req.body.idempresa        	})
                 .populate('idsuscriptor.id').exec(function(err, todos) {
@@ -294,9 +293,8 @@ else{
                                 , function(err, todo22) {
                                 if (err){ res.status(500).send(err.message)    }
 
-                                Personalhis.create({idsuscriptor :{    id	:todos[0].idsuscriptor.id._id, 
-                                    idempresa        	: req.body.idempresa        	,
-                                    nombre	: todos[0].idsuscriptor.id.nombre       },
+                                Personalhis.create({idempresa        	: req.body.idempresa        ,idempresa0        	: req.body.idempresa  
+                                    	,idsuscriptor :{    id	:todos[0].idsuscriptor.id._id,    nombre	: todos[0].idsuscriptor.id.nombre       },
                                      tipo   		: 'Compra Saldo (+)',descripcion   		: 'Operación de compra saldo (+)', 
                                      saldoanterior   		: roundxx(todos[0].saldoactual,2),
                                        monto   		: roundxx(Number(req.body.monto   ),2),                                  
@@ -307,7 +305,7 @@ else{
                                         monto2:roundxx(Number('15.7555'  ),2),
                                         
                               codigo1: '', usuarionew	: req.body.bitacora.email,      usuarioup	: req.body.bitacora.email});
-                          
+                          console.log(todo22)
                                 res.json(todo22);
                         
                             });

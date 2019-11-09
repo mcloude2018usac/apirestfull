@@ -3,6 +3,7 @@ var Dtarifa = require('../models/dtarifa');
 var Bitacora = require('../models/bitacora');
 
 exports.getDtarifa = function(req, res, next){
+    
     if(req.params.id3)
     {   Dtarifa.find({idtarifa:req.params.id,_id:req.params.id2,idempresa:req.params.id3},function(err, todos) {
             if (err){ res.send(err); }

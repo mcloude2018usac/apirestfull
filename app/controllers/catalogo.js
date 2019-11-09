@@ -97,7 +97,7 @@ exports.getCatalogo = function(req, res, next){
 }
 exports.deleteCatalogo = function(req, res, next){
    
-    Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina catalogo '});
+    Bitacora.create({idempresa:req.params.idempresa,idafiliado:req.params.idafiliado,email: req.params.userID ,permiso:'Elimina',accion:'Elimina catalogo '});
     Catalogo.findByIdAndRemove({ _id: req.params.recordID  }, function(err, todo) {
         res.json(todo);
     });

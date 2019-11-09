@@ -8,6 +8,7 @@ var Permiso2 = require('../models/permison2');
 var Asignaest = require('../models/asignaestudiante');
 var User = require('../models/user');
 var Bus = require('../models/bus');
+var tarifa = require('../models/tarifa');
 
 var cleanName = function(str) {
         if (str == '') return str; // jQuery
@@ -189,13 +190,51 @@ else{
 
                 }
             break;
+            case 'dcatalogo':
+
+                        Catalogo.find({tipo:req.params.id2,idempresa:req.params.id3,estado:'Activo'},function(err, todos) {
+                                if (err){ res.send(err); }
+                               
+                                Dcatalogo.find({idcatalogo:todos1[0]._id,idempresa:req.params.id3},function(err, todos) {
+                                        if (err){  res.send(err);  }
+                                         res.json(todos);
+                                     });
+                               
+                                
+                            });
+
+
+             
+    
+                break;
+             
+                case 'dinactivos':
+                User.find({estado:'Inactivo',idempresa:req.params.id2},function(err, todos) {
+                    if (err){  res.send(err);  }
+    
+                    var myData = [];
+                    for(var i = 0; i < todos.length;i++){
+                            myData.push({id:todos[i]._id});
+    
+                    }
+    
+                     res.json(myData);
+                 });
+    
+                break;
+
+
 
             case 'dtarifa':
             //busca el disppsitivo y se encuentra la tarifa
       
 
-           
-                Dtarifa.find({idtarifa:req.params.id2},function(err, todos) {
+            
+            tarifa.find({nombre:req.params.id2,idempresa:req.params.id3,estado:'Activo'},function(err, todos2) {
+                if (err){  res.send(err);  }
+
+             
+                Dtarifa.find({idtarifa:todos2[0]._id,idempresa:req.params.id3},function(err, todos) {
                         if (err){  res.send(err);  }
         
                         var myData = [];
@@ -207,7 +246,11 @@ else{
                                      
 
             });
-                                    
+                                                
+
+    });
+           
+                 
                 
 
 
@@ -240,28 +283,7 @@ else{
              });
 
             break;
-            case 'dcatalogo':
-            Dcatalogo.find({idcatalogo:req.params.id2},function(err, todos) {
-                if (err){  res.send(err);  }
-                 res.json(todos);
-             });
-
-            break;
          
-            case 'dinactivos':
-            User.find({estado:'Inactivo'},function(err, todos) {
-                if (err){  res.send(err);  }
-
-                var myData = [];
-                for(var i = 0; i < todos.length;i++){
-                        myData.push({id:todos[i]._id});
-
-                }
-
-                 res.json(myData);
-             });
-
-            break;
          
             case 'dispositivo-tipo':
             res.json([{id:'BUS',nombre:'BUS'},{id:'TALANQUERA',nombre:'TALANQUERA'},{id:'MOLINETE',nombre:'MOLINETE'},{id:'ACCESO DIGITAL',nombre:'ACCESO DIGITAL'}]);

@@ -1,24 +1,42 @@
 
 var Dcatalogo = require('../models/dcatalogo');
+
+var catalogo = require('../models/catalogo');
 var Bitacora = require('../models/bitacora');
 
 exports.getDcatalogo = function(req, res, next){
-    if(req.params.id2)
-    {   Dcatalogo.find({idcatalogo:req.params.id,_id:req.params.id2},function(err, todos) {
+    if(req.params.id3)
+    { 
+console.log({nombre:req.params.id,idempresa:req.params.id2,estado:'Activo'})
+        catalogo.find({tipo:req.params.id,idempresa:req.params.id2,estado:'Activo'},function(err, todos) {
             if (err){ res.send(err); }
            
-            if(todos.length>0)   {    res.json(todos);   }
+            if(todos.length>0)   {   
+                
+               // res.json(todos); 
+
+                Dcatalogo.find({idcatalogo:todos[0]._id,idempresa:req.params.id2},function(err, todos) {
+                    if (err){  res.send(err);  }
+                     res.json(todos);
+                 });
+            
+            
+            }
             else
-            {  res.status(500).send('NO EXISTE REGISTRO');      }
+            { res.json(todos);      }
             
         });
+
     }
-    else
-    { Dcatalogo.find({idcatalogo:req.params.id},function(err, todos) {
-           if (err){  res.send(err);  }
-            res.json(todos);
-        });
+    else{
+
+     Dcatalogo.find({idcatalogo:req.params.id,idempresa:req.params.id2},function(err, todos) {
+               if (err){  res.send(err);  }
+                res.json(todos);
+            });
+        
     }
+  
 }
 exports.deleteDcatalogo = function(req, res, next){
    
