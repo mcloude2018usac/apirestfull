@@ -90,8 +90,10 @@ var AuthenticationController = require('./controllers/authentication'),
     Unidadtipocurso3Controller = require('./controllers/calusac/unidadtipocurso3'),
 
     Periodousac3Controller = require('./controllers/calusac/unidadperiodo3'),
+    Periodousac4Controller = require('./controllers/calusac/unidadperiodo4'),
     Edificiosalon3Controller = require('./controllers/calusac/unidadedificiosalon3'),
     Unidadplan3Controller = require('./controllers/calusac/unidadplan3'),
+    Unidadplan4Controller = require('./controllers/calusac/unidadplan4'),
     Facultadmateria3Controller = require('./controllers/calusac/facultadmateria3'),
     Unidadacademica3Controller = require('./controllers/calusac/unidadacademica3'),
 
@@ -220,12 +222,13 @@ module.exports = function(app){
         idiomausac3Routes = express.Router(),
         unidadtipogrupo3Routes = express.Router(),
         unidadtipocurso3Routes = express.Router(),
+        periodousac4Routes = express.Router(),
         periodousac3Routes = express.Router(),
         unidadacademica3Routes = express.Router(),
         facultadmateria3Routes = express.Router(),
         edificiosalon3Routes = express.Router(),
         unidadplan3Routes = express.Router(),
-
+        unidadplan4Routes = express.Router(),
         edificiousac2Routes = express.Router(),
         periodousac2Routes = express.Router(),
         unidadacademica2Routes = express.Router(),
@@ -479,7 +482,7 @@ personalRoutes.get('/',requireAuth, PersonalController.getPersonal);
 personalRoutes.get('/:email/:id2/:id3/:id4',requireAuth, PersonalController.getPersonal);
 personalRoutes.get('/:email/:id2/:id3',requireAuth, PersonalController.getPersonal);
 personalRoutes.get('/:email/:id2/:id3/:id4/:id5/:id6/:id7/:id8/:id9/:id10', requireAuth,PersonalController.getPersonal);
-personalRoutes.get('/:email/:id2/:id3/:id4/:id5/:id6/:id7', requireAuth,PersonalController.getPersonal);
+personalRoutes.get('/:email/:id2/:id3/:id4/:id5/:id6/:id7/:id8/:id9', requireAuth,PersonalController.getPersonal);
 
 personalRoutes.get('/:pagineo/:limit/:page/:idempresa',requireAuth,  PersonalController.getPersonal);
 
@@ -554,10 +557,20 @@ comprasaldoRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth
 //-----------------------------------REVERSION DE SALDO----------------------------------
 
 apiRoutes.use('/reversionsaldos', reversionsaldoRoutes);
-reversionsaldoRoutes.get('/:id',requireAuth, ReversionsaldoController.getReversionsaldo);
-reversionsaldoRoutes.get('/:id/:id2',requireAuth,  ReversionsaldoController.getReversionsaldo);
+reversionsaldoRoutes.get('/:id/:id2',requireAuth, ReversionsaldoController.getReversionsaldo);
+reversionsaldoRoutes.get('/:id/:id2/:id3',requireAuth,  ReversionsaldoController.getReversionsaldo);
 reversionsaldoRoutes.post('/:recordID',requireAuth,  ReversionsaldoController.creaReversionsaldo2s);
 reversionsaldoRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  ReversionsaldoController.deleteReversionsaldo);
+
+
+//-----------------------------------trasferencia DE SALDO----------------------------------
+
+apiRoutes.use('/compratransferencias', compratransferenciaRoutes);
+compratransferenciaRoutes.get('/:id/:id2',requireAuth, CompratrasferenciaController.getCompratransferencia);
+compratransferenciaRoutes.get('/:id/:id2/:id3',requireAuth,  CompratrasferenciaController.getCompratransferencia);
+compratransferenciaRoutes.post('/:recordID',requireAuth,  CompratrasferenciaController.creaCompratransferencia2s);
+compratransferenciaRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  CompratrasferenciaController.deleteCompratransferencia);
+
 
 //-----------------------------------ASIGNA PAP----------------------------------
 
@@ -603,14 +616,6 @@ usermsgRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  U
 
 
 
-
-//-----------------------------------trasferencia DE SALDO----------------------------------
-
-apiRoutes.use('/compratransferencias', compratransferenciaRoutes);
-compratransferenciaRoutes.get('/:id',requireAuth, CompratrasferenciaController.getCompratransferencia);
-compratransferenciaRoutes.get('/:id/:id2',requireAuth,  CompratrasferenciaController.getCompratransferencia);
-compratransferenciaRoutes.post('/:recordID',requireAuth,  CompratrasferenciaController.creaCompratransferencia2s);
-compratransferenciaRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  CompratrasferenciaController.deleteCompratransferencia);
 
 //-----------------------------------EVENTOS
 apiRoutes.use('/eventos', eventoRoutes);
@@ -724,9 +729,6 @@ tiposuscriptorRoutes.get('/:id/:id2/:id3',requireAuth,  TiposuscriptorController
 tiposuscriptorRoutes.post('/:recordID',requireAuth,  TiposuscriptorController.creaTiposuscriptor2s);
 tiposuscriptorRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  TiposuscriptorController.deleteTiposuscriptor);
 
-
-
-
 //-------------------------------------EMPRESA MONGO
 apiRoutes.use('/empresas', empresaRoutes);
 empresaRoutes.get('/',requireAuth, EmpresaController.getEmpresa);
@@ -735,17 +737,14 @@ empresaRoutes.get('/:id/:id2',requireAuth,  EmpresaController.getEmpresa);
 empresaRoutes.post('/:recordID',requireAuth,  EmpresaController.creaEmpresa2s);
 empresaRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  EmpresaController.deleteEmpresa);
 
-
-
-
-
 //-----------------------------------Dcatalogo
 apiRoutes.use('/dcatalogos', dcatalogoRoutes);
 dcatalogoRoutes.get('/:id',  DcatalogoController.getDcatalogo);
-
 dcatalogoRoutes.get('/:id/:id2',requireAuth,  DcatalogoController.getDcatalogo);
+dcatalogoRoutes.get('/:id/:id2/:id3',requireAuth,  DcatalogoController.getDcatalogo);
 dcatalogoRoutes.post('/:id',requireAuth,  DcatalogoController.creaDcatalogo2s);
 dcatalogoRoutes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  DcatalogoController.deleteDcatalogo);
+
 
 //-----------------------------------TARIFA
 apiRoutes.use('/tarifas', tarifaRoutes);
@@ -904,7 +903,13 @@ unidadtipocurso3Routes.delete('/:recordID/:userID/:idempresa/:idafiliado',requir
 
 
 
-
+//-----------------------------------unidad periodo4
+apiRoutes.use('/unidadperiodo4s',periodousac4Routes);
+periodousac4Routes.get('/:id',requireAuth,  Periodousac4Controller.getUnidadperiodo4);
+periodousac4Routes.get('/:id2/:id3',requireAuth,  Periodousac4Controller.getUnidadperiodo4);
+periodousac4Routes.get('/:id2/:id3/:id4',requireAuth,  Periodousac4Controller.getUnidadperiodo4);
+periodousac4Routes.post('/:recordID', requireAuth, Periodousac4Controller.creaUnidadperiodo42s);
+periodousac4Routes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  Periodousac4Controller.deleteUnidadperiodo4);
 
 
 //-----------------------------------unidad periodo3
@@ -995,6 +1000,15 @@ unidadplan3Routes.get('/:id2/:id3/:id4',requireAuth,  Unidadplan3Controller.getU
 unidadplan3Routes.get('/:id/:id2/:id3/:id4/:id5',requireAuth,  Unidadplan3Controller.getUnidadplan3);
 unidadplan3Routes.post('/:recordID',requireAuth,  Unidadplan3Controller.creaUnidadplan32s);
 unidadplan3Routes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  Unidadplan3Controller.deleteUnidadplan3);
+
+
+//-----------------------------------unidad plan4
+apiRoutes.use('/unidadplan4s',unidadplan4Routes);
+unidadplan4Routes.get('/:id',requireAuth,  Unidadplan4Controller.getUnidadplan4);
+unidadplan4Routes.get('/:id2/:id3/:id4',requireAuth,  Unidadplan4Controller.getUnidadplan4);
+unidadplan4Routes.get('/:id/:id2/:id3/:id4/:id5',requireAuth,  Unidadplan4Controller.getUnidadplan4);
+unidadplan4Routes.post('/:recordID',requireAuth,  Unidadplan4Controller.creaUnidadplan42s);
+unidadplan4Routes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  Unidadplan4Controller.deleteUnidadplan4);
 
 
 
