@@ -265,7 +265,7 @@ console.log({'idsuscriptor.id':req.body.idsuscriptor.id,    idempresa      
         if (err) {  res.send(err);  }
         else
         { 
-          
+          console.log(todos)
             Personalsaldo.findById({ _id:todos[0]._id }, function (err, todo3)  {
                 if (err) {  res.send(err);  }
                 else

@@ -1,5 +1,6 @@
 var Solcarne = require('../models/solcarne');
 var Bitacora = require('../models/bitacora');
+var Suscriptorsaldo = require('../models/suscriptorsaldo');
 
 function roundxx(value, decimals) {
     //parseFloat(Math.round(num3 * 100) / 100).toFixed(2);
@@ -50,6 +51,7 @@ if(req.params.recordID!=='crea')
         else
         {           todo.idsuscriptor        	={id:req.body.idsuscriptor.id,nombre:req.body.idsuscriptor.nombre   }   	;
               todo.nombre        	=	req.body.idsuscriptor.nombre       	||	todo.nombre        	;
+              todo.codigo        	=	req.body.idsuscriptor.codigo       	||	todo.codigo        	;
             todo.estado    	=	req.body.estado    	||	todo.estado    	;
             todo.nota    	=	req.body.nota    	||	todo.nota    	;
             todo.usuarioup=req.body.bitacora.email;
@@ -69,13 +71,39 @@ else{
                                 idsuscriptor        	: req.body.idsuscriptor        	,
                                 nombre        	: req.body.nombre        	,
                                 usuarionew:req.body.bitacora.email,
+                                codigo      	: req.body.codigo     	,
                                 estado 	: req.body.estado 	,
                                 nota 	: req.body.nota 	
                               }
                                 , function(err, todo22) {
                                 if (err){ res.status(500).send(err.message)    }
 
-                                res.json(todo22);
+                                   
+    Suscriptorsaldo.create({  
+        idempresa      	: req.body.idempresa     	,
+        idsuscriptor      	: req.body.idsuscriptor2     	,
+        saldoactual        	: 0       	,
+        codigo1        	: req.body.codigo        	,
+        codigo2        	: ''      	,
+        codigo3        	: ''        	,
+        codigo4        	: ''        	,
+        codigo5        	: ''        	,
+        dispositivo1        	: 'Tarjeta'        	,
+        dispositivo2        	: ''        	,
+        dispositivo3        	: ''        	,
+        dispositivo4        	: ''        	,
+        dispositivo5        	: ''        	,
+        usuarionew:req.body.bitacora.email 	
+       }
+        , function(err, todo100) {
+        if (err){ 
+          console.log(err.message)
+            res.status(500).send(err.message)    }
+            res.json(todo22);
+
+        });
+
+                              
                         
                             });
  
