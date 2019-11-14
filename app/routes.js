@@ -64,6 +64,7 @@ var AuthenticationController = require('./controllers/authentication'),
     QrimagenController = require('./controllers/qrimagen'),
     AsignapcbController = require('./controllers/asignapcb'),
     AsignacalusacController = require('./controllers/calusac/asignacalusac'),
+    AsignaubicacionController = require('./controllers/calusac/asignaubicacion'),
     TipounidadController = require('./controllers/tipounidad'),
     Tipounidad2Controller = require('./controllers/tipounidad2'),
     DepartamentoController = require('./controllers/departamento'),
@@ -196,6 +197,7 @@ module.exports = function(app){
         personalRoutes = express.Router(),
         asignapcbRoutes = express.Router(),
         asignacalusacRoutes = express.Router(),
+        asignaubicacionRoutes = express.Router(),
         tipounidadRoutes = express.Router(),
         tipounidad2Routes = express.Router(),
         autorizaRoutes = express.Router(),
@@ -1100,6 +1102,16 @@ asignacalusacRoutes.get('/:id/:id2',requireAuth,  AsignacalusacController.getAsi
 asignacalusacRoutes.get('/:id/:id2/:id3', AsignacalusacController.getAsignacalusac);
 asignacalusacRoutes.post('/:recordID', requireAuth, AsignacalusacController.creaAsignacalusac2s);
 asignacalusacRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  AsignacalusacController.deleteAsignacalusac);
+
+
+//-----------------------------------ASIGNA CALUSAC UBICACION
+apiRoutes.use('/asignaubicacions', asignaubicacionRoutes);
+asignaubicacionRoutes.get('/',requireAuth, AsignaubicacionController.getAsignaubicacion);
+asignaubicacionRoutes.get('/:id',requireAuth,  AsignaubicacionController.getAsignaubicacion);
+asignaubicacionRoutes.get('/:id/:id2',requireAuth,  AsignaubicacionController.getAsignaubicacion);
+asignaubicacionRoutes.get('/:id/:id2/:id3', AsignaubicacionController.getAsignaubicacion);
+asignaubicacionRoutes.post('/:recordID', requireAuth, AsignaubicacionController.creaAsignaubicacion2s);
+asignaubicacionRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  AsignaubicacionController.deleteAsignaubicacion);
 
 
 
