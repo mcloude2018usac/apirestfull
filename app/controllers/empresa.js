@@ -132,7 +132,7 @@ else{
                 if (err){    res.status(500).send(err.message)    }
                 idtiposus=xtiposus._id
 
-                Catalogo.create({   "tipo" : "UNIDADES",    "nombre" : "WEBAPP",   "fecha" : ("2018-09-27T18:29:11.918+0000"),  "estado" : "Activo", "createdAt" : ("2018-09-27T18:29:53.037+0000"),   "updatedAt" : ("2018-09-27T18:29:53.037+0000"),   "__v" : (0),  "idempresa" : idempresa                    }, function(err, xcatuni1) {
+                Catalogo.create({   "tipo" : "UNIDADES",    "nombre" : "WEBAPP",   "filtro" : ("2018-09-27T18:29:11.918+0000"),  "estado" : "Activo", "createdAt" : ("2018-09-27T18:29:53.037+0000"),   "updatedAt" : ("2018-09-27T18:29:53.037+0000"),   "__v" : (0),  "idempresa" : idempresa                    }, function(err, xcatuni1) {
                     if (err){    res.status(500).send(err.message)    }
                     iduniuser=xcatuni1._id
     
