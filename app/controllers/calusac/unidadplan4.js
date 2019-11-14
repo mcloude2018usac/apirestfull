@@ -13,17 +13,17 @@ exports.getUnidadplan4 = function(req, res, next){
        
     switch(req.params.id5) {
    
-        case 'profesores':
+        case 'dias':
 
         var id3v=req.params.id4.split('°')
        
 
             var projectDataForMatch = {
                 $project : {
-                  idprofesor : 1, //list all fields needed here
+                
                   idtipounidad:1,
                  
-                  idhora:1,
+                    idperiodo:1,
                   iddia:1,
                
                     filterThisDoc : {
@@ -40,21 +40,57 @@ exports.getUnidadplan4 = function(req, res, next){
             var match = {
                 $match : {
                     filterThisDoc : 1,
-                    'idtipounidad.id' :req.params.id,'idperiodo.id':req.params.id3,'idhora':id3v[0],
-                    'iddia':id3v[1]
+                    'idtipounidad.id' :req.params.id,'idperiodo.id':req.params.id3
                 }
             }
             Facplan4.aggregate([ projectDataForMatch, match]  ).exec(function(err, todos10) {
                 if (err){ res.send(err); }
                
                 var duplicates = [];
-                todos10.forEach(function (doc) {duplicates.push(doc.idprofesor);  });
-                  Unidadprofesor3.find({_id: {$in: duplicates}},function(err, todos) {
-                    if (err){  res.send(err);  }
-                     res.json(todos);
-                 });
+                todos10.forEach(function (doc) {duplicates.push({nombre:doc.iddia});  });
+                res.json(duplicates);
             });
         break
+        case 'horas':
+
+            var id3v=req.params.id4.split('°')
+           
+    
+                var projectDataForMatch = {
+                    $project : {
+                    
+                      idtipounidad:1,
+                     
+                        idperiodo:1,
+                        idhora:1,
+                      iddia:1,
+                   
+                        filterThisDoc : {
+                            $cond : {
+                                if  : {
+                                    $lt : ["$asignados", "$capacidad"]
+                                },
+                            then : 1,
+                            else  : 0
+                        } //or use compare operator $cmp
+                    }
+                }
+                }
+                var match = {
+                    $match : {
+                        filterThisDoc : 1,iddia: {"$eq": new Date(req.params.id2)},
+                        'idtipounidad.id' :req.params.id,'idperiodo.id':req.params.id3
+                    }
+                }
+                console.log(match)
+                Facplan4.aggregate([ projectDataForMatch, match]  ).exec(function(err, todos10) {
+                    if (err){ res.send(err); }
+                   
+                    var duplicates = [];
+                    todos10.forEach(function (doc) {duplicates.push({nombre:doc.idhora});  });
+                    res.json(duplicates);
+                });
+            break
         default:
                 var projectDataForMatch = {
                     $project : {
@@ -117,9 +153,9 @@ exports.getUnidadplan4 = function(req, res, next){
         }
         else
         {
-          
+          console.log('entra')
             Unidadplan4.find({'idtipounidad.id' :req.params.id2,'idperiodo.id':req.params.id4})
-        .populate('idprofesor').exec(function(err, todos) {
+        .populate('idprofesor').populate('ididioma').populate('idtipo').exec(function(err, todos) {
                if (err){  res.send(err);  }
                /*var myData = [];
               
@@ -183,7 +219,7 @@ if(req.params.recordID!=='crea')
             todo.iddia=	req.body.iddia        	||	todo.iddia        	;
             todo.idhora=	req.body.idhora       	||	todo.idhora       	;
             todo.ididioma=	req.body.ididioma       	||	todo.ididioma       	;
-         
+            todo.idtipo=	req.body.idtipo       	||	todo.idtipo       	;
             todo.idprofesor=	req.body.idprofesor        	||	todo.idprofesor        	;
             
           
@@ -212,6 +248,7 @@ else{
            nombre: req.body.nombre,
            idhora: req.body.idhora,
            ididioma: req.body.ididioma,
+           idtipo: req.body.idtipo,
            iddia: req.body.iddia, idprofesor: req.body.idprofesor
            },function(err, todos) {
         if (err){ res.send(err); }
@@ -229,6 +266,7 @@ else{
             idhora: req.body.idhora,
             ididioma: req.body.ididioma,
             iddia: req.body.iddia,
+            idtipo: req.body.idtipo,
             idprofesor: req.body.idprofesor,
             capacidad: req.body.capacidad,
             asignados: req.body.asignados,
