@@ -14,6 +14,10 @@ var mongoose =require("mongoose");
             type: String,
             required: true,ref:'Unidadidioma3'
         },
+        idtipo: {
+            type: String,
+            required: true,ref:'Unidadtipogrupo3'
+        },
         idhora: {  type: String,   required: true   },
         iddia: {  type: Date,   required: true   },
         idprofesor: {
