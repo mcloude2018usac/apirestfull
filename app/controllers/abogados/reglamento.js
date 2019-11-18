@@ -108,6 +108,12 @@ else{
                todo.texto        	=	req.body.texto        	||	todo.texto        	;
                todo.f1        	=	req.body.f1        	||	todo.f1       	;
                todo.f2        	=	req.body.f2        	||	todo.f2        	;
+               
+               todo.pais        	=	req.body.pais        	||	todo.pais        	;
+               todo.tipo        	=	req.body.tipo        	||	todo.tipo        	;
+               todo.sector        	=	req.body.sector        	||	todo.sector        	;
+               todo.area        	=	req.body.area        	||	todo.area        	;
+
                todo.fecha        	=	req.body.fecha        	||	todo.fecha       	;
                todo.estado        	=	req.body.estado       	||	todo.estado        	;
                todo.ubicacion        	=	req.body.ubicacion       	||	todo.ubicacion        	;
@@ -136,7 +142,10 @@ else{
                     titulo       	: req.body.titulo       	,
                     texto    	: req.body.texto    	,
                     fecha 	: req.body.fecha 	,
-                
+                  pais: req.body.pais 	,
+                  tipo: req.body.tipo 	,
+                  sector: req.body.sector 	,
+                  area: req.body.area 	,
                     f1 	: req.body.f1 	,
                     f2 	: req.body.f2 	,
                     estado:req.body.estado,

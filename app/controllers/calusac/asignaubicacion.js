@@ -378,7 +378,7 @@ else{
                 
                 identificador      	: req.body.identificador      	  }  ;
 
-       
+         
 console.log(filtro)
 
     Asignaubicacion.find(filtro,function(err, todos) {
