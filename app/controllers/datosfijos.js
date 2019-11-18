@@ -270,6 +270,75 @@ console.log('TERMINA')
 
 
         break;        
+        case 'oracleclient':
+console.log(req.params)
+        if(req.params.id6)
+        {
+console.log('en 5')
+                request({
+                        url:  'http://52.90.195.238:3000/api/'+req.params.id2 + '/' +  req.params.id3 +'/' +  req.params.id4+'/' +  req.params.id5+'/' +  req.params.id6,
+                        method: "GET",
+                        gzip: true,
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization':'123'
+                          
+            
+            
+                            
+                        },
+                        body: ''
+                    }, function (error, response, body){
+               
+                        if (error){  console.log(error); res.send(error);  }
+                       
+                    
+            
+                
+                          res.send(body);
+                
+            
+            
+            
+                    });
+
+        }
+        else
+        {
+                console.log('en 4')
+                
+                request({
+                        url:  'http://52.90.195.238:3000/api/'+req.params.id2 + '/' +  req.params.id3 +'/' +  req.params.id4,
+                        method: "GET",
+                        gzip: true,
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization':'123'
+                          
+            
+            
+                            
+                        },
+                        body: ''
+                    }, function (error, response, body){
+               
+                        if (error){  console.log(error); res.send(error);  }
+                       
+                    
+            
+                
+                          res.send(body);
+                
+            
+            
+            
+                    });
+
+        }
+
+
+
+        break;        
         case 'actarea':
         
 
