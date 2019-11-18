@@ -15,6 +15,11 @@ var ReglamentoSchema = new mongoose.Schema({
     f1: {       type: String   },
     f2: {       type: String   },
     estado: {       type: String   },
+    pais: {        type: String,        required: true    },
+    tipo: {        type: String,        required: true    },
+    sector: {        type: String,        required: true    },
+    area: {        type: String,        required: true    },
+
     usuarionew	: { type : String },      usuarioup	: { type : String },
     ubicacion: {        type: String  },
     autor: {        type: String  },
@@ -23,5 +28,5 @@ var ReglamentoSchema = new mongoose.Schema({
 }, {
     timestamps: true
 });
-
+ 
 module.exports = mongoose.model('Reglamento', ReglamentoSchema);
