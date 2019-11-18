@@ -155,9 +155,7 @@ module.exports = function(app){
         tarifaRoutes = express.Router(),
         userpostRoutes = express.Router(),
         nuevosalonRoutes = express.Router(),
-        
-        
-        Routes = express.Router(),
+        datosfijosRoutes = express.Router(),
         datosfijo2sRoutes = express.Router(),
         eventoRoutes = express.Router(),
         frmmovilRoutes = express.Router(),
@@ -774,11 +772,11 @@ userRoutes.post('/:recordID',  UserController.creaUser2s);
 userRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',  UserController.deleteUser);
 */
 
-/*
+
 apiRoutes.use('/oracle2', oraRoutes);
 oraRoutes.get('/:id/:id2',  OraController.getoraclesqlxx);
 oraRoutes.get('/:id/:id2/:id3/:id4',  OraController.getoraclesqlxx);
-*/
+
 
 //-----------------------------------TIPO UNIDAD
 apiRoutes.use('/tipounidads', tipounidadRoutes);
@@ -1215,7 +1213,7 @@ datosfijosRoutes.get('/:id', DatosfijosController.getCombofijo);
 datosfijosRoutes.get('/:id/:id2', DatosfijosController.getCombofijo);
 datosfijosRoutes.get('/:id/:id2/:id3',  DatosfijosController.getCombofijo);
 datosfijosRoutes.get('/:id/:id2/:id3/:id4',  DatosfijosController.getCombofijo);
-datosfijosRoutes.get('/:id/:id2/:id3/:id4/:id5',  DatosfijosController.getCombofijo);
+//datosfijosRoutes.get('/:id/:id2/:id3/:id4/:id5',  DatosfijosController.getCombofijo);
 datosfijosRoutes.get('/:id/:id2/:id3/:id4/:id5/:id6',  DatosfijosController.getCombofijo);
 
 
