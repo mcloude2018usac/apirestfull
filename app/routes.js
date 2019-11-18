@@ -155,7 +155,9 @@ module.exports = function(app){
         tarifaRoutes = express.Router(),
         userpostRoutes = express.Router(),
         nuevosalonRoutes = express.Router(),
-        datosfijosRoutes = express.Router(),
+        
+        
+        Routes = express.Router(),
         datosfijo2sRoutes = express.Router(),
         eventoRoutes = express.Router(),
         frmmovilRoutes = express.Router(),
