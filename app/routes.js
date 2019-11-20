@@ -772,11 +772,11 @@ userRoutes.post('/:recordID',  UserController.creaUser2s);
 userRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',  UserController.deleteUser);
 */
 
-/*
+
 apiRoutes.use('/oracle2', oraRoutes);
 oraRoutes.get('/:id/:id2',  OraController.getoraclesqlxx);
 oraRoutes.get('/:id/:id2/:id3/:id4',  OraController.getoraclesqlxx);
-*/
+
 
 //-----------------------------------TIPO UNIDAD
 apiRoutes.use('/tipounidads', tipounidadRoutes);
