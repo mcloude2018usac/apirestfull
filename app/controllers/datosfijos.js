@@ -276,7 +276,7 @@ console.log('TERMINA')
         {
 
                 request({
-                        url:  'http://52.90.195.238:3000/api/'+req.params.id2 + '/' +  req.params.id3 +'/' +  req.params.id4+'/' +  req.params.id5+'/' +  req.params.id6,
+                        url:  'http://190.143.151.236:8501/api/'+req.params.id2 + '/' +  req.params.id3 +'/' +  req.params.id4+'/' +  req.params.id5+'/' +  req.params.id6,
                         method: "GET",
                         gzip: true,
                         headers: {
@@ -308,7 +308,7 @@ console.log('TERMINA')
                 console.log('en 4')
                 
                 request({
-                        url:  'http://52.90.195.238:3000/api/'+req.params.id2 + '/' +  req.params.id3 +'/' +  req.params.id4,
+                        url:  'http://190.143.151.236:8501/api/'+req.params.id2 + '/' +  req.params.id3 +'/' +  req.params.id4,
                         method: "GET",
                         gzip: true,
                         headers: {
