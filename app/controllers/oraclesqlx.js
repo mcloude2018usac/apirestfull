@@ -5,7 +5,7 @@ var oracledb = require('oracledb');
 var connAttrs = {
     "user": "dbindicadores",
     "password": "N0tiene",
-    "connectString": "52.90.195.238/xe"
+    "connectString": "190.143.151.236/xe"
 }
 
 function removeDups(names) {
