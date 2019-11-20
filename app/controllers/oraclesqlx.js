@@ -1,4 +1,4 @@
-/*
+
 var oracledb = require('oracledb');
 
 
@@ -303,4 +303,4 @@ console.log(qry)
 
   
 }
-*/
+
