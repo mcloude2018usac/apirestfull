@@ -21,6 +21,7 @@ function removeDups(names) {
 
 exports.getoraclesqlxx = function(req, res, next){
   "use strict";
+    console.log('entraaaaaaaaaaaaaaaaaaaaaaaaaa')
   oracledb.getConnection(connAttrs, function (err, connection) {
     if (err) {
         // Error connecting to DB
@@ -36,6 +37,7 @@ exports.getoraclesqlxx = function(req, res, next){
 var qry=''
     switch(req.params.id) {
         case 'indicadores':
+            console.log(req.params.id)
         qry='select *  from indicador'      
         break;
         case 'tipoterritorios':
