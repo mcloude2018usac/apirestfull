@@ -1,4 +1,4 @@
-
+/*
 var oracledb = require('oracledb');
 
 
@@ -89,16 +89,7 @@ console.log(qry)
             var status = err ? 500 : 404;
 
            res.status(500).send('No existe informacion')  
-/*
-            switch(req.params.id) {
-                case 'datosgrafica':
-                        res.json({etiquetas:[],dataset:[]});
-                    break;
-                defaul:
-                res.json([]);
 
-            }
-*/
            
         } else {
 
@@ -312,3 +303,4 @@ console.log(qry)
 
   
 }
+*/
