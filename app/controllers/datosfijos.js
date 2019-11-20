@@ -306,7 +306,7 @@ console.log('TERMINA')
         else
         {
                 console.log('en 4')
-                
+                console.log('http://190.143.151.236:8501/api/'+req.params.id2 + '/' +  req.params.id3 +'/' +  req.params.id4)
                 request({
                         url:  'http://190.143.151.236:8501/api/'+req.params.id2 + '/' +  req.params.id3 +'/' +  req.params.id4,
                         method: "GET",
