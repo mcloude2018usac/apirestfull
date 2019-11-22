@@ -3,9 +3,9 @@ var Indicadore = require('../models/segeplan/indicadores');
 
 
 var connAttrs = {
-    "user": "dbindicadores",
-    "password": "N0tiene",
-    "connectString": "190.143.151.236/xe"
+       "user": "dbindicadores",
+    "password": "S1t13n3$",
+    "connectString": "181.174.122.180/xe"
 }
 
 function removeDups(names) {
