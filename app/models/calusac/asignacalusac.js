@@ -66,11 +66,9 @@ var AsignacalusacSchema = new mongoose.Schema({
     date 		: { type: Date, default: Date.now }
     ,usuarionew	: { type : String },      usuarioup	: { type : String },tipoasignacion	: { type : String }
  
- 
 }, {
     timestamps: true
 });
- 
 
 /* Export model for application usage */
 module.exports = mongoose.model('Asignacalusac', AsignacalusacSchema);
