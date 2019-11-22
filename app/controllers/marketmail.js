@@ -364,6 +364,8 @@ else{
     else{
 
 
+        console.log(req.body.idempresa)
+
                     Bitacora.create(req.body.bitacora);
                   
                 Marketemail.create({  

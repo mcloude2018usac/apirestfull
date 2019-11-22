@@ -1,11 +1,11 @@
-
 var oracledb = require('oracledb');
+var Indicadore = require('../models/segeplan/indicadores');
 
 
 var connAttrs = {
-    "user": "dbprocessges",
-    "password": "S1t13n3$",
-    "connectString": "181.174.122.180/xe"
+    "user": "dbindicadores",
+    "password": "N0tiene",
+    "connectString": "190.143.151.236/xe"
 }
 
 function removeDups(names) {
@@ -21,7 +21,6 @@ function removeDups(names) {
 
 exports.getoraclesqlxx = function(req, res, next){
   "use strict";
-    console.log('entraaaaaaaaaaaaaaaaaaaaaaaaaa')
   oracledb.getConnection(connAttrs, function (err, connection) {
     if (err) {
         // Error connecting to DB
@@ -37,7 +36,6 @@ exports.getoraclesqlxx = function(req, res, next){
 var qry=''
     switch(req.params.id) {
         case 'indicadores':
-            console.log(req.params.id)
         qry='select *  from indicador'      
         break;
         case 'tipoterritorios':
@@ -89,18 +87,55 @@ console.log(qry)
             var status = err ? 500 : 404;
 
            res.status(500).send('No existe informacion')  
+/*
+            switch(req.params.id) {
+                case 'datosgrafica':
+                        res.json({etiquetas:[],dataset:[]});
+                    break;
+                defaul:
+                res.json([]);
 
+            }
+*/
            
         } else {
 
 
             switch(req.params.id) {
                 case 'indicadores':
-                        var myData = [];
-                        for(var i = 0; i < result.rows.length;i++){
-                            myData.push({codigo:result.rows[i].ID_INDICADOR,nombre:result.rows[i].NOMBRE})
-                        }
-                        res.json(myData);
+                        
+                        Indicadore.find({idempresa:req.params.id3,usuarionew:req.params.id4}).exec(function(err, todos) {
+                            if (err){  res.send(err);  }
+                            var myData = [];
+                            for(var i = 0; i < result.rows.length;i++){
+
+                                var encuentra=0;
+                                for(var ii = 0; ii < todos.length;ii++){
+                                    
+                                    if(todos[ii].idindicador==result.rows[i].ID_INDICADOR)
+                                    {
+                                        encuentra=1;
+                                        break;
+                                    }
+                                }
+                                if(encuentra==1)
+                                {}
+                                else{
+                                    myData.push({codigo:result.rows[i].ID_INDICADOR,nombre:result.rows[i].NOMBRE})
+                                }
+
+                                
+                            }
+                            res.json(myData);
+
+                           
+                        });
+
+
+
+
+
+                       
 
                 break;
                 case 'participacion':
@@ -303,4 +338,3 @@ console.log(qry)
 
   
 }
-
