@@ -26,6 +26,7 @@ var AuthenticationController = require('./controllers/authentication'),
     SuscriptorsaldoController = require('./controllers/suscriptorsaldo'),
     PersonalController = require('./controllers/personal'),
     EventoController = require('./controllers/eventos'),
+    IndicadorController = require('./controllers/segeplan/indicadores'),
     FrmmovilController = require('./controllers/frmmovil'),
     FrmcatController = require('./controllers/formcat'),
     Frmcat2Controller = require('./controllers/frmcat2'),
@@ -158,6 +159,7 @@ module.exports = function(app){
         datosfijosRoutes = express.Router(),
         datosfijo2sRoutes = express.Router(),
         eventoRoutes = express.Router(),
+        indicadorRoutes = express.Router(),
         frmmovilRoutes = express.Router(),
         frmcatRoutes = express.Router(),
         frmcat2Routes = express.Router(),
@@ -615,6 +617,17 @@ usermsgRoutes.get('/:id',requireAuth, UsermsgController.getUsermsg);
 usermsgRoutes.get('/:id/:id2',requireAuth,  UsermsgController.getUsermsg);
 //usermsgRoutes.post('/:recordID',requireAuth,  UsermsgController.creaUsermsg2s);
 usermsgRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  UsermsgController.deleteUsermsg);
+
+
+
+//-----------------------------------EVENTOS
+apiRoutes.use('/indicadores', indicadorRoutes);
+indicadorRoutes.get('/',requireAuth, IndicadorController.getIndicadores);
+
+indicadorRoutes.get('/:id/:id2/:id3', IndicadorController.getIndicadores);
+
+indicadorRoutes.post('/:recordID',  IndicadorController.creaIndicadores2s);
+indicadorRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  IndicadorController.deleteIndicadores);
 
 
 
@@ -1111,6 +1124,7 @@ asignaubicacionRoutes.get('/',requireAuth, AsignaubicacionController.getAsignaub
 asignaubicacionRoutes.get('/:id',requireAuth,  AsignaubicacionController.getAsignaubicacion);
 asignaubicacionRoutes.get('/:id/:id2',requireAuth,  AsignaubicacionController.getAsignaubicacion);
 asignaubicacionRoutes.get('/:id/:id2/:id3', AsignaubicacionController.getAsignaubicacion);
+asignaubicacionRoutes.get('/:id/:id2/:id3/:id4/:id5/:id6/:id7', AsignaubicacionController.getAsignaubicacion);
 asignaubicacionRoutes.post('/:recordID', requireAuth, AsignaubicacionController.creaAsignaubicacion2s);
 asignaubicacionRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  AsignaubicacionController.deleteAsignaubicacion);
 
