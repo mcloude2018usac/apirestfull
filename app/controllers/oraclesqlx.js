@@ -3,8 +3,8 @@ var Indicadore = require('../models/segeplan/indicadores');
 
 
 var connAttrs = {
-       "user": "dbindicadores",
-     "password": "N0tiene",
+          "user": "dbprocessges",
+    "password": "S1t13n3$",
     "connectString": "181.174.122.180/xe"
 }
 
