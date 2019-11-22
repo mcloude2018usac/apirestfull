@@ -4,7 +4,7 @@ var Indicadore = require('../models/segeplan/indicadores');
 
 var connAttrs = {
        "user": "dbindicadores",
-    "password": "S1t13n3$",
+     "password": "N0tiene",
     "connectString": "181.174.122.180/xe"
 }
 
