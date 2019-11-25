@@ -5,7 +5,7 @@ var oracledb = require('oracledb');
 
 
 var connAttrs = {
-          "user": "dbprocessges",
+    "user": "dbprocessges",
     "password": "S1t13n3$",
     "connectString": "181.174.122.180/xe"
 }

@@ -2,8 +2,8 @@
 var Unidadplan4 = require('../../models/calusac/unidadplan4');
 var Bitacora = require('../../models/bitacora');
 var Facplan4 = require('../../models/calusac/unidadplan4');
-var Unidadjornada3 = require('../../models/calusac/unidadjornada3');
-var Unidadhorario3 = require('../../models/calusac/unidadhorario3');
+var Unidadnivel3 = require('../../models/calusac/unidadnivel3');
+var Unidadacademica3 = require('../../models/calusac/unidadacademica3');
 var Unidadprofesor3 = require('../../models/user');
 var Unidadpago3 = require('../../models/calusac/unidadpago3');
 
@@ -12,6 +12,39 @@ exports.getUnidadplan4 = function(req, res, next){
     {  
        
     switch(req.params.id5) {
+
+        case 'nivelubica':
+          //  console.log({idtipounidad:req.params.id,ididioma:req.params.id2 ,idtipogrupo:req.params.id3})
+                Unidadacademica3.find({idtipounidad:req.params.id,ididioma:req.params.id2 ,idtipogrupo:req.params.id3},function(err, todos) {
+                    if (err){ res.send(err); }
+
+            //        console.log(todos)
+                   
+                    if(todos.length>0)   {    
+                        
+                        
+                     
+
+                        Unidadnivel3.find({idunidadacademica:todos[0]._id},function(err, todos1) {
+                            if (err){ res.send(err); }
+                           
+                                
+                                res.json(todos1);   
+                            
+                            
+                        });
+
+
+                    
+                    
+                    }
+                    else
+                    {   res.json(todos);     }
+                    
+                });
+             
+
+        break;
    
         case 'dias':
 

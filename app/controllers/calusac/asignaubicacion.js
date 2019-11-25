@@ -304,6 +304,41 @@ exports.creaAsignaubicacion2s = function(req, res, next){
   
 console.log(req.params)
   
+if(req.body.operacion=='ponenota')
+{ 
+
+    Asignaubicacion.findById({ _id: req.params.recordID }, function (err, todo100)  {
+        if (err) {  res.send(err);  }
+        else
+        {
+           
+             
+                todo100.n1=req.body.n1,
+                todo100.n2= req.body.n2,
+                todo100.n3= req.body.n3,
+                
+               
+     
+    
+                todo100.save(function (err, todo200){
+                    if (err)     {  console.log(err.message)   }
+            
+                    res.json(todo200);
+               
+                    
+                });
+
+          
+
+
+        }
+    });
+
+
+
+}
+else{
+  
 if(req.params.recordID!=='crea')
 { 
   
@@ -490,9 +525,9 @@ console.log(filtro)
                                     idestudiante 	: req.body.idestudiante, 	
                                     idinterno 	: req.body.idinterno,
                                     usuarionew:req.body.bitacora.email,
-                                    n1:'',
-                                    n2:'',
-                                    n3:'',
+                                    n1: {    id	: '',   nombre	: ''        },
+                                    n2: {    id	: '',   nombre	: ''        },
+                                    n3: {    id	: '',   nombre	: ''        },
                                     estadopago:req.body.estadopago,
                                     noorden:req.body.noorden,
                                     monto       	: req.body.monto        	,
@@ -542,7 +577,7 @@ console.log(filtro)
 
  
 }
-
+}
 }
 
 
