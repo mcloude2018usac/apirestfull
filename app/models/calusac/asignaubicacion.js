@@ -26,9 +26,9 @@ var AsignaubicacionSchema = new mongoose.Schema({
         required: true
     },
     noorden:{        type: String},
-    n1:{        type: String},
-    n2:{        type: String},
-    n3:{        type: String},
+    n1: {    id	: { type : String },   nombre	: { type : String }        },
+    n2: {    id	: { type : String },   nombre	: { type : String }        },
+    n3: {    id	: { type : String },   nombre	: { type : String }        },
     estadopago:{        type: String},
     monto:{        type: String},
     rubro:{        type: String},
