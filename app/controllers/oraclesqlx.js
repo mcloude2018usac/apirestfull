@@ -58,7 +58,37 @@ var qry=''
  
         case 'datosgrafica':
               
+          if( req.params.id4!='TODOS' &&   req.params.id3!='TODOS')
+          {
             qry=' SELECT  serie.ID_SERIE,Dato_Serie.ETIQUETA_FECHA,  Dato_Serie.VALOR,  tipo_serie.NOMBRE FROM tipo_serie INNER JOIN serie ON tipo_serie.ID_TIPO_SERIE = serie.ID_TIPO_SERIE INNER JOIN Dato_Serie  ON Dato_Serie.ID_SERIE   = serie.ID_SERIE WHERE serie.ID_INDICADOR = ' + req.params.id2 + '  AND serie.ID_TERRITORIO  =  ' + req.params.id3 + '  AND serie.ID_AGRUPACION  =  ' + req.params.id4 
+
+          }
+          else{
+
+            if( req.params.id4=='TODOS' &&   req.params.id3=='TODOS')
+            {
+                qry=' SELECT  serie.ID_SERIE,Dato_Serie.ETIQUETA_FECHA,  Dato_Serie.VALOR,  tipo_serie.NOMBRE FROM tipo_serie INNER JOIN serie ON tipo_serie.ID_TIPO_SERIE = serie.ID_TIPO_SERIE INNER JOIN Dato_Serie  ON Dato_Serie.ID_SERIE   = serie.ID_SERIE WHERE serie.ID_INDICADOR = ' + req.params.id2  
+    
+            }
+            else{
+                if( req.params.id4!='TODOS' &&   req.params.id3=='TODOS')
+                {
+                    qry=' SELECT  serie.ID_SERIE,Dato_Serie.ETIQUETA_FECHA,  Dato_Serie.VALOR,  tipo_serie.NOMBRE FROM tipo_serie INNER JOIN serie ON tipo_serie.ID_TIPO_SERIE = serie.ID_TIPO_SERIE INNER JOIN Dato_Serie  ON Dato_Serie.ID_SERIE   = serie.ID_SERIE WHERE serie.ID_INDICADOR = ' + req.params.id2 + '   AND serie.ID_AGRUPACION  =  ' + req.params.id4 
+
+                }
+                else{
+      
+                    qry=' SELECT  serie.ID_SERIE,Dato_Serie.ETIQUETA_FECHA,  Dato_Serie.VALOR,  tipo_serie.NOMBRE FROM tipo_serie INNER JOIN serie ON tipo_serie.ID_TIPO_SERIE = serie.ID_TIPO_SERIE INNER JOIN Dato_Serie  ON Dato_Serie.ID_SERIE   = serie.ID_SERIE WHERE serie.ID_INDICADOR = ' + req.params.id2 + '  AND serie.ID_TERRITORIO  =  ' + req.params.id3 
+                }
+              
+            }
+
+            
+          }
+
+          
+
+
         break;
         
         case 'productos':
