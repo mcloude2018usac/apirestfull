@@ -31,7 +31,7 @@ exports.getReglamento = function(req, res, next){
         {
             if(req.params.id4=='Administrador')
             {
-                Reglamento.find({idempresa:req.params.id,idcategoria:req.params.id2}).populate('grupo').exec(function(err, todos) {
+                Reglamento.find({idempresa:req.params.id,idcategoria:req.params.id2}).populate('grupo').populate('pais').populate('tipo').populate('sector').populate('area').exec(function(err, todos) {
                     if (err){ res.send(err); }
                    
                     res.json(todos);   
@@ -40,7 +40,7 @@ exports.getReglamento = function(req, res, next){
     
             }
             else{
-                Reglamento.find({idempresa:req.params.id,idcategoria:req.params.id2,usuarionew:req.params.id4}).populate('grupo').exec(function(err, todos) {
+                Reglamento.find({idempresa:req.params.id,idcategoria:req.params.id2,usuarionew:req.params.id4}).populate('grupo').populate('pais').populate('tipo').populate('sector').populate('area').exec(function(err, todos) {
                     if (err){ res.send(err); }
                    
                     res.json(todos);   
