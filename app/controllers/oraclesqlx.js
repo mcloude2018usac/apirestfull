@@ -129,6 +129,10 @@ var qry=''
 
         break;
         
+        case 'prioridadn':
+                qry= '   select INDICADOR_CONTROL.nombre,INDICADOR_CONTROL.id_indicador_ctrl,SEMAFORO.nombre,valor_actual, id_tipo_alerta        from SEMAFORO, INDICADOR_CONTROL        where SEMAFORO.id_indicador_ctrl = INDICADOR_CONTROL.id_indicador_ctrl'
+
+break;
         case 'productos':
 
            
@@ -137,16 +141,22 @@ var qry=''
             qry= 'SELECT indicador_x_producto.ID_PRODUCTO codigo, producto.NOMBRE FROM indicador_x_producto, producto where indicador_x_producto.id_indicador = ' + req.params.id2 + ' and indicador_x_producto.id_producto = producto.id_producto ORDER BY producto.id_producto  ASC'
         break;
 
+        case 'datosgrafica2a':
+                
+
+              
+                qry=' select SEMAFORO.nombre,valor_actual, id_tipo_alerta  from SERIE_EJECUCION, SEMAFORO, INDICADOR_CONTROL  where SERIE_EJECUCION.id_serie_ejec = INDICADOR_CONTROL.id_serie_ejec  and SEMAFORO.id_indicador_ctrl = INDICADOR_CONTROL.id_indicador_ctrl  and SERIE_EJECUCION.id_tipo_serie_ejec = 2 and SERIE_EJECUCION.id_producto    =   ' + req.params.id2  
+            break;
         case 'datosgrafica2':
                 
 
               
-            qry='  SELECT Serie_Ejecucion.ID_SERIE_EJEC ID_SERIE,    Dato_Serie_Ejec.ETIQUETA_FECHA,      Dato_Serie_Ejec.VALOR,       Tipo_Serie_Ejecucion.NOMBRE           FROM Tipo_Serie_Ejecucion              INNER JOIN Serie_Ejecucion              ON Serie_Ejecucion.ID_TIPO_SERIE_EJEC = Tipo_Serie_Ejecucion.ID_TIPO_SERIE_EJEC          INNER JOIN Dato_Serie_Ejec            ON Dato_Serie_Ejec.ID_SERIE_EJEC = Serie_Ejecucion.ID_SERIE_EJEC              INNER JOIN PRODUCTO              ON Serie_Ejecucion.ID_PRODUCTO = PRODUCTO.ID_PRODUCTO              WHERE Serie_Ejecucion.Id_Concepto_Ejec=2 and PRODUCTO.ID_PRODUCTO     =  ' + req.params.id2  
+            qry=' SELECT Serie_Ejecucion.ID_SERIE_EJEC ID_SERIE,    Dato_Serie_Ejec.ETIQUETA_FECHA,      Dato_Serie_Ejec.VALOR,       Tipo_Serie_Ejecucion.NOMBRE           FROM Tipo_Serie_Ejecucion              INNER JOIN Serie_Ejecucion              ON Serie_Ejecucion.ID_TIPO_SERIE_EJEC = Tipo_Serie_Ejecucion.ID_TIPO_SERIE_EJEC              INNER JOIN Dato_Serie_Ejec              ON Dato_Serie_Ejec.ID_SERIE_EJEC = Serie_Ejecucion.ID_SERIE_EJEC              INNER JOIN PRODUCTO              ON Serie_Ejecucion.ID_PRODUCTO = PRODUCTO.ID_PRODUCTO              WHERE  Serie_Ejecucion.id_concepto_ejec=2 and  PRODUCTO.ID_PRODUCTO     =   ' + req.params.id2  
         break;
 
         case 'participacion':
               
-                qry='   ' + req.params.id2  
+                qry=' SELECT PARTICIPACION.ID_PRODUCTO CODIGO,  Dependencia_Gobierno.NOMBRE,  Tipo_Participacion.NOMBRE AS NOMBRE1 FROM Tipo_Participacion INNER JOIN PARTICIPACION ON Tipo_Participacion.ID_TIPO_PARTICIPACION = PARTICIPACION.ID_TIPO_PARTICIPACION INNER JOIN Dependencia_Gobierno ON Dependencia_Gobierno.ID_DEPENDENCIA_GOB = PARTICIPACION.ID_DEPENDENCIA_GOB WHERE PARTICIPACION.ID_PRODUCTO             =  ' + req.params.id2  
         break;
     }
 
@@ -256,6 +266,29 @@ console.log(qry)
                         res.json(myData);
                 break;
                 case 'datosgraficaa':
+                       
+                        var myData2 = [];
+                     
+                       
+                        if(result.rows.length==0)
+                        {
+                            res.json({nombre:'',valor:0,color:''});
+                        }
+                        else
+                        {
+                                    for(var i = 0; i < result.rows.length;i++){
+                                        var color=''
+                                        if(result.rows[i].ID_TIPO_ALERTA=='1'){color='green'}
+                                        if(result.rows[i].ID_TIPO_ALERTA=='2'){color='blue'}
+                                        if(result.rows[i].ID_TIPO_ALERTA=='3'){color='red'}
+
+                                        myData2.push({nombre:result.rows[i].NOMBRE,valor:result.rows[i].VALOR_ACTUAL,color:color});
+                                    }
+console.log(myData2)
+                                    res.json(myData2);
+                        }
+                break;
+                case 'datosgrafica2a':
                        
                         var myData2 = [];
                      
