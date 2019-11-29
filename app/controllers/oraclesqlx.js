@@ -60,27 +60,27 @@ var qry=''
 
                 
               
-          if( req.params.id5!='TODOS' &&   req.params.id6!='TODOS')
+          if( req.params.id4!='TODOS' &&   req.params.id6!='TODOS')
           {
             qry=' SELECT semaforo.NOMBRE,VALOR_ACTUAL,ID_TIPO_ALERTA  FROM serie  INNER JOIN indicador_control     ON serie.ID_SERIE = indicador_control.ID_SERIE  INNER JOIN semaforo  ON semaforo.ID_INDICADOR_CTRL  = indicador_control.ID_INDICADOR_CTRL  and serie.ID_TIPO_SERIE=2 AND serie.ID_INDICADOR =     ' + req.params.id2 + '  AND serie.ID_NIVEL_TER  =  ' + req.params.id3 + ' AND serie.ID_TERRITORIO  =  ' + req.params.id4 + ' AND serie.ID_TIPO_AGRUPACION  =  ' + req.params.id5 + ' AND serie.ID_AGRUPACION  =  ' + req.params.id6 
 
           }
           else{
 
-            if( req.params.id5=='TODOS' &&   req.params.id6=='TODOS')
+            if( req.params.id4=='TODOS' &&   req.params.id6=='TODOS')
             {
-                qry=' SELECT semaforo.NOMBRE,VALOR_ACTUAL,ID_TIPO_ALERTA  FROM serie  INNER JOIN indicador_control     ON serie.ID_SERIE = indicador_control.ID_SERIE  INNER JOIN semaforo  ON semaforo.ID_INDICADOR_CTRL  = indicador_control.ID_INDICADOR_CTRL  and serie.ID_TIPO_SERIE=2 AND serie.ID_INDICADOR =  ' + req.params.id2  + '  AND serie.ID_NIVEL_TER  =  ' + req.params.id5+ ' AND serie.ID_TIPO_AGRUPACION  =  ' + req.params.id6
+                qry=' SELECT semaforo.NOMBRE,VALOR_ACTUAL,ID_TIPO_ALERTA  FROM serie  INNER JOIN indicador_control     ON serie.ID_SERIE = indicador_control.ID_SERIE  INNER JOIN semaforo  ON semaforo.ID_INDICADOR_CTRL  = indicador_control.ID_INDICADOR_CTRL  and serie.ID_TIPO_SERIE=2 AND serie.ID_INDICADOR =  ' + req.params.id2    + '  AND serie.ID_NIVEL_TER  =  ' + req.params.id3 +  '  AND serie.ID_TIPO_AGRUPACION    =  ' + req.params.id5
     
             }
             else{
-                if( req.params.id5!='TODOS' &&   req.params.id6=='TODOS')
+                if( req.params.id4!='TODOS' &&   req.params.id6=='TODOS')
                 {
-                    qry=' SELECT semaforo.NOMBRE,VALOR_ACTUAL,ID_TIPO_ALERTA  FROM serie  INNER JOIN indicador_control     ON serie.ID_SERIE = indicador_control.ID_SERIE  INNER JOIN semaforo  ON semaforo.ID_INDICADOR_CTRL  = indicador_control.ID_INDICADOR_CTRL  and serie.ID_TIPO_SERIE=2 AND serie.ID_INDICADOR =  ' + req.params.id2  + '  AND serie.ID_NIVEL_TER  =  ' + req.params.id5
+                    qry=' SELECT semaforo.NOMBRE,VALOR_ACTUAL,ID_TIPO_ALERTA  FROM serie  INNER JOIN indicador_control     ON serie.ID_SERIE = indicador_control.ID_SERIE  INNER JOIN semaforo  ON semaforo.ID_INDICADOR_CTRL  = indicador_control.ID_INDICADOR_CTRL  and serie.ID_TIPO_SERIE=2 AND serie.ID_INDICADOR =  ' + req.params.id2   + '  AND serie.ID_NIVEL_TER  =  ' + req.params.id3 + ' AND serie.ID_TERRITORIO  =  ' + req.params.id4 + '  AND serie.ID_TIPO_AGRUPACION  =  ' + req.params.id5
 
                 }
                 else{
       
-                    qry=' SELECT semaforo.NOMBRE,VALOR_ACTUAL,ID_TIPO_ALERTA  FROM serie  INNER JOIN indicador_control     ON serie.ID_SERIE = indicador_control.ID_SERIE  INNER JOIN semaforo  ON semaforo.ID_INDICADOR_CTRL  = indicador_control.ID_INDICADOR_CTRL  and serie.ID_TIPO_SERIE=2 AND serie.ID_INDICADOR =  ' + req.params.id2 + ' AND serie.ID_TIPO_AGRUPACION  =  ' + req.params.id6
+                    qry=' SELECT semaforo.NOMBRE,VALOR_ACTUAL,ID_TIPO_ALERTA  FROM serie  INNER JOIN indicador_control     ON serie.ID_SERIE = indicador_control.ID_SERIE  INNER JOIN semaforo  ON semaforo.ID_INDICADOR_CTRL  = indicador_control.ID_INDICADOR_CTRL  and serie.ID_TIPO_SERIE=2 AND serie.ID_INDICADOR =  ' + req.params.id2  + '  AND serie.ID_NIVEL_TER  =  ' + req.params.id3 +   ' AND serie.ID_TIPO_AGRUPACION  =  ' + req.params.id5 + ' AND serie.ID_AGRUPACION  =  ' + req.params.id6 
                 }
               
             }
@@ -94,28 +94,29 @@ var qry=''
         break;
         
         case 'datosgrafica':
+            console.log(req.params)
               
-          if( req.params.id5!='TODOS' &&   req.params.id6!='TODOS')
+          if( req.params.id4!='TODOS' &&   req.params.id6!='TODOS')
           {
             qry=' SELECT  serie.ID_SERIE,Dato_Serie.ETIQUETA_FECHA,  Dato_Serie.VALOR,  tipo_serie.NOMBRE FROM tipo_serie INNER JOIN serie ON tipo_serie.ID_TIPO_SERIE = serie.ID_TIPO_SERIE INNER JOIN Dato_Serie  ON Dato_Serie.ID_SERIE   = serie.ID_SERIE WHERE serie.ID_INDICADOR = ' + req.params.id2  + '  AND serie.ID_NIVEL_TER  =  ' + req.params.id3 + ' AND serie.ID_TERRITORIO  =  ' + req.params.id4 + ' AND serie.ID_TIPO_AGRUPACION  =  ' + req.params.id5 + ' AND serie.ID_AGRUPACION  =  ' + req.params.id6 
 
           }
           else{
 
-            if( req.params.id5=='TODOS' &&   req.params.id6=='TODOS')
+            if( req.params.id4=='TODOS' &&   req.params.id6=='TODOS')
             {
-                qry=' SELECT  serie.ID_SERIE,Dato_Serie.ETIQUETA_FECHA,  Dato_Serie.VALOR,  tipo_serie.NOMBRE FROM tipo_serie INNER JOIN serie ON tipo_serie.ID_TIPO_SERIE = serie.ID_TIPO_SERIE INNER JOIN Dato_Serie  ON Dato_Serie.ID_SERIE   = serie.ID_SERIE WHERE serie.ID_INDICADOR = ' + req.params.id2   + '  AND serie.ID_NIVEL_TER  =  ' + req.params.id5+ ' AND serie.ID_TIPO_AGRUPACION  =  ' + req.params.id6
+                qry=' SELECT  serie.ID_SERIE,Dato_Serie.ETIQUETA_FECHA,  Dato_Serie.VALOR,  tipo_serie.NOMBRE FROM tipo_serie INNER JOIN serie ON tipo_serie.ID_TIPO_SERIE = serie.ID_TIPO_SERIE INNER JOIN Dato_Serie  ON Dato_Serie.ID_SERIE   = serie.ID_SERIE WHERE serie.ID_INDICADOR = ' + req.params.id2    + '  AND serie.ID_NIVEL_TER  =  ' + req.params.id3 +  '  AND serie.ID_TIPO_AGRUPACION    =  ' + req.params.id5
     
             }
             else{
-                if( req.params.id5!='TODOS' &&   req.params.id6=='TODOS')
+                if( req.params.id4!='TODOS' &&   req.params.id6=='TODOS')
                 {
-                    qry=' SELECT  serie.ID_SERIE,Dato_Serie.ETIQUETA_FECHA,  Dato_Serie.VALOR,  tipo_serie.NOMBRE FROM tipo_serie INNER JOIN serie ON tipo_serie.ID_TIPO_SERIE = serie.ID_TIPO_SERIE INNER JOIN Dato_Serie  ON Dato_Serie.ID_SERIE   = serie.ID_SERIE WHERE serie.ID_INDICADOR = ' + req.params.id2  + '  AND serie.ID_NIVEL_TER  =  ' + req.params.id5
+                    qry=' SELECT  serie.ID_SERIE,Dato_Serie.ETIQUETA_FECHA,  Dato_Serie.VALOR,  tipo_serie.NOMBRE FROM tipo_serie INNER JOIN serie ON tipo_serie.ID_TIPO_SERIE = serie.ID_TIPO_SERIE INNER JOIN Dato_Serie  ON Dato_Serie.ID_SERIE   = serie.ID_SERIE WHERE serie.ID_INDICADOR = ' + req.params.id2   + '  AND serie.ID_NIVEL_TER  =  ' + req.params.id3 + ' AND serie.ID_TERRITORIO  =  ' + req.params.id4 + '  AND serie.ID_TIPO_AGRUPACION  =  ' + req.params.id5
 
                 }
                 else{
       
-                    qry=' SELECT  serie.ID_SERIE,Dato_Serie.ETIQUETA_FECHA,  Dato_Serie.VALOR,  tipo_serie.NOMBRE FROM tipo_serie INNER JOIN serie ON tipo_serie.ID_TIPO_SERIE = serie.ID_TIPO_SERIE INNER JOIN Dato_Serie  ON Dato_Serie.ID_SERIE   = serie.ID_SERIE WHERE serie.ID_INDICADOR = ' + req.params.id2+ ' AND serie.ID_TIPO_AGRUPACION  =  ' + req.params.id6
+                    qry=' SELECT  serie.ID_SERIE,Dato_Serie.ETIQUETA_FECHA,  Dato_Serie.VALOR,  tipo_serie.NOMBRE FROM tipo_serie INNER JOIN serie ON tipo_serie.ID_TIPO_SERIE = serie.ID_TIPO_SERIE INNER JOIN Dato_Serie  ON Dato_Serie.ID_SERIE   = serie.ID_SERIE WHERE serie.ID_INDICADOR = ' + req.params.id2  + '  AND serie.ID_NIVEL_TER  =  ' + req.params.id3 +   ' AND serie.ID_TIPO_AGRUPACION  =  ' + req.params.id5 + ' AND serie.ID_AGRUPACION  =  ' + req.params.id6 
                 }
               
             }
@@ -129,17 +130,23 @@ var qry=''
         break;
         
         case 'productos':
+
+           
+
+
             qry= 'SELECT indicador_x_producto.ID_PRODUCTO codigo, producto.NOMBRE FROM indicador_x_producto, producto where indicador_x_producto.id_indicador = ' + req.params.id2 + ' and indicador_x_producto.id_producto = producto.id_producto ORDER BY producto.id_producto  ASC'
         break;
 
         case 'datosgrafica2':
+                
+
               
-            qry=' SELECT Serie_Ejecucion.ID_SERIE_EJEC ID_SERIE,     Dato_Serie_Ejec.ETIQUETA_FECHA,        Dato_Serie_Ejec.VALOR,    Tipo_Serie_Ejecucion.NOMBRE     FROM Tipo_Serie_Ejecucion       INNER JOIN Serie_Ejecucion       ON Serie_Ejecucion.ID_TIPO_SERIE_EJEC = Tipo_Serie_Ejecucion.ID_TIPO_SERIE_EJEC        INNER JOIN Dato_Serie_Ejec     ON Dato_Serie_Ejec.ID_SERIE_EJEC = Serie_Ejecucion.ID_SERIE_EJEC     INNER JOIN Indicador_Ejecucion       ON Indicador_Ejecucion.ID_INDICADOR_EJEC = Serie_Ejecucion.ID_INDICADOR_EJEC           INNER JOIN PRODUCTO           ON PRODUCTO.ID_PRODUCTO    = Indicador_Ejecucion.ID_PRODUCTO       WHERE PRODUCTO.ID_PRODUCTO =  ' + req.params.id2  
+            qry='  SELECT Serie_Ejecucion.ID_SERIE_EJEC ID_SERIE,    Dato_Serie_Ejec.ETIQUETA_FECHA,      Dato_Serie_Ejec.VALOR,       Tipo_Serie_Ejecucion.NOMBRE           FROM Tipo_Serie_Ejecucion              INNER JOIN Serie_Ejecucion              ON Serie_Ejecucion.ID_TIPO_SERIE_EJEC = Tipo_Serie_Ejecucion.ID_TIPO_SERIE_EJEC          INNER JOIN Dato_Serie_Ejec            ON Dato_Serie_Ejec.ID_SERIE_EJEC = Serie_Ejecucion.ID_SERIE_EJEC              INNER JOIN PRODUCTO              ON Serie_Ejecucion.ID_PRODUCTO = PRODUCTO.ID_PRODUCTO              WHERE Serie_Ejecucion.Id_Concepto_Ejec=2 and PRODUCTO.ID_PRODUCTO     =  ' + req.params.id2  
         break;
 
         case 'participacion':
               
-                qry=' SELECT PARTICIPACION.ID_PRODUCTO CODIGO,  Dependencia_Gobierno.NOMBRE,  Tipo_Participacion.NOMBRE AS NOMBRE1 FROM Tipo_Participacion INNER JOIN PARTICIPACION ON Tipo_Participacion.ID_TIPO_PARTICIPACION = PARTICIPACION.ID_TIPO_PARTICIPACION INNER JOIN Dependencia_Gobierno ON Dependencia_Gobierno.ID_DEPENDENCIA_GOB = PARTICIPACION.ID_DEPENDENCIA_GOB WHERE PARTICIPACION.ID_PRODUCTO             =  ' + req.params.id2  
+                qry='   ' + req.params.id2  
         break;
     }
 
