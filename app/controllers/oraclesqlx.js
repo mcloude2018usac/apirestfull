@@ -128,9 +128,13 @@ var qry=''
 
 
         break;
+        case 'indicadorcontrol':
+                qry= ' select INDICADOR_CONTROL.id_indicador_ctrl codigo,INDICADOR_CONTROL.nombre       from  INDICADOR_CONTROL    order by 1 asc  ' 
+
+break;
         
         case 'prioridadn':
-                qry= '   select INDICADOR_CONTROL.nombre,INDICADOR_CONTROL.id_indicador_ctrl,SEMAFORO.nombre,valor_actual, id_tipo_alerta        from SEMAFORO, INDICADOR_CONTROL        where SEMAFORO.id_indicador_ctrl = INDICADOR_CONTROL.id_indicador_ctrl'
+                qry= '   select INDICADOR_CONTROL.nombre,INDICADOR_CONTROL.id_indicador_ctrl,SEMAFORO.nombre NOMBRES,valor_actual, id_tipo_alerta        from SEMAFORO, INDICADOR_CONTROL        where SEMAFORO.id_indicador_ctrl = INDICADOR_CONTROL.id_indicador_ctrl  and INDICADOR_CONTROL.id_indicador_ctrl=' + req.params.id2  
 
 break;
         case 'productos':
@@ -186,6 +190,14 @@ console.log(qry)
 
 
             switch(req.params.id) {
+                case 'indicadorcontrol':
+                        var myData = [];
+                        for(var i = 0; i < result.rows.length;i++){
+                            myData.push({codigo:result.rows[i].CODIGO,nombre:result.rows[i].NOMBRE})
+                        }
+                        res.json(myData);
+
+                            break;
                 case 'indicadores':
                         
                         Indicadore.find({idempresa:req.params.id3,usuarionew:req.params.id4}).exec(function(err, todos) {
@@ -312,6 +324,59 @@ console.log(myData2)
                         }
                 break;
              
+
+                  case 'prioridadn':
+
+                        var myData = [];
+                        var myData2 = [];
+                        var myData3 = [];
+                        var arre=['yellow','red','green','blue','purple','violet','turquoise']    
+                        //etiquetas
+                        if(result.rows.length==0)
+                        {
+                            res.json({etiquetas:[],dataset:[]});
+                        }
+                        else
+                        {
+                        for(var i = 0; i < result.rows.length;i++){
+                            myData.push(result.rows[i].NOMBRES)
+                         
+                        }
+
+                        var ncolor=0;
+                        for(var i = 0; i < result.rows.length;i++){
+                             
+                                myData2.push(
+                                    result.rows[i].VALOR_ACTUAL,
+                                  );
+
+                                  var color=''
+                                  if(result.rows[i].ID_TIPO_ALERTA=='1'){color='green'}
+                                  if(result.rows[i].ID_TIPO_ALERTA=='2'){color='blue'}
+                                  if(result.rows[i].ID_TIPO_ALERTA=='3'){color='red'}
+
+
+                                  myData3.push(
+                                color
+                                  );
+
+                                  
+                                  
+                            
+                           
+
+   
+                        }
+
+                 
+
+                        res.json({etiquetas:myData,dataset:myData2,color:myData3});
+                        }
+
+
+
+
+                   break;   
                 case 'datosgrafica':
                         var myData = [];
                         var myData2 = [];
