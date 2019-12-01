@@ -788,6 +788,7 @@ userRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',  UserController.d
 
 apiRoutes.use('/oracle2', oraRoutes);
 oraRoutes.get('/:id/:id2',  OraController.getoraclesqlxx);
+oraRoutes.get('/:id/:id2/:id3',  OraController.getoraclesqlxx);
 oraRoutes.get('/:id/:id2/:id3/:id4/:id5/:id6',  OraController.getoraclesqlxx);
 oraRoutes.get('/:id/:id2/:id3/:id4',  OraController.getoraclesqlxx);
 
