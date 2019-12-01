@@ -327,6 +327,7 @@ exports.getFrmmovil = function(req, res, next){
                     });
               break;
               case 'categoria':
+                  console.log({categoria:req.params.id,idempresa:req.params.id3})
               Frmmovil.find({categoria:req.params.id,idempresa:req.params.id3},function(err, todos) {
                   if (err){  res.send(err);  }
                   res.json(todos);
@@ -370,11 +371,13 @@ exports.getFrmmovil = function(req, res, next){
             var namess=req.params.id
                 Frmmovild.find({idmovil:req.params.id, display : "true",idempresa:req.params.id3}).populate('type').sort([['order', 1]]).exec(function(err, todos) {
                     if (err){ res.send(err); }
+                  //  console.log(todos)
                                         if(todos.length>0)   {  
                                        
                                             var cad=''
                                             var cadxx=''
                                             var cad3=(dafiltrocad(todos,'','')).split('°')
+                                            console.log(cad3)
                                             cad=cad3[0]
                                             cadxx='{'+ cad3[1] + '}'
                                             cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
@@ -385,13 +388,14 @@ exports.getFrmmovil = function(req, res, next){
                                           
                                             var mongoose = require("mongoose");
                                             var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                                          //  console.log(tt)
                                             
                                         
                                             try {
                                                 var  frmtt= mongoose.model(namess,tt);
                                                 frmtt.find({} ,function(err, todos2) {
                                                     if (err){  res.send(err); }
-                                                    
+                                                  //  console.log(todos2)
                                                     res.json(todos2);
                                                   
                                                 });
@@ -402,7 +406,7 @@ exports.getFrmmovil = function(req, res, next){
                                                 frmtt.find( {} ,function(err, todos2) {
                                                      if (err){  res.send(err);
                                                     }
-                                                 
+                                                   // console.log(todos2)
                                                      res.json(todos2);
                                                  
                                                  });

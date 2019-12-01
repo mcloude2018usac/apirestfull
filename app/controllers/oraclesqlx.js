@@ -35,6 +35,9 @@ exports.getoraclesqlxx = function(req, res, next){
 
 var qry=''
     switch(req.params.id) {
+        case 'marcos':
+        qry='select id_marco codigo,nombre  from marco order by 1 asc '      
+        break;
         case 'indicadores':
         qry='select *  from indicador'      
         break;
@@ -129,12 +132,25 @@ var qry=''
 
         break;
         case 'indicadorcontrol':
-                qry= ' select INDICADOR_CONTROL.id_indicador_ctrl codigo,INDICADOR_CONTROL.nombre       from  INDICADOR_CONTROL    order by 1 asc  ' 
+
+              
+
+                qry= ' select Id_Indicador_Ctrl codigo,nombre  from Pr_Prioridad_Nacional  ' 
 
 break;
+
+case 'prioridadn2':
+        qry= ' select INDICADOR_CONTROL.id_indicador_ctrl, PR_PRIORIDAD_NACIONAL.nombre, SEMAFORO.id_semaforo, SEMAFORO.nombre nombres, SEMAFORO.valor_actual, SEMAFORO.id_tipo_alerta, INDICADOR_CONTROL.path_imagen from PR_PRIORIDAD_NACIONAL, INDICADOR_CONTROL, SEMAFORO where PR_PRIORIDAD_NACIONAL.id_indicador_ctrl = INDICADOR_CONTROL.id_indicador_ctrl and SEMAFORO.id_indicador_ctrl = INDICADOR_CONTROL.id_indicador_ctrl and INDICADOR_CONTROL.id_marco = ' +  req.params.id3  + ' and INDICADOR_CONTROL.id_indicador_ctrl =   ' + req.params.id2  
+
+
         
+
+break;
         case 'prioridadn':
-                qry= '   select INDICADOR_CONTROL.nombre,INDICADOR_CONTROL.id_indicador_ctrl,SEMAFORO.nombre NOMBRES,valor_actual, id_tipo_alerta        from SEMAFORO, INDICADOR_CONTROL        where SEMAFORO.id_indicador_ctrl = INDICADOR_CONTROL.id_indicador_ctrl  and INDICADOR_CONTROL.id_indicador_ctrl=' + req.params.id2  
+                qry= ' select INDICADOR_CONTROL.id_indicador_ctrl, PR_PRIORIDAD_NACIONAL.nombre, SEMAFORO.id_semaforo, SEMAFORO.nombre nombres, SEMAFORO.valor_actual, SEMAFORO.id_tipo_alerta, INDICADOR_CONTROL.path_imagen from PR_PRIORIDAD_NACIONAL, INDICADOR_CONTROL, SEMAFORO where PR_PRIORIDAD_NACIONAL.id_indicador_ctrl = INDICADOR_CONTROL.id_indicador_ctrl and SEMAFORO.id_indicador_ctrl = INDICADOR_CONTROL.id_indicador_ctrl and INDICADOR_CONTROL.id_marco = ' +  req.params.id3  + ' and INDICADOR_CONTROL.id_indicador_ctrl =   ' + req.params.id2  
+
+
+                
 
 break;
         case 'productos':
@@ -190,6 +206,15 @@ console.log(qry)
 
 
             switch(req.params.id) {
+                case 'marcos':
+                        var myData = [];
+                        for(var i = 0; i < result.rows.length;i++){
+                            myData.push({codigo:result.rows[i].CODIGO,nombre:result.rows[i].NOMBRE})
+                        }
+                        res.json(myData);
+
+                            break;
+                break;
                 case 'indicadorcontrol':
                         var myData = [];
                         for(var i = 0; i < result.rows.length;i++){
@@ -291,7 +316,7 @@ console.log(qry)
                                     for(var i = 0; i < result.rows.length;i++){
                                         var color=''
                                         if(result.rows[i].ID_TIPO_ALERTA=='1'){color='green'}
-                                        if(result.rows[i].ID_TIPO_ALERTA=='2'){color='blue'}
+                                        if(result.rows[i].ID_TIPO_ALERTA=='2'){color='yellow'}
                                         if(result.rows[i].ID_TIPO_ALERTA=='3'){color='red'}
 
                                         myData2.push({nombre:result.rows[i].NOMBRE,valor:result.rows[i].VALOR_ACTUAL,color:color});
@@ -314,7 +339,7 @@ console.log(myData2)
                                     for(var i = 0; i < result.rows.length;i++){
                                         var color=''
                                         if(result.rows[i].ID_TIPO_ALERTA=='1'){color='green'}
-                                        if(result.rows[i].ID_TIPO_ALERTA=='2'){color='blue'}
+                                        if(result.rows[i].ID_TIPO_ALERTA=='2'){color='yellow'}
                                         if(result.rows[i].ID_TIPO_ALERTA=='3'){color='red'}
 
                                         myData2.push({nombre:result.rows[i].NOMBRE,valor:result.rows[i].VALOR_ACTUAL,color:color});
@@ -330,7 +355,7 @@ console.log(myData2)
                         var myData = [];
                         var myData2 = [];
                         var myData3 = [];
-                        var arre=['yellow','red','green','blue','purple','violet','turquoise']    
+                        var imagent=''
                         //etiquetas
                         if(result.rows.length==0)
                         {
@@ -340,6 +365,7 @@ console.log(myData2)
                         {
                         for(var i = 0; i < result.rows.length;i++){
                             myData.push(result.rows[i].NOMBRES)
+                            imagent=result.rows[i].PATH_IMAGEN
                          
                         }
 
@@ -352,7 +378,7 @@ console.log(myData2)
 
                                   var color=''
                                   if(result.rows[i].ID_TIPO_ALERTA=='1'){color='green'}
-                                  if(result.rows[i].ID_TIPO_ALERTA=='2'){color='blue'}
+                                  if(result.rows[i].ID_TIPO_ALERTA=='2'){color='yellow'}
                                   if(result.rows[i].ID_TIPO_ALERTA=='3'){color='red'}
 
 
@@ -370,7 +396,43 @@ console.log(myData2)
 
                  
 
-                        res.json({etiquetas:myData,dataset:myData2,color:myData3});
+                        res.json({etiquetas:myData,dataset:myData2,color:myData3,imagen:imagent});
+                        }
+
+
+
+
+                   break;   
+                   case 'prioridadn2':
+
+                        var myData = [];
+                        var myData2 = [];
+                        var myData3 = [];
+                        var imagent=''
+                        //etiquetas
+                        if(result.rows.length==0)
+                        {
+                            res.json({info:[]});
+                        }
+                        else
+                        {
+                                    for(var i = 0; i < result.rows.length;i++){
+                                        var color=''
+                                        if(result.rows[i].ID_TIPO_ALERTA=='1'){color='verde'}
+                                        if(result.rows[i].ID_TIPO_ALERTA=='2'){color='amarillo'}
+                                        if(result.rows[i].ID_TIPO_ALERTA=='3'){color='rojo'}
+
+                                        imagent=result.rows[i].PATH_IMAGEN
+                                        myData.push({nombres:result.rows[i].NOMBRES,valor:result.rows[i].VALOR_ACTUAL,color:color,imagen:imagent,codigo:req.params.id2 ,nombre:req.params.id4})
+                                    
+                                    
+                                    }
+
+                    
+
+                 
+
+                        res.json(myData);
                         }
 
 
