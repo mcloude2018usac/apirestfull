@@ -57,8 +57,6 @@ var qry=''
 
                 
 
-console.log(qry)
-                
 
 
         break;
@@ -412,7 +410,7 @@ console.log(myData2)
                         var myData = [];
                         var myData2 = [];
                         var myData3 = [];
-                        var arre=['yellow','red','green','blue','purple','violet','turquoise']    
+                        var arre=['blue','green','red','purple','violet','turquoise']    
                         //etiquetas
                         var indicador2=''
                         if(result.rows.length==0)
@@ -477,7 +475,7 @@ console.log(myData2)
                         var myData = [];
                         var myData2 = [];
                         var myData3 = [];
-                        var arre=['yellow','red','green','blue','purple','violet','turquoise']    
+                        var arre=['blue','green','red','purple','violet','turquoise']    
                         //etiquetas
                         if(result.rows.length==0)
                         {
