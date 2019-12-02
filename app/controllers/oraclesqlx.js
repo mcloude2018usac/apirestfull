@@ -424,17 +424,28 @@ console.log(myData2)
                         for(var i = 0; i < result.rows.length;i++){
 
                             myData.push(result.rows[i].ETIQUETA_FECHA)
+                         
+                        }
+
+                        var myData=removeDups(myData);
+
+                        for(var i = 0; i <myData.length;i++){
+                           
                             myData3.push(null)
                         }
 
+                       
                         var grupo=result.rows[0].NOMBRE
                         var ncolor=0;
+                        var j=0;
                         for(var i = 0; i < result.rows.length;i++){
 
                             if(grupo==result.rows[i].NOMBRE)
                             {
                                 
-                                myData3[i]=result.rows[i].VALOR
+                                myData3[j]=result.rows[i].VALOR
+                                j=j+1;
+
                              
 
                             }
@@ -445,21 +456,32 @@ console.log(myData2)
                                     data: myData3,
                                     backgroundColor:'rgba(0,0,0,0)', // array should have same number of elements as number of dataset
                                     borderColor: arre[ncolor],// array should have same number of elements as number of dataset
-                                    borderWidth: 1});
+                                    borderWidth: 1
+                                });
+
                                     ncolor=ncolor+1;
+
                                      myData3 = [];
-                                    for(var ii = 0; ii < result.rows.length;ii++){
+
+                                    for(var ii = 0; ii <  myData.length;ii++){
                                         myData3.push(null)
                                     }
+                                 
                                   
                                     grupo=result.rows[i].NOMBRE
-                                    myData3[i]=result.rows[i].VALOR
+                                    j=0;    
+                                    myData3[j]=result.rows[i].VALOR
+                                    j=j+1;
+                               
                                     //myData3.push(result.rows[i].VALOR)
                             }
                            
 
    
                         }
+
+
+
 
                         myData2.push({
                             label: grupo,
