@@ -36,8 +36,11 @@ exports.getoraclesqlxx = function(req, res, next){
 var qry=''
     switch(req.params.id) {
         case 'marcos':
-        qry='select id_marco codigo,nombre  from marco order by 1 asc '      
+        qry='select id_marco codigo,nombre  from marco  where id_marco not in(4) order by 1 asc '      
         break;
+        case 'marcos0':
+                qry='select id_marco codigo,nombre  from marco  where id_marco  in(4) order by 1 asc '      
+                break;
         case 'indicadores':
         qry='select *  from indicador'      
         break;
@@ -135,10 +138,10 @@ break;
 
             break;
         case 'datosgrafica2':
-                
-
-              
             qry=' SELECT Serie_Ejecucion.ID_SERIE_EJEC ID_SERIE,    Dato_Serie_Ejec.ETIQUETA_FECHA,      Dato_Serie_Ejec.VALOR,       Tipo_Serie_Ejecucion.NOMBRE           FROM Tipo_Serie_Ejecucion              INNER JOIN Serie_Ejecucion              ON Serie_Ejecucion.ID_TIPO_SERIE_EJEC = Tipo_Serie_Ejecucion.ID_TIPO_SERIE_EJEC              INNER JOIN Dato_Serie_Ejec              ON Dato_Serie_Ejec.ID_SERIE_EJEC = Serie_Ejecucion.ID_SERIE_EJEC              INNER JOIN PRODUCTO              ON Serie_Ejecucion.ID_PRODUCTO = PRODUCTO.ID_PRODUCTO              WHERE  Serie_Ejecucion.id_concepto_ejec=2 and  PRODUCTO.ID_PRODUCTO     =   ' + req.params.id2  
+        break;
+        case 'datosgrafica2x':
+            qry=' SELECT Serie_Ejecucion.ID_SERIE_EJEC ID_SERIE,    Dato_Serie_Ejec.ETIQUETA_FECHA,      Dato_Serie_Ejec.VALOR,       Tipo_Serie_Ejecucion.NOMBRE           FROM Tipo_Serie_Ejecucion              INNER JOIN Serie_Ejecucion              ON Serie_Ejecucion.ID_TIPO_SERIE_EJEC = Tipo_Serie_Ejecucion.ID_TIPO_SERIE_EJEC              INNER JOIN Dato_Serie_Ejec              ON Dato_Serie_Ejec.ID_SERIE_EJEC = Serie_Ejecucion.ID_SERIE_EJEC              INNER JOIN PRODUCTO              ON Serie_Ejecucion.ID_PRODUCTO = PRODUCTO.ID_PRODUCTO              WHERE  Serie_Ejecucion.id_concepto_ejec=1 and  PRODUCTO.ID_PRODUCTO     =   ' + req.params.id2  
         break;
 
         case 'participacion':
@@ -174,6 +177,15 @@ console.log(qry)
 
             switch(req.params.id) {
                 case 'marcos':
+                        var myData = [];
+                        for(var i = 0; i < result.rows.length;i++){
+                            myData.push({codigo:result.rows[i].CODIGO,nombre:result.rows[i].NOMBRE})
+                        }
+                        res.json(myData);
+
+                            break;
+                break;
+                case 'marcos0':
                         var myData = [];
                         for(var i = 0; i < result.rows.length;i++){
                             myData.push({codigo:result.rows[i].CODIGO,nombre:result.rows[i].NOMBRE})
@@ -494,6 +506,78 @@ console.log(myData2)
                         }
                 break;
                 case 'datosgrafica2':
+                        var myData = [];
+                        var myData2 = [];
+                        var myData3 = [];
+                        var arre=['blue','green','red','purple','violet','turquoise']    
+                        //etiquetas
+                        if(result.rows.length==0)
+                        {
+                            res.json({etiquetas:[],dataset:[]});
+                        }
+                        else
+                        {
+                        for(var i = 0; i < result.rows.length;i++){
+                            myData.push(result.rows[i].ETIQUETA_FECHA)
+                          //  myData3.push(null)
+                        }
+
+                        var myData=removeDups(myData);
+                        for(var i = 0; i <myData.length;i++){
+                           
+                            myData3.push(null)
+                        }
+
+
+                        var grupo=result.rows[0].NOMBRE
+                        var ncolor=0;
+                        var j=0;
+                       
+                        for(var i = 0; i < result.rows.length;i++){
+
+                            if(grupo==result.rows[i].NOMBRE)
+                            {
+                                
+                                myData3[j]=result.rows[i].VALOR
+                                j=j+1;
+
+                            }
+                            else{
+                                myData2.push({
+                                    label: grupo,
+                                    fill: false,
+                                    data: myData3,
+                                    backgroundColor:'rgba(0,0,0,0)', // array should have same number of elements as number of dataset
+                                    borderColor: arre[ncolor],// array should have same number of elements as number of dataset
+                                    borderWidth: 1});
+                                    ncolor=ncolor+1;
+                                     myData3 = [];
+                                    for(var ii = 0; ii < myData.length;ii++){
+                                        myData3.push(null)
+                                    }
+                                    
+                                    grupo=result.rows[i].NOMBRE
+                                    j=0;    
+                                    myData3[j]=result.rows[i].VALOR
+                                    j=j+1;
+                                    //myData3.push(result.rows[i].VALOR)
+                            }
+                           
+
+   
+                        }
+                        
+                        myData2.push({
+                            label: grupo,
+                            data: myData3,
+                            backgroundColor:'rgba(0,0,0,0)', // array should have same number of elements as number of dataset
+                            borderColor: arre[ncolor],// array should have same number of elements as number of dataset
+                            borderWidth: 1});
+
+                        res.json({etiquetas:myData,dataset:myData2});
+                        }
+                break;
+                case 'datosgrafica2x':
                         var myData = [];
                         var myData2 = [];
                         var myData3 = [];
