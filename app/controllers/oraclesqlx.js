@@ -36,11 +36,14 @@ exports.getoraclesqlxx = function(req, res, next){
 var qry=''
     switch(req.params.id) {
         case 'marcos':
-        qry='select id_marco codigo,nombre  from marco  where id_marco not in(4) order by 1 asc '      
+        qry='select id_marco codigo,nombre  from marco  where id_marco not in(4,0) order by 1 asc '      
         break;
         case 'marcos0':
                 qry='select id_marco codigo,nombre  from marco  where id_marco  in(4) order by 1 asc '      
                 break;
+                case 'marcosf':
+                    qry='select id_marco codigo,nombre  from marco  where id_marco  in(0) order by 1 asc '      
+                    break;
         case 'indicadores':
         qry='select *  from indicador'      
         break;
@@ -98,6 +101,23 @@ var qry=''
 
 
         break;
+        case 'indicadorpolitica':
+                qry= ' select Id_politica codigo,nombre  from PGG_POLITICA  ' 
+
+break;
+
+case 'politicameta':
+    qry= '  select PGG_META.id_meta codigo,PGG_META.nombre   from PGG_META   where PGG_META.id_politica = '+ req.params.id2+'  order by PGG_META.codigo  ' 
+
+break;
+case 'politicametan1':
+    qry= '    select PGG_META.id_meta,      PGG_META.nombre,       INDICADOR.id_indicador,      INDICADOR.nombre nombres,          SEMAFORO.valor_actual valor,      SEMAFORO.id_tipo_alerta   from PGG_META, PGG_META_X_INDICADOR, INDICADOR, SERIE SPROY, SERIE HIST, SEMAFORO   where PGG_META.id_meta = PGG_META_X_INDICADOR.id_meta   and PGG_META_X_INDICADOR.id_indicador = INDICADOR.id_indicador   and SPROY.id_indicador = INDICADOR.id_indicador   and SEMAFORO.id_indicador_ctrl = SPROY.id_indicador_ctrl   and PGG_META.id_politica =  '+ req.params.id2+'  /* IPOL */   and SPROY.id_marco = 4 /* IMARCO */   and SPROY.id_territorio = 1  /* este valor el fijo (terrirotio nacional) */   and SPROY.id_agrupacion = 1  /* este valor el fijo (sin agrupacion) */   and SPROY.id_tipo_serie = 1  /* este valor el fijo (proyectado) */   and HIST.id_indicador = INDICADOR.id_indicador    and HIST.id_marco = 0  /* este valor el fijo (historio de indicadores)*/   and HIST.id_territorio = 1  /* este valor el fijo (terrirotio nacional) */   and HIST.id_agrupacion = 1  /* este valor el fijo (sin agrupacion) */   and HIST.id_tipo_serie = 2 order by PGG_META.codigo, INDICADOR.codigo    ' 
+
+   
+    
+
+
+break;
         case 'indicadorcontrol':
 
               
@@ -114,10 +134,17 @@ case 'prioridadn2':
 
 break;
         case 'prioridadn':
-                qry= ' select INDICADOR_CONTROL.id_indicador_ctrl, PR_PRIORIDAD_NACIONAL.nombre, SEMAFORO.id_semaforo, SEMAFORO.nombre nombres, SEMAFORO.valor_actual, SEMAFORO.id_tipo_alerta, INDICADOR_CONTROL.path_imagen from PR_PRIORIDAD_NACIONAL, INDICADOR_CONTROL, SEMAFORO where PR_PRIORIDAD_NACIONAL.id_indicador_ctrl = INDICADOR_CONTROL.id_indicador_ctrl and SEMAFORO.id_indicador_ctrl = INDICADOR_CONTROL.id_indicador_ctrl and INDICADOR_CONTROL.id_marco = ' +  req.params.id3  + ' and INDICADOR_CONTROL.id_indicador_ctrl =   ' + req.params.id2  
+                qry= " select INDICADOR_CONTROL.id_indicador_ctrl, PR_PRIORIDAD_NACIONAL.nombre, SEMAFORO.id_semaforo, SEMAFORO.nombre || ' ' || SEMAFORO.valor_actual || '%'  nombres, SEMAFORO.valor_actual, SEMAFORO.id_tipo_alerta, INDICADOR_CONTROL.path_imagen from PR_PRIORIDAD_NACIONAL, INDICADOR_CONTROL, SEMAFORO where PR_PRIORIDAD_NACIONAL.id_indicador_ctrl = INDICADOR_CONTROL.id_indicador_ctrl and SEMAFORO.id_indicador_ctrl = INDICADOR_CONTROL.id_indicador_ctrl and INDICADOR_CONTROL.id_marco = " +  req.params.id3  + " and INDICADOR_CONTROL.id_indicador_ctrl =   " + req.params.id2  
 
 
                 
+
+break;
+
+case 'politicadn':
+    qry= "    select PGG_POLITICA.id_politica id_indicador_ctrl,PGG_POLITICA.nombre, SEMAFORO.id_semaforo,SEMAFORO.nombre || ' ' || SEMAFORO.valor_actual || '%'  nombres, SEMAFORO.valor_actual, SEMAFORO.id_tipo_alerta    from PGG_POLITICA, INDICADOR_CONTROL, SEMAFORO    where PGG_POLITICA.id_indicador_ctrl = INDICADOR_CONTROL.id_indicador_ctrl    and INDICADOR_CONTROL.id_indicador_ctrl = SEMAFORO.id_indicador_ctrl    and  PGG_POLITICA.id_politica =" + req.params.id2  + "  order by PGG_POLITICA.codigo"
+
+    
 
 break;
         case 'productos':
@@ -185,6 +212,15 @@ console.log(qry)
 
                             break;
                 break;
+                case 'marcosf':
+                    var myData = [];
+                    for(var i = 0; i < result.rows.length;i++){
+                        myData.push({codigo:result.rows[i].CODIGO,nombre:result.rows[i].NOMBRE})
+                    }
+                    res.json(myData);
+
+                        break;
+            break;
                 case 'marcos0':
                         var myData = [];
                         for(var i = 0; i < result.rows.length;i++){
@@ -202,6 +238,15 @@ console.log(qry)
                         res.json(myData);
 
                             break;
+
+                            case 'indicadorpolitica':
+                                var myData = [];
+                                for(var i = 0; i < result.rows.length;i++){
+                                    myData.push({codigo:result.rows[i].CODIGO,nombre:result.rows[i].NOMBRE})
+                                }
+                                res.json(myData);
+        
+                                    break;
                 case 'indicadores':
                         
                         Indicadore.find({idempresa:req.params.id3,usuarionew:req.params.id4}).exec(function(err, todos) {
@@ -382,6 +427,134 @@ console.log(myData2)
 
 
                    break;   
+                   case 'politicametan1':
+                    var myData = [];
+                    var myData2 = [];
+                    var myData3 = [];
+                    var arre=['blue','green','red','purple','violet','turquoise']    
+                    //etiquetas
+                    var indicador2=''
+                    if(result.rows.length==0)
+                    {
+                        res.json({});
+                    }
+                    else
+                    {
+
+                      
+              
+                   
+                    var grupo=result.rows[0].ID_META
+                    var nombret=result.rows[0].NOMBRE
+                    var ncolor=0;
+                    var j=0;
+                    for(var i = 0; i < result.rows.length;i++){
+
+                        if(grupo==result.rows[i].ID_META)
+                        {
+                            
+                            myData3.push({idindicador:result.rows[i].ID_INDICADOR,nombre:result.rows[i].NOMBRES,valor:'p'+result.rows[i].VALOR})
+                            j=j+1;
+
+                         
+
+                        }
+                        else{
+                            myData2.push({
+                                idmeta: result.rows[i].ID_META,
+                               nombre:result.rows[i].NOMBRE,
+                                data: myData3
+                               
+                            });
+
+                                ncolor=ncolor+1;
+
+                                 myData3 = [];
+
+                             
+                              
+                                grupo=result.rows[i].ID_META
+                                var nombret=result.rows[i].NOMBRE
+                                j=0;    
+                                myData3.push({idindicador:result.rows[i].ID_INDICADOR,nombre:result.rows[i].NOMBRES,valor:'p'+result.rows[i].VALOR})
+                       
+                                j=j+1;
+                           
+                                //myData3.push(result.rows[i].VALOR)
+                        }
+                       
+
+
+                    }
+
+
+
+
+                    myData2.push({
+                        idmeta: grupo,
+                       nombre:nombret,
+                        data: myData3
+                       
+                    });
+
+                    res.json(myData2);
+                    }
+
+
+               break;   
+                   case 'politicadn':
+
+                    var myData = [];
+                    var myData2 = [];
+                    var myData3 = [];
+                    var imagent=''
+                    //etiquetas
+                    if(result.rows.length==0)
+                    {
+                        res.json({etiquetas:[],dataset:[]});
+                    }
+                    else
+                    {
+                    for(var i = 0; i < result.rows.length;i++){
+                        myData.push(result.rows[i].NOMBRES)
+                        imagent=result.rows[i].PATH_IMAGEN
+                     
+                    }
+
+                    var ncolor=0;
+                    for(var i = 0; i < result.rows.length;i++){
+                         
+                            myData2.push(
+                                result.rows[i].VALOR_ACTUAL,
+                              );
+
+                              var color=''
+                              if(result.rows[i].ID_TIPO_ALERTA=='1'){color='green'}
+                              if(result.rows[i].ID_TIPO_ALERTA=='2'){color='yellow'}
+                              if(result.rows[i].ID_TIPO_ALERTA=='3'){color='red'}
+
+
+                              myData3.push(
+                            color
+                              );
+
+                              
+                              
+                        
+                       
+
+
+                    }
+
+             
+
+                    res.json({etiquetas:myData,dataset:myData2,color:myData3,imagen:imagent});
+                    }
+
+
+
+
+               break;   
                    case 'prioridadn2':
 
                         var myData = [];
