@@ -105,7 +105,12 @@ var qry=''
                 qry= ' select Id_politica codigo,nombre  from PGG_POLITICA  ' 
 
 break;
+case 'indicadorpolitica2':
+    qry= " select PGG_POLITICA.id_politica id_indicador_ctrl,PGG_POLITICA.nombre, SEMAFORO.id_semaforo,SEMAFORO.nombre   nombres, SEMAFORO.valor_actual, SEMAFORO.id_tipo_alerta    from PGG_POLITICA, INDICADOR_CONTROL, SEMAFORO   where PGG_POLITICA.id_indicador_ctrl = INDICADOR_CONTROL.id_indicador_ctrl   and INDICADOR_CONTROL.id_indicador_ctrl = SEMAFORO.id_indicador_ctrl order by PGG_POLITICA.codigo "
 
+    
+
+break;
 case 'politicameta':
     qry= '  select PGG_META.id_meta codigo,PGG_META.nombre   from PGG_META   where PGG_META.id_politica = '+ req.params.id2+'  order by PGG_META.codigo  ' 
 
@@ -427,6 +432,85 @@ console.log(myData2)
 
 
                    break;   
+                   
+                   case 'indicadorpolitica2':
+                    var myData = [];
+                    var myData2 = [];
+                    var myData3 = [];
+                    var arre=['blue','green','red','purple','violet','turquoise']    
+                    //etiquetas
+                    var indicador2=''
+                    if(result.rows.length==0)
+                    {
+                        res.json({});
+                    }
+                    else
+                    {
+
+                      
+              
+                   
+                    var grupo=result.rows[0].ID_INDICADOR_CTRL
+                    var nombret=result.rows[0].NOMBRE
+                    var ncolor=0;
+                    var j=0;
+                    for(var i = 0; i < result.rows.length;i++){
+
+                        if(grupo==result.rows[i].ID_INDICADOR_CTRL)
+                        {
+                            
+                            myData3.push({idsemaforo:result.rows[i].ID_SEMAFORO,nombre:result.rows[i].NOMBRES,valor:result.rows[i].VALOR_ACTUAL,alarma:result.rows[i].ID_TIPO_ALARMA,codigo:result.rows[i].ID_INDICADOR_CTRL,nombret:result.rows[i].NOMBRE})
+                       
+                            j=j+1;
+
+                         
+
+                        }
+                        else{
+                            myData2.push({
+                                idmeta: grupo,
+                               nombre:nombret,
+                                data: myData3
+                               
+                            });
+
+                                ncolor=ncolor+1;
+
+                                 myData3 = [];
+
+                             
+                              
+                                grupo=result.rows[i].ID_INDICADOR_CTRL
+                                var nombret=result.rows[i].NOMBRE
+                                j=0;    
+                                myData3.push({idsemaforo:result.rows[i].ID_SEMAFORO,nombre:result.rows[i].NOMBRES,valor:result.rows[i].VALOR_ACTUAL,alarma:result.rows[i].ID_TIPO_ALARMA ,codigo:result.rows[i].ID_INDICADOR_CTRL,nombret:result.rows[i].NOMBRE})
+                       
+                                j=j+1;
+                           
+                                //myData3.push(result.rows[i].VALOR)
+                        }
+                       
+
+
+                    }
+
+
+
+
+                    myData2.push({
+                        idpolitica: grupo,
+                       nombre:nombret,
+                        data: myData3
+                       
+                    });
+                
+                    res.json(myData2);
+                    }
+
+                        break;
+
+
+
                    case 'politicametan1':
                     var myData = [];
                     var myData2 = [];
@@ -453,7 +537,7 @@ console.log(myData2)
                         if(grupo==result.rows[i].ID_META)
                         {
                             
-                            myData3.push({idindicador:result.rows[i].ID_INDICADOR,nombre:result.rows[i].NOMBRES,valor:'p'+result.rows[i].VALOR})
+                            myData3.push({idindicador:result.rows[i].ID_INDICADOR,nombre:result.rows[i].NOMBRES,valor:result.rows[i].VALOR})
                             j=j+1;
 
                          
@@ -461,8 +545,8 @@ console.log(myData2)
                         }
                         else{
                             myData2.push({
-                                idmeta: result.rows[i].ID_META,
-                               nombre:result.rows[i].NOMBRE,
+                                idmeta: grupo,
+                               nombre:nombret,
                                 data: myData3
                                
                             });
@@ -476,7 +560,7 @@ console.log(myData2)
                                 grupo=result.rows[i].ID_META
                                 var nombret=result.rows[i].NOMBRE
                                 j=0;    
-                                myData3.push({idindicador:result.rows[i].ID_INDICADOR,nombre:result.rows[i].NOMBRES,valor:'p'+result.rows[i].VALOR})
+                                myData3.push({idindicador:result.rows[i].ID_INDICADOR,nombre:result.rows[i].NOMBRES,valor:result.rows[i].VALOR})
                        
                                 j=j+1;
                            
