@@ -35,6 +35,21 @@ exports.getoraclesqlxx = function(req, res, next){
 
 var qry=''
     switch(req.params.id) {
+       
+case 'ind1m':
+qry="select U.id_indicador, 'Q.' ||to_char(sum(U.asignado) , '999,999,999.00')   asignado, 'Q.' || to_char(sum(U.ejecutado) , '999,999,999.00')  ejecutado, round((sum(U.ejecutado)/sum(U.asignado))*100,2) || '%' porcentaje  from ( select T.id_indicador, T.id_producto, sum(T.asignado) asignado, sum(T.ejecutado) ejecutado from ( select INDICADOR_X_PRODUCTO.id_indicador,       PRODUCTO.id_producto,        DS1.fecha, DS1.valor asignado, 0 ejecutado from DATO_SERIE_EJEC DS1, SERIE_EJECUCION, PRODUCTO, INDICADOR_X_PRODUCTO where INDICADOR_X_PRODUCTO.id_indicador =  " + req.params.id2 + "    /* IND */ and INDICADOR_X_PRODUCTO.id_producto = PRODUCTO.id_producto and PRODUCTO.id_producto = SERIE_EJECUCION.id_producto  and DS1.id_serie_ejec = SERIE_EJECUCION.id_serie_ejec and fecha = TO_DATE('31/12/2019','DD/MM/YYYY') and SERIE_EJECUCION.id_tipo_serie_ejec = 2 and SERIE_EJECUCION.id_concepto_ejec = 2 union select INDICADOR_X_PRODUCTO.id_indicador,       PRODUCTO.id_producto,        DS1.fecha, 0 asignado, DS1.valor ejecutado from DATO_SERIE_EJEC DS1, SERIE_EJECUCION, PRODUCTO, INDICADOR_X_PRODUCTO where INDICADOR_X_PRODUCTO.id_indicador = 1 /* IND */ and INDICADOR_X_PRODUCTO.id_producto = PRODUCTO.id_producto and PRODUCTO.id_producto = SERIE_EJECUCION.id_producto  and DS1.id_serie_ejec = SERIE_EJECUCION.id_serie_ejec and fecha = TO_DATE('31/12/2019','DD/MM/YYYY') and SERIE_EJECUCION.id_tipo_serie_ejec = 3 and SERIE_EJECUCION.id_concepto_ejec = 2  ) T group by id_indicador, id_producto ) U group by id_indicador "
+break;
+case 'ind1d':
+qry=" select T.id_indicador, (select nombre from PRODUCTO where PRODUCTO.id_producto = T.id_producto) nombre, 'Q.' || to_char(sum(T.asignado) , '999,999,999.00')  asignado, 'Q.' || to_char(sum(T.ejecutado) , '999,999,999.00')  ejecutado,  round((sum(T.ejecutado)/sum(T.asignado))*100,0) || '%' porcentaje from ( select INDICADOR_X_PRODUCTO.id_indicador,       PRODUCTO.id_producto,         DS1.fecha, DS1.valor asignado, 0 ejecutado from DATO_SERIE_EJEC DS1, SERIE_EJECUCION, PRODUCTO, INDICADOR_X_PRODUCTO where INDICADOR_X_PRODUCTO.id_indicador = " + req.params.id2 + " /* IND */ and INDICADOR_X_PRODUCTO.id_producto = PRODUCTO.id_producto and PRODUCTO.id_producto = SERIE_EJECUCION.id_producto and DS1.id_serie_ejec = SERIE_EJECUCION.id_serie_ejec  and fecha = TO_DATE('31/12/2019','DD/MM/YYYY') and SERIE_EJECUCION.id_tipo_serie_ejec = 2 and SERIE_EJECUCION.id_concepto_ejec = 2 union select INDICADOR_X_PRODUCTO.id_indicador,       PRODUCTO.id_producto,         DS1.fecha, 0 asignado, DS1.valor ejecutado from DATO_SERIE_EJEC DS1, SERIE_EJECUCION, PRODUCTO, INDICADOR_X_PRODUCTO where INDICADOR_X_PRODUCTO.id_indicador = 1 /* IND */ and INDICADOR_X_PRODUCTO.id_producto = PRODUCTO.id_producto and PRODUCTO.id_producto = SERIE_EJECUCION.id_producto  and DS1.id_serie_ejec = SERIE_EJECUCION.id_serie_ejec and fecha = TO_DATE('31/12/2019','DD/MM/YYYY') and SERIE_EJECUCION.id_tipo_serie_ejec = 3 and SERIE_EJECUCION.id_concepto_ejec = 2 ) T group by id_indicador, id_producto order by id_indicador, id_producto  "
+break;
+  
+case 'ind2m':
+qry=" select U.id_indicador, to_char(sum(U.asignado), '999,999,999.00') asignado, to_char(sum(U.ejecutado), '999,999,999.00') ejecutado, round((sum(U.ejecutado)/sum(U.asignado))*100,2) || '%' porcentaje  from ( select T.id_indicador, T.id_producto, sum(T.asignado) asignado, sum(T.ejecutado) ejecutado from ( select INDICADOR_X_PRODUCTO.id_indicador,        PRODUCTO.id_producto,        DS1.fecha, DS1.valor asignado, 0 ejecutado from DATO_SERIE_EJEC DS1, SERIE_EJECUCION, PRODUCTO, INDICADOR_X_PRODUCTO where INDICADOR_X_PRODUCTO.id_indicador = " + req.params.id2 + " /* IND */and INDICADOR_X_PRODUCTO.id_producto = PRODUCTO.id_producto and PRODUCTO.id_producto = SERIE_EJECUCION.id_producto  and DS1.id_serie_ejec = SERIE_EJECUCION.id_serie_ejec and fecha = TO_DATE('31/12/2019','DD/MM/YYYY') and SERIE_EJECUCION.id_tipo_serie_ejec = 2 and SERIE_EJECUCION.id_concepto_ejec = 1  union select INDICADOR_X_PRODUCTO.id_indicador,        PRODUCTO.id_producto,        DS1.fecha, 0 asignado, DS1.valor ejecutado from DATO_SERIE_EJEC DS1, SERIE_EJECUCION, PRODUCTO, INDICADOR_X_PRODUCTO where INDICADOR_X_PRODUCTO.id_indicador = 1 /* IND */ and INDICADOR_X_PRODUCTO.id_producto = PRODUCTO.id_producto and PRODUCTO.id_producto = SERIE_EJECUCION.id_producto  and DS1.id_serie_ejec = SERIE_EJECUCION.id_serie_ejec and fecha = TO_DATE('31/12/2019','DD/MM/YYYY') and SERIE_EJECUCION.id_tipo_serie_ejec = 3 and SERIE_EJECUCION.id_concepto_ejec = 1 ) T group by id_indicador, id_producto ) U group by id_indicador "
+break;
+case 'ind2d':
+qry=" select T.id_indicador, (select nombre from PRODUCTO where PRODUCTO.id_producto = T.id_producto) nombre,  to_char(sum(T.asignado), '999,999,999.00') asignado,  to_char(sum(T.ejecutado), '999,999,999.00') ejecutado, round((sum(T.ejecutado)/sum(T.asignado))*100,2) || '%' porcentaje from ( select INDICADOR_X_PRODUCTO.id_indicador,       PRODUCTO.id_producto,        DS1.fecha, DS1.valor asignado, 0 ejecutado from DATO_SERIE_EJEC DS1, SERIE_EJECUCION, PRODUCTO, INDICADOR_X_PRODUCTO where INDICADOR_X_PRODUCTO.id_indicador = " + req.params.id2 + " /* IND */ and INDICADOR_X_PRODUCTO.id_producto = PRODUCTO.id_producto and PRODUCTO.id_producto = SERIE_EJECUCION.id_producto  and DS1.id_serie_ejec = SERIE_EJECUCION.id_serie_ejec and fecha = TO_DATE('31/12/2019','DD/MM/YYYY') and SERIE_EJECUCION.id_tipo_serie_ejec = 2 and SERIE_EJECUCION.id_concepto_ejec = 1  union select INDICADOR_X_PRODUCTO.id_indicador,       PRODUCTO.id_producto,        DS1.fecha, 0 asignado, DS1.valor ejecutado from DATO_SERIE_EJEC DS1, SERIE_EJECUCION, PRODUCTO, INDICADOR_X_PRODUCTO where INDICADOR_X_PRODUCTO.id_indicador = 1 /* IND */ and INDICADOR_X_PRODUCTO.id_producto = PRODUCTO.id_producto and PRODUCTO.id_producto = SERIE_EJECUCION.id_producto  and DS1.id_serie_ejec = SERIE_EJECUCION.id_serie_ejec and fecha = TO_DATE('31/12/2019','DD/MM/YYYY') and SERIE_EJECUCION.id_tipo_serie_ejec = 3 and SERIE_EJECUCION.id_concepto_ejec = 1  ) T group by id_indicador, id_producto order by id_indicador, id_producto "
+break;
+
         case 'marcos':
         qry='select id_marco codigo,nombre  from marco  where id_marco not in(4,0) order by 1 asc '      
         break;
@@ -91,9 +106,9 @@ var qry=''
         case 'datosgrafica':
             console.log(req.params)
        
-             qry="SELECT nvl(SERIE.id_indicador_ctrl,-1) indicador2,SERIE.ID_SERIE, dato_serie.ETIQUETA_FECHA, dato_serie.VALOR,tipo_SERIE.NOMBRE || ' ' ||  AGRUPACION.NOMBRE nombre   FROM SERIE, TIPO_SERIE, AGRUPACION, dato_serie     WHERE SERIE.ID_TIPO_SERIE    = TIPO_SERIE.ID_TIPO_SERIE    AND SERIE.ID_AGRUPACION      = AGRUPACION.ID_AGRUPACION     AND dato_serie.ID_SERIE      = SERIE.ID_SERIE       AND SERIE.ID_MARCO          = " +req.params.id6+"   AND SERIE.ID_INDICADOR       = " + req.params.id2  + "         AND SERIE.ID_NIVEL_TER       =  " + req.params.id3 + "         AND SERIE.ID_TERRITORIO      = " + req.params.id4  + "         AND SERIE.ID_TIPO_AGRUPACION = " + req.params.id5  
+             qry="    SELECT NVL(SERIE.ID_INDICADOR_CTRL, -1) indicador2,  SERIE.ID_SERIE, dato_serie.ETIQUETA_FECHA, dato_serie.VALOR,tipo_SERIE.NOMBRE || ' ' ||  AGRUPACION.NOMBRE nombre  FROM SERIE,  TIPO_SERIE,  AGRUPACION,  dato_serie WHERE SERIE.ID_TIPO_SERIE    = TIPO_SERIE.ID_TIPO_SERIE AND SERIE.ID_AGRUPACION      = AGRUPACION.ID_AGRUPACION AND dato_serie.ID_SERIE      = SERIE.ID_SERIE AND (SERIE.ID_MARCO          = 0 OR SERIE.ID_MARCO            = 4) AND SERIE.ID_INDICADOR       =  " + req.params.id2  + "    AND SERIE.ID_NIVEL_TER       = " + req.params.id3 + " AND SERIE.ID_TERRITORIO      = " + req.params.id4  + " AND SERIE.ID_TIPO_AGRUPACION = " + req.params.id5 
 
-      
+
 
           
 
@@ -208,6 +223,39 @@ console.log(qry)
 
 
             switch(req.params.id) {
+
+                case 'ind1m':
+                        var myData = [];
+                        for(var i = 0; i < result.rows.length;i++){
+                            myData.push({codigo:result.rows[i].ID_INDICADOR,nombre:'Ejecución presupuestaria 2019',asignado:result.rows[i].ASIGNADO,ejecutado:result.rows[i].EJECUTADO,porcentaje:result.rows[i].PORCENTAJE})
+                        }
+                        res.json(myData);
+
+                break;
+                case 'ind1d':
+                var myData = [];
+                for(var i = 0; i < result.rows.length;i++){
+                myData.push({codigo:result.rows[i].ID_INDICADOR,nombre:result.rows[i].NOMBRE,asignado:result.rows[i].ASIGNADO,ejecutado:result.rows[i].EJECUTADO,porcentaje:result.rows[i].PORCENTAJE})
+                }
+                res.json(myData);
+
+                break;
+                case 'ind2m':
+                var myData = [];
+                for(var i = 0; i < result.rows.length;i++){
+                myData.push({codigo:result.rows[i].ID_INDICADOR,nombre:'Ejecución presupuestaria 2019',asignado:result.rows[i].ASIGNADO,ejecutado:result.rows[i].EJECUTADO,porcentaje:result.rows[i].PORCENTAJE})
+                }
+                res.json(myData);
+
+                break;
+                case 'ind2d':
+                var myData = [];
+                for(var i = 0; i < result.rows.length;i++){
+                myData.push({codigo:result.rows[i].ID_INDICADOR,nombre:result.rows[i].NOMBRE,asignado:result.rows[i].ASIGNADO,ejecutado:result.rows[i].EJECUTADO,porcentaje:result.rows[i].PORCENTAJE})
+                }
+                res.json(myData);
+
+                break;
                 case 'marcos':
                         var myData = [];
                         for(var i = 0; i < result.rows.length;i++){
@@ -735,10 +783,10 @@ console.log(myData2)
                                     for(var ii = 0; ii <  myData.length;ii++){
                                         myData3.push(null)
                                     }
-                                 
+                                  console.log(myData3)
                                   
                                     grupo=result.rows[i].NOMBRE
-                                    j=0;    
+                                  //  j=0;    
                                     myData3[j]=result.rows[i].VALOR
                                     j=j+1;
                                
