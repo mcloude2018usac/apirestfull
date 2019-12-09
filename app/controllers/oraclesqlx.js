@@ -193,7 +193,12 @@ break;
 
         case 'participacion':
               
-                qry=' SELECT PARTICIPACION.ID_PRODUCTO CODIGO,  Dependencia_Gobierno.NOMBRE,  Tipo_Participacion.NOMBRE AS NOMBRE1 FROM Tipo_Participacion INNER JOIN PARTICIPACION ON Tipo_Participacion.ID_TIPO_PARTICIPACION = PARTICIPACION.ID_TIPO_PARTICIPACION INNER JOIN Dependencia_Gobierno ON Dependencia_Gobierno.ID_DEPENDENCIA_GOB = PARTICIPACION.ID_DEPENDENCIA_GOB WHERE PARTICIPACION.ID_PRODUCTO             =  ' + req.params.id2  
+                qry='  select (select PRODUCTO.nombre from PRODUCTO where PRODUCTO.id_producto = PARTICIPACION.id_producto) producto,        DEPENDENCIA_GOBIERNO.siglas, DEPENDENCIA_GOBIERNO.nombre from PARTICIPACION, DEPENDENCIA_GOBIERNO, TIPO_PARTICIPACION, INDICADOR_X_PRODUCTO where PARTICIPACION.id_producto = INDICADOR_X_PRODUCTO.id_producto and PARTICIPACION.id_dependencia_gob = DEPENDENCIA_GOBIERNO.id_dependencia_gob and TIPO_PARTICIPACION.id_tipo_participacion = PARTICIPACION.id_tipo_participacion and INDICADOR_X_PRODUCTO.id_indicador =  ' + req.params.id2  
+
+                
+
+
+
         break;
     }
 
@@ -339,7 +344,7 @@ console.log(qry)
                 case 'participacion':
                         var myData = [];
                         for(var i = 0; i < result.rows.length;i++){
-                            myData.push({codigo:result.rows[i].CODIGO,nombre:result.rows[i].NOMBRE,nombre1:result.rows[i].NOMBRE1})
+                            myData.push({codigo:result.rows[i].PRODUCTO,nombre:result.rows[i].NOMBRE,siglas:result.rows[i].SIGLAS})
                         }
                         res.json(myData);
 
