@@ -344,7 +344,7 @@ console.log(qry)
                 case 'participacion':
                         var myData = [];
                         for(var i = 0; i < result.rows.length;i++){
-                            myData.push({codigo:result.rows[i].PRODUCTO,nombre:result.rows[i].NOMBRE,siglas:result.rows[i].SIGLAS})
+                            myData.push({producto:result.rows[i].PRODUCTO,nombre:result.rows[i].NOMBRE,siglas:result.rows[i].SIGLAS})
                         }
                         res.json(myData);
 
