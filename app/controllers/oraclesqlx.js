@@ -742,35 +742,26 @@ console.log(myData2)
                         else
                         {
 
-                            indicador2=result.rows[0].INDICADOR2
-                        for(var i = 0; i < result.rows.length;i++){
-
-                            myData.push(result.rows[i].ETIQUETA_FECHA)
-                         
-                        }
-
+                        indicador2=result.rows[0].INDICADOR2
+                        for(var i = 0; i < result.rows.length;i++){  myData.push(result.rows[i].ETIQUETA_FECHA)}
                         var myData=removeDups(myData);
-
-                        for(var i = 0; i <myData.length;i++){
-                           
-                            myData3.push(null)
-                        }
-
-                       
+                        for(var i = 0; i <myData.length;i++){    myData3.push(null)      }
                         var grupo=result.rows[0].NOMBRE
                         var ncolor=0;
                         var j=0;
                         for(var i = 0; i < result.rows.length;i++){
+                            if(grupo==result.rows[i].NOMBRE)     {   
+                                for(var r = 0; r < myData.length;r++){
+                                    if(myData[r]==result.rows[i].ETIQUETA_FECHA)
+                                    {
+                                        myData3[r]=result.rows[i].VALOR;   
 
-                            if(grupo==result.rows[i].NOMBRE)
-                            {
+                                    }
+                                }
+
+                                  
                                 
-                                myData3[j]=result.rows[i].VALOR
-                                j=j+1;
-
-                             
-
-                            }
+                                }
                             else{
                                 myData2.push({
                                     label: grupo,
@@ -780,22 +771,27 @@ console.log(myData2)
                                     borderColor: arre[ncolor],// array should have same number of elements as number of dataset
                                     borderWidth: 1
                                 });
-
                                     ncolor=ncolor+1;
-
                                      myData3 = [];
                                     j=0;
                                     for(var ii = 0; ii <  myData.length;ii++){
                                         myData3.push(null)
                                     }
-                                  console.log(myData3)
-                                  
                                     grupo=result.rows[i].NOMBRE
-                                  //  j=0;    
-                                    myData3[j]=result.rows[i].VALOR
-                                    j=j+1;
+
+                                    for(var r = 0; r < myData.length;r++){
+                                        if(myData[r]==result.rows[i].ETIQUETA_FECHA)
+                                        {
+                                            myData3[r]=result.rows[i].VALOR;   
+    
+                                        }
+                                    }
+    
+                                
+                                //    myData3[j]=result.rows[i].VALOR
+                                //    j=j+1;
                                
-                                    //myData3.push(result.rows[i].VALOR)
+                                   
                             }
                            
 
