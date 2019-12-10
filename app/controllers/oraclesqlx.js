@@ -398,7 +398,7 @@ console.log(qry)
                                     for(var i = 0; i < result.rows.length;i++){
                                         var color=''
                                         if(result.rows[i].ID_TIPO_ALERTA=='1'){color='green'}
-                                        if(result.rows[i].ID_TIPO_ALERTA=='2'){color='yellow'}
+                                        if(result.rows[i].ID_TIPO_ALERTA=='2'){color='blue'}
                                         if(result.rows[i].ID_TIPO_ALERTA=='3'){color='red'}
 
                                         myData2.push({nombre:result.rows[i].NOMBRE,valor:result.rows[i].VALOR_ACTUAL,color:color});
@@ -421,7 +421,7 @@ console.log(myData2)
                                     for(var i = 0; i < result.rows.length;i++){
                                         var color=''
                                         if(result.rows[i].ID_TIPO_ALERTA=='1'){color='green'}
-                                        if(result.rows[i].ID_TIPO_ALERTA=='2'){color='yellow'}
+                                        if(result.rows[i].ID_TIPO_ALERTA=='2'){color='blue'}
                                         if(result.rows[i].ID_TIPO_ALERTA=='3'){color='red'}
 
                                         myData2.push({nombre:result.rows[i].NOMBRE,valor:result.rows[i].VALOR_ACTUAL,color:color});
@@ -460,7 +460,7 @@ console.log(myData2)
 
                                   var color=''
                                   if(result.rows[i].ID_TIPO_ALERTA=='1'){color='green'}
-                                  if(result.rows[i].ID_TIPO_ALERTA=='2'){color='yellow'}
+                                  if(result.rows[i].ID_TIPO_ALERTA=='2'){color='blue'}
                                   if(result.rows[i].ID_TIPO_ALERTA=='3'){color='red'}
 
 
@@ -667,7 +667,7 @@ console.log(myData2)
 
                               var color=''
                               if(result.rows[i].ID_TIPO_ALERTA=='1'){color='green'}
-                              if(result.rows[i].ID_TIPO_ALERTA=='2'){color='yellow'}
+                              if(result.rows[i].ID_TIPO_ALERTA=='2'){color='blue'}
                               if(result.rows[i].ID_TIPO_ALERTA=='3'){color='red'}
 
 
