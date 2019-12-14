@@ -35,7 +35,15 @@ exports.getoraclesqlxx = function(req, res, next){
 
 var qry=''
     switch(req.params.id) {
-       
+case 'pggarea':
+        qry="select id_area codigo, nombre        from PGG_AREA         where PGG_AREA.id_politica =  " + req.params.id2 + "   /* IPOL */        order by PGG_AREA.codigo      "
+       break;
+
+case 'pggareaindicador':
+    qry="select PGG_AREA.id_area,INDICADOR.id_indicador codigo, INDICADOR.nombre     from PGG_AREA, PGG_AREA_X_INDICADOR, INDICADOR    where PGG_AREA.id_area = PGG_AREA_X_INDICADOR.id_area   and PGG_AREA_X_INDICADOR.id_indicador = INDICADOR.id_indicador  and PGG_AREA.id_politica =  " + req.params.id2 + "   /* IPOL */             order by PGG_AREA.codigo, INDICADOR.codigo    "
+    break;
+    
+                  
 case 'ind1m':
 qry="select U.id_indicador, 'Q.' ||to_char(sum(U.asignado) , '999,999,999.00')   asignado, 'Q.' || to_char(sum(U.ejecutado) , '999,999,999.00')  ejecutado, round((sum(U.ejecutado)/sum(U.asignado))*100,2) || '%' porcentaje  from ( select T.id_indicador, T.id_producto, sum(T.asignado) asignado, sum(T.ejecutado) ejecutado from ( select INDICADOR_X_PRODUCTO.id_indicador,       PRODUCTO.id_producto,        DS1.fecha, DS1.valor asignado, 0 ejecutado from DATO_SERIE_EJEC DS1, SERIE_EJECUCION, PRODUCTO, INDICADOR_X_PRODUCTO where INDICADOR_X_PRODUCTO.id_indicador =  " + req.params.id2 + "    /* IND */ and INDICADOR_X_PRODUCTO.id_producto = PRODUCTO.id_producto and PRODUCTO.id_producto = SERIE_EJECUCION.id_producto  and DS1.id_serie_ejec = SERIE_EJECUCION.id_serie_ejec and fecha = TO_DATE('31/12/2019','DD/MM/YYYY') and SERIE_EJECUCION.id_tipo_serie_ejec = 2 and SERIE_EJECUCION.id_concepto_ejec = 2 union select INDICADOR_X_PRODUCTO.id_indicador,       PRODUCTO.id_producto,        DS1.fecha, 0 asignado, DS1.valor ejecutado from DATO_SERIE_EJEC DS1, SERIE_EJECUCION, PRODUCTO, INDICADOR_X_PRODUCTO where INDICADOR_X_PRODUCTO.id_indicador = 1 /* IND */ and INDICADOR_X_PRODUCTO.id_producto = PRODUCTO.id_producto and PRODUCTO.id_producto = SERIE_EJECUCION.id_producto  and DS1.id_serie_ejec = SERIE_EJECUCION.id_serie_ejec and fecha = TO_DATE('31/12/2019','DD/MM/YYYY') and SERIE_EJECUCION.id_tipo_serie_ejec = 3 and SERIE_EJECUCION.id_concepto_ejec = 2  ) T group by id_indicador, id_producto ) U group by id_indicador "
 break;
@@ -228,7 +236,25 @@ console.log(qry)
 
 
             switch(req.params.id) {
+                case 'pggarea':
+                        var myData = [];
+                        for(var i = 0; i < result.rows.length;i++){
+                            myData.push({codigo:result.rows[i].CODIGO,nombre:result.rows[i].NOMBRE})
+                        }
+                        res.json(myData);
 
+                            break;
+                       
+                
+                case 'pggareaindicador':
+                        var myData = [];
+                        for(var i = 0; i < result.rows.length;i++){
+                            myData.push({idarea:result.rows[i].ID_AREA,codigo:result.rows[i].CODIGO,nombre:result.rows[i].NOMBRE})
+                        }
+                        res.json(myData);
+
+                            break;
+                  
                 case 'ind1m':
                         var myData = [];
                         for(var i = 0; i < result.rows.length;i++){
