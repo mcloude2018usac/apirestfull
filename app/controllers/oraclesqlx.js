@@ -1,4 +1,5 @@
 var oracledb = require('oracledb');
+var oracledb2 = require('oracledb');
 var Indicadore = require('../models/segeplan/indicadores');
 
 
@@ -35,8 +36,13 @@ exports.getoraclesqlxx = function(req, res, next){
 
 var qry=''
     switch(req.params.id) {
+        case 'pggpoliticapublica':
+                qry="select *  from pgg_politica_publica  where id_politica=" + req.params.id2 + " "
+               break;
+
+        
 case 'pggarea':
-        qry="select id_area codigo, nombre        from PGG_AREA         where PGG_AREA.id_politica =  " + req.params.id2 + "   /* IPOL */        order by PGG_AREA.codigo      "
+        qry="SELECT  PGG_AREA.NOMBRE AS area,PGG_AREA.ID_AREA,  INDICADOR.ID_INDICADOR codigo,  INDICADOR.NOMBRE FROM PGG_AREA,  PGG_AREA_X_INDICADOR,  INDICADOR WHERE PGG_AREA.ID_AREA                = PGG_AREA_X_INDICADOR.ID_AREA AND PGG_AREA_X_INDICADOR.ID_INDICADOR = INDICADOR.ID_INDICADOR AND PGG_AREA.ID_POLITICA              =  " + req.params.id2 + " ORDER BY PGG_AREA.ID_AREA"
        break;
 
 case 'pggareaindicador':
@@ -215,7 +221,6 @@ break;
     }
 
 
-//console.log(qry)
 
       connection.execute(qry, {},  {
         outFormat: oracledb.OBJECT // Return the result as Object
@@ -225,16 +230,7 @@ break;
             var status = err ? 500 : 404;
 
            res.status(500).send('No existe informacion')  
-/*
-            switch(req.params.id) {
-                case 'datosgrafica':
-                        res.json({etiquetas:[],dataset:[]});
-                    break;
-                defaul:
-                res.json([]);
 
-            }
-*/
            
         } else {
 
@@ -242,10 +238,58 @@ break;
             switch(req.params.id) {
                 case 'pggarea':
                         var myData = [];
-                        for(var i = 0; i < result.rows.length;i++){
-                            myData.push({codigo:result.rows[i].CODIGO,nombre:result.rows[i].NOMBRE})
+                        var myData2 = [];
+                       
+                      
+                        //etiquetas
+                        if(result.rows.length==0)
+                        {
+                            res.json({});
                         }
+                        else
+                        {
+                       
+
+
+                        var grupo=result.rows[0].AREA
+                      
+                     
+                       
+                        for(var i = 0; i < result.rows.length;i++){
+
+                            if(grupo==result.rows[i].AREA)
+                            {
+                                
+                                myData2.push( {"name": result.rows[i].NOMBRE,  "icon": "trending-up", "information": "", "modulo":result.rows[i].CODIGO})
+                             
+                               
+
+                            }
+                            else{
+                              
+                               
+                                myData.push({   "name": grupo,    "icon": "home",  "children": myData2    })
+                               
+                           
+                                grupo=result.rows[i].AREA
+                              
+                                myData2=[]
+                                myData2.push( {"name": result.rows[i].NOMBRE,  "icon": "trending-up", "information": "", "modulo":result.rows[i].CODIGO})
+                             
+                                    //myData3.push(result.rows[i].VALOR)
+                            }
+                           
+
+   
+                        }
+                         
+                        myData.push({   "name": grupo,    "icon": "home",  "children": myData2    })
+    
+
                         res.json(myData);
+                        }
+
+                        
 
                             break;
                        
@@ -267,6 +311,15 @@ break;
                         res.json(myData);
 
                 break;
+
+                case 'pggpoliticapublica':
+                        var myData = [];
+                        for(var i = 0; i < result.rows.length;i++){
+                        myData.push({nombre:result.rows[i].NOMBRE,archivo:result.rows[i].ARCHIVO})
+                        }
+                        res.json(myData);
+                       break;
+        
                 case 'ind1d':
                 var myData = [];
                 for(var i = 0; i < result.rows.length;i++){
@@ -762,7 +815,7 @@ console.log(myData2)
                         var myData = [];
                         var myData2 = [];
                         var myData3 = [];
-                        var arre=['blue','green','red','purple','violet','turquoise']    
+                        var arre=['red','blue','red','purple','violet','turquoise']    
                         //etiquetas
                         var indicador2=''
                         if(result.rows.length==0)
