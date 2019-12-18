@@ -51,8 +51,8 @@ case 'pggareaindicador':
     
                   
 case 'ind1m':
-qry="select U.id_indicador, 'Q.' ||to_char(sum(U.asignado) , '999,999,999.00')   asignado, 'Q.' || to_char(sum(U.ejecutado) , '999,999,999.00')  ejecutado, round((sum(U.ejecutado)/sum(U.asignado))*100,2) || '%' porcentaje  from ( select T.id_indicador, T.id_producto, sum(T.asignado) asignado, sum(T.ejecutado) ejecutado from ( select INDICADOR_X_PRODUCTO.id_indicador,       PRODUCTO.id_producto,        DS1.fecha, DS1.valor asignado, 0 ejecutado from DATO_SERIE_EJEC DS1, SERIE_EJECUCION, PRODUCTO, INDICADOR_X_PRODUCTO where INDICADOR_X_PRODUCTO.id_indicador =  " + req.params.id2 + "    /* IND */ and INDICADOR_X_PRODUCTO.id_producto = PRODUCTO.id_producto and PRODUCTO.id_producto = SERIE_EJECUCION.id_producto  and DS1.id_serie_ejec = SERIE_EJECUCION.id_serie_ejec and fecha = TO_DATE('31/12/2019','DD/MM/YYYY') and SERIE_EJECUCION.id_tipo_serie_ejec = 2 and SERIE_EJECUCION.id_concepto_ejec = 2 union select INDICADOR_X_PRODUCTO.id_indicador,       PRODUCTO.id_producto,        DS1.fecha, 0 asignado, DS1.valor ejecutado from DATO_SERIE_EJEC DS1, SERIE_EJECUCION, PRODUCTO, INDICADOR_X_PRODUCTO where INDICADOR_X_PRODUCTO.id_indicador =   " + req.params.id2 + " /* IND */ and INDICADOR_X_PRODUCTO.id_producto = PRODUCTO.id_producto and PRODUCTO.id_producto = SERIE_EJECUCION.id_producto  and DS1.id_serie_ejec = SERIE_EJECUCION.id_serie_ejec and fecha = TO_DATE('31/12/2019','DD/MM/YYYY') and SERIE_EJECUCION.id_tipo_serie_ejec = 3 and SERIE_EJECUCION.id_concepto_ejec = 2  ) T group by id_indicador, id_producto ) U group by id_indicador "
-console.log(qry)
+qry="select U.id_indicador, 'Q.' ||to_char(sum(U.asignado) , '999,999,999.00')   asignado, 'Q.' || to_char(sum(U.ejecutado) , '999,999,999.00')  ejecutado, round((sum(U.ejecutado)/sum(U.asignado))*100,0)  porcentaje  from ( select T.id_indicador, T.id_producto, sum(T.asignado) asignado, sum(T.ejecutado) ejecutado from ( select INDICADOR_X_PRODUCTO.id_indicador,       PRODUCTO.id_producto,        DS1.fecha, DS1.valor asignado, 0 ejecutado from DATO_SERIE_EJEC DS1, SERIE_EJECUCION, PRODUCTO, INDICADOR_X_PRODUCTO where INDICADOR_X_PRODUCTO.id_indicador =  " + req.params.id2 + "    /* IND */ and INDICADOR_X_PRODUCTO.id_producto = PRODUCTO.id_producto and PRODUCTO.id_producto = SERIE_EJECUCION.id_producto  and DS1.id_serie_ejec = SERIE_EJECUCION.id_serie_ejec and fecha = TO_DATE('31/12/2019','DD/MM/YYYY') and SERIE_EJECUCION.id_tipo_serie_ejec = 2 and SERIE_EJECUCION.id_concepto_ejec = 2 union select INDICADOR_X_PRODUCTO.id_indicador,       PRODUCTO.id_producto,        DS1.fecha, 0 asignado, DS1.valor ejecutado from DATO_SERIE_EJEC DS1, SERIE_EJECUCION, PRODUCTO, INDICADOR_X_PRODUCTO where INDICADOR_X_PRODUCTO.id_indicador =   " + req.params.id2 + " /* IND */ and INDICADOR_X_PRODUCTO.id_producto = PRODUCTO.id_producto and PRODUCTO.id_producto = SERIE_EJECUCION.id_producto  and DS1.id_serie_ejec = SERIE_EJECUCION.id_serie_ejec and fecha = TO_DATE('31/12/2019','DD/MM/YYYY') and SERIE_EJECUCION.id_tipo_serie_ejec = 3 and SERIE_EJECUCION.id_concepto_ejec = 2  ) T group by id_indicador, id_producto ) U group by id_indicador "
+
 
 
 
@@ -62,10 +62,10 @@ qry=" select T.id_indicador, (select nombre from PRODUCTO where PRODUCTO.id_prod
 break;
   
 case 'ind2m':
-qry=" select U.id_indicador, sum(U.asignado) asignado, sum(U.ejecutado) ejecutado,  round((sum(U.ejecutado)/sum(U.asignado))*100,2) || '%' porcentaje from (select T.id_indicador, T.id_producto, sum(T.asignado) asignado, sum(T.ejecutado) ejecutado from ( select INDICADOR_X_PRODUCTO.id_indicador,       PRODUCTO.id_producto,        DS1.fecha, DS1.valor asignado, 0 ejecutado from DATO_SERIE_EJEC DS1, SERIE_EJECUCION, PRODUCTO, INDICADOR_X_PRODUCTO where INDICADOR_X_PRODUCTO.id_indicador = " + req.params.id2 + " /* IND */ and INDICADOR_X_PRODUCTO.id_producto = PRODUCTO.id_producto and PRODUCTO.id_producto = SERIE_EJECUCION.id_producto and DS1.id_serie_ejec = SERIE_EJECUCION.id_serie_ejec and fecha = TO_DATE('31/12/2019','DD/MM/YYYY') /* EN EL FUTURO SERA UN PARAMETRO */ and SERIE_EJECUCION.id_tipo_serie_ejec = 2 and SERIE_EJECUCION.id_concepto_ejec = 1 union select INDICADOR_X_PRODUCTO.id_indicador,       PRODUCTO.id_producto,        DS1.fecha, 0 asignado, DS1.valor ejecutado from DATO_SERIE_EJEC DS1, SERIE_EJECUCION, PRODUCTO, INDICADOR_X_PRODUCTO where INDICADOR_X_PRODUCTO.id_indicador = " + req.params.id2 + " /* IND */ and INDICADOR_X_PRODUCTO.id_producto = PRODUCTO.id_producto and PRODUCTO.id_producto = SERIE_EJECUCION.id_producto and DS1.id_serie_ejec = SERIE_EJECUCION.id_serie_ejec and fecha = TO_DATE('31/12/2019','DD/MM/YYYY') /* EN EL FUTURO SERA UN PARAMETRO */ and SERIE_EJECUCION.id_tipo_serie_ejec = 3 and SERIE_EJECUCION.id_concepto_ejec = 1 ) T group by id_indicador, id_producto) U group by id_indicador"
+qry=" select U.id_indicador, sum(U.asignado) asignado, sum(U.ejecutado) ejecutado,  round((sum(U.ejecutado)/sum(U.asignado))*100,0)  porcentaje from (select T.id_indicador, T.id_producto, sum(T.asignado) asignado, sum(T.ejecutado) ejecutado from ( select INDICADOR_X_PRODUCTO.id_indicador,       PRODUCTO.id_producto,        DS1.fecha, DS1.valor asignado, 0 ejecutado from DATO_SERIE_EJEC DS1, SERIE_EJECUCION, PRODUCTO, INDICADOR_X_PRODUCTO where INDICADOR_X_PRODUCTO.id_indicador = " + req.params.id2 + " /* IND */ and INDICADOR_X_PRODUCTO.id_producto = PRODUCTO.id_producto and PRODUCTO.id_producto = SERIE_EJECUCION.id_producto and DS1.id_serie_ejec = SERIE_EJECUCION.id_serie_ejec and fecha = TO_DATE('31/12/2019','DD/MM/YYYY') /* EN EL FUTURO SERA UN PARAMETRO */ and SERIE_EJECUCION.id_tipo_serie_ejec = 2 and SERIE_EJECUCION.id_concepto_ejec = 1 union select INDICADOR_X_PRODUCTO.id_indicador,       PRODUCTO.id_producto,        DS1.fecha, 0 asignado, DS1.valor ejecutado from DATO_SERIE_EJEC DS1, SERIE_EJECUCION, PRODUCTO, INDICADOR_X_PRODUCTO where INDICADOR_X_PRODUCTO.id_indicador = " + req.params.id2 + " /* IND */ and INDICADOR_X_PRODUCTO.id_producto = PRODUCTO.id_producto and PRODUCTO.id_producto = SERIE_EJECUCION.id_producto and DS1.id_serie_ejec = SERIE_EJECUCION.id_serie_ejec and fecha = TO_DATE('31/12/2019','DD/MM/YYYY') /* EN EL FUTURO SERA UN PARAMETRO */ and SERIE_EJECUCION.id_tipo_serie_ejec = 3 and SERIE_EJECUCION.id_concepto_ejec = 1 ) T group by id_indicador, id_producto) U group by id_indicador"
 break;
 case 'ind2d':
-qry="  select T.id_indicador, (select nombre from PRODUCTO where PRODUCTO.id_producto = T.id_producto) nombre, sum(T.asignado) asignado,sum(T.ejecutado) ejecutado, round((sum(T.ejecutado)/sum(T.asignado))*100,2) || '%' porcentaje from (select INDICADOR_X_PRODUCTO.id_indicador,       PRODUCTO.id_producto,        DS1.fecha, DS1.valor asignado, 0 ejecutado from DATO_SERIE_EJEC DS1, SERIE_EJECUCION, PRODUCTO, INDICADOR_X_PRODUCTO  where INDICADOR_X_PRODUCTO.id_indicador = " + req.params.id2 + " /* IND */ and INDICADOR_X_PRODUCTO.id_producto = PRODUCTO.id_producto and PRODUCTO.id_producto = SERIE_EJECUCION.id_producto and DS1.id_serie_ejec = SERIE_EJECUCION.id_serie_ejec and fecha = TO_DATE('31/12/2019','DD/MM/YYYY') /* EN EL FUTURO SERA UN PARAMETRO */ and SERIE_EJECUCION.id_tipo_serie_ejec = 2 and SERIE_EJECUCION.id_concepto_ejec = 1 union select INDICADOR_X_PRODUCTO.id_indicador,        PRODUCTO.id_producto,        DS1.fecha, 0 asignado, DS1.valor ejecutado from DATO_SERIE_EJEC DS1, SERIE_EJECUCION, PRODUCTO, INDICADOR_X_PRODUCTO where INDICADOR_X_PRODUCTO.id_indicador = " + req.params.id2 + " /* IND */and INDICADOR_X_PRODUCTO.id_producto = PRODUCTO.id_producto and PRODUCTO.id_producto = SERIE_EJECUCION.id_producto and DS1.id_serie_ejec = SERIE_EJECUCION.id_serie_ejec and fecha = TO_DATE('31/12/2019','DD/MM/YYYY') /* EN EL FUTURO SERA UN PARAMETRO */and SERIE_EJECUCION.id_tipo_serie_ejec = 3 and SERIE_EJECUCION.id_concepto_ejec = 1 ) T group by id_indicador, id_producto order by id_indicador, id_producto "
+qry="  select T.id_indicador, (select nombre from PRODUCTO where PRODUCTO.id_producto = T.id_producto) nombre, sum(T.asignado) asignado,sum(T.ejecutado) ejecutado, round((sum(T.ejecutado)/sum(T.asignado))*100,0) || '%' porcentaje from (select INDICADOR_X_PRODUCTO.id_indicador,       PRODUCTO.id_producto,        DS1.fecha, DS1.valor asignado, 0 ejecutado from DATO_SERIE_EJEC DS1, SERIE_EJECUCION, PRODUCTO, INDICADOR_X_PRODUCTO  where INDICADOR_X_PRODUCTO.id_indicador = " + req.params.id2 + " /* IND */ and INDICADOR_X_PRODUCTO.id_producto = PRODUCTO.id_producto and PRODUCTO.id_producto = SERIE_EJECUCION.id_producto and DS1.id_serie_ejec = SERIE_EJECUCION.id_serie_ejec and fecha = TO_DATE('31/12/2019','DD/MM/YYYY') /* EN EL FUTURO SERA UN PARAMETRO */ and SERIE_EJECUCION.id_tipo_serie_ejec = 2 and SERIE_EJECUCION.id_concepto_ejec = 1 union select INDICADOR_X_PRODUCTO.id_indicador,        PRODUCTO.id_producto,        DS1.fecha, 0 asignado, DS1.valor ejecutado from DATO_SERIE_EJEC DS1, SERIE_EJECUCION, PRODUCTO, INDICADOR_X_PRODUCTO where INDICADOR_X_PRODUCTO.id_indicador = " + req.params.id2 + " /* IND */and INDICADOR_X_PRODUCTO.id_producto = PRODUCTO.id_producto and PRODUCTO.id_producto = SERIE_EJECUCION.id_producto and DS1.id_serie_ejec = SERIE_EJECUCION.id_serie_ejec and fecha = TO_DATE('31/12/2019','DD/MM/YYYY') /* EN EL FUTURO SERA UN PARAMETRO */and SERIE_EJECUCION.id_tipo_serie_ejec = 3 and SERIE_EJECUCION.id_concepto_ejec = 1 ) T group by id_indicador, id_producto order by id_indicador, id_producto "
 break;
 
         case 'marcos':
@@ -94,7 +94,7 @@ break;
                
                 qry=' select TIPO_AGRUPACION.id_tipo_agrupacion codigo, TIPO_AGRUPACION.nombre  from INDICADOR_X_TER_AGR, TIPO_AGRUPACION   where INDICADOR_X_TER_AGR.id_indicador =  ' +req.params.id2 + '     and INDICADOR_X_TER_AGR.id_tipo_agrupacion = TIPO_AGRUPACION.id_tipo_agrupacion            and INDICADOR_X_TER_AGR.id_nivel_ter =  ' +req.params.id3 + '               order by 1 '
 
-                
+                console.log(qry)
 
 
 
@@ -105,6 +105,7 @@ break;
 
 
                 qry='select  id_territorio as codigo,nombre  from Territorio  where Id_NIVEL_TER=' + req.params.id2 + ' order by 1'
+                console.log(qry)
         break;
         case 'agrupaciones':
               
@@ -116,7 +117,7 @@ break;
                 
                 qry='   SELECT                SEMAFORO.NOMBRE,       SEMAFORO.VALOR_ACTUAL,     SEMAFORO.ID_TIPO_ALERTA      FROM INDICADOR_CONTROL,              SEMAFORO              WHERE SEMAFORO.ID_INDICADOR_CTRL        = INDICADOR_CONTROL.ID_INDICADOR_CTRL              AND INDICADOR_CONTROL.ID_MARCO          =  ' + req.params.id6 + '               AND INDICADOR_CONTROL.ID_INDICADOR_CTRL =  ' + req.params.id2 
               
-          
+                console.log(qry)
 
 
         break;
@@ -846,15 +847,18 @@ console.log(myData2)
                                 
                                 }
                             else{
-                                myData2.push({
-                                    label: grupo,
-                                    fill: false,
-                                    data: myData3,
-                                    backgroundColor:'rgba(0,0,0,0)', // array should have same number of elements as number of dataset
-                                    borderColor: arre[ncolor],// array should have same number of elements as number of dataset
-                                    borderWidth: 1
-                                });
-                                    ncolor=ncolor+1;
+
+                                if(req.params.id6=='line' || req.params.id6=='radar' || req.params.id6=='polarArea')
+                                {
+                                    myData2.push({ label: grupo, fill: false,  data: myData3, backgroundColor:'rgba(0,0,0,0)',  borderColor: arre[ncolor], borderWidth: 1  });
+                          
+                                }
+                                else{
+                                    myData2.push({ label: grupo, fill: false,  data: myData3, backgroundColor:arre[ncolor],  borderColor: arre[ncolor], borderWidth: 1  });
+                          
+                                }
+
+                                     ncolor=ncolor+1;
                                      myData3 = [];
                                     j=0;
                                     for(var ii = 0; ii <  myData.length;ii++){
@@ -881,15 +885,19 @@ console.log(myData2)
    
                         }
 
+                        
+                        if(req.params.id6=='line' || req.params.id6=='radar' || req.params.id6=='polarArea' )
+                        {
+                            myData2.push({ label: grupo, fill: false,  data: myData3, backgroundColor:'rgba(0,0,0,0)',  borderColor: arre[ncolor], borderWidth: 1  });
+                  
+                        }
+                        else{
+                            myData2.push({ label: grupo, fill: false,  data: myData3, backgroundColor:arre[ncolor],  borderColor: arre[ncolor], borderWidth: 1  });
+                  
+                        }
 
 
-
-                        myData2.push({
-                            label: grupo,
-                            data: myData3,
-                            backgroundColor:'rgba(0,0,0,0)', // array should have same number of elements as number of dataset
-                            borderColor: arre[ncolor],// array should have same number of elements as number of dataset
-                            borderWidth: 1});
+                     
 
                         res.json({etiquetas:myData,dataset:myData2,indicador2:indicador2});
                         }
