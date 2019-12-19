@@ -37,7 +37,8 @@ exports.getoraclesqlxx = function(req, res, next){
 var qry=''
     switch(req.params.id) {
         case 'pggpoliticapublica':
-                qry="select *  from pgg_politica_publica  where id_politica=" + req.params.id2 + " "
+                qry="select *  from pgg_politica_publica  where id_politica=" + req.params.id2 + " and id_area=" + req.params.id3
+                console.log(qry)
                break;
 
         
