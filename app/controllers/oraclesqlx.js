@@ -46,8 +46,14 @@ case 'pggarea':
         qry="SELECT  PGG_AREA.NOMBRE AS area,PGG_AREA.ID_AREA,  INDICADOR.ID_INDICADOR codigo,  INDICADOR.NOMBRE FROM PGG_AREA,  PGG_AREA_X_INDICADOR,  INDICADOR WHERE PGG_AREA.ID_AREA                = PGG_AREA_X_INDICADOR.ID_AREA AND PGG_AREA_X_INDICADOR.ID_INDICADOR = INDICADOR.ID_INDICADOR AND PGG_AREA.ID_POLITICA              =  " + req.params.id2 + " ORDER BY PGG_AREA.ID_AREA"
        break;
 
+       case 'pggarea2':
+    qry="select  id_area codigo,nombre     from PGG_AREA where id_politica =  " + req.params.id2 + "   /* IPOL */             order by 1   "
+    break;
+    
+
 case 'pggareaindicador':
-    qry="select PGG_AREA.id_area,INDICADOR.id_indicador codigo, INDICADOR.nombre     from PGG_AREA, PGG_AREA_X_INDICADOR, INDICADOR    where PGG_AREA.id_area = PGG_AREA_X_INDICADOR.id_area   and PGG_AREA_X_INDICADOR.id_indicador = INDICADOR.id_indicador  and PGG_AREA.id_politica =  " + req.params.id2 + "   /* IPOL */             order by PGG_AREA.codigo, INDICADOR.codigo    "
+    qry="select INDICADOR.id_indicador codigo, INDICADOR.nombre     from PGG_AREA, PGG_AREA_X_INDICADOR, INDICADOR    where PGG_AREA.id_area = PGG_AREA_X_INDICADOR.id_area   and PGG_AREA_X_INDICADOR.id_indicador = INDICADOR.id_indicador and PGG_AREA.id_area=" + req.params.id3 + " and PGG_AREA.id_politica =  " + req.params.id2 + "   /* IPOL */             order by PGG_AREA.codigo, INDICADOR.codigo    "
+  console.log(qry)
     break;
     
                   
@@ -294,7 +300,14 @@ break;
                         
 
                             break;
-                       
+                            case 'pggarea2':
+                                var myData = [];
+                                for(var i = 0; i < result.rows.length;i++){
+                                    myData.push({codigo:result.rows[i].CODIGO,nombre:result.rows[i].NOMBRE})
+                                }
+                                res.json(myData);
+        
+                                    break;
                 
                 case 'pggareaindicador':
                         var myData = [];
@@ -304,7 +317,9 @@ break;
                         res.json(myData);
 
                             break;
-                  
+                
+                            
+
                 case 'ind1m':
                         var myData = [];
                         for(var i = 0; i < result.rows.length;i++){
@@ -851,11 +866,11 @@ console.log(myData2)
 
                                 if(req.params.id6=='line' || req.params.id6=='radar' || req.params.id6=='polarArea')
                                 {
-                                    myData2.push({ label: grupo, fill: false,  data: myData3, backgroundColor:'rgba(0,0,0,0)',  borderColor: arre[ncolor], borderWidth: 1  });
+                                    myData2.push({ label: grupo,   data: myData3, backgroundColor:'rgba(0,0,0,0)',  borderColor: arre[ncolor], borderWidth: 1  });
                           
                                 }
                                 else{
-                                    myData2.push({ label: grupo, fill: false,  data: myData3, backgroundColor:arre[ncolor],  borderColor: arre[ncolor], borderWidth: 1  });
+                                    myData2.push({ label: grupo,   data: myData3, backgroundColor:arre[ncolor],  borderColor: arre[ncolor], borderWidth: 1  });
                           
                                 }
 
