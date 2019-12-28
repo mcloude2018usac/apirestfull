@@ -47,12 +47,12 @@ case 'pggarea':
        break;
 
        case 'pggarea2':
-    qry="select  id_area codigo,nombre     from PGG_AREA where id_politica =  " + req.params.id2 + "   /* IPOL */             order by 1   "
+    qry="select  id_area codigo,nombre ,estado    from PGG_AREA where id_politica =  " + req.params.id2 + "   /* IPOL */             order by 1   "
     break;
     
 
 case 'pggareaindicador':
-    qry="select INDICADOR.id_indicador codigo, INDICADOR.nombre     from PGG_AREA, PGG_AREA_X_INDICADOR, INDICADOR    where PGG_AREA.id_area = PGG_AREA_X_INDICADOR.id_area   and PGG_AREA_X_INDICADOR.id_indicador = INDICADOR.id_indicador and PGG_AREA.id_area=" + req.params.id3 + " and PGG_AREA.id_politica =  " + req.params.id2 + "   /* IPOL */             order by PGG_AREA.codigo, INDICADOR.codigo    "
+    qry="select INDICADOR.id_indicador codigo, INDICADOR.nombre,PGG_AREA_X_INDICADOR.estado     from PGG_AREA, PGG_AREA_X_INDICADOR, INDICADOR    where PGG_AREA.id_area = PGG_AREA_X_INDICADOR.id_area   and PGG_AREA_X_INDICADOR.id_indicador = INDICADOR.id_indicador and PGG_AREA.id_area=" + req.params.id3 + " and PGG_AREA.id_politica =  " + req.params.id2 + "   /* IPOL */             order by PGG_AREA.codigo, INDICADOR.codigo    "
  
     break;
     
@@ -303,7 +303,7 @@ break;
                             case 'pggarea2':
                                 var myData = [];
                                 for(var i = 0; i < result.rows.length;i++){
-                                    myData.push({codigo:result.rows[i].CODIGO,nombre:result.rows[i].NOMBRE})
+                                    myData.push({codigo:result.rows[i].CODIGO,nombre:result.rows[i].NOMBRE,estado:result.rows[i].ESTADO})
                                 }
                                 res.json(myData);
         
@@ -312,7 +312,7 @@ break;
                 case 'pggareaindicador':
                         var myData = [];
                         for(var i = 0; i < result.rows.length;i++){
-                            myData.push({idarea:result.rows[i].ID_AREA,codigo:result.rows[i].CODIGO,nombre:result.rows[i].NOMBRE})
+                            myData.push({idarea:result.rows[i].ID_AREA,codigo:result.rows[i].CODIGO,estado:result.rows[i].ESTADO})
                         }
                         res.json(myData);
 
