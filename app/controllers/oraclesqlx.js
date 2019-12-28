@@ -47,7 +47,7 @@ case 'pggarea':
        break;
 
        case 'pggarea2':
-    qry="select  id_area codigo,nombre ,estado    from PGG_AREA where id_politica =  " + req.params.id2 + "   /* IPOL */             order by 1   "
+    qry="select  id_area codigo,nombre ,estado    from PGG_AREA where id_politica =  " + req.params.id2 + "   /* IPOL */              order by estado desc  "
     break;
     
 
