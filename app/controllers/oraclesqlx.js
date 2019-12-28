@@ -312,7 +312,7 @@ break;
                 case 'pggareaindicador':
                         var myData = [];
                         for(var i = 0; i < result.rows.length;i++){
-                            myData.push({idarea:result.rows[i].ID_AREA,codigo:result.rows[i].CODIGO,estado:result.rows[i].ESTADO})
+                            myData.push({idarea:result.rows[i].ID_AREA,codigo:result.rows[i].CODIGO,nombre:result.rows[i].NOMBRE,estado:result.rows[i].ESTADO})
                         }
                         res.json(myData);
 
