@@ -38,7 +38,7 @@ var qry=''
     switch(req.params.id) {
         case 'pggpoliticapublica':
                 qry="select *  from pgg_politica_publica  where id_politica=" + req.params.id2 + " and id_area=" + req.params.id3
-                console.log(qry)
+               
                break;
 
         
@@ -101,7 +101,7 @@ break;
                
                 qry=' select TIPO_AGRUPACION.id_tipo_agrupacion codigo, TIPO_AGRUPACION.nombre  from INDICADOR_X_TER_AGR, TIPO_AGRUPACION   where INDICADOR_X_TER_AGR.id_indicador =  ' +req.params.id2 + '     and INDICADOR_X_TER_AGR.id_tipo_agrupacion = TIPO_AGRUPACION.id_tipo_agrupacion            and INDICADOR_X_TER_AGR.id_nivel_ter =  ' +req.params.id3 + '               order by 1 '
 
-                console.log(qry)
+             
 
 
 
@@ -112,7 +112,7 @@ break;
 
 
                 qry='select  id_territorio as codigo,nombre  from Territorio  where Id_NIVEL_TER=' + req.params.id2 + ' order by 1'
-                console.log(qry)
+                
         break;
         case 'agrupaciones':
               

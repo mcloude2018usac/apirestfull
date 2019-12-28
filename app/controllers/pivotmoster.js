@@ -14,9 +14,27 @@ var cursoeve=require('../models/aread_evento');
 var Participa2 = require('../models/participa2');
 var Moduloxx = require('../models/moduloxx');
 var Asignapcb = require('../models/asignapcb');
+var oracledb = require('oracledb');
+
+var connAttrs = {
+    "user": "dbprocessges",
+    "password": "S1t13n3$",
+    "connectString": "181.174.122.180/xe"
+}
+
+function removeDups(names) {
+    let unique = {};
+    names.forEach(function(i) {
+      if(!unique[i]) {
+        unique[i] = true;
+      }
+    });
+    return Object.keys(unique);
+  }
+
 
 exports.getPivotm = function(req, res, next){
-
+console.log(req.params)
     switch(req.params.id) {
         case 'db1':
 
@@ -38,6 +56,8 @@ exports.getPivotm = function(req, res, next){
                     break
                     case 'catalogo':         getcatalogorpt(req, res, next);
                     break
+                    case 'segeplan':         getsegeplanrpt(req, res, next);
+                    break
                     default:
                     break;
             
@@ -57,6 +77,101 @@ exports.getPivotm = function(req, res, next){
 
 }
 
+
+var getsegeplanrpt = function(req, res, next) {
+
+    "use strict";
+    oracledb.getConnection(connAttrs, function (err, connection) {
+      if (err) {
+          // Error connecting to DB
+          res.set('Content-Type', 'application/json');
+          res.status(500).send(JSON.stringify({
+              status: 500,
+              message: "Error connecting to DB",
+              detailed_message: err.message
+          }));
+          return;
+      }
+  
+  var qry=''
+  console.log(req.params)
+      switch(req.params.id3) {
+        
+  case 'grafica':
+      qry="SELECT   dato_serie.ETIQUETA_FECHA etiqueta,  dato_serie.VALOR,  TIPO_SERIE.NOMBRE || ' '  || AGRUPACION.NOMBRE tipo_serie,  NIVEL_TERRITORIAL.NOMBRE AS nivel_territorio,  TERRITORIO.NOMBRE        AS territorio,  TIPO_AGRUPACION.NOMBRE   AS tipo_agrupacion FROM SERIE,  TIPO_SERIE,  AGRUPACION,  dato_serie,  TERRITORIO,  TIPO_AGRUPACION,  NIVEL_TERRITORIAL WHERE SERIE.ID_TIPO_SERIE              = TIPO_SERIE.ID_TIPO_SERIE AND SERIE.ID_AGRUPACION                = AGRUPACION.ID_AGRUPACION AND dato_serie.ID_SERIE                = SERIE.ID_SERIE AND NIVEL_TERRITORIAL.ID_NIVEL_TER     = SERIE.ID_NIVEL_TER AND TERRITORIO.ID_TERRITORIO           = SERIE.ID_TERRITORIO AND TIPO_AGRUPACION.ID_TIPO_AGRUPACION = SERIE.ID_TIPO_AGRUPACION2 AND (SERIE.ID_MARCO                    = 0 OR SERIE.ID_MARCO                      = 4) AND SERIE.ID_INDICADOR                 =   "+req.params.id4
+   
+      break;
+
+        
+      }
+  
+        connection.execute(qry, {},  {
+          outFormat: oracledb.OBJECT // Return the result as Object
+      }, function (err, result) {
+          if (err || result.rows.length < 1) {
+              res.set('Content-Type', 'application/json');
+              var status = err ? 500 : 404;
+  
+             res.status(500).send('No existe informacion')  
+  
+             
+          } else {
+  
+  
+              switch(req.params.id3) {
+                  
+                  case 'grafica':
+                          var myData = [];
+                          for(var i = 0; i < result.rows.length;i++){
+                              myData.push({tipo:result.rows[i].ETIQUETA,cantidad:result.rows[i].VALOR,serie:result.rows[i].TIPO_SERIE,nivel_territorio:result.rows[i].NIVEL_TERRITORIO,territorio:result.rows[i].TERRITORIO,tipo_agrupacion:result.rows[i].TIPO_AGRUPACION})
+                          }
+                         
+
+                          let stream = compressor.compressJson(myData);
+                                      
+                          stream.on('data', data => res.write(data));
+                          stream.on('end', () => res.end()
+                          //  res.redirect('pivot.html');
+                          ); 
+                          var rutat=path.join(__dirname+'/pivotm.html')
+
+
+  
+                              break;
+                  
+                              
+  
+    
+              
+                  
+               
+              }
+         
+          }
+        
+          connection.release(
+              function (err) {
+                  if (err) {
+                      console.error(err.message);
+                  } else {
+                      console.log("GET /user_profiles/" + req.params.txt + " : Connection released");
+                  }
+              });
+      });
+  
+  
+     
+  
+     
+  
+  });
+
+
+
+
+
+
+}
 
 var getcatalogorpt = function(req, res, next) {
     switch(req.params.id3) {
