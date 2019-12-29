@@ -848,7 +848,8 @@ console.log(myData2)
                         for(var i = 0; i < result.rows.length;i++){  myData.push(result.rows[i].ETIQUETA_FECHA)}
                             console.log(myData)
 
-                      //  var myData=removeDups(myData);
+                       myData=removeDups(myData);
+                       myData.sort()
                         for(var i = 0; i <myData.length;i++){    myData3.push(null)      }
                         var grupo=result.rows[0].NOMBRE
                         var ncolor=0;
