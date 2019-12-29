@@ -220,7 +220,8 @@ break;
 
         case 'participacion':
               
-                qry='  select (select PRODUCTO.nombre from PRODUCTO where PRODUCTO.id_producto = PARTICIPACION.id_producto) producto,        DEPENDENCIA_GOBIERNO.siglas, DEPENDENCIA_GOBIERNO.nombre from PARTICIPACION, DEPENDENCIA_GOBIERNO, TIPO_PARTICIPACION, INDICADOR_X_PRODUCTO where PARTICIPACION.id_producto = INDICADOR_X_PRODUCTO.id_producto and PARTICIPACION.id_dependencia_gob = DEPENDENCIA_GOBIERNO.id_dependencia_gob and TIPO_PARTICIPACION.id_tipo_participacion = PARTICIPACION.id_tipo_participacion and INDICADOR_X_PRODUCTO.id_indicador =  ' + req.params.id2  
+                qry="  select (select PRODUCTO.nombre from PRODUCTO where PRODUCTO.id_producto = PARTICIPACION.id_producto) producto, PARTICIPACION.id_producto,   DEPENDENCIA_GOBIERNO.siglas, TIPO_PARTICIPACION.nombre from PARTICIPACION, DEPENDENCIA_GOBIERNO, TIPO_PARTICIPACION, INDICADOR_X_PRODUCTO where PARTICIPACION.id_producto = INDICADOR_X_PRODUCTO.id_producto and PARTICIPACION.id_dependencia_gob = DEPENDENCIA_GOBIERNO.id_dependencia_gob and TIPO_PARTICIPACION.id_tipo_participacion = PARTICIPACION.id_tipo_participacion and INDICADOR_X_PRODUCTO.id_indicador =  " + req.params.id2  + " and PARTICIPACION.id_producto in ( select distinct PRODUCTO.id_producto from DATO_SERIE_EJEC DS1, SERIE_EJECUCION, PRODUCTO, INDICADOR_X_PRODUCTO where INDICADOR_X_PRODUCTO.id_indicador = INDICADOR_X_PRODUCTO.id_indicador and INDICADOR_X_PRODUCTO.id_producto = PRODUCTO.id_producto and PRODUCTO.id_producto = SERIE_EJECUCION.id_producto  and DS1.id_serie_ejec = SERIE_EJECUCION.id_serie_ejec and fecha = TO_DATE('31/12/2019','DD/MM/YYYY') /* EN EL FUTURO SERA UN PARAMETRO */  ) "
+
 
                 
 
