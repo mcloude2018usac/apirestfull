@@ -133,9 +133,9 @@ break;
           //  console.log(req.params)
        
          
-             qry="   SELECT (  CASE    WHEN SERIE.TITULO IS NULL    THEN TIPO_SERIE.NOMBRE      || ' '      || AGRUPACION.NOMBRE    ELSE SERIE.TITULO  END) nombre,  SERIE.ID_SERIE,  SERIE.ID_MARCO,  NVL(SERIE.ID_INDICADOR_CTRL, -1) indicador2,    SERIE.ES_PORCENTAJE,  SERIE.DECIMALES,  DATO_SERIE.VALOR,   DATO_SERIE.ETIQUETA_FECHA FROM SERIE,  TIPO_SERIE,  AGRUPACION,  DATO_SERIE WHERE SERIE.ID_TIPO_SERIE    = TIPO_SERIE.ID_TIPO_SERIE AND SERIE.ID_AGRUPACION      = AGRUPACION.ID_AGRUPACION AND DATO_SERIE.ID_SERIE      = SERIE.ID_SERIE AND (SERIE.ID_MARCO          = 0 OR SERIE.ID_MARCO            = 4) AND SERIE.ID_INDICADOR       = " + req.params.id2  + " AND SERIE.ID_NIVEL_TER       = " + req.params.id3 + " AND SERIE.ID_TERRITORIO      = " + req.params.id4  + " AND SERIE.ID_TIPO_AGRUPACION = " + req.params.id5
+             qry="   SELECT (  CASE    WHEN SERIE.TITULO IS NULL    THEN TIPO_SERIE.NOMBRE      || ' '      || AGRUPACION.NOMBRE    ELSE SERIE.TITULO  END) nombre,  SERIE.ID_SERIE,  SERIE.ID_MARCO,  NVL(SERIE.ID_INDICADOR_CTRL, -1) indicador2,    SERIE.ES_PORCENTAJE,  SERIE.DECIMALES,  DATO_SERIE.VALOR,   DATO_SERIE.ETIQUETA_FECHA FROM SERIE,  TIPO_SERIE,  AGRUPACION,  DATO_SERIE WHERE SERIE.ID_TIPO_SERIE    = TIPO_SERIE.ID_TIPO_SERIE AND SERIE.ID_AGRUPACION      = AGRUPACION.ID_AGRUPACION AND DATO_SERIE.ID_SERIE      = SERIE.ID_SERIE AND (SERIE.ID_MARCO          = 0 OR SERIE.ID_MARCO            = 4) AND SERIE.ID_INDICADOR       = " + req.params.id2  + " AND SERIE.ID_NIVEL_TER       = " + req.params.id3 + " AND SERIE.ID_TERRITORIO      = " + req.params.id4  + " AND SERIE.ID_TIPO_AGRUPACION = " + req.params.id5 + "  order by  DATO_SERIE.ETIQUETA_FECHA "
 
-             console.log(qry)
+          //   console.log(qry)
 
           
 
@@ -846,7 +846,9 @@ console.log(myData2)
 
                         indicador2=result.rows[0].INDICADOR2
                         for(var i = 0; i < result.rows.length;i++){  myData.push(result.rows[i].ETIQUETA_FECHA)}
-                        var myData=removeDups(myData);
+                            console.log(myData)
+
+                      //  var myData=removeDups(myData);
                         for(var i = 0; i <myData.length;i++){    myData3.push(null)      }
                         var grupo=result.rows[0].NOMBRE
                         var ncolor=0;
