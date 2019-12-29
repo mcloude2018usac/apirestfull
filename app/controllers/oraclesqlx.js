@@ -132,7 +132,8 @@ break;
         case 'datosgrafica':
           //  console.log(req.params)
        
-             qry="    SELECT NVL(SERIE.ID_INDICADOR_CTRL, -1) indicador2,  SERIE.ID_SERIE, dato_serie.ETIQUETA_FECHA, dato_serie.VALOR,tipo_SERIE.NOMBRE || ' ' ||  AGRUPACION.NOMBRE nombre  FROM SERIE,  TIPO_SERIE,  AGRUPACION,  dato_serie WHERE SERIE.ID_TIPO_SERIE    = TIPO_SERIE.ID_TIPO_SERIE AND SERIE.ID_AGRUPACION      = AGRUPACION.ID_AGRUPACION AND dato_serie.ID_SERIE      = SERIE.ID_SERIE AND (SERIE.ID_MARCO          = 0 OR SERIE.ID_MARCO            = 4) AND SERIE.ID_INDICADOR       =  " + req.params.id2  + "    AND SERIE.ID_NIVEL_TER       = " + req.params.id3 + " AND SERIE.ID_TERRITORIO      = " + req.params.id4  + " AND SERIE.ID_TIPO_AGRUPACION = " + req.params.id5 
+         
+             qry="   SELECT (  CASE    WHEN SERIE.TITULO IS NULL    THEN TIPO_SERIE.NOMBRE      || ' '      || AGRUPACION.NOMBRE    ELSE SERIE.TITULO  END) nombre,  SERIE.ID_SERIE,  SERIE.ID_MARCO,  NVL(SERIE.ID_INDICADOR_CTRL, -1) indicador2,    SERIE.ES_PORCENTAJE,  SERIE.DECIMALES,  DATO_SERIE.VALOR,   DATO_SERIE.ETIQUETA_FECHA FROM SERIE,  TIPO_SERIE,  AGRUPACION,  DATO_SERIE WHERE SERIE.ID_TIPO_SERIE    = TIPO_SERIE.ID_TIPO_SERIE AND SERIE.ID_AGRUPACION      = AGRUPACION.ID_AGRUPACION AND DATO_SERIE.ID_SERIE      = SERIE.ID_SERIE AND (SERIE.ID_MARCO          = 0 OR SERIE.ID_MARCO            = 4) AND SERIE.ID_INDICADOR       = " + req.params.id2  + " AND SERIE.ID_NIVEL_TER       = " + req.params.id3 + " AND SERIE.ID_TERRITORIO      = " + req.params.id4  + " AND SERIE.ID_TIPO_AGRUPACION = " + req.params.id5
 
              console.log(qry)
 
