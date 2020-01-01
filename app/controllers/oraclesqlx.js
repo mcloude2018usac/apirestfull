@@ -52,7 +52,7 @@ case 'pggarea':
     
 
 case 'pggareaindicador':
-    qry="select INDICADOR.id_indicador codigo, INDICADOR.nombre,PGG_AREA_X_INDICADOR.estado     from PGG_AREA, PGG_AREA_X_INDICADOR, INDICADOR    where PGG_AREA.id_area = PGG_AREA_X_INDICADOR.id_area   and PGG_AREA_X_INDICADOR.id_indicador = INDICADOR.id_indicador and PGG_AREA.id_area=" + req.params.id3 + " and PGG_AREA.id_politica =  " + req.params.id2 + "   /* IPOL */             order by PGG_AREA.codigo, INDICADOR.codigo    "
+    qry="   SELECT INDICADOR.ID_INDICADOR codigo,  INDICADOR.NOMBRE,  PGG_AREA_X_INDICADOR.ESTADO,  problematica.NOMBRE AS problematica FROM PGG_AREA,   PGG_AREA_X_INDICADOR,   INDICADOR,   INDICADOR_X_PROBLEMATICA,   problematica WHERE PGG_AREA.ID_AREA                    = PGG_AREA_X_INDICADOR.ID_AREA AND PGG_AREA_X_INDICADOR.ID_INDICADOR     = INDICADOR.ID_INDICADOR AND INDICADOR_X_PROBLEMATICA.ID_INDICADOR = INDICADOR.ID_INDICADOR AND problematica.ID_PROBLEMATICA          = INDICADOR_X_PROBLEMATICA.ID_PROBLEMATICA and  PGG_AREA.id_area=" + req.params.id3 + " and PGG_AREA.id_politica =  " + req.params.id2 + "   /* IPOL */             order by PGG_AREA.codigo, INDICADOR.codigo    "
  
     break;
     
@@ -314,7 +314,7 @@ break;
                 case 'pggareaindicador':
                         var myData = [];
                         for(var i = 0; i < result.rows.length;i++){
-                            myData.push({idarea:result.rows[i].ID_AREA,codigo:result.rows[i].CODIGO,nombre:result.rows[i].NOMBRE,estado:result.rows[i].ESTADO})
+                            myData.push({idarea:result.rows[i].ID_AREA,codigo:result.rows[i].CODIGO,nombre:result.rows[i].NOMBRE,estado:result.rows[i].ESTADO,problematica:result.rows[i].PROBLEMATICA})
                         }
                         res.json(myData);
 
