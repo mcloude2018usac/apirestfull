@@ -43,16 +43,16 @@ var qry=''
 
         
 case 'pggarea':
-        qry="SELECT  PGG_AREA.NOMBRE AS area,PGG_AREA.ID_AREA,  INDICADOR.ID_INDICADOR codigo,  INDICADOR.NOMBRE FROM PGG_AREA,  PGG_AREA_X_INDICADOR,  INDICADOR WHERE PGG_AREA.ID_AREA                = PGG_AREA_X_INDICADOR.ID_AREA AND PGG_AREA_X_INDICADOR.ID_INDICADOR = INDICADOR.ID_INDICADOR AND PGG_AREA.ID_POLITICA              =  " + req.params.id2 + " ORDER BY PGG_AREA.ID_AREA"
+        qry="SELECT  PGG_AREA.NOMBRE AS area,PGG_AREA.ID_AREA,  INDICADOR.ID_INDICADOR codigo,  INDICADOR.NOMBRE FROM PGG_AREA,  PGG_AREA_X_INDICADOR,  INDICADOR WHERE PGG_AREA.estado=1 and  PGG_AREA.ID_AREA                = PGG_AREA_X_INDICADOR.ID_AREA AND PGG_AREA_X_INDICADOR.ID_INDICADOR = INDICADOR.ID_INDICADOR AND PGG_AREA.ID_POLITICA              =  " + req.params.id2 + " ORDER BY PGG_AREA.ID_AREA"
        break;
 
        case 'pggarea2':
-    qry="select  id_area codigo,nombre ,estado    from PGG_AREA where id_politica =  " + req.params.id2 + "   /* IPOL */              order by estado desc  "
+    qry="select  id_area codigo,nombre ,estado    from PGG_AREA where estado=1 and id_politica =  " + req.params.id2 + "   /* IPOL */              order by estado desc  "
     break;
     
 
 case 'pggareaindicador':
-    qry="   SELECT INDICADOR.ID_INDICADOR codigo,  INDICADOR.NOMBRE,  PGG_AREA_X_INDICADOR.ESTADO,  problematica.NOMBRE AS problematica FROM PGG_AREA,   PGG_AREA_X_INDICADOR,   INDICADOR,   INDICADOR_X_PROBLEMATICA,   problematica WHERE PGG_AREA.ID_AREA                    = PGG_AREA_X_INDICADOR.ID_AREA AND PGG_AREA_X_INDICADOR.ID_INDICADOR     = INDICADOR.ID_INDICADOR AND INDICADOR_X_PROBLEMATICA.ID_INDICADOR = INDICADOR.ID_INDICADOR AND problematica.ID_PROBLEMATICA          = INDICADOR_X_PROBLEMATICA.ID_PROBLEMATICA and  PGG_AREA.id_area=" + req.params.id3 + " and PGG_AREA.id_politica =  " + req.params.id2 + "   /* IPOL */             order by PGG_AREA.codigo, INDICADOR.codigo    "
+    qry="   SELECT INDICADOR.ID_INDICADOR codigo,  INDICADOR.NOMBRE,  PGG_AREA_X_INDICADOR.ESTADO,  problematica.NOMBRE AS problematica FROM PGG_AREA,   PGG_AREA_X_INDICADOR,   INDICADOR,   INDICADOR_X_PROBLEMATICA,   problematica WHERE PGG_AREA_X_INDICADOR.ESTADO=1 and PGG_AREA.ID_AREA                    = PGG_AREA_X_INDICADOR.ID_AREA AND PGG_AREA_X_INDICADOR.ID_INDICADOR     = INDICADOR.ID_INDICADOR AND INDICADOR_X_PROBLEMATICA.ID_INDICADOR = INDICADOR.ID_INDICADOR AND problematica.ID_PROBLEMATICA          = INDICADOR_X_PROBLEMATICA.ID_PROBLEMATICA and  PGG_AREA.id_area=" + req.params.id3 + " and PGG_AREA.id_politica =  " + req.params.id2 + "   /* IPOL */             order by PGG_AREA.codigo, INDICADOR.codigo    "
  
     break;
     
