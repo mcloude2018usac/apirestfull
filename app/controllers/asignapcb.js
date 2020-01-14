@@ -449,7 +449,7 @@ if(req.params.recordID!=='crea')
 else{
 
 var aa=0;
-if(aa==1) 
+if(aa==0) 
 {
     res.status(404).send('Las fechas de inscripción PCB han finalizado.');
 
