@@ -221,6 +221,11 @@ if(req.params.recordID!=='crea')
         else
         {    
             todo.estado	=req.body.estado;
+            todo.idhorario=req.body.idhorario
+            todo.idhorario2=req.body.idhorario2
+            todo.idhorario3=req.body.idhorario3
+            todo.idhorario4=req.body.idhorario4
+            todo.idhorario5=req.body.idhorario5
             todo.usuarioup=req.body.bitacora.email;
             
 
@@ -240,58 +245,6 @@ else{
 { 
 
 
-      console.log({  
-        userId :req.body.userId ,
-     
-        idperiodo   		:req.body.idperiodo ,
-        noboleta:req.body.noboleta ,
-        monto:req.body.montoboleta ,
-        cui:req.body.cui ,
-        nombre:req.body.nombre ,
-        montodeuda:req.body.montot,
-        cursosaplica:req.body.cursostt,
- /*       idjornada:req.body.idjornada ,
-        idjornada2:req.body.idjornada2,
-        idjornada3:req.body.idjornada3,
-        idjornada4:req.body.idjornada4,
-        idjornada5:req.body.idjornada5,
-        idhorario:req.body.idhorario,
-        idhorario2:req.body.idhorario2,
-        idhorario3:req.body.idhorario3,
-        idhorario4:req.body.idhorario4,
-        idhorario5:req.body.idhorario5,
-*/
-
- 
-            
-                nov   		:req.body.nov,
-                carne   		:req.body.carne,
-            
-              estadogeneral:req.body.estadogeneral,
-             
-               
-          
-            
-       
-                idpago:req.body.idpago ,
-
-
-
-
-        
-        correo:req.body.correo +';mario.morales@mcloude.com' ,
-        lenguaje:req.body.l1,
-        matematica:	req.body.m1 ,
-        fisica	:req.body.f1 ,
-        biologia:	req.body.b1 ,
-        quimica	:req.body.q1,
-        nota	:req.body.nota,
-        estado	:req.body.estado,
-
-        usuarionew:req.body.bitacora.email
-        
-      })   
-
     Asignapap.create({  
         userId :req.body.userId ,
      
@@ -300,6 +253,8 @@ else{
         monto:req.body.montoboleta ,
         cui:req.body.cui ,
         nombre:req.body.nombre ,
+        rubro:req.body.rubro ,
+        llave:req.body.llave ,
         montodeuda:req.body.montot,
         cursosaplica:req.body.cursostt,
         idjornada:req.body.idjornada ,
@@ -353,87 +308,16 @@ else{
 else
 {
 
-    Userperfil.find(  { userId:req.body.userId
-    }).exec(function(err, todosa10) {
-            if (err){ res.send(err); }
- 
-            if(todosa10.length==0)   {    res.status(500).send('No existe'); }
-            else
-            { 
-                var carr= (todosa10[0].facultadins).split(',')
-      
-                var l1 = false;
-                var f1 = false;
-                var m1 = false;
-                var q1 = false;
-                var b1 = false;
-                var montot=0;
-                var cursostt=''
-               var tt2=1;
-                if(todosa10[0].lenguaje2==true){tt2=0; l1=true; montot=1000  ;cursostt='Lenguaje'  }
-                if(todosa10[0].fisica==true){tt2=0; f1=true;   montot=montot+1000 ; cursostt=cursostt + ' ,Fisica'  }
-                if(todosa10[0].matematica==true){tt2=0; m1=true; montot=montot+1000    ; cursostt=cursostt + ' ,Matematica' }
-                if(todosa10[0].quimica==true){tt2=0; q1=true; montot=montot+1000 ; cursostt=cursostt + ' ,Quimica'   }
-                if(todosa10[0].biologia==true){tt2=0; b1=true; montot=montot+1000  ; cursostt=cursostt + ' ,Biologia'   }
 
-                if(tt2==1)
-                {
-                 
-                  res.status(500).send('No existe ninguna materia asignada'); 
-            return;
-  
-                }
-                else{
-               
-              
-
-           Asignapap.create({  
-            userId :req.body.userId ,
-            idunidadacademica  :{id:carr[0],nombre:carr[1],codigo:carr[2]}	,
-            idperiodo   		:req.body.idperiodo ,
-            noboleta:todosa10[0].noboleta ,
-            monto:todosa10[0].montoboleta ,
-            cui:todosa10[0].cui ,
-            nombre:todosa10[0].nombre1+ ' ' + todosa10[0].nombre2 + ' ' + todosa10[0].nombre3 + ' ' + todosa10[0].nombre4  ,
-            montodeuda:montot,
-            cursosaplica:cursostt,
-            idjornada:todosa10[0].idjornada ,
-            idjornada2:todosa10[0].idjornada2,
-            idjornada3:todosa10[0].idjornada3,
-            idjornada4:todosa10[0].idjornada4,
-            idjornada5:todosa10[0].idjornada5,
-            idhorario:todosa10[0].idhorario,
-            idhorario2:todosa10[0].idhorario2,
-            idhorario3:todosa10[0].idhorario3,
-            idhorario4:todosa10[0].idhorario4,
-            idhorario5:todosa10[0].idhorario5,
-            correo:todosa10[0].correo +';'+todosa10[0].usuarionew+';mario.morales@mcloude.com' ,
-            lenguaje:l1,
-            matematica:	m1 ,
-            fisica	:f1 ,
-            biologia:	b1 ,
-            quimica	:q1,
-            nota	:req.body.nota,
-            estado	:req.body.estado,
-            unidad 	:todosa10[0].unidad,
-            codunidad	:todosa10[0].codunidad,
-            codcarrera	:todosa10[0].codcarrera,
-            usuarionew:req.body.bitacora.email
+           Asignapap.findById({_id:  req.params.recordID
+         
             
           }
             , function(err, todos) {
             if (err){ res.status(500).send(err.message)    }
 
   
-            //noboleta,codigofactultad,monto,cui,tipo,codigotipo
-            //id,id2,id3,id4,id5,id6
-           
-            
-          if(!todos)
-          {
-            res.status(500).send('No existe Asignación en sistema'); 
-            return;
-          }
+ 
                     if(todos.length==0)   {  
                         res.status(500).send('No existe Asignación en sistema'); 
                        // return next(err)
@@ -449,11 +333,11 @@ else
               
               //MATERIA QUE TENGO QUE LLEVAR   
               var tt=1;  
-              if(todos.lenguaje==true){ tt=0;myData0.push({idmateria:'Lenguaje', idjornada:todos.idjornada,idhorario:todos.idhorario});      }
-              if(todos.matematica==true){tt=0; myData0.push({idmateria:'Matematica', idjornada:todos.idjornada2,idhorario:todos.idhorario2});      }
-              if(todos.fisica==true){tt=0; myData0.push({idmateria:'Fisica', idjornada:todos.idjornada3,idhorario:todos.idhorario3});      }
-              if(todos.biologia==true){tt=0; myData0.push({idmateria:'Biologia', idjornada:todos.idjornada4,idhorario:todos.idhorario4});      }
-              if(todos.quimica==true){tt=0; myData0.push({idmateria:'Quimica', idjornada:todos.idjornada5,idhorario:todos.idhorario5});      }
+              if(todos.lenguaje==true){ tt=0;myData0.push({idmateria:'Lenguaje', idjornada:req.body.idjornada,idhorario:req.body.idhorario});      }
+              if(todos.matematica==true){tt=0; myData0.push({idmateria:'Matematica', idjornada:req.body.idjornada2,idhorario:req.body.idhorario2});      }
+              if(todos.fisica==true){tt=0; myData0.push({idmateria:'Fisica', idjornada:req.body.idjornada3,idhorario:req.body.idhorario3});      }
+              if(todos.biologia==true){tt=0; myData0.push({idmateria:'Biologia', idjornada:req.body.idjornada4,idhorario:req.body.idhorario4});      }
+              if(todos.quimica==true){tt=0; myData0.push({idmateria:'Quimica', idjornada:req.body.idjornada5,idhorario:req.body.idhorario5});      }
             
               if(tt==1)
               {
@@ -463,8 +347,8 @@ else
 
               }
             
-            Facplan.find({'idtipounidad.nombre'        	: todos.unidad       	,
-                'idunidadacademica.codigo'        	: todos.codunidad
+            Facplan.find({'idtipounidad.nombre'        	: 'PAP'      	,
+                'idunidadacademica.codigo'        	: '5c585fe94c69970d208e7a31'
              //,   asignados:{$lt:capacidad}    	
                      }).lean().exec({}, function(err,myData) {
                 if (err) res.send(err);
@@ -488,7 +372,7 @@ else
                   //todo lo que esta planificado en el plan   
 
                   for(var ii = 0; ii < myData.length;ii++){
-                          if(myData0a[i].idmateria==myData[ii].idmateria && myData0a[i].idjornada==myData[ii].idjornada && myData0a[i].idhorario==myData[ii].idhorario)
+                          if(myData0a[i].idmateria==myData[ii].idmateria  && myData0a[i].idhorario==myData[ii].idhorario)
                           {
                                   if( myData[ii].capacidad!=(myData[ii].asignados))
                                   {//si hay cupo lo hago
@@ -589,9 +473,6 @@ else
            
 
 
-            }}
-           
-        });
 
 
 }
