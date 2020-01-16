@@ -12,6 +12,9 @@ var AsignapapSchema = new mongoose.Schema({
     
     
     
+    rubro   		: { type : String },
+    llave   		: { type : String },
+
     
     
     nov   		: { type : String },
