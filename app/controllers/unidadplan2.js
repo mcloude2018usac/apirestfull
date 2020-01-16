@@ -10,9 +10,13 @@ function onlyUnique(value, index, self) {
 exports.getUnidadplan2 = function(req, res, next){
        if(req.params.id5)
         {  
+            console.log({'idtipounidad.nombre' :req.params.id,
+            'idunidadacademica.nombre':req.params.id2,'idperiodo.id':req.params.id3
+            ,idmateria:req.params.id5})
+            
             Unidadplan2.find({'idtipounidad.nombre' :req.params.id,
             'idunidadacademica.nombre':req.params.id2,'idperiodo.id':req.params.id3
-            ,idjornada:req.params.id4,idmateria:req.params.id5}
+            ,idmateria:req.params.id5}
             ,function(err, todos) {
                 if (err){  res.send(err);  }
 

@@ -212,6 +212,8 @@ exports.creaAsignapap2s = function(req, res, next){
    
  
     Bitacora.create(req.body.bitacora);
+
+    console.log(req.params.recordID);
 if(req.params.recordID!=='crea')
 { 
     Asignapap.findById({ _id: req.params.recordID }, function (err, todo)  {
@@ -233,6 +235,123 @@ if(req.params.recordID!=='crea')
 
 }
 else{
+
+    if(req.params.recordID=='crea')
+{ 
+
+
+      console.log({  
+        userId :req.body.userId ,
+     
+        idperiodo   		:req.body.idperiodo ,
+        noboleta:req.body.noboleta ,
+        monto:req.body.montoboleta ,
+        cui:req.body.cui ,
+        nombre:req.body.nombre ,
+        montodeuda:req.body.montot,
+        cursosaplica:req.body.cursostt,
+ /*       idjornada:req.body.idjornada ,
+        idjornada2:req.body.idjornada2,
+        idjornada3:req.body.idjornada3,
+        idjornada4:req.body.idjornada4,
+        idjornada5:req.body.idjornada5,
+        idhorario:req.body.idhorario,
+        idhorario2:req.body.idhorario2,
+        idhorario3:req.body.idhorario3,
+        idhorario4:req.body.idhorario4,
+        idhorario5:req.body.idhorario5,
+*/
+
+ 
+            
+                nov   		:req.body.nov,
+                carne   		:req.body.carne,
+            
+              estadogeneral:req.body.estadogeneral,
+             
+               
+          
+            
+       
+                idpago:req.body.idpago ,
+
+
+
+
+        
+        correo:req.body.correo +';mario.morales@mcloude.com' ,
+        lenguaje:req.body.l1,
+        matematica:	req.body.m1 ,
+        fisica	:req.body.f1 ,
+        biologia:	req.body.b1 ,
+        quimica	:req.body.q1,
+        nota	:req.body.nota,
+        estado	:req.body.estado,
+
+        usuarionew:req.body.bitacora.email
+        
+      })   
+
+    Asignapap.create({  
+        userId :req.body.userId ,
+     
+        idperiodo   		:req.body.idperiodo ,
+        noboleta:req.body.noboleta ,
+        monto:req.body.montoboleta ,
+        cui:req.body.cui ,
+        nombre:req.body.nombre ,
+        montodeuda:req.body.montot,
+        cursosaplica:req.body.cursostt,
+        idjornada:req.body.idjornada ,
+        idjornada2:req.body.idjornada2,
+        idjornada3:req.body.idjornada3,
+        idjornada4:req.body.idjornada4,
+        idjornada5:req.body.idjornada5,
+        idhorario:req.body.idhorario,
+        idhorario2:req.body.idhorario2,
+        idhorario3:req.body.idhorario3,
+        idhorario4:req.body.idhorario4,
+        idhorario5:req.body.idhorario5,
+
+
+ 
+            
+                nov   		:req.body.nov,
+                carne   		:req.body.carne,
+            
+              estadogeneral:req.body.estadogeneral,
+             
+               
+          
+            
+       
+                idpago:req.body.idpago ,
+
+
+
+
+        
+        correo:req.body.correo +';mario.morales@mcloude.com' ,
+        lenguaje:req.body.l1,
+        matematica:	req.body.m1 ,
+        fisica	:req.body.f1 ,
+        biologia:	req.body.b1 ,
+        quimica	:req.body.q1,
+        nota	:req.body.nota,
+        estado	:req.body.estado,
+
+        usuarionew:req.body.bitacora.email
+        
+      }
+        , function(err, todos) {
+        if (err){ res.status(500).send(err.message)    }
+
+        res.json(todos);
+
+        });
+}
+else
+{
 
     Userperfil.find(  { userId:req.body.userId
     }).exec(function(err, todosa10) {
@@ -473,6 +592,9 @@ else{
             }}
            
         });
+
+
+}
 
 
 
