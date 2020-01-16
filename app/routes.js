@@ -3,14 +3,16 @@ var AuthenticationController = require('./controllers/authentication'),
     DatosfijosController = require('./controllers/datosfijos'),
    SiifController = require('./controllers/siif'),
    Unidadprofesor3Controller = require('./controllers/calusac/unidadprofesor3'),
-
+   AuditserverController = require('./controllers/claroaudit/auditserver'),
+   AuditserverdController = require('./controllers/claroaudit/auditserverd'),
+   AuditserverdhisController = require('./controllers/claroaudit/auditserverdhis'),
    Unidadnivel3Controller = require('./controllers/calusac/unidadnivel3'),
    Unidadjornada3Controller = require('./controllers/calusac/unidadjornada3'),
    AsignanotasController = require('./controllers/calusac/asignanotas'),
    Unidadhorario3Controller = require('./controllers/calusac/unidadhorario3'),
    Unidadpago3Controller = require('./controllers/calusac/unidadpago3'),
    Unidaddia3Controller = require('./controllers/calusac/unidaddia3'),
-
+   BibliotecaController = require('./controllers/biblioteca/biblioteca'),
     Datosfijo2sController = require('./controllers/datosfijos2'),
     UserperfilController = require('./controllers/userperfil'),
     ParticipaController = require('./controllers/participa'),
@@ -152,11 +154,15 @@ module.exports = function(app){
         suscriptorsaldoRoutes = express.Router(),
         moduloRoutes = express.Router(),
         catalogoRoutes = express.Router(),
+        bibliotecaRoutes = express.Router(),
         tiposuscriptorRoutes = express.Router(),
         tarifaRoutes = express.Router(),
         userpostRoutes = express.Router(),
         nuevosalonRoutes = express.Router(),
         datosfijosRoutes = express.Router(),
+        auditserverRoutes = express.Router(),
+        auditserverdRoutes = express.Router(),
+        auditserverdhisRoutes = express.Router(),
         datosfijo2sRoutes = express.Router(),
         eventoRoutes = express.Router(),
         indicadorRoutes = express.Router(),
@@ -273,6 +279,8 @@ SINNNNNNNNNNNNNN AUTORIZACION
 
 apiRoutes.use('/siifs', siifRoutes);
 siifRoutes.get('/:id/:id2', SiifController.getsiif);
+siifRoutes.get('/:id/:id2/:id3', SiifController.getsiif);
+siifRoutes.get('/:id/:id2/:id3/:id4', SiifController.getsiif);
 
 
 
@@ -292,6 +300,31 @@ userperfilRoutes.post('/:recordID',requireAuth,  UserperfilController.creaUserpe
 userperfilRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  UserperfilController.deleteUserperfil);
 
 
+
+
+//-----------------------------------auditserver
+apiRoutes.use('/auditservers', auditserverRoutes);
+auditserverRoutes.get('/:id',requireAuth,  AuditserverController.getAuditserver);
+auditserverRoutes.get('/:id/:id2',requireAuth,  AuditserverController.getAuditserver);
+auditserverRoutes.post('/:id',requireAuth, AuditserverController.creaAuditserver2s);
+auditserverRoutes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  AuditserverController.deleteAuditserver);
+   
+//-----------------------------------AuditserverD
+apiRoutes.use('/auditserverds', auditserverdRoutes);
+auditserverdRoutes.get('/:id',requireAuth,  AuditserverdController.getAuditserverd);
+auditserverdRoutes.get('/:id/:id2/:id3',  AuditserverdController.getAuditserverd);
+
+auditserverdRoutes.post('/:id',requireAuth, AuditserverdController.creaAuditserverd2s);
+auditserverdRoutes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  AuditserverdController.deleteAuditserverd);
+
+
+//-----------------------------------AuditserverDhis
+apiRoutes.use('/auditserverds', auditserverdhisRoutes);
+auditserverdhisRoutes.get('/:id',requireAuth,  AuditserverdhisController.getAuditserverdhis);
+auditserverdhisRoutes.get('/:id/:id2/:id3/:id4',  AuditserverdhisController.getAuditserverdhis);
+
+auditserverdhisRoutes.post('/:id',requireAuth, AuditserverdhisController.creaAuditserverdhis2s);
+auditserverdhisRoutes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  AuditserverdhisController.deleteAuditserverdhis);
 
 
 
@@ -359,7 +392,9 @@ participa2Routes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  Part
 
 
 
-
+//-----------------------------------BIBLIOTECA
+apiRoutes.use('/bibliotecas', bibliotecaRoutes);
+bibliotecaRoutes.get('/:id',requireAuth,  BibliotecaController.getBiblioteca);
 
 //-----------------------------------MAIL
 apiRoutes.use('/mails', mailRoutes);
@@ -1092,7 +1127,7 @@ edificiosalon2Routes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireA
 //-----------------------------------unidad plan
 apiRoutes.use('/unidadplan2s',unidadplan2Routes);
 unidadplan2Routes.get('/:id',requireAuth,  Unidadplan2Controller.getUnidadplan2);
-unidadplan2Routes.get('/:id/:id2/:id3/:id4/:id5',requireAuth,  Unidadplan2Controller.getUnidadplan2);
+unidadplan2Routes.get('/:id/:id2/:id3/:id4/:id5', Unidadplan2Controller.getUnidadplan2);
 unidadplan2Routes.get('/:id2/:id3/:id4',requireAuth,  Unidadplan2Controller.getUnidadplan2);
 unidadplan2Routes.post('/:recordID',requireAuth,  Unidadplan2Controller.creaUnidadplan22s);
 unidadplan2Routes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  Unidadplan2Controller.deleteUnidadplan2);
