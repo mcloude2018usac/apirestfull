@@ -3,9 +3,7 @@ var AuthenticationController = require('./controllers/authentication'),
     DatosfijosController = require('./controllers/datosfijos'),
    SiifController = require('./controllers/siif'),
    Unidadprofesor3Controller = require('./controllers/calusac/unidadprofesor3'),
-   AuditserverController = require('./controllers/claroaudit/auditserver'),
-   AuditserverdController = require('./controllers/claroaudit/auditserverd'),
-   AuditserverdhisController = require('./controllers/claroaudit/auditserverdhis'),
+
    Unidadnivel3Controller = require('./controllers/calusac/unidadnivel3'),
    Unidadjornada3Controller = require('./controllers/calusac/unidadjornada3'),
    AsignanotasController = require('./controllers/calusac/asignanotas'),
@@ -160,9 +158,10 @@ module.exports = function(app){
         userpostRoutes = express.Router(),
         nuevosalonRoutes = express.Router(),
         datosfijosRoutes = express.Router(),
-        auditserverRoutes = express.Router(),
-        auditserverdRoutes = express.Router(),
-        auditserverdhisRoutes = express.Router(),
+        
+        
+        serverRoutes = express.Router(),
+
         datosfijo2sRoutes = express.Router(),
         eventoRoutes = express.Router(),
         indicadorRoutes = express.Router(),
@@ -299,32 +298,6 @@ userperfilRoutes.get('/:id',  UserperfilController.getUserperfil);
 userperfilRoutes.post('/:recordID',requireAuth,  UserperfilController.creaUserperfil2s);
 userperfilRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  UserperfilController.deleteUserperfil);
 
-
-
-
-//-----------------------------------auditserver
-apiRoutes.use('/auditservers', auditserverRoutes);
-auditserverRoutes.get('/:id',requireAuth,  AuditserverController.getAuditserver);
-auditserverRoutes.get('/:id/:id2',requireAuth,  AuditserverController.getAuditserver);
-auditserverRoutes.post('/:id',requireAuth, AuditserverController.creaAuditserver2s);
-auditserverRoutes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  AuditserverController.deleteAuditserver);
-   
-//-----------------------------------AuditserverD
-apiRoutes.use('/auditserverds', auditserverdRoutes);
-auditserverdRoutes.get('/:id',requireAuth,  AuditserverdController.getAuditserverd);
-auditserverdRoutes.get('/:id/:id2/:id3',  AuditserverdController.getAuditserverd);
-
-auditserverdRoutes.post('/:id',requireAuth, AuditserverdController.creaAuditserverd2s);
-auditserverdRoutes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  AuditserverdController.deleteAuditserverd);
-
-
-//-----------------------------------AuditserverDhis
-apiRoutes.use('/auditserverds', auditserverdhisRoutes);
-auditserverdhisRoutes.get('/:id',requireAuth,  AuditserverdhisController.getAuditserverdhis);
-auditserverdhisRoutes.get('/:id/:id2/:id3/:id4',  AuditserverdhisController.getAuditserverdhis);
-
-auditserverdhisRoutes.post('/:id',requireAuth, AuditserverdhisController.creaAuditserverdhis2s);
-auditserverdhisRoutes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  AuditserverdhisController.deleteAuditserverdhis);
 
 
 
