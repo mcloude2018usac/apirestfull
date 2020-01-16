@@ -10,7 +10,7 @@ var AuthenticationController = require('./controllers/authentication'),
    Unidadhorario3Controller = require('./controllers/calusac/unidadhorario3'),
    Unidadpago3Controller = require('./controllers/calusac/unidadpago3'),
    Unidaddia3Controller = require('./controllers/calusac/unidaddia3'),
-   BibliotecaController = require('./controllers/biblioteca/biblioteca'),
+
     Datosfijo2sController = require('./controllers/datosfijos2'),
     UserperfilController = require('./controllers/userperfil'),
     ParticipaController = require('./controllers/participa'),
@@ -152,7 +152,7 @@ module.exports = function(app){
         suscriptorsaldoRoutes = express.Router(),
         moduloRoutes = express.Router(),
         catalogoRoutes = express.Router(),
-        bibliotecaRoutes = express.Router(),
+      
         tiposuscriptorRoutes = express.Router(),
         tarifaRoutes = express.Router(),
         userpostRoutes = express.Router(),
@@ -365,9 +365,6 @@ participa2Routes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  Part
 
 
 
-//-----------------------------------BIBLIOTECA
-apiRoutes.use('/bibliotecas', bibliotecaRoutes);
-bibliotecaRoutes.get('/:id',requireAuth,  BibliotecaController.getBiblioteca);
 
 //-----------------------------------MAIL
 apiRoutes.use('/mails', mailRoutes);
