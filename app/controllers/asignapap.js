@@ -214,7 +214,7 @@ exports.creaAsignapap2s = function(req, res, next){
     Bitacora.create(req.body.bitacora);
 
     console.log(req.params.recordID);
-if(req.params.recordID!=='crea')
+if(req.body.operacion=='finaliza')
 { 
     Asignapap.findById({ _id: req.params.recordID }, function (err, todo)  {
         if (err) {  res.send(err);  }
@@ -316,7 +316,7 @@ else
             , function(err, todos) {
             if (err){ res.status(500).send(err.message)    }
 
-  
+  console.log(todos)
  
                     if(todos.length==0)   {  
                         res.status(500).send('No existe Asignación en sistema'); 
@@ -347,8 +347,14 @@ else
 
               }
             
+              console.log(myData0)
+
+              console.log({'idtipounidad.nombre'        	: 'PAP'      	,
+              'idunidadacademica.codigo'        	: '10'})
+
+
             Facplan.find({'idtipounidad.nombre'        	: 'PAP'      	,
-                'idunidadacademica.codigo'        	: '5c585fe94c69970d208e7a31'
+                'idunidadacademica.codigo'        	: '10'
              //,   asignados:{$lt:capacidad}    	
                      }).lean().exec({}, function(err,myData) {
                 if (err) res.send(err);
@@ -361,6 +367,8 @@ else
             
                 }
             
+
+                console.log(myData)
                 var myData3 = [];
                 var myData3aa = [];
                 var myData0a =  myData0;
@@ -412,7 +420,7 @@ else
             
               }
             
-        
+        console.log(myData3aa)
 
             if(myData3aa.length>0)
             { 
@@ -439,6 +447,7 @@ else
             }
             else
             {
+                console.log('entra')
                 getNextSequenceValue(myData3,myData3aa,req,res,todos);
                 res.json(todos);
             }
