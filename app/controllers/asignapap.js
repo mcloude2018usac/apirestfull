@@ -133,8 +133,15 @@ exports.getAsignapap = function(req, res, next){
 
         if(req.params.id=='noboleta')
         {
-           
-            Asignapap.find({"noboleta":req.params.id2}).exec(function(err, todos) {
+           console.log({"noboleta":req.params.id2})
+            Asignapap.find({  $or : [
+                { $and : [ { noboleta: req.params.id2 }] },
+                { $and : [ {  cui : req.params.id2 }] },
+                { $and : [ { nov : req.params.id2 }] },
+                { $and : [ { correo : req.params.id2 }] },
+                { $and : [ { carne : req.params.id2 }]  }]
+            }
+              ).exec(function(err, todos) {
                 if (err){ res.send(err); }
 
                 
