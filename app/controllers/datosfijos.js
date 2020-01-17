@@ -12,6 +12,7 @@ var Denunciaunidad = require('../models/denunciaunidad');
 var Participa3 = require('../models/participa3');
 var Participa33 = require('../models/participa33');
 var Unidadplan2 = require('../models/unidadplan2');
+
 var Cuentaccoriente = require('../models/asignapapccorriente');
 
 
@@ -1092,6 +1093,46 @@ else
                                 ,codigomateria:ll,materia:cleanName(todos2[i].idmateria),horario:cleanName(todos2[i].idhorario)
                                 ,capacidad:todos2[i].capacidad ,asignados:todos2[i].asignados
                                 ,fexamen:d.substr(0,10) ,codfac:todos2[i].codfac 
+                         });
+                        }
+                        
+                        res.statusCode = 200;
+                        res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+                        res.setHeader("Content-Disposition", 'attachment; filename='+filename);
+                        res.csv(myData, true);
+                
+                        
+                }
+        
+        });
+
+break;  
+case 'excel-asigna3pap':
+
+        var filename   = "asignaciones3pap.csv";
+        
+        Facplan2.find({}).sort({'idsalon.nombre':1}).exec(function(err, todos2) {
+                if (err){ res.send(err); }
+                
+
+                if(todos2.length>0)   {  
+
+                        var myData = [];
+                        for(var i = 0; i < todos2.length;i++){
+
+                            
+                                var ll=''
+                                if(todos2[i].idmateria=='Lenguaje'){ll='3'}
+                                if(todos2[i].idmateria=='Matematica'){ll='4'}
+                                if(todos2[i].idmateria=='Fisica'){ll='2'}
+                                if(todos2[i].idmateria=='Quimica'){ll='5'}
+                                  if(todos2[i].idmateria=='Biologia'){ll='1'}
+
+                                
+                        myData.push({unidadacademica:cleanName(todos2[i].idtipounidad.nombre),periodo:cleanName(todos2[i].idperiodo.nombre),codigounidad:todos2[i].idunidadacademica.codigo,unidadacademica:todos2[i].idunidadacademica.nombre,edificio:cleanName(todos2[i].idedificio.nombre),salon:todos2[i].idsalon.nombre
+                                ,codigomateria:ll,materia:cleanName(todos2[i].idmateria),horario:cleanName(todos2[i].idhorario)
+                                ,capacidad:todos2[i].capacidad ,asignados:todos2[i].asignados
+                                 ,codfac:todos2[i].codfac 
                          });
                         }
                         
