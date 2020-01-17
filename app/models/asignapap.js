@@ -72,7 +72,7 @@ var AsignapapSchema = new mongoose.Schema({
     usuarionew	: { type : String },      usuarioup	: { type : String }
 }, {
     timestamps: true
-});
+}); 
  
 
 /* Export model for application usage */
