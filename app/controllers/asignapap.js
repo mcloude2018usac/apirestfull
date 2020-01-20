@@ -133,7 +133,13 @@ exports.getAsignapap = function(req, res, next){
 
         if(req.params.id=='noboleta')
         {
-           console.log({"noboleta":req.params.id2})
+           console.log({  $or : [
+            { $and : [ { noboleta: req.params.id2 }] },
+            { $and : [ {  cui : req.params.id2 }] },
+            { $and : [ { nov : req.params.id2 }] },
+            { $and : [ { correo : req.params.id2 }] },
+            { $and : [ { carne : req.params.id2 }]  }]
+        })
             Asignapap.find({  $or : [
                 { $and : [ { noboleta: req.params.id2 }] },
                 { $and : [ {  cui : req.params.id2 }] },
@@ -174,6 +180,49 @@ exports.getAsignapap = function(req, res, next){
                         res.json(todos);
                     });
                 }
+                else
+                {
+                    
+                if(req.params.id=='duplicados')
+                {
+                   //http://127.0.0.1:9090/api/asignapaps/duplicados/1
+                    Asignapap.find({estado:'Asignación finalizada con exito'}).exec(function(err, todos) {
+                        if (err){ res.send(err); }
+                        Asignapap.find({estado:'Pendiente de Pago'}).exec(function(err, todos2) {
+                            if (err){ res.send(err); }
+                            var duplicates = [];
+                            for(var i = 0; i < todos.length;i++){
+
+                                for(var j = 0; j < todos2.length;j++){
+                                    if(todos[i].cui==todos2[j].cui)
+                                    {
+                                       
+                                            duplicates.push(todos2[j]._id);
+
+                                    }
+
+
+                                }
+                            }
+
+                            
+                            Asignapap.remove({_id: {$in: duplicates}}, function (err, result) {
+                    if (err) {
+                        console.error(err);
+                    }
+     
+                    res.json(duplicates); 
+                   
+                });
+
+                          
+                           
+                        });
+                        
+                       
+                    });
+                }
+                }
 
 
             }
@@ -206,10 +255,44 @@ exports.getAsignapap = function(req, res, next){
 }
 exports.deleteAsignapap = function(req, res, next){
    
-    Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina solicitud de carne'});
-    Asignapap.findByIdAndRemove({ _id: req.params.recordID  }, function(err, todo) {
+    if(req.params.idempresa=='horario')
+    {
+
+        Asignapap.findById({ _id: req.params.recordID }, function (err, todo)  {
+            if (err) {  res.send(err);  }
+            else
+            {    
+                todo.estado	='Pendiente de Pago';
+              todo.save(function (err, todo){
+                    if (err)     {  res.status(500).send(err.message)   }
+                    Asignaest.find({ "idasigna" : req.params.userID }).remove().exec();
+                    res.json(todo);
+                });
+            }
+        });
+
+        
+     
+
+
+    }
+
+    if(req.params.idempresa=='asignacion')
+    {
+
+        
+        Asignapap.findByIdAndRemove({ _id: req.params.recordID  }, function(err, todo) {
+
+            Asignaest.find({ "idasigna" : req.params.userID }).remove().exec();
+
         res.json(todo);
     });
+
+
+    }
+
+   
+   
 }
 
            
