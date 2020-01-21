@@ -334,7 +334,10 @@ else{
     if(req.params.recordID=='crea')
 { 
 
-
+var a=0;
+        if(a==0){
+        res.status(500).send('Asignación PAP a finalizado') 
+        }
     Asignapap.create({  
         userId :req.body.userId ,
      
