@@ -10,7 +10,7 @@ var AsignapapSchema = new mongoose.Schema({
     cursosaplica: {        type: String,        required: true    },
     
     
-    
+      cierra  		: { type : String },
     
     rubro   		: { type : String },
     llave   		: { type : String },
