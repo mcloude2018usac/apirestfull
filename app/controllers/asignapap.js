@@ -335,7 +335,7 @@ else{
 { 
 
 var a=0;
-        if(a==1){
+        if(a==0){
         res.status(500).send('Asignación PAP a finalizado') 
         }
     Asignapap.create({  
