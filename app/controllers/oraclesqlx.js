@@ -47,12 +47,16 @@ case 'pggarea':
        break;
 
        case 'pggarea2':
-    qry="select  id_area codigo,nombre ,estado    from PGG_AREA where estado=1 and id_politica =  " + req.params.id2 + "   /* IPOL */              order by estado desc  "
+
+        qry="select pgg_area.id_area codigo,pgg_area.nombre,        sum(pgg_area_x_indicador.estado) estado from pgg_area,      pgg_area_x_indicador,      indicador      left join indicador_x_problematica on indicador.id_indicador = indicador_x_problematica.id_indicador      left join problematica on problematica.id_problematica = indicador_x_problematica.id_problematica where pgg_area.id_area = pgg_area_x_indicador.id_area and pgg_area_x_indicador.id_indicador = indicador.id_indicador and pgg_area.id_politica= " + req.params.id2 + " group by pgg_area.id_area,pgg_area.nombre order by 1 "
+
+
+    //qry="select  id_area codigo,nombre ,estado    from PGG_AREA where estado=1 and id_politica =  " + req.params.id2 + "   /* IPOL */              order by estado desc  "
     break;
     
 
 case 'pggareaindicador':
-    qry="   SELECT INDICADOR.ID_INDICADOR codigo,  INDICADOR.NOMBRE,  PGG_AREA_X_INDICADOR.ESTADO,  problematica.NOMBRE AS problematica FROM PGG_AREA,   PGG_AREA_X_INDICADOR,   INDICADOR,   INDICADOR_X_PROBLEMATICA,   problematica WHERE PGG_AREA_X_INDICADOR.ESTADO=1 and PGG_AREA.ID_AREA                    = PGG_AREA_X_INDICADOR.ID_AREA AND PGG_AREA_X_INDICADOR.ID_INDICADOR     = INDICADOR.ID_INDICADOR AND INDICADOR_X_PROBLEMATICA.ID_INDICADOR = INDICADOR.ID_INDICADOR AND problematica.ID_PROBLEMATICA          = INDICADOR_X_PROBLEMATICA.ID_PROBLEMATICA and  PGG_AREA.id_area=" + req.params.id3 + " and PGG_AREA.id_politica =  " + req.params.id2 + "   /* IPOL */             order by PGG_AREA.codigo, INDICADOR.codigo    "
+    qry="   select indicador.id_indicador as codigo,       indicador.nombre,      PGG_AREA_X_INDICADOR.ESTADO,       nvl(problematica.nombre,' ') as problematica from pgg_area,      pgg_area_x_indicador,     indicador      left join indicador_x_problematica on indicador.id_indicador = indicador_x_problematica.id_indicador       left join problematica on problematica.id_problematica = indicador_x_problematica.id_problematica  where pgg_area.id_area = pgg_area_x_indicador.id_area and pgg_area_x_indicador.id_indicador = indicador.id_indicador and pgg_area.id_politica=" + req.params.id2 + " and pgg_area.id_area=" + req.params.id3 + " order by pgg_area.codigo, indicador.codigo "
  
     break;
     
@@ -860,6 +864,7 @@ break;
                         var arre=['red','blue','red','purple','violet','turquoise']    
                         //etiquetas
                         var indicador2=''
+                        var es_por=0
                         if(result.rows.length==0)
                         {
                             res.json({etiquetas:[],dataset:[]});
@@ -868,6 +873,7 @@ break;
                         {
 
                         indicador2=result.rows[0].INDICADOR2
+                        es_por=result.rows[0].ES_PORCENTAJE
                         for(var i = 0; i < result.rows.length;i++){  myData.push(result.rows[i].ETIQUETA_FECHA)}
                            // console.log(myData)
 
@@ -943,7 +949,7 @@ break;
 
                      
 //console.log({etiquetas:myData,dataset:myData2,indicador2:indicador2})
-                        res.json({etiquetas:myData,dataset:myData2,indicador2:indicador2});
+                        res.json({etiquetas:myData,dataset:myData2,indicador2:indicador2,es_porc:es_por});
                         }
                 break;
                 case 'datosgrafica2':
