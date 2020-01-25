@@ -56,7 +56,7 @@ case 'pggarea':
     
 
 case 'pggareaindicador':
-    qry="   select indicador.id_indicador as codigo,       indicador.nombre,      PGG_AREA_X_INDICADOR.ESTADO,       nvl(problematica.nombre,' ') as problematica from pgg_area,      pgg_area_x_indicador,     indicador      left join indicador_x_problematica on indicador.id_indicador = indicador_x_problematica.id_indicador       left join problematica on problematica.id_problematica = indicador_x_problematica.id_problematica  where pgg_area.id_area = pgg_area_x_indicador.id_area and pgg_area_x_indicador.id_indicador = indicador.id_indicador and pgg_area.id_politica=" + req.params.id2 + " and pgg_area.id_area=" + req.params.id3 + " order by pgg_area.codigo, indicador.codigo "
+    qry="   select indicador.id_indicador as codigo,       indicador.nombre  || '  (' ||decode( PGG_AREA_X_INDICADOR.ESTADO,1,'✓',0,'✗') || ')' nombre,      PGG_AREA_X_INDICADOR.ESTADO,       nvl(problematica.nombre,' ') as problematica from pgg_area,      pgg_area_x_indicador,     indicador      left join indicador_x_problematica on indicador.id_indicador = indicador_x_problematica.id_indicador       left join problematica on problematica.id_problematica = indicador_x_problematica.id_problematica  where pgg_area.id_area = pgg_area_x_indicador.id_area and pgg_area_x_indicador.id_indicador = indicador.id_indicador and pgg_area.id_politica=" + req.params.id2 + " and pgg_area.id_area=" + req.params.id3 + " order by pgg_area.codigo, indicador.codigo  ,PGG_AREA_X_INDICADOR.ESTADO desc"
  
     break;
     
