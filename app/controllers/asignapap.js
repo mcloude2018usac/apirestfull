@@ -316,7 +316,7 @@ if(req.body.operacion=='finaliza')
             todo.idhorario3=req.body.idhorario3
             todo.idhorario4=req.body.idhorario4
             todo.idhorario5=req.body.idhorario5
-                todo.cierra='1'
+            todo.cierra='1'
             todo.usuarioup=req.body.bitacora.email;
             
 
@@ -335,10 +335,7 @@ else{
     if(req.params.recordID=='crea')
 { 
 
-var a=1;
-        if(a==0){
-        res.status(500).send('Asignación PAP a finalizado') 
-        }
+
     Asignapap.create({  
         userId :req.body.userId ,
      
@@ -361,6 +358,7 @@ var a=1;
         idhorario3:req.body.idhorario3,
         idhorario4:req.body.idhorario4,
         idhorario5:req.body.idhorario5,
+        fechasiif:req.body.fechasiif,
 
 
  
