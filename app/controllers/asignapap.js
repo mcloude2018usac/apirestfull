@@ -335,6 +335,12 @@ else{
     if(req.params.recordID=='crea')
 { 
 
+        var aa=1;
+if(aa==1) 
+{
+    res.status(404).send('Las fechas de generacion de boleta PAP han finalizado.');
+return;
+}
 
     Asignapap.create({  
         userId :req.body.userId ,
