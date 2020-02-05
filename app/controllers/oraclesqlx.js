@@ -41,6 +41,20 @@ var qry=''
                
                break;
 
+
+               
+
+
+               case 'pggobjestra':
+        qry=" select ID_OBJ_ESTRATEGICO codigo,id_politica,nombre  from PGG_OBJETIVO_ESTRATEGICO  where id_politica=" + req.params.id2 + ""
+       break;
+
+
+       case 'pggobjestra2':
+        qry="   select ID_OBJ_SECTORIAL  codigo,nombre  from PGG_OBJETIVO_SECTORIAL  where ID_OBJ_ESTRATEGICO=" + req.params.id2 + ""
+       break;
+
+
         
 case 'pggarea':
         qry="SELECT  PGG_AREA.NOMBRE AS area,PGG_AREA.ID_AREA,  INDICADOR.ID_INDICADOR codigo,  INDICADOR.NOMBRE FROM PGG_AREA,  PGG_AREA_X_INDICADOR,  INDICADOR WHERE PGG_AREA.estado=1 and  PGG_AREA.ID_AREA                = PGG_AREA_X_INDICADOR.ID_AREA AND PGG_AREA_X_INDICADOR.ID_INDICADOR = INDICADOR.ID_INDICADOR AND PGG_AREA.ID_POLITICA              =  " + req.params.id2 + " ORDER BY PGG_AREA.ID_AREA"
@@ -348,16 +362,34 @@ break;
 
 
                         break;
+
+          
+
+                        case 'pggobjestra':
+                            var myData = [];
+                             for(var i = 0; i < result.rows.length;i++){
+                                myData.push({codigo:result.rows[i].CODIGO,nombre:result.rows[i].NOMBRE   })
+                            }
+                            res.json(myData);
+                          break;
+
+                          case 'pggobjestra2':
+                            var myData = [];
+                             for(var i = 0; i < result.rows.length;i++){
+                                myData.push({codigo:result.rows[i].CODIGO,nombre:result.rows[i].NOMBRE   })
+                                
+                            }
+                            res.json(myData);
+                          break;
+
+
                case 'ind1det':
                 var myData = [];
-        //        console.log(result.rows)
-                for(var i = 0; i < result.rows.length;i++){
+                 for(var i = 0; i < result.rows.length;i++){
                     myData.push({codigo:result.rows[i].ID_INDICADOR,producto:result.rows[i].PRODUCTO                        ,monto_inicial:result.rows[i].MONTO_INICIAL                      ,monto_vigente:result.rows[i].MONTO_VIGENTE                        ,monto_ejecutado:result.rows[i].MONTO_EJECUTADO                        ,monto_porc:result.rows[i].MONTO_PORC                        ,cant_inicial:result.rows[i].CANT_INICIAL                        ,cant_vigente:result.rows[i].CANT_VIGENTE                        ,cant_ejecutado:result.rows[i].CANT_EJECUTADO                        ,cantidad_porc:result.rows[i].CANTIDAD_PORC                        ,siglas:result.rows[i].SIGLAS                        ,participacion:result.rows[i].PARTICIPACION                                        })
                 }
                 res.json(myData);
-
-
-                break;
+              break;
                 case 'pggpoliticapublica':
                         var myData = [];
                         for(var i = 0; i < result.rows.length;i++){
