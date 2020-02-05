@@ -42,7 +42,7 @@ exports.getReglamentod = function(req, res, next){
         if(req.params.id3=='busqueda')
         {
 
-            Reglamentod.find({idempresa:req.params.id,nombre:   { $regex : req.params.id2, $options : 'i'}  }).select({_id:1,nolibro:1,libro:1,notitulo:1,titulo:1,
+            Reglamentod.find({idempresa:req.params.id,articulo:   { $regex : req.params.id2, $options : 'i'}  }).select({_id:1,nolibro:1,libro:1,notitulo:1,titulo:1,
                 nombre:1,nocapitulo:1,capitulo:1,noparrafo:1,parrafo:1,noarticulo:1,articulo:1,fecha:1,idreglamento:1}).lean().exec(function(err, todos) {
                 if (err){ res.send(err); }
 
@@ -71,6 +71,8 @@ exports.getReglamentod = function(req, res, next){
                                         aaa.push({_id:todos[i]._id, nolibro: todos[i].nolibro,
                                             libro: todos[i].libro,
                                             notitulo: todos[i].notitulo,
+                                            idreglamentod:todos[i]._id,
+                                            idreglamento:todos[i].idreglamento,
                                             titulo: todos[i].titulo,
                                             nocapitulo: todos[i].nocapitulo,
                                             capitulo: todos[i].capitulo,
@@ -139,6 +141,68 @@ exports.getReglamentod = function(req, res, next){
             });
 
         }
+        else
+        if(req.params.id3=='dbusqueda')
+        {
+
+            Reglamentod.findById({_id: req.params.id }).lean().exec(function(err, todos) {
+                if (err){ res.send(err); }
+
+           
+
+                Reglamento.findById({_id:  req.params.id2 }).populate('pais').populate('tipo').populate('sector').
+                populate('area').exec(function(err, todos10) {
+                    if (err){ res.send(err); }
+                    var aaa=[];
+                  
+                    
+               
+                                        aaa.push({   
+                                            presenta:todos10.presenta,
+                                            autor:todos10.autor,
+                                            titulo2:todos10.titulo,
+                                            nombre2:todos10.nombre,
+                                            texto2:todos10.texto,
+                                            pais:todos10.pais.nombre,
+                                            tipo:todos10.tipo.nombre,
+                                            f1:todos10.f1,    
+
+
+                                            sector:todos10.sector.nombre,
+                                            area:todos10.area.nombre,
+                                           
+                                            nolibro:todos.nolibro,
+                                            libro:todos.libro,
+                                            notitulo:todos.notitulo,
+                                            titulo:todos.titulo,
+                                            nocapitulo:todos.nocapitulo,
+                                            capitulo:todos.capitulo,
+                                            noparrafo:todos.noparrafo,
+                                            parrafo:todos.parrafo,
+                                            noarticulo:todos.noarticulo,
+                                            articulo:todos.articulo,
+                                            nombre:todos.nombre,
+                                        
+                                        });
+                     
+                    
+
+                    res.json(aaa);   
+                    
+                });
+
+
+               
+
+
+
+             
+              
+                
+            });
+
+        }
+
 
 
     }
