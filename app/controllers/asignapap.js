@@ -335,7 +335,7 @@ else{
     if(req.params.recordID=='crea')
 { 
 
-        var aa=1;
+        var aa=0;
 if(aa==1) 
 {
     res.status(404).send('Las fechas de generacion de boleta PAP han finalizado.');
