@@ -81,11 +81,15 @@ if(req.params.id3)
 
                 Perfil.find({nombre:req.params.id,idempresa:req.params.id2},function(err, todos) {
                         if (err){ res.send(err); }
+
+                   
                        
                         if(todos.length>0)   {  
                         
                                 Permiso.find({idrol:todos[0]._id}).sort([['orden', 1]]).exec(function(err, todos) {
                                         if (err){ res.send(err); }
+
+                                        
                                         
                                         Permiso2.find({idrol:todos[0].idrol}).sort([['orden', 1]]).exec(function(err, todos4) {
                                         if (err){ res.send(err); }
@@ -96,18 +100,21 @@ if(req.params.id3)
                                                                 if (err){ res.send(err); }
         
                                                                 var myData = [];
-                                                                for(var i = 0; i < todos.length;i++){
-                                                                        for(var j = 0; j < todos2.length;j++){
+                                                                for(var i = 0; i < todos.length;i++){//todos los permisos
+                                                                        for(var j = 0; j < todos2.length;j++){//todos los modulos
                                                                                 if(todos[i].nombre==todos2[j]._id)
-                                                                                {       var childrem=[]
-                                                                                        for(var k = 0; k < todos4.length;k++){
-                                                                                                if(todos4[k].idpermiso==todos[i]._id)
+                                                                                {   
+                                                                                        
+                                                                                        var childrem=[]
+                                                                                        for(var k = 0; k < todos4.length;k++){//todos los permisos2
+                                                                                                if(todos4[k].idpermiso==todos[i]._id )
                                                                                                 {
+                                                                                                        
                                                                                                         for(var j5 = 0; j5 < todos2.length;j5++){
                                                                                                                 if(todos4[k].nombre==todos2[j5]._id)
                                                                                                                 {   
                                                                                                                         childrem.push({nivel:todos2[j5].nivel,idrol:todos4[k].idrol,title:todos2[j5].nombre,component: todos2[j5].componente, tabComponent:todos2[j5].tabcomponente,name:todos2[j5].componente,index:todos2[j5].index,icon:todos2[j5].icono,estado:todos2[j5].estado,
-                                                                                                                                permiso:todos4[k].ingreso+','+todos4[k].consulta+','+todos4[k].eliminacion+','+todos4[k].creacion+','+todos4[k].actualizacion+','+todos4[k].filtro+','+todos4[k].reporte})
+                                                                                                                                permiso:todos4[k].ingreso+','+todos4[k].consulta+','+todos4[k].eliminacion+','+todos4[k].creacion+','+todos4[k].actualizacion+','+todos4[k].filtro+','+todos4[k].reporte,potros1:todos4[k].potros1})
                                                                                                                 }
                                                                                                         }
                                                                                                 }                                                 

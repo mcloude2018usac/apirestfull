@@ -26,6 +26,7 @@ exports.getPermison2 = function(req, res, next){
                         ,creacion:todos[i].creacion
                         ,actualizacion:todos[i].actualizacion
                         ,orden:todos[i].orden
+                        ,potros1:todos[i].potros1
                         });
                    }
                     res.json(myData);
@@ -63,6 +64,7 @@ exports.creaPermison22s = function(req, res, next){
 
     if(req.params.id!=='crea')
     {  Bitacora.create(req.body.bitacora);
+        console.log(req.body)
         Permison2.findById({ _id: req.params.id}, function (err, todo)  {
             if (err) {  res.send(err);  }
             else
@@ -78,6 +80,7 @@ exports.creaPermison22s = function(req, res, next){
                 todo.reporte 	=	req.body.reporte		;
                 todo.actualizacion    	=	req.body.actualizacion        	;
                 todo.orden    	=	req.body.orden        	;
+                todo.potros1    	=	req.body.potros1        	;
                 todo.usuarioup=req.body.bitacora.email;
                 
              
@@ -109,6 +112,7 @@ exports.creaPermison22s = function(req, res, next){
                                 filtro    	: req.body.filtro   	,
                                 reporte    	: req.body.reporte   	,
                                 creacion    	: req.body.creacion   	,
+                                potros1: '',votros1:'',
                                 actualizacion 	: req.body.actualizacion 	,
                                 orden 	: req.body.orden 	,
                                 usuarionew:req.body.bitacora.email

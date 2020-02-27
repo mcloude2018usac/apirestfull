@@ -72,6 +72,7 @@ exports.creaPermiso2s = function(req, res, next){
                 todo.filtro 	=	req.body.filtro		;
                 todo.reporte 	=	req.body.reporte		;
                 todo.orden    	=	req.body.orden        	;
+                todo.potros1    	=	req.body.potros1        	;
                 todo.usuarioup=req.body.bitacora.email;
                 
              
@@ -104,6 +105,7 @@ exports.creaPermiso2s = function(req, res, next){
                                 filtro    	: req.body.filtro   	,
                                 reporte    	: req.body.reporte   	,
                                 orden 	: req.body.orden 	,
+                                potros1: '',votros1:'',
                                 usuarionew:req.body.bitacora.email
                             }
                                 , function(err, todo) {
