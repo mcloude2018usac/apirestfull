@@ -13,6 +13,8 @@ var mongoose =require("mongoose");
         actualizacion	: { type : Boolean },
         filtro	: { type : Boolean },
         reporte	: { type : Boolean },
+        potros1   		: { type : String },
+        votros1   		: { type : String },
         orden: { type : Number }
         ,usuarionew	: { type : String },      usuarioup	: { type : String }
       
