@@ -1,5 +1,5 @@
 
-var Auditserverdhis = require('../../models/claroaudit/Auditserverdhis');
+var Auditserverdhis = require('../../models/claroaudit/auditserverdhis');
 var Auditserver = require('../../models/claroaudit/auditserver');
 var Bitacora = require('../../models/bitacora');
 
