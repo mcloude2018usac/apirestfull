@@ -80,6 +80,26 @@ exports.getAsignaubicacion = function(req, res, next){
                         
                 });
         break;
+        case 'idiomasprofe2':
+                  
+            Asignaubicacion.find({}).populate('ididioma').exec(function(err, todos10) {
+                if (err){ res.send(err); }
+                var result = [];
+                const map = new Map();
+                for (const item of todos10) {
+                    if(!map.has(item.ididioma.nombre)){
+                        map.set(item.ididioma.nombre, true);    // set any value to Map
+                        result.push({codigo:item.ididioma._id,nombre:item.ididioma.nombre});
+                    }
+                }
+
+
+           console.log(result)
+                 
+                        res.json(result);
+                    
+            });
+    break;
             case 'idiomasprofe':
                   
                     Asignaubicacion.find({'idprofesor' :req.params.id}).populate('ididioma').exec(function(err, todos10) {
