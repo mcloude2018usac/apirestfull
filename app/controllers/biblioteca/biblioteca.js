@@ -1,7 +1,7 @@
-http://biblos.usac.edu.gt/library/index.php?action=ajax&rs=getSolvencia&usuario=solvencia&pass=RR03ng41lsdt0r0&carnet=9419254
+//http://biblos.usac.edu.gt/library/index.php?action=ajax&rs=getSolvencia&usuario=solvencia&pass=RR03ng41lsdt0r0&carnet=9419254
 
-var request = require('request');
-var xml2js = require ('xml2js'); 
+
+
 var http = require('http');
 let xmlParser = require('xml2json');
 exports.getBiblioteca = function(req, res, next){
