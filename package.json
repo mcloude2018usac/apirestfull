@@ -31,7 +31,8 @@
     "soap": "^0.29.0",
     "socket.io": "^2.3.0",
     "throng": "^4.0.0",
-    "xml2js": "^0.4.19"
+    "xml2js": "^0.4.19",
+       "xml2json": "^0.12.0"
   },
   "devDependencies": {},
   "scripts": {
