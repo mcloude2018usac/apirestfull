@@ -26,7 +26,7 @@ var cursoeve=require('../models/aread_evento');
 var Userperfil = require('../models/userperfil2');
 var Asignapap = require('../models/asignapap');
 var Marketemail = require('../models/marketemail');
-var Asignaest = require('../models/asignaestudiante');
+var Asignaestpap= require('../models/asignaestudiantepap');
 var Personal = require('../models/user');
 
 var request = require('request');
@@ -852,7 +852,7 @@ else
         break;
 
         case 'modulo-grupo':
-                        res.json([{id:'PAGINA',nombre:'PAGINA'} ,{id:'LINK',nombre:'LINK'},{id:'MENU',nombre:'MENU'},{id:'PAGINAHTML',nombre:'PAGINAHTML'}]);
+                        res.json([{id:'PAGINA',nombre:'PAGINA'} ,{id:'LINK',nombre:'LINK'},{id:'MENU',nombre:'MENU'},{id:'PAGINAHTML',nombre:'PAGINAHTML'},{id:'MENU_BOTONES',nombre:'MENU_BOTONES'}]);
         break;
      
         case 'excel-eventos':
@@ -1462,41 +1462,10 @@ case 'excel-papcuenta':
 var myDataxxx = [];
 
 
-Cuentaccoriente.find({}).exec(function(err, todos20ab) {
-        if (err){ res.send(err); }
-
-Userperfil.find({}).exec(function(err, todos20) {
-        if (err){ res.send(err); }
- var cuentatt=1
- Asignapap.find({}).exec(function(err, todos300) {
+ Asignapap.find({estado:'Asignación finalizada con exito'}).exec(function(err, todos300) {
                 if (err){ res.send(err); }
    
-      var data1=[];
-                for(var i = 0; i < todos20.length;i++){
-                        for(var j = 0; j < todos300.length;j++){
-                                if(todos20[i].userId==todos300[j].userId)
-                                {  var cc='';var cc2=''
-                                       cc=todos20[i].carne;  cc2=todos20[i].nov;
-                                        if(todos20[i].carne=='0')   {   cc='';     }
-                                        if(todos20[i].nov=='0')   {   cc2='';     }
-                                        data1.push({idperfil:todos20[i]._id,
-                                                idasigna:todos300[j]._id,
-                                                nov:cc2,
-                                                carne:cc,
-                                                nombre:todos300[j].nombre,
-                                                noboleta:todos300[j].noboleta,
-                                                monto:todos300[j].monto,
-                                                cui:todos300[j].cui
-                                        
-                                        })
-                                  break;
-                                }
-                        }
-                      
-                      
-                }
-
-//busca las asignaciones
+  
                 Asignaest.find({}).exec(function(err, todos500) {
                         if (err){ res.send(err); }
 
@@ -1513,41 +1482,7 @@ Userperfil.find({}).exec(function(err, todos20) {
                                                 
                                                if(val==0)
                                                {         
-                                               Cuentaccoriente.create({ 
-                                                idperfil:data1[i].idperfil,
-                                                idasigna:data1[i].idasigna,
-                                                userId:todos500[j].idestudiante,
-                                                periodo:todos500[j].idperiodo.nombre,
-                                                nov:data1[i].nov,
-                                                carne:data1[i].carne,
-                                                nombre:data1[i].nombre,
-                                                noboleta:data1[i].noboleta,
-                                                monto:data1[i].monto,
-                                                cui:data1[i].cui,
-                                                idtipounidad:todos500[j].idtipounidad.nombre,
-                                                idunidadacademica:todos500[j].idunidadacademica.nombre,
-                                                idperiodo:todos500[j].idperiodo.nombre,
-                                                idedificio:todos500[j].idedificio.nombre,
-                                                idsalon:todos500[j].idsalon.nombre,
-                                                idjornada:todos500[j].idjornada,
-                                                idestudiante:todos500[j].idestudiante,
-                                                idhorario:todos500[j].idhorario,
-                                                idmateria:todos500[j].idmateria,
-                                                usuarionew:todos500[j].usuarionew,
-                                                deudaactual:1000,
-                                                deposito1:0, deposito2:0, deposito3:0,  deposito4:0, deposito5:0,
-                                                saldoactual:1000,
-                                                noboleta2:0,   noboleta3:0,      noboleta4:0,    noboleta5:0
-                                                }
-                                                        , function(err, todo) {
-                                                        if (err){ res.status(500).send(err.message)    }
-                                                    
-                                                     
-                                                
-                                                     
-                                                        
-                                                
-                                                    });
+                                            
                                                 }
 
                                           
@@ -1563,8 +1498,8 @@ res.json(todos500);
                 });
         });
 
-});
-});
+
+
 
 
 
@@ -1692,123 +1627,82 @@ Asignapap.aggregate(
   //  res.json(aa);
     break;
 
-case 'excel-asigna3':
-
+case 'excel-asigna3papficha':
+//127.0.0.1:9090/api/datosfijos/excel-asigna3papficha
 var filename   = "Fichapap.csv";
-
-Userperfil.find({}).exec(function(err, todos20) {
-        if (err){ res.send(err); }
-     
-                        Asignapap.find({}).exec(function(err, todos2) {
+                      Asignaestpap.find({}).populate('idasigna').exec(function(err, todos) {
                                 if (err){ res.send(err); }
-                           
-                                if(todos2.length>0)   {  
-                                         var myData = [];
-                                        for(var i = 0; i < todos20.length;i++){
-                                                var ii=0;
-                                                for(var j = 0; j < todos2.length;j++){
-                                                        if(todos20[i].usuarionew==todos2[j].usuarionew)
+
+                                var myData2 = [];
+                                     
+                        
+                                                for(var i = 0; i < todos.length;i++){
+
+                                                        var aa=''
+                                                        try {
+                                                                 aa=todos[i].idasigna.cierra
+                                                              }
+                                                              catch(error) {
+                                                             aa==''
+                                                              }
+
+                                                              
+
+
+                                                     
+                                                        if(aa=='1')
                                                         {
-ii=1;
-                                                             
-                                                
-                                        myData.push({usuarionew:todos20[i].usuarionew,idasigna:todos2[j]._id,nov:todos20[i].nov,carne:todos20[i].carne,
-                                                codigounidad:todos2[j].idunidadacademica.codigo,unidadacademica:todos2[j].idunidadacademica.nombre
-                                                ,cui:todos2[j].cui ,noboleta:todos2[j].noboleta ,montoboleta:todos2[j].montodeuda,cursosaplica:todos2[j].cursosaplica
-                                                ,montopago:todos2[j].monto,nombre:todos2[j].nombre
-                                        });
-                                                  break;
+                                                        if(todos[i].idasigna!==null )
+                                                        {
+                                                                var tedificio=''
+                                                                var tsalon= todos[i].idsalon.nombre
+                                                                var tsalon2=tsalon.split('-')
+
+                                                                d =new Date(todos[i].updatedAt).toISOString().substr(0,10);   
+
+                                                                      
+myData2.push({
+        fecha:d,
+        cui:"_" +todos[i].idasigna.cui +" ",
+        nombre:todos[i].idasigna.nombre, 
+        nov:todos[i].idasigna.nov,
+        carne:todos[i].idasigna.carne,
+        monto:todos[i].idasigna.monto,
+      
+        correo:todos[i].idasigna.correo,
+        edificio:todos[i].idedificio.nombre,
+        codigosalon:tsalon2[0],
+        salon:todos[i].idsalon.nombre,
+        jornada:todos[i].idjornada,
+        materia:todos[i].idmateria,
+        horario:todos[i].idhorario,
+        noasignado:todos[i].noasignado});
+                                                            
+                                                        }
+  
+                                        
                                         
 
-                                                        }  
-                                                }
-                                              if(ii==0)
-                                              {//encuentra todos los userperfil que no tengan asiganpap
-                                             //   console.log(todos20[i]);
-                                                console.log(todos20[i]._id  + ',' + todos20[i].userId + ',' + todos20[i].cui+ ',' + todos20[i].nov + ',' + todos20[i].nombre1+ ' ' + todos20[i].nombre2 + ' ' + todos20[i].nombre3+ ' ' + todos20[i].nombre4+ ',' + todos20[i].usuarionew);
-                                              //  console.log(todos20[i]._id + ','+todos20[i].cui + ',' + ','+todos20[i].nombre1 + ' ' + todos[i].nombre2+ ' '+ todos20[i].nombre3 + ' ' + todos[i].nombre4 + ','+todos20[i].carne + ','+todos20[i].userId+ ','+todos20[i].usuarionew )
-                                          /*    date: 2019-02-25T15:05:19.484Z,
-                                              _id: 5c74042f8859720016d9b40d,
-                                              userId: '5bbd134e20477c0013e36754',
-                                              cui: '3035538710110',
-                                              nov: '2018039111',
-                                              nombre1: 'Luis',
-                                              nombre2: 'Fernando',
-                                              nombre3: 'Chajón',
-                                              nombre4: 'Hernández',
-                                              telefono: '49092537',
-                                              fechanac: 2001-04-18T00:00:00.000Z,
-                                              genero: 'Masculino',
-                                              */
-                                              }
+                                }
+                        }
 
-                                        }
-                                                //busca todos los usuarios que tengan asinacion papa
-                                        Asignaest.find({}).exec(function(err, todos200) {
-                                                if (err){ res.send(err); }
-
-                                                var myData2 = [];
-                                                 var  aaa=1;
-                                                for(var j = 0; j < todos200.length;j++){
-                                                        aaa=1;
-                                                           for(var i = 0; i < myData.length;i++){
-
-                                                       
-                                                                if(todos200[j].idasigna==myData[i].idasigna)
-                                                                {
-
-                                                                                  
-                                                                        myData2.push({idasigna:myData[i].idasigna,nov:myData[i].nov,carne:myData[i].carne,
-                                                                                nombre:myData[i].nombre,montopago:myData[i].montopago,
-                                                                                codigounidad:myData[i].codunidad,unidadacademica:myData[i].unidadacademica
-                                                                                ,cui:myData[i].cui ,noboleta:myData[i].noboleta ,montoboleta:myData[i].montoboleta,
-                                                                                cursosaplica:myData[i].cursosaplica,
-                                                                                edificio:todos200[j].idedificio.nombre,
-                                                                                salon:todos200[j].idsalon.nombre,
-                                                                                jornada:todos200[j].idjornada,
-                                                                                horario:todos200[j].idhorario,
-                                                                                materia:todos200[j].idmateria,
-                                                                                noasignado:todos200[j].noasignado,cantidad:1
-                                                                        });
-                                                                        aaa=0;
-                                                                                break;
-
-                                                                }
-                                                        }
-                                                                if(aaa==1)
-                                                                {
-                                                                       
-
-                                                                                //encuentra todos los asigna papa que no tengan asignacion
-                                                                                //hay que borrar o volver a generar
-                                                                              console.log(todos200[j].idasigna + ','+ todos200[j].nombre+ ','+ todos200[j].idestudiante+ ','+ todos200[j].no_orientacion+ ','+ todos200[j].idmateria+ ' '+ todos200[j].jornada+ ' '+ todos200[j].idhorario + ' '+ todos200[j].idsalon.nombre)
-
-                                                                            
-
-                                                                        
-
-                                                                }
-
-                                                }
-
-                                                res.statusCode = 200;
-                                                res.setHeader('Content-Type', 'text/csv; charset=utf-8');
-                                                res.setHeader("Content-Disposition", 'attachment; filename='+filename);
-                                                res.csv(myData2, true);
-                                             //   res.json(myData2);
+                                res.statusCode = 200;
+                                res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+                                res.setHeader("Content-Disposition", 'attachment; filename='+filename);
+                                res.csv(myData2, true);
+                                //   res.json(myData2);
 
 
-                                        });
+                        });
 
                                      
                 
                                       
                                 
-                                }
+                                
 
-                        });
 
-});
+
 
 break;
         default:
