@@ -16,7 +16,7 @@ var xml2js = require ('xml2js');
 exports.getAsignacalusac = function(req, res, next){
     if(req.params.id3)
     { 
-        console.log(req.params)
+      
         switch(req.params.id3) {
             case 'rptasignacalusac1':
 
@@ -82,6 +82,70 @@ exports.getAsignacalusac = function(req, res, next){
 
 
                 break;
+                case 'rptasignacalusac1a':
+
+                    Asignacalusac.find({ 'idtipounidad.id':req.params.id}).populate('tipopago').populate('jornada').populate('nivel').
+                    populate('horario').populate('dia').exec(function(err, todos) {
+                        if (err){ res.send(err); console.log(err) }
+                        var myData = [];
+                        var cc=0;
+                        for(var i = 0; i < todos.length;i++){
+                        
+                                var d =new Date( todos[i].fechanac).toISOString().substr(0,10);   
+                                var n = d.split('-')   
+                                var d2 =new Date( todos[i].createdAt).toISOString().substr(0,10);   
+                                var n2 = d2.split('-')   
+        
+                                
+                                var d =new Date( todos[i].fechanac).toISOString();   
+    
+                                   
+                                var n3 = d.split('T')
+                                var n2a=(n3[1]).split(':')   
+                           
+    
+    
+                        myData.push({es_carnet:todos[i].carnecalusac,
+                            es_cui:todos[i].cui,
+                            es_pais_or:'',
+                            es_pasapor:'',
+                            es_corden:'',
+                            es_cregis:'0',
+                            es_libro:'0',
+                            es_folio:'0',
+                            es_partida:'0',
+                            es_nombre:todos[i].nombre,
+                            es_direc:todos[i].direccion,
+                            es_nacimi:d,
+                            es_e_civil:'',
+                            es_catego:todos[i].tipoa,
+                            es_sexo:todos[i].sexo,
+                            es_f_ins:d2,
+                            es_reg:todos[i].codpersonal,
+                            es_u_car:todos[i].carneusac,
+                            es_u_fac:'0',
+                            es_tel:todos[i].telefono,
+                            es_f_exa:'0',
+                            es_uid:'',
+                            es_ufecha:d2,
+                            es_uhora:n2a[0] + ':' + n2a[1]
+                        });
+                    
+                        }
+                        
+                        res.statusCode = 200;
+                        res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+                        res.setHeader("Content-Disposition", 'attachment; filename='+'rpt_estudiante_calusac.csv');
+                        res.csv(myData, true);
+                   
+                        
+                            
+                    });
+    
+    
+    
+    
+                    break;
                 case 'rptasignacalusac2':
 
                     Asignacalusac.find({ }).populate('tipopago').populate('jornada').populate('nivel').
@@ -138,6 +202,62 @@ exports.getAsignacalusac = function(req, res, next){
     
     
                     break;
+                    case 'rptasignacalusac2a':
+
+                        Asignacalusac.find({ 'idtipounidad.id':req.params.id}).populate('tipopago').populate('jornada').populate('nivel').
+                        populate('horario').populate('dia').exec(function(err, todos) {
+                            if (err){ res.send(err); console.log(err) }
+                            var myData = [];
+                            var cc=0;
+                            for(var i = 0; i < todos.length;i++){
+                            
+                                    var d =new Date( todos[i].fechanac).toISOString();   
+    
+                                   
+                                    var n = d.split('T')
+                                    var n2a=(n[1]).split(':')   
+                                    var d2 =new Date( todos[i].createdAt).toISOString().substr(0,10);   
+                                    var n2 = d2.split('-')   
+            
+        
+                            myData.push({es_carnet:todos[i].carnecalusac,
+                                as_acta:'',
+                                as_centro:'0',
+                                as_idioma:'0',
+                                as_curso:'',
+                                as_gcrono:'0',
+                                as_nivel:'0',
+                                as_hora:'0',
+                                as_dia:'0',
+    
+                                as_fase:todos[i].idperiodo.nombre,
+                                as_ano:todos[i].ano,
+                                as_salon:'',
+                              
+                                as_f_asig:d2,
+                                as_prerre:'1',
+                                as_tipoc:'',
+                                as_uid:'',
+                                as_ufecha:d2,
+                                as_uhora:n2a[0] + ':' + n2a[1]
+                                
+                            });
+                        
+                            }
+                            
+                            res.statusCode = 200;
+                            res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+                            res.setHeader("Content-Disposition", 'attachment; filename='+'rpt_asigna_calusac.csv');
+                            res.csv(myData, true);
+                       
+                            
+                            
+                        });
+        
+        
+        
+        
+                        break;
               case 'todosasignacalusac':
 
          
