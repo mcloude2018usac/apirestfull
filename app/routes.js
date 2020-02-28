@@ -3,14 +3,16 @@ var AuthenticationController = require('./controllers/authentication'),
     DatosfijosController = require('./controllers/datosfijos'),
    SiifController = require('./controllers/siif'),
    Unidadprofesor3Controller = require('./controllers/calusac/unidadprofesor3'),
-
+   AuditserverController = require('./controllers/claroaudit/auditserver'),
+   AuditserverdController = require('./controllers/claroaudit/auditserverd'),
+   AuditserverdhisController = require('./controllers/claroaudit/auditserverdhis'),
    Unidadnivel3Controller = require('./controllers/calusac/unidadnivel3'),
    Unidadjornada3Controller = require('./controllers/calusac/unidadjornada3'),
    AsignanotasController = require('./controllers/calusac/asignanotas'),
    Unidadhorario3Controller = require('./controllers/calusac/unidadhorario3'),
    Unidadpago3Controller = require('./controllers/calusac/unidadpago3'),
    Unidaddia3Controller = require('./controllers/calusac/unidaddia3'),
-
+   BibliotecaController = require('./controllers/biblioteca/biblioteca'),
     Datosfijo2sController = require('./controllers/datosfijos2'),
     UserperfilController = require('./controllers/userperfil'),
     ParticipaController = require('./controllers/participa'),
@@ -45,6 +47,7 @@ var AuthenticationController = require('./controllers/authentication'),
     busController = require('./controllers/bus'),
     PermisoController = require('./controllers/permiso'),
     Permiso2Controller = require('./controllers/permiso2'),
+    Permiso3Controller = require('./controllers/permiso3'),
     EstudianteovController = require('./controllers/estudianteov'),
     CarneController = require('./controllers/carne'),
     EstudiantevtController = require('./controllers/estudiantevt'),
@@ -152,16 +155,15 @@ module.exports = function(app){
         suscriptorsaldoRoutes = express.Router(),
         moduloRoutes = express.Router(),
         catalogoRoutes = express.Router(),
-      
+        bibliotecaRoutes = express.Router(),
         tiposuscriptorRoutes = express.Router(),
         tarifaRoutes = express.Router(),
         userpostRoutes = express.Router(),
         nuevosalonRoutes = express.Router(),
         datosfijosRoutes = express.Router(),
-        
-        
-        serverRoutes = express.Router(),
-
+        auditserverRoutes = express.Router(),
+        auditserverdRoutes = express.Router(),
+        auditserverdhisRoutes = express.Router(),
         datosfijo2sRoutes = express.Router(),
         eventoRoutes = express.Router(),
         indicadorRoutes = express.Router(),
@@ -178,6 +180,7 @@ module.exports = function(app){
         empresaRoutes = express.Router(),
         permisoRoutes = express.Router(),
         permiso2Routes = express.Router(),
+        permiso3Routes = express.Router(),
         galeriaimgRoutes = express.Router(),
         oraRoutes = express.Router(),
         dtarifaRoutes = express.Router(),
@@ -301,6 +304,32 @@ userperfilRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,
 
 
 
+//-----------------------------------auditserver
+apiRoutes.use('/auditservers', auditserverRoutes);
+auditserverRoutes.get('/:id',requireAuth,  AuditserverController.getAuditserver);
+auditserverRoutes.get('/:id/:id2',requireAuth,  AuditserverController.getAuditserver);
+auditserverRoutes.post('/:id',requireAuth, AuditserverController.creaAuditserver2s);
+auditserverRoutes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  AuditserverController.deleteAuditserver);
+   
+//-----------------------------------AuditserverD
+apiRoutes.use('/auditserverds', auditserverdRoutes);
+auditserverdRoutes.get('/:id',requireAuth,  AuditserverdController.getAuditserverd);
+auditserverdRoutes.get('/:id/:id2/:id3',  AuditserverdController.getAuditserverd);
+
+auditserverdRoutes.post('/:id',requireAuth, AuditserverdController.creaAuditserverd2s);
+auditserverdRoutes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  AuditserverdController.deleteAuditserverd);
+
+
+//-----------------------------------AuditserverDhis
+apiRoutes.use('/auditserverds', auditserverdhisRoutes);
+auditserverdhisRoutes.get('/:id',requireAuth,  AuditserverdhisController.getAuditserverdhis);
+auditserverdhisRoutes.get('/:id/:id2/:id3/:id4',  AuditserverdhisController.getAuditserverdhis);
+
+auditserverdhisRoutes.post('/:id',requireAuth, AuditserverdhisController.creaAuditserverdhis2s);
+auditserverdhisRoutes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  AuditserverdhisController.deleteAuditserverdhis);
+
+
+
 
 //---------------------------------------estudiantes ov
 apiRoutes.use('/carne', carneRoutes);
@@ -365,6 +394,9 @@ participa2Routes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  Part
 
 
 
+//-----------------------------------BIBLIOTECA
+apiRoutes.use('/bibliotecas', bibliotecaRoutes);
+bibliotecaRoutes.get('/:id',requireAuth,  BibliotecaController.getBiblioteca);
 
 //-----------------------------------MAIL
 apiRoutes.use('/mails', mailRoutes);
@@ -585,7 +617,7 @@ compratransferenciaRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',req
 
 apiRoutes.use('/asignapaps', asignapapRoutes);
 asignapapRoutes.get('/:id',requireAuth, AsignapapController.getAsignapap);
-asignapapRoutes.get('/:id/:id2',requireAuth, AsignapapController.getAsignapap);
+asignapapRoutes.get('/:id/:id2', AsignapapController.getAsignapap);
 asignapapRoutes.get('/:id/:id2/:id3',requireAuth, AsignapapController.getAsignapap);
 asignapapRoutes.post('/:recordID',requireAuth,  AsignapapController.creaAsignapap2s);
 asignapapRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  AsignapapController.deleteAsignapap);
@@ -722,6 +754,16 @@ permiso2Routes.get('/:id/:id2/:id3',requireAuth,  Permiso2Controller.getPermison
 permiso2Routes.get('/:id/:id2/:id3/:id4',requireAuth,  Permiso2Controller.getPermison2);
 permiso2Routes.post('/:id',requireAuth,  Permiso2Controller.creaPermison22s);
 permiso2Routes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  Permiso2Controller.deletePermison2);
+
+
+//-----------------------------------PERMISOS
+apiRoutes.use('/permiso3s', permiso3Routes);
+permiso3Routes.get('/:id/:id2/:id3',requireAuth,  Permiso3Controller.getPermison3);
+permiso3Routes.get('/:id/:id2/:id3/:id4',requireAuth,  Permiso3Controller.getPermison3);
+permiso3Routes.post('/:id',requireAuth,  Permiso3Controller.creaPermison32s);
+permiso3Routes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  Permiso3Controller.deletePermison3);
+
+
 
 //-----------------------------------MODULO
 apiRoutes.use('/modulos', moduloRoutes);
