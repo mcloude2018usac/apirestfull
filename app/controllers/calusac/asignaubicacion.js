@@ -13,13 +13,29 @@ var xml2js = require ('xml2js');
 exports.getAsignaubicacion = function(req, res, next){
     if(req.params.id7)
     { 
-        Asignaubicacion.find({'idprofesor' :req.params.id,ididioma:req.params.id2
-        ,'idedificio.id': req.params.id4,'idsalon.id':req.params.id5,iddia:req.params.id6,idhora:req.params.id7
-    }).populate('ididioma').exec(function(err, todos10) {
-            if (err){ res.send(err); }
+        if(req.params.id=='todos')
+        {
+            Asignaubicacion.find({ididioma:req.params.id2
+            ,'idedificio.id': req.params.id4,'idsalon.id':req.params.id5,iddia:req.params.id6,idhora:req.params.id7
+        }).populate('ididioma').exec(function(err, todos10) {
+                if (err){ res.send(err); }
+    
+                res.json(todos10);
+            });
 
-            res.json(todos10);
-        });
+        }
+        else
+        {
+            Asignaubicacion.find({'idprofesor' :req.params.id,ididioma:req.params.id2
+            ,'idedificio.id': req.params.id4,'idsalon.id':req.params.id5,iddia:req.params.id6,idhora:req.params.id7
+        }).populate('ididioma').exec(function(err, todos10) {
+                if (err){ res.send(err); }
+    
+                res.json(todos10);
+            });
+
+        }
+   
 
 
     }
@@ -80,6 +96,63 @@ exports.getAsignaubicacion = function(req, res, next){
                         
                 });
         break;
+        case 'horarioprofe2':
+              
+            Asignaubicacion.aggregate(   [
+                { 
+                    "$match" : {
+                       
+                        "ididioma" : req.params.id2
+                    }
+                }, 
+                { 
+                    "$group" : {
+                        "_id" : {
+                            "iddia" : "$iddia", 
+                            "idhora" : "$idhora", 
+                            "idedificio" : "$idedificio", 
+                            "idsalon" : "$idsalon"
+                        }
+                    }
+                }, 
+                { 
+                    "$project" : {
+                        "idedificio" : "$_id.idedificio", 
+                        "idsalon" : "$_id.idsalon", 
+                        "iddia" : "$_id.iddia", 
+                        "idhora" : "$_id.idhora", 
+                        "_id" :0
+                    }
+                }
+            ]).exec(function(err, todos10) {
+                if (err){ res.send(err); }
+                console.log(todos10)
+          
+                 var result = [];
+                 for (const item of todos10) {
+                  
+                    if(item.iddia!=null)
+                    {
+                        result.push({idedificio:{id:item.idedificio.id,nombre:item.idedificio.nombre},
+                            idsalon:{id:item.idsalon.id,nombre:item.idsalon.nombre},nombre:item.idsalon.nombre + ' ' + item.idedificio.nombre + ' ' + item.iddia + ' ' + item.iddia,
+                            iddia:item.iddia,idhora:item.idhora});
+
+                    }
+                    
+                    
+                }
+
+
+           
+                 
+                        res.json(result);
+
+           
+                 
+                       
+                    
+            });
+    break;
         case 'idiomasprofe2':
                   
             Asignaubicacion.find({}).populate('ididioma').exec(function(err, todos10) {
