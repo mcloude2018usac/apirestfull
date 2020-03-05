@@ -7,9 +7,9 @@ var Asignaest = require('../../models/calusac/asignaestudiantecalusac');
 var Asignacalusac = require('../../models/calusac/asignacalusac');
 var Bitacora = require('../../models/bitacora');
 var Facplan3 = require('../../models/calusac/unidadplan3');
-
+var User = require('../../models/user');
 var Operadores = require('../../models/calusac/operadores');
-
+var Asignaubicacion = require('../../models/calusac/asignaubicacion');
 var request = require('request');
 var xml2js = require ('xml2js'); 
 
@@ -18,6 +18,82 @@ exports.getAsignacalusac = function(req, res, next){
     { 
       
         switch(req.params.id3) {
+            case 'asigna_profesor2':
+                Asignaubicacion.aggregate(  [
+                    { 
+                        "$group" : {
+                            "_id" : {
+                                "idprofesor" : "$idprofesor"
+                            }
+                        }
+                    }, 
+                    { 
+                        "$project" : {
+                            "idprofesor" : "$_id.idprofesor", 
+                            "_id" :0
+                        }
+                    }
+                ]).exec(function(err, todos) {
+        var cad=''
+        var duplicates = [];
+                    for(var i = 0; i < todos.length;i++){
+                        duplicates.push(todos[i].idprofesor );
+                
+                    
+                    }
+
+                    User.find({ _id: {$in: duplicates}}).exec(function(err, todos10) {
+                        if (err){ res.send(err); console.log(err) }
+                              
+                    res.json(todos10);   
+
+                    });
+                 
+
+
+
+
+                });
+break;
+
+            case 'asigna_profesor':
+                Asignacalusac.aggregate( [
+                    { 
+                        "$group" : {
+                            "_id" : {
+                                "profesor" : "$profesor"
+                            }
+                        }
+                    }, 
+                    { 
+                        "$project" : {
+                            "profesor" : "$_id.profesor", 
+                            "_id" : 0
+                        }
+                    }
+                ]).exec(function(err, todos) {
+        var cad=''
+        var duplicates = [];
+                    for(var i = 0; i < todos.length;i++){
+                        duplicates.push(todos[i].profesor );
+                
+                    
+                    }
+
+                    User.find({ _id: {$in: duplicates}}).exec(function(err, todos10) {
+                        if (err){ res.send(err); console.log(err) }
+                              
+                    res.json(todos10);   
+
+                    });
+                 
+
+
+
+
+                });
+break;
+
             case 'rptasignacalusac1':
 
                 Asignacalusac.find({ }).populate('tipopago').populate('jornada').populate('nivel').
@@ -269,7 +345,7 @@ exports.getAsignacalusac = function(req, res, next){
                         { $and : [ { identificador : req.params.id2 }] },
                         { $and : [ { carnecalusac : req.params.id2 }] },
                         { $and : [ {carneusac : req.params.id2 } ] }]
-                    }).populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia').exec(function(err, todos) {
+                    }).populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia').populate('ididioma').populate('profesor').exec(function(err, todos) {
                         if (err){ res.send(err); console.log(err) }
                  
                     res.json(todos);   
@@ -1034,6 +1110,8 @@ else{
                                     carneusac       	: req.body.carneusac        	,
                                     carnecalusac       	: req.body.carnecalusac        	,
                                     cml       	: req.body.cml        	,
+                                    rubrot       	: req.body.rubrot        	,
+                                    fechasiif       	: req.body.fechasiif        	,
                                     monto       	: req.body.monto        	,
                                 rubro      	: req.body.rubro        	,
                                 nivel      	: req.body.nivel        	,
@@ -1063,8 +1141,12 @@ else{
                                     nivelacademico:req.body.nivelacademico,
                                     codpersonal:req.body.codpersonal,
                                     dependencia:req.body.dependencia,
-
-                                
+                                    n1:0,
+                                    n2:0,
+                                    n3:0,
+                                    n4:0,
+                                    n5:0,
+                                    estadoacta:'',
                                     tipoasignacion:req.body.tipoasignacion
                                 }
                                     , function(err, todo) {
@@ -1108,6 +1190,8 @@ else{
                                             tipopago:req.body.tipopago,
                                             estadopago:req.body.estadopago,
                                             noboletapago:req.body.noboletapago,
+                                            rubrot       	: req.body.rubrot        	,
+                                            fechasiif       	: req.body.fechasiif        	,
                                             tipoa       	: req.body.tipoa        	,
                                             carneusac       	: req.body.carneusac        	,
                                             carnecalusac       	: req.body.carnecalusac        	,
@@ -1141,8 +1225,13 @@ else{
                                             nivelacademico:req.body.nivelacademico,
                                             codpersonal:req.body.codpersonal,
                                             dependencia:req.body.dependencia,
-                    
-                                        
+                                            n1:0,
+                                            n2:0,
+                                            n3:0,
+                                            n4:0,
+                                            n5:0,
+                                            estadoacta:'',                    
+                                      
                                             tipoasignacion:req.body.tipoasignacion
                                         }
                                             , function(err, todo) {

@@ -6,13 +6,98 @@ var Bitacora = require('../../models/bitacora');
 var Facplan3 = require('../../models/calusac/unidadplan4');
 
 var Operadores = require('../../models/calusac/operadores');
-
+var Asignacalusac = require('../../models/calusac/asignacalusac');
 var request = require('request');
 var xml2js = require ('xml2js'); 
+var Facplan3 = require('../../models/calusac/unidadplan3');
 
 exports.getAsignaubicacion = function(req, res, next){
     if(req.params.id7)
     { 
+        if(req.params.id=='todos100a')
+        {
+         
+    
+                var aa=(req.params.id7).split('°')
+
+                var conditions = {idplanifica:req.params.id2
+                    
+                }
+                , update = { estadoacta: aa[1] }
+                , options = { multi: true };
+
+
+                Asignacalusac.update(conditions, update, options, function (err, result) {
+                    if (err) {
+                        console.error(err);
+                    }
+     
+                    res.json(result); 
+                   
+                });
+
+               
+
+
+
+
+        }
+        else
+        {
+        if(req.params.id=='todos100')
+        {
+            Asignaubicacion.find({ididioma:req.params.id2
+            ,'idedificio.id': req.params.id4,'idsalon.id':req.params.id5,iddia:req.params.id6,idhora:req.params.id7
+        }).populate('ididioma').exec(function(err, todos10) {
+                if (err){ res.send(err); }
+    
+              
+                var duplicates ='';
+                for(var i = 0; i < todos10.length;i++){
+                    duplicates=todos10[i]._id;
+                 
+                
+                }
+                var aa=(req.params.id7).split('°')
+
+                var conditions = {ididioma:req.params.id2
+                    ,'idedificio.id': req.params.id4,'idsalon.id':req.params.id5,iddia:req.params.id6,idhora:aa[0]
+                }
+                , update = { estadoacta: aa[1] }
+                , options = { multi: true };
+
+
+                Asignaubicacion.update(conditions, update, options, function (err, result) {
+                    if (err) {
+                        console.error(err);
+                    }
+     
+                    res.json(duplicates); 
+                   
+                });
+
+               
+
+
+
+            });
+
+        }
+        else
+        {
+            if(req.params.id=='todos1000')
+            {
+                Asignacalusac.find({idplanifica:req.params.id2
+                
+            }).populate('ididioma').exec(function(err, todos10) {
+                    if (err){ res.send(err); }
+        console.log(todos10)
+                    res.json(todos10);
+                });
+    
+            }
+            else
+            {
         if(req.params.id=='todos')
         {
             Asignaubicacion.find({ididioma:req.params.id2
@@ -34,8 +119,8 @@ exports.getAsignaubicacion = function(req, res, next){
                 res.json(todos10);
             });
 
-        }
-   
+        }}
+    }}
 
 
     }
@@ -47,11 +132,13 @@ exports.getAsignaubicacion = function(req, res, next){
         
             case 'horarioprofe':
               
+            var  aa=(req.params.id2).split('°')
                 Asignaubicacion.aggregate(   [
                     { 
                         "$match" : {
                             "idprofesor" : req.params.id, 
-                            "ididioma" : req.params.id2
+                            "ididioma" : aa[0],
+                            "estadoacta":aa[1]
                         }
                     }, 
                     { 
@@ -60,7 +147,8 @@ exports.getAsignaubicacion = function(req, res, next){
                                 "iddia" : "$iddia", 
                                 "idhora" : "$idhora", 
                                 "idedificio" : "$idedificio", 
-                                "idsalon" : "$idsalon"
+                                "idsalon" : "$idsalon",
+                                "estadoacta" : "$estadoacta"
                             }
                         }
                     }, 
@@ -70,6 +158,7 @@ exports.getAsignaubicacion = function(req, res, next){
                             "idsalon" : "$_id.idsalon", 
                             "iddia" : "$_id.iddia", 
                             "idhora" : "$_id.idhora", 
+                            "estadoacta":"$_id.estadoacta",
                             "_id" :0
                         }
                     }
@@ -81,7 +170,7 @@ exports.getAsignaubicacion = function(req, res, next){
                       
                             result.push({idedificio:{id:item.idedificio.id,nombre:item.idedificio.nombre},
                                 idsalon:{id:item.idsalon.id,nombre:item.idsalon.nombre},nombre:item.idsalon.nombre + ' ' + item.idedificio.nombre + ' ' + item.iddia + ' ' + item.iddia,
-                                iddia:item.iddia,idhora:item.idhora});
+                                iddia:item.iddia,idhora:item.idhora,estadoacta:item.estadoacta});
                         
                     }
 
@@ -97,65 +186,101 @@ exports.getAsignaubicacion = function(req, res, next){
                 });
         break;
         case 'horarioprofe2':
-              
-            Asignaubicacion.aggregate(   [
+            
+            var  aa=(req.params.id2).split('°')
+
+           
+
+
+            Asignacalusac.aggregate(   [
                 { 
                     "$match" : {
-                       
-                        "ididioma" : req.params.id2
+                        "profesor" : req.params.id, 
+                        "ididioma" : aa[0],
+                        "estadoacta":aa[1]
                     }
                 }, 
                 { 
                     "$group" : {
                         "_id" : {
-                            "iddia" : "$iddia", 
-                            "idhora" : "$idhora", 
-                            "idedificio" : "$idedificio", 
-                            "idsalon" : "$idsalon"
+                            "idplanifica" : "$idplanifica",
+                            "estadoacta" : "$estadoacta"
                         }
                     }
                 }, 
                 { 
                     "$project" : {
-                        "idedificio" : "$_id.idedificio", 
-                        "idsalon" : "$_id.idsalon", 
-                        "iddia" : "$_id.iddia", 
-                        "idhora" : "$_id.idhora", 
+                        "idplanifica" : "$_id.idplanifica", 
+                        "estadoacta" : "$_id.estadoacta", 
                         "_id" :0
                     }
                 }
-            ]).exec(function(err, todos10) {
+            ]).exec(function(err, todos10a) {
                 if (err){ res.send(err); }
-                console.log(todos10)
-          
+
+                var duplicates = [];
+                var duplicates2 = [];
+
+                for(var i = 0; i < todos10a.length;i++){
+                  
+                    duplicates.push(todos10a[i].idplanifica);
+                 
+                
+                }
+
+                Facplan3.find({ _id:duplicates}).populate('idnivel').populate('idjornada').populate('idhorario').
+                populate('idprofesor').exec(function(err, todos10) {
+                       if (err){  res.send(err);  }
+
+                       console.log(todos10)
                  var result = [];
                  for (const item of todos10) {
                   
-                    if(item.iddia!=null)
-                    {
-                        result.push({idedificio:{id:item.idedificio.id,nombre:item.idedificio.nombre},
-                            idsalon:{id:item.idsalon.id,nombre:item.idsalon.nombre},nombre:item.idsalon.nombre + ' ' + item.idedificio.nombre + ' ' + item.iddia + ' ' + item.iddia,
-                            iddia:item.iddia,idhora:item.idhora});
+                    var planx=''
+                                for(var i = 0; i < todos10a.length;i++){
+                                    if(todos10a[i].idplanifica==item._id)
+                                    {
+                                        planx=todos10a[i].estadoacta
+                                        break;
+                                    }
+                                }
+                        result.push({_id:item._id,idedificio:{id:item.idedificio.id,nombre:item.idedificio.nombre},
+                            idsalon:{id:item.idsalon.id,nombre:item.idsalon.nombre}
+                            ,nombre:'Nombre:'+item.idunidadacademica.nombre + ' Edificio:' + item.idedificio.nombre 
+                            + ' Salon:' + item.idsalon.nombre + ' Periodo:' + item.idperiodo.nombre + '  Jornada:'+item.idjornada.nombre
+                            + ' Nivel:'+item.idnivel.nombre,
+                            iddia:item.idnivel.nombre,idhora:item.idjornada.nombre,estadoacta:planx});
 
-                    }
-                    
+
                     
                 }
 
 
            
-                 
+                 console.log(result)
                         res.json(result);
 
+
+
+
+                });
+
+
+          
            
                  
                        
                     
             });
+         
+
+           
+                 
+         
     break;
         case 'idiomasprofe2':
                   
-            Asignaubicacion.find({}).populate('ididioma').exec(function(err, todos10) {
+            Asignacalusac.find({'profesor' :req.params.id}).populate('ididioma').exec(function(err, todos10) {
                 if (err){ res.send(err); }
                 var result = [];
                 const map = new Map();
@@ -186,7 +311,7 @@ exports.getAsignaubicacion = function(req, res, next){
                             }
                         }
 
-
+console.log(result)
                    
                          
                                 res.json(result);
@@ -397,6 +522,42 @@ exports.creaAsignaubicacion2s = function(req, res, next){
   
 console.log(req.params)
   
+if(req.body.operacion=='ponenota2')
+{ 
+
+    Asignacalusac.findById({ _id: req.params.recordID }, function (err, todo100)  {
+        if (err) {  res.send(err);  }
+        else
+        {
+           
+             
+                todo100.n1=req.body.n1,
+                todo100.n2= req.body.n2,
+                todo100.n3= req.body.n3,
+                todo100.n4= req.body.n4,
+                todo100.n5= req.body.n5,
+               
+     
+    
+                todo100.save(function (err, todo200){
+                    if (err)     {  console.log(err.message)   }
+            
+                    res.json(todo200);
+               
+                    
+                });
+
+          
+
+
+        }
+    });
+
+
+
+}
+else{
+    
 if(req.body.operacion=='ponenota')
 { 
 
@@ -525,6 +686,7 @@ if(req.params.recordID!=='crea')
                                                                     todo100.idsalon= myData[0].idsalon,
                                                                     todo100.iddia= myData[0].iddia,
                                                                     todo100.idhora= myData[0].idhora,
+                                                                    todo100.estadoacta='Grabación',
                                                                    
                                                                  
                                                                  
@@ -611,10 +773,9 @@ console.log(filtro)
                                     idperiodo        	: req.body.periodo        	,
                                     identificador      	: req.body.identificador      ,
                                     nombre 	: req.body.nombre, 	
-
                                     ididioma 	: req.body.ididioma, 
                                     idtipo 	: req.body.idtipo, 
-
+                                    estadoacta:'Grabación',
                                     idestudiante 	: req.body.idestudiante, 	
                                     idinterno 	: req.body.idinterno,
                                     usuarionew:req.body.bitacora.email,
@@ -669,7 +830,7 @@ console.log(filtro)
 
 
  
-}
+}}
 }
 }
 
