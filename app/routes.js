@@ -282,7 +282,7 @@ SINNNNNNNNNNNNNN AUTORIZACION
 apiRoutes.use('/siifs', siifRoutes);
 siifRoutes.get('/:id/:id2', SiifController.getsiif);
 siifRoutes.get('/:id/:id2/:id3', SiifController.getsiif);
-siifRoutes.get('/:id/:id2/:id3/:id4', SiifController.getsiif);
+siifRoutes.get('/:id/:id2/:id3/:id4/:id5/:id6/:id7', SiifController.getsiif);
 
 
 
