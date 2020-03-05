@@ -21,6 +21,8 @@ var AsignacalusacSchema = new mongoose.Schema({
     nivelacademico:{        type: String},
     codpersonal:{        type: String},
     dependencia:{        type: String},
+    rubrot:{        type: String},
+    fechasiif:{        type: String},
     tipoa:{        type: String},
     jornada:{        type: String ,ref:'Unidadjornada3' },
     nivel:{        type: String ,ref:'Unidadnivel3' },
@@ -48,11 +50,9 @@ var AsignacalusacSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    idinterno: {
-        type: String,
-        required: true
-    },
+    idinterno: {        type: String,      required: true    },
     foto1:{        type: String},
+    estadoacta:{        type: String},
     foto2:{        type: String},
     foto3:{        type: String},
     foto4:{        type: String},
@@ -63,6 +63,12 @@ var AsignacalusacSchema = new mongoose.Schema({
      userejecutaemail:{        type: String},
      noorden:{        type: String},
      ultrechazo:{        type: String},
+     n1	: { type : Number},
+     n2	: { type : Number},
+     n3	: { type : Number},
+     n4	: { type : Number},
+     n5	: { type : Number},
+ 
     date 		: { type: Date, default: Date.now }
     ,usuarionew	: { type : String },      usuarioup	: { type : String },tipoasignacion	: { type : String }
  

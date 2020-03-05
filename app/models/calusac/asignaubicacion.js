@@ -25,6 +25,7 @@ var AsignaubicacionSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    estadoacta:{        type: String},
     noorden:{        type: String},
     n1: {    id	: { type : String },   nombre	: { type : String }        },
     n2: {    id	: { type : String },   nombre	: { type : String }        },
