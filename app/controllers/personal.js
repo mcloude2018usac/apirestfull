@@ -665,6 +665,26 @@ break;
                                     }
 
                                     break;
+                    case 'emailsoloid':
+                        if(req.params.email=='')
+                        {
+                        res.status(500).send('NO EXISTE REGISTRO');
+                        }
+                        else
+                        {
+                            
+                        Personal.find({_id:req.params.email,idempresa:req.params.id3}).populate('unidad').populate('tiposuscriptor')
+                        .then(todos => {
+                        
+                            res.json(todos);  
+                            
+                        })
+                        .catch(err => {
+                            res.status(500).send(err.message);  
+                        })
+                    }
+
+                    break;
         
                case 'unidadper':
                console.log(req.params);
