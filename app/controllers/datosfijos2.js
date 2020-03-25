@@ -131,7 +131,12 @@ if(todos.length>0)   {
                                                                                                                         childrem2.push({nivel:todos2[j5a].nivel,idrol:todos4[k].idrol,title:todos2[j5a].nombre,component: todos2[j5a].componente,
                                                                                                                                         tabComponent:todos2[j5a].tabcomponente,
                                                                                                                                 name:todos2[j5a].componente,index:todos2[j5a].index,icon:todos2[j5a].icono,estado:todos2[j5a].estado,
-                                                                                                                                permiso:todos40[k].ingreso+','+todos40[k].consulta+','+todos40[k].eliminacion+','+todos40[k].creacion+','+todos40[k].actualizacion+','+todos40[k].filtro+','+todos40[k].reporte,potros1:todos40[k].potros1})
+                                                                                                                                ingreso:todos40[k].ingreso,permiso:todos40[k].ingreso+','+todos40[k].consulta+','+todos40[k].eliminacion+','+todos40[k].creacion+','+todos40[k].actualizacion+','+todos40[k].filtro+','+todos40[k].reporte
+                                                                                                                                ,potros1:todos40[k].potros1,
+                                                                                                                                pingreso:todos40[k].ingreso ,pconsulta: todos40[k].consulta,peliminacion : todos40[k].eliminacion
+                                                                                                                                ,pcreacion: todos40[k].creacion, pactualizacion: todos40[k].actualizacion, pfiltro: todos40[k].filtro
+                                                                                                                                ,preporte: todos40[k].reporte
+                                                                                                                       })
                                                                                                                 }
                                                                                                         }
 
@@ -149,12 +154,18 @@ if(todos.length>0)   {
                                                                                                 if(aa==1)
                                                                                                 {
                                                                                                         childrem.push({nivel:todos2[j5].nivel,idrol:todos4[k].idrol,title:todos2[j5].nombre,component: todos2[j5].componente, tabComponent:todos2[j5].tabcomponente,name:todos2[j5].componente,index:todos2[j5].index,icon:todos2[j5].icono,estado:todos2[j5].estado,
-                                                                                                                permiso:todos4[k].ingreso+','+todos4[k].consulta+','+todos4[k].eliminacion+','+todos4[k].creacion+','+todos4[k].actualizacion+','+todos4[k].filtro+','+todos4[k].reporte,potros1:todos4[k].potros1,children:childrem2})
+                                                                                                              ingreso:todos4[k].ingreso,  permiso:todos4[k].ingreso+','+todos4[k].consulta+','+todos4[k].eliminacion+','+todos4[k].creacion+','+todos4[k].actualizacion+','+todos4[k].filtro+','+todos4[k].reporte,potros1:todos4[k].potros1,children:childrem2
+                                                                                                              ,pingreso:todos4[k].ingreso ,pconsulta: todos4[k].consulta,peliminacion : todos4[k].eliminacion
+                                                                                                              ,pcreacion: todos4[k].creacion, pactualizacion: todos4[k].actualizacion,pfiltro: todos4[k].filtro
+                                                                                                              ,preporte: todos4[k].reporte})
 
                                                                                                 }
                                                                                                 else{
                                                                                                         childrem.push({nivel:todos2[j5].nivel,idrol:todos4[k].idrol,title:todos2[j5].nombre,component: todos2[j5].componente, tabComponent:todos2[j5].tabcomponente,name:todos2[j5].componente,index:todos2[j5].index,icon:todos2[j5].icono,estado:todos2[j5].estado,
-                                                                                                                permiso:todos4[k].ingreso+','+todos4[k].consulta+','+todos4[k].eliminacion+','+todos4[k].creacion+','+todos4[k].actualizacion+','+todos4[k].filtro+','+todos4[k].reporte,potros1:todos4[k].potros1})
+                                                                                                                ingreso:todos4[k].ingreso,permiso:todos4[k].ingreso+','+todos4[k].consulta+','+todos4[k].eliminacion+','+todos4[k].creacion+','+todos4[k].actualizacion+','+todos4[k].filtro+','+todos4[k].reporte,potros1:todos4[k].potros1
+                                                                                                                ,pingreso:todos4[k].ingreso ,pconsulta: todos4[k].consulta,peliminacion : todos4[k].eliminacion
+                                                                                                                ,pcreacion: todos4[k].creacion, pactualizacion: todos4[k].actualizacion,pfiltro: todos4[k].filtro
+                                                                                                              ,preporte: todos4[k].reporte  })
                                                                                                 }
                                                                                              
                                                                                         }
@@ -167,14 +178,20 @@ if(todos.length>0)   {
                                                                 if(childrem.length>0)
                                                                 {
                                                                 myData.push({nivel:todos2[j].nivel, idrol:todos[i].idrol,title:todos2[j].nombre,component: todos2[j].componente, tabComponent:todos2[j].tabcomponente,name:todos2[j].componente,index:todos2[j].index,icon:todos2[j].icono,estado:todos2[j].estado,
-                                                                        permiso:todos[i].ingreso+','+todos[i].consulta+','+todos[i].eliminacion+','+todos[i].creacion+','+todos[i].actualizacion+','+todos[i].filtro+','+todos[i].reporte,children:childrem});
+                                                                      ingreso:todos[i].ingreso,  permiso:todos[i].ingreso+','+todos[i].consulta+','+todos[i].eliminacion+','+todos[i].creacion+','+todos[i].actualizacion+','+todos[i].filtro+','+todos[i].reporte,children:childrem
+                                                                      ,pingreso:todos[i].ingreso ,pconsulta: todos[i].consulta,peliminacion : todos[i].eliminacion
+                                                                      ,pcreacion: todos[i].creacion, pactualizacion: todos[i].actualizacion,pfiltro: todos[i].filtro
+                                                                                                              ,preporte: todos[i].reporte});
                                 
 
                                                                 }
                                                                 else
                                                                 {
                                                                 myData.push({nivel:todos2[j].nivel,idrol:todos[i].idrol,title:todos2[j].nombre,component: todos2[j].componente, tabComponent:todos2[j].tabcomponente,name:todos2[j].componente,index:todos2[j].index,icon:todos2[j].icono,estado:todos2[j].estado,
-                                                                        permiso:todos[i].ingreso+','+todos[i].consulta+','+todos[i].eliminacion+','+todos[i].creacion+','+todos[i].actualizacion+','+todos[i].filtro+','+todos[i].reporte});
+                                                                     ingreso:todos[i].ingreso,   permiso:todos[i].ingreso+','+todos[i].consulta+','+todos[i].eliminacion+','+todos[i].creacion+','+todos[i].actualizacion+','+todos[i].filtro+','+todos[i].reporte
+                                                                     ,pingreso:todos[i].ingreso ,pconsulta: todos[i].consulta,peliminacion : todos[i].eliminacion
+                                                                      ,pcreacion: todos[i].creacion, pactualizacion: todos[i].actualizacion,pfiltro: todos[i].filtro
+                                                                                                              ,preporte: todos[i].reporte});
                                 
                                                                 }
                                                                 
