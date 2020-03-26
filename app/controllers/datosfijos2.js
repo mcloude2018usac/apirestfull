@@ -5,7 +5,6 @@ var Dcatalogo = require('../models/dcatalogo');
 var Dtarifa = require('../models/dtarifa');
 var Permiso = require('../models/permiso');
 var Permiso2 = require('../models/permison2');
-var Permiso3 = require('../models/permiso3');
 var Asignaest = require('../models/asignaestudiante');
 var User = require('../models/user');
 var Bus = require('../models/bus');
@@ -82,157 +81,89 @@ if(req.params.id3)
 
                 Perfil.find({nombre:req.params.id,idempresa:req.params.id2},function(err, todos) {
                         if (err){ res.send(err); }
-
-                   
-
-if(todos.length>0)   {  
-
-        Permiso.find({idrol:todos[0]._id}).sort([['orden', 1]]).exec(function(err, todos) {
-                if (err){ res.send(err); }
-
-                
-                        
-                Permiso3.find({idrol:todos[0].idrol}).sort([['orden', 1]]).exec(function(err, todos40) {
-                        if (err){ res.send(err); }
-
-
-                Permiso2.find({idrol:todos[0].idrol}).sort([['orden', 1]]).exec(function(err, todos4) {
-                if (err){ res.send(err); }
-                        
+                       
                         if(todos.length>0)   {  
-                                
-                                Moduloxx.find({idempresa:req.params.id2},function(err, todos2) {
+                        
+                                Permiso.find({idrol:todos[0]._id}).sort([['orden', 1]]).exec(function(err, todos) {
                                         if (err){ res.send(err); }
-
-                                        var myData = [];
-                                        for(var i = 0; i < todos.length;i++){//todos los permisos
-                                                for(var j = 0; j < todos2.length;j++){//todos los modulos
-                                                        if(todos[i].nombre==todos2[j]._id)
-                                                        {   
-
-                                                                
-
-                                                                
-                                                                var childrem=[]
-                                                                for(var k = 0; k < todos4.length;k++){//todos los permisos2
-                                                                        if(todos4[k].idpermiso==todos[i]._id )
-                                                                        {
-
-                                                                                var childrem2=[]
-                                                                                var aa=0;
-                                                                                for(var i10 = 0; i10 < todos40.length;i10++){
-                                                                                        if(todos40[i10].idpermiso==todos4[k]._id )
-                                                                                        {
-
-                                                                                                        
-                                                                                                        for(var j5a = 0; j5a < todos2.length;j5a++){
-                                                                                                                if(todos40[i10].nombre==todos2[j5a]._id)
-                                                                                                                {   aa=1;
-                                                                                                                        childrem2.push({nivel:todos2[j5a].nivel,idrol:todos4[k].idrol,title:todos2[j5a].nombre,component: todos2[j5a].componente,
-                                                                                                                                        tabComponent:todos2[j5a].tabcomponente,
-                                                                                                                                name:todos2[j5a].componente,index:todos2[j5a].index,icon:todos2[j5a].icono,estado:todos2[j5a].estado,
-                                                                                                                                ingreso:todos40[k].ingreso,permiso:todos40[k].ingreso+','+todos40[k].consulta+','+todos40[k].eliminacion+','+todos40[k].creacion+','+todos40[k].actualizacion+','+todos40[k].filtro+','+todos40[k].reporte
-                                                                                                                                ,potros1:todos40[k].potros1,
-                                                                                                                                pingreso:todos40[k].ingreso ,pconsulta: todos40[k].consulta,peliminacion : todos40[k].eliminacion
-                                                                                                                                ,pcreacion: todos40[k].creacion, pactualizacion: todos40[k].actualizacion, pfiltro: todos40[k].filtro
-                                                                                                                                ,preporte: todos40[k].reporte
-                                                                                                                       })
+                                        
+                                        Permiso2.find({idrol:todos[0].idrol}).sort([['orden', 1]]).exec(function(err, todos4) {
+                                        if (err){ res.send(err); }
+                                                
+                                                if(todos.length>0)   {  
+                                                        
+                                                        Moduloxx.find({idempresa:req.params.id2},function(err, todos2) {
+                                                                if (err){ res.send(err); }
+        
+                                                                var myData = [];
+                                                                for(var i = 0; i < todos.length;i++){
+                                                                        for(var j = 0; j < todos2.length;j++){
+                                                                                if(todos[i].nombre==todos2[j]._id)
+                                                                                {       var childrem=[]
+                                                                                        for(var k = 0; k < todos4.length;k++){
+                                                                                                if(todos4[k].idpermiso==todos[i]._id)
+                                                                                                {
+                                                                                                        for(var j5 = 0; j5 < todos2.length;j5++){
+                                                                                                                if(todos4[k].nombre==todos2[j5]._id)
+                                                                                                                {   
+                                                                                                                        childrem.push({nivel:todos2[j5].nivel,idrol:todos4[k].idrol,title:todos2[j5].nombre,component: todos2[j5].componente, tabComponent:todos2[j5].tabcomponente,name:todos2[j5].componente,index:todos2[j5].index,icon:todos2[j5].icono,estado:todos2[j5].estado,
+                                                                                                                                permiso:todos4[k].ingreso+','+todos4[k].consulta+','+todos4[k].eliminacion+','+todos4[k].creacion+','+todos4[k].actualizacion+','+todos4[k].filtro+','+todos4[k].reporte})
                                                                                                                 }
                                                                                                         }
+                                                                                                }                                                 
+        
+                                                                                        }   
+                                                                              
 
-
-                                                                                        }
-
-                                                                                }
-
-
-                                                                                //ir armando tambien los childred de cada permiso2
-                                                                                
-                                                                                for(var j5 = 0; j5 < todos2.length;j5++){
-                                                                                        if(todos4[k].nombre==todos2[j5]._id)
-                                                                                        {   console.log(aa)
-                                                                                                if(aa==1)
-                                                                                                {
-                                                                                                        childrem.push({nivel:todos2[j5].nivel,idrol:todos4[k].idrol,title:todos2[j5].nombre,component: todos2[j5].componente, tabComponent:todos2[j5].tabcomponente,name:todos2[j5].componente,index:todos2[j5].index,icon:todos2[j5].icono,estado:todos2[j5].estado,
-                                                                                                              ingreso:todos4[k].ingreso,  permiso:todos4[k].ingreso+','+todos4[k].consulta+','+todos4[k].eliminacion+','+todos4[k].creacion+','+todos4[k].actualizacion+','+todos4[k].filtro+','+todos4[k].reporte,potros1:todos4[k].potros1,children:childrem2
-                                                                                                              ,pingreso:todos4[k].ingreso ,pconsulta: todos4[k].consulta,peliminacion : todos4[k].eliminacion
-                                                                                                              ,pcreacion: todos4[k].creacion, pactualizacion: todos4[k].actualizacion,pfiltro: todos4[k].filtro
-                                                                                                              ,preporte: todos4[k].reporte})
-
-                                                                                                }
-                                                                                                else{
-                                                                                                        childrem.push({nivel:todos2[j5].nivel,idrol:todos4[k].idrol,title:todos2[j5].nombre,component: todos2[j5].componente, tabComponent:todos2[j5].tabcomponente,name:todos2[j5].componente,index:todos2[j5].index,icon:todos2[j5].icono,estado:todos2[j5].estado,
-                                                                                                                ingreso:todos4[k].ingreso,permiso:todos4[k].ingreso+','+todos4[k].consulta+','+todos4[k].eliminacion+','+todos4[k].creacion+','+todos4[k].actualizacion+','+todos4[k].filtro+','+todos4[k].reporte,potros1:todos4[k].potros1
-                                                                                                                ,pingreso:todos4[k].ingreso ,pconsulta: todos4[k].consulta,peliminacion : todos4[k].eliminacion
-                                                                                                                ,pcreacion: todos4[k].creacion, pactualizacion: todos4[k].actualizacion,pfiltro: todos4[k].filtro
-                                                                                                              ,preporte: todos4[k].reporte  })
-                                                                                                }
-                                                                                             
-                                                                                        }
-                                                                                }
-                                                                        }                                                 
-
-                                                                }   
+                                                                                        if(childrem.length>0)
+                                                                                        {
+                                                                                        myData.push({nivel:todos2[j].nivel, idrol:todos[i].idrol,title:todos2[j].nombre,component: todos2[j].componente, tabComponent:todos2[j].tabcomponente,name:todos2[j].componente,index:todos2[j].index,icon:todos2[j].icono,estado:todos2[j].estado,
+                                                                                                permiso:todos[i].ingreso+','+todos[i].consulta+','+todos[i].eliminacion+','+todos[i].creacion+','+todos[i].actualizacion+','+todos[i].filtro+','+todos[i].reporte,children:childrem});
                                                         
-
-                                                                if(childrem.length>0)
-                                                                {
-                                                                myData.push({nivel:todos2[j].nivel, idrol:todos[i].idrol,title:todos2[j].nombre,component: todos2[j].componente, tabComponent:todos2[j].tabcomponente,name:todos2[j].componente,index:todos2[j].index,icon:todos2[j].icono,estado:todos2[j].estado,
-                                                                      ingreso:todos[i].ingreso,  permiso:todos[i].ingreso+','+todos[i].consulta+','+todos[i].eliminacion+','+todos[i].creacion+','+todos[i].actualizacion+','+todos[i].filtro+','+todos[i].reporte,children:childrem
-                                                                      ,pingreso:todos[i].ingreso ,pconsulta: todos[i].consulta,peliminacion : todos[i].eliminacion
-                                                                      ,pcreacion: todos[i].creacion, pactualizacion: todos[i].actualizacion,pfiltro: todos[i].filtro
-                                                                                                              ,preporte: todos[i].reporte});
-                                
-
-                                                                }
-                                                                else
-                                                                {
-                                                                myData.push({nivel:todos2[j].nivel,idrol:todos[i].idrol,title:todos2[j].nombre,component: todos2[j].componente, tabComponent:todos2[j].tabcomponente,name:todos2[j].componente,index:todos2[j].index,icon:todos2[j].icono,estado:todos2[j].estado,
-                                                                     ingreso:todos[i].ingreso,   permiso:todos[i].ingreso+','+todos[i].consulta+','+todos[i].eliminacion+','+todos[i].creacion+','+todos[i].actualizacion+','+todos[i].filtro+','+todos[i].reporte
-                                                                     ,pingreso:todos[i].ingreso ,pconsulta: todos[i].consulta,peliminacion : todos[i].eliminacion
-                                                                      ,pcreacion: todos[i].creacion, pactualizacion: todos[i].actualizacion,pfiltro: todos[i].filtro
-                                                                                                              ,preporte: todos[i].reporte});
-                                
-                                                                }
+        
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                        myData.push({nivel:todos2[j].nivel,idrol:todos[i].idrol,title:todos2[j].nombre,component: todos2[j].componente, tabComponent:todos2[j].tabcomponente,name:todos2[j].componente,index:todos2[j].index,icon:todos2[j].icono,estado:todos2[j].estado,
+                                                                                                permiso:todos[i].ingreso+','+todos[i].consulta+','+todos[i].eliminacion+','+todos[i].creacion+','+todos[i].actualizacion+','+todos[i].filtro+','+todos[i].reporte});
+                                                        
+                                                                                        }
+                                                                                        
+                                                                                        break;                
+                                                                                }
+        
+        
+                                                                        }          
                                                                 
-                                                                break;                
-                                                        }
-
-
-                                                }          
-                                        
-                                        
-        
-                                        }
-        
-                                        res.json(myData);
+                                                                
                                 
-
-
-                                
-                        });       
-
+                                                                }
+                            
+                                                                res.json(myData);
+                                                        
+        
+        
+                                                        
+                                                });       
+        
+                                                
+                                                
+                                                }
+                                                else
+                                                {  res.status(500).send('NO EXISTE ROL ASIGNADO');      }
+        
+        
+        
+        
+                                        });         
+                                    });
+        
+                              
                         
                         
                         }
                         else
                         {  res.status(500).send('NO EXISTE ROL ASIGNADO');      }
-
-
-
-
-                });       
-        });       
-                
-                
-                });
-
-        
-
-
-}
-else
-{  res.status(500).send('NO EXISTE ROL ASIGNADO');      }
                         
                     });
                     break;
