@@ -79,10 +79,10 @@ if(req.params.recordID!=='crea')
 }
 else{
 
-    Moduloxx.find({nombre        	: req.body.nombre },function(err, todos) {
+    Moduloxx.find({nombre        	: req.body.nombre ,nivel        	: req.body.nivel },function(err, todos) {
         if (err){ res.send(err); }
        
-        if(todos.length>0)   {    res.status(500).send('Ya existe un modulo con este nombre'); }
+        if(todos.length>0)   {    res.status(500).send('Ya existe un modulo con este nombre y link'); }
         else
         {   
 
