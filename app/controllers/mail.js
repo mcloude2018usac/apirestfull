@@ -87,6 +87,7 @@ exports.getMail = function(req, res, next){
    
     if (err) {
       res.status(500).send('error al enviar correo');
+      console.log(err)
       return
     }
     res.json(data);

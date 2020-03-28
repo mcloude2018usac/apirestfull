@@ -247,28 +247,32 @@ var getasignacalusacrpt = function(req, res, next) {
 }
 
 
-
+//http://127.0.0.1:9090/pivot.html?v1=/api/pivotem1/db1/cursoslibres/1/2/3&v2=classic
 
 var getcursoslibresrpt = function(req, res, next) {
 
-    cursoeve.find({},function(err, todos0) {
+    cursoeve.find({'idtipoevento.codigo':'3'},function(err, todos0) {
+        console.log(todos0)
         if (err){  res.send(err);  }      
-                Participa2.find({},function(err, todos) {
+                Participa2.find({'idtipoevento.id':'3'},function(err, todos) {
+                    console.log(todos)
                         if (err){  res.send(err);  }
                         var resp=[]
                         var tevento=''
                         var ubica=''
                         for(var i = 0; i < todos.length;i++){
+                            
                                 for(var ii = 0; ii < todos0.length;ii++){
                                         if(todos0[ii]._id==todos[i].idevento)
                                         {
-                                           tevento=  todos0[ii].nombre   
-                                           ubica= 'Edificio: '+todos0[ii].edificio + '  Salon: ' +  todos0[ii].salon     
+                                           tevento= todos0[ii].nombre   
+                                   //        ubica= 'Edificio: '+todos0[ii].edificio + '  Salon: ' +  todos0[ii].salon     
                                            break;
                                         }
                                 }        
-                                //resp.push({tipocurso:todos[i].idtipoevento.nombre,area:todos[i].idarea.nombre,curso:tevento,nombre:todos[i].nombre + ' ' +todos[i].apellido,genero:todos[i].genero,correo:todos[i].correo,telefono:todos[i].telefono,edad:todos[i].edad});
-                                resp.push({ubica:ubica,tipocurso:todos[i].idtipoevento.nombre,area:todos[i].idarea.nombre,nombre:tevento,cantidad:1});
+                                
+                           //   resp.push({ubica:ubica,tipocurso:todos[i].idtipoevento.nombre,area:todos[i].idarea.nombre,nombre:tevento,cantidad:1});
+                                 resp.push({curso:tevento,tipocurso:todos[i].idtipoevento.nombre,area:todos[i].idarea.nombre,cantidad:1});
                         }
 
                         let stream = compressor.compressJson(resp);

@@ -124,6 +124,7 @@ function sendEmail(bccAddresses, message, subject, replyToAddresses){
       BccAddresses: bccAddresses
     },
     Message: {
+    
       Body: {
         Html: {
           Charset: CHARSET,
@@ -365,6 +366,7 @@ module.exports = {
     mandacorreoprueba: mandacorreoprueba,
     mandacorreoprueba2: mandacorreoprueba2,
     massMailer: massMailer,
+    sendMails:sendMails,
     mandanoti:mandanoti,
     dasoap:dasoap,
     sendEmail:sendEmail
