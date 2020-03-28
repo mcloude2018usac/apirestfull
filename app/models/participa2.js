@@ -55,4 +55,5 @@ var Participa2Schema = new mongoose.Schema({
     timestamps: true
 });
 
+
 module.exports = mongoose.model('Participa2', Participa2Schema);
