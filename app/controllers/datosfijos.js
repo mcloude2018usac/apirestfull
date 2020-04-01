@@ -12,12 +12,12 @@ var Denunciaunidad = require('../models/denunciaunidad');
 var Participa3 = require('../models/participa3');
 var Participa33 = require('../models/participa33');
 var Unidadplan2 = require('../models/unidadplan2');
-
+var Evento = require('../models/eventos');
 var Empresa = require('../models/empresa');
 var generator = require('generate-password');
 var Bitacora = require('../models/bitacora');
 var mailt = require('../controllers/mailprueba');
-
+var cursoeve=require('../models/aread_evento');
 var Tiposuscriptor = require('../models/tipo_suscriptor');
 var Perfil = require('../models/perfil');
 var Catalogo = require('../models/catalogo');
@@ -400,6 +400,72 @@ exports.getCombofijo = function(req, res, next){
     });
 
                 break;
+
+                case 'participacursos':
+                        //http://127.0.0.1:9090/api/datosfijos/participacursos/mpalaciosgonzalez986@gmail.com
+                        var myData = [];
+                        var teve='';
+                        var tfecha='';
+                        var thora='';
+                       
+                        cursoeve.find({'idtipoevento.codigo':'3'},function(err, todos00) {
+                        Evento.find({_id :{
+                                "$in" : [
+                                    "5e7a6d15187210001ea6e989","5e7a6d9d187210001ea6e98f","5e7a6e16187210001ea6e991"
+                                    ,"5e7a7a64187210001ea6e99d","5e7bcb0e737144004a13630f","5e7a79fc187210001ea6e99b","5e7b9e46cf97ea0029d5aa8c"
+                                ]
+                            }},function(err, todos0) {
+                    
+                        Participa2.find({'idtipoevento.id':'3',correo:req.params.id2},function(err, todos) {
+                               if(todos.length>0)
+                               {    
+                                for (var i = 0; i < todos.length; i++) {
+                                        for (var ii = 0; ii < todos00.length; ii++) {
+                                                if(todos[i].idevento==todos00[ii]._id)
+                                                {
+                                                        teve=todos00[ii].nombre;
+                                                        tfecha=todos00[ii].horario;
+                                                        break;
+                                                }
+                                        }
+                                        myData.push({idcurso:todos[i]._id ,nombre:todos[i].nombre + ' '+todos[i].apellido,curso:teve,tipo:1,fecha:tfecha,hora:''});
+                                }
+                        }
+                                Participa.find({correo:req.params.id2,"idevento" :{
+                                        "$in" : [
+                                            "5e7a6d15187210001ea6e989","5e7a6d9d187210001ea6e98f","5e7a6e16187210001ea6e991"
+                                            ,"5e7a7a64187210001ea6e99d","5e7bcb0e737144004a13630f","5e7a79fc187210001ea6e99b","5e7b9e46cf97ea0029d5aa8c"
+                                        ]
+                                    }},function(err, todos2) {
+                                      if(todos2.length)
+                                      {
+
+                                        for (var i = 0; i < todos2.length; i++) {
+                                              
+                                                for (var ii = 0; ii < todos0.length; ii++) {
+                                                        if(todos2[i].idevento==todos0[ii]._id)
+                                                        {
+                                                                teve=todos0[ii].nombre;
+                                                                tfecha=todos0[ii].fecha;
+                                                                thora=todos0[ii].costo;
+                                                                
+                                                                break;
+                                                        }
+                                                }
+
+                                                myData.push({idcurso:todos2[i]._id ,nombre:todos2[i].nombre+ ' '+todos2[i].apellido,curso:teve,tipo:2,fecha:tfecha,hora:thora});
+                                        }
+                                }
+                                        res.json(myData);   
+
+                                    });
+
+                        });
+                });
+        }); 
+                        break;
+
+
         case 'help':
         Marketemail.find({idempresa:req.params.id3,idcategoria:req.params.id2}).populate('grupo').exec(function(err, todos) {
                 if (err){ res.send(err); }
