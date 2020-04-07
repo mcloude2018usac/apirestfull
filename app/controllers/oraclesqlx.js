@@ -36,6 +36,15 @@ exports.getoraclesqlxx = function(req, res, next){
 
 var qry=''
     switch(req.params.id) {
+
+        case 'dameta':
+            qry=" select INDICADOR.id_indicador, INDICADOR.nombre, INDICADOR.descripcion from PGG_META_X_INDICADOR, INDICADOR where PGG_META_X_INDICADOR.id_meta = " + req.params.id2 + "  and PGG_META_X_INDICADOR.id_indicador = INDICADOR.id_indicador "
+           
+           break;
+
+        
+
+
         case 'pggpoliticapublica':
                 qry="select *  from pgg_politica_publica  where id_politica=" + req.params.id2 + " and id_area=" + req.params.id3
                
@@ -70,7 +79,9 @@ case 'pggarea':
     
 
 case 'pggareaindicador':
-    qry="   select indicador.id_indicador as codigo,       indicador.nombre  || '  (' ||decode( PGG_AREA_X_INDICADOR.ESTADO,1,'✓',0,'✗') || ')' nombre,      PGG_AREA_X_INDICADOR.ESTADO,       nvl(problematica.nombre,' ') as problematica from pgg_area,      pgg_area_x_indicador,     indicador      left join indicador_x_problematica on indicador.id_indicador = indicador_x_problematica.id_indicador       left join problematica on problematica.id_problematica = indicador_x_problematica.id_problematica  where pgg_area.id_area = pgg_area_x_indicador.id_area and pgg_area_x_indicador.id_indicador = indicador.id_indicador and pgg_area.id_politica=" + req.params.id2 + " and pgg_area.id_area=" + req.params.id3 + " order by pgg_area.codigo, indicador.codigo  ,PGG_AREA_X_INDICADOR.ESTADO desc"
+    qry="   select indicador.id_indicador as codigo,    pgg_meta.descripcion  || '  (' ||decode( PGG_AREA_X_INDICADOR.ESTADO,1,'✓',0,'✗') || ')' nombre,    PGG_AREA_X_INDICADOR.ESTADO,    nvl(problematica.nombre,' ') as problematica from pgg_area,   pgg_meta,   pgg_area_x_indicador,   pgg_meta_x_indicador,   indicador left join indicador_x_problematica on indicador.id_indicador = indicador_x_problematica.id_indicador             left join problematica on problematica.id_problematica = indicador_x_problematica.id_problematica where pgg_area.id_area = pgg_meta.id_area_des and pgg_area.id_area = pgg_area_x_indicador.id_area and pgg_meta.id_meta = pgg_meta_x_indicador.id_meta and pgg_area_x_indicador.id_indicador = indicador.id_indicador and pgg_meta_x_indicador.id_indicador = indicador.id_indicador and pgg_area.id_politica=" + req.params.id2 + " and pgg_area.id_area=" + req.params.id3 + " order by pgg_area.codigo, indicador.codigo, PGG_AREA_X_INDICADOR.ESTADO desc"
+
+//    qry="   select indicador.id_indicador as codigo,       indicador.nombre  || '  (' ||decode( PGG_AREA_X_INDICADOR.ESTADO,1,'✓',0,'✗') || ')' nombre,      PGG_AREA_X_INDICADOR.ESTADO,       nvl(problematica.nombre,' ') as problematica from pgg_area,      pgg_area_x_indicador,     indicador      left join indicador_x_problematica on indicador.id_indicador = indicador_x_problematica.id_indicador       left join problematica on problematica.id_problematica = indicador_x_problematica.id_problematica  where pgg_area.id_area = pgg_area_x_indicador.id_area and pgg_area_x_indicador.id_indicador = indicador.id_indicador and pgg_area.id_politica=" + req.params.id2 + " and pgg_area.id_area=" + req.params.id3 + " order by pgg_area.codigo, indicador.codigo  ,PGG_AREA_X_INDICADOR.ESTADO desc"
  
     break;
     
@@ -129,9 +140,8 @@ break;
         break;
         case 'tipoagrupaciones':
                
-                qry=' select TIPO_AGRUPACION.id_tipo_agrupacion codigo, TIPO_AGRUPACION.nombre  from INDICADOR_X_TER_AGR, TIPO_AGRUPACION   where INDICADOR_X_TER_AGR.id_indicador =  ' +req.params.id2 + '     and INDICADOR_X_TER_AGR.id_tipo_agrupacion = TIPO_AGRUPACION.id_tipo_agrupacion            and INDICADOR_X_TER_AGR.id_nivel_ter =  ' +req.params.id3 + '               order by 1 '
-
-             
+                qry="  select INDICADOR_X_TER_AGR.id_tipo_agrupacion codigo,   TIPO_AGRUPACION.nombre || (case when TIPO_AGRUPACION.id_tipo_agrupacion = 1   then (select ' ' || NIVEL_TERRITORIAL.cobertura from NIVEL_TERRITORIAL where NIVEL_TERRITORIAL.id_nivel_ter = INDICADOR_X_TER_AGR.id_nivel_ter) else NULL end) nombre from INDICADOR_X_TER_AGR, TIPO_AGRUPACION          where INDICADOR_X_TER_AGR.id_indicador = " +req.params.id2 + "            and INDICADOR_X_TER_AGR.id_nivel_ter =  " +req.params.id3 + "            and INDICADOR_X_TER_AGR.id_tipo_agrupacion = TIPO_AGRUPACION.id_tipo_agrupacion         order by 1 "
+                
 
 
 
@@ -160,19 +170,18 @@ break;
         break;
         
         case 'datosgrafica':
-          //  console.log(req.params)
-       
-         
-             qry="   SELECT ( case when SERIE.titulo is NULL then AGRUPACION.nombre else   SERIE.titulo end) nombre,  SERIE.ID_SERIE,  SERIE.ID_MARCO,  NVL(SERIE.ID_INDICADOR_CTRL, -1) indicador2,    SERIE.ES_PORCENTAJE,  SERIE.DECIMALES,  DATO_SERIE.VALOR,   DATO_SERIE.ETIQUETA_FECHA FROM SERIE,  TIPO_SERIE,  AGRUPACION,  DATO_SERIE WHERE SERIE.ID_TIPO_SERIE    = TIPO_SERIE.ID_TIPO_SERIE AND SERIE.ID_AGRUPACION      = AGRUPACION.ID_AGRUPACION AND DATO_SERIE.ID_SERIE      = SERIE.ID_SERIE AND (SERIE.ID_MARCO          = 0 OR SERIE.ID_MARCO            = 4) AND SERIE.ID_INDICADOR       = " + req.params.id2  + " AND SERIE.ID_NIVEL_TER       = " + req.params.id3 + " AND SERIE.ID_TERRITORIO      = " + req.params.id4  + " AND SERIE.ID_TIPO_AGRUPACION = " + req.params.id5 + "  order by 1 asc"
-
-            console.log(qry)
-
-          
-
-          
-
-
+             qry=" select (case when SERIE.titulo is NULL  then AGRUPACION.nombre||(case when TIPO_AGRUPACION.id_tipo_agrupacion = " + req.params.id5 + "        then (select ' '||NIVEL_TERRITORIAL.cobertura                                                       from NIVEL_TERRITORIAL                                                      where NIVEL_TERRITORIAL.id_nivel_ter = TERRITORIO.id_nivel_ter                                                    )                                               else NULL                                               end                                         )                 else SERIE.titulo                 end           ) nombre_serie,           SERIE.id_serie, SERIE.id_marco, SERIE.es_porcentaje, SERIE.decimales,           DATO_SERIE.id_dato_serie, DATO_SERIE.fecha,           (case when LINEA_BASE.id_marco is NULL then DATO_SERIE.etiqueta_fecha else DATO_SERIE.etiqueta_fecha||' (Línea Base)' end) etiqueta_fecha,           DATO_SERIE.valor,             (case when TIPO_DATO_SERIE.id_tipo_dato_serie = 1 then NULL else TIPO_DATO_SERIE.nombre end) tipo_dato      from SERIE, TERRITORIO, AGRUPACION, TIPO_AGRUPACION,           DATO_SERIE left join LINEA_BASE on DATO_SERIE.id_dato_serie = LINEA_BASE.id_dato_serie                                          and LINEA_BASE.id_marco = 4, /*<MARCO>*/           TIPO_DATO_SERIE     where SERIE.id_indicador = " + req.params.id2  + "       and (SERIE.id_marco = 0 /* historico */            or SERIE.id_marco = 4 /*<MARCO>*/           )         and SERIE.id_territorio = TERRITORIO.id_territorio         and TERRITORIO.id_territorio = " + req.params.id4  + "       and SERIE.id_agrupacion = AGRUPACION.id_agrupacion       and AGRUPACION.id_tipo_agrupacion in ( " + req.params.id5 + ")          and AGRUPACION.id_tipo_agrupacion = TIPO_AGRUPACION.id_tipo_agrupacion         and DATO_SERIE.id_serie = SERIE.id_serie       and DATO_SERIE.id_tipo_dato_serie = TIPO_DATO_SERIE.id_tipo_dato_serie    order by SERIE.id_serie, DATO_SERIE.fecha    "
         break;
+        case 'datosgraficabarra':
+            qry="   select TERRITORIO.id_territorio, TERRITORIO.nombre ETIQUETA_FECHA,            (case when SERIE.titulo is NULL                    then AGRUPACION.nombre||(case when TIPO_AGRUPACION.id_tipo_agrupacion = " + req.params.id5 + "                                                 then (select ' '||NIVEL_TERRITORIAL.cobertura                                                         from NIVEL_TERRITORIAL                                                        where NIVEL_TERRITORIAL.id_nivel_ter = TERRITORIO.id_nivel_ter                                                       )                                                 else NULL                                                 end                                           )                   else SERIE.titulo                   end             ) nombre_serie,             SERIE.id_serie, SERIE.id_marco, SERIE.es_porcentaje, SERIE.decimales,             DATO_SERIE.id_dato_serie, DATO_SERIE.fecha,             (case when LINEA_BASE.id_marco is NULL then DATO_SERIE.etiqueta_fecha else                  DATO_SERIE.etiqueta_fecha||' (Línea Base)' end) EJE_X,             DATO_SERIE.valor,               (case when TIPO_DATO_SERIE.id_tipo_dato_serie = 1 then NULL else TIPO_DATO_SERIE.nombre end) tipo_dato        from SERIE, TERRITORIO, AGRUPACION, TIPO_AGRUPACION,             DATO_SERIE left join LINEA_BASE on DATO_SERIE.id_dato_serie = LINEA_BASE.id_dato_serie                                             and LINEA_BASE.id_marco = 4, /*<IMARCO>*/             TIPO_DATO_SERIE       where SERIE.id_indicador = " + req.params.id2  + " /*<IND>*/         and (SERIE.id_marco = 0 /* historico */              or SERIE.id_marco = 4 /*<MARCO>*/             )           and SERIE.id_territorio = TERRITORIO.id_territorio           and TERRITORIO.id_nivel_ter = " + req.params.id3 + " /*<NTER>*/         and SERIE.id_agrupacion = AGRUPACION.id_agrupacion         and AGRUPACION.id_tipo_agrupacion in (" + req.params.id5 + ") /*<TAGR>*/           and AGRUPACION.id_tipo_agrupacion = TIPO_AGRUPACION.id_tipo_agrupacion           and DATO_SERIE.id_serie = SERIE.id_serie         and DATO_SERIE.id_tipo_dato_serie = TIPO_DATO_SERIE.id_tipo_dato_serie         and extract(year from DATO_SERIE.fecha) =    "+ req.params.id4
+     
+     console.log(qry)
+            
+     
+     
+     
+            break;
+
         case 'indicadorpolitica':
                 qry= ' select Id_politica codigo,nombre  from PGG_POLITICA  ' 
 
@@ -351,6 +360,18 @@ break;
                             break;
                 
                             
+                            case 'dameta':
+                                var myData = [];
+                                //  console.log(result.rows)
+                                  for(var i = 0; i < result.rows.length;i++){
+                                      myData.push({codigo:result.rows[i].ID_INDICADOR,nombre:result.rows[i].NOMBRE,descripcion:result.rows[i].DESCRIPCION})
+                                  }
+                                  res.json(myData);
+          
+          
+                                  break;
+          
+
 
                 case 'ind1m':
                         var myData = [];
@@ -889,6 +910,8 @@ break;
 
 
                    break;   
+
+                   
                 case 'datosgrafica':
                         var myData = [];
                         var myData2 = [];
@@ -912,11 +935,11 @@ break;
                        myData=removeDups(myData);
                        myData.sort()
                         for(var i = 0; i <myData.length;i++){    myData3.push(null)      }
-                        var grupo=result.rows[0].NOMBRE
+                        var grupo=result.rows[0].NOMBRE_SERIE
                         var ncolor=0;
                         var j=0;
                         for(var i = 0; i < result.rows.length;i++){
-                            if(grupo==result.rows[i].NOMBRE)     {   
+                            if(grupo==result.rows[i].NOMBRE_SERIE)     {   
                                 for(var r = 0; r < myData.length;r++){
                                     if(myData[r]==result.rows[i].ETIQUETA_FECHA)
                                     {
@@ -946,7 +969,7 @@ break;
                                     for(var ii = 0; ii <  myData.length;ii++){
                                         myData3.push(null)
                                     }
-                                    grupo=result.rows[i].NOMBRE
+                                    grupo=result.rows[i].NOMBRE_SERIE
 
                                     for(var r = 0; r < myData.length;r++){
                                         if(myData[r]==result.rows[i].ETIQUETA_FECHA)
@@ -984,6 +1007,106 @@ break;
                         res.json({etiquetas:myData,dataset:myData2,indicador2:indicador2,es_porc:es_por});
                         }
                 break;
+                case 'datosgraficabarra':
+                    var myData = [];
+                    var myDatat = [];
+                    var myData2 = [];
+                    var myData3 = [];
+                    var arre=['blue','red','red','purple','violet','turquoise']    
+                    //etiquetas
+                    var indicador2=''
+                    var es_por=0
+                    if(result.rows.length==0)
+                    {
+                        res.json({etiquetas:[],dataset:[]});
+                    }
+                    else
+                    {
+
+                    indicador2=result.rows[0].INDICADOR2
+                    es_por=result.rows[0].ES_PORCENTAJE
+                    for(var i = 0; i < result.rows.length;i++){ 
+                         myData.push(result.rows[i].ETIQUETA_FECHA)
+                         myDatat.push(result.rows[i].ID_TERRITORIO+ '°' +result.rows[i].ETIQUETA_FECHA)
+                        }
+                       // console.log(myData)
+
+                   myData=removeDups(myData);
+                   myDatat=removeDups(myDatat);
+                   myData.sort()
+                    for(var i = 0; i <myData.length;i++){    myData3.push(null)      }
+                    var grupo=result.rows[0].EJE_X
+                    var ncolor=0;
+                    var j=0;
+                    for(var i = 0; i < result.rows.length;i++){
+                        if(grupo==result.rows[i].EJE_X)     {   
+                            for(var r = 0; r < myData.length;r++){
+                                if(myData[r]==result.rows[i].ETIQUETA_FECHA)
+                                {
+                                    myData3[r]=parseFloat(result.rows[i].VALOR).toFixed(1);      
+
+                                }
+                            }
+
+                              
+                            
+                            }
+                        else{
+
+                            if(req.params.id6=='line' || req.params.id6=='radar' || req.params.id6=='polarArea')
+                            {
+                                myData2.push({ label: grupo,   data: myData3, backgroundColor:'rgba(0,0,0,0)',  borderColor: arre[ncolor], borderWidth: 1  });
+                      
+                            }
+                            else{
+                                myData2.push({ label: grupo,   data: myData3, backgroundColor:arre[ncolor],  borderColor: arre[ncolor], borderWidth: 1  });
+                      
+                            }
+
+                                 ncolor=ncolor+1;
+                                 myData3 = [];
+                                j=0;
+                                for(var ii = 0; ii <  myData.length;ii++){
+                                    myData3.push(null)
+                                }
+                                grupo=result.rows[i].EJE_X
+
+                                for(var r = 0; r < myData.length;r++){
+                                    if(myData[r]==result.rows[i].ETIQUETA_FECHA)
+                                    {
+                                        myData3[r]=parseFloat(result.rows[i].VALOR).toFixed(1);   
+
+                                    }
+                                }
+
+                            
+                            //    myData3[j]=result.rows[i].VALOR
+                            //    j=j+1;
+                           
+                               
+                        }
+                       
+
+
+                    }
+
+                    
+                    if(req.params.id6=='line' || req.params.id6=='radar' || req.params.id6=='polarArea' )
+                    {
+                        myData2.push({ label: grupo,  data: myData3, backgroundColor:'rgba(0,0,0,0)',  borderColor: arre[ncolor], borderWidth: 1  });
+              
+                    }
+                    else{
+                        myData2.push({ label: grupo,  data: myData3, backgroundColor:arre[ncolor],  borderColor: arre[ncolor], borderWidth: 1  });
+              
+                    }
+
+
+                 
+//console.log({etiquetas:myData,dataset:myData2,indicador2:indicador2})
+                    res.json({etiquetas:myData,dataset:myData2,indicador2:indicador2,es_porc:es_por,territorios:myDatat});
+                    }
+            break;
                 case 'datosgrafica2':
                         var myData = [];
                         var myData2 = [];
