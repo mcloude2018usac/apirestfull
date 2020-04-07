@@ -39,7 +39,7 @@ var qry=''
 
         case 'dameta':
             qry=" select INDICADOR.id_indicador, INDICADOR.nombre, INDICADOR.descripcion from PGG_META_X_INDICADOR, INDICADOR where PGG_META_X_INDICADOR.id_meta = " + req.params.id2 + "  and PGG_META_X_INDICADOR.id_indicador = INDICADOR.id_indicador "
-           
+           console.log(qry)
            break;
 
         
@@ -79,8 +79,8 @@ case 'pggarea':
     
 
 case 'pggareaindicador':
-    qry="   select indicador.id_indicador as codigo,    pgg_meta.descripcion  || '  (' ||decode( PGG_AREA_X_INDICADOR.ESTADO,1,'✓',0,'✗') || ')' nombre,    PGG_AREA_X_INDICADOR.ESTADO,    nvl(problematica.nombre,' ') as problematica from pgg_area,   pgg_meta,   pgg_area_x_indicador,   pgg_meta_x_indicador,   indicador left join indicador_x_problematica on indicador.id_indicador = indicador_x_problematica.id_indicador             left join problematica on problematica.id_problematica = indicador_x_problematica.id_problematica where pgg_area.id_area = pgg_meta.id_area_des and pgg_area.id_area = pgg_area_x_indicador.id_area and pgg_meta.id_meta = pgg_meta_x_indicador.id_meta and pgg_area_x_indicador.id_indicador = indicador.id_indicador and pgg_meta_x_indicador.id_indicador = indicador.id_indicador and pgg_area.id_politica=" + req.params.id2 + " and pgg_area.id_area=" + req.params.id3 + " order by pgg_area.codigo, indicador.codigo, PGG_AREA_X_INDICADOR.ESTADO desc"
-
+    qry="   select pgg_meta_x_indicador.id_meta , indicador.id_indicador as codigo,    pgg_meta.descripcion  || '  (' ||decode( PGG_AREA_X_INDICADOR.ESTADO,1,'✓',0,'✗') || ')' nombre,    PGG_AREA_X_INDICADOR.ESTADO,    nvl(problematica.nombre,' ') as problematica from pgg_area,   pgg_meta,   pgg_area_x_indicador,   pgg_meta_x_indicador,   indicador left join indicador_x_problematica on indicador.id_indicador = indicador_x_problematica.id_indicador             left join problematica on problematica.id_problematica = indicador_x_problematica.id_problematica where pgg_area.id_area = pgg_meta.id_area_des and pgg_area.id_area = pgg_area_x_indicador.id_area and pgg_meta.id_meta = pgg_meta_x_indicador.id_meta and pgg_area_x_indicador.id_indicador = indicador.id_indicador and pgg_meta_x_indicador.id_indicador = indicador.id_indicador and pgg_area.id_politica=" + req.params.id2 + " and pgg_area.id_area=" + req.params.id3 + " order by pgg_area.codigo, indicador.codigo, PGG_AREA_X_INDICADOR.ESTADO desc"
+console.log(qry)
 //    qry="   select indicador.id_indicador as codigo,       indicador.nombre  || '  (' ||decode( PGG_AREA_X_INDICADOR.ESTADO,1,'✓',0,'✗') || ')' nombre,      PGG_AREA_X_INDICADOR.ESTADO,       nvl(problematica.nombre,' ') as problematica from pgg_area,      pgg_area_x_indicador,     indicador      left join indicador_x_problematica on indicador.id_indicador = indicador_x_problematica.id_indicador       left join problematica on problematica.id_problematica = indicador_x_problematica.id_problematica  where pgg_area.id_area = pgg_area_x_indicador.id_area and pgg_area_x_indicador.id_indicador = indicador.id_indicador and pgg_area.id_politica=" + req.params.id2 + " and pgg_area.id_area=" + req.params.id3 + " order by pgg_area.codigo, indicador.codigo  ,PGG_AREA_X_INDICADOR.ESTADO desc"
  
     break;
@@ -152,7 +152,7 @@ break;
 
 
                 qry='select  id_territorio as codigo,nombre  from Territorio  where Id_NIVEL_TER=' + req.params.id2 + ' order by 1'
-                
+                console.log(qry)
         break;
         case 'agrupaciones':
               
@@ -353,7 +353,7 @@ break;
                 case 'pggareaindicador':
                         var myData = [];
                         for(var i = 0; i < result.rows.length;i++){
-                            myData.push({idarea:result.rows[i].ID_AREA,codigo:result.rows[i].CODIGO + '°' + result.rows[i].PROBLEMATICA,nombre:result.rows[i].NOMBRE,estado:result.rows[i].ESTADO,problematica:result.rows[i].PROBLEMATICA})
+                            myData.push({idmeta:result.rows[i].ID_META,idarea:result.rows[i].ID_AREA,codigo:result.rows[i].CODIGO + '°' + result.rows[i].PROBLEMATICA+'°'+result.rows[i].ID_META,nombre:result.rows[i].NOMBRE,estado:result.rows[i].ESTADO,problematica:result.rows[i].PROBLEMATICA})
                         }
                         res.json(myData);
 
