@@ -36,6 +36,15 @@ exports.getoraclesqlxx = function(req, res, next){
 
 var qry=''
     switch(req.params.id) {
+        case 'daano':
+            qry=" select distinct extract(year from DATO_SERIE.fecha) ano   from SERIE, DATO_SERIE, TERRITORIO, AGRUPACION  where SERIE.id_serie = DATO_SERIE.id_serie            and SERIE.id_indicador = " + req.params.id2 + "               and SERIE.id_marco = 0 /* historico */              and SERIE.id_territorio = TERRITORIO.id_territorio                and TERRITORIO.id_nivel_ter in (" + req.params.id3 + " )  /*<NTER>*/              and SERIE.id_agrupacion = AGRUPACION.id_agrupacion order by 1 desc"
+           console.log(qry)
+           break;
+
+        
+
+        
+
 
         case 'dameta':
             qry=" select INDICADOR.id_indicador, INDICADOR.nombre, INDICADOR.descripcion from PGG_META_X_INDICADOR, INDICADOR where PGG_META_X_INDICADOR.id_meta = " + req.params.id2 + "  and PGG_META_X_INDICADOR.id_indicador = INDICADOR.id_indicador "
@@ -79,7 +88,7 @@ case 'pggarea':
     
 
 case 'pggareaindicador':
-    qry="   select pgg_meta_x_indicador.id_meta , indicador.id_indicador as codigo,    pgg_meta.descripcion  || '  (' ||decode( PGG_AREA_X_INDICADOR.ESTADO,1,'✓',0,'✗') || ')' nombre,    PGG_AREA_X_INDICADOR.ESTADO,    nvl(problematica.nombre,' ') as problematica from pgg_area,   pgg_meta,   pgg_area_x_indicador,   pgg_meta_x_indicador,   indicador left join indicador_x_problematica on indicador.id_indicador = indicador_x_problematica.id_indicador             left join problematica on problematica.id_problematica = indicador_x_problematica.id_problematica where pgg_area.id_area = pgg_meta.id_area_des and pgg_area.id_area = pgg_area_x_indicador.id_area and pgg_meta.id_meta = pgg_meta_x_indicador.id_meta and pgg_area_x_indicador.id_indicador = indicador.id_indicador and pgg_meta_x_indicador.id_indicador = indicador.id_indicador and pgg_area.id_politica=" + req.params.id2 + " and pgg_area.id_area=" + req.params.id3 + " order by pgg_area.codigo, indicador.codigo, PGG_AREA_X_INDICADOR.ESTADO desc"
+    qry="   select pgg_meta_x_indicador.id_meta , indicador.id_indicador as codigo,    pgg_meta.descripcion   ||decode( PGG_AREA_X_INDICADOR.ESTADO,1,'',0,'') nombre,    PGG_AREA_X_INDICADOR.ESTADO,    nvl(problematica.nombre,' ') as problematica from pgg_area,   pgg_meta,   pgg_area_x_indicador,   pgg_meta_x_indicador,   indicador left join indicador_x_problematica on indicador.id_indicador = indicador_x_problematica.id_indicador             left join problematica on problematica.id_problematica = indicador_x_problematica.id_problematica where pgg_area.id_area = pgg_meta.id_area_des and pgg_area.id_area = pgg_area_x_indicador.id_area and pgg_meta.id_meta = pgg_meta_x_indicador.id_meta and pgg_area_x_indicador.id_indicador = indicador.id_indicador and pgg_meta_x_indicador.id_indicador = indicador.id_indicador and pgg_area.id_politica=" + req.params.id2 + " and pgg_area.id_area=" + req.params.id3 + " order by pgg_area.codigo, indicador.codigo, PGG_AREA_X_INDICADOR.ESTADO desc"
 console.log(qry)
 //    qry="   select indicador.id_indicador as codigo,       indicador.nombre  || '  (' ||decode( PGG_AREA_X_INDICADOR.ESTADO,1,'✓',0,'✗') || ')' nombre,      PGG_AREA_X_INDICADOR.ESTADO,       nvl(problematica.nombre,' ') as problematica from pgg_area,      pgg_area_x_indicador,     indicador      left join indicador_x_problematica on indicador.id_indicador = indicador_x_problematica.id_indicador       left join problematica on problematica.id_problematica = indicador_x_problematica.id_problematica  where pgg_area.id_area = pgg_area_x_indicador.id_area and pgg_area_x_indicador.id_indicador = indicador.id_indicador and pgg_area.id_politica=" + req.params.id2 + " and pgg_area.id_area=" + req.params.id3 + " order by pgg_area.codigo, indicador.codigo  ,PGG_AREA_X_INDICADOR.ESTADO desc"
  
@@ -152,7 +161,7 @@ break;
 
 
                 qry='select  id_territorio as codigo,nombre  from Territorio  where Id_NIVEL_TER=' + req.params.id2 + ' order by 1'
-                console.log(qry)
+          //      console.log(qry)
         break;
         case 'agrupaciones':
               
@@ -170,12 +179,13 @@ break;
         break;
         
         case 'datosgrafica':
-             qry=" select (case when SERIE.titulo is NULL  then AGRUPACION.nombre||(case when TIPO_AGRUPACION.id_tipo_agrupacion = " + req.params.id5 + "        then (select ' '||NIVEL_TERRITORIAL.cobertura                                                       from NIVEL_TERRITORIAL                                                      where NIVEL_TERRITORIAL.id_nivel_ter = TERRITORIO.id_nivel_ter                                                    )                                               else NULL                                               end                                         )                 else SERIE.titulo                 end           ) nombre_serie,           SERIE.id_serie, SERIE.id_marco, SERIE.es_porcentaje, SERIE.decimales,           DATO_SERIE.id_dato_serie, DATO_SERIE.fecha,           (case when LINEA_BASE.id_marco is NULL then DATO_SERIE.etiqueta_fecha else DATO_SERIE.etiqueta_fecha||' (Línea Base)' end) etiqueta_fecha,           DATO_SERIE.valor,             (case when TIPO_DATO_SERIE.id_tipo_dato_serie = 1 then NULL else TIPO_DATO_SERIE.nombre end) tipo_dato      from SERIE, TERRITORIO, AGRUPACION, TIPO_AGRUPACION,           DATO_SERIE left join LINEA_BASE on DATO_SERIE.id_dato_serie = LINEA_BASE.id_dato_serie                                          and LINEA_BASE.id_marco = 4, /*<MARCO>*/           TIPO_DATO_SERIE     where SERIE.id_indicador = " + req.params.id2  + "       and (SERIE.id_marco = 0 /* historico */            or SERIE.id_marco = 4 /*<MARCO>*/           )         and SERIE.id_territorio = TERRITORIO.id_territorio         and TERRITORIO.id_territorio = " + req.params.id4  + "       and SERIE.id_agrupacion = AGRUPACION.id_agrupacion       and AGRUPACION.id_tipo_agrupacion in ( " + req.params.id5 + ")          and AGRUPACION.id_tipo_agrupacion = TIPO_AGRUPACION.id_tipo_agrupacion         and DATO_SERIE.id_serie = SERIE.id_serie       and DATO_SERIE.id_tipo_dato_serie = TIPO_DATO_SERIE.id_tipo_dato_serie    order by SERIE.id_serie, DATO_SERIE.fecha    "
-        break;
+             qry=" select (case when SERIE.titulo is NULL  then AGRUPACION.nombre||(case when TIPO_AGRUPACION.id_tipo_agrupacion = 1        then (select ' '||NIVEL_TERRITORIAL.cobertura                                                       from NIVEL_TERRITORIAL                                                      where NIVEL_TERRITORIAL.id_nivel_ter = TERRITORIO.id_nivel_ter                                                    )                                               else NULL                                               end                                         )                 else SERIE.titulo                 end           ) nombre_serie,           SERIE.id_serie, SERIE.id_marco, SERIE.es_porcentaje, SERIE.decimales,           DATO_SERIE.id_dato_serie, DATO_SERIE.fecha,           (case when LINEA_BASE.id_marco is NULL then DATO_SERIE.etiqueta_fecha else DATO_SERIE.etiqueta_fecha||'-Base' end) etiqueta_fecha,           DATO_SERIE.valor,             (case when TIPO_DATO_SERIE.id_tipo_dato_serie = 1 then NULL else TIPO_DATO_SERIE.nombre end) tipo_dato      from SERIE, TERRITORIO, AGRUPACION, TIPO_AGRUPACION,           DATO_SERIE left join LINEA_BASE on DATO_SERIE.id_dato_serie = LINEA_BASE.id_dato_serie                                          and LINEA_BASE.id_marco = 4, /*<MARCO>*/           TIPO_DATO_SERIE     where SERIE.id_indicador = " + req.params.id2  + "       and (SERIE.id_marco = 0 /* historico */            or SERIE.id_marco = 4 /*<MARCO>*/           )         and SERIE.id_territorio = TERRITORIO.id_territorio         and TERRITORIO.id_territorio = " + req.params.id4  + "       and SERIE.id_agrupacion = AGRUPACION.id_agrupacion       and AGRUPACION.id_tipo_agrupacion in ( " + req.params.id5 + ")          and AGRUPACION.id_tipo_agrupacion = TIPO_AGRUPACION.id_tipo_agrupacion         and DATO_SERIE.id_serie = SERIE.id_serie       and DATO_SERIE.id_tipo_dato_serie = TIPO_DATO_SERIE.id_tipo_dato_serie    order by SERIE.id_serie, DATO_SERIE.fecha    "
+            // console.log(qry)
+             break;
         case 'datosgraficabarra':
-            qry="   select TERRITORIO.id_territorio, TERRITORIO.nombre ETIQUETA_FECHA,            (case when SERIE.titulo is NULL                    then AGRUPACION.nombre||(case when TIPO_AGRUPACION.id_tipo_agrupacion = " + req.params.id5 + "                                                 then (select ' '||NIVEL_TERRITORIAL.cobertura                                                         from NIVEL_TERRITORIAL                                                        where NIVEL_TERRITORIAL.id_nivel_ter = TERRITORIO.id_nivel_ter                                                       )                                                 else NULL                                                 end                                           )                   else SERIE.titulo                   end             ) nombre_serie,             SERIE.id_serie, SERIE.id_marco, SERIE.es_porcentaje, SERIE.decimales,             DATO_SERIE.id_dato_serie, DATO_SERIE.fecha,             (case when LINEA_BASE.id_marco is NULL then DATO_SERIE.etiqueta_fecha else                  DATO_SERIE.etiqueta_fecha||' (Línea Base)' end) EJE_X,             DATO_SERIE.valor,               (case when TIPO_DATO_SERIE.id_tipo_dato_serie = 1 then NULL else TIPO_DATO_SERIE.nombre end) tipo_dato        from SERIE, TERRITORIO, AGRUPACION, TIPO_AGRUPACION,             DATO_SERIE left join LINEA_BASE on DATO_SERIE.id_dato_serie = LINEA_BASE.id_dato_serie                                             and LINEA_BASE.id_marco = 4, /*<IMARCO>*/             TIPO_DATO_SERIE       where SERIE.id_indicador = " + req.params.id2  + " /*<IND>*/         and (SERIE.id_marco = 0 /* historico */              or SERIE.id_marco = 4 /*<MARCO>*/             )           and SERIE.id_territorio = TERRITORIO.id_territorio           and TERRITORIO.id_nivel_ter = " + req.params.id3 + " /*<NTER>*/         and SERIE.id_agrupacion = AGRUPACION.id_agrupacion         and AGRUPACION.id_tipo_agrupacion in (" + req.params.id5 + ") /*<TAGR>*/           and AGRUPACION.id_tipo_agrupacion = TIPO_AGRUPACION.id_tipo_agrupacion           and DATO_SERIE.id_serie = SERIE.id_serie         and DATO_SERIE.id_tipo_dato_serie = TIPO_DATO_SERIE.id_tipo_dato_serie         and extract(year from DATO_SERIE.fecha) =    "+ req.params.id4
+            qry="   select TERRITORIO.id_territorio, TERRITORIO.nombre ETIQUETA_FECHA,            (case when SERIE.titulo is NULL                    then AGRUPACION.nombre||(case when TIPO_AGRUPACION.id_tipo_agrupacion = " + req.params.id5 + "                                                 then (select ' '||NIVEL_TERRITORIAL.cobertura                                                         from NIVEL_TERRITORIAL                                                        where NIVEL_TERRITORIAL.id_nivel_ter = TERRITORIO.id_nivel_ter                                                       )                                                 else NULL                                                 end                                           )                   else SERIE.titulo                   end             ) nombre_serie,             SERIE.id_serie, SERIE.id_marco, SERIE.es_porcentaje, SERIE.decimales,             DATO_SERIE.id_dato_serie, DATO_SERIE.fecha,             (case when LINEA_BASE.id_marco is NULL then DATO_SERIE.etiqueta_fecha else                  DATO_SERIE.etiqueta_fecha||'-Base' end) EJE_X,             DATO_SERIE.valor,               (case when TIPO_DATO_SERIE.id_tipo_dato_serie = 1 then NULL else TIPO_DATO_SERIE.nombre end) tipo_dato        from SERIE, TERRITORIO, AGRUPACION, TIPO_AGRUPACION,             DATO_SERIE left join LINEA_BASE on DATO_SERIE.id_dato_serie = LINEA_BASE.id_dato_serie                                             and LINEA_BASE.id_marco = 4, /*<IMARCO>*/             TIPO_DATO_SERIE       where SERIE.id_indicador = " + req.params.id2  + " /*<IND>*/         and (SERIE.id_marco = 0 /* historico */              or SERIE.id_marco = 4 /*<MARCO>*/             )           and SERIE.id_territorio = TERRITORIO.id_territorio           and TERRITORIO.id_nivel_ter = " + req.params.id3 + " /*<NTER>*/         and SERIE.id_agrupacion = AGRUPACION.id_agrupacion         and AGRUPACION.id_tipo_agrupacion in (" + req.params.id5 + ") /*<TAGR>*/           and AGRUPACION.id_tipo_agrupacion = TIPO_AGRUPACION.id_tipo_agrupacion           and DATO_SERIE.id_serie = SERIE.id_serie         and DATO_SERIE.id_tipo_dato_serie = TIPO_DATO_SERIE.id_tipo_dato_serie         and extract(year from DATO_SERIE.fecha) =    "+ req.params.id4
      
-     console.log(qry)
+     
             
      
      
@@ -371,7 +381,16 @@ break;
           
                                   break;
           
-
+                                  case 'daano':
+                                    var myData = [];
+                                    //  console.log(result.rows)
+                                      for(var i = 0; i < result.rows.length;i++){
+                                          myData.push({codigo:result.rows[i].ANO,nombre:result.rows[i].ANO})
+                                      }
+                                      res.json(myData);
+              
+              
+                                      break;
 
                 case 'ind1m':
                         var myData = [];
