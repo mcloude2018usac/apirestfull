@@ -40,8 +40,16 @@ var qry=''
             qry=" select distinct extract(year from DATO_SERIE.fecha) ano   from SERIE, DATO_SERIE, TERRITORIO, AGRUPACION  where SERIE.id_serie = DATO_SERIE.id_serie            and SERIE.id_indicador = " + req.params.id2 + "               and SERIE.id_marco = 0 /* historico */              and SERIE.id_territorio = TERRITORIO.id_territorio                and TERRITORIO.id_nivel_ter in (" + req.params.id3 + " )  /*<NTER>*/              and SERIE.id_agrupacion = AGRUPACION.id_agrupacion order by 1 desc"
            console.log(qry)
            break;
+           
+           case 'daano2':
+            qry=" select distinct extract(year from DATO_SERIE_EJEC.fecha) ano          from DATO_SERIE_EJEC            order by 1 desc "
+           console.log(qry)
+           break;
 
-        
+           case 'daano3':
+            qry=" select max(extract(year from DATO_SERIE_EJEC.fecha)) ano             from DATO_SERIE_EJEC             where extract(year from DATO_SERIE_EJEC.fecha) <= (select extract(year from sysdate) from dual)"
+           console.log(qry)
+           break;
 
         
 
@@ -112,8 +120,14 @@ console.log(qry)
 break;
 
 case 'ind2d':
-    qry=" select 'Personas' unidad,TM.id_indicador, INDICADOR_X_PRODUCTO.id_producto, (select PRODUCTO.nombre from PRODUCTO where PRODUCTO.id_producto = INDICADOR_X_PRODUCTO.id_producto) nombre, TM.inicial, TM.vigente, TM.ejecutado, DEPENDENCIA_GOBIERNO.siglas, TIPO_PARTICIPACION.nombre participacion,TM.porcentaje from INDICADOR_X_PRODUCTO left join PARTICIPACION on PARTICIPACION.id_producto = INDICADOR_X_PRODUCTO.id_producto left join TIPO_PARTICIPACION on TIPO_PARTICIPACION.id_tipo_participacion = PARTICIPACION.id_tipo_participacion left join DEPENDENCIA_GOBIERNO on PARTICIPACION.id_dependencia_gob = DEPENDENCIA_GOBIERNO.id_dependencia_gob, ( select 'Personas' unidad, T.id_indicador, T.id_producto, to_char(sum(T.inicial), '999,999,999') inicial, to_char(sum(T.vigente), '999,999,999') vigente, to_char(sum(T.ejecutado), '999,999,999') ejecutado, round((sum(T.ejecutado)/sum(T.vigente))*100,2) porcentaje from ( select INDICADOR_X_PRODUCTO.id_indicador, PRODUCTO.id_producto, DS1.fecha, DS1.valor inicial, 0 ejecutado, 0 vigente from DATO_SERIE_EJEC DS1, SERIE_EJECUCION, PRODUCTO, INDICADOR_X_PRODUCTO where INDICADOR_X_PRODUCTO.id_indicador = " + req.params.id2 + "  /* IND */ and INDICADOR_X_PRODUCTO.id_producto = PRODUCTO.id_producto and PRODUCTO.id_producto = SERIE_EJECUCION.id_producto and DS1.id_serie_ejec = SERIE_EJECUCION.id_serie_ejec and fecha = TO_DATE('31/12/2019','DD/MM/YYYY') /* EN EL FUTURO SERA UN PARAMETRO */ and SERIE_EJECUCION.id_tipo_serie_ejec = 2 and SERIE_EJECUCION.id_concepto_ejec = 1 union select INDICADOR_X_PRODUCTO.id_indicador, PRODUCTO.id_producto, DS1.fecha, 0 inicial, DS1.valor ejecutado, 0 vigente from DATO_SERIE_EJEC DS1, SERIE_EJECUCION, PRODUCTO, INDICADOR_X_PRODUCTO where INDICADOR_X_PRODUCTO.id_indicador = " + req.params.id2 + " /* IND */ and INDICADOR_X_PRODUCTO.id_producto = PRODUCTO.id_producto and PRODUCTO.id_producto = SERIE_EJECUCION.id_producto and DS1.id_serie_ejec = SERIE_EJECUCION.id_serie_ejec    and fecha = TO_DATE('31/12/2019','DD/MM/YYYY') /* EN EL FUTURO SERA UN PARAMETRO */ and SERIE_EJECUCION.id_tipo_serie_ejec = 3 and SERIE_EJECUCION.id_concepto_ejec = 1 union select INDICADOR_X_PRODUCTO.id_indicador, PRODUCTO.id_producto, DS1.fecha, 0 inicial, 0 ejecutado, DS1.valor vigente from DATO_SERIE_EJEC DS1, SERIE_EJECUCION, PRODUCTO, INDICADOR_X_PRODUCTO where INDICADOR_X_PRODUCTO.id_indicador = " + req.params.id2 + " /* IND */ and INDICADOR_X_PRODUCTO.id_producto = PRODUCTO.id_producto   and PRODUCTO.id_producto = SERIE_EJECUCION.id_producto and DS1.id_serie_ejec = SERIE_EJECUCION.id_serie_ejec and fecha = TO_DATE('01/01/2019','DD/MM/YYYY') /* EN EL FUTURO SERA UN PARAMETRO */ and SERIE_EJECUCION.id_tipo_serie_ejec = 4 and SERIE_EJECUCION.id_concepto_ejec = 1) T group by T.id_indicador, T.id_producto order by T.id_indicador, T.id_producto) TM where INDICADOR_X_PRODUCTO.id_indicador = " + req.params.id2 + " /* IND */ and INDICADOR_X_PRODUCTO.id_producto = TM.id_producto "
-console.log(qry)
+    qry="  select T.id_indicador, T.id_producto,   (select nombre from PRODUCTO where PRODUCTO.id_producto = T.id_producto) producto,        to_char(sum(T.vigente), '999,999,999') vigente, to_char(sum(T.ejecutado), '999,999,999') ejecutado, round((sum(T.ejecutado)/sum(T.vigente))*100,2) porcentaje       ,        (select plural from MEDIDA_PRODUCTO where MEDIDA_PRODUCTO.id_medida_producto = (select id_medida_producto from PRODUCTO where id_producto = T.id_producto)) medida   from ( select INDICADOR_X_PRODUCTO.id_indicador,        PRODUCTO.id_producto, PRODUCTO.id_medida_producto,        DS.fecha, DS.valor vigente, 0 ejecutado from INDICADOR_X_PRODUCTO, PRODUCTO, SERIE_EJECUCION, DATO_SERIE_EJEC DS where INDICADOR_X_PRODUCTO.id_indicador = " + req.params.id2 + " /* <IND> */   and INDICADOR_X_PRODUCTO.id_producto = PRODUCTO.id_producto   and PRODUCTO.id_producto = SERIE_EJECUCION.id_producto   and SERIE_EJECUCION.id_concepto_ejec = 1 /* fisico */   and SERIE_EJECUCION.id_tipo_serie_ejec = 4 /* vigente */   and SERIE_EJECUCION.id_serie_ejec = DS.id_serie_ejec   and extract(year from DS.fecha) = " + req.params.id3 + " /*<AÑO>*/ union select INDICADOR_X_PRODUCTO.id_indicador,        PRODUCTO.id_producto, PRODUCTO.id_medida_producto,        DS3.fecha, 0 vigente, DS3.valor ejecutado from INDICADOR_X_PRODUCTO, PRODUCTO, SERIE_EJECUCION, DATO_SERIE_EJEC DS3 where INDICADOR_X_PRODUCTO.id_indicador = " + req.params.id2 + " /* <IND> */   and INDICADOR_X_PRODUCTO.id_producto = PRODUCTO.id_producto   and PRODUCTO.id_producto = SERIE_EJECUCION.id_producto   and SERIE_EJECUCION.id_concepto_ejec = 1 /* fisico */   and SERIE_EJECUCION.id_tipo_serie_ejec = 3 /* ejecutado */   and SERIE_EJECUCION.id_serie_ejec = DS3.id_serie_ejec   and extract(year from DS3.fecha) = " + req.params.id3 + " /* <AÑO> */ ) T group by id_indicador, id_producto order by id_indicador, id_producto  "
+
+
+    
+
+
+
+   console.log(qry)
 //qry=" select 'Personas' unidad,T.id_indicador, (select nombre from PRODUCTO where PRODUCTO.id_producto = T.id_producto) nombre,  to_char(sum(T.inicial), '999,999,999') inicial,  to_char(sum(T.vigente), '999,999,999') vigente,   to_char(sum(T.ejecutado), '999,999,999') ejecutado , round((sum(T.ejecutado)/sum(T.vigente))*100,2) porcentaje  from ( select INDICADOR_X_PRODUCTO.id_indicador,       PRODUCTO.id_producto,        DS1.fecha, DS1.valor inicial, 0 ejecutado, 0 vigente from DATO_SERIE_EJEC DS1, SERIE_EJECUCION, PRODUCTO, INDICADOR_X_PRODUCTO where INDICADOR_X_PRODUCTO.id_indicador = " + req.params.id2 + "  /* IND */ and INDICADOR_X_PRODUCTO.id_producto = PRODUCTO.id_producto and PRODUCTO.id_producto = SERIE_EJECUCION.id_producto and DS1.id_serie_ejec = SERIE_EJECUCION.id_serie_ejec and fecha = TO_DATE('31/12/2019','DD/MM/YYYY') /* EN EL FUTURO SERA UN PARAMETRO */ and SERIE_EJECUCION.id_tipo_serie_ejec = 2 and SERIE_EJECUCION.id_concepto_ejec = 1  union select INDICADOR_X_PRODUCTO.id_indicador,        PRODUCTO.id_producto,         DS1.fecha, 0 inicial, DS1.valor ejecutado, 0 vigente from DATO_SERIE_EJEC DS1, SERIE_EJECUCION, PRODUCTO, INDICADOR_X_PRODUCTO where INDICADOR_X_PRODUCTO.id_indicador = " + req.params.id2 + "  /* IND */ and INDICADOR_X_PRODUCTO.id_producto = PRODUCTO.id_producto and PRODUCTO.id_producto = SERIE_EJECUCION.id_producto  and DS1.id_serie_ejec = SERIE_EJECUCION.id_serie_ejec and fecha = TO_DATE('31/12/2019','DD/MM/YYYY') /* EN EL FUTURO SERA UN PARAMETRO */ and SERIE_EJECUCION.id_tipo_serie_ejec = 3 and SERIE_EJECUCION.id_concepto_ejec = 1  union select INDICADOR_X_PRODUCTO.id_indicador,        PRODUCTO.id_producto,         DS1.fecha, 0 inicial, 0 ejecutado, DS1.valor vigente from DATO_SERIE_EJEC DS1, SERIE_EJECUCION, PRODUCTO, INDICADOR_X_PRODUCTO where INDICADOR_X_PRODUCTO.id_indicador = " + req.params.id2 + "  /* IND */ and INDICADOR_X_PRODUCTO.id_producto = PRODUCTO.id_producto and PRODUCTO.id_producto = SERIE_EJECUCION.id_producto  and DS1.id_serie_ejec = SERIE_EJECUCION.id_serie_ejec and fecha = TO_DATE('01/01/2019','DD/MM/YYYY') /* EN EL FUTURO SERA UN PARAMETRO */  and SERIE_EJECUCION.id_tipo_serie_ejec = 4 and SERIE_EJECUCION.id_concepto_ejec = 1  ) T group by id_indicador, id_producto order by id_indicador, id_producto"
 break;
 
@@ -391,6 +405,29 @@ break;
               
               
                                       break;
+                                      case 'daano2':
+                                        var myData = [];
+                                        //  console.log(result.rows)
+                                          for(var i = 0; i < result.rows.length;i++){
+                                              myData.push({codigo:result.rows[i].ANO,nombre:result.rows[i].ANO})
+                                          }
+                                          res.json(myData);
+                  
+                  
+                                          break;
+
+                                          
+                                          case 'daano3':
+                                            var myData = [];
+                                            //  console.log(result.rows)
+                                              for(var i = 0; i < result.rows.length;i++){
+                                                  myData.push({codigo:result.rows[i].ANO,nombre:result.rows[i].ANO})
+                                              }
+                                              res.json(myData);
+                      
+                      
+                                              break;
+        
 
                 case 'ind1m':
                         var myData = [];
@@ -457,7 +494,7 @@ break;
                 case 'ind2d':
                 var myData = [];
                 for(var i = 0; i < result.rows.length;i++){
-                myData.push({unidad:result.rows[i].UNIDAD,codigo:result.rows[i].ID_INDICADOR,nombre:result.rows[i].NOMBRE,asignado:result.rows[i].ASIGNADO,ejecutado:result.rows[i].EJECUTADO,porcentaje:result.rows[i].PORCENTAJE,inicial:result.rows[i].INICIAL,vigente:result.rows[i].VIGENTE})
+                myData.push({unidad:result.rows[i].MEDIDA,codigo:result.rows[i].ID_INDICADOR,nombre:result.rows[i].PRODUCTO,asignado:result.rows[i].ASIGNADO,ejecutado:result.rows[i].EJECUTADO,porcentaje:result.rows[i].PORCENTAJE,inicial:result.rows[i].INICIAL,vigente:result.rows[i].VIGENTE})
                 }
                 res.json(myData);
 
