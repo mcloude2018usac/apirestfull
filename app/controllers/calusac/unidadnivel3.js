@@ -7,7 +7,8 @@ exports.getUnidadnivel3 = function(req, res, next){
     {  
 
         
-        Unidadnivel3.find({idtipounidad :req.params.id2,idunidadacademica:req.params.id3,codigo:req.params.id4},function(err, todos) {
+        Unidadnivel3.find({idtipounidad :req.params.id2,idunidadacademica:req.params.id3,codigo:req.params.id4})
+        .sort([['codigo', 1]]).collation({locale: "en_US", numericOrdering: true}).exec(function(err, todos) {
             if (err){ res.send(err); }
            
             if(todos.length>0)   {    res.json(todos);   }
@@ -20,7 +21,7 @@ exports.getUnidadnivel3 = function(req, res, next){
        if(req.params.id)
         {  
            
-                Unidadnivel3.find({_id :req.params.id},function(err, todos) {
+                Unidadnivel3.find({_id :req.params.id}).sort([['codigo', 1]]).collation({locale: "en_US", numericOrdering: true}).exec(function(err, todos) {
                     if (err){ res.send(err); }
                    
                     if(todos.length>0)   {    res.json(todos);   }
@@ -32,7 +33,8 @@ exports.getUnidadnivel3 = function(req, res, next){
            
         }
         else
-        { Unidadnivel3.find({idtipounidad :req.params.id2,idunidadacademica:req.params.id3},function(err, todos) {
+        { Unidadnivel3.find({idtipounidad :req.params.id2,idunidadacademica:req.params.id3}).sort([['codigo', 1]])
+        .collation({locale: "en_US", numericOrdering: true}).exec(function(err, todos) {
                if (err){  res.send(err);  }
                 res.json(todos);
             });
