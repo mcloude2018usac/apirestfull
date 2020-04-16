@@ -435,7 +435,7 @@ console.log(todosa00)
                                         for (var ia = 0; ia < todosa00.length; ia++) {
                                                 if(todosa00[ia].curso==teve)
                                                 {
-                                                        myData.push({idcurso:todos[i]._id ,nombre:todosa00[ia].nombre,curso:teve,tipo:1,fecha:tfecha,hora:''});
+                                                        myData.push({idcurso:todos[i]._id ,nombre:todosa00[ia].nombreestudiante,curso:teve,tipo:1,fecha:tfecha,hora:''});
 
                                                 }
                                         }
@@ -468,7 +468,7 @@ console.log(todosa00)
                                                 for (var ia = 0; ia < todosa00.length; ia++) {
                                                         if(todosa00[ia].curso==teve)
                                                         {
-                                                                myData.push({idcurso:todos2[i]._id ,nombre:todosa00[ia].nombre,curso:teve,tipo:2,fecha:tfecha,hora:thora});
+                                                                myData.push({idcurso:todos2[i]._id ,nombre:todosa00[ia].nombreestudiante,curso:teve,tipo:2,fecha:tfecha,hora:thora});
 
                                                               
                                                         }
