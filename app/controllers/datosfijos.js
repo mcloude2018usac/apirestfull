@@ -18,6 +18,7 @@ var generator = require('generate-password');
 var Bitacora = require('../models/bitacora');
 var mailt = require('../controllers/mailprueba');
 var cursoeve=require('../models/aread_evento');
+var cursodiploma=require('../models/cursodiploma');
 var Tiposuscriptor = require('../models/tipo_suscriptor');
 var Perfil = require('../models/perfil');
 var Catalogo = require('../models/catalogo');
@@ -407,7 +408,10 @@ exports.getCombofijo = function(req, res, next){
                         var teve='';
                         var tfecha='';
                         var thora='';
-                       
+                        
+
+                        cursodiploma.find({'correo':req.params.id2},function(err, todosa00) {
+console.log(todosa00)
                         cursoeve.find({'idtipoevento.codigo':'3'},function(err, todos00) {
                         Evento.find({_id :{
                                 "$in" : [
@@ -428,7 +432,15 @@ exports.getCombofijo = function(req, res, next){
                                                         break;
                                                 }
                                         }
-                                        myData.push({idcurso:todos[i]._id ,nombre:todos[i].nombre + ' '+todos[i].apellido,curso:teve,tipo:1,fecha:tfecha,hora:''});
+                                        for (var ia = 0; ia < todosa00.length; ia++) {
+                                                if(todosa00[ia].curso==teve)
+                                                {
+                                                        myData.push({idcurso:todos[i]._id ,nombre:todosa00[ia].nombre,curso:teve,tipo:1,fecha:tfecha,hora:''});
+
+                                                }
+                                        }
+
+                                      
                                 }
                         }
                                 Participa.find({correo:req.params.id2,"idevento" :{
@@ -453,7 +465,16 @@ exports.getCombofijo = function(req, res, next){
                                                         }
                                                 }
 
-                                                myData.push({idcurso:todos2[i]._id ,nombre:todos2[i].nombre+ ' '+todos2[i].apellido,curso:teve,tipo:2,fecha:tfecha,hora:thora});
+                                                for (var ia = 0; ia < todosa00.length; ia++) {
+                                                        if(todosa00[ia].curso==teve)
+                                                        {
+                                                                myData.push({idcurso:todos2[i]._id ,nombre:todosa00[ia].nombre,curso:teve,tipo:2,fecha:tfecha,hora:thora});
+
+                                                              
+                                                        }
+                                                }
+
+                                              
                                         }
                                 }
                                         res.json(myData);   
@@ -463,6 +484,7 @@ exports.getCombofijo = function(req, res, next){
                         });
                 });
         }); 
+}); 
                         break;
 
 
