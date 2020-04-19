@@ -27,8 +27,10 @@ exports.getsiif = function(req, res, next){
     if(req.params.id7)
     {  
 //' + remove_accents(req.params.id2) + '
-myXMLText=remove_accents("\n<Envelope xmlns=\"http://schemas.xmlsoap.org/soap/envelope/\"><Body><getData xmlns=\"urn:miserviciowsdl\"><carnet>2638396800101</carnet><unidad>00</unidad><extension>00</extension><carrera>00</carrera><nombre>Mario Roberto Morales Merida</nombre><monto>120</monto><anio>2020</anio><rubro>145</rubro><variante_rubro>1</variante_rubro><subtotal>120</subtotal></getData></Body></Envelope>")
+//this.cui+ '/'+this.nombre+'/' +this.monto +".00" + '/00/2020/22/1'
+myXMLText=remove_accents("\n<Envelope xmlns=\"http://schemas.xmlsoap.org/soap/envelope/\"><Body><getData xmlns=\"urn:miserviciowsdl\"><carnet>"+ req.params.id +"</carnet><unidad>00</unidad><extension>00</extension><carrera>00</carrera><nombre>" +req.params.id2+ "</nombre><monto>" + req.params.id3 + "</monto><anio>"+ req.params.id5 +"</anio><rubro>"+ req.params.id6 +"</rubro><variante_rubro>"+ req.params.id7 +"</variante_rubro><subtotal>"+ req.params.id3 +"</subtotal></getData></Body></Envelope>")
 
+console.log(myXMLText)
 console.log(myXMLText.length)
 
 let strLengthInBytes = Buffer.byteLength(myXMLText); 
@@ -55,7 +57,7 @@ var options = {
   };
   request(options, function (error, response) { 
     if (error) throw new Error(error);
-    console.log(response.body);
+  //  console.log(response.body);
     res.send({cadena:response.body});
   //  res.send('error');
    

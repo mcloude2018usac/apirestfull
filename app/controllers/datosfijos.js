@@ -64,6 +64,26 @@ var cleanName = function(str) {
         return str.toUpperCase();
     };
 
+    const  Modulovv = [{nombre:'idempresa',tipo:'String',requerido:1,visible:0},
+   
+    {nombre:'nombre',tipo:'String',requerido:1,visible:1},
+    {nombre:'grupo',tipo:'Grupo',requerido:1,grupo:1,visible:1},
+    {nombre:'titulo',tipo:'String',requerido:1,visible:1},
+    {nombre:'componente',tipo:'String',requerido:1,visible:0},
+    {nombre:'tabcomponente',tipo:'String',requerido:1,visible:0},
+    {nombre:'index',tipo:'Number',requerido:1,visible:1},
+    {nombre:'icono',tipo:'String',requerido:1,visible:1},
+  
+    {nombre:'nivel',tipo:'String',requerido:1,visible:1},
+    {nombre:'estado',tipo:'Estado',requerido:1,visible:1},
+    {nombre:'usuarionew',tipo:'String',requerido:1,visible:0},
+    {nombre:'usuarioup',tipo:'String',requerido:1,visible:0}
+    
+];
+
+
+
+
    
       function logErrors(err, req, res, next) {
         console.error(err.stack);
@@ -175,13 +195,985 @@ var cleanName = function(str) {
             });
 
     }
+
+    function capitalizeFirstLetter(string) {
+            if(string)
+            {
+                return string.charAt(0).toUpperCase() + string.slice(1);
+            }
+            else
+            {
+                    return string;
+            }
+       
+      }
+
+
+    function dacadenamodulo(vector,op) {
+        var re=''
+        for(var i = 0; i <vector.length; i++) {
+                
+                switch(vector[i].tipo)  {
+                        case 'Number':
+                                switch(op)  {
+                                        case 'createcamposhtml':
+                                                if(vector[i].visible==1)
+                                                {
+                                                re= re+  '      <ion-item class="input-item">\n'
+                                                re= re+  '              <ion-label  position="floating">'+ capitalizeFirstLetter(vector[i].nombre)+'</ion-label>\n'
+                                                
+
+                                                if(vector[i].tipo=='Number')
+                                                {
+                                                        re= re+  '              <ion-input inputMode="Number" clearInput="true" formControlName="' + vector[i].tipo +'" required></ion-input>\n'
+                                          
+                                                }
+                                                else{
+                                                        re= re+  '              <ion-input inputMode="text" clearInput="true" formControlName="' + vector[i].tipo +'" required></ion-input>\n'
+                                          
+                                                }
+                                                re= re+  '      </ion-item>\n'
+                                                re= re+  '\n'
+                                                }
+                                        break;
+                                        case 'createcamposjsv':
+                                                if(vector[i].visible==1)
+                                                {
+                                                        if(vector[i].requerido==1)
+                                                        {
+                                                        re= re+ "       '"+ vector[i].nombre + "': new FormControl('', Validators.required),\n"
+                                                        }
+                                                        else{
+                                                        re= re+ "       '"+ vector[i].nombre + "': new FormControl(''),\n"   
+                                                        }
+                                                }
+
+                                        break;
+                                        case 'createcamposjsv2':
+                                                if(vector[i].visible==1)
+                                                {
+                                                        re= re+ "       this.Form.controls['"+ vector[i].nombre +"'].setValue(this.navParams.data.record."+ vector[i].nombre+");\n"   
+                                                }
+
+                                        break;
+                                        case 'createcamposjsv3':
+                                            
+                                                        if(vector[i].nombre=='idempresa')
+                                                        {
+                                                                re= re + "       idempresa: this.userinfo[0].idempresa,\n"
+                                                        }
+                                                        else
+                                                        {
+                                                                re= re+ "       "+vector[i].nombre + "  : this.Form.controls['"+ vector[i].nombre  +"'].value,\n"   
+                                                        }
+                                                        
+                                                
+
+                                        break;
+                                        case 'listcamposhtml1':
+                                                if(vector[i].visible==1)
+                                                {
+                                                        if(vector[i].nombre=='nombre')
+                                                        {
+
+                                                                
+                                                                re= re + "      <p><strong>"+capitalizeFirstLetter(vector[i].nombre)+":</strong> {{item."+vector[i].nombre+"}}  </p>  \n"
+                                                        }
+                                                        else
+                                                        {
+                                                                if(vector[i].nombre=='estado')
+                                                                {
+                                                                        re= re+  "      <ion-badge color='medium'>{{item."+vector[i].nombre+"}}</ion-badge> \n"   
+                                                                }
+                                                                else{
+                                                                        re= re+  "        <p> "+capitalizeFirstLetter(vector[i].nombre)+": {{item."+vector[i].nombre+"}} </p>\n"   
+                                                                }
+                                                             
+                                                        }
+                                                }
+                                        break;
+                                        case 'listcamposhtml2':
+                                                if(vector[i].visible==1)
+                                                {
+                                                        if(vector[i].nombre=='nombre')
+                                                        {
+
+                                                                
+                                                                re= re + "              <p><strong>"+capitalizeFirstLetter(vector[i].nombre)+":</strong> {{item."+vector[i].nombre+"}}  </p>  \n"
+                                                        }
+                                                        else
+                                                        {
+                                                                if(vector[i].nombre=='estado')
+                                                                {
+                                                                       // re= re+  " <ion-badge color='medium'>{{item."+vector[i].nombre+"}}</ion-badge> \n"   
+                                                                }
+                                                                else{
+                                                                re= re+  "              <p> "+capitalizeFirstLetter(vector[i].nombre)+": {{item."+vector[i].nombre+"}} </p>\n"   
+                                                                }
+                                                             
+                                                        }
+                                                }
+                                                break;
+                                       
+                                }
+
+                        break;
+                        case 'String':
+                                switch(op)  {
+                                        case 'createcamposhtml':
+                                                if(vector[i].visible==1)
+                                                {
+                                                re= re+  '      <ion-item class="input-item">\n'
+                                                re= re+  '              <ion-label  position="floating">'+ capitalizeFirstLetter(vector[i].nombre)+'</ion-label>\n'
+                                                
+
+                                                if(vector[i].tipo=='Number')
+                                                {
+                                                        re= re+  '              <ion-input inputMode="Number" clearInput="true" formControlName="' + vector[i].tipo +'" required></ion-input>\n'
+                                          
+                                                }
+                                                else{
+                                                        re= re+  '              <ion-input inputMode="text" clearInput="true" formControlName="' + vector[i].tipo +'" required></ion-input>\n'
+                                          
+                                                }
+                                                re= re+  '      </ion-item>\n'
+                                                re= re+  '\n'
+                                                }
+                                        break;
+                                        case 'createcamposjsv':
+                                                if(vector[i].visible==1)
+                                                {
+                                                        if(vector[i].requerido==1)
+                                                        {
+                                                        re= re+ "       '"+ vector[i].nombre + "': new FormControl('', Validators.required),\n"
+                                                        }
+                                                        else{
+                                                        re= re+ "       '"+ vector[i].nombre + "': new FormControl(''),\n"   
+                                                        }
+                                                }
+
+                                        break;
+                                        case 'createcamposjsv2':
+                                                if(vector[i].visible==1)
+                                                {
+                                                        re= re+ "       this.Form.controls['"+ vector[i].nombre +"'].setValue(this.navParams.data.record."+ vector[i].nombre+");\n"   
+                                                }
+
+                                        break;
+                                        case 'createcamposjsv3':
+                                           
+                                                        if(vector[i].nombre=='idempresa')
+                                                        {
+                                                                re= re + "       idempresa: this.userinfo[0].idempresa,\n"
+                                                        }
+                                                        else
+                                                        {
+                                                                re= re+ "       "+vector[i].nombre + "  : this.Form.controls['"+ vector[i].nombre  +"'].value,\n"   
+                                                        }
+                                                        
+                                                
+
+                                        break;
+                                        case 'listcamposhtml1':
+                                                if(vector[i].visible==1)
+                                                {
+                                                        if(vector[i].nombre=='nombre')
+                                                        {
+
+                                                                
+                                                                re= re + "        <p><strong>"+capitalizeFirstLetter(vector[i].nombre)+":</strong> {{item."+vector[i].nombre+"}}  </p>  \n"
+                                                        }
+                                                        else
+                                                        {
+                                                                if(vector[i].nombre=='estado')
+                                                                {
+                                                                        re= re+  "         <ion-badge color='medium'>{{item."+vector[i].nombre+"}}</ion-badge> \n"   
+                                                                }
+                                                                else{
+                                                                        re= re+  "        <p> "+capitalizeFirstLetter(vector[i].nombre)+": {{item."+vector[i].nombre+"}} </p>\n"   
+                                                                }
+                                                             
+                                                        }
+                                                }
+                                        break;
+                                        case 'listcamposhtml2':
+                                                if(vector[i].visible==1)
+                                                {
+                                                        if(vector[i].nombre=='nombre')
+                                                        {
+
+                                                                
+                                                                re= re + "              <p><strong>"+capitalizeFirstLetter(vector[i].nombre)+":</strong> {{item."+vector[i].nombre+"}}  </p>  \n"
+                                                        }
+                                                        else
+                                                        {
+                                                                if(vector[i].nombre=='estado')
+                                                                {
+                                                                       // re= re+  " <ion-badge color='medium'>{{item."+vector[i].nombre+"}}</ion-badge> \n"   
+                                                                }
+                                                                else{
+                                                                        re= re+  "              <p> "+capitalizeFirstLetter(vector[i].nombre)+": {{item."+vector[i].nombre+"}} </p>\n"   
+                                                                }
+                                                             
+                                                        }
+                                                }
+                                                break;
+                                       
+                                }
+
+                        break;
+                        case 'Grupo':
+                                switch(op)  {
+                                        case 'createcamposhtml':
+                                                if(vector[i].visible==1)
+                                                {
+                                                re= re+  '      <ion-item class="input-item">\n'
+                                                re= re+  '              <ion-label  position="floating">'+ capitalizeFirstLetter(vector[i].nombre)+'</ion-label>\n'
+                                                re= re+  '              <ion-select  placeholder="{{ \'SELECTVALORM\' | translate }}" formControlName="'+vector[i].nombre+'">\n'
+                                                re= re+  '              <ion-select-option  text-wrap *ngFor="let item of v'+vector[i].nombre+'" value="{{item.id}}">{{item.nombre}}</ion-select-option>\n'
+                                                re= re+  '              </ion-select>\n'
+                                             
+                                                 re= re+  '     </ion-item>\n'
+                                                re= re+  '\n'
+                                                }
+                                        break;
+                                        case 'createcamposjsv':
+                                                if(vector[i].visible==1)
+                                                {
+                                                        if(vector[i].requerido==1)
+                                                        {
+                                                        re= re+ "       '"+ vector[i].nombre + "': new FormControl('', Validators.required),\n"
+                                                        }
+                                                        else{
+                                                        re= re+ "       '"+ vector[i].nombre + "': new FormControl(''),\n"   
+                                                        }
+                                                }
+
+                                        break;
+                                        case 'createcamposjsv2':
+                                                if(vector[i].visible==1)
+                                                {
+                                                        re= re+ "       this.authenticationService.getReg('modulo-"+ vector[i].nombre +"', 'datosfijos', 0).then((result) => {\n"   
+                                                        re= re+ "             this.v"+ vector[i].nombre +" = result;\n"   
+                                                        re= re+ "            this.Form.controls['"+ vector[i].nombre +"'].setValue(this.navParams.data.record."+ vector[i].nombre +");\n"   
+                                                        re= re+ "        }, (err) => {\n"   
+                                                        re= re+ "                this.authenticationService.presentAlert(err.error , 'Precaución' , '');\n"   
+                                                        re= re+ "        });\n"   
+
+                                                }
+
+                                        break;
+                                        case 'createcamposjsv21':
+                                                if(vector[i].visible==1)
+                                                {
+                                                        re= re+ "       this.authenticationService.getReg('modulo-"+ vector[i].nombre +"', 'datosfijos', 0).then((result) => {\n"   
+                                                        re= re+ "             this.v"+ vector[i].nombre +" = result;\n"   
+                                                        re= re+ "            this.Form.controls['"+ vector[i].nombre +"'].setValue(this.navParams.data.record."+ vector[i].nombre +");\n"   
+                                                        re= re+ "        }, (err) => {\n"   
+                                                        re= re+ "                this.authenticationService.presentAlert(err.error , 'Precaución' , '');\n"   
+                                                        re= re+ "        });\n"   
+
+                                                }
+
+                                        break;
+                                        case 'createcamposjsv3':
+                                       
+                                                                re= re+ "       "+vector[i].nombre + "  : this.Form.controls['"+ vector[i].nombre  +"'].value.id,\n"   
+                                                
+
+                                        break;
+                                        case 'listcamposhtml1':
+                                                if(vector[i].visible==1)
+                                                {
+                                                        re= re+  "        <p> "+capitalizeFirstLetter(vector[i].nombre)+": {{item."+vector[i].nombre+"}} </p>\n"   
+                                                }
+                                        break;
+                                        case 'listcamposhtml2':
+                                                if(vector[i].visible==1)
+                                                { re= re+  "              <p> "+capitalizeFirstLetter(vector[i].nombre)+": {{item."+vector[i].nombre+"}} </p>\n"   
+                                                }
+                                                break;
+                                       
+                                }
+                        break;
+                        case 'Estado':
+                                switch(op)  {
+                                        case 'createcamposhtml':
+                                                if(vector[i].visible==1)
+                                                {
+                                                re= re+  '      <ion-item class="input-item">\n'
+                                                re= re+  '              <ion-label  position="floating">'+ capitalizeFirstLetter(vector[i].nombre)+'</ion-label>\n'
+                                              
+                                                re= re+  '              <ion-select placeholder="{{ \'SELECTVALORM\' | translate }}" formControlName="' + vector[i].tipo +'">\n'
+                                                re= re+  '              <ion-select-option value="Activo">Activo</ion-select-option>\n'
+                                                re= re+  '              <ion-select-option value="Inactivo">Inactivo</ion-select-option>\n'
+                                                re= re+  '              </ion-select>\n'
+                                              
+                                                re= re+  '      </ion-item>\n'
+                                                re= re+  '\n'
+                                                }
+                                        break;
+                                        case 'createcamposjsv':
+                                                if(vector[i].visible==1)
+                                                {
+                                                        if(vector[i].requerido==1)
+                                                        {
+                                                        re= re+ "       '"+ vector[i].nombre + "': new FormControl('', Validators.required),\n"
+                                                        }
+                                                        else{
+                                                        re= re+ "       '"+ vector[i].nombre + "': new FormControl(''),\n"   
+                                                        }
+                                                }
+
+                                        break;
+                                        case 'createcamposjsv2':
+                                                if(vector[i].visible==1)
+                                                {     re= re+ "       this.Form.controls['"+ vector[i].nombre +"'].setValue(this.navParams.data.record."+ vector[i].nombre+");\n"   
+
+                                                }
+
+                                        break;
+                                        case 'createcamposjsv3':
+                                               
+                                                                re= re+"       "+ vector[i].nombre + "  : this.Form.controls['"+ vector[i].nombre  +"'].value,\n"   
+                                                
+
+                                        break;
+                                        case 'listcamposhtml1':
+                                                if(vector[i].visible==1)
+                                                {
+                                                      //  re= re+  "   <p> "+capitalizeFirstLetter(vector[i].nombre)+": {{item."+vector[i].nombre+"}} </p>\n"   
+                                                }
+                                        break;
+                                        case 'listcamposhtml2':
+                                                if(vector[i].visible==1)
+                                                { //re= re+  "   <p> "+capitalizeFirstLetter(vector[i].nombre)+": {{item."+vector[i].nombre+"}} </p>\n"   
+                                                }
+                                                break;
+                                       
+                                }
+                        break;
+            
+                }
+          
+       }
+return re;
+}
+function buscamodulo(op,op2) {
+        var re=''
+
+switch(op)  {
+        case 'modulo':
+              re=  dacadenamodulo(Modulovv,op2)
+
+                
+        break;
+
+}
+      
+        
+       return re;
+    
+        
+    }
+
+//http://127.0.0.1:9090/api/datosfijos/generamod/modulos
+    function buildHtml(op,op2) {
+        var header = 'a';
+        var body = "";
+        body="";
+        body=body + "\n\n\n"
+        body = body + 'route api rest  ***************************************************\n';
+        body = body + op2+"Controller = require('./controllers/"+op+"'),\n";
+        body = body + op+"Routes = express.Router(),\n";
+        
+        body = body + " //-----------------------------------MODULO\n";
+        body = body + "apiRoutes.use('/"+op+"s', "+op+"Routes);\n";
+        body = body + op+"Routes.get('/', requireAuth,"+op2+"Controller.get"+op2+");\n";
+        body = body + op+"Routes.get('/:id/:id2/:id3',requireAuth,  "+op2+"Controller.get"+op2+");\n";
+        body = body + op+"Routes.get('/:id',requireAuth,  "+op2+"Controller.get"+op2+");\n";
+        body = body + op+"Routes.post('/:recordID',requireAuth,  "+op2+"Controller.crea"+op2+"2s);\n";
+        body = body + op+"Routes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  "+op2+"Controller.delete"+op2+");\n";
+
+        body=body + "\n\n\n"
+        body = body + 'model  '+op+'.js ***************************************************\n';
+        body=body + " var mongoose =require(\"mongoose\");\n";
+        body=body + " var "+op2+"Schema 		=	new  mongoose.Schema({\n";
+        body=body + "     idempresa		: { type : String, required : true },  \n";
+        body=body + "    nombre   		: { type : String, required : true },\n";
+        body=body + "    index   		: { type : Number, required : true },\n";
+        body=body + "    icono   		: { type : String, required : true },\n";
+        body=body + "    nivel   		: { type : String, required : true },\n";
+        body=body + "    estado	: { type : String, required : true },\n";
+        body=body + "    usuarionew	: { type : String },      usuarioup	: { type : String }\n";
+        body=body + "    }, {\n";
+         body=body + "    timestamps: true\n";
+         body=body + "    }); \n";
+         body=body + "module.exports = mongoose.model('Modulo', "+op2+"Schema);\n";
+
+        body=body + "\n\n\n"
+        body = body + 'controlador  '+op+'.js ***************************************************\n';
+
+
+        body=body + "\n\n\n"
+        body =  body+ 'modulo-list.module   ***************************************************\n';
+        body=body + "import { IonicModule } from '@ionic/angular';\n"
+        body=body + "import { RouterModule} from '@angular/router';\n"
+        body=body + "import { NgModule } from '@angular/core';\n"
+        body=body + "import { CommonModule } from '@angular/common';\n"
+        body=body + "import { ComponentsModule } from '../../components/components.module';\n"
+        body=body + "import { TranslateModule } from '@ngx-translate/core';\n"
+        body=body + "import { FormsModule, ReactiveFormsModule } from '@angular/forms';\n"
+        body=body + "import { "+op2+"CreatePage } from './"+op+"-create/"+op+"-create.page';\n"
+        body=body + "import { "+op2+"ListPage } from './modulo-list';\n"
+        body=body + "@NgModule({\n"
+         body=body + "  declarations: [\n"
+         body=body + "    "+op2+"ListPage, "+op2+"CreatePage\n"
+         body=body + "  ],\n"
+         body=body + "  imports: [\n"
+         body=body + "    CommonModule,IonicModule, ComponentsModule, FormsModule,  ReactiveFormsModule,\n"
+         body=body + "    RouterModule.forChild([{ path: '', component: "+op2+"ListPage }]), TranslateModule.forChild(),\n"
+         body=body + "  ],\n"
+         body=body + "  entryComponents: [\n"
+         body=body + "    "+op2+"CreatePage\n"
+         body=body + "  ],\n"
+         body=body + "})\n"
+         body=body + "export class "+op2+"ListPageModule {}\n"
+         body=body + "\n\n\n"
+         body = body + 'modulo-list.page.scss  ***************************************************\n';
+         body = body + ':host {\n';
+         body = body + '       --page-margin: var(--app-narrow-margin);\n';
+         body = body + '       --page-border-radius: var(--app-fair-radius);\n';
+         body = body + '       --page-segment-background: var(--app-background);\n';
+         body = body + '       --page-segment-indicator-height: 2px;\n';
+         body = body + '     }\n';
+         body = body + '     ion-item-divider {\n';
+         body = body + '       --background: var(--ion-color-light);\n';
+         body = body + '       --padding-start: var(--page-margin);\n';
+         body = body + '     }\n';
+
+              
+         body = body + ':host { --page-margin: var(--app-fair-margin);\n';
+                 body = body + '--page-background: var(--app-background);\n';
+                 body = body + '--page-background-shade: var(--app-background-shade);\n';
+                 body = body + '--page-tags-gutter: 5px;            }\n';
+               
+                 body=body + "\n\n\n"
+         body = body + 'modulo-list.page.html   ***************************************************\n';
+
+        body = body + ' <ion-header>\n';
+        body = body + ' <ion-toolbar color="primary">\n';
+        body = body + '   <ion-buttons slot="start">\n';
+        body = body + '     <ion-menu-button></ion-menu-button>\n';
+        body = body + '   </ion-buttons>\n';
+        body = body + '   <ion-title>\n';
+        body = body + '     {{tituloxx}}\n';
+        body = body + '   </ion-title>\n';
+        body = body + '   <ion-buttons slot="end">\n';
+        body = body + '     <ion-button title=" {{ \'AGREGARM\' | translate }}" (click)="addRecord()">\n';
+        body = body + '       <ion-icon slot="icon-only" name="add"></ion-icon>\n';
+        body = body + '     </ion-button>\n';
+        body = body + '     <ion-button title=" {{ \'REFRESCARM\' | translate }}" (click)="pideregistros0()">\n';
+        body = body + '       <ion-icon slot="icon-only" name="refresh-circle-outline"></ion-icon>\n';
+        body = body + '     </ion-button>\n';
+        body = body + '     <ion-button *ngIf="viewType === \'grid\'" (click)="changeToList()">\n';
+        body = body + '       <ion-icon slot="icon-only" name="newspaper"></ion-icon>\n';
+        body = body + '     </ion-button>\n';
+        body = body + '     <ion-button *ngIf="viewType === \'list\'" (click)="changeToGrid()">\n';
+        body = body + '       <ion-icon slot="icon-only" name="grid"></ion-icon>\n';
+        body = body + '     </ion-button>\n';
+        body = body + '   </ion-buttons>\n';
+        body = body + ' </ion-toolbar>\n';
+        body = body + ' <ion-toolbar class="filters-toolbar">\n';
+        body = body + '   <ion-row class="searchbar-row" align-items-center>\n';
+        body = body + '     <ion-col>\n';
+        body = body + '       <ion-searchbar animated [(ngModel)]="searchQuery" (ionChange)="searchList()" placeholder="{{ \'BUSCARM\' | translate }}"></ion-searchbar>\n';
+        body = body + '     </ion-col>\n';
+        body = body + '     <ion-col class="call-to-action-col">\n';
+        body = body + '       <ion-button fill="clear" color="secondary" class="filters-btn" title=" {{ \'FILTROM\' | translate }}" (click)="showAgeFilter = !showAgeFilter">\n';
+        body = body + '         <ion-icon slot="icon-only" name="options"></ion-icon>\n';
+        body = body + '       </ion-button>\n';
+        body = body + '     </ion-col>\n';
+        body = body + '   </ion-row>\n';
+        body = body + '   <form [formGroup]="rangeForm" [hidden]="!showAgeFilter">\n';
+        body = body + '     <ion-row class="range-item-row">\n';
+        body = body + '       <ion-col size="12">\n';
+        body = body + '         <div class="range-header">\n';
+        body = body + '           <span class="range-value">{{ rangeForm.controls.dual.value.lower }}</span>\n';
+        body = body + '           <span class="range-label">Filter by age</span>\n';
+        body = body + '           <span class="range-value">{{ rangeForm.controls.dual.value.upper }}</span>\n';
+        body = body + '         </div>\n';
+        body = body + '       </ion-col>\n';
+        body = body + '       <ion-col size="12">\n';
+        body = body + '         <ion-range class="range-control" formControlName="dual" color="secondary" pin="true" dualKnobs="true" (ionChange)="searchList()" min="1" max="100" step="1" debounce="400"></ion-range>\n';
+        body = body + '       </ion-col>\n';
+        body = body + '     </ion-row>\n';
+        body = body + '   </form>\n';
+        body = body + ' </ion-toolbar>\n';
+        body = body + '</ion-header>\n';
+        body = body + '<ion-content class="user-friends-content">\n';
+        body = body + ' <ion-item-divider sticky>\n';
+        body = body + '   <ion-label *ngIf="(itemsList?.length > 0) " >{{ \'NOREGISTROSM\' | translate }}: {{itemsList.length}}</ion-label>\n';
+        body = body + ' </ion-item-divider>\n';
+        body = body + ' <ion-segment (ionChange)="filterContacts($event)" value="todos">\n';
+        body = body + '   <ion-segment-button value="todos" checked>\n';
+        body = body + '     {{ \'TODOSM\' | translate }}\n';
+        body = body + '   </ion-segment-button>\n';
+        body = body + '   <ion-segment-button value="Activo">\n';
+        body = body + '     {{ \'ACTIVOSM\' | translate }}\n';
+        body = body + '    </ion-segment-button>\n';
+        body = body + '   <ion-segment-button value="Inactivo">\n';
+        body = body + '     {{ \'INACTIVOSM\' | translate }}\n';
+        body = body + '   </ion-segment-button>\n';
+        
+        body = body + ' </ion-segment>\n';
+       
+       
+        body = body + ' <ion-list *ngIf="efecto === 0" >\n';
+           
+        body = body + '   <ion-item lines="none" *ngFor="let item of [0,1,2,3,4,5,6]">\n';
+            
+        body = body + '     <ion-label>\n';
+        body = body + '       <skeleton-element></skeleton-element>\n';
+        body = body + '       <skeleton-element></skeleton-element>\n';
+        body = body + '       <skeleton-element width="67%"></skeleton-element>\n';
+             
+        body = body + '     </ion-label>\n';
+        body = body + '   </ion-item>\n';
+        body = body + ' </ion-list>\n';
+       
+        body = body + ' <ion-list  *ngIf="(itemsList?.length > 0) && (viewType === \'list\')">\n';
+        body = body + '   <ion-item  *ngFor="let item of itemsList " [routerLink]="">\n';
+        body = body + '     <ion-icon name="server-outline" slot="start"></ion-icon>\n';
+        body = body + '    <ion-label class="ion-text-wrap">\n';
+        body = body + '        <ion-note slot="end">No. {{item.index}}</ion-note> <br>\n';
+        body = body +buscamodulo(op,'listcamposhtml1')
+        body = body + '       <ion-badge color="medium">{{item.estado}}</ion-badge>\n';
+        body = body + '     </ion-label>\n';
+        body = body + '     <ion-row no-padding slot="end">\n';
+        body = body + '       <ion-col>\n';
+        body = body + '         <button title= "{{ \'MENUM\' | translate }}"  (click)="otrasop(item)"  ion-button clear large icon-start>\n';
+        body = body + '           <ion-icon name="ellipsis-vertical-outline">\n';
+        body = body + '           </ion-icon>\n';
+        body = body + '           {{ \'MENUM\' | translate }}\n';
+        body = body + '         </button><br><br>\n';
+        body = body + '         <button title="{{ \'ELIMINARM\' | translate }}"  (click)="deleteRecord(item)" ion-button clear large icon-start>\n';
+        body = body + '           <ion-icon name="trash-outline"></ion-icon>\n';
+        body = body + '           {{ \'ELIMINARM\' | translate }}\n';
+        body = body + '         </button><br>\n';
+        body = body + '         <br>\n';
+        body = body + '         <button title="{{ \'ACTUALIZARM\' | translate }}"  (click)="updateRecord(item)" ion-button clear   icon-start>\n';
+        body = body + '           <ion-icon name="create-outline"></ion-icon>\n';
+        body = body + '           {{ \'ACTUALIZARM\' | translate }}\n';
+        body = body + '         </button>\n';
+        body = body + '       </ion-col>\n';
+        body = body + '     </ion-row>\n';
+        body = body + '   </ion-item>\n';
+        body = body + ' </ion-list>\n';
+       
+        body = body + ' <ion-grid *ngIf="(itemsList?.length > 0) && (viewType === \'grid\')">\n';
+        body = body + '   <ion-row>\n';
+        body = body + '     <ion-col *ngFor="let item of itemsList;let i = index;" size-lg="6"  size-sm="6" size="12">\n';
+        body = body + '       <ion-card  >\n';
+        body = body + '         <ion-row class="user-stats-wrapper user-details-wrapper">\n';
+        body = body + '           <ion-col>\n';
+        body = body + '             <span class="user-stat-value">No.</span>\n';
+        body = body + '             <span class="user-stat-name">{{item.index}} </span>\n';
+        body = body + '           </ion-col>\n';
+        body = body + '           <ion-col>\n';
+        body = body + '             <span class="user-stat-value">{{item.estado}} </span>\n';
+        body = body + '           </ion-col>\n';
+        body = body + '         </ion-row>\n';
+        body = body + '         <ion-item  [routerLink]="">\n';
+        body = body + '           <ion-icon name="server-outline" slot="start"></ion-icon>\n';
+        body = body + '           <ion-label class="ion-text-wrap">\n';
+        body = body +buscamodulo(op,'listcamposhtml2')
+       
+        body = body + '           </ion-label>\n';
+        body = body + '         </ion-item>\n';
+        body = body + '         <ion-card-content>\n';
+        body = body + '         </ion-card-content>\n';
+        body = body + '         <ion-row no-padding>\n';
+        body = body + '           <ion-col>\n';
+        body = body + '             <button title=" {{ \'ELIMINARM\' | translate }}"  (click)="deleteRecord(item,i)" ion-button clear small  icon-start>\n';
+        body = body + '               <ion-icon name="trash-outline"></ion-icon>\n';
+        body = body + '               {{ \'ELIMINARM\' | translate }}\n';
+        body = body + '             </button>\n';
+        body = body + '           </ion-col>\n';
+        body = body + '           <ion-col>\n';
+        body = body + '             <button  title=" {{ \'MENUM\' | translate }}"  (click)="deleteRecord(item,i)" ion-button clear small  icon-start>\n';
+        body = body + '               <ion-icon name="ellipsis-vertical-outline"></ion-icon>\n';
+        body = body + '               {{ \'MENUM\' | translate }}\n';
+        body = body + '             </button>\n';
+        body = body + '           </ion-col>\n'
+        body = body + '         </ion-row>\n';
+        body = body + '       </ion-card>\n';
+        body = body + '     </ion-col>\n';
+        body = body + '   </ion-row>\n';
+        body = body + ' </ion-grid>\n';
+        body = body + ' <h3 *ngIf="itemsList?.length == 0" class="empty-list-message">\n';
+        body = body + '   {{ \'NODATOS\' | translate }}  \n';
+        body = body + ' </h3>\n';
+       
+        body = body + ' <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">\n';
+        body = body + '   <ion-infinite-scroll-content\n';
+        body = body + '     loadingSpinner="bubbles"\n';
+        body = body + '     loadingText="Espere un momento...">\n';
+        body = body + '   </ion-infinite-scroll-content>\n';
+        body = body + ' </ion-infinite-scroll>\n';
+        body = body + '</ion-content>\n';
+       
+
+       body=body + "\n\n\n"
+       body = body + 'modulo-list.js   ***************************************************\n';       
+
+ body = body + "import { Component , OnInit , ViewChild } from '@angular/core';\n"
+ body = body + "import {AlertController, ModalController ,  IonRouterOutlet} from '@ionic/angular';\n"
+ body = body + "import { TranslateService } from '@ngx-translate/core';\n"
+ body = body + "import {  Router } from '@angular/router';\n"
+ body = body + "import { AuthenticationService } from '../../services/Authentication.service';\n"
+ body = body + "import { FormGroup, FormControl } from '@angular/forms';\n"
+ body = body + "import { ReplaySubject} from 'rxjs';\n"
+ body = body + "import { IonInfiniteScroll } from '@ionic/angular';\n"
+ body = body + "import { "+op2+"CreatePage } from './"+op+"-create/"+op+"-create.page';\n"
+
+
+ body = body + "@Component({\n"
+        body = body + "selector: 'page-"+op+"-list',\n"
+        body = body + "templateUrl: '"+op+"-list.html',\n"
+        body = body + "styleUrls: ['./"+op+"-list.scss'],\n"
+body = body + "})\n"
+body = body + "export class "+op2+"ListPage implements OnInit {\n"
+        body = body + "@ViewChild(IonInfiniteScroll, { static : false }) infiniteScroll: IonInfiniteScroll;\n"
+        body = body + "rangeForm: FormGroup;\n"
+        body = body + "searchQuery: string;\n"
+        body = body + "showAgeFilter = false;\n"
+        body = body + "items: any  = [] ;\n"
+        body = body + "variables: any = [];\n"
+        body = body + "userinfo: any = [];\n"
+        body = body + "viewType = 'list';\n"
+        body = body + "tituloxx = '';\n"
+        body = body + "efecto = 0;\n"
+        body = body + "seguro ='';\n"
+        body = body + "msg = '';\n"
+        body = body + "itemsList: Array<any>;\n"
+        body = body + "public currentSegment: string = \"Todos\";\n"
+        body = body + "searchSubject: ReplaySubject<any> = new ReplaySubject<any>(1);\n"
+        body = body + "constructor(  private routerOutlet: IonRouterOutlet , private router: Router, private authenticationService: AuthenticationService,\n"
+ body = body + "   public alertController: AlertController,     public translateService: TranslateService    ,    private modalController: ModalController\n"
+ body = body + "   ) {\n"
+        body = body + " }\n"
+        body = body + "changeToList() { this.viewType = 'list'; }\n"
+
+        body = body + "changeToGrid() {   this.viewType = 'grid';  }\n"
+
+        body = body + "ngOnInit() {\n"
+    body = body + "    this.variables = this.router.getCurrentNavigation().extras.state.variables;\n"
+    body = body + "    this.userinfo = this.authenticationService.getcopiauser();\n"
+    body = body + "    this.tituloxx =  this.variables.nombre;\n"
+    body = body + "    this.searchQuery = '';\n"
+
+    body = body + "    this.translateService.get('SEGUROM').subscribe((value) => {   this.seguro = value  });\n"
+    body = body + "    this.translateService.get('MSGM').subscribe((value) => {   this.msg = value  });\n"
+
+    body = body + "    this.rangeForm = new FormGroup({    dual: new FormControl({lower: 1, upper: 100})   });   \n"
+    body = body + "    this.currentSegment = 'todos';\n"
+    body = body + "    this.pideregistros( this.currentSegment);\n"
+    body = body + "  }\n"
+    body = body + "  filterContacts(event: any) {\n"
+body = body + "    let selectedCategory = event.detail.value;\n"
+body = body + "    this.currentSegment = selectedCategory;\n"
+
+body = body + "    this.pideregistros(selectedCategory);\n"
+body = body + "  }\n"
+body = body + "  pideregistros0() {\n"
+
+        body = body + "   this.pideregistros(this.currentSegment);\n"
+        body = body + "  }\n"
+        body = body + "  pideregistros(op) {\n"
+ body = body + "       this.itemsList = [];\n"
+ body = body + "       this.efecto = 0 ;\n"
+ body = body + "       this.authenticationService.getReg('todos/' + op + '/' + this.userinfo[0].idempresa, 'modulos', 0).then((data) => {\n"
+ body = body + "       this.efecto=1;\n"
+ body = body + "       this.items =  data;\n"
+ body = body + "       this.itemsList = this.items;\n"
+ body = body + " }, (err) => {\n"
+ body = body + "   this.authenticationService.presentAlert(err.error , this.msg , '');\n"
+ body = body + " });\n"
+ body = body + "  }\n"
+ body = body + "  searchList() {\n"
+body = body + "    this.searchSubject.next({\n"
+ body = body + "     lower: this.rangeForm.controls.dual.value.lower,\n"
+ body = body + "     upper: this.rangeForm.controls.dual.value.upper,\n"
+ body = body + "     query: this.searchQuery\n"
+ body = body + "   });\n"
+ body = body + "    const query = (this.searchQuery && this.searchQuery !== null) ? this.searchQuery : '';\n"
+ body = body + "    this.itemsList = this.filterList(this.items, query);\n"
+ body = body + "  }\n"
+ body = body + " filterList(list, query): Array<any> {\n"
+ body = body + "   return list.filter(item => item.nombre.toLowerCase().includes(query.toLowerCase()));\n"
+ body = body + "  }\n"
+ body = body + "  async otrasop(item: any) {  }\n"
+ body = body + "  async deleteRecord(item: any) {\n"
+ body = body + "   const alert = await this.alertController.create({\n"
+ body = body + "     header: this.seguro,\n"
+ body = body + "     message: '',\n"
+ body = body + "     buttons: [\n"
+ body = body + "       {\n"
+ body = body + "         text: 'No',\n"
+ body = body + "        cssClass: 'secondary',\n"
+ body = body + "         handler: (blah) => {\n"
+ body = body + "         }\n"
+ body = body + "       }, {\n"
+body = body + "          text: 'Si',\n"
+body = body + "          handler: () => {\n"
+body = body + "            const recordID: string		= item._id;\n"
+body = body + "            this.authenticationService.deleteReg(recordID + '/' + this.variables.username + '/' + this.variables.idempresa + '/'\n"
+body = body + "            + this.variables.idafiliado , 'modulos').then((data) => {\n"
+body = body + "              this.pideregistros( this.currentSegment);\n"
+body = body + "              }, (err) => {\n"
+body = body + "                this.authenticationService.presentAlert(err.error, this.msg, '');\n"
+body = body + "            });\n"
+body = body + "          }\n"
+body = body + "        }\n"
+body = body + "      ]\n"
+body = body + "    });\n"
+body = body + "    await alert.present();\n"
+body = body + "  }\n"
+
+body = body + "  async updateRecord(item: any) {\n"
+body = body + "    const modal = await this.modalController.create({\n"
+body = body + "      component: ModuloCreatePage,\n"
+body = body + "      swipeToClose: true,\n"
+body = body + "      presentingElement: this.routerOutlet.nativeEl,\n"
+body = body + "      componentProps:  { variables:  this.variables, record: item, userinfo: this.userinfo}\n"
+body = body + "      , cssClass: 'modal-fullscreen'\n"
+body = body + "    });\n"
+body = body + "    modal.onWillDismiss().then(() => {\n"
+body = body + "      this.pideregistros( this.currentSegment);\n"
+body = body + "    });\n"
+body = body + "    return await modal.present();\n"
+body = body + "}\n"
+body = body + "   async  addRecord() {\n"
+body = body + "    const modal = await this.modalController.create({\n"
+body = body + "      component: ModuloCreatePage,\n"
+body = body + "      swipeToClose: false,\n"
+body = body + "      backdropDismiss: false,\n"
+body = body + "     animated: true,\n"
+
+body = body + "      presentingElement: await this.modalController.getTop(),\n"
+body = body + "      componentProps:  { variables:  this.variables, record: null, userinfo: this.userinfo}\n"
+body = body + "      , cssClass: 'modal-fullscreen'\n"
+body = body + "    });\n"
+
+body = body + "    modal.onWillDismiss().then((data) => {\n"
+body = body + "         if ( data.data !== 'close' ) {\n"
+body = body + "        this.pideregistros( this.currentSegment);\n"
+body = body + "      }\n"
+
+body = body + "    });\n"
+body = body + "    return await modal.present();\n"
+body = body + "   }\n"
+
+body = body + "   loadData(event) {\n"
+body = body + "    setTimeout(() => {\n"
+body = body + "      event.target.complete();\n"
+body = body + "      if ( this.items.length === 1000) {\n"
+body = body + "        event.target.disabled = true;\n"
+body = body + "      }\n"
+body = body + "    }, 500);\n"
+body = body + "  }\n"
+
+
+body = body + "}\n"
+
+
+
+         body=body + "\n\n\n"
+       body = body + 'modulo-create.module   ***************************************************\n';
+      
+                body=body + " import { NgModule } from '@angular/core'; \n"
+                body=body + "  import { CommonModule } from '@angular/common';\n"
+                body=body + "  import { FormsModule } from '@angular/forms';\n"
+                body=body + "  import { TranslateModule } from '@ngx-translate/core';\n"
+                body=body + "   import { IonicModule } from '@ionic/angular';\n"
+                body=body + "   import { "+op2+"CreatePage } from './"+op+"-create.page';\n"
+                body=body + "\n"
+                body=body + "   @NgModule({"
+                body=body + "   imports: [CommonModule,  FormsModule,  IonicModule,TranslateModule.forChild()   ],\n"
+                body=body + "   declarations: ["+op2+"CreatePage]        })\n"
+                body=body + "\n"
+                body=body + "  export class "+op2+"CreatePageModule {}\n"
+                body=body + "\n\n\n"
+                body = body + 'modulo-create.page.scss  ***************************************************\n';
+                body = body + ':host { --page-margin: var(--app-fair-margin);\n';
+                        body = body + '--page-background: var(--app-background);\n';
+                        body = body + '--page-background-shade: var(--app-background-shade);\n';
+                        body = body + '--page-tags-gutter: 5px;            }\n';
+                      
+                        body=body + "\n\n\n"
+                body = body + 'modulo-create.page.html   ***************************************************\n';
+
+
+
+                body = body + '<form class="create-user-form ion-page" [formGroup]="Form" >\n';
+                body = body + '<ion-header>\n';
+                body = body + '        <ion-toolbar color="primary">\n';
+                body = body + '                <ion-buttons slot="end">\n';
+                body = body + '                        <ion-button (click)="dismissModal()">\n';
+                body = body + '                           <ion-icon slot="icon-only" name="close"></ion-icon>\n';
+                body = body + '                        </ion-button>\n';
+                body = body + '                </ion-buttons>\n';
+                body = body + '                <ion-title>{{tituloxx}}</ion-title>\n';
+                body = body + '        </ion-toolbar>\n';
+                body = body + '</ion-header>\n';
+                
+                body = body + '<ion-content class="create-form-content">\n';
+                body = body + '    <section class="user-details-fields fields-section">\n';
+                body = body + '    <ion-list class="inputs-list" lines="full">\n';
+                body = body +buscamodulo(op,'createcamposhtml')
+                body = body + '     </ion-list>\n';
+                body = body + '  </section>\n';
+                 
+                body = body + '</ion-content>\n';
+                
+                
+                body = body + '<ion-footer>\n';
+                body = body + '  <ion-row class="form-actions-wrapper">\n';
+                body = body + '    <ion-col>\n';
+                body = body + '      <ion-button (click)="submitForm()" color="medium" expand="block" fill="outline" type="submit" [disabled]="!Form.valid">CREAR</ion-button>\n';
+                    
+                body = body + '      </ion-col>\n';
+                body = body + '  </ion-row>\n';
+                body = body + '</ion-footer>\n';
+                body = body + '</form>   \n';
+
+
+                body=body + "\n\n\n"
+
+                body = body + ' modulo-create.page.js  ***************************************************\n';
+               
+                body=body + "import { Component, OnInit , ViewChild} from '@angular/core';\n"
+                body=body + "import { ModalController , NavParams} from '@ionic/angular';\n"
+                body=body + "import { FormGroup, FormControl, Validators, FormGroupDirective } from '@angular/forms';\n"
+                body=body + "import { AuthenticationService } from '../../../services/Authentication.service';\n"
+                body=body + "import { TranslateService } from '@ngx-translate/core';\n"
+                body=body + "@Component({\n"
+                body=body + "  selector: 'app-"+op+"-create',\n"
+                body=body + "  templateUrl: './"+op+"-create.page.html',\n"
+                body=body + "  styleUrls: ['./"+op+"-create.page.scss'],\n"
+                body=body + "})\n"
+                body=body + "export class "+op2+"CreatePage implements OnInit {\n"
+                
+                body=body + "  Form: FormGroup;\n"
+                body=body + "  @ViewChild('createForm', { static: false }) createForm: FormGroupDirective;\n"
+                body=body + "  variables: any = [];\n"
+                body=body + "  userinfo: any = [];\n"
+                body=body + "  tituloxx = '';\n"
+                body=body + "  vgrupo: any = [];\n"
+                body=body + "  _ID: any;\n"
+                body=body + "  lpermiso: any;\n"
+                
+                
+                body=body + "  constructor(\n"
+                body=body + "    private modalController: ModalController,\n"
+                body=body + "    public translateService: TranslateService    , private authenticationService: AuthenticationService,\n"
+                body=body + "    private navParams: NavParams\n"
+                body=body + "  ) { }\n"
+                
+                body=body + "  dismissModal() {     this.modalController.dismiss('close');      }\n"
+                body=body + "  ionViewDidEnter(): void {               }\n"
+                body=body + "  ngOnInit(): void {\n"
+                body=body + "    this.variables = this.navParams.get('variables');\n"
+                body=body + "    this.userinfo = this.navParams.get('userinfo');\n"
+                body=body + "    this.tituloxx = this.variables.nombre;\n"
+                body=body + "    this.Form = new FormGroup({\n"
+                body = body +buscamodulo(op,'createcamposjsv')
+                
+              
+                body=body + "    });\n"
+                
+                
+                body=body + "    if (this.navParams.get('record') == null) {\n"
+                body = body +buscamodulo(op,'createcamposjsv21')
+                body=body + "       this.translateService.get('NUEVOM').subscribe((value) => {   this.tituloxx = value +' '+ this.variables.nombre;this.lpermiso = value; });\n"
+              
+                body=body + "       this.authenticationService.getReg('todos/orden/' + this.userinfo[0].idempresa, '"+op+"s', 0).then((data) => {\n"
+                body=body + "        if (data) {\n"
+                body=body + "         const aa: any = data;\n"
+                body=body + "          this.Form.controls['index'].setValue(Number(aa.orden) + 10);\n"
+                body=body + "        }\n"
+                body=body + "  }, (err) => {\n"
+                body=body + "    this.authenticationService.presentAlert(err.error , 'Precaución' , '');\n"
+                body=body + "  });\n"
+                body=body + "    } else {\n"
+                body=body + "       this.translateService.get('ACTUALIZAM').subscribe((value) => {this.tituloxx = value + ' '+ this.variables.nombre; this.lpermiso = value; });\n"
+
+                
+                body=body + "       this._ID 				=	this.navParams.data.record._id;\n"
+                body = body +buscamodulo(op,'createcamposjsv2')
+  
+                body=body + "    }\n"
+                body=body + "  }\n"
+                
+                body=body + "  //onSgrupoChange(selectedValue: any) {    this.sgrupo = selectedValue.detail.value ;(ionChange)='onSgrupoChange($event)'   }\n"
+                
+                body=body + "  submitForm() {\n"
+                
+                body=body + "    const   options: any	     = {\n"
+
+         
+
+
+              //  body=body + "       idempresa: this.userinfo[0].idempresa,\n"
+                body = body +buscamodulo(op,'createcamposjsv3')
+                body=body + "       bitacora: { idempresa : this.userinfo[0].idempresa , idafiliado: '' ,\n"
+                body=body + "       email: this.userinfo[0].username , permiso : this.lpermiso, accion: this.tituloxx}\n"
+                body=body + "   };\n"
+                
+                body=body + "   if (this.navParams.get('record') == null) {\n"
+                body=body + "        if (options) {\n"
+                body=body + "          this.authenticationService.createReg('', options, '"+op+"s').then((result) => {\n"
+                body=body + "            if (!this.Form.valid) { return; }\n"
+                body=body + "            this.modalController.dismiss('ok');\n"
+                body=body + "        }, (err) => {\n"
+                body=body + "          this.authenticationService.presentAlert(err.error , 'Precaución' , '');\n"
+                body=body + "        });\n"
+                body=body + "        }\n"
+                body=body + "   } else {\n"
+                body=body + "    if (options) {\n"
+                body=body + "      this.authenticationService.createReg(this._ID, options, '"+op+"s').then((result) => {\n"
+                body=body + "         if (!this.Form.valid) { return; }\n"
+                body=body + "         this.modalController.dismiss('ok');\n"
+                body=body + "     }, (err) => {\n"
+                body=body + "      this.authenticationService.presentAlert(err.error , 'Precaución' , '');\n"
+                body=body + "     });\n"
+                body=body + "  }}\n"
+
+                body=body + "  }\n"
+                
+                
+                
+                body=body + "}\n"
+                
+
+      
+        return   body  ;
+      };
+
+      
 exports.getCombofijo = function(req, res, next){
        var sql='';
 
        console.log(req.params)
 
        switch(req.params.id) {
-
+        case 'generamod':
+                res.writeHead(200, { 'Content-Type': 'text/plain; charset=UTF-8' });
+                res.write(buildHtml(req.params.id2,req.params.id3));
+                res.end();
+         
+                break;
         case 'creaempresa':
                 //http://127.0.0.1:9090/api/datosfijos/creaempresa
                 var idempresaxx='super24'
