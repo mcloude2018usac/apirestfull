@@ -50,6 +50,9 @@ exports.getUnidadplan3 = function(req, res, next){
             });
         break
         case 'horarios':
+
+            var id3v=req.params.id4.split('°')
+       
             var projectDataForMatch = {
                 $project : {
                   idhorario : 1, //list all fields needed here
@@ -57,6 +60,7 @@ exports.getUnidadplan3 = function(req, res, next){
                   idunidadacademica:1,
                   idperiodo:1,
                   idjornada:1,
+                  idnivel:1,
                     filterThisDoc : {
                         $cond : {
                             if  : {
@@ -71,9 +75,12 @@ exports.getUnidadplan3 = function(req, res, next){
             var match = {
                 $match : {
                     filterThisDoc : 1,
-                    'idtipounidad.id' :req.params.id,'idunidadacademica.id':req.params.id2,'idperiodo.id':req.params.id3,'idjornada':req.params.id4
+                    'idtipounidad.id' :req.params.id,'idunidadacademica.id':req.params.id2
+                    ,'idperiodo.id':req.params.id3,'idjornada':id3v[0],'idnivel':id3v[1]
                 }
             }
+            console.log({    'idtipounidad.id' :req.params.id,'idunidadacademica.id':req.params.id2
+            ,'idperiodo.id':req.params.id3,'idjornada':id3v[0],'idnivel':id3v[1]})
             Facplan3.aggregate([ projectDataForMatch, match]  ).exec(function(err, todos10) {
                 if (err){ res.send(err); }
                 var duplicates = [];
@@ -98,6 +105,7 @@ exports.getUnidadplan3 = function(req, res, next){
                   idperiodo:1,
                   idhorario:1,
                   idnivel:1,
+                  idjornada:1,
                     filterThisDoc : {
                         $cond : {
                             if  : {
@@ -112,10 +120,13 @@ exports.getUnidadplan3 = function(req, res, next){
             var match = {
                 $match : {
                     filterThisDoc : 1,
-                    'idtipounidad.id' :req.params.id,'idunidadacademica.id':req.params.id2,'idperiodo.id':req.params.id3,'idnivel':id3v[0],
-                    'idhorario':id3v[1]
+                    'idtipounidad.id' :req.params.id,'idunidadacademica.id':req.params.id2,'idperiodo.id':req.params.id3
+                    ,'idjornada':id3v[2],'idnivel':id3v[0], 'idhorario':id3v[1]
                 }
             }
+
+            console.log({ 'idtipounidad.id' :req.params.id,'idunidadacademica.id':req.params.id2,'idperiodo.id':req.params.id3
+            ,'idjornada':id3v[0],'idnivel':id3v[0], 'idhorario':id3v[1]})
             Facplan3.aggregate([ projectDataForMatch, match]  ).exec(function(err, todos10) {
                 if (err){ res.send(err); }
                

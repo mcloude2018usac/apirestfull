@@ -1164,7 +1164,9 @@ else{
             
             
             else{//queda con el operador
-                                Operadores.find({}).sort([['encola', -1]]).exec(function(err, todosb) {
+                                Operadores.find({}).sort([['encola', 1]]).exec(function(err, todosb) {
+
+                                    console.log(todosb)
                                     if (err){  if(err) return next(err);// res.status(404).send(err); 
                                     return;}
                                  
