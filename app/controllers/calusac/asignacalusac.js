@@ -13,6 +13,10 @@ var Asignaubicacion = require('../../models/calusac/asignaubicacion');
 var request = require('request');
 var xml2js = require ('xml2js'); 
 
+
+var Calusaccarnet = require('../../models/calusac/calusaccarnets');
+
+
 exports.getAsignacalusac = function(req, res, next){
     if(req.params.id3)
     { 
@@ -755,8 +759,48 @@ if(req.params.recordID!=='crea')
     else
     {
   
-    if( req.body.operacion=='asigna2222')
+    if( req.body.operacion=='asigna')
     {
+
+
+         
+    if( req.body.carnetcalusac=='')
+    {
+        var contadorcca=0
+Calusaccarnet.findById({ _id: '5e9cd2bd1aee4463745bcfd6' }, function (err, todo100xx)  {
+    if (err) {  res.send(err);  }
+
+    contadorcca=todo100xx.contador+1
+    todo100xx.contador	=	contadorcca;
+    
+
+    todo100xx.save(function (err, todo200cc){
+        if (err)     {  console.log(err.message)   }
+
+        Asignacalusac.findById({ _id: req.params.recordID }, function (err, todo100)  {
+            if (err) {  res.send(err);  }
+            else
+            { 
+                todo100.horario        	=		'Orden de pago cobrada exitosamente'   	;
+                todo100.profesor        	=req.body.foto5;
+                todo100.carnecalusac = contadorcca;
+    
+                todo100.save(function (err, todo200){
+                    if (err)     {  console.log(err.message)   }
+            
+                    res.json(todo200);
+
+                    //mandar correo
+               
+                    
+                });
+            }
+        });
+
+    });
+});
+    }
+    else{
 
 
         Asignacalusac.findById({ _id: req.params.recordID }, function (err, todo100)  {
@@ -765,18 +809,25 @@ if(req.params.recordID!=='crea')
             { 
                 todo100.horario        	=		'Orden de pago cobrada exitosamente'   	;
                 todo100.profesor        	=req.body.foto5;
-              
+             
     
                 todo100.save(function (err, todo200){
                     if (err)     {  console.log(err.message)   }
             
                     res.json(todo200);
+
+                    //mandar correo
                
                     
                 });
             }
         });
 
+
+
+    }
+
+        
 
     }
     else
