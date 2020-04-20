@@ -758,7 +758,7 @@ if(req.params.recordID!=='crea')
     }
     else
     {
-  
+  console.log(req.body)
     if( req.body.operacion=='asigna')
     {
 
@@ -776,14 +776,15 @@ Calusaccarnet.findById({ _id: '5e9cd2bd1aee4463745bcfd6' }, function (err, todo1
 
     todo100xx.save(function (err, todo200cc){
         if (err)     {  console.log(err.message)   }
-
+        console.log('genera carnet')
         Asignacalusac.findById({ _id: req.params.recordID }, function (err, todo100)  {
             if (err) {  res.send(err);  }
             else
             { 
-                todo100.horario        	=		'Orden de pago cobrada exitosamente'   	;
-                todo100.profesor        	=req.body.foto5;
+                todo100.horario        	=	req.body.horario	;
+                todo100.profesor        	=req.body.profesor;
                 todo100.carnecalusac = contadorcca;
+                todo100.estadopago    ='Asignación exitosa';
     
                 todo100.save(function (err, todo200){
                     if (err)     {  console.log(err.message)   }
@@ -802,13 +803,14 @@ Calusaccarnet.findById({ _id: '5e9cd2bd1aee4463745bcfd6' }, function (err, todo1
     }
     else{
 
-
+console.log('entra aqui')
         Asignacalusac.findById({ _id: req.params.recordID }, function (err, todo100)  {
             if (err) {  res.send(err);  }
             else
             { 
-                todo100.horario        	=		'Orden de pago cobrada exitosamente'   	;
-                todo100.profesor        	=req.body.foto5;
+                todo100.horario        	=	req.body.horario	;
+                todo100.profesor        	=req.body.profesor;
+                todo100.estadopago    ='Asignación exitosa';
              
     
                 todo100.save(function (err, todo200){
