@@ -72,9 +72,9 @@ Asignacalusac.find({ correo:  req.params.id }, function (err, todo100aaa)  {
         if(todo100aaa.length>0)
         {   var idmodlex='';
             for(var i = 0; i < todo100aaa.length;i++){
-                if(todo100aaa[0].idmoodle)
+                if(todo100aaa[i].idmoodle)
                 {
-                    idmodlex=todo100aaa[0].idmoodle;
+                    idmodlex=todo100aaa[i].idmoodle;
                     break;
                 }
             }
