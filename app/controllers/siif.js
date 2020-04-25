@@ -3,7 +3,8 @@ var request = require('request');
 var xml2js = require ('xml2js'); 
 var Asignacalusac = require('../models/calusac/asignacalusac');
 var generator = require('generate-password');
-
+var Facplan3 = require('../models/calusac/unidadplan3');
+var Operadores = require('../models/calusac/operadores');
 
 function remove_accents(strAccents) {
     var strAccents = strAccents.split('');
@@ -31,10 +32,33 @@ exports.getsiif = function(req, res, next){
        
 
         switch(req.params.id7)  {
+            case 'calusacmoodle2':
+            Operadores.find({}).sort([['encola', -1]]).exec(function(err, todosb) {
+                res.json(todosb);
+            });
+                break;
+
             case 'calusacmoodle':
 
               
         console.log({ idmoodle:  req.params.id3 })
+        Facplan3.find({_id:req.params.id6},function(err, todospla) {
+            if (err){ res.send(err); }
+
+            var codigott=''
+            if(todospla.length>0)
+            {
+                codigott=todospla[0].codfac
+            }
+
+            if(codigott=='' || codigott=='0' || codigott=='1')
+            {
+                res.json({estado:'exitosinusuario',password: ''});
+            }
+            else
+            {
+
+           
 Asignacalusac.find({ idmoodle:  req.params.id3 }, function (err, todo100aaa)  {
     if (err) {  res.send(err);  }
     else
@@ -56,7 +80,7 @@ console.log('encuentra data idmodle')
                 },
                 formData: {
                   'username': todo100aaa[0].idmoodle,
-                  'curso': req.params.id6,
+                  'curso': codigott,
                   'rol': '5'
                 }
               };
@@ -160,6 +184,10 @@ console.log('encuentra data idmodle')
 
             });           
 
+
+        }
+        });
+    
                 break
             default:
 //' + remove_accents(req.params.id2) + '
