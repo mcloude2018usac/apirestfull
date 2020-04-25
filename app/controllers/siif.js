@@ -27,13 +27,13 @@ function remove_accents(strAccents) {
 exports.getsiif = function(req, res, next){
 
     if(req.params.id7)
-    {  //http://127.0.0.1:9090/api/siifs/escobar.adoss/Escobar%20Cant%C3%A9/45/asssd@gmail.com/5ea2177d08c34a001e5853ea/3/calusacmoodle
+    {  //http://127.0.0.1:9090/api/siifs/escobar.adoss/Escobar%20Cant%C3%A9/45/asssd@gmail.com/5ea2177d08c34a001e5853ea/3/calusacmoodle2
 
        
 
         switch(req.params.id7)  {
             case 'calusacmoodle2':
-            Operadores.find({}).sort([['encola', -1]]).exec(function(err, todosb) {
+            Operadores.find({}).sort([['encola', 1]]).exec(function(err, todosb) {
                 res.json(todosb);
             });
                 break;
