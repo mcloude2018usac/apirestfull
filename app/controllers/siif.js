@@ -49,6 +49,7 @@ exports.getsiif = function(req, res, next){
             if(todospla.length>0)
             {
                 codigott=todospla[0].codfac
+                console.log('encuentra plan: ' + codigott)
             }
 
             if(codigott=='' || codigott=='0' || codigott=='1')
@@ -67,19 +68,21 @@ Asignacalusac.find({ correo:  req.params.id }, function (err, todo100aaa)  {
             length: 4,
             numbers: true
         });    
-        console.log(todo100aaa)
-
-        if(todo100aaa.length>0)
-        {   var idmodlex='';
+    
+   var idmodlex=0;
+   var idmodlexpass='';
             for(var i = 0; i < todo100aaa.length;i++){
                 if(todo100aaa[i].idmoodle)
                 {
                     idmodlex=todo100aaa[i].idmoodle;
+                    idmodlexpass=todo100aaa[i].idmoodlepass;
                     break;
                 }
             }
-            //encuentra  todo100aaa[0].idmoodle,
-console.log('encuentra data idmodle')
+            console.log('busca='+idmodlex)
+            if(idmodlex>0)
+            {
+                console.log('encuentra data idmodle (usuario)='+idmodlex)
             
             var options = {
                 'method': 'POST',
@@ -92,19 +95,20 @@ console.log('encuentra data idmodle')
                   'rol': '5'
                 }
               };
+              console.log('envia a crear solo curso')
               console.log(options)
               request(options, function (error, response) { 
                 if (error) throw new Error(error);
                 console.log(response.body);
 
-                res.json({estado:'exito',password: password2+'13!@'});
+                res.json({estado:'exito',password: idmodlexpass});
               });
 
         }
         else
         {
 
-            console.log('NOOOOOOOOOOO encuentra data idmodle')    
+            console.log('NOOOOOOOOOOO encuentra encuentra usuario lo crea todo')    
             var options = {
                 'method': 'POST',
                 'url': 'http://calusacvirtual.usac.edu.gt/app/api/api.php?apicall=crear_usuario',
@@ -118,6 +122,13 @@ console.log('encuentra data idmodle')
                   'email': req.params.id4
                 }
               };
+              console.log({
+                'usuario': req.params.id,
+                'password': password2+'13!@',
+                'firstname': req.params.id2,
+                'lastname':'na',
+                'email': req.params.id4
+              })
               request(options, function (error, response) { 
                 if (error) throw new Error(error);
                 console.log(response.body);
@@ -132,6 +143,7 @@ console.log('encuentra data idmodle')
 
                   var aaa=response.body
                   var code =aaa.substring(aaa.indexOf(':')+1,aaa.indexOf(','))
+                  console.log('crea curso')
                   console.log(code)
                               
                   Asignacalusac.findById({ _id:  req.params.id5 }, function (err, todo100)  {
