@@ -59,7 +59,7 @@ exports.getsiif = function(req, res, next){
             {
 
            
-Asignacalusac.find({ idmoodle:  req.params.id3 }, function (err, todo100aaa)  {
+Asignacalusac.find({ correo:  req.params.id }, function (err, todo100aaa)  {
     if (err) {  res.send(err);  }
     else
     { 
@@ -70,7 +70,15 @@ Asignacalusac.find({ idmoodle:  req.params.id3 }, function (err, todo100aaa)  {
         console.log(todo100aaa)
 
         if(todo100aaa.length>0)
-        {
+        {   var idmodlex='';
+            for(var i = 0; i < todo100aaa.length;i++){
+                if(todo100aaa[0].idmoodle)
+                {
+                    idmodlex=todo100aaa[0].idmoodle;
+                    break;
+                }
+            }
+            //encuentra  todo100aaa[0].idmoodle,
 console.log('encuentra data idmodle')
             
             var options = {
@@ -79,7 +87,7 @@ console.log('encuentra data idmodle')
                 'headers': {
                 },
                 formData: {
-                  'username': todo100aaa[0].idmoodle,
+                  'username': idmodlex,
                   'curso': codigott,
                   'rol': '5'
                 }
