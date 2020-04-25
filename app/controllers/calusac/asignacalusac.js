@@ -759,7 +759,7 @@ if(req.params.recordID!=='crea')
     else
     {
   console.log(req.body)
-    if( req.body.operacion=='asigna')
+    if( req.body.operacion=='asignaxxxx')
     {
 
 
@@ -989,65 +989,90 @@ console.log(req.body);
                                                         if (err)     {  console.log(err.message)   }
     
     
-                                                        Asignacalusac.findById({ _id: req.params.recordID }, function (err, todo100)  {
-                                                            if (err) {  res.send(err);  }
-                                                            else
-                                                            {
-                                                                if (todo100.carnecalusac=='')
-                                                                {
-                                                                    todo100.estadopago        	=		'Asignación exitosa'    	;
-                                                                    todo100.idedificio=myData[0].idedificio,
-                                                                    todo100.idsalon= myData[0].idsalon,
-                                                                   
-                                                                   todo100.carnecalusac= '3915474',
-                                                                 
-                                                                    todo100.horario=req.body.horario,
-                                                                   
-                                                                    todo100.profesor=req.body.profesor,
-                                                                    todo100.idplanifica=myData[0]._id
-    
-                                                                 //   todo100.nivel=todo.nivel
-                                                                    
-                                                        
-                                                                    todo100.save(function (err, todo200){
-                                                                        if (err)     {  console.log(err.message)   }
-                                                                
-                                                                        res.json(todo200);
-                                                                   
+                                                              
+                                                                        if( req.body.carnetcalusac=='')
+                                                                        {
+                                                                            var contadorcca=0
+                                                                        Calusaccarnet.findById({ _id: '5e9cd2bd1aee4463745bcfd6' }, function (err, todo100xxaa)  {
+                                                                        if (err) {  res.send(err);  }
+
+                                                                        contadorcca=todo100xxaa.contador+1
+                                                                        todo100xxaa.contador	=	contadorcca;
                                                                         
-                                                                    });
 
-                                                                }
-                                                                else
-                                                                {
+                                                                        todo100xxaa.save(function (err, todo200cc){
+                                                                            if (err)     {  console.log(err.message)   }
 
-                                                                    todo100.estadopago        	=		'Asignación exitosa'    	;
-                                                                    todo100.idedificio=myData[0].idedificio,
-                                                                    todo100.idsalon= myData[0].idsalon,
-                                                                 
-                                                                 //   todo100.jornada=req.body.jornada,
-                                                                    todo100.horario=req.body.horario,
-                                                                   
-                                                                    todo100.profesor=req.body.profesor,
-                                                                    todo100.idplanifica=myData[0]._id
-    
-                                                                 //   todo100.nivel=todo.nivel
-                                                                    
-                                                        
-                                                                    todo100.save(function (err, todo200){
-                                                                        if (err)     {  console.log(err.message)   }
-                                                                
-                                                                        res.json(todo200);
-                                                                   
+                                                                            Asignacalusac.findById({ _id: req.params.recordID }, function (err, todo100)  {
+                                                                                if (err) {  res.send(err);  }
+                                                                                else
+                                                                                {
+                                                                                    todo100.estadopago        	=		'Asignación exitosa'    	;
+                                                                                    todo100.idedificio=myData[0].idedificio,
+                                                                                    todo100.idsalon= myData[0].idsalon,
+                                                                                
+                                                                                todo100.carnecalusac= contadorcca,
+                                                                                
+                                                                                    todo100.horario=req.body.horario,
+                                                                                
+                                                                                    todo100.profesor=req.body.profesor,
+                                                                                    todo100.idplanifica=myData[0]._id
+
+                                                                                //   todo100.nivel=todo.nivel
+                                                                                    
                                                                         
+                                                                                    todo100.save(function (err, todo200){
+                                                                                        if (err)     {  console.log(err.message)   }
+                                                                                
+                                                                                        res.json(todo200);
+                                                                                
+                                                                                        
+                                                                                    });
+
+
+                                                                                }
+                                                                            });
+
+
+
+                                                                        });
                                                                     });
+                                                                    }
+                                                                    else
+                                                                    {
+
+                                                                        Asignacalusac.findById({ _id: req.params.recordID }, function (err, todo100)  {
+                                                                            if (err) {  res.send(err);  }
+                                                                            else
+                                                                            {
+
+                                                                                todo100.estadopago        	=		'Asignación exitosa'    	;
+                                                                                todo100.idedificio=myData[0].idedificio,
+                                                                                todo100.idsalon= myData[0].idsalon,
+                                                                            
+                                                                            //   todo100.jornada=req.body.jornada,
+                                                                                todo100.horario=req.body.horario,
+                                                                            
+                                                                                todo100.profesor=req.body.profesor,
+                                                                                todo100.idplanifica=myData[0]._id
+
+                                                                            //   todo100.nivel=todo.nivel
+                                                                                
+
+                                                                                todo100.save(function (err, todo200){
+                                                                                    if (err)     {  console.log(err.message)   }
+                                                                            
+                                                                                    res.json(todo200);
+                                                                            
+                                                                                    
+                                                                                });
+                                                                            }
+                                                                        });
+
+                                                                    }
 
 
-                                                                }
-
-
-                                                            }
-                                                        });
+                                              
                                                         
                                                         
                                                     });
