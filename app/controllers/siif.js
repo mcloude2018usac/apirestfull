@@ -1,7 +1,8 @@
 
 var request = require('request');
 var xml2js = require ('xml2js'); 
-
+var Asignacalusac = require('../models/calusac/asignacalusac');
+var generator = require('generate-password');
 
 
 function remove_accents(strAccents) {
@@ -25,68 +26,139 @@ function remove_accents(strAccents) {
 exports.getsiif = function(req, res, next){
 
     if(req.params.id7)
-    {  //http://127.0.0.1:9090/api/siifs/2638396800101/Mario/120.00/00/2020/145/calusacmoodle
+    {  //http://127.0.0.1:9090/api/siifs/escobar.adoss/Escobar%20Cant%C3%A9/45/asssd@gmail.com/5ea2177d08c34a001e5853ea/3/calusacmoodle
+
+       
 
         switch(req.params.id7)  {
             case 'calusacmoodle':
 
-                var options = {
-                  'method': 'POST',
-                  'url': 'http://calusacvirtual.usac.edu.gt/app/api/api.php?apicall=crear_usuario',
-                  'headers': {
-                  },
-                  formData: {
-                    'usuario': 'escobar.adoss',
-                    'password': 'Escobar123!@',
-                    'firstname': 'Escobar Canté',
-                    'lastname': 'meme',
-                    'email': 'asssd@gmail.com'
-                  }
-                };
-                request(options, function (error, response) { 
-                  if (error) throw new Error(error);
-                  console.log(response.body);
-                  if(response.body.indexOf('Error')>0)
-                  {
-                    res.json({estado:'error'});
+              
+        console.log({ idmoodle:  req.params.id3 })
+Asignacalusac.find({ idmoodle:  req.params.id3 }, function (err, todo100aaa)  {
+    if (err) {  res.send(err);  }
+    else
+    { 
+        var password2= generator.generate({
+            length: 4,
+            numbers: true
+        });    
+        console.log(todo100aaa)
 
-                    
-                  }
-                  else{
-                    var aaa=response.body
-                    var code =aaa.substring(aaa.indexOf(':')+1,aaa.indexOf(','))
-                    console.log(code)
-                                
+        if(todo100aaa.length>0)
+        {
+console.log('encuentra data idmodle')
+            
+            var options = {
+                'method': 'POST',
+                'url': 'http://calusacvirtual.usac.edu.gt/app/api/api.php?apicall=asignar_usuario',
+                'headers': {
+                },
+                formData: {
+                  'username': todo100aaa[0].idmoodle,
+                  'curso': req.params.id6,
+                  'rol': '5'
+                }
+              };
+              console.log(options)
+              request(options, function (error, response) { 
+                if (error) throw new Error(error);
+                console.log(response.body);
 
-                    var options = {
-                        'method': 'POST',
-                        'url': 'http://calusacvirtual.usac.edu.gt/app/api/api.php?apicall=asignar_usuario',
-                        'headers': {
-                        },
-                        formData: {
-                          'username': code,
-                          'curso': '3',
-                          'rol': '5'
-                        }
-                      };
-                      console.log(options)
-                      request(options, function (error, response) { 
-                        if (error) throw new Error(error);
-                        console.log(response.body);
+                res.json({estado:'exito',password: password2+'13!@'});
+              });
 
-                        res.json({estado:'exito'});
-                      });
+        }
+        else
+        {
+
+            console.log('NOOOOOOOOOOO encuentra data idmodle')    
+            var options = {
+                'method': 'POST',
+                'url': 'http://calusacvirtual.usac.edu.gt/app/api/api.php?apicall=crear_usuario',
+                'headers': {
+                },
+                formData: {
+                  'usuario': req.params.id,
+                  'password': password2+'13!@',
+                  'firstname': req.params.id2,
+                  'lastname':'na',
+                  'email': req.params.id4
+                }
+              };
+              request(options, function (error, response) { 
+                if (error) throw new Error(error);
+                console.log(response.body);
+                if(response.body.indexOf('Error')>0)
+                {
+                    console.log('error al asignar usuario ya existe')
+                  res.json({estado:'error'});
+
+                  
+                }
+                else{
+
+                  var aaa=response.body
+                  var code =aaa.substring(aaa.indexOf(':')+1,aaa.indexOf(','))
+                  console.log(code)
+                              
+                  Asignacalusac.findById({ _id:  req.params.id5 }, function (err, todo100)  {
+                      if (err) {  res.send(err);  }
+                      else
+                      { 
+                          todo100.idmoodle       	=		code;
+                          todo100.idmoodlepass       	=	password2+'13!@';
+                        
+              
+                          todo100.save(function (err, todo200){
+                              if (err)     {  console.log(err.message)   }
+                      
+                           
+          
+                              var options = {
+                                  'method': 'POST',
+                                  'url': 'http://calusacvirtual.usac.edu.gt/app/api/api.php?apicall=asignar_usuario',
+                                  'headers': {
+                                  },
+                                  formData: {
+                                    'username': code,
+                                    'curso': req.params.id6,
+                                    'rol': '5'
+                                  }
+                                };
+                                console.log(options)
+                                request(options, function (error, response) { 
+                                  if (error) throw new Error(error);
+                                  console.log(response.body);
+          
+                                  res.json({estado:'exito',password: password2+'13!@'});
+                                });
+                         
+                              
+                          });
+                      }
+                  });
 
 
 
-                   
-                  }
+      
 
-                
 
-                });
 
-                
+                 
+                }
+
+              
+
+              });
+
+        }
+
+    }
+        
+     
+
+            });           
 
                 break
             default:
