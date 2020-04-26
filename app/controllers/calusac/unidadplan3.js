@@ -13,6 +13,30 @@ exports.getUnidadplan3 = function(req, res, next){
        
     switch(req.params.id5) {
       
+        case 'horariocalusac':
+            console.log({'idtipounidad.id':req.params.id, 'idunidadacademica.id':req.params.id2})
+            Facplan3.find({'idtipounidad.id':req.params.id, 'idunidadacademica.id':req.params.id2})
+            .populate('idnivel').populate('idjornada').populate('idhorario').populate('idprofesor').find({}).sort(   {  "idnivel" : 1,    "idjornada" : 1 } ).exec(function(err, todos2) {
+            if (err){  res.send(err);  }
+                            var myData31 = [];
+
+
+                            
+                           
+                            for(var i = 0; i <  todos2.length;i++){
+                                        myData31.push({ubicacion:todos2[i].idtipounidad.nombre,
+                                            curso:todos2[i].idunidadacademica.nombre,periodo:todos2[i].idperiodo.nombre,
+                                            edificio:todos2[i].idedificio.nombre,salon:todos2[i].idsalon.nombre,
+                                            nivel:todos2[i].idnivel.nombre,jornada:todos2[i].idjornada.nombre,horario:todos2[i].idhorario.nombre +' - '+todos2[i].idhorario.nombre2
+                                            ,dias:todos2[i].idhorario.dia   ,profesor:todos2[i].idprofesor.nombre
+                                            ,capacidad:todos2[i].capacidad
+                                            ,asignados:todos2[i].asignados,cupo:todos2[i].capacidad-todos2[i].asignados     ,cantidad:1                              })
+                                    }
+
+                                    res.json(myData31);
+
+                                });
+                                break;
         case 'jornadas':
             var projectDataForMatch = {
                 $project : {
