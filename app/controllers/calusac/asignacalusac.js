@@ -359,16 +359,33 @@ break;
                     });
                     break;
             case 'todosautoriza':
-console.log({userasignadoemail:req.params.id2,estadooperador:req.params.id ,estadopago:{ $nin: [ 'Pendiente de pago' ]}  })
-         
-                    Asignacalusac.find({userasignadoemail:req.params.id2,estadooperador:req.params.id ,estadopago:{ $nin: [ 'Pendiente de pago' ]}  }).populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia').exec(function(err, todos) {
-                        if (err){ res.send(err); console.log(err) }
+
+                    if(req.params.id=='NUEVOS')
+                    {
+                        console.log({userasignadoemail:req.params.id2,estadooperador:req.params.id ,estadopago:{ $in: [ 'Pendiente de pago' ]}  })
+                        Asignacalusac.find({userasignadoemail:req.params.id2,estadooperador:req.params.id ,estadopago:'Pendiente de pago'   }).populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia').exec(function(err, todos) {
+                            if (err){ res.send(err); console.log(err) }
+                     
+                        res.json(todos);  
+                         }); 
+
+                    }
+                    else
+                    {
+                        console.log({userasignadoemail:req.params.id2,estadooperador:req.params.id ,estadopago:{ $nin: [ 'Pendiente de pago' ]}  })
+                        Asignacalusac.find({userasignadoemail:req.params.id2,estadooperador:req.params.id ,estadopago:{ $in: [ 'Pendiente de pago' ]}  }).populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia').exec(function(err, todos) {
+                            if (err){ res.send(err); console.log(err) }
+                     
+                        res.json(todos);   
+                          });
+
+                    }
+
                  
-                    res.json(todos);   
                  
                         
                         
-                    });
+                  
                     break;
                     case 'todosautorizapago':
                         
