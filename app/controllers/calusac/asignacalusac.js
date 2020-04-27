@@ -362,17 +362,15 @@ break;
 
                     if(req.params.id=='NUEVOS' || req.params.id=='EN PROCESO')
                     {
-                        console.log({userasignadoemail:req.params.id2,estadooperador:req.params.id ,estadopago:{ $nin: [ 'Pendiente de pago' ]}  })
                         Asignacalusac.find({userasignadoemail:req.params.id2,estadooperador:req.params.id   }).populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia').exec(function(err, todos) {
                             if (err){ res.send(err); console.log(err) }
-                     console.log(todos)
+                   
                         res.json(todos);  
                          }); 
 
                     }
                     else
                     {
-                        console.log({userasignadoemail:req.params.id2,estadooperador:req.params.id ,estadopago:{ $nin: [ 'Pendiente de pago' ]}  })
                         Asignacalusac.find({userasignadoemail:req.params.id2,estadooperador:req.params.id ,estadopago:{ $in: [ 'Pendiente de pago','Orden de pago actualizada exitosamente' ]}  }).populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia').exec(function(err, todos) {
                             if (err){ res.send(err); console.log(err) }
                      
@@ -862,6 +860,7 @@ console.log('entra aqui')
                 todo100.estadopago        	=		'Orden de pago actualizada exitosamente'   	;
                 todo100.foto5        	=req.body.foto5;
                 todo100.noorden        	=todo100.noboletapago;
+                todo100.identificador=req.body.identificador;
                 todo100.noboletapago=req.body.noorden;
                 todo100.estadooperador='AUTORIZADO'
     
@@ -1263,7 +1262,7 @@ else{
             else{//queda con el operador
                                 Operadores.find({}).sort([['encola', 1]]).exec(function(err, todosb) {
 
-                                    console.log(todosb)
+                                    
                                     if (err){  if(err) return next(err);// res.status(404).send(err); 
                                     return;}
                                  
