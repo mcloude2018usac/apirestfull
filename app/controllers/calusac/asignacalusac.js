@@ -360,7 +360,7 @@ break;
                     break;
             case 'todosautoriza':
 
-                    if(req.params.id=='NUEVOS' || req.params.id=='EN PROCESO')
+                    if(req.params.id=='NUEVOS' || req.params.id=='EN PROCESO'  || req.params.id=='ACTUALIZADAS')
                     {
                         Asignacalusac.find({userasignadoemail:req.params.id2,estadooperador:req.params.id   }).populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia').exec(function(err, todos) {
                             if (err){ res.send(err); console.log(err) }
