@@ -1260,6 +1260,19 @@ else{
             
             
             else{//queda con el operador
+                Asignacalusac.find({cui:req.body.cui,'idunidadacademica.id'        	: req.body.unidadacademica.id }).exec(function(err, todos123) {
+
+                                    
+                    if (err){  if(err) return next(err);// res.status(404).send(err); 
+                    return;}
+                            if(todos123.length>0)
+                            {
+                                res.status(404).send('Ya existe una asignación con este CUI y curso asignado')  
+                            }
+                            else
+                            {
+
+
                                 Operadores.find({}).sort([['encola', 1]]).exec(function(err, todosb) {
 
                                     
@@ -1372,6 +1385,8 @@ else{
                                 
                                     }
                                 });
+                            }
+                            });        
 
             }
 
