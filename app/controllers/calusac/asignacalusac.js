@@ -362,7 +362,7 @@ break;
 
                     if(req.params.id=='NUEVOS' || req.params.id=='EN PROCESO'  || req.params.id=='ACTUALIZADAS')
                     {
-                        Asignacalusac.find({userasignadoemail:req.params.id2,estadooperador:req.params.id   }).populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia').exec(function(err, todos) {
+                        Asignacalusac.find({userasignadoemail:req.params.id2,estadooperador:req.params.id   }).populate('ididioma').populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia').exec(function(err, todos) {
                             if (err){ res.send(err); console.log(err) }
                    
                         res.json(todos);  
@@ -371,7 +371,7 @@ break;
                     }
                     else
                     {
-                        Asignacalusac.find({userasignadoemail:req.params.id2,estadooperador:req.params.id ,estadopago:{ $in: [ 'Pendiente de pago','Orden de pago actualizada exitosamente' ]}  }).populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia').exec(function(err, todos) {
+                        Asignacalusac.find({userasignadoemail:req.params.id2,estadooperador:req.params.id ,estadopago:{ $in: [ 'Pendiente de pago','Orden de pago actualizada exitosamente' ]}  }).populate('ididioma').populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia').exec(function(err, todos) {
                             if (err){ res.send(err); console.log(err) }
                      
                         res.json(todos);   
