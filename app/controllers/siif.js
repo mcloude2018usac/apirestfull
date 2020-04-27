@@ -166,7 +166,7 @@ Asignacalusac.find({ correo:  req.params.id }, function (err, todo100aaa)  {
                                   },
                                   formData: {
                                     'username': code,
-                                    'curso': req.params.id6,
+                                    'curso': codigott,
                                     'rol': '5'
                                   }
                                 };
