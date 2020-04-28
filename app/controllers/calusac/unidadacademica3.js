@@ -36,7 +36,7 @@ exports.getUnidadacademica3 = function(req, res, next){
                     }
                           
         Unidadacademica3.find(filtro
-        ,null, {sort: {codigo: 1}},function(err, todos) {
+        ,null, {sort: {nombre: 1}},function(err, todos) {
            if (err){  res.send(err);  }
            
             res.json(todos);
