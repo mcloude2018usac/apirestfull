@@ -46,10 +46,17 @@ exports.getsiif = function(req, res, next){
             if (err){ res.send(err); }
 
             var codigott=''
+
+            
             if(todospla.length>0)
             {
                 codigott=todospla[0].codfac
                 console.log('encuentra plan: ' + codigott)
+            }
+
+            if(todospla[0].codfac){}else
+            {
+                codigott='';
             }
 
             if(codigott=='' || codigott=='0' || codigott=='1')
