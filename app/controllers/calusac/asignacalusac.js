@@ -1032,7 +1032,7 @@ console.log(req.body);
                                                                                 todo100.carnecalusac= contadorcca,
                                                                                 
                                                                                     todo100.horario=req.body.horario,
-                                                                                
+                                                                                    todo100.fechasiif=req.body.fechax,
                                                                                     todo100.profesor=req.body.profesor,
                                                                                     todo100.idplanifica=myData[0]._id
 
@@ -1067,7 +1067,7 @@ console.log(req.body);
                                                                                 todo100.estadopago        	=		'Asignación exitosa'    	;
                                                                                 todo100.idedificio=myData[0].idedificio,
                                                                                 todo100.idsalon= myData[0].idsalon,
-                                                                            
+                                                                                todo100.fechasiif=req.body.fechax,
                                                                             //   todo100.jornada=req.body.jornada,
                                                                                 todo100.horario=req.body.horario,
                                                                             
