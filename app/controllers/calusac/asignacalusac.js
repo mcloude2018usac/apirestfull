@@ -344,6 +344,8 @@ break;
                     Asignacalusac.find({$or : [
                         { $and : [ { cui : req.params.id2 }] },
                         { $and : [ { noboletapago : req.params.id2 }] },
+                        { $and : [ { idestudiante : req.params.id2 }] },
+                        { $and : [ { idinterno : req.params.id2 }] },
                         { $and : [ { correo : req.params.id2 }] },
                         { $and : [ { telefono : req.params.id2 }] },
                         { $and : [ { identificador : req.params.id2 }] },
