@@ -24,7 +24,7 @@ var Perfil = require('../models/perfil');
 var Catalogo = require('../models/catalogo');
 
 
-
+const fs = require('fs-extra');
 var User = require('../models/user');
 
 
@@ -81,7 +81,24 @@ var cleanName = function(str) {
     
 ];
 
+const  Asociadovv = [{nombre:'idempresa',tipo:'String',requerido:1,visible:0},
+   
+{nombre:'nombre',tipo:'String',requerido:1,visible:1},
+{nombre:'direccion',tipo:'String',requerido:1,visible:1},
+{nombre:'telefono',tipo:'String',requerido:1,visible:1},
+{nombre:'correo',tipo:'String',requerido:1,visible:1},
+{nombre:'ubicacion',tipo:'String',requerido:1,visible:1},
+{nombre:'horario',tipo:'String',requerido:1,visible:1},
+{nombre:'foto',tipo:'Foto',requerido:1,visible:1},
+{nombre:'nit',tipo:'String',requerido:1,visible:1},
+{nombre:'nombrecomercial',tipo:'String',requerido:1,visible:1},
+{nombre:'direccioncomercial',tipo:'String',requerido:1,visible:1},
 
+{nombre:'estado',tipo:'Estado',requerido:1,visible:1},
+{nombre:'usuarionew',tipo:'String',requerido:0,visible:0},
+{nombre:'usuarioup',tipo:'String',requerido:0,visible:0}
+
+];
 
 
    
@@ -207,7 +224,23 @@ var cleanName = function(str) {
             }
        
       }
+   
+      
+      function generafile(texto,nombre){
+            
+        var contents = texto;
 
+        console.log(nombre)
+       
+fs.outputFile(nombre, contents, err => {
+        if(err) {
+        //  console.log(err);
+        } else {
+          console.log('The file was saved!');
+        }
+      })
+
+      }
 
     function dacadenamodulo(vector,op) {
         var re=''
@@ -225,11 +258,11 @@ var cleanName = function(str) {
 
                                                 if(vector[i].tipo=='Number')
                                                 {
-                                                        re= re+  '              <ion-input inputMode="Number" clearInput="true" formControlName="' + vector[i].tipo +'" required></ion-input>\n'
+                                                        re= re+  '              <ion-input inputMode="Number" clearInput="true" formControlName="' + vector[i].nombre +'" required></ion-input>\n'
                                           
                                                 }
                                                 else{
-                                                        re= re+  '              <ion-input inputMode="text" clearInput="true" formControlName="' + vector[i].tipo +'" required></ion-input>\n'
+                                                        re= re+  '              <ion-input inputMode="text" clearInput="true" formControlName="' + vector[i].nombre +'" required></ion-input>\n'
                                           
                                                 }
                                                 re= re+  '      </ion-item>\n'
@@ -257,6 +290,8 @@ var cleanName = function(str) {
 
                                         break;
                                         case 'createcamposjsv3':
+                                                if( vector[i].nombre!=='usuarioup' && vector[i].nombre!=='usuarionew')
+                                                {
                                             
                                                         if(vector[i].nombre=='idempresa')
                                                         {
@@ -266,7 +301,7 @@ var cleanName = function(str) {
                                                         {
                                                                 re= re+ "       "+vector[i].nombre + "  : this.Form.controls['"+ vector[i].nombre  +"'].value,\n"   
                                                         }
-                                                        
+                                                }   
                                                 
 
                                         break;
@@ -314,8 +349,31 @@ var cleanName = function(str) {
                                                         }
                                                 }
                                                 break;
+                                                case 'nodejs1':
+                                                        if(vector[i].requerido==1)
+                                                        {
+                                                                re= re +"  "+ vector[i].nombre +"		: { type : Number, required : true },  \n"
+                                                        }
+                                                        else{
+                                                                re= re +"  "+ vector[i].nombre +"		: { type : Number },  \n"
+                                                        }
+                                                        
+                                                break
+                                                case 'nodejs2':
+                                                        if( vector[i].nombre!=='usuarioup' && vector[i].nombre!=='usuarionew')
+                                                        {
+                                                        re= re +" todo."+ vector[i].nombre +"       	=	req.body."+ vector[i].nombre +"        	||	todo."+ vector[i].nombre +";   \n";
+                                                        }
+                                                        break
+                                                        case 'nodejs3':
+                                                                if( vector[i].nombre!=='usuarioup' && vector[i].nombre!=='usuarionew')
+                                                                {
+                                                                re= re +"  "+ vector[i].nombre +"     	: req.body."+ vector[i].nombre +"    	,\n";
+                                                        }
+                                                        break
                                        
                                 }
+                               
 
                         break;
                         case 'String':
@@ -329,11 +387,11 @@ var cleanName = function(str) {
 
                                                 if(vector[i].tipo=='Number')
                                                 {
-                                                        re= re+  '              <ion-input inputMode="Number" clearInput="true" formControlName="' + vector[i].tipo +'" required></ion-input>\n'
+                                                        re= re+  '              <ion-input inputMode="Number" clearInput="true" formControlName="' + vector[i].nombre +'" required></ion-input>\n'
                                           
                                                 }
                                                 else{
-                                                        re= re+  '              <ion-input inputMode="text" clearInput="true" formControlName="' + vector[i].tipo +'" required></ion-input>\n'
+                                                        re= re+  '              <ion-input inputMode="text" clearInput="true" formControlName="' + vector[i].nombre +'" required></ion-input>\n'
                                           
                                                 }
                                                 re= re+  '      </ion-item>\n'
@@ -361,7 +419,8 @@ var cleanName = function(str) {
 
                                         break;
                                         case 'createcamposjsv3':
-                                           
+                                                if( vector[i].nombre!=='usuarioup' && vector[i].nombre!=='usuarionew')
+                                                {
                                                         if(vector[i].nombre=='idempresa')
                                                         {
                                                                 re= re + "       idempresa: this.userinfo[0].idempresa,\n"
@@ -370,7 +429,7 @@ var cleanName = function(str) {
                                                         {
                                                                 re= re+ "       "+vector[i].nombre + "  : this.Form.controls['"+ vector[i].nombre  +"'].value,\n"   
                                                         }
-                                                        
+                                                }
                                                 
 
                                         break;
@@ -418,6 +477,28 @@ var cleanName = function(str) {
                                                         }
                                                 }
                                                 break;
+                                                case 'nodejs1':
+                                                        if(vector[i].requerido==1)
+                                                        {
+                                                                re= re +"  "+ vector[i].nombre +"		: { type : String, required : true },  \n"
+                                                        }
+                                                        else{
+                                                                re= re +"  "+ vector[i].nombre +"		: { type : String },  \n"
+                                                        }
+                                                        
+                                                break
+                                                case 'nodejs2':
+                                                        if( vector[i].nombre!=='usuarioup' && vector[i].nombre!=='usuarionew')
+                                                        {
+                                                        re= re +" todo."+ vector[i].nombre +"       	=	req.body."+ vector[i].nombre +"        	||	todo."+ vector[i].nombre +";   \n";
+                                                        }
+                                                        break
+                                                        case 'nodejs3':
+                                                                if( vector[i].nombre!=='usuarioup' && vector[i].nombre!=='usuarionew')
+                                                                {
+                                                                re= re +"  "+ vector[i].nombre +"     	: req.body."+ vector[i].nombre +"    	,\n";
+                                                        }
+                                                        break
                                        
                                 }
 
@@ -477,9 +558,11 @@ var cleanName = function(str) {
 
                                         break;
                                         case 'createcamposjsv3':
+                                                if( vector[i].nombre!=='usuarioup' && vector[i].nombre!=='usuarionew')
+                                                {
                                        
                                                                 re= re+ "       "+vector[i].nombre + "  : this.Form.controls['"+ vector[i].nombre  +"'].value.id,\n"   
-                                                
+                                                }
 
                                         break;
                                         case 'listcamposhtml1':
@@ -493,6 +576,28 @@ var cleanName = function(str) {
                                                 { re= re+  "              <p> "+capitalizeFirstLetter(vector[i].nombre)+": {{item."+vector[i].nombre+"}} </p>\n"   
                                                 }
                                                 break;
+                                                case 'nodejs1':
+                                                        if(vector[i].requerido==1)
+                                                        {
+                                                                re= re +"  "+ vector[i].nombre +"		: { type : String, required : true },  \n"
+                                                        }
+                                                        else{
+                                                                re= re +"  "+ vector[i].nombre +"		: { type : String },  \n"
+                                                        }
+                                                        
+                                                break
+                                                case 'nodejs2':
+                                                        if( vector[i].nombre!=='usuarioup' && vector[i].nombre!=='usuarionew')
+                                                        {
+                                                        re= re +" todo."+ vector[i].nombre +"       	=	req.body."+ vector[i].nombre +"        	||	todo."+ vector[i].nombre +";   \n";
+                                                        }
+                                                        break
+                                                        case 'nodejs3':
+                                                                if( vector[i].nombre!=='usuarioup' && vector[i].nombre!=='usuarionew')
+                                                                {
+                                                                re= re +"  "+ vector[i].nombre +"     	: req.body."+ vector[i].nombre +"    	,\n";
+                                                        }
+                                                        break
                                        
                                 }
                         break;
@@ -504,7 +609,7 @@ var cleanName = function(str) {
                                                 re= re+  '      <ion-item class="input-item">\n'
                                                 re= re+  '              <ion-label  position="floating">'+ capitalizeFirstLetter(vector[i].nombre)+'</ion-label>\n'
                                               
-                                                re= re+  '              <ion-select placeholder="{{ \'SELECTVALORM\' | translate }}" formControlName="' + vector[i].tipo +'">\n'
+                                                re= re+  '              <ion-select placeholder="{{ \'SELECTVALORM\' | translate }}" formControlName="' + vector[i].nombre +'">\n'
                                                 re= re+  '              <ion-select-option value="Activo">Activo</ion-select-option>\n'
                                                 re= re+  '              <ion-select-option value="Inactivo">Inactivo</ion-select-option>\n'
                                                 re= re+  '              </ion-select>\n'
@@ -534,9 +639,11 @@ var cleanName = function(str) {
 
                                         break;
                                         case 'createcamposjsv3':
+                                                if( vector[i].nombre!=='usuarioup' && vector[i].nombre!=='usuarionew')
+                                                {
                                                
                                                                 re= re+"       "+ vector[i].nombre + "  : this.Form.controls['"+ vector[i].nombre  +"'].value,\n"   
-                                                
+                                                }
 
                                         break;
                                         case 'listcamposhtml1':
@@ -550,8 +657,32 @@ var cleanName = function(str) {
                                                 { //re= re+  "   <p> "+capitalizeFirstLetter(vector[i].nombre)+": {{item."+vector[i].nombre+"}} </p>\n"   
                                                 }
                                                 break;
-                                       
-                                }
+                                        case 'nodejs1':
+                                                if(vector[i].requerido==1)
+                                                {
+                                                        re= re +"  "+ vector[i].nombre +"		: { type : String, required : true },  \n"
+                                                }
+                                                else{
+                                                        re= re +"  "+ vector[i].nombre +"		: { type : String },  \n"
+                                                }
+                                                
+
+                                                
+                                        break
+
+                                        case 'nodejs2':
+                                                if( vector[i].nombre!=='usuarioup' && vector[i].nombre!=='usuarionew')
+                                                {
+                                                re= re +" todo."+ vector[i].nombre +"       	=	req.body."+ vector[i].nombre +"        	||	todo."+ vector[i].nombre +";   \n";
+                                                }
+                                                break
+                                                case 'nodejs3':
+                                                        if( vector[i].nombre!=='usuarioup' && vector[i].nombre!=='usuarionew')
+                                                        {
+                                                        re= re +"  "+ vector[i].nombre +"     	: req.body."+ vector[i].nombre +"    	,\n";
+                                                }
+                                                break
+                                } 
                         break;
             
                 }
@@ -563,12 +694,9 @@ function buscamodulo(op,op2) {
         var re=''
 
 switch(op)  {
-        case 'modulo':
-              re=  dacadenamodulo(Modulovv,op2)
-
-                
-        break;
-
+        case 'modulo': re=  dacadenamodulo(Modulovv,op2);      break;
+        case 'asociado': re=  dacadenamodulo(Asociadovv,op2);      break;
+        
 }
       
         
@@ -577,10 +705,11 @@ switch(op)  {
         
     }
 
-//http://127.0.0.1:9090/api/datosfijos/generamod/modulos
+//http://127.0.0.1:9090/api/datosfijos/generamod/modulo/Modulo
     function buildHtml(op,op2) {
         var header = 'a';
         var body = "";
+        var body2 = "";
         body="";
         body=body + "\n\n\n"
         body = body + 'route api rest  ***************************************************\n';
@@ -596,567 +725,698 @@ switch(op)  {
         body = body + op+"Routes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  "+op2+"Controller.delete"+op2+");\n";
 
         body=body + "\n\n\n"
-        body = body + 'model  '+op+'.js ***************************************************\n';
-        body=body + " var mongoose =require(\"mongoose\");\n";
-        body=body + " var "+op2+"Schema 		=	new  mongoose.Schema({\n";
-        body=body + "     idempresa		: { type : String, required : true },  \n";
-        body=body + "    nombre   		: { type : String, required : true },\n";
-        body=body + "    index   		: { type : Number, required : true },\n";
-        body=body + "    icono   		: { type : String, required : true },\n";
-        body=body + "    nivel   		: { type : String, required : true },\n";
-        body=body + "    estado	: { type : String, required : true },\n";
-        body=body + "    usuarionew	: { type : String },      usuarioup	: { type : String }\n";
-        body=body + "    }, {\n";
-         body=body + "    timestamps: true\n";
-         body=body + "    }); \n";
-         body=body + "module.exports = mongoose.model('Modulo', "+op2+"Schema);\n";
+        body = body + "{path: '"+op2+"ListPage', loadChildren:  './ASOCIADOINVENTARIO/"+op+"-list/"+op+"-list.module#"+op2+"ListPageModule'},\n"
 
-        body=body + "\n\n\n"
-        body = body + 'controlador  '+op+'.js ***************************************************\n';
+     //   body2 = + 'model  '+op+'.js ***************************************************\n';
+        body2=  " var mongoose =require(\"mongoose\");\n";
+        body2=body2 + " var "+op2+"Schema 		=	new  mongoose.Schema({\n";
+        body2 = body2 +buscamodulo(op,'nodejs1')
+     
+        body2=body2 + "    }, {\n";
+         body2=body2 + "    timestamps: true\n";
+         body2=body2 + "    }); \n";
+         body2=body2 + "module.exports = mongoose.model('"+op2+"', "+op2+"Schema);\n";
+         generafile(body2,"tmp/models/" + op + ".js");
 
 
         body=body + "\n\n\n"
-        body =  body+ 'modulo-list.module   ***************************************************\n';
-        body=body + "import { IonicModule } from '@ionic/angular';\n"
-        body=body + "import { RouterModule} from '@angular/router';\n"
-        body=body + "import { NgModule } from '@angular/core';\n"
-        body=body + "import { CommonModule } from '@angular/common';\n"
-        body=body + "import { ComponentsModule } from '../../components/components.module';\n"
-        body=body + "import { TranslateModule } from '@ngx-translate/core';\n"
-        body=body + "import { FormsModule, ReactiveFormsModule } from '@angular/forms';\n"
-        body=body + "import { "+op2+"CreatePage } from './"+op+"-create/"+op+"-create.page';\n"
-        body=body + "import { "+op2+"ListPage } from './modulo-list';\n"
-        body=body + "@NgModule({\n"
-         body=body + "  declarations: [\n"
-         body=body + "    "+op2+"ListPage, "+op2+"CreatePage\n"
-         body=body + "  ],\n"
-         body=body + "  imports: [\n"
-         body=body + "    CommonModule,IonicModule, ComponentsModule, FormsModule,  ReactiveFormsModule,\n"
-         body=body + "    RouterModule.forChild([{ path: '', component: "+op2+"ListPage }]), TranslateModule.forChild(),\n"
-         body=body + "  ],\n"
-         body=body + "  entryComponents: [\n"
-         body=body + "    "+op2+"CreatePage\n"
-         body=body + "  ],\n"
-         body=body + "})\n"
-         body=body + "export class "+op2+"ListPageModule {}\n"
-         body=body + "\n\n\n"
-         body = body + 'modulo-list.page.scss  ***************************************************\n';
-         body = body + ':host {\n';
-         body = body + '       --page-margin: var(--app-narrow-margin);\n';
-         body = body + '       --page-border-radius: var(--app-fair-radius);\n';
-         body = body + '       --page-segment-background: var(--app-background);\n';
-         body = body + '       --page-segment-indicator-height: 2px;\n';
-         body = body + '     }\n';
-         body = body + '     ion-item-divider {\n';
-         body = body + '       --background: var(--ion-color-light);\n';
-         body = body + '       --padding-start: var(--page-margin);\n';
-         body = body + '     }\n';
+     //   body = body + 'controlador  '+op+'.js ***************************************************\n';
 
-              
-         body = body + ':host { --page-margin: var(--app-fair-margin);\n';
-                 body = body + '--page-background: var(--app-background);\n';
-                 body = body + '--page-background-shade: var(--app-background-shade);\n';
-                 body = body + '--page-tags-gutter: 5px;            }\n';
-               
-                 body=body + "\n\n\n"
-         body = body + 'modulo-list.page.html   ***************************************************\n';
-
-        body = body + ' <ion-header>\n';
-        body = body + ' <ion-toolbar color="primary">\n';
-        body = body + '   <ion-buttons slot="start">\n';
-        body = body + '     <ion-menu-button></ion-menu-button>\n';
-        body = body + '   </ion-buttons>\n';
-        body = body + '   <ion-title>\n';
-        body = body + '     {{tituloxx}}\n';
-        body = body + '   </ion-title>\n';
-        body = body + '   <ion-buttons slot="end">\n';
-        body = body + '     <ion-button title=" {{ \'AGREGARM\' | translate }}" (click)="addRecord()">\n';
-        body = body + '       <ion-icon slot="icon-only" name="add"></ion-icon>\n';
-        body = body + '     </ion-button>\n';
-        body = body + '     <ion-button title=" {{ \'REFRESCARM\' | translate }}" (click)="pideregistros0()">\n';
-        body = body + '       <ion-icon slot="icon-only" name="refresh-circle-outline"></ion-icon>\n';
-        body = body + '     </ion-button>\n';
-        body = body + '     <ion-button *ngIf="viewType === \'grid\'" (click)="changeToList()">\n';
-        body = body + '       <ion-icon slot="icon-only" name="newspaper"></ion-icon>\n';
-        body = body + '     </ion-button>\n';
-        body = body + '     <ion-button *ngIf="viewType === \'list\'" (click)="changeToGrid()">\n';
-        body = body + '       <ion-icon slot="icon-only" name="grid"></ion-icon>\n';
-        body = body + '     </ion-button>\n';
-        body = body + '   </ion-buttons>\n';
-        body = body + ' </ion-toolbar>\n';
-        body = body + ' <ion-toolbar class="filters-toolbar">\n';
-        body = body + '   <ion-row class="searchbar-row" align-items-center>\n';
-        body = body + '     <ion-col>\n';
-        body = body + '       <ion-searchbar animated [(ngModel)]="searchQuery" (ionChange)="searchList()" placeholder="{{ \'BUSCARM\' | translate }}"></ion-searchbar>\n';
-        body = body + '     </ion-col>\n';
-        body = body + '     <ion-col class="call-to-action-col">\n';
-        body = body + '       <ion-button fill="clear" color="secondary" class="filters-btn" title=" {{ \'FILTROM\' | translate }}" (click)="showAgeFilter = !showAgeFilter">\n';
-        body = body + '         <ion-icon slot="icon-only" name="options"></ion-icon>\n';
-        body = body + '       </ion-button>\n';
-        body = body + '     </ion-col>\n';
-        body = body + '   </ion-row>\n';
-        body = body + '   <form [formGroup]="rangeForm" [hidden]="!showAgeFilter">\n';
-        body = body + '     <ion-row class="range-item-row">\n';
-        body = body + '       <ion-col size="12">\n';
-        body = body + '         <div class="range-header">\n';
-        body = body + '           <span class="range-value">{{ rangeForm.controls.dual.value.lower }}</span>\n';
-        body = body + '           <span class="range-label">Filter by age</span>\n';
-        body = body + '           <span class="range-value">{{ rangeForm.controls.dual.value.upper }}</span>\n';
-        body = body + '         </div>\n';
-        body = body + '       </ion-col>\n';
-        body = body + '       <ion-col size="12">\n';
-        body = body + '         <ion-range class="range-control" formControlName="dual" color="secondary" pin="true" dualKnobs="true" (ionChange)="searchList()" min="1" max="100" step="1" debounce="400"></ion-range>\n';
-        body = body + '       </ion-col>\n';
-        body = body + '     </ion-row>\n';
-        body = body + '   </form>\n';
-        body = body + ' </ion-toolbar>\n';
-        body = body + '</ion-header>\n';
-        body = body + '<ion-content class="user-friends-content">\n';
-        body = body + ' <ion-item-divider sticky>\n';
-        body = body + '   <ion-label *ngIf="(itemsList?.length > 0) " >{{ \'NOREGISTROSM\' | translate }}: {{itemsList.length}}</ion-label>\n';
-        body = body + ' </ion-item-divider>\n';
-        body = body + ' <ion-segment (ionChange)="filterContacts($event)" value="todos">\n';
-        body = body + '   <ion-segment-button value="todos" checked>\n';
-        body = body + '     {{ \'TODOSM\' | translate }}\n';
-        body = body + '   </ion-segment-button>\n';
-        body = body + '   <ion-segment-button value="Activo">\n';
-        body = body + '     {{ \'ACTIVOSM\' | translate }}\n';
-        body = body + '    </ion-segment-button>\n';
-        body = body + '   <ion-segment-button value="Inactivo">\n';
-        body = body + '     {{ \'INACTIVOSM\' | translate }}\n';
-        body = body + '   </ion-segment-button>\n';
+        body2 =  "var "+op2+" = require('../models/"+op+"');";
+        body2 = body2 + "var Bitacora = require('../models/bitacora');\n";
         
-        body = body + ' </ion-segment>\n';
-       
-       
-        body = body + ' <ion-list *ngIf="efecto === 0" >\n';
+        body2 = body2 + "exports.get"+op2+" = function(req, res, next){\n";
+        body2 = body2 + "    if(req.params.id3)\n";
+        body2 = body2 + "    {   \n";
+        
+        
+        body2 = body2 + "            if(req.params.id2=='todos')\n";
+        body2 = body2 + "            { \n";
+                      
+        body2 = body2 + "                "+op2+".find({idempresa:req.params.id3}).sort([['index', 1]]).exec(function(err, todos) {\n";
+        body2 = body2 + "                    if (err){  res.send(err);  }\n";
+        body2 = body2 + "                     res.json(todos);\n";
+        body2 = body2 + "                 });\n";
+        body2 = body2 + "            }\n";
+        body2 = body2 + "            else\n";
+        body2 = body2 + "            {\n";
+        body2 = body2 + "                "+op2+".find({idempresa:req.params.id3,estado:req.params.id2}).sort([['index', 1]]).exec(function(err, todos) {\n";
+        body2 = body2 + "                    if (err){  res.send(err);  }\n";
+        body2 = body2 + "                     res.json(todos);\n";
+        body2 = body2 + "                 });\n";
+        
+        body2 = body2 + "            }\n";
+        body2 = body2 + "    }\n";
+        body2 = body2 + "    else\n";
+        body2 = body2 + "    {\n";
+                
+        body2 = body2 + "        "+op2+".find({_id:req.params.id},function(err, todos) {\n";
+        body2 = body2 + "            if (err){ res.send(err); }\n";
+                   
+        body2 = body2 + "            if(todos.length>0)   {    res.json(todos);   }\n";
+        body2 = body2 + "            else\n";
+        body2 = body2 + "            {  res.status(500).send('NO EXISTE REGISTRO');      }\n";
+                    
+        body2 = body2 + "        });\n";
+                
+              
+        body2 = body2 + "    }\n";
+        body2 = body2 + "}\n";
+        body2 = body2 + "exports.delete"+op2+" = function(req, res, next){\n";
            
-        body = body + '   <ion-item lines="none" *ngFor="let item of [0,1,2,3,4,5,6]">\n';
+        body2 = body2 + "    Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina "+op2+" '});\n";
+        body2 = body2 + "    "+op2+".findByIdAndRemove({ _id: req.params.recordID  }, function(err, todo) {\n";
+        body2 = body2 + "        res.json(todo);\n";
+        body2 = body2 + "    });\n";
+        body2 = body2 + "}\n";
+        
+        
+        body2 = body2 + "exports.crea"+op2+"2s = function(req, res, next){\n";
+           
+         
+        body2 = body2 + "    Bitacora.create(req.body.bitacora);\n";
+        body2 = body2 + "if(req.params.recordID!=='crea')\n";
+        body2 = body2 + "{ \n";
+        body2 = body2 + "    "+op2+".findById({ _id: req.params.recordID }, function (err, todo)  {\n";
+        body2 = body2 + "        if (err) {  res.send(err);  }\n";
+        body2 = body2 + "        else\n";
+        body2 = body2 + "        {   \n";
+        body2 = body2 +buscamodulo(op,'nodejs2')
+        body2 = body2 + "            todo.usuarioup=req.body.bitacora.email;\n";
+        body2 = body2 + "            todo.save(function (err, todo){\n";
+        body2 = body2 + "                if (err)     {  res.status(500).send(err.message)   }\n";
+        body2 = body2 + "                res.json(todo);\n";
+        body2 = body2 + "            });\n";
+        body2 = body2 + "        }\n";
+        body2 = body2 + "    });\n";
+        
+        body2 = body2 + "}\n";
+        body2 = body2 + "else{\n";
+        
+        body2 = body2 + "    "+op2+".find({nombre        	: req.body.nombre  },function(err, todos) {\n";
+        body2 = body2 + "        if (err){ res.send(err); }\n";
+               
+        body2 = body2 + "        if(todos.length>0)   {    res.status(500).send('Ya existe un "+op+" en plataforma'); }\n";
+        body2 = body2 + "        else\n";
+        body2 = body2 + "        {   \n";
+        
+        body2 = body2 + "            "+op2+".create({ \n";
+
+        body2 = body2 +buscamodulo(op,'nodejs3')
+        body2 = body2 + "                usuarionew:req.body.bitacora.email,\n";
+
+        body2 = body2 + "              }\n";
+        body2 = body2 + "                , function(err, todo) {\n";
+        body2 = body2 + "                if (err){ \n";
+                           
+        body2 = body2 + "                    res.status(500).send(err.message)    }\n";
+                    
+        body2 = body2 + "                res.json(todo);\n";
+                
+                     
+                        
+                
+        body2 = body2 + "            });\n";
+        
+                    
+        body2 = body2 + "             }\n";
+                
+        body2 = body2 + "    });\n";
+           
+         
+        body2 = body2 + "}\n";
+        
+        body2 = body2 + "}\n";
+        generafile(body2,"tmp/controllers/" + op + ".js");
+        
+        
+
+ 
+
+        body=body + "\n\n\n"
+      //  body =  body+ 'modulo-list.module   ***************************************************\n';
+        body2= "import { IonicModule } from '@ionic/angular';\n"
+        body2=body2 + "import { RouterModule} from '@angular/router';\n"
+        body2=body2 + "import { NgModule } from '@angular/core';\n"
+        body2=body2 + "import { CommonModule } from '@angular/common';\n"
+        body2=body2 + "import { ComponentsModule } from '../../components/components.module';\n"
+        body2=body2 + "import { TranslateModule } from '@ngx-translate/core';\n"
+        body2=body2 + "import { FormsModule, ReactiveFormsModule } from '@angular/forms';\n"
+        body2=body2 + "import { "+op2+"CreatePage } from './"+op+"-create/"+op+"-create.page';\n"
+        body2=body2 + "import { "+op2+"ListPage } from './"+op+"-list.page';\n"
+        body2=body2 + "@NgModule({\n"
+         body2=body2 + "  declarations: [\n"
+         body2=body2 + "    "+op2+"ListPage, "+op2+"CreatePage\n"
+         body2=body2 + "  ],\n"
+         body2=body2 + "  imports: [\n"
+         body2=body2 + "    CommonModule,IonicModule, ComponentsModule, FormsModule,  ReactiveFormsModule,\n"
+         body2=body2 + "    RouterModule.forChild([{ path: '', component: "+op2+"ListPage }]), TranslateModule.forChild(),\n"
+         body2=body2 + "  ],\n"
+         body2=body2 + "  entryComponents: [\n"
+         body2=body2 + "    "+op2+"CreatePage\n"
+         body2=body2 + "  ],\n"
+         body2=body2 + "})\n"
+         body2=body2 + "export class "+op2+"ListPageModule {}\n"
+
+         generafile(body2,"tmp/"+op+"-list/"+op+"-list.module.ts");
+        
+        
+         body=body + "\n\n\n"
+        // body = body + 'modulo-list.page.scss  ***************************************************\n';
+                body2 =  '     :host {\n';
+         body2 = body2 + '       --page-margin: var(--app-narrow-margin);\n';
+         body2 = body2 + '       --page-border-radius: var(--app-fair-radius);\n';
+         body2 = body2 + '       --page-segment-background: var(--app-background);\n';
+         body2 = body2 + '       --page-segment-indicator-height: 2px;\n';
+         body2 = body2 + '     }\n';
+         body2 = body2 + '     ion-item-divider {\n';
+         body2 = body2 + '       --background: var(--ion-color-light);\n';
+         body2 = body2 + '       --padding-start: var(--page-margin);\n';
+         body2 = body2 + '     }\n';
+
+ 
+         body2 = body2 + '      :host { --page-margin: var(--app-fair-margin);\n';
+         body2 = body2 + '        --page-background: var(--app-background);\n';
+         body2 = body2 + '        --page-background-shade: var(--app-background-shade);\n';
+         body2 = body2 + '        --page-tags-gutter: 5px;            }\n';
+generafile(body2,"tmp/"+op+"-list/"+op+"-list.page.scss");      
+
+
+
+       body2 =  ' :host {\n';
+        body2 =  body2 +'  --page-margin: var(--app-fair-margin);\n';
+        body2 = body2 + '  --page-background: var(--app-background);\n';
+     
+        body2 = body2 + ' --page-background-shade: var(--app-background-shade);\n';
+        body2 = body2 + ' --page-tags-gutter: 5px;\n';
+        body2 =body2 +  ' }\n';
+        generafile(body2,"tmp/"+op+"-list/"+op+"-create/"+op+"-create.page.scss");
+
+                 body=body + "\n\n\n"
+      //   body = body + 'modulo-list.page.html   ***************************************************\n';
+ 
+        body2 =  ' <ion-header>\n';
+        body2 = body2 + ' <ion-toolbar color="primary">\n';
+        body2 = body2 + '   <ion-buttons slot="start">\n';
+        body2 = body2 + '     <ion-menu-button></ion-menu-button>\n';
+        body2 = body2 + '   </ion-buttons>\n';
+        body2 = body2 + '   <ion-title>\n';
+        body2 = body2 + '     {{tituloxx}}\n';
+        body2 = body2 + '   </ion-title>\n';
+        body2 = body2 + '   <ion-buttons slot="end">\n';
+        body2 = body2 + '     <ion-button title=" {{ \'AGREGARM\' | translate }}" (click)="addRecord()">\n';
+        body2 = body2 + '       <ion-icon slot="icon-only" name="add"></ion-icon>\n';
+        body2 = body2 + '     </ion-button>\n';
+        body2 = body2 + '     <ion-button title=" {{ \'REFRESCARM\' | translate }}" (click)="pideregistros0()">\n';
+        body2 = body2 + '       <ion-icon slot="icon-only" name="refresh-circle-outline"></ion-icon>\n';
+        body2 = body2 + '     </ion-button>\n';
+        body2 = body2 + '     <ion-button *ngIf="viewType === \'grid\'" (click)="changeToList()">\n';
+        body2 = body2 + '       <ion-icon slot="icon-only" name="grid"></ion-icon>\n';
+        body2 = body2 + '     </ion-button>\n';
+        body2 = body2 + '     <ion-button *ngIf="viewType === \'list\'" (click)="changeToGrid()">\n';
+        body2 = body2 + '       <ion-icon slot="icon-only" name="list"></ion-icon>\n';
+        body2 = body2 + '     </ion-button>\n';
+        body2 = body2 + '   </ion-buttons>\n';
+        body2 = body2 + ' </ion-toolbar>\n';
+        body2 = body2 + ' <ion-toolbar class="filters-toolbar">\n';
+        body2 = body2 + '   <ion-row class="searchbar-row" align-items-center>\n';
+        body2 = body2 + '     <ion-col>\n';
+        body2 = body2 + '       <ion-searchbar animated [(ngModel)]="searchQuery" (ionChange)="searchList()" placeholder="{{ \'BUSCARM\' | translate }}"></ion-searchbar>\n';
+        body2 = body2 + '     </ion-col>\n';
+        body2 = body2 + '     <ion-col [hidden]="!showAgeFilter" class="call-to-action-col">\n';
+        body2 = body2 + '       <ion-button fill="clear" color="secondary" class="filters-btn" title=" {{ \'FILTROM\' | translate }}" (click)="showAgeFilter = !showAgeFilter">\n';
+        body2 = body2 + '         <ion-icon slot="icon-only" name="options"></ion-icon>\n';
+        body2 = body2 + '       </ion-button>\n';
+        body2 = body2 + '     </ion-col>\n';
+        body2 = body2 + '   </ion-row>\n';
+        body2 = body2 + '   <form [formGroup]="rangeForm" [hidden]="!showAgeFilter">\n';
+        body2 = body2 + '     <ion-row class="range-item-row">\n';
+        body2 = body2 + '       <ion-col size="12">\n';
+        body2 = body2 + '         <div class="range-header">\n';
+        body2 = body2 + '           <span class="range-value">{{ rangeForm.controls.dual.value.lower }}</span>\n';
+        body2 = body2 + '           <span class="range-label">Filter by age</span>\n';
+        body2 = body2 + '           <span class="range-value">{{ rangeForm.controls.dual.value.upper }}</span>\n';
+        body2 = body2 + '         </div>\n';
+        body2 = body2 + '       </ion-col>\n';
+        body2 = body2 + '       <ion-col size="12">\n';
+        body2 = body2 + '         <ion-range class="range-control" formControlName="dual" color="secondary" pin="true" dualKnobs="true" (ionChange)="searchList()" min="1" max="100" step="1" debounce="400"></ion-range>\n';
+        body2 = body2 + '       </ion-col>\n';
+        body2 = body2 + '     </ion-row>\n';
+        body2 = body2 + '   </form>\n';
+        body2 = body2 + ' </ion-toolbar>\n';
+        body2 = body2 + '</ion-header>\n';
+        body2 = body2 + '<ion-content class="user-friends-content">\n';
+        body2 = body2 + ' <ion-item-divider sticky>\n';
+        body2 = body2 + '   <ion-label *ngIf="(itemsList?.length > 0) " >{{ \'NOREGISTROSM\' | translate }}: {{itemsList.length}}</ion-label>\n';
+        body2 = body2 + ' </ion-item-divider>\n';
+        body2 = body2 + ' <ion-segment (ionChange)="filterContacts($event)" value="todos">\n';
+        body2 = body2 + '   <ion-segment-button value="todos" checked>\n';
+        body2 = body2 + '     {{ \'TODOSM\' | translate }}\n';
+        body2 = body2 + '   </ion-segment-button>\n';
+        body2 = body2 + '   <ion-segment-button value="Activo">\n';
+        body2 = body2 + '     {{ \'ACTIVOSM\' | translate }}\n';
+        body2 = body2 + '    </ion-segment-button>\n';
+        body2 = body2 + '   <ion-segment-button value="Inactivo">\n';
+        body2 = body2 + '     {{ \'INACTIVOSM\' | translate }}\n';
+        body2 = body2 + '   </ion-segment-button>\n';
+        
+        body2 = body2 + ' </ion-segment>\n';
+       
+       
+        body2 = body2 + ' <ion-list *ngIf="efecto === 0" >\n';
+           
+        body2 = body2 + '   <ion-item lines="none" *ngFor="let item of [0,1,2,3,4,5,6]">\n';
             
-        body = body + '     <ion-label>\n';
-        body = body + '       <skeleton-element></skeleton-element>\n';
-        body = body + '       <skeleton-element></skeleton-element>\n';
-        body = body + '       <skeleton-element width="67%"></skeleton-element>\n';
+        body2 = body2 + '     <ion-label>\n';
+        body2 = body2 + '       <skeleton-element></skeleton-element>\n';
+        body2 = body2 + '       <skeleton-element></skeleton-element>\n';
+        body2 = body2 + '       <skeleton-element width="67%"></skeleton-element>\n';
              
-        body = body + '     </ion-label>\n';
-        body = body + '   </ion-item>\n';
-        body = body + ' </ion-list>\n';
+        body2 = body2 + '     </ion-label>\n';
+        body2 = body2 + '   </ion-item>\n';
+        body2 = body2 + ' </ion-list>\n';
        
-        body = body + ' <ion-list  *ngIf="(itemsList?.length > 0) && (viewType === \'list\')">\n';
-        body = body + '   <ion-item  *ngFor="let item of itemsList " [routerLink]="">\n';
-        body = body + '     <ion-icon name="server-outline" slot="start"></ion-icon>\n';
-        body = body + '    <ion-label class="ion-text-wrap">\n';
-        body = body + '        <ion-note slot="end">No. {{item.index}}</ion-note> <br>\n';
-        body = body +buscamodulo(op,'listcamposhtml1')
-        body = body + '       <ion-badge color="medium">{{item.estado}}</ion-badge>\n';
-        body = body + '     </ion-label>\n';
-        body = body + '     <ion-row no-padding slot="end">\n';
-        body = body + '       <ion-col>\n';
-        body = body + '         <button title= "{{ \'MENUM\' | translate }}"  (click)="otrasop(item)"  ion-button clear large icon-start>\n';
-        body = body + '           <ion-icon name="ellipsis-vertical-outline">\n';
-        body = body + '           </ion-icon>\n';
-        body = body + '           {{ \'MENUM\' | translate }}\n';
-        body = body + '         </button><br><br>\n';
-        body = body + '         <button title="{{ \'ELIMINARM\' | translate }}"  (click)="deleteRecord(item)" ion-button clear large icon-start>\n';
-        body = body + '           <ion-icon name="trash-outline"></ion-icon>\n';
-        body = body + '           {{ \'ELIMINARM\' | translate }}\n';
-        body = body + '         </button><br>\n';
-        body = body + '         <br>\n';
-        body = body + '         <button title="{{ \'ACTUALIZARM\' | translate }}"  (click)="updateRecord(item)" ion-button clear   icon-start>\n';
-        body = body + '           <ion-icon name="create-outline"></ion-icon>\n';
-        body = body + '           {{ \'ACTUALIZARM\' | translate }}\n';
-        body = body + '         </button>\n';
-        body = body + '       </ion-col>\n';
-        body = body + '     </ion-row>\n';
-        body = body + '   </ion-item>\n';
-        body = body + ' </ion-list>\n';
+        body2 = body2 + ' <ion-list  *ngIf="(itemsList?.length > 0) && (viewType === \'list\')">\n';
+        body2 = body2 + '   <ion-item  *ngFor="let item of itemsList;let i = index; " [routerLink]="">\n';
+        body2 = body2 + '     <ion-icon name="server-outline" slot="start"></ion-icon>\n';
+        body2 = body2 + '    <ion-label class="ion-text-wrap">\n';
+        body2 = body2 + '        <ion-note slot="end">No. {{i+1}}</ion-note> <br>\n';
+        body2 = body2 +buscamodulo(op,'listcamposhtml1')
+        body2 = body2 + '       <ion-badge color="medium">{{item.estado}}</ion-badge>\n';
+        body2 = body2 + '     </ion-label>\n';
+        body2 = body2 + '     <ion-row no-padding slot="end">\n';
+        body2 = body2 + '       <ion-col>\n';
+        body2 = body2 + '         <button title= "{{ \'MENUM\' | translate }}"  (click)="otrasop(item)"  ion-button clear large icon-start>\n';
+        body2 = body2 + '           <ion-icon name="ellipsis-vertical-outline">\n';
+        body2 = body2 + '           </ion-icon>\n';
+        body2 = body2 + '           {{ \'MENUM\' | translate }}\n';
+        body2 = body2 + '         </button><br><br>\n';
+        body2 = body2 + '         <button title="{{ \'ELIMINARM\' | translate }}"  (click)="deleteRecord(item)" ion-button clear large icon-start>\n';
+        body2 = body2 + '           <ion-icon name="trash-outline"></ion-icon>\n';
+        body2 = body2 + '           {{ \'ELIMINARM\' | translate }}\n';
+        body2 = body2 + '         </button><br>\n';
+        body2 = body2 + '         <br>\n';
+        body2 = body2 + '         <button title="{{ \'ACTUALIZARM\' | translate }}"  (click)="updateRecord(item)" ion-button clear   icon-start>\n';
+        body2 = body2 + '           <ion-icon name="create-outline"></ion-icon>\n';
+        body2 = body2 + '           {{ \'ACTUALIZARM\' | translate }}\n';
+        body2 = body2 + '         </button>\n';
+        body2 = body2 + '       </ion-col>\n';
+        body2 = body2 + '     </ion-row>\n';
+        body2 = body2 + '   </ion-item>\n';
+        body2 = body2 + ' </ion-list>\n';
        
-        body = body + ' <ion-grid *ngIf="(itemsList?.length > 0) && (viewType === \'grid\')">\n';
-        body = body + '   <ion-row>\n';
-        body = body + '     <ion-col *ngFor="let item of itemsList;let i = index;" size-lg="6"  size-sm="6" size="12">\n';
-        body = body + '       <ion-card  >\n';
-        body = body + '         <ion-row class="user-stats-wrapper user-details-wrapper">\n';
-        body = body + '           <ion-col>\n';
-        body = body + '             <span class="user-stat-value">No.</span>\n';
-        body = body + '             <span class="user-stat-name">{{item.index}} </span>\n';
-        body = body + '           </ion-col>\n';
-        body = body + '           <ion-col>\n';
-        body = body + '             <span class="user-stat-value">{{item.estado}} </span>\n';
-        body = body + '           </ion-col>\n';
-        body = body + '         </ion-row>\n';
-        body = body + '         <ion-item  [routerLink]="">\n';
-        body = body + '           <ion-icon name="server-outline" slot="start"></ion-icon>\n';
-        body = body + '           <ion-label class="ion-text-wrap">\n';
-        body = body +buscamodulo(op,'listcamposhtml2')
+        body2 = body2 + ' <ion-grid *ngIf="(itemsList?.length > 0) && (viewType === \'grid\')">\n';
+        body2 = body2 + '   <ion-row>\n';
+        body2 = body2 + '     <ion-col *ngFor="let item of itemsList;let i = index;" size-lg="6"  size-sm="6" size="12">\n';
+        body2 = body2 + '       <ion-card  >\n';
+        body2 = body2 + '         <ion-row class="user-stats-wrapper user-details-wrapper">\n';
+        body2 = body2 + '           <ion-col>\n';
+        body2 = body2 + '             <span class="user-stat-value">No.</span>\n';
+        body2 = body2 + '             <span class="user-stat-name">{{i+1}} </span>\n';
+        body2 = body2 + '           </ion-col>\n';
+        body2 = body2 + '           <ion-col>\n';
+        body2 = body2 + '             <span class="user-stat-value">{{item.estado}} </span>\n';
+        body2 = body2 + '           </ion-col>\n';
+        body2 = body2 + '         </ion-row>\n';
+        body2 = body2 + '         <ion-item   (click)="updateRecord(item)"  [routerLink]="">\n';
+        body2 = body2 + '           <ion-icon name="server-outline" slot="start"></ion-icon>\n';
+        body2 = body2 + '           <ion-label class="ion-text-wrap">\n';
+        body2 = body2 +buscamodulo(op,'listcamposhtml2')
        
-        body = body + '           </ion-label>\n';
-        body = body + '         </ion-item>\n';
-        body = body + '         <ion-card-content>\n';
-        body = body + '         </ion-card-content>\n';
-        body = body + '         <ion-row no-padding>\n';
-        body = body + '           <ion-col>\n';
-        body = body + '             <button title=" {{ \'ELIMINARM\' | translate }}"  (click)="deleteRecord(item,i)" ion-button clear small  icon-start>\n';
-        body = body + '               <ion-icon name="trash-outline"></ion-icon>\n';
-        body = body + '               {{ \'ELIMINARM\' | translate }}\n';
-        body = body + '             </button>\n';
-        body = body + '           </ion-col>\n';
-        body = body + '           <ion-col>\n';
-        body = body + '             <button  title=" {{ \'MENUM\' | translate }}"  (click)="deleteRecord(item,i)" ion-button clear small  icon-start>\n';
-        body = body + '               <ion-icon name="ellipsis-vertical-outline"></ion-icon>\n';
-        body = body + '               {{ \'MENUM\' | translate }}\n';
-        body = body + '             </button>\n';
-        body = body + '           </ion-col>\n'
-        body = body + '         </ion-row>\n';
-        body = body + '       </ion-card>\n';
-        body = body + '     </ion-col>\n';
-        body = body + '   </ion-row>\n';
-        body = body + ' </ion-grid>\n';
-        body = body + ' <h3 *ngIf="itemsList?.length == 0" class="empty-list-message">\n';
-        body = body + '   {{ \'NODATOS\' | translate }}  \n';
-        body = body + ' </h3>\n';
+        body2 = body2 + '           </ion-label>\n';
+        body2 = body2 + '         </ion-item>\n';
+        body2 = body2 + '         <ion-card-content>\n';
+        body2 = body2 + '         </ion-card-content>\n';
+        body2 = body2 + '         <ion-row no-padding>\n';
+        body2 = body2 + '           <ion-col>\n';
+        body2 = body2 + '             <button title=" {{ \'ELIMINARM\' | translate }}"  (click)="deleteRecord(item,i)" ion-button clear small  icon-start>\n';
+        body2 = body2 + '               <ion-icon name="trash-outline"></ion-icon>\n';
+        body2 = body2 + '               {{ \'ELIMINARM\' | translate }}\n';
+        body2 = body2 + '             </button>\n';
+        body2 = body2 + '           </ion-col>\n';
+        body2 = body2 + '           <ion-col [hidden]="!showmenu">\n';
+        body2 = body2 + '             <button  title=" {{ \'MENUM\' | translate }}"  (click)="deleteRecord(item,i)" ion-button clear small  icon-start>\n';
+        body2 = body2 + '               <ion-icon name="ellipsis-vertical-outline"></ion-icon>\n';
+        body2 = body2 + '               {{ \'MENUM\' | translate }}\n';
+        body2 = body2 + '             </button>\n';
+        body2 = body2 + '           </ion-col>\n'
+        body2 = body2 + '         </ion-row>\n';
+        body2 = body2 + '       </ion-card>\n';
+        body2 = body2 + '     </ion-col>\n';
+        body2 = body2 + '   </ion-row>\n';
+        body2 = body2 + ' </ion-grid>\n';
+        body2 = body2 + ' <h3 *ngIf="itemsList?.length == 0" class="empty-list-message">\n';
+        body2 = body2 + '   {{ \'NODATOS\' | translate }}  \n';
+        body2 = body2 + ' </h3>\n';
        
-        body = body + ' <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">\n';
-        body = body + '   <ion-infinite-scroll-content\n';
-        body = body + '     loadingSpinner="bubbles"\n';
-        body = body + '     loadingText="Espere un momento...">\n';
-        body = body + '   </ion-infinite-scroll-content>\n';
-        body = body + ' </ion-infinite-scroll>\n';
-        body = body + '</ion-content>\n';
-       
+        body2 = body2 + ' <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">\n';
+        body2 = body2 + '   <ion-infinite-scroll-content\n';
+        body2 = body2 + '     loadingSpinner="bubbles"\n';
+        body2 = body2 + '     loadingText="Espere un momento...">\n';
+        body2 = body2 + '   </ion-infinite-scroll-content>\n';
+        body2 = body2 + ' </ion-infinite-scroll>\n';
+        body2 = body2 + '</ion-content>\n';
+        generafile(body2,"tmp/"+op+"-list/"+op+"-list.page.html");  
 
        body=body + "\n\n\n"
-       body = body + 'modulo-list.js   ***************************************************\n';       
-
- body = body + "import { Component , OnInit , ViewChild } from '@angular/core';\n"
- body = body + "import {AlertController, ModalController ,  IonRouterOutlet} from '@ionic/angular';\n"
- body = body + "import { TranslateService } from '@ngx-translate/core';\n"
- body = body + "import {  Router } from '@angular/router';\n"
- body = body + "import { AuthenticationService } from '../../services/Authentication.service';\n"
- body = body + "import { FormGroup, FormControl } from '@angular/forms';\n"
- body = body + "import { ReplaySubject} from 'rxjs';\n"
- body = body + "import { IonInfiniteScroll } from '@ionic/angular';\n"
- body = body + "import { "+op2+"CreatePage } from './"+op+"-create/"+op+"-create.page';\n"
-
-
- body = body + "@Component({\n"
-        body = body + "selector: 'page-"+op+"-list',\n"
-        body = body + "templateUrl: '"+op+"-list.html',\n"
-        body = body + "styleUrls: ['./"+op+"-list.scss'],\n"
-body = body + "})\n"
-body = body + "export class "+op2+"ListPage implements OnInit {\n"
-        body = body + "@ViewChild(IonInfiniteScroll, { static : false }) infiniteScroll: IonInfiniteScroll;\n"
-        body = body + "rangeForm: FormGroup;\n"
-        body = body + "searchQuery: string;\n"
-        body = body + "showAgeFilter = false;\n"
-        body = body + "items: any  = [] ;\n"
-        body = body + "variables: any = [];\n"
-        body = body + "userinfo: any = [];\n"
-        body = body + "viewType = 'list';\n"
-        body = body + "tituloxx = '';\n"
-        body = body + "efecto = 0;\n"
-        body = body + "seguro ='';\n"
-        body = body + "msg = '';\n"
-        body = body + "itemsList: Array<any>;\n"
-        body = body + "public currentSegment: string = \"Todos\";\n"
-        body = body + "searchSubject: ReplaySubject<any> = new ReplaySubject<any>(1);\n"
-        body = body + "constructor(  private routerOutlet: IonRouterOutlet , private router: Router, private authenticationService: AuthenticationService,\n"
- body = body + "   public alertController: AlertController,     public translateService: TranslateService    ,    private modalController: ModalController\n"
- body = body + "   ) {\n"
-        body = body + " }\n"
-        body = body + "changeToList() { this.viewType = 'list'; }\n"
-
-        body = body + "changeToGrid() {   this.viewType = 'grid';  }\n"
-
-        body = body + "ngOnInit() {\n"
-    body = body + "    this.variables = this.router.getCurrentNavigation().extras.state.variables;\n"
-    body = body + "    this.userinfo = this.authenticationService.getcopiauser();\n"
-    body = body + "    this.tituloxx =  this.variables.nombre;\n"
-    body = body + "    this.searchQuery = '';\n"
-
-    body = body + "    this.translateService.get('SEGUROM').subscribe((value) => {   this.seguro = value  });\n"
-    body = body + "    this.translateService.get('MSGM').subscribe((value) => {   this.msg = value  });\n"
-
-    body = body + "    this.rangeForm = new FormGroup({    dual: new FormControl({lower: 1, upper: 100})   });   \n"
-    body = body + "    this.currentSegment = 'todos';\n"
-    body = body + "    this.pideregistros( this.currentSegment);\n"
-    body = body + "  }\n"
-    body = body + "  filterContacts(event: any) {\n"
-body = body + "    let selectedCategory = event.detail.value;\n"
-body = body + "    this.currentSegment = selectedCategory;\n"
-
-body = body + "    this.pideregistros(selectedCategory);\n"
-body = body + "  }\n"
-body = body + "  pideregistros0() {\n"
-
-        body = body + "   this.pideregistros(this.currentSegment);\n"
-        body = body + "  }\n"
-        body = body + "  pideregistros(op) {\n"
- body = body + "       this.itemsList = [];\n"
- body = body + "       this.efecto = 0 ;\n"
- body = body + "       this.authenticationService.getReg('todos/' + op + '/' + this.userinfo[0].idempresa, 'modulos', 0).then((data) => {\n"
- body = body + "       this.efecto=1;\n"
- body = body + "       this.items =  data;\n"
- body = body + "       this.itemsList = this.items;\n"
- body = body + " }, (err) => {\n"
- body = body + "   this.authenticationService.presentAlert(err.error , this.msg , '');\n"
- body = body + " });\n"
- body = body + "  }\n"
- body = body + "  searchList() {\n"
-body = body + "    this.searchSubject.next({\n"
- body = body + "     lower: this.rangeForm.controls.dual.value.lower,\n"
- body = body + "     upper: this.rangeForm.controls.dual.value.upper,\n"
- body = body + "     query: this.searchQuery\n"
- body = body + "   });\n"
- body = body + "    const query = (this.searchQuery && this.searchQuery !== null) ? this.searchQuery : '';\n"
- body = body + "    this.itemsList = this.filterList(this.items, query);\n"
- body = body + "  }\n"
- body = body + " filterList(list, query): Array<any> {\n"
- body = body + "   return list.filter(item => item.nombre.toLowerCase().includes(query.toLowerCase()));\n"
- body = body + "  }\n"
- body = body + "  async otrasop(item: any) {  }\n"
- body = body + "  async deleteRecord(item: any) {\n"
- body = body + "   const alert = await this.alertController.create({\n"
- body = body + "     header: this.seguro,\n"
- body = body + "     message: '',\n"
- body = body + "     buttons: [\n"
- body = body + "       {\n"
- body = body + "         text: 'No',\n"
- body = body + "        cssClass: 'secondary',\n"
- body = body + "         handler: (blah) => {\n"
- body = body + "         }\n"
- body = body + "       }, {\n"
-body = body + "          text: 'Si',\n"
-body = body + "          handler: () => {\n"
-body = body + "            const recordID: string		= item._id;\n"
-body = body + "            this.authenticationService.deleteReg(recordID + '/' + this.variables.username + '/' + this.variables.idempresa + '/'\n"
-body = body + "            + this.variables.idafiliado , 'modulos').then((data) => {\n"
-body = body + "              this.pideregistros( this.currentSegment);\n"
-body = body + "              }, (err) => {\n"
-body = body + "                this.authenticationService.presentAlert(err.error, this.msg, '');\n"
-body = body + "            });\n"
-body = body + "          }\n"
-body = body + "        }\n"
-body = body + "      ]\n"
-body = body + "    });\n"
-body = body + "    await alert.present();\n"
-body = body + "  }\n"
-
-body = body + "  async updateRecord(item: any) {\n"
-body = body + "    const modal = await this.modalController.create({\n"
-body = body + "      component: ModuloCreatePage,\n"
-body = body + "      swipeToClose: true,\n"
-body = body + "      presentingElement: this.routerOutlet.nativeEl,\n"
-body = body + "      componentProps:  { variables:  this.variables, record: item, userinfo: this.userinfo}\n"
-body = body + "      , cssClass: 'modal-fullscreen'\n"
-body = body + "    });\n"
-body = body + "    modal.onWillDismiss().then(() => {\n"
-body = body + "      this.pideregistros( this.currentSegment);\n"
-body = body + "    });\n"
-body = body + "    return await modal.present();\n"
-body = body + "}\n"
-body = body + "   async  addRecord() {\n"
-body = body + "    const modal = await this.modalController.create({\n"
-body = body + "      component: ModuloCreatePage,\n"
-body = body + "      swipeToClose: false,\n"
-body = body + "      backdropDismiss: false,\n"
-body = body + "     animated: true,\n"
-
-body = body + "      presentingElement: await this.modalController.getTop(),\n"
-body = body + "      componentProps:  { variables:  this.variables, record: null, userinfo: this.userinfo}\n"
-body = body + "      , cssClass: 'modal-fullscreen'\n"
-body = body + "    });\n"
-
-body = body + "    modal.onWillDismiss().then((data) => {\n"
-body = body + "         if ( data.data !== 'close' ) {\n"
-body = body + "        this.pideregistros( this.currentSegment);\n"
-body = body + "      }\n"
-
-body = body + "    });\n"
-body = body + "    return await modal.present();\n"
-body = body + "   }\n"
-
-body = body + "   loadData(event) {\n"
-body = body + "    setTimeout(() => {\n"
-body = body + "      event.target.complete();\n"
-body = body + "      if ( this.items.length === 1000) {\n"
-body = body + "        event.target.disabled = true;\n"
-body = body + "      }\n"
-body = body + "    }, 500);\n"
-body = body + "  }\n"
+    //   body = body + 'modulo-list.js   ***************************************************\n';       
+   
+ body2 =  "import { Component , OnInit , ViewChild } from '@angular/core';\n"
+ body2 = body2 + "import {AlertController, ModalController ,  IonRouterOutlet} from '@ionic/angular';\n"
+ body2 = body2 + "import { TranslateService } from '@ngx-translate/core';\n"
+ body2 = body2 + "import {  Router } from '@angular/router';\n"
+ body2 = body2 + "import { AuthenticationService } from '../../services/Authentication.service';\n"
+ body2 = body2 + "import { FormGroup, FormControl } from '@angular/forms';\n"
+ body2 = body2 + "import { ReplaySubject} from 'rxjs';\n"
+ body2 = body2 + "import { IonInfiniteScroll } from '@ionic/angular';\n"
+ body2 = body2 + "import { "+op2+"CreatePage } from './"+op+"-create/"+op+"-create.page';\n"
 
 
-body = body + "}\n"
+ body2 = body2 + "@Component({\n"
+        body2 = body2 + "selector: 'page-"+op+"-list',\n"
+        body2 = body2 + "templateUrl: '"+op+"-list.page.html',\n"
+        body2 = body2 + "styleUrls: ['./"+op+"-list.page.scss'],\n"
+body2 = body2 + "})\n"
+body2 = body2 + "export class "+op2+"ListPage implements OnInit {\n"
+        body2 = body2 + "@ViewChild(IonInfiniteScroll, { static : false }) infiniteScroll: IonInfiniteScroll;\n"
+        body2 = body2 + "rangeForm: FormGroup;\n"
+        body2 = body2 + "searchQuery: string;\n"
+        body2 = body2 + "showAgeFilter = false;showmenu = false;\n"
+        body2 = body2 + "items: any  = [] ;\n"
+        body2 = body2 + "variables: any = [];\n"
+        body2 = body2 + "userinfo: any = [];\n"
+        body2 = body2 + "viewType = 'grid';\n"
+        body2 = body2 + "tituloxx = '';\n"
+        body2 = body2 + "efecto = 0;\n"
+        body2 = body2 + "seguro ='';\n"
+        body2 = body2 + "msg = '';\n"
+        body2 = body2 + "itemsList: Array<any>;\n"
+        body2 = body2 + "public currentSegment: string = \"Todos\";\n"
+        body2 = body2 + "searchSubject: ReplaySubject<any> = new ReplaySubject<any>(1);\n"
+        body2 = body2 + "constructor(  private routerOutlet: IonRouterOutlet , private router: Router, private authenticationService: AuthenticationService,\n"
+ body2 = body2 + "   public alertController: AlertController,     public translateService: TranslateService    ,    private modalController: ModalController\n"
+ body2 = body2 + "   ) {\n"
+        body2 = body2 + " }\n"
+        body2 = body2 + "changeToList() { this.viewType = 'list'; }\n"
 
+        body2 = body2 + "changeToGrid() {   this.viewType = 'grid';  }\n"
+
+        body2 = body2 + "ngOnInit() {\n"
+    body2 = body2 + "    this.variables = this.router.getCurrentNavigation().extras.state.variables;\n"
+    body2 = body2 + "    this.userinfo = this.authenticationService.getcopiauser();\n"
+    body2 = body2 + "    this.tituloxx =  this.variables.nombre ;\n"
+    body2 = body2 + "    this.searchQuery = '';\n"
+
+    body2 = body2 + "    this.translateService.get('SEGUROM').subscribe((value) => {   this.seguro = value  });\n"
+    body2 = body2 + "    this.translateService.get('MSGM').subscribe((value) => {   this.msg = value  });\n"
+
+    body2 = body2 + "    this.rangeForm = new FormGroup({    dual: new FormControl({lower: 1, upper: 100})   });   \n"
+    body2 = body2 + "    this.currentSegment = 'todos';\n"
+    body2 = body2 + "    this.pideregistros( this.currentSegment);\n"
+    body2 = body2 + "  }\n"
+    body2 = body2 + "  filterContacts(event: any) {\n"
+body2 = body2 + "    let selectedCategory = event.detail.value;\n"
+body2 = body2 + "    this.currentSegment = selectedCategory;\n"
+
+body2 = body2 + "    this.pideregistros(selectedCategory);\n"
+body2 = body2 + "  }\n"
+body2 = body2 + "  pideregistros0() {\n"
+
+        body2 = body2 + "   this.pideregistros(this.currentSegment);\n"
+        body2 = body2 + "  }\n"
+        body2 = body2 + "  pideregistros(op) {\n"
+ body2 = body2 + "       this.itemsList = [];\n"
+ body2 = body2 + "       this.efecto = 0 ;\n"
+ body2 = body2 + "       this.authenticationService.getReg('todos/' + op + '/' + this.userinfo[0].idempresa, '"+op+"s', 0).then((data) => {\n"
+ body2 = body2 + "       this.efecto=1;\n"
+ body2 = body2 + "       this.items =  data;\n"
+ body2 = body2 + "       this.itemsList = this.items;\n"
+ body2 = body2 + " }, (err) => {\n"
+ body2 = body2 + "   this.authenticationService.presentAlert(err.error , this.msg , '');\n"
+ body2 = body2 + " });\n"
+ body2 = body2 + "  }\n"
+ body2 = body2 + "  searchList() {\n"
+body2 = body2 + "    this.searchSubject.next({\n"
+ body2 = body2 + "     lower: this.rangeForm.controls.dual.value.lower,\n"
+ body2 = body2 + "     upper: this.rangeForm.controls.dual.value.upper,\n"
+ body2 = body2 + "     query: this.searchQuery\n"
+ body2 = body2 + "   });\n"
+ body2 = body2 + "    const query = (this.searchQuery && this.searchQuery !== null) ? this.searchQuery : '';\n"
+ body2 = body2 + "    this.itemsList = this.filterList(this.items, query);\n"
+ body2 = body2 + "  }\n"
+ body2 = body2 + " filterList(list, query): Array<any> {\n"
+ body2 = body2 + "   return list.filter(item => item.nombre.toLowerCase().includes(query.toLowerCase()));\n"
+ body2 = body2 + "  }\n"
+ body2 = body2 + "  async otrasop(item: any) {  }\n"
+ body2 = body2 + "  async deleteRecord(item: any) {\n"
+ body2 = body2 + "   const alert = await this.alertController.create({\n"
+ body2 = body2 + "     header: this.seguro,\n"
+ body2 = body2 + "     message: '',\n"
+ body2 = body2 + "     buttons: [\n"
+ body2 = body2 + "       {\n"
+ body2 = body2 + "         text: 'No',\n"
+ body2 = body2 + "        cssClass: 'secondary',\n"
+ body2 = body2 + "         handler: (blah) => {\n"
+ body2 = body2 + "         }\n"
+ body2 = body2 + "       }, {\n"
+body2 = body2 + "          text: 'Si',\n"
+body2 = body2 + "          handler: () => {\n"
+body2 = body2 + "            const recordID: string		= item._id;\n"
+body2 = body2 + "            this.authenticationService.deleteReg(recordID + '/' + this.variables.username + '/' + this.variables.idempresa + '/'\n"
+body2 = body2 + "            + this.variables.idafiliado , '"+op+"').then((data) => {\n"
+body2 = body2 + "              this.pideregistros( this.currentSegment);\n"
+body2 = body2 + "              }, (err) => {\n"
+body2 = body2 + "                this.authenticationService.presentAlert(err.error, this.msg, '');\n"
+body2 = body2 + "            });\n"
+body2 = body2 + "          }\n"
+body2 = body2 + "        }\n"
+body2 = body2 + "      ]\n"
+body2 = body2 + "    });\n"
+body2 = body2 + "    await alert.present();\n"
+body2 = body2 + "  }\n"
+
+body2 = body2 + "  async updateRecord(item: any) {\n"
+body2 = body2 + "    const modal = await this.modalController.create({\n"
+body2 = body2 + "      component: "+op2+"CreatePage,\n"
+body2 = body2 + "      swipeToClose: true,\n"
+body2 = body2 + "      presentingElement: this.routerOutlet.nativeEl,\n"
+body2 = body2 + "      componentProps:  { variables:  this.variables, record: item, userinfo: this.userinfo}\n"
+body2 = body2 + "      , cssClass: 'modal-fullscreen'\n"
+body2 = body2 + "    });\n"
+body2 = body2 + "    modal.onWillDismiss().then((data) => {\n"
+body2 = body2 + "         if ( data.data !== 'close' ) {\n"
+body2 = body2 + "      this.pideregistros( this.currentSegment);\n"
+body2 = body2 + "      }\n"
+body2 = body2 + "    });\n"
+body2 = body2 + "    return await modal.present();\n"
+body2 = body2 + "}\n"
+body2 = body2 + "   async  addRecord() {\n"
+body2 = body2 + "    const modal = await this.modalController.create({\n"
+body2 = body2 + "      component: "+op2+"CreatePage,\n"
+body2 = body2 + "      swipeToClose: false,\n"
+body2 = body2 + "      backdropDismiss: false,\n"
+body2 = body2 + "     animated: true,\n"
+
+body2 = body2 + "      presentingElement: await this.modalController.getTop(),\n"
+body2 = body2 + "      componentProps:  { variables:  this.variables, record: null, userinfo: this.userinfo}\n"
+body2 = body2 + "      , cssClass: 'modal-fullscreen'\n"
+body2 = body2 + "    });\n"
+
+body2 = body2 + "    modal.onWillDismiss().then((data) => {\n"
+body2 = body2 + "         if ( data.data !== 'close' ) {\n"
+body2 = body2 + "        this.pideregistros( this.currentSegment);\n"
+body2 = body2 + "      }\n"
+
+body2 = body2 + "    });\n"
+body2 = body2 + "    return await modal.present();\n"
+body2 = body2 + "   }\n"
+
+body2 = body2 + "   loadData(event) {\n"
+body2 = body2 + "    setTimeout(() => {\n"
+body2 = body2 + "      event.target.complete();\n"
+body2 = body2 + "      if ( this.items.length === 1000) {\n"
+body2 = body2 + "        event.target.disabled = true;\n"
+body2 = body2 + "      }\n"
+body2 = body2 + "    }, 500);\n"
+body2 = body2 + "  }\n"
+
+
+body2 = body2 + "}\n"
+generafile(body2,"tmp/"+op+"-list/"+op+"-list.page.ts");
 
 
          body=body + "\n\n\n"
-       body = body + 'modulo-create.module   ***************************************************\n';
-      
-                body=body + " import { NgModule } from '@angular/core'; \n"
-                body=body + "  import { CommonModule } from '@angular/common';\n"
-                body=body + "  import { FormsModule } from '@angular/forms';\n"
-                body=body + "  import { TranslateModule } from '@ngx-translate/core';\n"
-                body=body + "   import { IonicModule } from '@ionic/angular';\n"
-                body=body + "   import { "+op2+"CreatePage } from './"+op+"-create.page';\n"
-                body=body + "\n"
-                body=body + "   @NgModule({"
-                body=body + "   imports: [CommonModule,  FormsModule,  IonicModule,TranslateModule.forChild()   ],\n"
-                body=body + "   declarations: ["+op2+"CreatePage]        })\n"
-                body=body + "\n"
-                body=body + "  export class "+op2+"CreatePageModule {}\n"
-                body=body + "\n\n\n"
-                body = body + 'modulo-create.page.scss  ***************************************************\n';
-                body = body + ':host { --page-margin: var(--app-fair-margin);\n';
-                        body = body + '--page-background: var(--app-background);\n';
-                        body = body + '--page-background-shade: var(--app-background-shade);\n';
-                        body = body + '--page-tags-gutter: 5px;            }\n';
-                      
+     //  body = body + 'modulo-create.module   ***************************************************\n';
+
+                body2= " import { NgModule } from '@angular/core'; \n"
+                body2=body2 + "  import { CommonModule } from '@angular/common';\n"
+                body2=body2 + "  import { FormsModule } from '@angular/forms';\n"
+                body2=body2 + "  import { TranslateModule } from '@ngx-translate/core';\n"
+                body2=body2 + "   import { IonicModule } from '@ionic/angular';\n"
+                body2=body2 + "   import { "+op2+"CreatePage } from './"+op+"-create.page';\n"
+                body2=body2 + "\n"
+                body2=body2 + "   @NgModule({"
+                body2=body2 + "   imports: [CommonModule,  FormsModule,  IonicModule,TranslateModule.forChild()   ],\n"
+                body2=body2 + "   declarations: ["+op2+"CreatePage]        })\n"
+                body2=body2 + "\n"
+                body2=body2 + "  export class "+op2+"CreatePageModule {}\n"
+                body2=body2 + "\n\n\n"
+                body2 = body2 + 'modulo-create.page.scss  ***************************************************\n';
+                body2 = body2 + ':host { --page-margin: var(--app-fair-margin);\n';
+                        body2 = body2 + '--page-background: var(--app-background);\n';
+                        body2 = body2 + '--page-background-shade: var(--app-background-shade);\n';
+                        body2 = body2 + '--page-tags-gutter: 5px;            }\n';
+//generafile(body2,"tmp/"+op+"-list/"+op+"-create/"+op+"-create.module ");
+
+
+
                         body=body + "\n\n\n"
-                body = body + 'modulo-create.page.html   ***************************************************\n';
+           //     body = body + 'modulo-create.page.html   ***************************************************\n';
 
 
 
-                body = body + '<form class="create-user-form ion-page" [formGroup]="Form" >\n';
-                body = body + '<ion-header>\n';
-                body = body + '        <ion-toolbar color="primary">\n';
-                body = body + '                <ion-buttons slot="end">\n';
-                body = body + '                        <ion-button (click)="dismissModal()">\n';
-                body = body + '                           <ion-icon slot="icon-only" name="close"></ion-icon>\n';
-                body = body + '                        </ion-button>\n';
-                body = body + '                </ion-buttons>\n';
-                body = body + '                <ion-title>{{tituloxx}}</ion-title>\n';
-                body = body + '        </ion-toolbar>\n';
-                body = body + '</ion-header>\n';
+                body2 =  '<form class="create-user-form ion-page" [formGroup]="Form" >\n';
+                body2 = body2 + '<ion-header>\n';
+                body2 = body2 + '        <ion-toolbar color="primary">\n';
+                body2 = body2 + '                <ion-buttons slot="end">\n';
+                body2 = body2 + '                        <ion-button (click)="dismissModal()">\n';
+                body2 = body2 + '                           <ion-icon slot="icon-only" name="close"></ion-icon>\n';
+                body2 = body2 + '                        </ion-button>\n';
+                body2 = body2 + '                </ion-buttons>\n';
+                body2 = body2 + '                <ion-title>{{tituloxx}}</ion-title>\n';
+                body2 = body2 + '        </ion-toolbar>\n';
+                body2 = body2 + '</ion-header>\n';
                 
-                body = body + '<ion-content class="create-form-content">\n';
-                body = body + '    <section class="user-details-fields fields-section">\n';
-                body = body + '    <ion-list class="inputs-list" lines="full">\n';
-                body = body +buscamodulo(op,'createcamposhtml')
-                body = body + '     </ion-list>\n';
-                body = body + '  </section>\n';
+                body2 = body2 + '<ion-content class="create-form-content">\n';
+                body2 = body2 + '    <section class="user-details-fields fields-section">\n';
+                body2 = body2 + '    <ion-list class="inputs-list" lines="full">\n';
+                body2 = body2 +buscamodulo(op,'createcamposhtml')
+                body2 = body2 + '     </ion-list>\n';
+                body2 = body2 + '  </section>\n';
                  
-                body = body + '</ion-content>\n';
+                body2 = body2 + '</ion-content>\n';
                 
                 
-                body = body + '<ion-footer>\n';
-                body = body + '  <ion-row class="form-actions-wrapper">\n';
-                body = body + '    <ion-col>\n';
-                body = body + '      <ion-button (click)="submitForm()" color="medium" expand="block" fill="outline" type="submit" [disabled]="!Form.valid">CREAR</ion-button>\n';
+                body2 = body2 + '<ion-footer>\n';
+                body2 = body2 + '  <ion-row class="form-actions-wrapper">\n';
+                body2 = body2 + '    <ion-col>\n';
+                body2 = body2 + '      <ion-button (click)="submitForm()" color="medium" expand="block" fill="outline" type="submit" [disabled]="!Form.valid">CREAR</ion-button>\n';
                     
-                body = body + '      </ion-col>\n';
-                body = body + '  </ion-row>\n';
-                body = body + '</ion-footer>\n';
-                body = body + '</form>   \n';
+                body2 = body2 + '      </ion-col>\n';
+                body2 = body2 + '  </ion-row>\n';
+                body2 = body2 + '</ion-footer>\n';
+                body2 = body2 + '</form>   \n';
 
-
+                generafile(body2,"tmp/"+op+"-list/"+op+"-create/"+op+"-create.page.html");
                 body=body + "\n\n\n"
 
-                body = body + ' modulo-create.page.js  ***************************************************\n';
-               
-                body=body + "import { Component, OnInit , ViewChild} from '@angular/core';\n"
-                body=body + "import { ModalController , NavParams} from '@ionic/angular';\n"
-                body=body + "import { FormGroup, FormControl, Validators, FormGroupDirective } from '@angular/forms';\n"
-                body=body + "import { AuthenticationService } from '../../../services/Authentication.service';\n"
-                body=body + "import { TranslateService } from '@ngx-translate/core';\n"
-                body=body + "@Component({\n"
-                body=body + "  selector: 'app-"+op+"-create',\n"
-                body=body + "  templateUrl: './"+op+"-create.page.html',\n"
-                body=body + "  styleUrls: ['./"+op+"-create.page.scss'],\n"
-                body=body + "})\n"
-                body=body + "export class "+op2+"CreatePage implements OnInit {\n"
+            //    body = body + ' modulo-create.page.js  ***************************************************\n';
+          
+
+                body2= "import { Component, OnInit , ViewChild} from '@angular/core';\n"
+                body2=body2 + "import { ModalController , NavParams} from '@ionic/angular';\n"
+                body2=body2 + "import { FormGroup, FormControl, Validators, FormGroupDirective } from '@angular/forms';\n"
+                body2=body2 + "import { AuthenticationService } from '../../../services/Authentication.service';\n"
+                body2=body2 + "import { TranslateService } from '@ngx-translate/core';\n"
+                body2=body2 + "@Component({\n"
+                body2=body2 + "  selector: 'app-"+op+"-create',\n"
+                body2=body2 + "  templateUrl: './"+op+"-create.page.html',\n"
+                body2=body2 + "  styleUrls: ['./"+op+"-create.page.scss'],\n"
+                body2=body2 + "})\n"
+                body2=body2 + "export class "+op2+"CreatePage implements OnInit {\n"
                 
-                body=body + "  Form: FormGroup;\n"
-                body=body + "  @ViewChild('createForm', { static: false }) createForm: FormGroupDirective;\n"
-                body=body + "  variables: any = [];\n"
-                body=body + "  userinfo: any = [];\n"
-                body=body + "  tituloxx = '';\n"
-                body=body + "  vgrupo: any = [];\n"
-                body=body + "  _ID: any;\n"
-                body=body + "  lpermiso: any;\n"
+                body2=body2 + "  Form: FormGroup;\n"
+                body2=body2 + "  @ViewChild('createForm', { static: false }) createForm: FormGroupDirective;\n"
+                body2=body2 + "  variables: any = [];\n"
+                body2=body2 + "  userinfo: any = [];\n"
+                body2=body2 + "  tituloxx = '';\n"
+                body2=body2 + "  vgrupo: any = [];\n"
+                body2=body2 + "  _ID: any;\n"
+                body2=body2 + "  lpermiso: any;\n"
                 
                 
-                body=body + "  constructor(\n"
-                body=body + "    private modalController: ModalController,\n"
-                body=body + "    public translateService: TranslateService    , private authenticationService: AuthenticationService,\n"
-                body=body + "    private navParams: NavParams\n"
-                body=body + "  ) { }\n"
+                body2=body2 + "  constructor(\n"
+                body2=body2 + "    private modalController: ModalController,\n"
+                body2=body2 + "    public translateService: TranslateService    , private authenticationService: AuthenticationService,\n"
+                body2=body2 + "    private navParams: NavParams\n"
+                body2=body2 + "  ) { }\n"
                 
-                body=body + "  dismissModal() {     this.modalController.dismiss('close');      }\n"
-                body=body + "  ionViewDidEnter(): void {               }\n"
-                body=body + "  ngOnInit(): void {\n"
-                body=body + "    this.variables = this.navParams.get('variables');\n"
-                body=body + "    this.userinfo = this.navParams.get('userinfo');\n"
-                body=body + "    this.tituloxx = this.variables.nombre;\n"
-                body=body + "    this.Form = new FormGroup({\n"
-                body = body +buscamodulo(op,'createcamposjsv')
+                body2=body2 + "  dismissModal() {     this.modalController.dismiss('close');      }\n"
+                body2=body2 + "  ionViewDidEnter(): void {               }\n"
+                body2=body2 + "  ngOnInit(): void {\n"
+                body2=body2 + "    this.variables = this.navParams.get('variables');\n"
+                body2=body2 + "    this.userinfo = this.navParams.get('userinfo');\n"
+                body2=body2 + "    this.tituloxx = this.variables.nombre;\n"
+                body2=body2 + "    this.Form = new FormGroup({\n"
+                body2 = body2 +buscamodulo(op,'createcamposjsv')
                 
               
-                body=body + "    });\n"
+                body2=body2 + "    });\n"
                 
                 
-                body=body + "    if (this.navParams.get('record') == null) {\n"
-                body = body +buscamodulo(op,'createcamposjsv21')
-                body=body + "       this.translateService.get('NUEVOM').subscribe((value) => {   this.tituloxx = value +' '+ this.variables.nombre;this.lpermiso = value; });\n"
+                body2=body2 + "    if (this.navParams.get('record') == null) {\n"
+                body2 = body2 +buscamodulo(op,'createcamposjsv21')
+                body2=body2 + "       this.translateService.get('NUEVOM').subscribe((value) => {   this.tituloxx = value +' '+ this.variables.nombre;this.lpermiso = value; });\n"
               
-                body=body + "       this.authenticationService.getReg('todos/orden/' + this.userinfo[0].idempresa, '"+op+"s', 0).then((data) => {\n"
-                body=body + "        if (data) {\n"
-                body=body + "         const aa: any = data;\n"
-                body=body + "          this.Form.controls['index'].setValue(Number(aa.orden) + 10);\n"
-                body=body + "        }\n"
-                body=body + "  }, (err) => {\n"
-                body=body + "    this.authenticationService.presentAlert(err.error , 'Precaución' , '');\n"
-                body=body + "  });\n"
-                body=body + "    } else {\n"
-                body=body + "       this.translateService.get('ACTUALIZAM').subscribe((value) => {this.tituloxx = value + ' '+ this.variables.nombre; this.lpermiso = value; });\n"
+                body2=body2 + "       this.authenticationService.getReg('todos/orden/' + this.userinfo[0].idempresa, '"+op+"s', 0).then((data) => {\n"
+                body2=body2 + "        if (data) {\n"
+                body2=body2 + "         const aa: any = data;\n"
+                body2=body2 + "          this.Form.controls['index'].setValue(Number(aa.orden) + 10);\n"
+                body2=body2 + "        }\n"
+                body2=body2 + "  }, (err) => {\n"
+                body2=body2 + "    this.authenticationService.presentAlert(err.error , 'Precaución' , '');\n"
+                body2=body2 + "  });\n"
+                body2=body2 + "    } else {\n"
+                body2=body2 + "       this.translateService.get('ACTUALIZAM').subscribe((value) => {this.tituloxx = value + ' '+ this.variables.nombre; this.lpermiso = value; });\n"
 
                 
-                body=body + "       this._ID 				=	this.navParams.data.record._id;\n"
-                body = body +buscamodulo(op,'createcamposjsv2')
+                body2=body2 + "       this._ID 				=	this.navParams.data.record._id;\n"
+                body2 = body2 +buscamodulo(op,'createcamposjsv2')
   
-                body=body + "    }\n"
-                body=body + "  }\n"
+                body2=body2 + "    }\n"
+                body2=body2 + "  }\n"
                 
-                body=body + "  //onSgrupoChange(selectedValue: any) {    this.sgrupo = selectedValue.detail.value ;(ionChange)='onSgrupoChange($event)'   }\n"
+                body2=body2 + "  //onSgrupoChange(selectedValue: any) {    this.sgrupo = selectedValue.detail.value ;(ionChange)='onSgrupoChange($event)'   }\n"
                 
-                body=body + "  submitForm() {\n"
+                body2=body2 + "  submitForm() {\n"
                 
-                body=body + "    const   options: any	     = {\n"
+                body2=body2 + "    const   options: any	     = {\n"
 
          
 
 
-              //  body=body + "       idempresa: this.userinfo[0].idempresa,\n"
-                body = body +buscamodulo(op,'createcamposjsv3')
-                body=body + "       bitacora: { idempresa : this.userinfo[0].idempresa , idafiliado: '' ,\n"
-                body=body + "       email: this.userinfo[0].username , permiso : this.lpermiso, accion: this.tituloxx}\n"
-                body=body + "   };\n"
+              //  body2=body2 + "       idempresa: this.userinfo[0].idempresa,\n"
+                body2 = body2 +buscamodulo(op,'createcamposjsv3')
+                body2=body2 + "       bitacora: { idempresa : this.userinfo[0].idempresa , idafiliado: '' ,\n"
+                body2=body2 + "       email: this.userinfo[0].email , permiso : this.lpermiso, accion: this.tituloxx}\n"
+                body2=body2 + "   };\n"
                 
-                body=body + "   if (this.navParams.get('record') == null) {\n"
-                body=body + "        if (options) {\n"
-                body=body + "          this.authenticationService.createReg('', options, '"+op+"s').then((result) => {\n"
-                body=body + "            if (!this.Form.valid) { return; }\n"
-                body=body + "            this.modalController.dismiss('ok');\n"
-                body=body + "        }, (err) => {\n"
-                body=body + "          this.authenticationService.presentAlert(err.error , 'Precaución' , '');\n"
-                body=body + "        });\n"
-                body=body + "        }\n"
-                body=body + "   } else {\n"
-                body=body + "    if (options) {\n"
-                body=body + "      this.authenticationService.createReg(this._ID, options, '"+op+"s').then((result) => {\n"
-                body=body + "         if (!this.Form.valid) { return; }\n"
-                body=body + "         this.modalController.dismiss('ok');\n"
-                body=body + "     }, (err) => {\n"
-                body=body + "      this.authenticationService.presentAlert(err.error , 'Precaución' , '');\n"
-                body=body + "     });\n"
-                body=body + "  }}\n"
+                body2=body2 + "   if (this.navParams.get('record') == null) {\n"
+                body2=body2 + "        if (options) {\n"
+                body2=body2 + "          this.authenticationService.createReg('', options, '"+op+"s').then((result) => {\n"
+                body2=body2 + "            if (!this.Form.valid) { return; }\n"
+                body2=body2 + "            this.modalController.dismiss('ok');\n"
+                body2=body2 + "        }, (err) => {\n"
+                body2=body2 + "          this.authenticationService.presentAlert(err.error , 'Precaución' , '');\n"
+                body2=body2 + "        });\n"
+                body2=body2 + "        }\n"
+                body2=body2 + "   } else {\n"
+                body2=body2 + "    if (options) {\n"
+                body2=body2 + "      this.authenticationService.createReg(this._ID, options, '"+op+"s').then((result) => {\n"
+                body2=body2 + "         if (!this.Form.valid) { return; }\n"
+                body2=body2 + "         this.modalController.dismiss('ok');\n"
+                body2=body2 + "     }, (err) => {\n"
+                body2=body2 + "      this.authenticationService.presentAlert(err.error , 'Precaución' , '');\n"
+                body2=body2 + "     });\n"
+                body2=body2 + "  }}\n"
 
-                body=body + "  }\n"
+                body2=body2 + "  }\n"
                 
                 
                 
-                body=body + "}\n"
+                body2=body2 + "}\n"
                 
-
+                generafile(body2,"tmp/"+op+"-list/"+op+"-create/"+op+"-create.page.ts");
       
         return   body  ;
       };
@@ -1405,14 +1665,17 @@ exports.getCombofijo = function(req, res, next){
                         cursodiploma.find({'correo':req.params.id2},function(err, todosa00) {
 console.log(todosa00)
                         cursoeve.find({'idtipoevento.codigo':'3'},function(err, todos00) {
+                     //           console.log(todos00)
                         Evento.find({_id :{
                                 "$in" : [
-                                    "5e7a6d15187210001ea6e989","5e7a6d9d187210001ea6e98f","5e7a6e16187210001ea6e991"
+                                    "5e7a6d15187210001ea6e989","5e7a6d9d187210001ea6e98f","5e7a6e16187210001ea6e991","5ea8be5337428511a3ed3860",
                                     ,"5e7a7a64187210001ea6e99d","5e7bcb0e737144004a13630f","5e7a79fc187210001ea6e99b","5e7b9e46cf97ea0029d5aa8c"
                                 ]
                             }},function(err, todos0) {
-                    
+                   // console.log(todos0)
                         Participa2.find({'idtipoevento.id':'3',correo:req.params.id2},function(err, todos) {
+                                console.log('participas2')
+                                console.log(todos)
                                if(todos.length>0)
                                {    
                                 for (var i = 0; i < todos.length; i++) {
@@ -1437,10 +1700,12 @@ console.log(todosa00)
                         }
                                 Participa.find({correo:req.params.id2,"idevento" :{
                                         "$in" : [
-                                            "5e7a6d15187210001ea6e989","5e7a6d9d187210001ea6e98f","5e7a6e16187210001ea6e991"
+                                            "5e7a6d15187210001ea6e989","5e7a6d9d187210001ea6e98f","5e7a6e16187210001ea6e991","5ea8be5337428511a3ed3860",
                                             ,"5e7a7a64187210001ea6e99d","5e7bcb0e737144004a13630f","5e7a79fc187210001ea6e99b","5e7b9e46cf97ea0029d5aa8c"
                                         ]
                                     }},function(err, todos2) {
+                                            console.log('participas')
+                                            console.log(todos2)
                                       if(todos2.length)
                                       {
 
