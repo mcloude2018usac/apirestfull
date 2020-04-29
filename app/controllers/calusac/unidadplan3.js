@@ -40,9 +40,17 @@ break;
 case 'horariocalusac22':
     Asignacalusac.aggregate( [
         { 
+            "$match" : { 
+                "estadopago" : "Asignación exitosa"
+            }
+        }, 
+        {    
+          
+        
             "$group" : { 
+              
                 "_id" : { 
-                    "estadopago" : "$estadopago"
+                    "tipoa" : "$tipoa"
                 }, 
                 "COUNT(*)" : { 
                     "$sum" :(1)
@@ -54,7 +62,7 @@ case 'horariocalusac22':
         }, 
         { 
             "$project" : { 
-                "estadopago" : "$_id.estadopago", 
+                "tipoa" : "$_id.tipoa", 
                 "cantidad" : "$COUNT(*)", 
                 "monto" : "$SUM(monto)", 
                 "_id" : (0)
