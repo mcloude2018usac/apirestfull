@@ -6,13 +6,67 @@ var Unidadjornada3 = require('../../models/calusac/unidadjornada3');
 var Unidadhorario3 = require('../../models/calusac/unidadhorario3');
 var Unidadprofesor3 = require('../../models/user');
 var Unidadpago3 = require('../../models/calusac/unidadpago3');
+var Asignacalusac = require('../../models/calusac/asignacalusac');
+
 
 exports.getUnidadplan3 = function(req, res, next){
     if(req.params.id5)
     {  
        
     switch(req.params.id5) {
-      
+        case 'horariocalusac2':
+            Asignacalusac.aggregate( [
+                { 
+                    "$group" : { 
+                        "_id" : { 
+                            "estadopago" : "$estadopago"
+                        }, 
+                        "COUNT(*)" : { 
+                            "$sum" : 1
+                        }
+                    }
+                }, 
+                { 
+                    "$project" : { 
+                        "estadopago" : "$_id.estadopago", 
+                        "estado" : "$COUNT(*)", 
+                        "_id" : 0
+                    }
+                }
+            ]).exec(function(err, todos) {
+                res.json(todos);   
+            });
+break;
+case 'horariocalusac22':
+    Asignacalusac.aggregate( [
+        { 
+            "$group" : { 
+                "_id" : { 
+                    "estadopago" : "$estadopago"
+                }, 
+                "COUNT(*)" : { 
+                    "$sum" :(1)
+                }, 
+                "SUM(monto)" : { 
+                     '$sum': { '$toInt': '$monto' } 
+                }
+            }
+        }, 
+        { 
+            "$project" : { 
+                "estadopago" : "$_id.estadopago", 
+                "cantidad" : "$COUNT(*)", 
+                "monto" : "$SUM(monto)", 
+                "_id" : (0)
+            }
+        }
+    ]).exec(function(err, todos) {
+        res.json(todos);   
+    });
+break;
+
+
+            break;  
         case 'horariocalusac':
             console.log({'idtipounidad.id':req.params.id, 'idunidadacademica.id':req.params.id2})
             Facplan3.find({'idtipounidad.id':req.params.id, 'idunidadacademica.id':req.params.id2})
