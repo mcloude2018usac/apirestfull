@@ -118,7 +118,7 @@ exports.getCombofijo = function(req, res, next){
                                                                                                                 for(var j5a = 0; j5a < todos2.length;j5a++){
                                                                                                                         if(todos40[i10].nombre==todos2[j5a]._id)
                                                                                                                         {   aa=1;
-                                                                                                        console.log(todos4[k])
+                                                                                                        
                                                                                                                                 
                                                                                                                                 childrem2.push({nivel:todos2[j5a].nivel,idrol:todos4[k].idrol,title:todos2[j5a].nombre,component: todos2[j5a].componente,
                                                                                                                                                 tabComponent:todos2[j5a].tabcomponente,
@@ -141,9 +141,9 @@ exports.getCombofijo = function(req, res, next){
                                                                                         
                                                                                         for(var j5 = 0; j5 < todos2.length;j5++){
                                                                                                 if(todos4[k].nombre==todos2[j5]._id)
-                                                                                                {  console.log(todos4[k])
+                                                                                                { 
                                                                                                         if(aa==1)
-                                                                                                        {console.log(todos4[k])
+                                                                                                        {
                                                                                                                 childrem.push({nivel:todos2[j5].nivel,idrol:todos4[k].idrol,title:todos2[j5].nombre,component: todos2[j5].componente, tabComponent:todos2[j5].tabcomponente,name:todos2[j5].componente,index:todos2[j5].index,icon:todos2[j5].icono,estado:todos2[j5].estado,
                                                                                                                       ingreso:todos4[k].ingreso,  permiso:todos4[k].ingreso+','+todos4[k].consulta+','+todos4[k].eliminacion+','+todos4[k].creacion+','+todos4[k].actualizacion+','+todos4[k].filtro+','+todos4[k].reporte,potros1:todos4[k].potros1,children:childrem2
                                                                                                                       ,pingreso:todos4[k].ingreso ,pconsulta: todos4[k].consulta,peliminacion : todos4[k].eliminacion,pcreacion: todos4[k].creacion, pactualizacion: todos4[k].actualizacion,pfiltro: todos4[k].filtro,preporte: todos4[k].reporte 
@@ -152,7 +152,7 @@ exports.getCombofijo = function(req, res, next){
         
                                                                                                         }
                                                                                                         else{
-                                                                                                        console.log(todos4[k])
+                                                                                                     
 
                                                                                                                 childrem.push({nivel:todos2[j5].nivel,idrol:todos4[k].idrol,title:todos2[j5].nombre,component: todos2[j5].componente, tabComponent:todos2[j5].tabcomponente,name:todos2[j5].componente,index:todos2[j5].index,icon:todos2[j5].icono,estado:todos2[j5].estado,
                                                                                                                         ingreso:todos4[k].ingreso,permiso:todos4[k].ingreso+','+todos4[k].consulta+','+todos4[k].eliminacion+','+todos4[k].creacion+','+todos4[k].actualizacion+','+todos4[k].filtro+','+todos4[k].reporte,potros1:todos4[k].potros1
@@ -170,7 +170,7 @@ exports.getCombofijo = function(req, res, next){
         
                                                                         if(childrem.length>0)
                                                                         {
-                                                                                console.log(todos4[k])
+                                                                               
 
                                                                         myData.push({nivel:todos2[j].nivel, idrol:todos[i].idrol,title:todos2[j].nombre,component: todos2[j].componente, tabComponent:todos2[j].tabcomponente,name:todos2[j].componente,index:todos2[j].index,icon:todos2[j].icono,estado:todos2[j].estado,
                                                                               ingreso:todos[i].ingreso,  permiso:todos[i].ingreso+','+todos[i].consulta+','+todos[i].eliminacion+','+todos[i].creacion+','+todos[i].actualizacion+','+todos[i].filtro+','+todos[i].reporte,children:childrem
@@ -181,7 +181,7 @@ exports.getCombofijo = function(req, res, next){
         
                                                                         }
                                                                         else
-                                                                        {console.log(todos4[k])
+                                                                        {
                                                                         myData.push({nivel:todos2[j].nivel,idrol:todos[i].idrol,title:todos2[j].nombre,component: todos2[j].componente, tabComponent:todos2[j].tabcomponente,name:todos2[j].componente,index:todos2[j].index,icon:todos2[j].icono,estado:todos2[j].estado,
                                                                              ingreso:todos[i].ingreso,   permiso:todos[i].ingreso+','+todos[i].consulta+','+todos[i].eliminacion+','+todos[i].creacion+','+todos[i].actualizacion+','+todos[i].filtro+','+todos[i].reporte
                                                                              ,pingreso:todos[i].ingreso ,pconsulta: todos[i].consulta,peliminacion : todos[i].eliminacion ,pcreacion: todos[i].creacion, pactualizacion: todos[i].actualizacion,pfiltro: todos[i].filtro,
@@ -330,7 +330,7 @@ if(todos.length>0)   {
                                                                                         {  
                                                                                                 if(aa==1)
                                                                                                 {
-                                                                                                        console.log(todos4[k])
+                                                                                                      
                                                                                                         childrem.push({nivel:todos2[j5].nivel,idrol:todos4[k].idrol,title:todos2[j5].nombre,component: todos2[j5].componente, tabComponent:todos2[j5].tabcomponente,name:todos2[j5].componente,index:todos2[j5].index,icon:todos2[j5].icono,estado:todos2[j5].estado,
                                                                                                               ingreso:todos4[k].ingreso,  permiso:todos4[k].ingreso+','+todos4[k].consulta+','+todos4[k].eliminacion+','+todos4[k].creacion+','+todos4[k].actualizacion+','+todos4[k].filtro+','+todos4[k].reporte,potros1:todos4[k].potros1,children:childrem2
                                                                                                               ,pingreso:todos4[k].ingreso ,pconsulta: todos4[k].consulta,peliminacion : todos4[k].eliminacion,pcreacion: todos4[k].creacion, pactualizacion: todos4[k].actualizacion,pfiltro: todos4[k].filtro,preporte: todos4[k].reporte 
@@ -338,7 +338,7 @@ if(todos.length>0)   {
                                                                                                         })
 
                                                                                                 }
-                                                                                                else{console.log(todos4[k])
+                                                                                                else{
                                                                                                         childrem.push({nivel:todos2[j5].nivel,idrol:todos4[k].idrol,title:todos2[j5].nombre,component: todos2[j5].componente, tabComponent:todos2[j5].tabcomponente,name:todos2[j5].componente,index:todos2[j5].index,icon:todos2[j5].icono,estado:todos2[j5].estado,
                                                                                                                 ingreso:todos4[k].ingreso,permiso:todos4[k].ingreso+','+todos4[k].consulta+','+todos4[k].eliminacion+','+todos4[k].creacion+','+todos4[k].actualizacion+','+todos4[k].filtro+','+todos4[k].reporte,potros1:todos4[k].potros1
                                                                                                                 ,pingreso:todos4[k].ingreso ,pconsulta: todos4[k].consulta,peliminacion : todos4[k].eliminacion,pcreacion: todos4[k].creacion, pactualizacion: todos4[k].actualizacion,pfiltro: todos4[k].filtro ,preporte: todos4[k].reporte 
@@ -355,11 +355,7 @@ if(todos.length>0)   {
 
                                                                 if(childrem.length>0)
                                                                 {
-                                                                        console.log({nivel:todos2[j].nivel, idrol:todos[i].idrol,title:todos2[j].nombre,component: todos2[j].componente, tabComponent:todos2[j].tabcomponente,name:todos2[j].componente,index:todos2[j].index,icon:todos2[j].icono,estado:todos2[j].estado,
-                                                                                ingreso:todos[i].ingreso,  permiso:todos[i].ingreso+','+todos[i].consulta+','+todos[i].eliminacion+','+todos[i].creacion+','+todos[i].actualizacion+','+todos[i].filtro+','+todos[i].reporte,children:childrem
-                                                                                ,pingreso:todos[i].ingreso ,pconsulta: todos[i].consulta,peliminacion : todos[i].eliminacion,pcreacion: todos[i].creacion, pactualizacion: todos[i].actualizacion,pfiltro: todos[i].filtro,preporte: todos[i].reporte
-                                                                          ,variables:{nombre:todos2[j].nombre,nivel:todos2[j].nivel, idrol:todos[i].idrol,pingreso:todos[i].ingreso ,pconsulta: todos[i].consulta,peliminacion : todos[i].eliminacion,pcreacion: todos[i].creacion, pactualizacion: todos[i].actualizacion,pfiltro: todos[i].filtro,preporte: todos[i].reporte}})
-
+        
                                                                 myData.push({nivel:todos2[j].nivel, idrol:todos[i].idrol,title:todos2[j].nombre,component: todos2[j].componente, tabComponent:todos2[j].tabcomponente,name:todos2[j].componente,index:todos2[j].index,icon:todos2[j].icono,estado:todos2[j].estado,
                                                                       ingreso:todos[i].ingreso,  permiso:todos[i].ingreso+','+todos[i].consulta+','+todos[i].eliminacion+','+todos[i].creacion+','+todos[i].actualizacion+','+todos[i].filtro+','+todos[i].reporte,children:childrem
                                                                       ,pingreso:todos[i].ingreso ,pconsulta: todos[i].consulta,peliminacion : todos[i].eliminacion,pcreacion: todos[i].creacion, pactualizacion: todos[i].actualizacion,pfiltro: todos[i].filtro,preporte: todos[i].reporte
@@ -369,10 +365,7 @@ if(todos.length>0)   {
 
                                                                 }
                                                                 else
-                                                                {    console.log({nivel:todos2[j].nivel,idrol:todos[i].idrol,title:todos2[j].nombre,component: todos2[j].componente, tabComponent:todos2[j].tabcomponente,name:todos2[j].componente,index:todos2[j].index,icon:todos2[j].icono,estado:todos2[j].estado,
-                                                                        ingreso:todos[i].ingreso,   permiso:todos[i].ingreso+','+todos[i].consulta+','+todos[i].eliminacion+','+todos[i].creacion+','+todos[i].actualizacion+','+todos[i].filtro+','+todos[i].reporte
-                                                                        ,pingreso:todos[i].ingreso ,pconsulta: todos[i].consulta,peliminacion : todos[i].eliminacion ,pcreacion: todos[i].creacion, pactualizacion: todos[i].actualizacion,pfiltro: todos[i].filtro,
-                                                                         preporte: todos[i].reporte,variables:{nombre:todos2[j].nombre,nivel:todos2[j].nivel,idrol:todos[i].idrol,pingreso:todos[i].ingreso ,pconsulta: todos[i].consulta,peliminacion : todos[i].eliminacion ,pcreacion: todos[i].creacion, pactualizacion: todos[i].actualizacion,pfiltro: todos[i].filtro}})
+                                                                {   
                                                                 myData.push({nivel:todos2[j].nivel,idrol:todos[i].idrol,title:todos2[j].nombre,component: todos2[j].componente, tabComponent:todos2[j].tabcomponente,name:todos2[j].componente,index:todos2[j].index,icon:todos2[j].icono,estado:todos2[j].estado,
                                                                      ingreso:todos[i].ingreso,   permiso:todos[i].ingreso+','+todos[i].consulta+','+todos[i].eliminacion+','+todos[i].creacion+','+todos[i].actualizacion+','+todos[i].filtro+','+todos[i].reporte
                                                                      ,pingreso:todos[i].ingreso ,pconsulta: todos[i].consulta,peliminacion : todos[i].eliminacion ,pcreacion: todos[i].creacion, pactualizacion: todos[i].actualizacion,pfiltro: todos[i].filtro,
