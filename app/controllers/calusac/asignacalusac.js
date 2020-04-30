@@ -802,6 +802,7 @@ Calusaccarnet.findById({ _id: '5e9cd2bd1aee4463745bcfd6' }, function (err, todo1
                 todo100.profesor        	=req.body.profesor;
                 todo100.carnecalusac = contadorcca;
                 todo100.estadopago    ='Asignación exitosa';
+                todo100.estadoacta ='Grabación'
     
                 todo100.save(function (err, todo200){
                     if (err)     {  console.log(err.message)   }
