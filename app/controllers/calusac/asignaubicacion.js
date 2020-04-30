@@ -4,7 +4,8 @@ var mailt = require('../../controllers/mail');
 var Asignaubicacion = require('../../models/calusac/asignaubicacion');
 var Bitacora = require('../../models/bitacora');
 var Facplan3 = require('../../models/calusac/unidadplan4');
-
+var unidadnivel3 = require('../../models/calusac/unidadnivel3');
+var unidadidioma3 = require('../../models/calusac/unidadidioma3');
 var Operadores = require('../../models/calusac/operadores');
 var Asignacalusac = require('../../models/calusac/asignacalusac');
 var request = require('request');
@@ -87,11 +88,14 @@ exports.getAsignaubicacion = function(req, res, next){
         {
             if(req.params.id=='todos1000')
             {
+                console.log('entra aqui')
+              
                 Asignacalusac.find({idplanifica:req.params.id2
                 
-            }).populate('ididioma').exec(function(err, todos10) {
+            }).populate('ididioma')  .select({ "nombre":1,"cui": 1,"identificador": 1,"n1": 1,"n2": 1,"n3": 1,
+            "n4":1,"n5":1,       "_id": 1}).exec(function(err, todos10) {
                     if (err){ res.send(err); }
-        console.log(todos10)
+       
                     res.json(todos10);
                 });
     
@@ -133,6 +137,8 @@ exports.getAsignaubicacion = function(req, res, next){
             case 'horarioprofe':
               
             var  aa=(req.params.id2).split('°')
+
+            console.log(aa)
                 Asignaubicacion.aggregate(   [
                     { 
                         "$match" : {
@@ -191,13 +197,13 @@ exports.getAsignaubicacion = function(req, res, next){
 
            
 
-
             Asignacalusac.aggregate(   [
                 { 
                     "$match" : {
                         "profesor" : req.params.id, 
                         "ididioma" : aa[0],
                         "estadoacta":aa[1]
+                      
                     }
                 }, 
                 { 
@@ -232,7 +238,7 @@ exports.getAsignaubicacion = function(req, res, next){
                 populate('idprofesor').exec(function(err, todos10) {
                        if (err){  res.send(err);  }
 
-                       console.log(todos10)
+                    
                  var result = [];
                  for (const item of todos10) {
                   
@@ -257,7 +263,7 @@ exports.getAsignaubicacion = function(req, res, next){
 
 
            
-                 console.log(result)
+
                         res.json(result);
 
 
@@ -279,9 +285,54 @@ exports.getAsignaubicacion = function(req, res, next){
          
     break;
         case 'idiomasprofe2':
+
+            Asignacalusac.aggregate( [
+                { 
+                    "$match" : { 
+                        "profesor" : req.params.id
+                    }
+                }, 
+                { 
+                    "$group" : { 
+                        "_id" : { 
+                            "ididioma" : "$ididioma"
+                        }, 
+                        "COUNT(*)" : { 
+                            "$sum" : (1)
+                        }
+                    }
+                }, 
+                { 
+                    "$project" : { 
+                        "ididioma" : "$_id.ididioma", 
+                        "COUNT(*)" : "$COUNT(*)", 
+                        "_id" : (0)
+                    }
+                }
+            ]).exec(function(err, todos) {
+                var duplicates = [];
+              
+                for(var i = 0; i < todos.length;i++){
+                    duplicates.push(todos[i].ididioma);
+            
+                
+                }
+
+                unidadidioma3.find({ _id: {$in: duplicates}}).exec(function(err, todos10) {
+                    if (err){ res.send(err); console.log(err) }
+                    var result = [];
+                    for(var i = 0; i < todos10.length;i++){
+                        result.push({codigo:todos10[i]._id,nombre:todos10[i].nombre});
+                    }
+                res.json(result);   
+
+                });
+
+            });
                   
-            Asignacalusac.find({'profesor' :req.params.id}).populate('ididioma').exec(function(err, todos10) {
+       /*     Asignacalusac.find({'profesor' :req.params.id}).populate('ididioma').exec(function(err, todos10) {
                 if (err){ res.send(err); }
+                console.log(todos10)
                 var result = [];
                 const map = new Map();
                 for (const item of todos10) {
@@ -296,7 +347,7 @@ exports.getAsignaubicacion = function(req, res, next){
                  
                         res.json(result);
                     
-            });
+            });*/
     break;
             case 'idiomasprofe':
                   
@@ -666,7 +717,7 @@ if(req.params.recordID!=='crea')
                             
     
                                             Facplan3.findById({ _id:myData[0]._id }).populate('idprofesor').exec( function (err, todo300)  {
-                                                console.log(todo300)
+                                              
                                                 if (err) {  res.send(err);  }
                                                 else
                                                 {
