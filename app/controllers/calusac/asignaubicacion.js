@@ -92,10 +92,10 @@ exports.getAsignaubicacion = function(req, res, next){
               
                 Asignacalusac.find({idplanifica:req.params.id2
                 
-            }).populate('ididioma')  .select({ "nombre":1,"cui": 1,"identificador": 1,"n1": 1,"n2": 1,"n3": 1,
+            }).populate('ididioma')  .select({ "correo":1,"telefono":1, "nombre":1,"cui": 1,"identificador": 1,"n1": 1,"n2": 1,"n3": 1,
             "n4":1,"n5":1,  "profedor":"1",     "_id": 1}).exec(function(err, todos10) {
                     if (err){ res.send(err); }
-       
+       console.log(todos10)
                     res.json(todos10);
                 });
     
