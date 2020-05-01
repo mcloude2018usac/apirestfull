@@ -1667,7 +1667,9 @@ console.log(todosa00)
                         cursoeve.find({'idtipoevento.codigo':'3'},function(err, todos00) {
                      //           console.log(todos00)
                         Evento.find({_id :{
-                                "$in" : [
+                                "$in" : ["5eaa64898c3aa70029925cd3","5eaa64288c3aa70029925cce","5eaa63b18c3aa70029925cc8",
+                                "5eaa627a8c3aa70029925cc1","5eaa578a8c3aa70029925c50","5e9e6fbbf358f400290078e4",
+                                "5e9e6e12f358f400290078d0","5e9e6bb3f358f400290078b7",
                                     "5e7a6d15187210001ea6e989","5e7a6d9d187210001ea6e98f","5e7a6e16187210001ea6e991","5ea8be5337428511a3ed3860",
                                     ,"5e7a7a64187210001ea6e99d","5e7bcb0e737144004a13630f","5e7a79fc187210001ea6e99b","5e7b9e46cf97ea0029d5aa8c"
                                 ]
@@ -1699,7 +1701,9 @@ console.log(todosa00)
                                 }
                         }
                                 Participa.find({correo:req.params.id2,"idevento" :{
-                                        "$in" : [
+                                        "$in" : ["5eaa64898c3aa70029925cd3","5eaa64288c3aa70029925cce","5eaa63b18c3aa70029925cc8",
+                                        "5eaa627a8c3aa70029925cc1","5eaa578a8c3aa70029925c50","5e9e6fbbf358f400290078e4",
+                                        "5e9e6e12f358f400290078d0","5e9e6bb3f358f400290078b7",
                                             "5e7a6d15187210001ea6e989","5e7a6d9d187210001ea6e98f","5e7a6e16187210001ea6e991","5ea8be5337428511a3ed3860",
                                             ,"5e7a7a64187210001ea6e99d","5e7bcb0e737144004a13630f","5e7a79fc187210001ea6e99b","5e7b9e46cf97ea0029d5aa8c"
                                         ]
