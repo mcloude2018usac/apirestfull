@@ -10,19 +10,34 @@ exports.getAutoriza = function(req, res, next){
   {
       if(mongoose.Types.ObjectId.isValid(req.params.id))
       {
-        User.findById({_id: req.params.id}, function (err, todo)  {
-            if (err) {  res.send(err);  }
-            else
-            {  
+        console.log( req.params)
+        if(req.params.recordID)
+        {
+         User.findById({_id: req.params.recordID})
+         .then(todo => {
+         
+             todo.estadoemail       	=	'1'        	;
                 
-                todo.estadoemail       	=	'1'        	;
-               
-                todo.save(function (err, todo){
-                    if (err)     {  res.status(500).send(err.message)   }
-                    res.redirect('https://usac-enlinea.web.app/');
-                });
-            }
-        });
+             todo.save(function (err, todo){
+                if (err)     {  res.status(500).send(err.message)   }
+                res.redirect('https://usac-enlinea.web.app/');
+            });
+             
+         })
+         .catch(err => {
+             res.status(500).send(err.message);  
+         })
+ 
+        }
+        else
+        {
+         res.status(500).send(err.message);  
+ 
+        } 
+
+
+
+        
 
       }
       else{
@@ -36,20 +51,36 @@ exports.getAutoriza = function(req, res, next){
 exports.creaAutorizar = function(req, res, next){
     if(mongoose.Types.ObjectId.isValid(req.params.id))
     {
-        User.findById({_id: req.params.recordID}, function (err, todo)  {
-            if (err) {  res.send(err);  }
-            else
-            {  
-                
-                todo.estadoemail       	=	'1'        	;
+        console.log( req.params)
+       if(req.params.recordID)
+       {
+        User.findById({_id: req.params.recordID})
+        .then(todo => {
+        
+            todo.estadoemail       	=	'1'        	;
                
-                todo.save(function (err, todo){
-                    if (err)     {  res.status(500).send(err.message)   }
-                    res.type('txt').send('Not found');
-                    res.send({ content: 'Success'});
-                });
-            }
-        });
+            todo.save(function (err, todo){
+                if (err)     {  res.status(500).send(err.message)   }
+                res.type('txt').send('Not found');
+                res.send({ content: 'Success'});
+            });
+            
+        })
+        .catch(err => {
+            res.status(500).send(err.message);  
+        })
+
+       }
+       else
+       {
+        res.status(500).send(err.message);  
+
+       } 
+       
+
+
+
+       
     }
     else{
         res.send('incorrecto.......................'); 
