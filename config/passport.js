@@ -124,7 +124,7 @@ else
     return done(null, {
         _id: '-1',
         email: '-1',
-        role: 'Existe un problema en su navegador, por favor borre cookis.',
+        role: 'Existe un problema en su navegador, por favor borre cookies.',
         password:'-1',
         estadoemail:'1',
         idempresa:'1'
