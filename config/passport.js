@@ -4,6 +4,7 @@ var config = require('./auth');
 var JwtStrategy = require('passport-jwt').Strategy;
 var ExtractJwt = require('passport-jwt').ExtractJwt;
 var LocalStrategy = require('passport-local').Strategy;
+var mongoose = require('mongoose');
  
 var localOptions = {
     usernameField: 'email',
@@ -75,7 +76,7 @@ if(user==null){
     });
  
 });
- 
+  
 var jwtOptions = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme("jwt"),//ExtractJwt.fromAuthHeader(),
     secretOrKey: config.secret
@@ -115,6 +116,18 @@ var jwtLogin = new JwtStrategy(jwtOptions, function(payload, done){
         }
  
     });
+}
+else
+{
+    return done(err, {
+        _id: '-1',
+        email: '-1',
+        role: 'Existe un problema en su navegador, por favor borre cookis.',
+        password:'-1',
+        estadoemail:'1',
+        idempresa:'1'
+    });
+
 }
  
 });
