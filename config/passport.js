@@ -83,6 +83,8 @@ var jwtOptions = {
  
 var jwtLogin = new JwtStrategy(jwtOptions, function(payload, done){
  
+    if(mongoose.Types.ObjectId.isValid(payload._id))
+    {
     User.findById(payload._id, function(err, user){
  
         if(err){
@@ -113,6 +115,7 @@ var jwtLogin = new JwtStrategy(jwtOptions, function(payload, done){
         }
  
     });
+}
  
 });
  
