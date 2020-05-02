@@ -660,6 +660,7 @@ break;
                                             
                                         })
                                         .catch(err => {
+                                            console.log('entra cath')
                                             res.status(500).send(err.message);  
                                         })
                                     }
