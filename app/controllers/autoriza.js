@@ -31,7 +31,7 @@ exports.getAutoriza = function(req, res, next){
         }
         else
         {
-         res.status(500).send(err.message);  
+            res.status(500).send('error en autorización, por fabor borre cookis de su navegador');  
  
         } 
 
@@ -67,7 +67,7 @@ exports.creaAutorizar = function(req, res, next){
             
         })
         .catch(err => {
-            res.status(500).send(err.message);  
+            res.status(500).send('error en autorización, por fabor borre cookis de su navegador');  
         })
 
        }
