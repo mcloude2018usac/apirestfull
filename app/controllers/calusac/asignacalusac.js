@@ -360,11 +360,29 @@ break;
                         
                     });
                     break;
+                    case 'todosautorizaxid':
+                        Asignacalusac.findById({_id:req.params.id   })
+                        .populate('ididioma').populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia')
+                        .exec(function(err, todos) {
+                            if (err){ res.send(err); console.log(err) }
+                   
+                        res.json(todos);  
+                         }); 
+break;
             case 'todosautoriza':
 
+
+                
+
+//.populate('ididioma').populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia')
                     if(req.params.id=='NUEVOS' || req.params.id=='EN PROCESO'  || req.params.id=='ACTUALIZADAS')
                     {
-                        Asignacalusac.find({userasignadoemail:req.params.id2,estadooperador:req.params.id   }).populate('ididioma').populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia').exec(function(err, todos) {
+                        Asignacalusac.find({userasignadoemail:req.params.id2,estadooperador:req.params.id   })
+                        .select({ "idtipounidad":1,"idunidadacademica":1,"idperiodo":1,"tipopago":1,
+                "estadopago":1,"noboletapago":1,"cui":1,
+                "direccion":1,"telefono":1,"correo":1,
+                "identificador":1,"nombre":1,"ultrechazo":1,"estadopago":1,"tipoa":1,  "_id": 1})
+                        .exec(function(err, todos) {
                             if (err){ res.send(err); console.log(err) }
                    
                         res.json(todos);  
@@ -373,7 +391,12 @@ break;
                     }
                     else
                     {
-                        Asignacalusac.find({userasignadoemail:req.params.id2,estadooperador:req.params.id ,estadopago:{ $in: [ 'Pendiente de pago','Orden de pago actualizada exitosamente' ]}  }).populate('ididioma').populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia').exec(function(err, todos) {
+                        Asignacalusac.find({userasignadoemail:req.params.id2,estadooperador:req.params.id ,estadopago:{ $in: [ 'Pendiente de pago','Orden de pago actualizada exitosamente' ]}  })
+                        .select({ "idtipounidad":1,"idunidadacademica":1,"idperiodo":1,"tipopago":1,
+                "estadopago":1,"noboletapago":1,"cui":1,
+                "direccion":1,"telefono":1,"correo":1,
+                "identificador":1,"nombre":1,"ultrechazo":1,"estadopago":1,"tipoa":1, "_id": 1})
+                .exec(function(err, todos) {
                             if (err){ res.send(err); console.log(err) }
                      
                         res.json(todos);   
