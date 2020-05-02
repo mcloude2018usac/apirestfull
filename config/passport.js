@@ -119,7 +119,9 @@ var jwtLogin = new JwtStrategy(jwtOptions, function(payload, done){
 }
 else
 {
-    return done(err, {
+   // res.status(500).send('error en autorización, por fabor borre cookis de su navegador'); 
+
+    return done(null, {
         _id: '-1',
         email: '-1',
         role: 'Existe un problema en su navegador, por favor borre cookis.',
