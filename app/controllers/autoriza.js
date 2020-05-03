@@ -11,9 +11,9 @@ exports.getAutoriza = function(req, res, next){
       if(mongoose.Types.ObjectId.isValid(req.params.id))
       {
         console.log( req.params)
-        if(req.params.recordID)
+        if(req.params.id)
         {
-         User.findById({_id: req.params.recordID})
+         User.findById({_id: req.params.id})
          .then(todo => {
          
              todo.estadoemail       	=	'1'        	;
