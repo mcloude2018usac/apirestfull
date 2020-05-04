@@ -378,10 +378,7 @@ break;
                     if(req.params.id=='NUEVOS' || req.params.id=='EN PROCESO'  || req.params.id=='ACTUALIZADAS')
                     {
                         Asignacalusac.find({userasignadoemail:req.params.id2,estadooperador:req.params.id   })
-                        .select({ "idtipounidad":1,"idunidadacademica":1,"idperiodo":1,"tipopago":1,
-                "estadopago":1,"noboletapago":1,"cui":1,
-                "direccion":1,"telefono":1,"correo":1,
-                "identificador":1,"nombre":1,"ultrechazo":1,"estadopago":1,"tipoa":1,  "_id": 1})
+                        .select({"estadopago":1,"cui":1, "nombre":1,"ultrechazo":1,  "_id": 1})
                         .exec(function(err, todos) {
                             if (err){ res.send(err); console.log(err) }
                    
@@ -392,10 +389,7 @@ break;
                     else
                     {
                         Asignacalusac.find({userasignadoemail:req.params.id2,estadooperador:req.params.id ,estadopago:{ $in: [ 'Pendiente de pago','Orden de pago actualizada exitosamente' ]}  })
-                        .select({ "idtipounidad":1,"idunidadacademica":1,"idperiodo":1,"tipopago":1,
-                "estadopago":1,"noboletapago":1,"cui":1,
-                "direccion":1,"telefono":1,"correo":1,
-                "identificador":1,"nombre":1,"ultrechazo":1,"estadopago":1,"tipoa":1, "_id": 1})
+                        .select({"estadopago":1,"cui":1, "nombre":1,"ultrechazo":1,  "_id": 1 })
                 .exec(function(err, todos) {
                             if (err){ res.send(err); console.log(err) }
                      
