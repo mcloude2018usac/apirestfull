@@ -1734,7 +1734,7 @@ console.log(duplicates)
                                                                 tfecha=todos0aaa[ii].fecha;
                                                                 thora=todos0aaa[ii].costo;
                                                                 
-                                                                myData.push({idcurso:todos2[i]._id ,nombre:todos2[i].nombre,curso:teve,tipo:2,fecha:tfecha,hora:thora});
+                                                                myData.push({idcurso:todos2[i]._id ,nombre:todos2[i].nombre + ' ' +todos2[i].apellido,curso:teve,tipo:2,fecha:tfecha,hora:thora});
 
                                                         }
                                                 }
