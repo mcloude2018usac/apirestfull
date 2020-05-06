@@ -1,10 +1,11 @@
 
 //var Nuevosalon = require('../models/nuevosalon');
 
-//var Facmat = require('../../models/facultadmateria');
+//var Facmat = require('../../models/facultadmateritodoa');
 var mailt = require('../../controllers/mail');
 var Asignaest = require('../../models/calusac/asignaestudiantecalusac');
 var Asignacalusac = require('../../models/calusac/asignacalusac');
+var Asignacalusac2 = require('../../models/calusac/asignacalusac2');
 var Bitacora = require('../../models/bitacora');
 var Facplan3 = require('../../models/calusac/unidadplan3');
 var User = require('../../models/user');
@@ -16,12 +17,91 @@ var xml2js = require ('xml2js');
 
 var Calusaccarnet = require('../../models/calusac/calusaccarnets');
 
+function getUNA(ID){
+
+
+
+
+console.log({_id:ID})
+
+    Asignacalusac.findById({_id:ID}).exec(function(err, todos) {
+        if (err){ res.send(err); console.log(err) }
+        else
+        { 
+            console.log('encuentra ' +  todos._id)
+            var f1=''
+            var f2=''
+            var f3=''
+            var  f4=''
+            var f5 ='';
+            if(todos.foto1  ){f1=todos.foto1}
+            if(todos.foto2  ){f2=todos.foto2}
+            if(todos.foto3  ){f3=todos.foto3}
+            if(todos.foto4  ){f4=todos.foto4}
+            if(todos.foto5  ){f5=todos.foto5}
+
+console.log({
+    idasigna: todos._id,
+foto1      	:f1        	,
+foto2      	: f2        	,
+foto3      	: f3        	,
+foto4      	: f4       	,
+foto5      	: f5        	
+
+})
+            Asignacalusac2.create({
+                idasigna: todos._id,
+            foto1      	:f1        	,
+            foto2      	: f2        	,
+            foto3      	: f3        	,
+            foto4      	: f4       	,
+            foto5      	: f5        	
+          
+            }          
+            , function(err, todo) {
+                if (err){ 
+                
+                    res.status(404).send(err.message)  
+                //  return;
+                }
+                console.log('crea ' )
+                        
+    
+                });
+
+           
+        }
+
+      
+
+
+ 
+     }); 
+}
 
 exports.getAsignacalusac = function(req, res, next){
     if(req.params.id3)
     { 
       
         switch(req.params.id3) {
+            case 'calusac2':
+                //, foto1:1, foto2:1, foto3:1, foto4:1, foto5:1
+                console.log('entra')
+                Asignacalusac.find({}).select({_id:1 })
+                .exec(function(err, todos) {
+                    if (err){ res.send(err); console.log(err) }
+                 
+                 
+                 
+                   
+
+
+                    for(var i = 0; i < todos.length;i++){                getUNA(todos[i]._id);       }
+
+           
+                res.json(todos);  
+                 }); 
+break;
             case 'asigna_profesor2':
                 Asignaubicacion.aggregate(  [
                     { 
@@ -898,7 +978,38 @@ console.log('entra aqui')
     }
     else
     {
+        if( req.body.operacion=='nuevaorden')
+        {
+    //decrementar 
+    console.log(req.body);
+
     
+            Asignacalusac.findById({ _id: req.params.recordID }, function (err, todo100)  {
+                if (err) {  res.send(err);  }
+                else
+                { 
+                    todo100.cui        	=		req.body.cui	;
+                    todo100.noboletapago=req.body.noboletapago;
+                    todo100.fechasiif=req.body.fechasiif;
+                    todo100.llave=req.body.llave;
+                    
+                    todo100.save(function (err, todo200){
+                        if (err)     {  console.log(err.message)   }
+                
+    
+    
+                        res.json(todo200);
+                     
+                   
+                        
+                    });
+                }
+            });
+    
+    
+        }
+        else
+        {
     if( req.body.operacion=='cambiaestado')
     {
 //decrementar 
@@ -1138,7 +1249,7 @@ console.log(req.body);
         });
 
     }
-    }}}
+    }}}}
     }
 }
 else{
