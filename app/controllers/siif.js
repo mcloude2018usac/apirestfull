@@ -10,8 +10,8 @@ function remove_accents(strAccents) {
     var strAccents = strAccents.split('');
     var strAccentsOut = new Array();
     var strAccentsLen = strAccents.length;
-    var accents =    "ÀÁÂÃÄÅàáâãäåÒÓÔÕÕÖØòóôõöøÈÉÊËèéêëðÇçÐÌÍÎÏìíîïÙÚÛÜùúûüÑñŠšŸÿýŽž";
-    var accentsOut = "AAAAAAaaaaaaOOOOOOOooooooEEEEeeeeeCcDIIIIiiiiUUUUuuuuNnSsYyyZz";
+    var accents =    "ÀÁÂÃÄÅàáâãäåÒÓÔÕÕÖØòóôõöøÈÉÊËèéêëðÇçÐÌÍÎÏìíîïÙÚÛÜùúûüÑñŠšŸÿýŽž´";
+    var accentsOut = "AAAAAAaaaaaaOOOOOOOooooooEEEEeeeeeCcDIIIIiiiiUUUUuuuuNnSsYyyZz ";
     for (var y = 0; y < strAccentsLen; y++) {
         if (accents.indexOf(strAccents[y]) != -1) {
             strAccentsOut[y] = accentsOut.substr(accents.indexOf(strAccents[y]), 1);
@@ -115,27 +115,25 @@ Asignacalusac.find({ correo:  req.params.id }, function (err, todo100aaa)  {
         else
         {
 
+            var cadxx ='';
+            cadxx=req.params.id;
+            cadxx=cadxx.toLowerCase().trim();
             console.log('NOOOOOOOOOOO encuentra encuentra usuario lo crea todo')    
             var options = {
                 'method': 'POST',
                 'url': 'http://calusacvirtual.usac.edu.gt/app/api/api.php?apicall=crear_usuario',
                 'headers': {
                 },
+
                 formData: {
-                  'usuario': req.params.id,
+                  'usuario': aazz,
                   'password': password2+'1234!',
                   'firstname': req.params.id2,
                   'lastname':'na',
                   'email': req.params.id4
                 }
               };
-              console.log({
-                'usuario': req.params.id,
-                'password': password2+'1234!',
-                'firstname': req.params.id2,
-                'lastname':'na',
-                'email': req.params.id4
-              })
+          
               request(options, function (error, response) { 
                 if (error) throw new Error(error);
                 console.log(response.body);
