@@ -6,6 +6,9 @@ var mailt = require('../../controllers/mail');
 var Asignaest = require('../../models/calusac/asignaestudiantecalusac');
 var Asignacalusac = require('../../models/calusac/asignacalusac');
 var Asignacalusac2 = require('../../models/calusac/asignacalusac2');
+
+var Exonerados = require('../../models/calusac/exonerados');
+
 var Bitacora = require('../../models/bitacora');
 var Facplan3 = require('../../models/calusac/unidadplan3');
 var User = require('../../models/user');
@@ -84,6 +87,28 @@ exports.getAsignacalusac = function(req, res, next){
     { 
       
         switch(req.params.id3) {
+            case 'exonerados':
+console.log({ordenpago:req.params.id,cui:req.params.id2})
+                Exonerados.find({ordenpago:req.params.id,cui:req.params.id2}).exec(function(err, todos) {
+                    if (err){ res.send(err); console.log(err) }
+console.log(todos)
+                    if(todos.length>0)
+                    {console.log({rr:'ok'})
+                        res.json({rr:'ok'});  
+
+                    }
+                    else
+                    {
+                        console.log({rr:'nok'})
+                        res.json({rr:'nok'}); 
+
+                    }
+
+
+
+                });
+                break;
+          
             case 'calusac2':
                 //, foto1:1, foto2:1, foto3:1, foto4:1, foto5:1
                 console.log('entra')
