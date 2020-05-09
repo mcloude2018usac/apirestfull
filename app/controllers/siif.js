@@ -115,25 +115,27 @@ Asignacalusac.find({ correo:  req.params.id }, function (err, todo100aaa)  {
         else
         {
 
-            var cadxx ='';
-            cadxx=req.params.id;
-            cadxx=cadxx.toLowerCase().trim();
             console.log('NOOOOOOOOOOO encuentra encuentra usuario lo crea todo')    
             var options = {
                 'method': 'POST',
                 'url': 'http://calusacvirtual.usac.edu.gt/app/api/api.php?apicall=crear_usuario',
                 'headers': {
                 },
-
                 formData: {
-                  'usuario': aazz,
+                  'usuario': req.params.id,
                   'password': password2+'1234!',
                   'firstname': req.params.id2,
                   'lastname':'na',
                   'email': req.params.id4
                 }
               };
-          
+              console.log({
+                'usuario': req.params.id,
+                'password': password2+'1234!',
+                'firstname': req.params.id2,
+                'lastname':'na',
+                'email': req.params.id4
+              })
               request(options, function (error, response) { 
                 if (error) throw new Error(error);
                 console.log(response.body);
