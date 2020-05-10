@@ -252,21 +252,42 @@ fs.outputFile(nombre, contents, err => {
                                         case 'createcamposhtml':
                                                 if(vector[i].visible==1)
                                                 {
-                                                re= re+  '      <ion-item class="input-item">\n'
-                                                re= re+  '              <ion-label  position="floating">'+ capitalizeFirstLetter(vector[i].nombre)+'</ion-label>\n'
-                                                
+                                                        if(vector[i].requerido==1)
+                                                        {
+                                                                re= re+  '      <ion-item class="input-item">\n'
+                                                                re= re+  '              <ion-label  position="floating">'+ capitalizeFirstLetter(vector[i].nombre)+'</ion-label>\n'
+                                                                if(vector[i].tipo=='Number')
+                                                                {
+                                                                        re= re+  '              <ion-input inputMode="Number" clearInput="true" formControlName="' + vector[i].nombre +'" required></ion-input>\n'
+                                                                 }
+                                                                else{
+                                                                        re= re+  '              <ion-input inputMode="text" clearInput="true" formControlName="' + vector[i].nombre +'" required></ion-input>\n'
+                                                                }
+                                                                re= re+  '      </ion-item>\n'
+                                                                re= re+  '<div class="error-container">\n'
+                                                                re= re+  '<div class="error-message" *ngIf="(Form.get(\''+ vector[i].nombre +'\').dirty || Form.get(\''+ vector[i].nombre +'\').touched)">\n'
+                                                                re= re+  '  <ion-icon name="information-circle-outline"></ion-icon>\n'
+                                                                re= re+  '  <span>Ingrese un '+ vector[i].nombre +' valido</span>\n'
+                                                                re= re+  '</div>\n'
+                                                                re= re+  ' </div>\n'
+                                                                re= re+  '\n'
+                                                        }
+                                                        else
+                                                        {
+                                                                re= re+  '      <ion-item class="input-item">\n'
+                                                                re= re+  '              <ion-label  position="floating">'+ capitalizeFirstLetter(vector[i].nombre)+'</ion-label>\n'
+                                                                if(vector[i].tipo=='Number')
+                                                                {
+                                                                        re= re+  '              <ion-input inputMode="Number" clearInput="true" formControlName="' + vector[i].nombre +'" required></ion-input>\n'
+                                                                 }
+                                                                else{
+                                                                        re= re+  '              <ion-input inputMode="text" clearInput="true" formControlName="' + vector[i].nombre +'" required></ion-input>\n'
+                                                                }
+                                                                re= re+  '      </ion-item>\n'
+                                                                re= re+  '\n'
 
-                                                if(vector[i].tipo=='Number')
-                                                {
-                                                        re= re+  '              <ion-input inputMode="Number" clearInput="true" formControlName="' + vector[i].nombre +'" required></ion-input>\n'
-                                          
-                                                }
-                                                else{
-                                                        re= re+  '              <ion-input inputMode="text" clearInput="true" formControlName="' + vector[i].nombre +'" required></ion-input>\n'
-                                          
-                                                }
-                                                re= re+  '      </ion-item>\n'
-                                                re= re+  '\n'
+                                                        }
+                                       
                                                 }
                                         break;
                                         case 'createcamposjsv':
@@ -381,21 +402,42 @@ fs.outputFile(nombre, contents, err => {
                                         case 'createcamposhtml':
                                                 if(vector[i].visible==1)
                                                 {
-                                                re= re+  '      <ion-item class="input-item">\n'
-                                                re= re+  '              <ion-label  position="floating">'+ capitalizeFirstLetter(vector[i].nombre)+'</ion-label>\n'
-                                                
+                                                        if(vector[i].requerido==1)
+                                                        {
+                                                                re= re+  '      <ion-item class="input-item">\n'
+                                                                re= re+  '              <ion-label  position="floating">'+ capitalizeFirstLetter(vector[i].nombre)+'</ion-label>\n'
+                                                                if(vector[i].tipo=='Number')
+                                                                {
+                                                                        re= re+  '              <ion-input inputMode="Number" clearInput="true" formControlName="' + vector[i].nombre +'" required></ion-input>\n'
+                                                                }
+                                                                else{
+                                                                        re= re+  '              <ion-input inputMode="text" clearInput="true" formControlName="' + vector[i].nombre +'" required></ion-input>\n'
+                                                                }
+                                                                re= re+  '      </ion-item>\n'
+                                                                re= re+  '<div class="error-container">\n'
+                                                                re= re+  '<div class="error-message" *ngIf="(Form.get(\''+ vector[i].nombre +'\').dirty || Form.get(\''+ vector[i].nombre +'\').touched)">\n'
+                                                                re= re+  '  <ion-icon name="information-circle-outline"></ion-icon>\n'
+                                                                re= re+  '  <span>Ingrese un '+ vector[i].nombre +' valido</span>\n'
+                                                                re= re+  '</div>\n'
+                                                                re= re+  ' </div>\n'
+                                                                re= re+  '\n'
+                                                        }
+                                                        else
+                                                        {
+                                                                re= re+  '      <ion-item class="input-item">\n'
+                                                                re= re+  '              <ion-label  position="floating">'+ capitalizeFirstLetter(vector[i].nombre)+'</ion-label>\n'
+                                                                if(vector[i].tipo=='Number')
+                                                                {
+                                                                        re= re+  '              <ion-input inputMode="Number" clearInput="true" formControlName="' + vector[i].nombre +'" required></ion-input>\n'
+                                                                }
+                                                                else{
+                                                                        re= re+  '              <ion-input inputMode="text" clearInput="true" formControlName="' + vector[i].nombre +'" required></ion-input>\n'
+                                                                }
+                                                                re= re+  '      </ion-item>\n'
+                                                                re= re+  '\n'
 
-                                                if(vector[i].tipo=='Number')
-                                                {
-                                                        re= re+  '              <ion-input inputMode="Number" clearInput="true" formControlName="' + vector[i].nombre +'" required></ion-input>\n'
-                                          
-                                                }
-                                                else{
-                                                        re= re+  '              <ion-input inputMode="text" clearInput="true" formControlName="' + vector[i].nombre +'" required></ion-input>\n'
-                                          
-                                                }
-                                                re= re+  '      </ion-item>\n'
-                                                re= re+  '\n'
+                                                        }
+                                               
                                                 }
                                         break;
                                         case 'createcamposjsv':
@@ -403,7 +445,22 @@ fs.outputFile(nombre, contents, err => {
                                                 {
                                                         if(vector[i].requerido==1)
                                                         {
-                                                        re= re+ "       '"+ vector[i].nombre + "': new FormControl('', Validators.required),\n"
+                                                        if(vector[i].nombre==='correo' || vector[i].nombre==='email')
+                                                        {
+                                                                re= re+ "       '"+ vector[i].nombre + "': new FormControl('', Validators.required,Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')])),\n"
+                                                        }
+                                                        else
+                                                        {
+                                                                if(vector[i].nombre==='nombre' )
+                                                        {
+                                                                re= re+ "       '"+ vector[i].nombre + "': new FormControl('', Validators.required,Validators.pattern('[a-zA-Z ]*')])),\n"
+                                                        }
+                                                        else
+                                                        {
+                                                                re= re+ "       '"+ vector[i].nombre + "': new FormControl('', Validators.required),\n"
+                                                        }        
+                                                        }        
+                                                     
                                                         }
                                                         else{
                                                         re= re+ "       '"+ vector[i].nombre + "': new FormControl(''),\n"   
@@ -508,14 +565,36 @@ fs.outputFile(nombre, contents, err => {
                                         case 'createcamposhtml':
                                                 if(vector[i].visible==1)
                                                 {
-                                                re= re+  '      <ion-item class="input-item">\n'
-                                                re= re+  '              <ion-label  position="floating">'+ capitalizeFirstLetter(vector[i].nombre)+'</ion-label>\n'
-                                                re= re+  '              <ion-select  placeholder="{{ \'SELECTVALORM\' | translate }}" formControlName="'+vector[i].nombre+'">\n'
-                                                re= re+  '              <ion-select-option  text-wrap *ngFor="let item of v'+vector[i].nombre+'" value="{{item.id}}">{{item.nombre}}</ion-select-option>\n'
-                                                re= re+  '              </ion-select>\n'
-                                             
-                                                 re= re+  '     </ion-item>\n'
-                                                re= re+  '\n'
+                                                        if(vector[i].requerido==1)
+                                                        {
+                                                                re= re+  '      <ion-item class="input-item">\n'
+                                                                re= re+  '              <ion-label  position="floating">'+ capitalizeFirstLetter(vector[i].nombre)+'</ion-label>\n'
+                                                                re= re+  '              <ion-select  placeholder="{{ \'SELECTVALORM\' | translate }}" formControlName="'+vector[i].nombre+'">\n'
+                                                                re= re+  '              <ion-select-option  text-wrap *ngFor="let item of v'+vector[i].nombre+'" value="{{item.id}}">{{item.nombre}}</ion-select-option>\n'
+                                                                re= re+  '              </ion-select>\n'
+                                                             
+                                                                 re= re+  '     </ion-item>\n'
+                                                                 re= re+  '<div class="error-container">\n'
+                                                                 re= re+  '<div class="error-message" *ngIf="(Form.get(\''+ vector[i].nombre +'\').dirty || Form.get(\''+ vector[i].nombre +'\').touched)">\n'
+                                                                 re= re+  '  <ion-icon name="information-circle-outline"></ion-icon>\n'
+                                                                 re= re+  '  <span>Ingrese un '+ vector[i].nombre +' valido</span>\n'
+                                                                 re= re+  '</div>\n'
+                                                                 re= re+  ' </div>\n'
+                                                                re= re+  '\n'
+                                                        }
+                                                        else
+                                                        {
+                                                                re= re+  '      <ion-item class="input-item">\n'
+                                                                re= re+  '              <ion-label  position="floating">'+ capitalizeFirstLetter(vector[i].nombre)+'</ion-label>\n'
+                                                                re= re+  '              <ion-select  placeholder="{{ \'SELECTVALORM\' | translate }}" formControlName="'+vector[i].nombre+'">\n'
+                                                                re= re+  '              <ion-select-option  text-wrap *ngFor="let item of v'+vector[i].nombre+'" value="{{item.id}}">{{item.nombre}}</ion-select-option>\n'
+                                                                re= re+  '              </ion-select>\n'
+                                                             
+                                                                 re= re+  '     </ion-item>\n'
+                                                                re= re+  '\n'
+
+                                                        }
+                                              
                                                 }
                                         break;
                                         case 'createcamposjsv':
@@ -606,16 +685,45 @@ fs.outputFile(nombre, contents, err => {
                                         case 'createcamposhtml':
                                                 if(vector[i].visible==1)
                                                 {
-                                                re= re+  '      <ion-item class="input-item">\n'
-                                                re= re+  '              <ion-label  position="floating">'+ capitalizeFirstLetter(vector[i].nombre)+'</ion-label>\n'
-                                              
-                                                re= re+  '              <ion-select placeholder="{{ \'SELECTVALORM\' | translate }}" formControlName="' + vector[i].nombre +'">\n'
-                                                re= re+  '              <ion-select-option value="Activo">Activo</ion-select-option>\n'
-                                                re= re+  '              <ion-select-option value="Inactivo">Inactivo</ion-select-option>\n'
-                                                re= re+  '              </ion-select>\n'
-                                              
-                                                re= re+  '      </ion-item>\n'
-                                                re= re+  '\n'
+                                                        if(vector[i].requerido==1)
+                                                        {
+                                                                re= re+  '      <ion-item class="input-item">\n'
+                                                                re= re+  '              <ion-label  position="floating">'+ capitalizeFirstLetter(vector[i].nombre)+'</ion-label>\n'
+                                                              
+                                                                re= re+  '              <ion-select placeholder="{{ \'SELECTVALORM\' | translate }}" formControlName="' + vector[i].nombre +'">\n'
+                                                                re= re+  '              <ion-select-option value="Activo">Activo</ion-select-option>\n'
+                                                                re= re+  '              <ion-select-option value="Inactivo">Inactivo</ion-select-option>\n'
+                                                                re= re+  '              </ion-select>\n'
+                                                              
+                                                                re= re+  '      </ion-item>\n'
+                                                                re= re+  '<div class="error-container">\n'
+                                                                re= re+  '<div class="error-message" *ngIf="(Form.get(\''+ vector[i].nombre +'\').dirty || Form.get(\''+ vector[i].nombre +'\').touched)">\n'
+                                                                re= re+  '  <ion-icon name="information-circle-outline"></ion-icon>\n'
+                                                                re= re+  '  <span>Ingrese un '+ vector[i].nombre +' valido</span>\n'
+                                                                re= re+  '</div>\n'
+                                                                re= re+  ' </div>\n'
+                                                                re= re+  '\n'
+                                                        }
+                                                        else
+                                                        {
+
+                                                                re= re+  '      <ion-item class="input-item">\n'
+                                                                re= re+  '              <ion-label  position="floating">'+ capitalizeFirstLetter(vector[i].nombre)+'</ion-label>\n'
+                                                              
+                                                                re= re+  '              <ion-select placeholder="{{ \'SELECTVALORM\' | translate }}" formControlName="' + vector[i].nombre +'">\n'
+                                                                re= re+  '              <ion-select-option value="Activo">Activo</ion-select-option>\n'
+                                                                re= re+  '              <ion-select-option value="Inactivo">Inactivo</ion-select-option>\n'
+                                                                re= re+  '              </ion-select>\n'
+                                                              
+                                                                re= re+  '      </ion-item>\n'
+                                                                re= re+  '\n'
+                                                        }
+                                                
+                                        
+
+                                               
+
+
                                                 }
                                         break;
                                         case 'createcamposjsv':
@@ -1859,6 +1967,27 @@ console.log('TERMINA')
         break;        
         case 'registroest':
 
+                var request = require('request');
+                var options = {
+                  'method': 'POST',
+                  'url': 'http://calusacvirtual.usac.edu.gt/app/api/api.php?apicall=validate_carne',
+                  'headers': {
+                        'Content-Type': 'application/json',
+                  },
+                  formData: {
+                    'carne':req.params.id2
+                  }
+                };
+
+                console.log(options)
+                request(options, function (error, response) { 
+                  if (error) throw new Error(error);
+                  console.log(response.body);
+                  res.json(response.body);
+                });
+
+
+/*
                         request({
                                 url: "http://52.151.38.147:9090/api/datosfijos/" + req.params.id2+"/" + req.params.id3,
                                 method: "GET",
@@ -1885,7 +2014,7 @@ console.log('TERMINA')
                     
                     
                             });
-
+*/
 
 
         break;        
