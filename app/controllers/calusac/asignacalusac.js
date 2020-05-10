@@ -466,13 +466,21 @@ break;
                     });
                     break;
                     case 'todosautorizaxid':
+                       
                         Asignacalusac.findById({_id:req.params.id   })
                         .populate('ididioma').populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia')
                         .exec(function(err, todos) {
+                           
                             if (err){ res.send(err); console.log(err) }
-                   
-                        res.json(todos);  
+                            console.log(todos)
+                      
+                            Asignacalusac2.findById({_id:req.params.id   }).exec(function(err, todos2) {
+                                if (err){ res.send(err); console.log(err) }
+                              
+                                         res.json({tt:todos,tt2:todos2});  
                          }); 
+                        
+                        }); 
 break;
             case 'todosautoriza':
 
@@ -481,9 +489,9 @@ break;
 
 //.populate('ididioma').populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia')
                     if(req.params.id=='NUEVOS' || req.params.id=='EN PROCESO'  || req.params.id=='ACTUALIZADAS')
-                    {
+                    {console.log({userasignadoemail:req.params.id2,estadooperador:req.params.id   })
                         Asignacalusac.find({userasignadoemail:req.params.id2,estadooperador:req.params.id   })
-                        .select({"estadopago":1,"cui":1, "nombre":1,"ultrechazo":1,  "_id": 1})
+                        .populate('ididioma').populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia')
                         .exec(function(err, todos) {
                             if (err){ res.send(err); console.log(err) }
                    
@@ -494,7 +502,7 @@ break;
                     else
                     {
                         Asignacalusac.find({userasignadoemail:req.params.id2,estadooperador:req.params.id ,estadopago:{ $in: [ 'Pendiente de pago','Orden de pago actualizada exitosamente' ]}  })
-                        .select({"estadopago":1,"cui":1, "nombre":1,"ultrechazo":1,  "_id": 1 })
+                        .populate('ididioma').populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia')
                 .exec(function(err, todos) {
                             if (err){ res.send(err); console.log(err) }
                      
@@ -851,22 +859,40 @@ if(req.params.recordID!=='crea')
             if (err) {  res.send(err);  }
             else
             { 
-                todo100.foto1        	=		req.body.foto1   	;
-                todo100.foto2        	=		req.body.foto2   	;
-                todo100.foto3        	=		req.body.foto3   	;
-                todo100.foto4        	=		req.body.foto4   	;
+              
 
                 todo100.estadooperador='ACTUALIZADAS'
     
                 todo100.save(function (err, todo200){
                     if (err)     {  console.log(err.message)   }
             
-                    res.json(todo200);
+                    Asignacalusac2.findById({ _id: req.params.recordID }, function (err, todo100)  {
+                        if (err) {  res.send(err);  }
+                        else
+                        { 
+                            todo100.foto1        	=		req.body.foto1   	;
+                            todo100.foto2        	=		req.body.foto2   	;
+                            todo100.foto3        	=		req.body.foto3   	;
+                            todo100.foto4        	=		req.body.foto4   	;
+            
+                         
+                
+                            todo100.save(function (err, todo200a){
+                                if (err)     {  console.log(err.message)   }
+                        
+                                res.json(todo200);
+                           
+                                
+                            });
+                        }
+                    });
                
                     
                 });
             }
         });
+
+   
 
 
     }
@@ -983,7 +1009,7 @@ console.log('entra aqui')
             else
             { 
                 todo100.estadopago        	=		'Orden de pago actualizada exitosamente'   	;
-                todo100.foto5        	=req.body.foto5;
+          
                 todo100.noorden        	=todo100.noboletapago;
                 todo100.identificador=req.body.identificador;
                 todo100.noboletapago=req.body.noorden;
@@ -992,7 +1018,24 @@ console.log('entra aqui')
                 todo100.save(function (err, todo200){
                     if (err)     {  console.log(err.message)   }
             
+                 
+        Asignacalusac2.findById({ _id: req.params.recordID }, function (err, todo100)  {
+            if (err) {  res.send(err);  }
+            else
+            { 
+           
+                todo100.foto5        	=req.body.foto5;
+               
+    
+                todo100.save(function (err, todo200a){
+                    if (err)     {  console.log(err.message)   }
+            
                     res.json(todo200);
+               
+                    
+                });
+            }
+        });
                
                     
                 });
@@ -1375,10 +1418,7 @@ else{
                                 idtipogrupo      	: req.body.idtipogrupo        	,
                                     jornada: req.body.jornada,        	
                                 nidentificador:req.body.nidentificador       	,
-                                foto1      	: req.body.foto1        	,
-                                foto2      	: req.body.foto2        	,
-                                foto3      	: req.body.foto3        	,
-                                foto4      	: req.body.foto4        	,
+                            
                                 idedificio: {    id	: '',   nombre	: ''        },
                                 idsalon: {    id	: '',   nombre	: ''       },
 
@@ -1402,15 +1442,34 @@ else{
                                     tipoasignacion:req.body.tipoasignacion
                                 }
                                     , function(err, todo) {
-                                    if (err){ 
-                                    
-                                        res.status(404).send(err.message)  
-                                    //  return;
-                                    }
+                                    if (err){    res.status(404).send(err.message)   }
+
+                                    console.log({ _id:todo._id,
+                                        foto1      	: req.body.foto1        	,
+                                        foto2      	: req.body.foto2        	,
+                                        foto3      	: req.body.foto3        	,
+                                        foto4      	: req.body.foto4        	,
+                                        correo:req.body.correo
+                                      
+                                        })
+                                    Asignacalusac2.create({ _id:todo._id,
+                                        foto1      	: req.body.foto1        	,
+                                        foto2      	: req.body.foto2        	,
+                                        foto3      	: req.body.foto3        	,
+                                        foto4      	: req.body.foto4        	,
+                                        correo:req.body.correo
+                                      
+                                        }
+                                            , function(err, todo2) {
+                                            if (err){  res.status(404).send(err.message)   }
+
+
                                     res.json(todo);
                                             
                         
                                     });
+                                    
+                                });
 
                                 }
             
@@ -1474,10 +1533,7 @@ else{
                                         idtipogrupo      	: req.body.idtipogrupo        	,
                                             jornada: req.body.jornada,        	
                                         nidentificador:req.body.nidentificador       	,
-                                        foto1      	: req.body.foto1        	,
-                                        foto2      	: req.body.foto2        	,
-                                        foto3      	: req.body.foto3        	,
-                                        foto4      	: req.body.foto4        	,
+                                     
                                         idedificio: {    id	: '',   nombre	: ''        },
                                         idsalon: {    id	: '',   nombre	: ''       },
                     
@@ -1502,11 +1558,26 @@ else{
                                             tipoasignacion:req.body.tipoasignacion
                                         }
                                             , function(err, todo) {
-                                            if (err){ 
-                                            
-                                                res.status(404).send(err.message)  
-                                            //  return;
+                                            if (err){  res.status(404).send(err.message)   }
+
+                                            console.log({ _id:todo._id,
+                                                foto1      	: req.body.foto1        	,
+                                                foto2      	: req.body.foto2        	,
+                                                foto3      	: req.body.foto3        	,
+                                                foto4      	: req.body.foto4        	,
+                                                correo:req.body.correo
+                                              
+                                                })
+                                            Asignacalusac2.create({ _id:todo._id,
+                                            foto1      	: req.body.foto1        	,
+                                            foto2      	: req.body.foto2        	,
+                                            foto3      	: req.body.foto3        	,
+                                            foto4      	: req.body.foto4        	,
+                                            correo:req.body.correo
+                                          
                                             }
+                                                , function(err, todo2) {
+                                                if (err){  res.status(404).send(err.message)   }
                                                     
                                         Operadores.findById({ _id: opexx}, function (err, todo1000)  {
                                                 if (err) {  res.send(err);  }
@@ -1536,7 +1607,7 @@ else{
                                             
                                                 
                     
-                                    
+                                        });  
                                     });
                                 
                                     }
