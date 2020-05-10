@@ -22,6 +22,7 @@ var AsignacalusacSchema = new mongoose.Schema({
     codpersonal:{        type: String},
     dependencia:{        type: String},
     rubrot:{        type: String},
+    sifoto:{        type: String},
     fechasiif:{        type: String},
     tipoa:{        type: String},
     jornada:{        type: String ,ref:'Unidadjornada3' },
