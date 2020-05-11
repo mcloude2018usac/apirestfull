@@ -474,7 +474,7 @@ break;
                             if (err){ res.send(err); console.log(err) }
                             console.log(todos)
                       
-                            Asignacalusac2.findById({_id:req.params.id   }).exec(function(err, todos2) {
+                            Asignacalusac2.findById({_id:req.params.id   })  .populate('horario').populate('profesor').exec(function(err, todos2) {
                                 if (err){ res.send(err); console.log(err) }
                               
                                          res.json({tt:todos,tt2:todos2});  
@@ -1010,7 +1010,7 @@ console.log('entra aqui')
             { 
                 todo100.estadopago        	=		'Orden de pago actualizada exitosamente'   	;
           
-                todo100.noorden        	=todo100.noboletapago;
+                todo100.noorden        	=req.body.noorden;
                 todo100.identificador=req.body.identificador;
                 todo100.noboletapago=req.body.noorden;
                 todo100.estadooperador='AUTORIZADO'
