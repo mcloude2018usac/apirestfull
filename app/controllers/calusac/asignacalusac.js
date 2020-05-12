@@ -522,7 +522,7 @@ break;
 
 
 
-                    Asignacalusac.find({estadopago:{ $in: [ 'Pendiente de pago' ]},     $or : [
+                    Asignacalusac.find({estadopago:{ $in: [ 'Pendiente de pago','Orden de pago actualizada exitosamente' ]},     $or : [
                         { $and : [ { cui : req.params.id2 }] },
                         { $and : [ { noboletapago : req.params.id2 }] },
                         { $and : [ { correo : req.params.id2 }] },
@@ -1002,7 +1002,7 @@ console.log('entra aqui')
     {
     if( req.body.operacion=='asignaorden')
     {
-
+console.log( req.params.recordID + ' ' + req.body.noorden + ' ' +req.body.identificador)
 
         Asignacalusac.findById({ _id: req.params.recordID }, function (err, todo100)  {
             if (err) {  res.send(err);  }
@@ -1018,18 +1018,19 @@ console.log('entra aqui')
                 todo100.save(function (err, todo200){
                     if (err)     {  console.log(err.message)   }
             
-                 
-        Asignacalusac2.findById({ _id: req.params.recordID }, function (err, todo100)  {
+                    console.log( req.params.recordID + ' ' + req.body.noorden + ' ' +req.body.identificador)
+        Asignacalusac2.findById({ _id: req.params.recordID }, function (err, todo1000)  {
             if (err) {  res.send(err);  }
             else
             { 
            
-                todo100.foto5        	=req.body.foto5;
+                todo1000.foto5        	=req.body.foto5;
                
     
-                todo100.save(function (err, todo200a){
+                todo1000.save(function (err, todo200a){
                     if (err)     {  console.log(err.message)   }
-            
+            console.log(todo200)
+            console.log( req.params.recordID + ' ' + req.body.noorden + ' ' +req.body.identificador)
                     res.json(todo200);
                
                     
