@@ -8,7 +8,7 @@ var mongoose =require("mongoose");
         cui	: { type : String, required : true },
         nombre	: { type : String, required : true },
         correo	: { type : String, required : true },  
-        carne	: { type : String, required : true },
+        carne	: { type : String },
 
 
  
