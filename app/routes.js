@@ -73,6 +73,11 @@ var AuthenticationController = require('./controllers/authentication'),
     Tipounidad2Controller = require('./controllers/tipounidad2'),
     DepartamentoController = require('./controllers/departamento'),
     MarketgrupoController = require('./controllers/marketgrupo'),
+
+    ConveniocalusacController = require('./controllers/calusac/conveniocalusac'),
+    ConveniocalusacdController = require('./controllers/calusac/conveniocalusacd'),
+
+
     MarketgrupodController = require('./controllers/marketgrupod'),
     DenunciaunidadController = require('./controllers/denunciaunidad'),
     CatusuarioController = require('./controllers/catusuario'),
@@ -126,6 +131,7 @@ var AuthenticationController = require('./controllers/authentication'),
     express = require('express'),
     passportService = require('../config/passport'),
     passport = require('passport'),
+    AsociadoController = require('./controllers/asociadoventa/asociado'),
     PersonalController = require('./controllers/personal');
     //UserController = require('./controllers/sun_facultad');
  
@@ -137,6 +143,7 @@ var requireAuth = passport.authenticate('jwt', {session: false}),
 module.exports = function(app){
  
     var apiRoutes = express.Router(),
+          asociadoRoutes = express.Router(),
         authRoutes = express.Router(),
         participaRoutes = express.Router(),
         pivotemonsterRoutes = express.Router(),
@@ -201,6 +208,10 @@ module.exports = function(app){
         departamentoRoutes = express.Router(),
         marketgrupoRoutes = express.Router(),
         marketgrupodRoutes = express.Router(),
+
+        conveniocalusacRoutes = express.Router(),
+        conveniocalusacdRoutes = express.Router(),
+
         denunciaunidadRoutes = express.Router(),
         catusuarioRoutes = express.Router(),
         mailRoutes = express.Router(),
@@ -274,7 +285,12 @@ module.exports = function(app){
 SINNNNNNNNNNNNNN AUTORIZACION
    */
 
-
+  apiRoutes.use('/asociados', asociadoRoutes);
+  asociadoRoutes.get('/', requireAuth,AsociadoController.getAsociado);
+  asociadoRoutes.get('/:id/:id2/:id3',requireAuth,  AsociadoController.getAsociado);
+  asociadoRoutes.get('/:id',requireAuth,  AsociadoController.getAsociado);
+  asociadoRoutes.post('/:recordID',requireAuth,  AsociadoController.creaAsociado2s);
+  asociadoRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  AsociadoController.deleteAsociado);
 
    //-----------------------------------SIIF----------------------------------
 
@@ -1211,6 +1227,23 @@ departamentoRoutes.post('/:recordID', requireAuth, DepartamentoController.creaDe
 departamentoRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth, DepartamentoController.deleteDepartamento);
 
 
+//-----------------------------------CONVENIO
+apiRoutes.use('/conveniocalusacs', conveniocalusacRoutes);
+conveniocalusacRoutes.get('/',requireAuth, ConveniocalusacController.getConveniocalusac);
+
+conveniocalusacRoutes.get('/:id/:id2/:id3', requireAuth, ConveniocalusacController.getConveniocalusac);
+conveniocalusacRoutes.post('/:recordID', requireAuth, ConveniocalusacController.creaConveniocalusac2s);
+conveniocalusacRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth, ConveniocalusacController.deleteConveniocalusac);
+
+//-----------------------------------conveniod
+apiRoutes.use('/conveniocalusacds', conveniocalusacdRoutes);
+conveniocalusacdRoutes.get('/',requireAuth, ConveniocalusacdController.getConveniocalusacd);
+conveniocalusacdRoutes.get('/:id/:id2/:id3', requireAuth, ConveniocalusacdController.getConveniocalusacd);
+conveniocalusacdRoutes.post('/:recordID', requireAuth, ConveniocalusacdController.creaConveniocalusacd2s);
+conveniocalusacdRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth, ConveniocalusacdController.deleteConveniocalusacd);
+
+
+
 //-----------------------------------MARKETGRUPO
 apiRoutes.use('/marketgrupos', marketgrupoRoutes);
 marketgrupoRoutes.get('/',requireAuth, MarketgrupoController.getMarketgrupo);
@@ -1284,6 +1317,7 @@ apiRoutes.use('/datosfijos2', datosfijo2sRoutes);
 datosfijo2sRoutes.get('/:id',requireAuth, Datosfijo2sController.getCombofijo);
 datosfijo2sRoutes.get('/:id/:id2', Datosfijo2sController.getCombofijo);
 datosfijo2sRoutes.get('/:id/:id2/:id3',requireAuth,  Datosfijo2sController.getCombofijo);
+datosfijo2sRoutes.get('/:id/:id2/:id3/:id4',requireAuth,  Datosfijo2sController.getCombofijo);
 
 
 //----------------------------------PLANTILLA
