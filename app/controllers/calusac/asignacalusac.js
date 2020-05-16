@@ -27,50 +27,46 @@ function getUNA(ID){
 
 console.log({_id:ID})
 
-    Asignacalusac.findById({_id:ID}).exec(function(err, todos) {
+    Asignacalusac2.findById({_id:ID}).lean().exec(function(err, todos) {
         if (err){ res.send(err); console.log(err) }
         else
         { 
-            console.log('encuentra ' +  todos._id)
+           
             var f1=''
             var f2=''
             var f3=''
             var  f4=''
             var f5 ='';
-            if(todos.foto1  ){f1=todos.foto1}
-            if(todos.foto2  ){f2=todos.foto2}
-            if(todos.foto3  ){f3=todos.foto3}
-            if(todos.foto4  ){f4=todos.foto4}
-            if(todos.foto5  ){f5=todos.foto5}
+            if(todos.horario  ){f1=todos.horario}
+            if(todos.idplanifica  ){f2=todos.idplanifica}
+            if(todos.profesor  ){f3=todos.profesor}
+            if(todos.idmoodle  ){f4=todos.idmoodle}
+            if(todos.idmoodlepass  ){f5=todos.idmoodlepass}
 
-console.log({
-    idasigna: todos._id,
-foto1      	:f1        	,
-foto2      	: f2        	,
-foto3      	: f3        	,
-foto4      	: f4       	,
-foto5      	: f5        	
+          //  console.log("db.asignacalusacs.update({ _id: '"+ID+"' },{$set: { horario:'"+f1+"',idplanifica:'"+f2+"',profesor:'"+f3+"', idmoodle:'"+f4+"',idmoodlepass:'"+f5+"'}}, { multi: false });  \n")
 
-})
-            Asignacalusac2.create({
-                idasigna: todos._id,
-            foto1      	:f1        	,
-            foto2      	: f2        	,
-            foto3      	: f3        	,
-            foto4      	: f4       	,
-            foto5      	: f5        	
-          
-            }          
-            , function(err, todo) {
-                if (err){ 
-                
-                    res.status(404).send(err.message)  
-                //  return;
-                }
-                console.log('crea ' )
-                        
+            
+
+            Asignacalusac.findById({ _id: ID }).exec( function (err, todo100)  {
+                if (err) {  res.send(err);  }
+                else
+                { 
+                  
     
-                });
+                    todo100.horario=f1
+                    todo100.idplanifica=f2
+                    todo100.profesor=f3
+                    todo100.idmoodle=f4
+                    todo100.idmoodlepass=f5
+
+                    todo100.save(function (err, todo200){
+                        if (err)     {  console.log(err.message)   }
+                        console.log(todo200.horario + ' ' + todo200.idplanifica +  ' '+  todo200.profesor)
+                        console.log('actualizada')
+
+                    });
+                }
+            });
 
            
         }
@@ -112,15 +108,9 @@ console.log(todos)
             case 'calusac2':
                 //, foto1:1, foto2:1, foto3:1, foto4:1, foto5:1
                 console.log('entra')
-                Asignacalusac.find({}).select({_id:1 })
-                .exec(function(err, todos) {
+                Asignacalusac.find({   "estadopago" : "Asignación exitosa",   "idplanifica" : null}).select({_id:1 })
+                .limit(50).exec(function(err, todos) {
                     if (err){ res.send(err); console.log(err) }
-                 
-                 
-                 
-                   
-
-
                     for(var i = 0; i < todos.length;i++){                getUNA(todos[i]._id);       }
 
            
