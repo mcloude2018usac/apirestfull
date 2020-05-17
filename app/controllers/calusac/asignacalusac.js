@@ -22,11 +22,6 @@ var Calusaccarnet = require('../../models/calusac/calusaccarnets');
 
 function getUNA(ID){
 
-
-
-
-console.log({_id:ID})
-
     Asignacalusac2.findById({_id:ID}).lean().exec(function(err, todos) {
         if (err){ res.send(err); console.log(err) }
         else
@@ -78,6 +73,38 @@ console.log({_id:ID})
      }); 
 }
 
+function getUNA2(ID){
+
+    var contadorcca=0
+    Calusaccarnet.findById({ _id: '5e9cd2bd1aee4463745bcfd6' }, function (err, todo100xx)  {
+        if (err) {  res.send(err);  }
+    
+        contadorcca=todo100xx.contador+1
+        todo100xx.contador	=	contadorcca;
+        
+            Asignacalusac.findById({ _id: ID }).exec( function (err, todo100)  {
+                if (err) {  res.send(err);  }
+                else
+                { 
+                  
+    
+                    todo100.carnecalusac=contadorcca
+
+                    todo100.save(function (err, todo200){
+                        if (err)     {  console.log(err.message)   }
+                        console.log(todo200.carnecalusac)
+                        console.log('actualizada')
+
+                    });
+                }
+            });
+
+        });
+        
+
+ 
+}
+
 exports.getAsignacalusac = function(req, res, next){
     if(req.params.id3)
     { 
@@ -116,6 +143,19 @@ console.log(todos)
            
                 res.json(todos);  
                  }); 
+break;
+case 'calusac3':
+    //, foto1:1, foto2:1, foto3:1, foto4:1, foto5:1
+    console.log('entra3333')
+    Asignacalusac.find({   "estadopago" : "Asignación exitosa",   "carnecalusac" : null}).select({_id:1 })
+    .limit(50).exec(function(err, todos) {
+        if (err){ res.send(err); console.log(err) }
+        console.log(todos)
+        for(var i = 0; i < todos.length;i++){                getUNA2(todos[i]._id);       }
+
+
+    res.json(todos);  
+     }); 
 break;
             case 'asigna_profesor2':
                 Asignaubicacion.aggregate(  [
@@ -1198,7 +1238,7 @@ console.log(req.body);
     
     
                                                               
-                                                                        if( req.body.carnetcalusac=='')
+                                                                        if( req.body.carnetcalusac=='' || req.body.carnetcalusac==null)
                                                                         {
                                                                             var contadorcca=0
                                                                         Calusaccarnet.findById({ _id: '5e9cd2bd1aee4463745bcfd6' }, function (err, todo100xxaa)  {
