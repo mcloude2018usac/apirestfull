@@ -13,24 +13,28 @@ exports.getAutoriza = function(req, res, next){
         console.log( req.params)
         if(req.params.id)
         {
+            console.log({_id: req.params.id})
          User.findById({_id: req.params.id})
          .then(todo => {
-         
+         console.log('encuentra')
              todo.estadoemail       	=	'1'        	;
                 
              todo.save(function (err, todo){
-                if (err)     {  res.status(500).send(err.message)   }
+                if (err)     {console.log(err.message);  res.status(500).send(err.message)   }
+                console.log('cambio')
                 res.redirect('https://usac-enlinea.web.app/');
             });
              
          })
          .catch(err => {
+            console.log(err.message);
              res.status(500).send(err.message);  
          })
  
         }
         else
         {
+            console.log(err.message);
             res.status(500).send('error en autorización, por favor borre cookies de su navegador');  
  
         } 
@@ -60,19 +64,21 @@ exports.creaAutorizar = function(req, res, next){
             todo.estadoemail       	=	'1'        	;
                
             todo.save(function (err, todo){
-                if (err)     {  res.status(500).send(err.message)   }
+                if (err)     { console.log(err.message); res.status(500).send(err.message)   }
                 res.type('txt').send('Not found');
                 res.send({ content: 'Success'});
             });
             
         })
         .catch(err => {
+            console.log(err.message);
             res.status(500).send('error en autorización, por favor borre cookies de su navegador');  
         })
 
        }
        else
        {
+        console.log(err.message);
         res.status(500).send(err.message);  
 
        } 
