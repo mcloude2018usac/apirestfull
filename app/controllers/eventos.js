@@ -166,7 +166,7 @@ else{
         fechaini 	: req.body.fechaini 	,
         fecha: req.body.fecha 	,
         fechafin    	: req.body.fechafin    	,
-      
+       tipoevento:'cursoslibres',
         foto    	: req.body.foto    	,
         ubicacion   	: req.body.ubicacion  	,
         costo    	: req.body.costo   	,
