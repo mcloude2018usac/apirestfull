@@ -1766,6 +1766,7 @@ exports.getCombofijo = function(req, res, next){
                         //http://127.0.0.1:9090/api/datosfijos/participacursos/mpalaciosgonzalez986@gmail.com
                         var myData = [];
                         var teve='';
+                        var teveid='';
                         var tipoevento='';
                         var tfecha='';
                         var thora='';
@@ -1785,7 +1786,7 @@ exports.getCombofijo = function(req, res, next){
                                 for (var i = 0; i < todos.length; i++) {
                                         for (var ii = 0; ii < todos00.length; ii++) {
                                                 if(todos[i].idevento==todos00[ii]._id)
-                                                {
+                                                {  teveid=todos00[ii]._id;
                                                         teve=todos00[ii].nombre;
                                                         tfecha=todos00[ii].horario;
                                                         break;
@@ -1794,7 +1795,7 @@ exports.getCombofijo = function(req, res, next){
                                         for (var ia = 0; ia < todosa00.length; ia++) {
                                                 if(todosa00[ia].curso==teve)
                                                 {
-                                                        myData.push({idcurso:todos[i]._id ,nombre:todosa00[ia].nombreestudiante,curso:teve,tipo:1,fecha:tfecha,hora:''});
+                                                        myData.push({ideve:teveid,idcurso:todos[i]._id ,nombre:todosa00[ia].nombreestudiante,curso:teve,tipo:1,fecha:tfecha,hora:''});
 
                                                 }
                                         }
@@ -1827,11 +1828,12 @@ console.log(duplicates)
                                                         if(todos2[i].idevento==todos0aaa[ii]._id)
                                                         {
                                                                 teve=todos0aaa[ii].nombre;
+                                                                teveid=todos0aaa[ii]._id;
                                                                 tfecha=todos0aaa[ii].fecha;
                                                                 thora=todos0aaa[ii].costo;
                                                                 tipoevento=todos0aaa[ii].tipoevento;
                                                                 
-                                                                myData.push({tipoevento:tipoevento,idcurso:todos2[i]._id ,nombre:todos2[i].nombre + ' ' +todos2[i].apellido,curso:teve,tipo:2,fecha:tfecha,hora:thora});
+                                                                myData.push({ideve:teveid,tipoevento:tipoevento,idcurso:todos2[i]._id ,nombre:todos2[i].nombre + ' ' +todos2[i].apellido,curso:teve,tipo:2,fecha:tfecha,hora:thora});
 
                                                         }
                                                 }
@@ -1849,7 +1851,7 @@ console.log(duplicates)
                                                 for (var ia = 0; ia < todosa00.length; ia++) {
                                                         if(todosa00[ia].curso==teve)
                                                         {
-                                                                myData.push({tipoevento:'otro',idcurso:todos2[i]._id ,nombre:todosa00[ia].nombreestudiante,curso:teve,tipo:2,fecha:tfecha,hora:thora});
+                                                                myData.push({ideve:todosa00[ia].idevento,tipoevento:'otro',idcurso:todos2[i]._id ,nombre:todosa00[ia].nombreestudiante,curso:teve,tipo:2,fecha:tfecha,hora:thora});
 
                                                               
                                                         }
@@ -1869,7 +1871,84 @@ console.log(duplicates)
 }); 
                         break;
 
+                        case 'participacursos2':
+                                //http://127.0.0.1:9090/api/datosfijos/participacursos/mpalaciosgonzalez986@gmail.com
+                                var myData = [];
+                                var teve='';
+                                var tipoevento='';
+                                var tfecha='';
+                                var thora='';
+                                console.log(req.params)
+                                console.log(arrr)
 
+                                var arrr=req.params.id2.split('°')
+
+                                if(arrr[1]=='1')
+                                {
+
+
+                                }
+                                else
+                                {
+                                        console.log(arrr)
+
+                                        Evento.find({_id:arrr[2]
+                                        }).select({_id:1,nombre:1,fecha:1,costo:1,tipoevento:1}).lean()
+                                        .exec(function(err, todos0aaa) {
+
+                                                
+                                var duplicates = [];
+        
+        
+                                for(var i = 0; i < todos0aaa.length;i++){
+        
+                                        duplicates.push(todos0aaa[i]._id);
+        
+                                    }
+        console.log(duplicates)
+        
+                                        Participa.find({_id:arrr[0]},function(err, todos2) {
+                                                    console.log('participas')
+                                                    console.log(todos2)
+                                              if(todos2.length)
+                                              {
+                                                for (var i = 0; i < todos2.length; i++) {
+                                                      
+        
+                                                        
+                                                        for (var ii = 0; ii < todos0aaa.length; ii++) {
+                                                                if(todos2[i].idevento==todos0aaa[ii]._id)
+                                                                {
+                                                                        teve=todos0aaa[ii].nombre;
+                                                                        tfecha=todos0aaa[ii].fecha;
+                                                                        thora=todos0aaa[ii].costo;
+                                                                        tipoevento=todos0aaa[ii].tipoevento;
+                                                                        
+                                                                        myData.push({tipoevento:tipoevento,idcurso:todos2[i]._id ,nombre:todos2[i].nombre + ' ' +todos2[i].apellido,curso:teve,tipo:2,fecha:tfecha,hora:thora});
+        
+                                                                }
+                                                        }
+        
+        
+                                                      
+        
+                                                      
+                                                }
+                                        
+                                        }
+                                                res.json(myData);   
+        
+                                            });
+
+
+               
+                                        });
+
+                                }
+
+                                break;
+        
+        
         case 'help':
         Marketemail.find({idempresa:req.params.id3,idcategoria:req.params.id2}).populate('grupo').exec(function(err, todos) {
                 if (err){ res.send(err); }
