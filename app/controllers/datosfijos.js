@@ -1924,7 +1924,7 @@ console.log(duplicates)
                                                                         thora=todos0aaa[ii].costo;
                                                                         tipoevento=todos0aaa[ii].tipoevento;
                                                                         
-                                                                        myData.push({tipoevento:tipoevento,idcurso:todos2[i]._id ,nombre:todos2[i].nombre + ' ' +todos2[i].apellido,curso:teve,tipo:2,fecha:tfecha,hora:thora});
+                                                                        myData.push({ideve:todos0aaa[ii]._id, tipoevento:tipoevento,idcurso:todos2[i]._id ,nombre:todos2[i].nombre + ' ' +todos2[i].apellido,curso:teve,tipo:2,fecha:tfecha,hora:thora});
         
                                                                 }
                                                         }
