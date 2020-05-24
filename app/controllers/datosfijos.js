@@ -22,7 +22,7 @@ var cursodiploma=require('../models/cursodiploma');
 var Tiposuscriptor = require('../models/tipo_suscriptor');
 var Perfil = require('../models/perfil');
 var Catalogo = require('../models/catalogo');
-
+var Asignacalusac = require('../models/calusac/asignacalusac');
 
 const fs = require('fs-extra');
 var User = require('../models/user');
@@ -1766,6 +1766,7 @@ exports.getCombofijo = function(req, res, next){
                         //http://127.0.0.1:9090/api/datosfijos/participacursos/mpalaciosgonzalez986@gmail.com
                         var myData = [];
                         var teve='';
+                        var tipoevento='';
                         var tfecha='';
                         var thora='';
                        // .select({idperiodo: 1,no_orientacion:1,idmateria:1,date:1,idunidadacademica:1,codfac:1,noasignado:1}).lean().exec
@@ -1773,18 +1774,9 @@ exports.getCombofijo = function(req, res, next){
                         cursodiploma.find({'correo':req.params.id2},function(err, todosa00) {
 
                         cursoeve.find({'idtipoevento.codigo':'3'},function(err, todos00) {
-                        Evento.find({impresion:'Inactivo',ubicacion:'Transmisión en Facebook Live'
-                                }).select({_id:1,nombre:1,fecha:1,costo:1}).lean().exec(function(err, todos0aaa) {
-                     //           console.log(todos00)
-                        Evento.find({_id :{
-                                "$in" : ["5eaa64898c3aa70029925cd3","5eaa64288c3aa70029925cce","5eaa63b18c3aa70029925cc8",
-                                "5eaa627a8c3aa70029925cc1","5eaa578a8c3aa70029925c50","5e9e6fbbf358f400290078e4",
-                                "5e9e6e12f358f400290078d0","5e9e6bb3f358f400290078b7",
-                                    "5e7a6d15187210001ea6e989","5e7a6d9d187210001ea6e98f","5e7a6e16187210001ea6e991","5ea8be5337428511a3ed3860",
-                                    ,"5e7a7a64187210001ea6e99d","5e7bcb0e737144004a13630f","5e7a79fc187210001ea6e99b","5e7b9e46cf97ea0029d5aa8c"
-                                ]
-                            }}).select({_id:1,nombre:1,fecha:1,costo:1}).lean().exec(function(err, todos0) {
-                   // console.log(todos0)
+                        Evento.find({impresion:'Inactivo',impresion:'Imprimir diploma'
+                                }).select({_id:1,nombre:1,fecha:1,costo:1,tipoevento:1}).lean().exec(function(err, todos0aaa) {
+       
                         Participa2.find({'idtipoevento.id':'3',correo:req.params.id2},function(err, todos) {
                                 console.log('participas2')
                                 console.log(todos)
@@ -1814,10 +1806,6 @@ exports.getCombofijo = function(req, res, next){
 
                         var duplicates = [];
 
-                        for(var i = 0; i < todos0.length;i++){
-                                duplicates.push(todos0[i]._id);
-
-                        }
 
                         for(var i = 0; i < todos0aaa.length;i++){
 
@@ -1841,8 +1829,9 @@ console.log(duplicates)
                                                                 teve=todos0aaa[ii].nombre;
                                                                 tfecha=todos0aaa[ii].fecha;
                                                                 thora=todos0aaa[ii].costo;
+                                                                tipoevento=todos0aaa[ii].tipoevento;
                                                                 
-                                                                myData.push({idcurso:todos2[i]._id ,nombre:todos2[i].nombre + ' ' +todos2[i].apellido,curso:teve,tipo:2,fecha:tfecha,hora:thora});
+                                                                myData.push({tipoevento:tipoevento,idcurso:todos2[i]._id ,nombre:todos2[i].nombre + ' ' +todos2[i].apellido,curso:teve,tipo:2,fecha:tfecha,hora:thora});
 
                                                         }
                                                 }
@@ -1855,23 +1844,12 @@ console.log(duplicates)
                                         for (var i = 0; i < todos2.length; i++) {
                                               
 
-                                            
-
-                                                for (var ii = 0; ii < todos0.length; ii++) {
-                                                        if(todos2[i].idevento==todos0[ii]._id)
-                                                        {
-                                                                teve=todos0[ii].nombre;
-                                                                tfecha=todos0[ii].fecha;
-                                                                thora=todos0[ii].costo;
-                                                                
-                                                                break;
-                                                        }
-                                                }
+                                 
 
                                                 for (var ia = 0; ia < todosa00.length; ia++) {
                                                         if(todosa00[ia].curso==teve)
                                                         {
-                                                                myData.push({idcurso:todos2[i]._id ,nombre:todosa00[ia].nombreestudiante,curso:teve,tipo:2,fecha:tfecha,hora:thora});
+                                                                myData.push({tipoevento:'otro',idcurso:todos2[i]._id ,nombre:todosa00[ia].nombreestudiante,curso:teve,tipo:2,fecha:tfecha,hora:thora});
 
                                                               
                                                         }
@@ -1885,7 +1863,7 @@ console.log(duplicates)
                                     });
 
                         });
-                });
+               
         }); 
 }); 
 }); 
@@ -2652,6 +2630,33 @@ else
 
 
         break;
+
+        case 'excel-calusac':
+console.log('excel calusac')
+        Asignacalusac.find({ estadopago:'Asignación exitosa'}).populate('tipopago').exec(function(err, todos) {
+            if (err){ res.send(err); console.log(err) }
+
+            if(todos.length>0)   {  
+
+                var myData = [];
+                for(var i = 0; i < todos.length;i++){
+
+
+                myData.push({nombre:todos[i].nombre,correo:todos[i].idinterno,boletapago:todos[i].noboletapago
+                        ,tipo:todos[i].tipoa,tipopago:todos[i].tipopago.nombre });
+                }
+                var filename   = "participantes.csv";
+                res.statusCode = 200;
+                res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+                res.setHeader("Content-Disposition", 'attachment; filename='+filename);
+                res.csv(myData, true);
+        
+                
+        }
+
+
+        });
+        break
         case 'excel-participa':
                 console.log(req.params.id2)
 
