@@ -197,13 +197,10 @@ else{
     
     }
     else{
+   
 
-            Participa.find({  idempresa       	: req.body.idempresa   ,idevento       	: req.body.idevento   , $or : [
-                { $and : [ { cui : req.body.cui }] },
-                { $and : [ { correo : req.body.correo }] },
-               
-              
-                ]}, function (err, todo20)  {
+            Participa.find({  idempresa       	: req.body.idempresa   ,idevento       	: req.body.idevento , 
+                 correo : req.body.correo }, function (err, todo20)  {
                 if (err) {  res.send(err);  }
                 else
                 {  
