@@ -32,46 +32,6 @@ exports.getsiif = function(req, res, next){
        
 
         switch(req.params.id7)  {
-            case 'pruebacc':
-                var options = {
-                    'method': 'POST',
-                    'url': 'http://calusacvirtual.usac.edu.gt/app/api/api.php?apicall=matricular_usuario',
-                    'headers': {
-                    },
-                    formData: {
-                      'user': 'asc3df',
-                      'firstname': 'mario',
-                      'lastname':'na',
-                      'email': 'mario.morales@mcloude.com',
-                      'course': '318'
-                    }
-                  };
-                
-                  request(options, function (error, response) { 
-                    if (error) throw new Error(error);
-                    console.log(response.body);
-                    var cad=response.body;
-                    var arr1=cad.split(',');
-                    var aar2=arr1[0].split(':')
-                    var aar3=arr1[2].split(':')
-                    var usercod=aar2[1].replace('"','').replace('"','')
-                    var userpass=aar3[1].replace('"','').replace('"','')
-                    console.log(usercod + ' ' + userpass)
-                    
-                    //{"user_cod":"4105","username":"asc3df","password":"538bb3","user_assing":1}
-                    if(response.body.indexOf('Error')>0)
-                    {
-                        console.log('error al asignar usuario ya existe')
-                      res.json({estado:'error'});
-    
-                      
-                    }
-                    else{
-                        res.json({estado:'si'});
-
-                    }
-                });
-                break;
             case 'calusacmoodle2':
             Operadores.find({}).sort([['encola', 1]]).exec(function(err, todosb) {
                 res.json(todosb);
@@ -129,9 +89,27 @@ Asignacalusac.find({ correo:  req.params.id }, function (err, todo100aaa)  {
             console.log('busca='+idmodlex)
             if(idmodlex>0)
             {
-                res.json({estado:'exito',password: idmodlexpass});
                 console.log('encuentra data idmodle (usuario)='+idmodlex)
-       
+            
+            var options = {
+                'method': 'POST',
+                'url': 'http://calusacvirtual.usac.edu.gt/app/api/api.php?apicall=asignar_usuario',
+                'headers': {
+                },
+                formData: {
+                  'username': idmodlex,
+                  'curso': codigott,
+                  'rol': '5'
+                }
+              };
+              console.log('envia a crear solo curso')
+              console.log(options)
+              request(options, function (error, response) { 
+                if (error) throw new Error(error);
+                console.log(response.body);
+
+                res.json({estado:'exito',password: idmodlexpass});
+              });
 
         }
         else
@@ -140,22 +118,27 @@ Asignacalusac.find({ correo:  req.params.id }, function (err, todo100aaa)  {
             console.log('NOOOOOOOOOOO encuentra encuentra usuario lo crea todo')    
             var options = {
                 'method': 'POST',
-                'url': 'http://calusacvirtual.usac.edu.gt/app/api/api.php?apicall=matricular_usuario',
+                'url': 'http://calusacvirtual.usac.edu.gt/app/api/api.php?apicall=crear_usuario',
                 'headers': {
                 },
                 formData: {
-                  'user': req.params.id,
+                  'usuario': req.params.id,
+                  'password': password2+'1234!',
                   'firstname': req.params.id2,
                   'lastname':'na',
-                  'email': req.params.id4,
-                  'course': codigott
+                  'email': req.params.id4
                 }
               };
-            
+              console.log({
+                'usuario': req.params.id,
+                'password': password2+'1234!',
+                'firstname': req.params.id2,
+                'lastname':'na',
+                'email': req.params.id4
+              })
               request(options, function (error, response) { 
                 if (error) throw new Error(error);
                 console.log(response.body);
-
                 if(response.body.indexOf('Error')>0)
                 {
                     console.log('error al asignar usuario ya existe')
@@ -164,14 +147,9 @@ Asignacalusac.find({ correo:  req.params.id }, function (err, todo100aaa)  {
                   
                 }
                 else{
-                    var cad=response.body;
-                    var arr1=cad.split(',');
-                    var aar2=arr1[1].split(':')
-                    var aar3=arr1[2].split(':')
-                    var code=aar2[1].replace('"','').replace('"','')
-                    var password2=aar3[1].replace('"','').replace('"','')
 
                   var aaa=response.body
+                  var code =aaa.substring(aaa.indexOf(':')+1,aaa.indexOf(','))
                   console.log('crea curso')
                   console.log(code)
                               
@@ -179,16 +157,33 @@ Asignacalusac.find({ correo:  req.params.id }, function (err, todo100aaa)  {
                       if (err) {  res.send(err);  }
                       else
                       { 
-                          todo100.idmoodle       	=		code;
-                          todo100.idmoodlepass       	=	password2;
+                          todo100.idmoodle          =       code;
+                          todo100.idmoodlepass          =   password2+'1234!';
                         
               
                           todo100.save(function (err, todo200){
                               if (err)     {  console.log(err.message)   }
                       
-                              res.json({estado:'exito',password: password2+'1234!'});
+                           
           
-                        
+                              var options = {
+                                  'method': 'POST',
+                                  'url': 'http://calusacvirtual.usac.edu.gt/app/api/api.php?apicall=asignar_usuario',
+                                  'headers': {
+                                  },
+                                  formData: {
+                                    'username': code,
+                                    'curso': codigott,
+                                    'rol': '5'
+                                  }
+                                };
+                                console.log(options)
+                                request(options, function (error, response) { 
+                                  if (error) throw new Error(error);
+                                  console.log(response.body);
+          
+                                  res.json({estado:'exito',password: password2+'1234!'});
+                                });
                          
                               
                           });
