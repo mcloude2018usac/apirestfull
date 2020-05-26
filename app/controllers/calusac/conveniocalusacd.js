@@ -9,7 +9,7 @@ exports.getConveniocalusacd = function(req, res, next){
             if(req.params.id3=='todos')
             {
                 Conveniocalusacd.find({idempresa:req.params.id,idconvenio:req.params.id2}).
-                populate('ididioma').populate('tipopago').populate('jornada').
+                populate('ididioma').populate('tipopago').populate('jornada').populate('profesor').
                 populate('nivel').populate('horario').exec(function(err, todos) {
                     if (err){ res.send(err); }
                    
@@ -50,7 +50,30 @@ exports.creaConveniocalusacd2s = function(req, res, next){
 if(req.params.recordID!=='crea')
 { 
 
+    if( req.body.operacion=='actualizarinfor')
+    {
 
+        Conveniocalusacd.findById({ _id: req.params.recordID }, function (err, todo100)  {
+            if (err) {  res.send(err);  }
+            else
+            { 
+              
+
+                todo100.estado='asignado'
+    
+                todo100.save(function (err, todo200){
+                    if (err)     {  console.log(err.message)   }
+            
+                    res.json(todo200);
+                    
+                });
+            }
+        });
+
+
+    }
+    else
+    {
 
     Conveniocalusacd.findById({ _id: req.params.recordID }, function (err, todo)  {
         if (err) {  res.send(err);  }
@@ -58,6 +81,9 @@ if(req.params.recordID!=='crea')
         {  
             todo.idtipounidad        	=	req.body.idtipounidad       	||	todo.idtipounidad      	;
             todo.idunidadacademica        	=	req.body.idunidadacademica       	||	todo.idunidadacademica      	;
+
+            todo.tipogrupo        	=	req.body.tipogrupo        	||	todo.tipogrupo        	;
+            todo.tipocurso        	=	req.body.tipocurso        	||	todo.tipocurso        	;
 
 
             todo.idconvenio        	=	req.body.idconvenio        	||	todo.idconvenio        	;
@@ -71,6 +97,7 @@ if(req.params.recordID!=='crea')
 
             todo.tipopago        	=	req.body.tipopago        	||	todo.tipopago        	;
             todo.jornada        	=	req.body.jornada        	||	todo.jornada        	;
+            todo.profesor        	=	req.body.profesor        	||	todo.profesor        	;
 
             todo.nivel        	=	req.body.nivel        	||	todo.nivel        	;
             todo.horario        	=	req.body.horario        	||	todo.horario        	;
@@ -86,7 +113,7 @@ if(req.params.recordID!=='crea')
         }
     });
 
-}
+}}
 else{
 
     Conveniocalusacd.find({correo:req.body.correo  },function(err, todos) {
@@ -105,15 +132,16 @@ else{
                 carne        	: req.body.carne        	,
                 nombre        	: req.body.nombre        	,
                 correo        	: req.body.correo       ,
-
+                estado:'creado',
 
                 ididioma        	: req.body.ididioma       ,
                 tipopago        	: req.body.tipopago        	,
                 jornada        	: req.body.jornada        	,
-
+                profesor        	: req.body.profesor        	,
                 nivel        	: req.body.nivel        	,
                 horario        	: req.body.horario        	,
-              
+                tipogrupo        	: req.body.tipogrupo       ,
+                tipocurso        	: req.body.tipocurso       ,
 
 
 
