@@ -166,7 +166,7 @@ Asignacalusac.find({ correo:  req.params.id }, function (err, todo100aaa)  {
                 else{
                     var cad=response.body;
                     var arr1=cad.split(',');
-                    var aar2=arr1[0].split(':')
+                    var aar2=arr1[1].split(':')
                     var aar3=arr1[2].split(':')
                     var code=aar2[1].replace('"','').replace('"','')
                     var password2=aar3[1].replace('"','').replace('"','')
