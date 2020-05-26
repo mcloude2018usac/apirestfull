@@ -118,7 +118,11 @@ Asignacalusac.find({ correo:  req.params.id }, function (err, todo100aaa)  {
     
    var idmodlex=0;
    var idmodlexpass='';
+   var iduser='';
+   
             for(var i = 0; i < todo100aaa.length;i++){
+                iduser=todo100aaa[i]._id
+                iduser=iduser.substring(0,6)
                 if(todo100aaa[i].idmoodle)
                 {
                     idmodlex=todo100aaa[i].idmoodle;
@@ -144,7 +148,7 @@ Asignacalusac.find({ correo:  req.params.id }, function (err, todo100aaa)  {
                 'headers': {
                 },
                 formData: {
-                  'user': req.params.id,
+                  'user': iduser,
                   'firstname': req.params.id2,
                   'lastname':'na',
                   'email': req.params.id4,
@@ -166,7 +170,7 @@ Asignacalusac.find({ correo:  req.params.id }, function (err, todo100aaa)  {
                 else{
                     var cad=response.body;
                     var arr1=cad.split(',');
-                    var aar2=arr1[0].split(':')
+                    var aar2=arr1[1].split(':')
                     var aar3=arr1[2].split(':')
                     var code=aar2[1].replace('"','').replace('"','')
                     var password2=aar3[1].replace('"','').replace('"','')
@@ -186,7 +190,7 @@ Asignacalusac.find({ correo:  req.params.id }, function (err, todo100aaa)  {
                           todo100.save(function (err, todo200){
                               if (err)     {  console.log(err.message)   }
                       
-                              res.json({estado:'exito',password: password2+'1234!'});
+                              res.json({estado:'exito',password: password2});
           
                         
                          
