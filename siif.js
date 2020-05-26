@@ -131,15 +131,7 @@ Asignacalusac.find({ correo:  req.params.id }, function (err, todo100aaa)  {
                 }
             }
             console.log('busca='+idmodlex)
-            if(idmodlex>0)
-            {
-                res.json({estado:'exito',password: idmodlexpass});
-                console.log('encuentra data idmodle (usuario)='+idmodlex)
-       
-
-        }
-        else
-        {
+      
 
             console.log('NOOOOOOOOOOO encuentra encuentra usuario lo crea todo')    
             var options = {
@@ -190,7 +182,7 @@ Asignacalusac.find({ correo:  req.params.id }, function (err, todo100aaa)  {
                           todo100.save(function (err, todo200){
                               if (err)     {  console.log(err.message)   }
                       
-                              res.json({estado:'exito',password: password2});
+                              res.json({estado:'exito',password: password2,user:code});
           
                         
                          
@@ -212,7 +204,7 @@ Asignacalusac.find({ correo:  req.params.id }, function (err, todo100aaa)  {
 
               });
 
-        }
+        
 
     }
         
