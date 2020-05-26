@@ -9,9 +9,12 @@ var mongoose =require("mongoose");
         nombre	: { type : String, required : true },
         correo	: { type : String, required : true },  
         carne	: { type : String },
+        tipogrupo:{ type : String},
+        tipocurso:{ type : String},
+        estado:{ type : String},
 
+        profesor:{        type: String,ref:'User'},
 
- 
         ididioma:{        type: String,ref:'Unidadidioma3'},
          tipopago: {        type: String,        required: true   ,ref:'Unidadpago3' },
         jornada: { type : String, required : true ,ref:'Unidadjornada3' },
