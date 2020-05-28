@@ -41,7 +41,30 @@ exports.deleteConveniocalusac = function(req, res, next){
 
 
 exports.creaConveniocalusac2s = function(req, res, next){
-   
+    if( req.body.operacion=='actualizarinfor')
+    {
+
+        Conveniocalusac.findById({ _id: req.params.recordID }, function (err, todo100)  {
+            if (err) {  res.send(err);  }
+            else
+            { 
+              
+
+                todo100.estado=req.body.estado
+    
+                todo100.save(function (err, todo200){
+                    if (err)     {  console.log(err.message)   }
+            
+                    res.json(todo200);
+                    
+                });
+            }
+        });
+
+
+    }
+    else
+    {
     if(req.body.operacion=='ordenpago')
     {
     
@@ -134,7 +157,7 @@ else{
     });
    
 }
-}
+}}
 
 }
 

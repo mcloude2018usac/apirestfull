@@ -60,6 +60,7 @@ if(req.params.recordID!=='crea')
               
 
                 todo100.estado='asignado'
+                todo100.idasigna=req.body.idasigna
     
                 todo100.save(function (err, todo200){
                     if (err)     {  console.log(err.message)   }
@@ -142,7 +143,7 @@ else{
                 horario        	: req.body.horario        	,
                 tipogrupo        	: req.body.tipogrupo       ,
                 tipocurso        	: req.body.tipocurso       ,
-
+                idperiodo        	: req.body.idperiodo       ,
 
 
 
