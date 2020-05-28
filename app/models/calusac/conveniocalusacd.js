@@ -12,9 +12,9 @@ var mongoose =require("mongoose");
         tipogrupo:{ type : String},
         tipocurso:{ type : String},
         estado:{ type : String},
-
+        idasigna:{ type : String},
         profesor:{        type: String,ref:'User'},
-
+        idperiodo:{        type: String},
         ididioma:{        type: String,ref:'Unidadidioma3'},
          tipopago: {        type: String,        required: true   ,ref:'Unidadpago3' },
         jornada: { type : String, required : true ,ref:'Unidadjornada3' },
