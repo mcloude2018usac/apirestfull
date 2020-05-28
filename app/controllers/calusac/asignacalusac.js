@@ -507,7 +507,7 @@ break;
                     case 'todosautorizaxid':
                        
                         Asignacalusac.findById({_id:req.params.id   })
-                        .populate('ididioma').populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia')
+                        .populate('ididioma').populate('tipopago').populate('profesor').populate('jornada').populate('nivel').populate('horario').populate('dia')
                         .exec(function(err, todos) {
                            
                             if (err){ res.send(err); console.log(err) }
