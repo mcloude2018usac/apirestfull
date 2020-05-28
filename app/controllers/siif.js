@@ -5,6 +5,7 @@ var Asignacalusac = require('../models/calusac/asignacalusac');
 var generator = require('generate-password');
 var Facplan3 = require('../models/calusac/unidadplan3');
 var Operadores = require('../models/calusac/operadores');
+var Conveniocalusac = require('../models/calusac/conveniocalusac');
 
 function remove_accents(strAccents) {
     var strAccents = strAccents.split('');
@@ -267,12 +268,66 @@ Asignacalusac.find({ correo:  req.params.id }, function (err, todo100aaa)  {
     if(req.params.id3)
     {  
       
-        
+        if(req.params.id3=='busca2')
+        {
+            //req.params.id2
+//, estado:'ordenpago2' 
+                console.log(req.params)
+                Conveniocalusac.find({ noboletapago:  req.params.id2, estado:'pagada' }, function (err, todo100aaa)  {
+                if (err) {  res.send(err);  }
+                else
+                { 
+                    console.log(todo100aaa)
+                    if(todo100aaa.length>0)
+                    {
+console.log('no')
+res.send({cadena:'Orden pago ya ha sido utilizada en el sistema.'});
+                    //    res.status(404).send({estado:'Orden pago ya ha sido utilizada en el sistema.'});   
+                    }
+                    else{
+
+                                    var myXMLText = '<?xml version="1.0" encoding="utf-8"?><Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/"><Body><getData xmlns="urn:miserviciowsdl"><carnet>'+req.params.id+ '</carnet><id_ordenpago>'+req.params.id2+'</id_ordenpago></getData></Body></Envelope>'
+
+
+                                    console.log(myXMLText)
+
+                                    request({
+                                        url: "http://calusacvirtual.usac.edu.gt/app/api/validate_order.php",
+                                        method: "POST",
+                                        gzip: true,
+                                        headers: {
+                                            'Content-Type': 'text/xml;charset=UTF-8',
+                                            'User-Agent': 'PostmanRuntime/7.15.2',
+                                            'Accept': '*/*',
+                                            'Cache-Control': 'no-cache',
+                                            'Host': 'calusacvirtual.usac.edu.gt',
+                                            'Accept-Encoding': 'gzip, deflate',
+                                            'Content-Length': myXMLText.length,
+                                            'Connection': 'keep-alive',
+                                            'cache-control': 'no-cache',
+                            
+                            
+                                            
+                                        },
+                                        body: myXMLText
+                                    }, function (error, response, body){
+                            
+                                        if (error){  console.log(error); res.send(error);  }
+                            
+                                        res.send({cadena:body});
+                            
+                                    });
+                                }}
+                            });
+     
+        }
+        else
+        {
         if(req.params.id3=='busca')
         {
             //req.params.id2
 
-                
+                console.log(req.params)
             Asignacalusac.find({ noboletapago:  req.params.id2 ,estadopago:'Asignación exitosa'}, function (err, todo100aaa)  {
                 if (err) {  res.send(err);  }
                 else
@@ -374,7 +429,7 @@ Asignacalusac.find({ correo:  req.params.id }, function (err, todo100aaa)  {
 
 
         }
-
+    }
           
 
         
