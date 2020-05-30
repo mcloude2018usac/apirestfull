@@ -160,7 +160,7 @@ case 'calusac3':
     .limit(1).exec(function(err, todos) {
         if (err){ res.send(err); console.log(err) }
         console.log(todos)
-                     getUNA2(todos[i]._id);    
+                     getUNA2(todos[0]._id);    
 
 
     res.json(todos);  
@@ -890,6 +890,38 @@ exports.creaAsignacalusac2s = function(req, res, next){
   
 if(req.params.recordID!=='crea')
 { 
+    if( req.body.operacion=='actualizarinfor2')
+    {
+
+        console.log( req.body)
+        console.log( req.params.recordID)
+
+        Asignacalusac.findById({ _id: req.params.recordID }, function (err, todo100)  {
+            if (err) {  res.send(err);  }
+            else
+            { 
+              
+
+                todo100.correo        	=		req.body.correo   	;
+                            todo100.nombre        	=		req.body.nombre   	;
+                            todo100.cui        	=		req.body.cui   	;
+                            todo100.carnecalusac        	=		req.body.carnecalusac   	;
+                            todo100.identificador        	=		req.body.identificador   	;
+    
+                todo100.save(function (err, todo200){
+                    if (err)     {  console.log(err.message)   }
+            
+                    res.json(todo200);
+                    
+                });
+            }
+        });
+
+   
+
+
+    }
+    else{
     if( req.body.operacion=='actualizarinfor')
     {
 
@@ -1358,7 +1390,7 @@ console.log(req.body);
 
     }
     }}}}
-    }
+    }}
 }
 else{
     Bitacora.create(req.body.bitacora);
