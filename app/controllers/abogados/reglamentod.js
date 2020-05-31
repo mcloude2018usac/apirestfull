@@ -41,8 +41,11 @@ exports.getReglamentod = function(req, res, next){
 
         if(req.params.id3=='busqueda')
         {
+                var cad= req.params.id2;
+                var arr=cad.split('°')
+                console.log(cad)
 
-            Reglamentod.find({idempresa:req.params.id,articulo:   { $regex : req.params.id2, $options : 'i'}  }).select({_id:1,nolibro:1,libro:1,notitulo:1,titulo:1,
+            Reglamentod.find({idempresa:req.params.id,articulo:   { $regex : arr[1], $options : 'i'}  }).select({_id:1,nolibro:1,libro:1,notitulo:1,titulo:1,
                 nombre:1,nocapitulo:1,capitulo:1,noparrafo:1,parrafo:1,noarticulo:1,articulo:1,fecha:1,idreglamento:1}).lean().exec(function(err, todos) {
                 if (err){ res.send(err); }
 
@@ -50,7 +53,7 @@ exports.getReglamentod = function(req, res, next){
                 todos.forEach(function (doc) {duplicates.push(doc.idreglamento);  });
 
 
-                Reglamento.find({_id: {$in: duplicates}}).populate('pais').populate('tipo').populate('sector').populate('area').
+                Reglamento.find({tipo:arr[0],_id: {$in: duplicates}}).populate('pais').populate('tipo').populate('sector').populate('area').
                 select({_id:1,idcategoria:1,nombre:1,titulo:1,pais:1,tipo:1,sector:1,area:1}).exec(function(err, todos10) {
                     if (err){ res.send(err); }
                     var aaa=[];
@@ -95,6 +98,7 @@ exports.getReglamentod = function(req, res, next){
                                 }
                                 if(encuentra==0)
                                 {
+                                    /*
                                     aaa.push({_id:todos[i]._id,
                                          nolibro: todos[i].nolibro,
                                         libro: todos[i].libro,
@@ -117,6 +121,7 @@ exports.getReglamentod = function(req, res, next){
                                         sector:'',
                                         area:''
                                     });
+                                    */
 
                                 }
                               
