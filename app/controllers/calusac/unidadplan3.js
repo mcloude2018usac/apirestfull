@@ -7,7 +7,7 @@ var Unidadhorario3 = require('../../models/calusac/unidadhorario3');
 var Unidadprofesor3 = require('../../models/user');
 var Unidadpago3 = require('../../models/calusac/unidadpago3');
 var Asignacalusac = require('../../models/calusac/asignacalusac');
-
+var Unidadperiodo3 = require('../../models/calusac/unidadperiodo3');
 
 exports.getUnidadplan3 = function(req, res, next){
     if(req.params.id5)
@@ -76,8 +76,16 @@ break;
 
             break;  
         case 'horariocalusac':
-            console.log({'idtipounidad.id':req.params.id, 'idunidadacademica.id':req.params.id2})
-            Facplan3.find({'idtipounidad.id':req.params.id, 'idunidadacademica.id':req.params.id2})
+
+            Unidadperiodo3.find({'idtipounidad':req.params.id, 'idunidadacademica':req.params.id2, estado:'Activo'})
+            .find({}).exec(function(err, todos22) {
+            if (err){  res.send(err);  }
+                          
+            var duplicates = [];
+              
+            todos22.forEach(function (doc) {duplicates.push(doc._id);  });
+
+            Facplan3.find({'idperiodo.id': {$in: duplicates},'idtipounidad.id':req.params.id, 'idunidadacademica.id':req.params.id2})
             .populate('idnivel').populate('idjornada').populate('idhorario').populate('idprofesor').find({}).sort(   {  "idnivel" : 1,    "idjornada" : 1 } ).exec(function(err, todos2) {
             if (err){  res.send(err);  }
                             var myData31 = [];
@@ -98,6 +106,8 @@ break;
                                     res.json(myData31);
 
                                 });
+
+                            });
                                 break;
         case 'jornadas':
             var projectDataForMatch = {
