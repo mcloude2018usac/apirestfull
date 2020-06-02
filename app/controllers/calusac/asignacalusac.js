@@ -1245,11 +1245,7 @@ console.log(req.body);
                     }
                 }
     
-                console.log({ 'idtipounidad.id' : todo.idtipounidad.id   ,'idunidadacademica.id':todo.idunidadacademica.id ,'idperiodo.id':todo.idperiodo.id 
-                ,idnivel:todo.nivel,
-                    idjornada:todo.jornada,
-                    idhorario:req.body.horario,
-                    idprofesor:req.body.profesor})
+    
         
           
                 var duplicates = [];
@@ -1402,7 +1398,7 @@ else{
             {
                 
                 filtro= {'idtipounidad.id'        	: req.body.tipounidad.id        	,
-                'idunidadacademica.id'        	: req.body.unidadacademica.id    ,
+                'idunidadacademica.id'        	: req.body.unidadacademica.id    ,idperiodo        	: req.body.periodo ,
                 identificador      	: req.body.identificador    ,cui:'3333333'    	  }  ;
 
             }
@@ -1412,14 +1408,14 @@ else{
             {
 
                 filtro= {'idtipounidad.id'        	: req.body.tipounidad.id        	,
-                'idunidadacademica.id'        	: req.body.unidadacademica.id    ,
+                'idunidadacademica.id'        	: req.body.unidadacademica.id    ,idperiodo        	: req.body.periodo ,
                 identificador      	: req.body.identificador       ,cui:'3333333'     	  }  ;
 
             }
             else{
 
                 filtro= {'idtipounidad.id'        	: req.body.tipounidad.id        	,
-                'idunidadacademica.id'        	: req.body.unidadacademica.id    ,
+                'idunidadacademica.id'        	: req.body.unidadacademica.id    ,idperiodo        	: req.body.periodo ,
                 cui:req.body.cui ,identificador:'1233333' }  ;
 
             }}
@@ -1547,7 +1543,7 @@ else{
             
             
             else{//queda con el operador
-                Asignacalusac.find({cui:req.body.cui,'idunidadacademica.id'        	: req.body.unidadacademica.id }).exec(function(err, todos123) {
+                Asignacalusac.find({idperiodo        	: req.body.periodo ,cui:req.body.cui,'idunidadacademica.id'        	: req.body.unidadacademica.id }).exec(function(err, todos123) {
 
                                     
                     if (err){  if(err) return next(err);// res.status(404).send(err); 
