@@ -272,7 +272,7 @@ Asignacalusac.find({ correo:  req.params.id }, function (err, todo100aaa)  {
         {
             //req.params.id2
 //, estado:'ordenpago2' 
-                console.log(req.params)
+                console.log({ noboletapago:  req.params.id2, estado:'pagada' })
                 Conveniocalusac.find({ noboletapago:  req.params.id2, estado:'pagada' }, function (err, todo100aaa)  {
                 if (err) {  res.send(err);  }
                 else
@@ -327,13 +327,13 @@ res.send({cadena:'Orden pago ya ha sido utilizada en el sistema.'});
         {
             //req.params.id2
 
-                console.log(req.params)
+                console.log({ noboletapago:  req.params.id2 ,estadopago:'Asignación exitosa'})
             Asignacalusac.find({ noboletapago:  req.params.id2 ,estadopago:'Asignación exitosa'}, function (err, todo100aaa)  {
                 if (err) {  res.send(err);  }
                 else
                 { 
                     if(todo100aaa.length>0)
-                    {
+                    {  console.log(todo100aaa)
 
                         res.send({cadena:'Orden pago ya ha sido utilizada en el sistema.'}); 
                     }
