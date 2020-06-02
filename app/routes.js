@@ -9,6 +9,7 @@ var AuthenticationController = require('./controllers/authentication'),
    Unidadnivel3Controller = require('./controllers/calusac/unidadnivel3'),
    Unidadjornada3Controller = require('./controllers/calusac/unidadjornada3'),
    AsignanotasController = require('./controllers/calusac/asignanotas'),
+   SolprestamosController = require('./controllers/calusac/solprestamo'),
    Unidadhorario3Controller = require('./controllers/calusac/unidadhorario3'),
    Unidadpago3Controller = require('./controllers/calusac/unidadpago3'),
    Unidaddia3Controller = require('./controllers/calusac/unidaddia3'),
@@ -234,6 +235,7 @@ module.exports = function(app){
         unidadnivel3Routes = express.Router(),
         unidadjornada3Routes = express.Router(),
         asignanotasRoutes = express.Router(),
+        solprestamosRoutes = express.Router(),
         unidadhorario3Routes = express.Router(),
         unidadpago3Routes = express.Router(),
         unidaddia3Routes = express.Router(),
@@ -1023,6 +1025,15 @@ asignanotasRoutes.get('/:id/:id2/:id3',requireAuth,  AsignanotasController.getAs
 asignanotasRoutes.post('/:recordID', requireAuth, AsignanotasController.creaAsignanotas2s);
 asignanotasRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth, AsignanotasController.deleteAsignanotas);
 
+
+
+
+//-------------------------------------------------------------------solprestamo
+apiRoutes.use('/solprestamos',solprestamosRoutes);
+solprestamosRoutes.get('/:id',requireAuth,  SolprestamosController.getSolprestamos);
+solprestamosRoutes.get('/:id/:id2',requireAuth,  SolprestamosController.getSolprestamos);
+solprestamosRoutes.post('/:recordID', requireAuth, SolprestamosController.creaSolprestamos2s);
+solprestamosRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth, SolprestamosController.deleteSolprestamos);
 
 
 
