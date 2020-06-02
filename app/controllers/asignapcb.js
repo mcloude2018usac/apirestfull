@@ -7,9 +7,73 @@ var Asignaest = require('../models/asignaestudiante');
 var Asignapcb = require('../models/asignapcb');
 var Bitacora = require('../models/bitacora');
 
+function getNextSequenceValue2aaa(req,res,cant,codf){
+
+                        Facplan.find({codfac:codf }, function (err, todos10)  {
+                            if (err) {  res.send(err);  }
+                            else
+                            { 
+                                console.log(todos10[0]._id)
+                                Facplan.findById({_id:todos10[0]._id }, function (err, todo)  {
+                                    if (err) {  res.send(err);  }
+                                    else
+                                    { 
+                                        console.log(todo)
+                                         todo.asignados        	=		cant   	;
+                                        
+                                        todo.save(function (err, todo){
+                                            if (err)     {  console.log(err.message)   }
+                                          
+                                        });
+                                    }
+                                });
+
+
+                            }
+                        });
+    
+ }
+
+
 exports.getAsignapcb = function(req, res, next){
     if(req.params.id3)
     { 
+
+        if(req.params.id3=='componesalon')
+        {
+          //  http://127.0.0.1:9090/api/asignapcbs/1/1/componesalon
+            Asignaest.aggregate( [
+                { 
+                    "$group" : {
+                        "_id" : {
+                            "codfac" : "$codfac"
+                        }, 
+                        "COUNT(*)" : {
+                            "$sum" : 1
+                        }
+                    }
+                }, 
+                { 
+                    "$project" : {
+                        "codfac" : "$_id.codfac", 
+                        "cantidad" : "$COUNT(*)", 
+                        "_id" :0
+                    }
+                }
+            ]).exec(function(err, todos) {
+
+                for(var i = 0; i < todos.length;i++){     
+                    getNextSequenceValue2aaa(req,res,todos[i].cantidad,todos[i].codfac);
+
+
+                      }
+              res.json(todos); 
+            });
+
+
+        }
+        else{
+
         if(req.params.id3=='rptsun3')
         {
 
@@ -201,7 +265,7 @@ exports.getAsignapcb = function(req, res, next){
                                 
                             });
                         }
-    }}}}
+    }}}}}
     else
     {
     if(req.params.id)
@@ -449,7 +513,7 @@ if(req.params.recordID!=='crea')
 else{
 
 var aa=0;
-if(aa==0) 
+if(aa==1) 
 {
     res.status(404).send('Las fechas de inscripción PCB han finalizado.');
 
