@@ -335,7 +335,7 @@ res.send({cadena:'Orden pago ya ha sido utilizada en el sistema.'});
                     if(todo100aaa.length>0)
                     {
 
-                        res.status(404).send('Orden pago ya ha sido utilizada en el sistema.');   
+                        res.send({cadena:'Orden pago ya ha sido utilizada en el sistema.'}); 
                     }
                     else{
 
