@@ -8,6 +8,7 @@ var SolprestamoSchema 		=	new  mongoose.Schema({
     cui  		: { type : String},
     monto  		: { type : String},
     plazo  		: { type : String},
+    codpersonal  		: { type : String},
     interes  		: { type : String},
     estado	: { type : String, required : true },
     requisito1  		: { type : String},
