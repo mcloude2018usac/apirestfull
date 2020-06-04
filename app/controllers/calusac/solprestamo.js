@@ -1,6 +1,7 @@
 
 var Solprestamos = require('../../models/calusac/solprestamo');
 var Bitacora = require('../../models/bitacora');
+var Operadores2 = require('../../models/calusac/operadores2');
 
 exports.getSolprestamos = function(req, res, next){
        if(req.params.id2)
@@ -60,6 +61,7 @@ if(req.params.recordID!=='crea')
             todo.nombre        	=	req.body.nombre        	||	todo.nombre        	;   
             todo.cui        	=	req.body.cui        	||	todo.cui        	;
             todo.monto        	=	req.body.monto        	||	todo.monto        	;
+            todo.codpersonal        	=	req.body.codpersonal        	||	todo.codpersonal        	;
             todo.plazo        	=	req.body.plazo        	||	todo.plazo       	;
             todo.interes        	=	req.body.interes        	||	todo.interes 	      	;
             todo.estado        	=	req.body.estado        	||	todo.estado	      	;
@@ -89,8 +91,18 @@ if(req.params.recordID!=='crea')
 else{
 
   
+    Operadores2.find({}).sort([['encola', 1]]).exec(function(err, todosb) {
+
+                                    
+        if (err){  if(err) return next(err);// res.status(404).send(err); 
+        return;}
+     
     
-    
+        if(todosb.length>0)   {  
+            var opexx=todosb[0]._id
+            var opexx2=todosb[0].email
+
+               
     Solprestamos.find({cui	: req.body.cui        	,
         tipo: req.body.tipo
       
@@ -103,6 +115,8 @@ else{
         {   
 
             Solprestamos.create({
+                userasignado:opexx,
+                userasignadoemail:opexx2,
                 idempresa        	: req.body.idempresa        	,
             tipo        	: req.body.tipo        	,
             nombre: req.body.nombre,
@@ -111,6 +125,7 @@ else{
             plazo: req.body.plazo,
             interes: req.body.interes,
             estado: req.body.estado,
+            codpersonal: req.body.codpersonal,
         
             requisito1: req.body.requisito1,
             requisito2: req.body.requisito2,
@@ -142,6 +157,11 @@ else{
              }
         
     });
+
+
+        }
+    });
+ 
    
  
 }
