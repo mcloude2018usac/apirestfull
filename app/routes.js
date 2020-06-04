@@ -1032,6 +1032,7 @@ asignanotasRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth
 apiRoutes.use('/solprestamos',solprestamosRoutes);
 solprestamosRoutes.get('/:id',requireAuth,  SolprestamosController.getSolprestamos);
 solprestamosRoutes.get('/:id/:id2',requireAuth,  SolprestamosController.getSolprestamos);
+solprestamosRoutes.get('/:id/:id2/:id3',requireAuth,  SolprestamosController.getSolprestamos);
 solprestamosRoutes.post('/:recordID', requireAuth, SolprestamosController.creaSolprestamos2s);
 solprestamosRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth, SolprestamosController.deleteSolprestamos);
 
