@@ -21,6 +21,8 @@ var SolprestamoSchema 		=	new  mongoose.Schema({
     requisito8  		: { type : String},
     requisito9  		: { type : String},
     requisito10  		: { type : String},
+    userasignado	: { type : String},
+    userasignadoemail	: { type : String},
     usuarionew	: { type : String },      usuarioup	: { type : String }
    
     }, {
