@@ -4,8 +4,27 @@ var Bitacora = require('../../models/bitacora');
 var Operadores2 = require('../../models/calusac/operadores2');
 
 exports.getSolprestamos = function(req, res, next){
-       if(req.params.id2)
-        {  
+       if(req.params.id3)
+        {   if(req.params.id=='todos')
+        {
+            Solprestamos.find({idempresa:req.params.id2,usuarionew:req.params.id3},function(err, todos) {
+                if (err){ res.send(err); }
+               
+                res.json(todos);   
+        
+                
+            });
+
+        }
+
+
+        
+             
+           
+        }
+        else
+        {
+           
             if(req.params.id=='todos')
             {
                 Solprestamos.find({idempresa:req.params.id2},function(err, todos) {
@@ -29,8 +48,6 @@ exports.getSolprestamos = function(req, res, next){
 
             }
                
-             
-           
         }
          
 
