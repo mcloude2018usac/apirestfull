@@ -5,7 +5,9 @@ var Operadores2 = require('../../models/calusac/operadores2');
 
 exports.getSolprestamos = function(req, res, next){
        if(req.params.id3)
-        {   if(req.params.id=='todos')
+        {  
+            
+            if(req.params.id=='todos')
         {
             Solprestamos.find({idempresa:req.params.id2,usuarionew:req.params.id3},function(err, todos) {
                 if (err){ res.send(err); }
@@ -16,6 +18,20 @@ exports.getSolprestamos = function(req, res, next){
             });
 
         }
+
+        if(req.params.id=='autoriza')
+        {
+            console.log({userasignadoemail:req.params.id2,estado:req.params.id3})
+            Solprestamos.find({userasignadoemail:req.params.id2,estado:req.params.id3},function(err, todos) {
+                if (err){ res.send(err); }
+               console.log(todos)
+                res.json(todos);   
+        
+                
+            });
+
+        }
+
 
 
         
@@ -69,6 +85,31 @@ exports.creaSolprestamos2s = function(req, res, next){
     Bitacora.create(req.body.bitacora);
 if(req.params.recordID!=='crea')
 {
+    if( req.body.operacion=='mandacomentario')
+    {
+
+
+        Solprestamos.findById({ _id: req.params.recordID }, function (err, todo100)  {
+            if (err) {  res.send(err);  }
+            else
+            { 
+                todo100.ultrechazo        	=		req.body.ultrechazo   	;
+                todo100.estado='EN PROCESO'
+    
+                todo100.save(function (err, todo200){
+                    if (err)     {  console.log(err.message)   }
+            
+                    res.json(todo200);
+               
+                    
+                });
+            }
+        });
+
+
+    }
+    else
+    {
     Solprestamos.findById({ _id: req.params.recordID }, function (err, todo)  {
         if (err) {  res.send(err);  }
         else
@@ -103,7 +144,7 @@ if(req.params.recordID!=='crea')
             });
         }
     });
-
+}
 }
 else{
 
@@ -154,7 +195,7 @@ else{
             requisito8: req.body.requisito8,
             requisito9: req.body.requisito9,
             requisito10: req.body.requisito10,
-
+            ultrechazo:'',
             usuarionew:req.body.bitacora.email
         
               }
