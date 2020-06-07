@@ -85,7 +85,8 @@ exports.creaSolprestamos2s = function(req, res, next){
     Bitacora.create(req.body.bitacora);
 if(req.params.recordID!=='crea')
 {
-    if( req.body.operacion=='mandacomentario')
+    
+    if( req.body.operacion=='mandacomentario2')
     {
 
 
@@ -94,7 +95,45 @@ if(req.params.recordID!=='crea')
             else
             { 
                 todo100.ultrechazo        	=		req.body.ultrechazo   	;
-                todo100.estado='EN PROCESO'
+                todo100.ultrechazo2        	=		req.body.ultrechazo2   	;
+                todo100.estado=	req.body.estado;
+                todo100.requisito1= req.body.requisito1;
+                todo100.requisito2= req.body.requisito2;
+                todo100.requisito3= req.body.requisito3;
+                todo100.requisito4= req.body.requisito4;
+                todo100.requisito5= req.body.requisito5;
+                todo100.requisito6= req.body.requisito6;
+                todo100.requisito7= req.body.requisito7;
+                todo100.requisito8= req.body.requisito8;
+                todo100.requisito9= req.body.requisito9;
+
+    
+                todo100.save(function (err, todo200){
+                    if (err)     {  console.log(err.message)   }
+            
+                    res.json(todo200);
+               
+                    
+                });
+            }
+        });
+
+
+    }
+    else
+    {
+    if( req.body.operacion=='mandacomentario')
+    {
+
+        
+
+        Solprestamos.findById({ _id: req.params.recordID }, function (err, todo100)  {
+            if (err) {  res.send(err);  }
+            else
+            { 
+                todo100.ultrechazo        	=		req.body.ultrechazo   	;
+                todo100.ultrechazo2        	=		req.body.ultrechazo2   	;
+                todo100.estado=	req.body.estado;
     
                 todo100.save(function (err, todo200){
                     if (err)     {  console.log(err.message)   }
@@ -144,7 +183,7 @@ if(req.params.recordID!=='crea')
             });
         }
     });
-}
+}}
 }
 else{
 
