@@ -781,7 +781,7 @@ if(req.params.recordID)
             {   
                
              //   todo.nombre        	=	req.body.nombre          	;
-                todo.cui 	=	req.body.cui 		;
+              //  todo.cui 	=	req.body.cui 		;
                 todo.nov 	=	req.body.nov 		;
            
     
@@ -827,6 +827,7 @@ if(req.params.recordID)
     }
     else
     {
+        
     Personal.findById({ _id: req.params.recordID }, function (err, todo)  {
         if (err) {  res.send(err);  }
         else
