@@ -1,6 +1,5 @@
 var mongoose =require("mongoose");
 
-
     var Unidadplan2Schema 		=	new  mongoose.Schema({
         idtipounidad :  		{    id	: { type : String, required : true },   nombre	: { type : String, required : true }        },
         idunidadacademica   		: {    id	: { type : String, required : true },   nombre	: { type : String, required : true }  ,codigo	: { type : String, required : true }      },
@@ -22,6 +21,10 @@ var mongoose =require("mongoose");
         idmateria: {
             type: String,
             required: true
+        },
+        idseccion: {
+            type: String
+        
         },
         capacidad: {
             type: Number,
