@@ -113,6 +113,7 @@ if(req.params.recordID!=='crea')
             todo.idsalon=	req.body.idsalon        	||	todo.idsalon        	;
             todo.nombre=	req.body.nombre        	||	todo.nombre        	;
             todo.idjornada=	req.body.idjornada        	||	todo.idjornada        	;
+            todo.idseccion=	req.body.idseccion        	||	todo.idseccion        	;
             todo.idhorario=	req.body.idhorario        	||	todo.idhorario        	;
             todo.idmateria=	req.body.idmateria        	||	todo.idmateria        	;
             todo.capacidad=	req.body.capacidad        	||	todo.capacidad        	;
@@ -154,6 +155,7 @@ else{
             idjornada: req.body.idjornada,
             idhorario: req.body.idhorario,
             idmateria: req.body.idmateria,
+            idseccion: req.body.idseccion,
             capacidad: req.body.capacidad,
             asignados: req.body.asignados,
             codfac: req.body.codfac,
