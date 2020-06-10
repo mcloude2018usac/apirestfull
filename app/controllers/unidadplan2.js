@@ -137,11 +137,11 @@ else{
 
     Unidadplan2.find({idtipounidad        	: req.body.idtipounidad       
          	,  idunidadacademica: req.body.idunidadacademica, 
-         idperiodo: req.body.idperiodo,    idedificio: req.body.idedificio, 
+         idperiodo: req.body.idperiodo,    idedificio: req.body.idedificio,  idseccion: req.body.idseccion, 
            idsalon: req.body.idsalon,   idhorario: req.body.idhorario,codfac: req.body.codfac  },function(err, todos) {
         if (err){ res.send(err); }
       
-        if(todos.length>0)   {    res.status(500).send('Ya existe una planificacion para este salon , horario y jornada'); }
+        if(todos.length>0)   {    res.status(500).send('Ya existe una planificacion para este salon , horario , seccion y  jornada'); }
         else
         {   
 
