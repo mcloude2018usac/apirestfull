@@ -85,6 +85,39 @@ exports.creaSolprestamos2s = function(req, res, next){
     Bitacora.create(req.body.bitacora);
 if(req.params.recordID!=='crea')
 {
+      
+    if( req.body.operacion=='mandacomentario22')
+    {
+
+
+        Solprestamos.findById({ _id: req.params.recordID }, function (err, todo100)  {
+            if (err) {  res.send(err);  }
+            else
+            { 
+               
+             
+               
+                todo100.requisito3= req.body.requisito3;
+                todo100.requisito4= req.body.requisito4;
+              
+                todo100.requisito8= req.body.requisito8;
+
+
+    
+                todo100.save(function (err, todo200){
+                    if (err)     {  console.log(err.message)   }
+            
+                    res.json(todo200);
+               
+                    
+                });
+            }
+        });
+
+
+    }
+    else
+    {
     
     if( req.body.operacion=='mandacomentario2')
     {
@@ -183,7 +216,7 @@ if(req.params.recordID!=='crea')
             });
         }
     });
-}}
+}}}
 }
 else{
 
