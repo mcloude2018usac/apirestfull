@@ -95,8 +95,27 @@ exports.getAsignaubicacion = function(req, res, next){
             }).populate('ididioma')  .select({ "correo":1,"telefono":1, "nombre":1,"cui": 1,"identificador": 1,"n1": 1,"n2": 1,"n3": 1,
             "n4":1,"n5":1,  "profedor":"1",     "_id": 1}).exec(function(err, todos10) {
                     if (err){ res.send(err); }
-       console.log(todos10)
-                    res.json(todos10);
+      
+                    var result = [];
+                    for (const item of todos10) {
+                        var n1a='0';
+                        var n2a='0';
+                        var n3a='0';
+                        var n4a='0';
+                        var n5a='0';
+
+                        if(item.n1){ if(item.n1!=null){  n1a=item.n1;}}
+                        if(item.n2){ if(item.n2!=null){  n1a=item.n2;}}
+                        if(item.n3){ if(item.n3!=null){  n1a=item.n3;}}
+                        if(item.n4){ if(item.n4!=null){  n1a=item.n4;}}
+                        if(item.n5){ if(item.n5!=null){  n1a=item.n5;}}
+
+                           result.push({correo:item.correo,telefono:item.telefono,nombre:item.nombre,cui:item.cui,identificador:item.identificador,n1:n1a,n2:n2a,n3:n3a,n4:n4a,n5:n5a,
+                            profesor:item.profesor,_id:item._id});
+                       
+                   }
+
+                    res.json(result);
                 });
     
             }
@@ -295,7 +314,8 @@ exports.getAsignaubicacion = function(req, res, next){
                 { 
                     "$group" : { 
                         "_id" : { 
-                            "ididioma" : "$ididioma"
+                            "ididioma" : "$ididioma",
+                        
                         }, 
                         "COUNT(*)" : { 
                             "$sum" : (1)
@@ -305,6 +325,7 @@ exports.getAsignaubicacion = function(req, res, next){
                 { 
                     "$project" : { 
                         "ididioma" : "$_id.ididioma", 
+                     
                         "COUNT(*)" : "$COUNT(*)", 
                         "_id" : (0)
                     }
@@ -318,11 +339,12 @@ exports.getAsignaubicacion = function(req, res, next){
                 
                 }
 
-                unidadidioma3.find({ _id: {$in: duplicates}}).exec(function(err, todos10) {
+                unidadidioma3.find({ _id: {$in: duplicates}}).populate('idtipounidad').exec(function(err, todos10) {
                     if (err){ res.send(err); console.log(err) }
                     var result = [];
+                    console.log(todos10)
                     for(var i = 0; i < todos10.length;i++){
-                        result.push({codigo:todos10[i]._id,nombre:todos10[i].nombre});
+                        result.push({codigo:todos10[i]._id,nombre:todos10[i].nombre,tipounidad:todos10[i].idtipounidad.nombre});
                     }
                 res.json(result);   
 
