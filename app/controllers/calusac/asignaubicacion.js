@@ -105,10 +105,10 @@ exports.getAsignaubicacion = function(req, res, next){
                         var n5a='0';
 
                         if(item.n1){ if(item.n1!=null){  n1a=item.n1;}}
-                        if(item.n2){ if(item.n2!=null){  n1a=item.n2;}}
-                        if(item.n3){ if(item.n3!=null){  n1a=item.n3;}}
-                        if(item.n4){ if(item.n4!=null){  n1a=item.n4;}}
-                        if(item.n5){ if(item.n5!=null){  n1a=item.n5;}}
+                        if(item.n2){ if(item.n2!=null){  n2a=item.n2;}}
+                        if(item.n3){ if(item.n3!=null){  n3a=item.n3;}}
+                        if(item.n4){ if(item.n4!=null){  n4a=item.n4;}}
+                        if(item.n5){ if(item.n5!=null){  n5a=item.n5;}}
 
                            result.push({correo:item.correo,telefono:item.telefono,nombre:item.nombre,cui:item.cui,identificador:item.identificador,n1:n1a,n2:n2a,n3:n3a,n4:n4a,n5:n5a,
                             profesor:item.profesor,_id:item._id});
@@ -124,7 +124,8 @@ exports.getAsignaubicacion = function(req, res, next){
         if(req.params.id=='todos')
         {
             Asignaubicacion.find({ididioma:req.params.id2
-            ,'idedificio.id': req.params.id4,'idsalon.id':req.params.id5,iddia:req.params.id6,idhora:req.params.id7
+            ,'idedificio.id': req.params.id4,'idsalon.id':req.params.id5,iddia:req.params.id6
+            ,idhora:req.params.id7
         }).populate('ididioma').exec(function(err, todos10) {
                 if (err){ res.send(err); }
     
@@ -597,13 +598,13 @@ console.log(req.params)
   
 if(req.body.operacion=='ponenota2')
 { 
-
+console.log({ _id: req.params.recordID })
     Asignacalusac.findById({ _id: req.params.recordID }, function (err, todo100)  {
         if (err) {  res.send(err);  }
         else
         {
            
-             
+             console.log(req.body);
                 todo100.n1=req.body.n1,
                 todo100.n2= req.body.n2,
                 todo100.n3= req.body.n3,
