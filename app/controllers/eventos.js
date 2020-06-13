@@ -33,16 +33,63 @@ exports.getEvento = function(req, res, next){
                 if(req.params.id3=='todosbuscaactivo' )
                 {
 
-
-                Evento.find({_id:req.params.id,impresion:'Activo'}).select({nomax:1,fecha:1,impresion:1,nombre:1,fechaini:1,
-                    fechafin:1,ubicacion: 1,no_max:1,foto:1,fecha:1}).sort([['createdAt', -1]]).exec(function(err, todos) {
-                    if (err){  res.status(500).send('Hubo un error en el sistema , por favor intente mas tarde');  }
+if(req.params.id)
+{
+    if(req.params.id!='')
+{
+                Evento.findById({_id:req.params.id}).select({nombre:1,foto:1,ubicacion:1,fecha:1,nomax:1,impresion:1}).exec(function(err, todos) {
+                    console.log(todos)
+                    if (err){  res.status(422).send({estado:'Hubo un error en el sistema , por favor intente mas tarde'});  }
                    
-                    if(todos.length==0     ) {  res.status(500).send('El evento ya no se encuentra activo');  }
+                    if(todos.length==0     ) {  res.status(422).send({estado:'No existe evento'});  }
                     else
-                    { var aa=todos[0].nomax;
+                    { 
+                        
+                        if(todos.impresion=='Activo')
+                        {
+                        var aa=todos.nomax;
 
 
+                        Participa.aggregate(  [
+                            { 
+                                "$match" : { 
+                                    "idevento" : req.params.id
+                                }
+                            }, 
+                            { 
+                                "$group" : { 
+                                    "_id" : { 
+                    
+                                    }, 
+                                    "COUNT(*)" : { 
+                                        "$sum" : 1
+                                    }
+                                }
+                            }, 
+                            { 
+                                "$project" : { 
+                                    "cantidad" : "$COUNT(*)", 
+                                    "_id" : 0
+                                }
+                            }
+                        ]).exec(function(err, todos10) {
+
+                            var cuantos =todos10[0].cantidad
+
+                            if(cuantos<aa)
+                            {
+                                res.json(todos);
+                                
+                            }
+                            else
+                            {
+                                res.status(422).send({estado:'El cupo del evento ya se encuentra lleno'});
+    
+                            }
+
+                        });
+
+/*
                         Participa.find({idevento:req.params.id},function(err, todos2) {
                             if (err){ res.send(err); }
                             var cuantos =todos2.length
@@ -54,13 +101,19 @@ exports.getEvento = function(req, res, next){
                             }
                             else
                             {
-                                res.status(500).send('El cupo del evento ya se encuentra lleno');
+                                res.status(422).send({estado:'El cupo del evento ya se encuentra lleno'});
     
                             }
                           
                             
                         });
+                        */
+                    }
+                    else
+                    {
+                        res.status(422).send({estado:'El evento ya no se encuentra activo'});
 
+                    }
 
                         
 
@@ -68,8 +121,21 @@ exports.getEvento = function(req, res, next){
                     
                   
                  });
+                }
+                else
+                {
+                    res.status(422).send({estado:'El evento ya no se encuentra activo'});
+
+                }
     
                 }
+                else
+                {
+                    res.status(422).send({estado:'El evento ya no se encuentra activo'});
+
+                }
+            
+            }
 
             }
         }
