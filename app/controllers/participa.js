@@ -7,7 +7,7 @@ var Datadpi = require('../models/datadpis');
 var User = require('../models/user');
 var Asignapcb= require('../models/asignapcb');
 var Evento = require('../models/eventos');
-
+var Listanegra = require('../models/listanegra');
 exports.getParticipa = function(req, res, next){
     if(req.params.id4)
     { 
@@ -198,7 +198,11 @@ else{
     }
     else{
    
-
+        Listanegra.find({ email: req.body.correo , tipo    	: 'cursoslibres'}, function (err, todo20a)  {
+           if (err) {  res.send(err);  }
+console.log(todo20a)
+           if(todo20a.length==0)
+           {
             Participa.find({  idempresa       	: req.body.idempresa   ,idevento       	: req.body.idevento , 
                  correo : req.body.correo }, function (err, todo20)  {
                 if (err) {  res.send(err);  }
@@ -277,8 +281,14 @@ else{
                                       
                 }
                 });
+          
+        }
+        else
+        {
+            res.status(500).send('En estos momentos el servicio esta saturado, por favor intente mas tarde.') 
+        }
 
-      
+    });
 
 
      

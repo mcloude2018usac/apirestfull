@@ -37,8 +37,8 @@ if(req.params.id)
 {
     if(req.params.id!='')
 {
-                Evento.findById({_id:req.params.id}).select({nombre:1,foto:1,ubicacion:1,fecha:1,nomax:1,impresion:1}).exec(function(err, todos) {
-                    console.log(todos)
+                Evento.findById({_id:req.params.id}).select({nombre:1,foto:1,ubicacion:1,fecha:1,nomax:1,impresion:1,_id:1}).exec(function(err, todos) {
+                 
                     if (err){  res.status(422).send({estado:'Hubo un error en el sistema , por favor intente mas tarde'});  }
                    
                     if(todos.length==0     ) {  res.status(422).send({estado:'No existe evento'});  }
@@ -47,9 +47,11 @@ if(req.params.id)
                         
                         if(todos.impresion=='Activo')
                         {
+                            console.log(todos.nombre + ' ' +todos._id)
                         var aa=todos.nomax;
+                        console.log(aa)
 
-
+console.log(req.params)
                         Participa.aggregate(  [
                             { 
                                 "$match" : { 
@@ -73,6 +75,7 @@ if(req.params.id)
                                 }
                             }
                         ]).exec(function(err, todos10) {
+                            console.log(todos10)
 
                             var cuantos =todos10[0].cantidad
 
