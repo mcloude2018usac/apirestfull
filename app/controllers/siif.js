@@ -220,8 +220,9 @@ Asignacalusac.find({ correo:  req.params.id }, function (err, todo100aaa)  {
             default:
 //' + remove_accents(req.params.id2) + '
 //this.cui+ '/'+this.nombre+'/' +this.monto +".00" + '/00/2020/22/1'
+console.log(req.params)
 
-                    myXMLText=remove_accents("\n<Envelope xmlns=\"http://schemas.xmlsoap.org/soap/envelope/\"><Body><getData xmlns=\"urn:miserviciowsdl\"><carnet>"+ req.params.id +"</carnet><unidad>30</unidad><extension>00</extension><carrera>00</carrera><nombre>" +req.params.id2+ "</nombre><monto>" + req.params.id3 + "</monto><anio>"+ req.params.id5 +"</anio><rubro>"+ req.params.id6 +"</rubro><variante_rubro>"+ req.params.id7 +"</variante_rubro><subtotal>"+ req.params.id3 +"</subtotal></getData></Body></Envelope>")
+                    myXMLText=remove_accents("\n<Envelope xmlns=\"http://schemas.xmlsoap.org/soap/envelope/\"><Body><getData xmlns=\"urn:miserviciowsdl\"><carnet>"+ req.params.id +"</carnet><unidad>"+req.params.id4+"</unidad><extension>00</extension><carrera>00</carrera><nombre>" +req.params.id2+ "</nombre><monto>" + req.params.id3 + "</monto><anio>"+ req.params.id5 +"</anio><rubro>"+ req.params.id6 +"</rubro><variante_rubro>"+ req.params.id7 +"</variante_rubro><subtotal>"+ req.params.id3 +"</subtotal></getData></Body></Envelope>")
 
                     console.log(myXMLText)
                     console.log(myXMLText.length)
