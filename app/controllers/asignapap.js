@@ -32,7 +32,8 @@ function getNextSequenceValue2(myData3,myData3cc,req,res,i,todo){
        idsalon:myData3[i].idsalon,
        idhorario:myData3[i].idhorario,
        idmateria:myData3[i].idmateria,
-       idjornada:myData3[i].idjornada
+       idjornada:myData3[i].idjornada,
+       idseccion:myData3[i].idseccion
              }).lean().exec({}, function(err,myasigcupo) {
        if (err) res.send(err);
              var asigno=0
@@ -43,6 +44,7 @@ function getNextSequenceValue2(myData3,myData3cc,req,res,i,todo){
                        Asignaest.create({ 
                            idasigna:todo._id,
                            idtipounidad        	: myData3[i].idtipounidad        	,
+                           idseccion        	: myData3[i].idseccion        	,
                            idunidadacademica        	:myData3[i].idunidadacademica  , 
                            idperiodo        	:myData3[i].idperiodo      	,
                            idedificio:myData3cc.idedificio,
@@ -478,7 +480,8 @@ else
                                   {//si hay cupo lo hago
                                       cii=0;
                                       myData3.push({_id:myData[ii]._id,idedificio:myData[ii].idedificio,idsalon:myData[ii].idsalon
-                                        ,idtipounidad:myData[ii].idtipounidad,
+                                        ,idtipounidad:myData[ii].idtipounidad
+                                        ,idseccion:myData[ii].idseccion,
                                         idjornada:myData[ii].idjornada,
                                         idunidadacademica: myData[ii].idunidadacademica,
                                         idperiodo:myData[ii].idperiodo,
