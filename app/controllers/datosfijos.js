@@ -100,6 +100,22 @@ const  Asociadovv = [{nombre:'idempresa',tipo:'String',requerido:1,visible:0},
 
 ];
 
+const  Productov = [{nombre:'idempresa',tipo:'String',requerido:1,visible:0},
+   
+{nombre:'nombre',tipo:'String',requerido:1,visible:1},
+{nombre:'descripcion',tipo:'String',requerido:0,visible:1},
+{nombre:'precio',tipo:'Number',requerido:1,visible:1},
+{nombre:'unidad',tipo:'String',requerido:1,visible:1},
+{nombre:'xunidad',tipo:'String',requerido:1,visible:1},
+{nombre:'categoria',tipo:'String',requerido:1,visible:1},
+{nombre:'foto',tipo:'Foto',requerido:0,visible:1},
+{nombre:'aplicafoto',tipo:'String',requerido:0,visible:1},
+{nombre:'estado',tipo:'Estado',requerido:1,visible:1},
+{nombre:'idasociado',tipo:'llaved',requerido:0,visible:0},
+{nombre:'usuarionew',tipo:'String',requerido:0,visible:0},
+{nombre:'usuarioup',tipo:'String',requerido:0,visible:0}
+
+];
 
    
       function logErrors(err, req, res, next) {
@@ -446,14 +462,15 @@ fs.outputFile(nombre, contents, err => {
                                                         if(vector[i].requerido==1)
                                                         {
                                                         if(vector[i].nombre==='correo' || vector[i].nombre==='email')
-                                                        {
+                                                        {// Validators.compose([Validators.required,Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')])),\n"
                                                                 re= re+ "       '"+ vector[i].nombre + "': new FormControl('', Validators.required,Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')])),\n"
                                                         }
                                                         else
                                                         {
                                                                 if(vector[i].nombre==='nombre' )
                                                         {
-                                                                re= re+ "       '"+ vector[i].nombre + "': new FormControl('', Validators.required,Validators.pattern('[a-zA-Z ]*')])),\n"
+                                                                
+                                                                re= re+ "       '"+ vector[i].nombre + "': new FormControl('', Validators.compose([Validators.required,Validators.pattern('[a-zA-Z ]*')])),\n"
                                                         }
                                                         else
                                                         {
@@ -804,7 +821,7 @@ function buscamodulo(op,op2) {
 switch(op)  {
         case 'modulo': re=  dacadenamodulo(Modulovv,op2);      break;
         case 'asociado': re=  dacadenamodulo(Asociadovv,op2);      break;
-        
+        case 'producto': re=  dacadenamodulo(Productov,op2);      break;
 }
       
         
@@ -2939,46 +2956,6 @@ console.log('excel calusac')
         });
 
 break;  
-case 'excel-asigna3pap':
-
-        var filename   = "asignaciones3pap.csv";
-        
-        Facplan2.find({}).sort({'idsalon.nombre':1}).exec(function(err, todos2) {
-                if (err){ res.send(err); }
-                
-
-                if(todos2.length>0)   {  
-
-                        var myData = [];
-                        for(var i = 0; i < todos2.length;i++){
-
-                            
-                                var ll=''
-                                if(todos2[i].idmateria=='Lenguaje'){ll='3'}
-                                if(todos2[i].idmateria=='Matematica'){ll='4'}
-                                if(todos2[i].idmateria=='Fisica'){ll='2'}
-                                if(todos2[i].idmateria=='Quimica'){ll='5'}
-                                  if(todos2[i].idmateria=='Biologia'){ll='1'}
-
-                                
-                        myData.push({unidadacademica:cleanName(todos2[i].idtipounidad.nombre),periodo:cleanName(todos2[i].idperiodo.nombre),codigounidad:todos2[i].idunidadacademica.codigo,unidadacademica:todos2[i].idunidadacademica.nombre,edificio:cleanName(todos2[i].idedificio.nombre),salon:todos2[i].idsalon.nombre
-                                ,codigomateria:ll,materia:cleanName(todos2[i].idmateria),horario:cleanName(todos2[i].idhorario)
-                                ,capacidad:todos2[i].capacidad ,asignados:todos2[i].asignados
-                                 ,codfac:todos2[i].codfac 
-                         });
-                        }
-                        
-                        res.statusCode = 200;
-                        res.setHeader('Content-Type', 'text/csv; charset=utf-8');
-                        res.setHeader("Content-Disposition", 'attachment; filename='+filename);
-                        res.csv(myData, true);
-                
-                        
-                }
-        
-        });
-
-break;  
         case 'excel-asignaU':
 
         var filename   = "asignacionesU.csv";
@@ -3020,90 +2997,7 @@ break;
         });
 
 break;  
-        case 'excel-asigna2':
-
-        var filename   = "asignacionesPAP.csv";
-        
-        Facplan2.find({'idperiodo.nombre':'2019-01'}).sort({'idunidadacademica.codigo':1}).exec(function(err, todos2) {
-                if (err){ res.send(err); }
-                
-
-                if(todos2.length>0)   {  
-
-                        var myData = [];
-                        for(var i = 0; i < todos2.length;i++){
-
-                                var ll=''
-                                if(todos2[i].idmateria=='Lenguaje'){ll='3'}
-                                if(todos2[i].idmateria=='Matematica'){ll='4'}
-                                if(todos2[i].idmateria=='Fisica'){ll='2'}
-                                if(todos2[i].idmateria=='Quimica'){ll='5'}
-                                if(todos2[i].idmateria=='Biologia'){ll='1'}
-
-                                
-                        myData.push({periodo:cleanName(todos2[i].idperiodo.nombre),codigounidad:todos2[i].idunidadacademica.codigo,unidadacademica:todos2[i].idunidadacademica.nombre,edificio:cleanName(todos2[i].idedificio.nombre),salon:cleanName(todos2[i].idsalon.nombre)
-                                ,codigomateria:ll,materia:cleanName(todos2[i].idmateria),horario:cleanName(todos2[i].idhorario)
-                                ,capacidad:todos2[i].capacidad ,asignados:todos2[i].asignados
-                                 ,jornada:todos2[i].idjornada
-                         });
-                        }
-                        
-                        res.statusCode = 200;
-                        res.setHeader('Content-Type', 'text/csv; charset=utf-8');
-                        res.setHeader("Content-Disposition", 'attachment; filename='+filename);
-                        res.csv(myData, true);
-                
-                        
-                }
-        
-        });
-
-break;
-
-
-
-case 'excel-asigna33xxx':
-
-var myDataxxx = [];
-
-Unidadplan2.find({}).exec(function(err, todos20) {
-        if (err){ res.send(err); }
- var cuentatt=1
-        Asignaest.find({}).exec(function(err, todos300) {
-                if (err){ res.send(err); }
-      var  cuenta=1;
-                for(var i = 0; i < todos20.length;i++){
-                cuenta=0;
-                        for(var j = 0; j < todos300.length;j++){
-                                if(todos20[i].idsalon.nombre==todos300[j].idsalon.nombre)
-                                {
-                                        cuenta=cuenta+1;
-                                        cuentatt=cuentatt+1;
-
-
-                                }
-                        }
-
-                    getNextSequenceValue2( todos20[i].idsalon.nombre,todos20[i]._id,cuenta);
-                }
-
-
-                    
-                    //    myDataxxx.push({salon:todos20[i].idsalon.nombre,id:todos20[i]._id  ,cuenta2:cuenta});
-res.json({cantidad:cuentatt});
-                      
-
-
-        });
-
-});
-
-
-
-
-
-
-break;
+     
 
 
 case 'excel-asigna33xxxcc':
@@ -3240,225 +3134,46 @@ res.json({ result});
                     
 
 
-case 'excel-papest':
 
-var myDataxxx = [];
+    case 'cupo-seccion':
 
-Userperfil.find({}).exec(function(err, todos20) {
-        if (err){ res.send(err); }
- var cuentatt=1
- Asignapap.find({}).exec(function(err, todos300) {
+        var filename   = "asignacionesPAP.csv";
+        
+        Facplan2.find({'idperiodo.id':req.params.id2}).sort({'asignados':-1}).exec(function(err, todos2) {
                 if (err){ res.send(err); }
-      var  cuenta=0;
-      var data1=[];
-                for(var i = 0; i < todos20.length;i++){
-               cuenta=0;
-                        for(var j = 0; j < todos300.length;j++){
-                                if(todos20[i].userId==todos300[j].userId)
-                                {
-                                     cuenta=1;
-                                }
-                        }
-                        if(cuenta==1)
-                        {}
-                        else
-                        { 
-                             data1.push({id:todos20[i]._id})
+             
 
-                        }
+                if(todos2.length>0)   {  
 
-                      
-                }
+                        var myData = [];
+                        for(var i = 0; i < todos2.length;i++){
 
-
-                    
-                    
-res.json({data1});
-                      
-
-
-        });
-
-});
-
-
-
-
-
-
-break;
-
-
-case 'excel-papcuenta':
-
-var myDataxxx = [];
-
-
- Asignapap.find({estado:'Asignación finalizada con exito'}).exec(function(err, todos300) {
-                if (err){ res.send(err); }
-   
-  
-                Asignaest.find({}).exec(function(err, todos500) {
-                        if (err){ res.send(err); }
-
-
-                        var data2=[];
-                        for(var i = 0; i < data1.length;i++){
-                                for(var j = 0; j < todos500.length;j++){
-                                        if(data1[i].idasigna==todos500[j].idasigna)
-                                        { 
-                                                
-                                                var val = buscaarray(todos20ab, data1[i].idasigna , data1[i].idperfil
-                                                       , todos500[j].idhorario,todos500[j].idmateria);
-                                              
-                                                
-                                               if(val==0)
-                                               {         
-                                            
-                                                }
-
-                                          
-                                                
-                                        }
-                                }
-                              
-                              
-                        }
-                                            
-res.json(todos500);
-                     
-                });
-        });
-
-
-
-
-
-
-
-
-break;
-case 'excel-asigna3reduce':
-
-
-Asignapap.aggregate(
-        [
-                { 
-                        "$group" : {
-                            "_id" : {
-                                "userId" : "$userId"
-                            }, 
-                            "COUNT" : {
-                                "$sum" : 1
-                            }
-                        }
-                    }, 
-                    { 
-                        "$project" : {
-                            "userId" : "$_id.userId", 
-                            "COUNT" : "$COUNT", 
-                            "_id" :0
-                        }
-                    }, 
-                    { 
-                        "$match" : {
-                            "COUNT" : {
-                                "$gt" :1
-                            }
-                        }
-                    }
-        ], function (err, result) {
-                if (err) {
-                    next(err);
-                } else {
-
-                        var  data1=[]
-                 
-                        Asignapap.find({}).exec(function(err, todos20) {
-                                if (err)
-                                { res.send(err); }
-
-                                for(var i = 0; i < result.length;i++){
-                                        var encuentra=[]
-                                        for(var j = 0; j < todos20.length;j++){
-
-                                                if(todos20[j].userId==result[i].userId)
-                                                {
-
-                                                     encuentra.push({id:todos20[j]._id });   
-                                                //     data1.push({id:todos20[i]._id + ' ' + todos20[i].cursosaplica +' ' + todos20[i].usuarionew + ' ' +result[j].COUNT + ' '  + result[j].userId});   
-
-
-                                                     //break;
-
-                                                }
-
-
-                                        }
-                                      
-                                        for(var k = 0; k <encuentra.length-1;k++){
-                                                data1.push({id:encuentra[k].id});   
-                                                      
-                                                 //  Asignapap.findByIdAndRemove({ _id: encuentra[k].id }, function(err, todoxxx) {
-                                                     //
-                                                        //    });
-                                        }
-
-                                     
-
-                                      
-
-                                }
-
-                  
-                              //  res.json(data1);
-                                
-
-                                Asignaest.find({}).exec(function(err, todos200) {
-                                        if (err)
-                                        { res.send(err); }
-                                        var data2=[]        
-                                        for(var i = 0; i < todos200.length;i++){
-                                                for(var j = 0; j < data1.length;j++){
-        
-                                                        if(todos200[i].idasigna==data1[j].id)
-                                                        {
-                                                              data2.push({id:todos200[i]._id,nombre:todos200[i].nombre,materia:todos200[i].idmateria,horario:todos200[i].idhorario,usu1: todos200[i].usuarionew});   
-                                                               // res.json(todo);
-                                                          //  });
-
-
-                                                            break;
-
-        
-                                                        }
-        
-        
-                                                }
-                                        }  
-
-
-                                           
-                                                      
-                                        
-                                        res.json(data2);
-
-                                });
-
+                                var ll=''
+                                if(todos2[i].idmateria=='Lenguaje'){ll='3'}
+                                if(todos2[i].idmateria=='Matematica'){ll='4'}
+                                if(todos2[i].idmateria=='Fisica'){ll='2'}
+                                if(todos2[i].idmateria=='Quimica'){ll='5'}
+                                if(todos2[i].idmateria=='Biologia'){ll='1'}
 
                                 
+                        myData.push({periodo:cleanName(todos2[i].idperiodo.nombre),codigounidad:todos2[i].idunidadacademica.codigo,unidadacademica:todos2[i].idunidadacademica.nombre,edificio:cleanName(todos2[i].idedificio.nombre),salon:cleanName(todos2[i].idsalon.nombre)
+                                ,codigomateria:ll,materia:cleanName(todos2[i].idmateria),horario:cleanName(todos2[i].idhorario)
+                                ,capacidad:todos2[i].capacidad ,asignados:todos2[i].asignados
+                                 ,jornada:todos2[i].idjornada
+                         });
+                        }
                         
-                        });
-
-
-                    
+                        res.statusCode = 200;
+                        res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+                        res.setHeader("Content-Disposition", 'attachment; filename='+filename);
+                        res.csv(myData, true);
+                
+                        
                 }
-            });
+        
+        });
 
-    
-  //  res.json(aa);
-    break;
-
+break;
 case 'excel-asigna3papficha':
 //127.0.0.1:9090/api/datosfijos/excel-asigna3papficha
 var filename   = "Fichapap.csv";
@@ -3471,12 +3186,8 @@ var filename   = "Fichapap.csv";
                                                 for(var i = 0; i < todos.length;i++){
 
                                                         var aa=''
-                                                        try {
-                                                                 aa=todos[i].idasigna.cierra
-                                                              }
-                                                              catch(error) {
-                                                             aa==''
-                                                              }
+                                                        try {  aa=todos[i].idasigna.cierra   }
+                                                              catch(error) {   aa==''       }
 
                                                               
 
@@ -3491,8 +3202,7 @@ var filename   = "Fichapap.csv";
                                                                 var tsalon2=tsalon.split('-')
 
                                                                 d =new Date(todos[i].updatedAt).toISOString().substr(0,10);   
-
-                                                                      
+if(todos[i].idasigna.idperiodo==req.params.id2)     {         
 myData2.push({
         fecha:d,
         cui:"_" +todos[i].idasigna.cui +" ",
@@ -3500,7 +3210,7 @@ myData2.push({
         nov:todos[i].idasigna.nov,
         carne:todos[i].idasigna.carne,
         monto:todos[i].idasigna.monto,
-      
+      cursosaplica:todos[i].idasigna.cursosaplica,
         correo:todos[i].idasigna.correo,
         edificio:todos[i].idedificio.nombre,
         codigosalon:tsalon2[0],
@@ -3508,7 +3218,9 @@ myData2.push({
         jornada:todos[i].idjornada,
         materia:todos[i].idmateria,
         horario:todos[i].idhorario,
-        noasignado:todos[i].noasignado});
+        noasignado:todos[i].noasignado,
+        seccion:todos[i].idseccion});
+}
                                                             
                                                         }
   
