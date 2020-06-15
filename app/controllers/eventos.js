@@ -76,8 +76,12 @@ console.log(req.params)
                             }
                         ]).exec(function(err, todos10) {
                             console.log(todos10)
-
-                            var cuantos =todos10[0].cantidad
+                            var cuantos =0
+                            if(todos10.length>0)
+                            {
+                                cuantos =todos10[0].cantidad
+                            }
+                          
 
                             if(cuantos<aa)
                             {
