@@ -337,6 +337,13 @@ else{
     if(req.params.recordID=='crea')
 { 
 
+    Asignapap.find({  correo:req.body.correo +';mario.morales@mcloude.com' }
+      , function(err, todosa) {
+      if (err){ res.status(500).send(err.message)    }
+
+      if(todosa.length>0)   {    res.status(500).send('Ya existe una asignación para este usuario'); }
+      else
+      {   
 
     Asignapap.create({  
         userId :req.body.userId ,
@@ -398,6 +405,8 @@ else{
         res.json(todos);
 
         });
+    }
+    });
 }
 else
 {
