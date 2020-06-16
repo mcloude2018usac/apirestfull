@@ -90,7 +90,7 @@ console.log(req.params)
                             }
                             else
                             {
-                                res.status(422).send({estado:'El cupo del evento ya se encuentra lleno'});
+                                res.status(422).send({estado:'Cupo de evento lleno'});
     
                             }
 
@@ -118,7 +118,7 @@ console.log(req.params)
                     }
                     else
                     {
-                        res.status(422).send({estado:'El evento ya no se encuentra activo'});
+                        res.status(422).send({estado:'Evento Inactivo'});
 
                     }
 
@@ -131,7 +131,7 @@ console.log(req.params)
                 }
                 else
                 {
-                    res.status(422).send({estado:'El evento ya no se encuentra activo'});
+                    res.status(422).send({estado:'Evento Inactivo'});
 
                 }
     
