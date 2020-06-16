@@ -3219,7 +3219,11 @@ myData2.push({
         materia:todos[i].idmateria,
         horario:todos[i].idhorario,
         noasignado:todos[i].noasignado,
-        seccion:todos[i].idseccion});
+        seccion:todos[i].idseccion,
+        noboleta:todos[i].idasigna.noboleta,
+        monto:todos[i].idasigna.montodeuda
+
+});
 }
                                                             
                                                         }
