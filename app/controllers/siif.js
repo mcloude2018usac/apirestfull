@@ -33,6 +33,194 @@ exports.getsiif = function(req, res, next){
        
 
         switch(req.params.id7)  {
+
+            case 'calusacmoodle2a':
+                var options = {
+                    'method': 'POST',
+                    'url': 'http://calusacvirtual.usac.edu.gt/app/api/api.php?apicall=matricular_usuario',
+                    'headers': {
+                    },
+                    formData: {
+                      'user': 'asc3df',
+                      'firstname': 'mario',
+                      'lastname':'na',
+                      'email': 'mario.morales@mcloude.com',
+                      'course': '318'
+                    }
+                  };
+                
+                  request(options, function (error, response) { 
+                    if (error) throw new Error(error);
+                    console.log(response.body);
+                    var cad=response.body;
+                    var arr1=cad.split(',');
+                    var aar2=arr1[0].split(':')
+                    var aar3=arr1[2].split(':')
+                    var usercod=aar2[1].replace('"','').replace('"','')
+                    var userpass=aar3[1].replace('"','').replace('"','')
+                    console.log(usercod + ' ' + userpass)
+                    
+                    //{"user_cod":"4105","username":"asc3df","password":"538bb3","user_assing":1}
+                    if(response.body.indexOf('Error')>0)
+                    {
+                        console.log('error al asignar usuario ya existe')
+                      res.json({estado:'error'});
+    
+                      
+                    }
+                    else{
+                        res.json({estado:'si'});
+
+                    }
+                });
+                break;
+
+                case 'calusacmoodle2p':
+
+              
+                    console.log({ idmoodle:  req.params.id3 })
+                    Facplan3.find({_id:req.params.id6},function(err, todospla) {
+                        if (err){ res.send(err); }
+            
+                        var codigott=''
+            
+                        
+                        if(todospla.length>0)
+                        {
+                            codigott=todospla[0].codfac
+                            console.log('encuentra plan: ' + codigott)
+                        }
+            
+                        if(todospla[0].codfac){}else
+                        {
+                            codigott='';
+                        }
+            
+                        if(codigott=='' || codigott=='0' || codigott=='1')
+                        {
+                            res.json({estado:'exitosinusuario',password: ''});
+                        }
+                        else
+                        {
+            
+                       
+            Asignacalusac.find({ correo:  req.params.id ,_id:req.params.id5 }, function (err, todo100aaa)  {
+                if (err) {  res.send(err);  }
+                else
+                { 
+
+                    console.log(todo100aaa[0]._id)
+                    var password2= generator.generate({
+                        length: 4,
+                        numbers: true
+                    });    
+                
+               var idmodlex=0;
+               var idmodlexpass='';
+               var iduser='';
+               
+                        for(var i = 0; i < todo100aaa.length;i++){
+                            iduser=todo100aaa[i].noboletapago
+                           
+                            if(todo100aaa[i].idmoodle)
+                            {
+                                idmodlex=todo100aaa[i].idmoodle;
+                                idmodlexpass=todo100aaa[i].idmoodlepass;
+                                break;
+                            }
+                        }
+                        console.log('busca='+idmodlex)
+                  
+            
+                        console.log('NOOOOOOOOOOO encuentra encuentra usuario lo crea todo')    
+                        var options = {
+                            'method': 'POST',
+                            'url': 'http://calusacvirtual.usac.edu.gt/app/api/api.php?apicall=matricular_usuario',
+                            'headers': {
+                            },
+                            formData: {
+                              'user': iduser,
+                              'firstname': req.params.id2,
+                              'lastname':'na',
+                              'email': req.params.id4,
+                              'course': codigott
+                            }
+                          };
+                        console.log(options)
+                          request(options, function (error, response) { 
+                            if (error) throw new Error(error);
+                            console.log(response.body);
+            
+                            if(response.body.indexOf('Error')>0)
+                            {
+                                console.log('error al asignar usuario ya existe')
+                              res.json({estado:'error'});
+            
+                              
+                            }
+                            else{
+                                var cad=response.body;
+                                var arr1=cad.split(',');
+                                var aar2=arr1[0].split(':')
+                                var aar3=arr1[2].split(':')
+                                var aar5=arr1[4].split(':')
+                                var aar5b=aar5[1].split('}')
+
+                                var code=aar2[1].replace('"','').replace('"','')
+                                var password2=aar3[1].replace('"','').replace('"','')
+                                var type2=aar5b[0].replace('"','').replace('"','')
+                              var aaa=response.body
+                              console.log('crea curso')
+                              console.log(code)
+                                          
+                              Asignacalusac.findById({ _id:  req.params.id5 }, function (err, todo100)  {
+                                  if (err) {  res.send(err);  }
+                                  else
+                                  { 
+                                      todo100.idmoodle          =       code;
+                                      todo100.idmoodlepass          =   password2;
+                                    
+                          
+                                      todo100.save(function (err, todo200){
+                                          if (err)     {  console.log(err.message)   }
+                                  
+                                          res.json({estado:'exito',password: password2,user:code,type:type2});
+                      
+                                    
+                                     
+                                          
+                                      });
+                                  }
+                              });
+            
+            
+            
+                  
+            
+            
+            
+                             
+                            }
+            
+                          
+            
+                          });
+            
+                    
+            
+                }
+                    
+                 
+            
+                        });           
+            
+            
+                    }
+                    });
+                
+                            break
+                        
+
             case 'calusacmoodle2':
             Operadores.find({}).sort([['encola', 1]]).exec(function(err, todosb) {
                 res.json(todosb);
