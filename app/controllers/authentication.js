@@ -88,7 +88,7 @@ exports.register = function(req, res, next){
         }
  
         if(existingUser){
-            return res.status(500).send('Esta direccion de correo electronico , NOV o CUI ya esta en uso');
+            return res.status(500).send('Esta direccion de correo electronico , NOV o CUI ya esta en uso CUI: '+ existingUser.cui + ' Inicia secció con este correo: '+ existingUser.email);
         }
  
         var user = new User({
