@@ -37,6 +37,7 @@ var Participa = require('../models/participa');
 var Participa2 = require('../models/participa2');
 var Facplan = require('../models/unidadplan');
 var Facplan2 = require('../models/unidadplan2');
+var Facplan3 = require('../models/calusac/unidadplan3');
 var cursoeve=require('../models/aread_evento');
 var Userperfil = require('../models/userperfil2');
 var Asignapap = require('../models/asignapap');
@@ -2727,8 +2728,124 @@ else
 
         break;
 
+        case 'excel-calusaccursos':
+                console.log('entyra excel-calusaccursos')
+
+                Asignacalusac.find({'idtipounidad.id':'5e9735eec37fcd001eeb1d19', estadopago:'Asignación exitosa'})
+                .select({cui:1,nombre:1,idplanifica:1,noboletapago:1,monto:1,carnecalusac:1}).exec(function(err, todos10) {
+                    if (err){ res.send(err); console.log(err) }
+        
+                    if(todos10.length>0)   {  
+                            console.log(todos10.length)
+
+                        Facplan3.find({'idtipounidad.id':'5e9735eec37fcd001eeb1d19'})
+                        .populate('idnivel').populate('idjornada').populate('idhorario').populate('idprofesor').exec(function(err, todos) {
+                        if (err){  res.send(err);  }
+                                       
+
+                        var myData = [];
+                        console.log(todos.length)
+               
+
+                        for(var i = 0; i < todos.length;i++){
+
+                                for(var ii = 0; ii < todos10.length;ii++){
+                                        console.log(todos10[ii])
+                                        if(todos10[ii].idplanifica==todos[i]._id)
+                                        {
+                                                myData.push({sede:todos[i].idtipounidad.nombre,curso:todos[i].idunidadacademica.nombre + ' ' +todos[i].idperiodo.nombre
+                                                ,jornada:todos[i].idjornada.nombre,horario:todos[i].idhorario.nombre,nivel:todos[i].idnivel.nombre
+                                                ,profesor:todos[i].idprofesor.nombre,capacidad:todos[i].capacidad,cui:todos10[ii].cui,
+                                                nombre:todos10[ii].nombre,noboletapago:todos10[ii].noboletapago,
+                                                monto:todos10[ii].monto,carnecalusac:todos10[ii].carnecalusac });
+                                                }
+
+                                        }
+                                }
+                        
+        
+                      
+                        var filename   = "sedecursoscalusac.csv";
+                        res.statusCode = 200;
+                        res.setHeader('Content-Type', 'text/csv; charset=UTF-8');
+                        res.setHeader("Content-Disposition", 'attachment; filename='+filename);
+                        res.csv(myData, true);
+
+
+            
+                                        });
+
+
+        
+                      
+                
+                        
+                }
+        
+        
+                });
+                break
+
+                case 'excel-calusaccursos2':
+                        console.log('entyra excel-calusaccursos2')
+        
+                        Asignacalusac.find({estadopago:'Asignación exitosa'})
+                        .select({cui:1,nombre:1,idplanifica:1,noboletapago:1,monto:1,carnecalusac:1,identificador:1}).exec(function(err, todos10) {
+                            if (err){ res.send(err); console.log(err) }
+                
+                            if(todos10.length>0)   {  
+                                    console.log(todos10.length)
+        
+                                Facplan3.find({})
+                                .populate('idnivel').populate('idjornada').populate('idhorario').populate('idprofesor').exec(function(err, todos) {
+                                if (err){  res.send(err);  }
+                                               
+        
+                                var myData = [];
+                                console.log(todos.length)
+                       var cc=1;
+        
+                                for(var i = 0; i < todos.length;i++){
+        
+                                        for(var ii = 0; ii < todos10.length;ii++){
+                                               
+                                                if(todos10[ii].idplanifica==todos[i]._id)
+                                                {
+                                                        myData.push({correlativo:cc,identificador:todos10[ii].identificador,nombreestudiante:todos10[ii].nombre,correoestudiante:todos10[ii].idinterno
+                                                                ,profesor:todos[i].idprofesor.nombre,profesorcorreo:todos[i].idprofesor.email,
+                                                                        idioma:todos[i].idunidadacademica.nombre
+                                                                         ,nivel:todos[i].idnivel.nombre ,jornada:todos[i].idjornada.nombre,horario:todos[i].idhorario.nombre
+                                                        });
+                                                        cc++;
+                                                        }
+        
+                                                }
+                                        }
+                                
+                
+                              
+                                var filename   = "sedecursoscalusac.csv";
+                                res.statusCode = 200;
+                                res.setHeader('Content-Type', 'text/csv; charset=UTF-8');
+                                res.setHeader("Content-Disposition", 'attachment; filename='+filename);
+                                res.csv(myData, true);
+        
+        
+                    
+                                                });
+        
+        
+                
+                              
+                        
+                                
+                        }
+                
+                
+                        });
+                        break
         case 'excel-calusac':
-console.log('excel calusac')
+
         Asignacalusac.find({ estadopago:'Asignación exitosa'}).populate('tipopago').exec(function(err, todos) {
             if (err){ res.send(err); console.log(err) }
 
