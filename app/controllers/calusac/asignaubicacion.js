@@ -273,7 +273,7 @@ exports.getAsignaubicacion = function(req, res, next){
                                     }
                                 }
                         result.push({_id:item._id,idedificio:{id:item.idedificio.id,nombre:item.idedificio.nombre},
-                            unidad:item.idtipounidad.nombre,
+                            unidad:item.idtipounidad.nombre,horario:item.idhorario.nombre + '-' + item.idhorario.nombre2 + ' Dia: ' + item.idhorario.dia,
                             idsalon:{id:item.idsalon.id,nombre:item.idsalon.nombre}
                             ,nombre:'Nombre:'+item.idunidadacademica.nombre + ' Edificio:' + item.idedificio.nombre 
                             + ' Salon:' + item.idsalon.nombre + ' Periodo:' + item.idperiodo.nombre + '  Jornada:'+item.idjornada.nombre
