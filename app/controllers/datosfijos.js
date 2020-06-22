@@ -24,6 +24,7 @@ var Perfil = require('../models/perfil');
 var Catalogo = require('../models/catalogo');
 var Asignacalusac = require('../models/calusac/asignacalusac');
 
+
 const fs = require('fs-extra');
 var User = require('../models/user');
 
@@ -2753,9 +2754,9 @@ else
                                         console.log(todos10[ii])
                                         if(todos10[ii].idplanifica==todos[i]._id)
                                         {
-                                                myData.push({sede:todos[i].idtipounidad.nombre,curso:todos[i].idunidadacademica.nombre + ' ' +todos[i].idperiodo.nombre
+                                                myData.push({sede:todos[i].idtipounidad.nombre,curso:todos[i].idunidadacademica.nombre + '.' +todos[i].idperiodo.nombre
                                                 ,jornada:todos[i].idjornada.nombre,horario:todos[i].idhorario.nombre,nivel:todos[i].idnivel.nombre
-                                                ,profesor:todos[i].idprofesor.nombre,capacidad:todos[i].capacidad,cui:todos10[ii].cui,
+                                                ,profesor:todos[i].idprofesor.nombre,capacidad:todos[i].capacidad,cui:'_'+ todos10[ii].cui + ' ',
                                                 nombre:todos10[ii].nombre,noboletapago:todos10[ii].noboletapago,
                                                 monto:todos10[ii].monto,carnecalusac:todos10[ii].carnecalusac });
                                                 }
@@ -2767,9 +2768,11 @@ else
                       
                         var filename   = "sedecursoscalusac.csv";
                         res.statusCode = 200;
-                        res.setHeader('Content-Type', 'text/csv; charset=UTF-8');
+                        var BOM = "\uFEFF"; 
+                        var csvContent =  'text/csv;charset=utf-8,windows-1252,utf16le,utf8;';
+                        res.setHeader('Content-Type', csvContent);
                         res.setHeader("Content-Disposition", 'attachment; filename='+filename);
-                        res.csv(myData, true);
+                        res.csv(myData, false);
 
 
             
@@ -2790,7 +2793,7 @@ else
                         console.log('entyra excel-calusaccursos2')
         
                         Asignacalusac.find({estadopago:'Asignación exitosa'})
-                        .select({cui:1,nombre:1,idplanifica:1,noboletapago:1,monto:1,carnecalusac:1,identificador:1}).exec(function(err, todos10) {
+                        .select({cui:1,idinterno:1,nombre:1,idplanifica:1,noboletapago:1,monto:1,carnecalusac:1,identificador:1}).exec(function(err, todos10) {
                             if (err){ res.send(err); console.log(err) }
                 
                             if(todos10.length>0)   {  
@@ -2811,7 +2814,7 @@ else
                                                
                                                 if(todos10[ii].idplanifica==todos[i]._id)
                                                 {
-                                                        myData.push({correlativo:cc,identificador:todos10[ii].identificador,nombreestudiante:todos10[ii].nombre,correoestudiante:todos10[ii].idinterno
+                                                        myData.push({correlativo:cc,identificador:'_'+todos10[ii].identificador,nombreestudiante:todos10[ii].nombre,correoestudiante:todos10[ii].idinterno
                                                                 ,profesor:todos[i].idprofesor.nombre,profesorcorreo:todos[i].idprofesor.email,
                                                                         idioma:todos[i].idunidadacademica.nombre
                                                                          ,nivel:todos[i].idnivel.nombre ,jornada:todos[i].idjornada.nombre,horario:todos[i].idhorario.nombre

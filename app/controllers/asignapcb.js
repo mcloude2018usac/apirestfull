@@ -354,7 +354,7 @@ function getNextSequenceValue2(myData3,myData3cc,req,res,i,todo){
                              idperiodo        	: req.body.periodo        	,
                              idedificio:myData3cc.idedificio,
                              idsalon:myData3cc.idsalon,
-                         
+                       
                              no_orientacion        	: req.body.no_orientacion        	,
                          
                              nombre 	: req.body.nombre, 	
@@ -447,6 +447,7 @@ function getNextSequenceValue(myData3,myData3aa,req,res,necesito){
                             idunidadacademica        	: req.body.unidadacademica        	,
                             no_orientacion        	: req.body.no_orientacion        	,
                             idperiodo        	: req.body.periodo        	,
+                            fechaini:req.body.fechaini,
                             nombre 	: req.body.nombre, 	
                             idestudiante 	: req.body.idestudiante, 	
                             idinterno 	: req.body.idinterno,
