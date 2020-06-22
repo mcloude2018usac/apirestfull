@@ -12,6 +12,7 @@ var AsignapcbSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    fechaini   		: { type : Date, required : true},
     idestudiante: {
         type: String,
         required: true
