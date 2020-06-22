@@ -230,6 +230,7 @@ exports.getAsignaubicacion = function(req, res, next){
                     "$group" : {
                         "_id" : {
                             "idplanifica" : "$idplanifica",
+                            "idtipounidad" : "$idtipounidad",
                             "estadoacta" : "$estadoacta"
                         }
                     }
@@ -238,6 +239,7 @@ exports.getAsignaubicacion = function(req, res, next){
                     "$project" : {
                         "idplanifica" : "$_id.idplanifica", 
                         "estadoacta" : "$_id.estadoacta", 
+                        "idtipounidad" : "$_id.idtipounidad",
                         "_id" :0
                     }
                 }
@@ -271,6 +273,7 @@ exports.getAsignaubicacion = function(req, res, next){
                                     }
                                 }
                         result.push({_id:item._id,idedificio:{id:item.idedificio.id,nombre:item.idedificio.nombre},
+                            unidad:item.idtipounidad.nombre,
                             idsalon:{id:item.idsalon.id,nombre:item.idsalon.nombre}
                             ,nombre:'Nombre:'+item.idunidadacademica.nombre + ' Edificio:' + item.idedificio.nombre 
                             + ' Salon:' + item.idsalon.nombre + ' Periodo:' + item.idperiodo.nombre + '  Jornada:'+item.idjornada.nombre
