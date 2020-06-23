@@ -47,11 +47,9 @@ if(req.params.id)
                         
                         if(todos.impresion=='Activo')
                         {
-                            console.log(todos.nombre + ' ' +todos._id)
+                           
                         var aa=todos.nomax;
-                        console.log(aa)
-
-console.log(req.params)
+              
                         Participa.aggregate(  [
                             { 
                                 "$match" : { 
@@ -75,7 +73,7 @@ console.log(req.params)
                                 }
                             }
                         ]).exec(function(err, todos10) {
-                            console.log(todos10)
+                          
                             var cuantos =0
                             if(todos10.length>0)
                             {
@@ -96,25 +94,7 @@ console.log(req.params)
 
                         });
 
-/*
-                        Participa.find({idevento:req.params.id},function(err, todos2) {
-                            if (err){ res.send(err); }
-                            var cuantos =todos2.length
-                         
-                            if(cuantos<aa)
-                            {
-                                res.json(todos);
-                                
-                            }
-                            else
-                            {
-                                res.status(422).send({estado:'El cupo del evento ya se encuentra lleno'});
-    
-                            }
-                          
-                            
-                        });
-                        */
+
                     }
                     else
                     {

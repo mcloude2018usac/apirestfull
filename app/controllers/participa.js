@@ -200,7 +200,7 @@ else{
    
         Listanegra.find({ email: req.body.correo , tipo    	: 'cursoslibres'}, function (err, todo20a)  {
            if (err) {  res.send(err);  }
-console.log(todo20a)
+
            if(todo20a.length==0)
            {
             Participa.find({  idempresa       	: req.body.idempresa   ,idevento       	: req.body.idevento , 
@@ -216,19 +216,43 @@ console.log(todo20a)
                         }
                         else
                         {
-                            Evento.find({ _id      	: req.body.idevento   }, function (err, todo)  {
-                                if (err) {  res.send(err);  }
-                                else
-                                {  
-                                        var nopp=todo[0].nomax;
-                                        Participa.find({  idevento       	: req.body.idevento   }, function (err, todo)  {
-                                            if (err) {  res.send(err);  }
-                                            else
-                                            {  
+                          
+                                        var nopp=Number(req.body.nomax);
+console.log(nopp)
+                                        Participa.aggregate(  [
+                                            { 
+                                                "$match" : { 
+                                                    "idevento" : req.body.idevento
+                                                }
+                                            }, 
+                                            { 
+                                                "$group" : { 
+                                                    "_id" : { 
+                                    
+                                                    }, 
+                                                    "COUNT(*)" : { 
+                                                        "$sum" : 1
+                                                    }
+                                                }
+                                            }, 
+                                            { 
+                                                "$project" : { 
+                                                    "cantidad" : "$COUNT(*)", 
+                                                    "_id" : 0
+                                                }
+                                            }
+                                        ]).exec(function(err, todo) {
 
-                                                var cant=todo.length
 
-                                                if(cant<=nopp)
+                                            var cuantos =0
+                                            if(todos10.length>0)
+                                            {
+                                                cuantos =todos10[0].cantidad
+                                            }
+                          
+                                            
+
+                                                if(cuantos<=nopp)
                                                 {
 
                                                     Bitacora.create(req.body.bitacora);
@@ -268,13 +292,11 @@ console.log(todo20a)
                                                 }
                                 
                                 
-                                            }
+                                            
                                         });
 
 
 
-                                }
-                            });
 
                         }
 
