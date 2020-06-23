@@ -1789,52 +1789,25 @@ exports.getCombofijo = function(req, res, next){
                         var tipoevento='';
                         var tfecha='';
                         var thora='';
-                       // .select({idperiodo: 1,no_orientacion:1,idmateria:1,date:1,idunidadacademica:1,codfac:1,noasignado:1}).lean().exec
-
-                        cursodiploma.find({'correo':req.params.id2},function(err, todosa00) {
-
-                        cursoeve.find({'idtipoevento.codigo':'3'},function(err, todos00) {
-                        Evento.find({impresion:'Inactivo',impresion:'Imprimir diploma'
+           
+                        Evento.find({impresion:'Imprimir diploma'
                                 }).select({_id:1,nombre:1,fecha:1,costo:1,tipoevento:1}).lean().exec(function(err, todos0aaa) {
        
-                        Participa2.find({'idtipoevento.id':'3',correo:req.params.id2},function(err, todos) {
-                               
-                               if(todos.length>0)
-                               {    
-                                for (var i = 0; i < todos.length; i++) {
-                                        for (var ii = 0; ii < todos00.length; ii++) {
-                                                if(todos[i].idevento==todos00[ii]._id)
-                                                {  teveid=todos00[ii]._id;
-                                                        teve=todos00[ii].nombre;
-                                                        tfecha=todos00[ii].horario;
-                                                        break;
-                                                }
-                                        }
-                                        for (var ia = 0; ia < todosa00.length; ia++) {
-                                                if(todosa00[ia].curso==teve)
-                                                {
-                                                        myData.push({ideve:teveid,idcurso:todos[i]._id ,nombre:todosa00[ia].nombreestudiante,curso:teve,tipo:1,fecha:tfecha,hora:''});
-
-                                                }
-                                        }
-
-                                      
-                                }
-                        }
-
+                
 
                         var duplicates = [];
 
 
                         for(var i = 0; i < todos0aaa.length;i++){
-
+        
                                 duplicates.push(todos0aaa[i]._id);
 
                             }
 
 
+
                                 Participa.find({correo:req.params.id2, idevento: {$in: duplicates}},function(err, todos2) {
-                                         
+                                       
                                       if(todos2.length)
                                       {
                                         for (var i = 0; i < todos2.length; i++) {
@@ -1860,32 +1833,17 @@ exports.getCombofijo = function(req, res, next){
 
                                               
                                         }
-                                        for (var i = 0; i < todos2.length; i++) {
-                                              
-
-                                 
-
-                                                for (var ia = 0; ia < todosa00.length; ia++) {
-                                                        if(todosa00[ia].curso==teve)
-                                                        {
-                                                                myData.push({ideve:todosa00[ia].idevento,tipoevento:'otro',idcurso:todos2[i]._id ,nombre:todosa00[ia].nombreestudiante,curso:teve,tipo:2,fecha:tfecha,hora:thora});
-
-                                                              
-                                                        }
-                                                }
-
-                                              
-                                        }
+                                       
                                 }
                                         res.json(myData);   
 
                                     });
 
-                        });
+                     
                
         }); 
-}); 
-}); 
+
+
                         break;
 
                         case 'participacursos2':
