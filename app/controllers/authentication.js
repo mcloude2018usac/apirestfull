@@ -88,8 +88,10 @@ exports.register = function(req, res, next){
         }
  
         if(existingUser){
-            return res.status(500).send('Esta direccion de correo electronico , NOV o CUI ya esta en uso CUI: '+ existingUser.cui + ' Inicia secció con este correo: '+ existingUser.email);
+            return res.status(500).send('Este CUI y NOV ya están asociados a la dirección de correo electrónico que registraste. CUI: '+ existingUser.cui + existingUser.email);
         }
+
+        
  
         var user = new User({
             email: email,
@@ -336,7 +338,7 @@ exports.register4 = function(req, res, next){
 
     Bitacora.create(bitacora);
     User.findOne({email: email,cui:cui,idempresa:empresa}, function(err, user){
- 
+ console.log(user)
         if(err){
             return next(err);
         }
@@ -346,29 +348,63 @@ exports.register4 = function(req, res, next){
         });   
 
 
-if(user)
-{
-  //  var password2= user._id;
-        user.password='' + password2+'123@'
-        user.save(function(err){
- 
-            if(err){
-                return next(err);
-            }
- 
-          
-            res.json( password2+'123@');    
- 
-        });
- 
+                if(user)
+                {
+                //  var password2= user._id;
+                        user.password='' + password2+'123@'
+                        user.save(function(err){
+                
+                            if(err){
+                                return next(err);
+                            }
+                
+                        
+                            res.json( password2+'123@');    
+                
+                        });
+                
 
-}
-else
-{
+                }
+                else
+                {
+                    User.findOne({email: email,idempresa:empresa}, function(err, user){
+ 
+                        if(err){
+                            return next(err);
+                        }
+                        if(user)
+                        {
 
-    res.status(500).send('Usuario con este CUI y EMAIL no se encuentra registrado en el sistema, por favor valide su informacón'); 
+                            User.findOne({cui:cui,idempresa:empresa}, function(err, user){
+ 
+                                if(err){
+                                    return next(err);
+                                }
+                                if(user)
+                                {
+                                    res.status(500).send('Este CUI no pertenece al  EMAIL del Usuario , por favor valide su informacón');   
+                                }
+                                else{
+                                    res.status(500).send('Este CUI no se encuentra registrado en el sistema, por favor valide su informacón'); 
+                                }
+        
+        
+        
+                            });
+        
+                            
+                        }
+                        else{
+                            res.status(500).send('Este EMAIL no se encuentra registrado en el sistema, por favor valide su informacón'); 
+                        }
 
-}
+
+
+                    });
+
+                   
+
+                }
     
     });
  
