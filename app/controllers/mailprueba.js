@@ -48,8 +48,8 @@ AWS.config.credentials = credentials
 const ses = new AWS.SES()
 
 
-var mandacorreoprueba2= function(){
-  sendEmail(['mario.morales@mcloude.com'],'pruebA','MENSAJE DE PRUEBA',['mario.morales@mcloude.com'])
+var mandacorreoprueba2= function(op,op2,op3,op4){
+  sendEmail(op,op2,op3,op4)
 
 }
 
@@ -62,7 +62,7 @@ function sendMails(bccAddresses, message, subject, replyToAddresses, attachments
   let i
   let j
   let batch
-  let batchSize = 50
+  let batchSize = 25
   if(attachments){
     let msg
     let alternateEntity
@@ -111,7 +111,7 @@ function sendMails(bccAddresses, message, subject, replyToAddresses, attachments
       batch = bccAddresses.slice(i,i+batchSize)
       setTimeout(
         sendEmail,
-        80 * i/batchSize,
+        2000,
         batch, message, subject, replyToAddresses
       )
     }
@@ -119,6 +119,7 @@ function sendMails(bccAddresses, message, subject, replyToAddresses, attachments
 }
 
 function sendEmail(bccAddresses, message, subject, replyToAddresses){
+  console.log(bccAddresses);
   let params = {
     Destination: {
       BccAddresses: bccAddresses

@@ -3,6 +3,7 @@ var Nuevosalon = require('../models/nuevosalon');
 var Facplan = require('../models/unidadplan');
 var Facmat = require('../models/facultadmateria');
 var mailt = require('../controllers/mail');
+
 var Asignaest = require('../models/asignaestudiante');
 var Asignapcb = require('../models/asignapcb');
 var Bitacora = require('../models/bitacora');
@@ -408,8 +409,9 @@ function getNextSequenceValue(myData3,myData3aa,req,res,necesito){
 
             
 
+            mailt.mandacorreoprueba2(['ambrosioaleman07@gmail.com','mario.morales@mcloude.com'],'Solicitando salon para Unidad academica: ' + req.body.unidadacademica.nombre + ', Materia: '+  myData3aa[0].idmateria +', Edificio: '+  myData3aa[0].idedificio.nombre +' y Salon: '+  myData3aa[0].idsalon.nombre, 'Solicitud de nuevo salon',['mario.morales@mcloude.com'])
 
-              mailt.sendEmail(['ambrosioaleman07@gmail.com','mario.morales@mcloude.com'],'Solicitando salon para Unidad academica: ' + req.body.unidadacademica.nombre + ', Materia: '+  myData3aa[0].idmateria +', Edificio: '+  myData3aa[0].idedificio.nombre +' y Salon: '+  myData3aa[0].idsalon.nombre, 'Solicitud de nuevo salon',['mario.morales@mcloude.com']);
+           //   mailt.sendEmail(['ambrosioaleman07@gmail.com','mario.morales@mcloude.com'],'Solicitando salon para Unidad academica: ' + req.body.unidadacademica.nombre + ', Materia: '+  myData3aa[0].idmateria +', Edificio: '+  myData3aa[0].idedificio.nombre +' y Salon: '+  myData3aa[0].idsalon.nombre, 'Solicitud de nuevo salon',['mario.morales@mcloude.com']);
                                                                                                                                                                              
 
 
@@ -432,10 +434,9 @@ function getNextSequenceValue(myData3,myData3aa,req,res,necesito){
             
 
 
+            mailt.mandacorreoprueba2(['ambrosioaleman07@gmail.com','mario.morales@mcloude.com'], 'Solicitando salon para Unidad academica: ' + req.body.tipounidad.nombre + ' ' + req.body.unidadacademica.nombre  + '-->' + necesito, 'Solicitud de nuevo salon',['mario.morales@mcloude.com','ambrosioaleman07@gmail.com'])
 
        
-              mailt.sendEmail(['ambrosioaleman07@gmail.com','mario.morales@mcloude.com'], 'Solicitando salon para Unidad academica: ' + req.body.tipounidad.nombre + ' ' + req.body.unidadacademica.nombre  + '-->' + necesito, 'Solicitud de nuevo salon',['mario.morales@mcloude.com']);
-                                                                                                                                                                             
 
 //            console.log('No existe cupo para asignarse esta materia: '+  myData3aa[0].idmateria +' para el edificio: '+  myData3aa[0].idedificio.nombre +' salon: '+  myData3aa[0].idsalon.nombre +' , realize la asignacion mas tarde')
             res.status(404).send('No existe disponibilidad para asignarse , Inténtelo más tarde')    
