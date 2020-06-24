@@ -15,7 +15,7 @@ exports.getEstudiantepcb = function(req, res, next){
           
       })
       .catch(err => {
-          res.status(500).send(err.message);  
+          res.status(422).send(err.message);  
       })
    
 
@@ -40,7 +40,7 @@ exports.getEstudiantepcb2 = function(req, res, next){
                    
             if(todos.length==0)
             {
-                res.status(500).send('Resultados no existen');  
+                res.status(422).send('Resultados no existen');  
             }
             else{
                 res.json(todos);  
@@ -49,7 +49,7 @@ exports.getEstudiantepcb2 = function(req, res, next){
           
       })
       .catch(err => {
-          res.status(500).send(err.message);  
+          res.status(422).send(err.message);  
       })
    
 
