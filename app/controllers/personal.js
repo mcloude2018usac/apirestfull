@@ -651,7 +651,7 @@ break;
                    
                                         if(req.params.email=='')
                                         {
-                                        res.status(500).send('NO EXISTE REGISTRO');
+                                        res.status(422).send('NO EXISTE REGISTRO');
                                         }
                                         else
                                         {
@@ -667,13 +667,13 @@ break;
                                                 })
                                                 .catch(err => {
                                                     console.log('entra cath')
-                                                    res.status(500).send(err.message);  
+                                                    res.status(422).send(err.message);  
                                                 })
 
                                             }
                                             else
                                             {
-                                                res.status(500).send('NO EXISTE REGISTRO');
+                                                res.status(422).send('NO EXISTE REGISTRO');
                                             }
                                       
                                     }
@@ -684,7 +684,7 @@ break;
                                         console.log(req.params)
                                         if(req.params.email=='')
                                         {
-                                        res.status(500).send('NO EXISTE REGISTRO');
+                                        res.status(422).send('NO EXISTE REGISTRO');
                                         }
                                         else
                                         {
@@ -700,12 +700,12 @@ break;
                                                     
                                                 })
                                                 .catch(err => {
-                                                    res.status(500).send(err.message);  
+                                                    res.status(422).send(err.message);  
                                                 })
                                             }
                                             else
                                             {
-                                                res.status(500).send('NO EXISTE REGISTRO');
+                                                res.status(422).send('NO EXISTE REGISTRO');
                                             }
                                       
                                     }
@@ -716,7 +716,7 @@ break;
                         console.log(req.params)
                         if(req.params.email=='')
                         {
-                        res.status(500).send('NO EXISTE REGISTRO');
+                        res.status(422).send('NO EXISTE REGISTRO');
                         }
                         else
                         {
@@ -729,13 +729,13 @@ break;
                                     
                                 })
                                 .catch(err => {
-                                    res.status(500).send(err.message);  
+                                    res.status(422).send(err.message);  
                                 })
 
                             }
                             else
                             {
-                                res.status(500).send('NO EXISTE REGISTRO');
+                                res.status(422).send('NO EXISTE REGISTRO');
                             }
                             
                        
