@@ -33,6 +33,7 @@ exports.getEstudiantevt = function(req, res, next){
     {
     if(req.params.codigo)
     { 
+        console.log({carnet:req.params.codigo})
         Estudiantevt.find({carnet:req.params.codigo},function(err, todos) {
             if (err){ res.send(err); }
         
