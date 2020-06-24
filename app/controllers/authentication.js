@@ -35,7 +35,7 @@ exports.login = function(req, res, next){
       
  
           if(userInfo.email=="-11")    {
-              Bitacora.create({email: "api", permiso: "Ingreso", accion: "intento fallido",idempresa:userInfo.idempresa});
+            //  Bitacora.create({email: "api", permiso: "Ingreso", accion: "intento fallido",idempresa:userInfo.idempresa});
               
                         
               res.status(200).json({
@@ -48,7 +48,7 @@ exports.login = function(req, res, next){
     }  else{     
         
         
-        Bitacora.create(req.body.bitacora);
+    //    Bitacora.create(req.body.bitacora);
                         
               res.status(200).json({
                   token: 'JWT ' + generateToken(userInfo),
