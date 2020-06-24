@@ -2,7 +2,7 @@
 var Nuevosalon = require('../models/nuevosalon');
 var Facplan = require('../models/unidadplan');
 var Facmat = require('../models/facultadmateria');
-var mailt = require('../controllers/mail');
+var mailt = require('../controllers/mailprueba');
 
 var Asignaest = require('../models/asignaestudiante');
 var Asignapcb = require('../models/asignapcb');
@@ -416,7 +416,7 @@ function getNextSequenceValue(myData3,myData3aa,req,res,necesito){
 
 
 //            console.log('No existe cupo para asignarse esta materia: '+  myData3aa[0].idmateria +' para el edificio: '+  myData3aa[0].idedificio.nombre +' salon: '+  myData3aa[0].idsalon.nombre +' , realize la asignacion mas tarde')
-            res.status(404).send('No existe disponibilidad para asignarse , Inténtelo más tarde')    
+            res.status(500).send('No existe disponibilidad para asignarse , Inténtelo más tarde')    
         }
         else
         {
@@ -439,7 +439,7 @@ function getNextSequenceValue(myData3,myData3aa,req,res,necesito){
        
 
 //            console.log('No existe cupo para asignarse esta materia: '+  myData3aa[0].idmateria +' para el edificio: '+  myData3aa[0].idedificio.nombre +' salon: '+  myData3aa[0].idsalon.nombre +' , realize la asignacion mas tarde')
-            res.status(404).send('No existe disponibilidad para asignarse , Inténtelo más tarde')    
+            res.status(500).send('No existe disponibilidad para asignarse , Inténtelo más tarde')    
             }
             else{
     
