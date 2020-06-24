@@ -6,8 +6,9 @@ exports.getEstudiantevt = function(req, res, next){
 
     if(req.params.id2)
     { 
+        res.status(404).send({estado:'nada'})  
 
-       
+       /*
 
         Estudiantevt.find(
             { "carnet": { $regex:  req.params.id , $options: 'i' } ,
@@ -26,6 +27,7 @@ exports.getEstudiantevt = function(req, res, next){
         
             
         });
+        */
     }
     else
     {
