@@ -646,8 +646,8 @@ break;
                                 });
                 break;
                 case 'emailsolo':
-                    console.log('ENTRA A EMAILSOLO')
-                    console.log(req.params)
+                 
+                   
                    
                                         if(req.params.email=='')
                                         {
