@@ -88,7 +88,7 @@ exports.register = function(req, res, next){
         }
  
         if(existingUser){
-            return res.status(500).send('Este CUI y NOV ya están asociados a la dirección de correo electrónico que registraste. CUI: '+ existingUser.cui + existingUser.email);
+            return res.status(422).send('Este CUI y NOV ya están asociados a la dirección de correo electrónico que registraste. CUI: '+ existingUser.cui + existingUser.email);
         }
 
         
@@ -336,9 +336,9 @@ exports.register4 = function(req, res, next){
     }
  
 
-    Bitacora.create(bitacora);
+   // Bitacora.create(bitacora);
     User.findOne({email: email,cui:cui,idempresa:empresa}, function(err, user){
- console.log(user)
+ //console.log(user)
         if(err){
             return next(err);
         }
@@ -367,41 +367,10 @@ exports.register4 = function(req, res, next){
                 }
                 else
                 {
-                    User.findOne({email: email,idempresa:empresa}, function(err, user){
- 
-                        if(err){
-                            return next(err);
-                        }
-                        if(user)
-                        {
 
-                            User.findOne({cui:cui,idempresa:empresa}, function(err, user){
- 
-                                if(err){
-                                    return next(err);
-                                }
-                                if(user)
-                                {
-                                    res.status(500).send('Este CUI no pertenece al  EMAIL del Usuario , por favor valide su informacón');   
-                                }
-                                else{
-                                    res.status(500).send('Este CUI no se encuentra registrado en el sistema, por favor valide su informacón'); 
-                                }
-        
-        
-        
-                            });
-        
-                            
-                        }
-                        else{
-                            res.status(500).send('Este EMAIL no se encuentra registrado en el sistema, por favor valide su informacón'); 
-                        }
+                    res.status(422).send('Este EMAIL no se encuentra registrado en el sistema, por favor valide su informacón'); 
 
-
-
-                    });
-
+                  
                    
 
                 }
@@ -419,7 +388,7 @@ exports.roleAuthorization = function(roles){
         User.find({_id:user._id}, function(err, foundUser){
 
             if(err){
-                res.status(500).json({error: 'Usuario no existe / no se autenticado via correo electronico'});
+                res.status(422).json({error: 'Usuario no existe / no se autenticado via correo electronico'});
                 return next(err);
             }
  
@@ -427,7 +396,7 @@ exports.roleAuthorization = function(roles){
                 return next();
             }
  
-            res.status(500).json({error: 'No estás autorizado para ver este contenido'});
+            res.status(422).json({error: 'No estás autorizado para ver este contenido'});
             return next('Usuario no existe / Por favor revisa tu correo electrónico y valido tu ingreso');
  
         });
