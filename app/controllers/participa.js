@@ -19,7 +19,7 @@ exports.getParticipa = function(req, res, next){
                     { $match: {carnet: {"$ne": ''}  }
                     },
                     { $sort : { carnet : -1 } }, 
-                    { $limit : 300000 },
+                    { $limit : 30000 },
                     {   $group: {
                             _id: {carnet: "$carnet"},
                             dups: {"$addToSet": "$_id"},
@@ -245,9 +245,9 @@ console.log(nopp)
 
 
                                             var cuantos =0
-                                            if(todos10.length>0)
+                                            if(todo.length>0)
                                             {
-                                                cuantos =todos10[0].cantidad
+                                                cuantos =todo[0].cantidad
                                             }
                           
                                             
