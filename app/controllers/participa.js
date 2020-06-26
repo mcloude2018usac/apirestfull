@@ -217,7 +217,8 @@ else{
                         else
                         {
                           
-                                        var nopp=Number(req.body.cantidadmax);
+                                        var nopp=0
+                                       nopp= req.body.cantidadmax;
 console.log(nopp)
                                         Participa.aggregate(  [
                                             { 
