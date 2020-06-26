@@ -217,7 +217,7 @@ else{
                         else
                         {
                           
-                                        var nopp=Number(req.body.nomax);
+                                        var nopp=Number(req.body.cantidadmax);
 console.log(nopp)
                                         Participa.aggregate(  [
                                             { 
@@ -241,16 +241,16 @@ console.log(nopp)
                                                     "_id" : 0
                                                 }
                                             }
-                                        ]).exec(function(err, todo) {
+                                        ]).exec(function(err, todo10) {
 
 
                                             var cuantos =0
-                                            if(todo.length>0)
+                                            if(todo10.length>0)
                                             {
-                                                cuantos =todo[0].cantidad
+                                                cuantos =todo10[0].cantidad
                                             }
                           
-                                            
+                                            console.log(todo10)
 
                                                 if(cuantos<=nopp)
                                                 {
