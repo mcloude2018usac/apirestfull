@@ -24,6 +24,7 @@ var AsignacalusacSchema = new mongoose.Schema({
     rubrot:{        type: String},
     sifoto:{        type: String},
     fechasiif:{        type: String},
+    codigocurso:{        type: String},
     tipoa:{        type: String},
     jornada:{        type: String ,ref:'Unidadjornada3' },
     nivel:{        type: String ,ref:'Unidadnivel3' },
