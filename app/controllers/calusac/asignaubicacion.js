@@ -18,6 +18,7 @@ exports.getAsignaubicacion = function(req, res, next){
         if(req.params.id=='todos100a')
         {
          
+            //todos100a/5ecc254ebc3a1c001e9ed01d/personasprofe2/1/4/3/2°Final
     
                 var aa=(req.params.id7).split('°')
 

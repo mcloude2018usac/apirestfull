@@ -115,10 +115,24 @@ console.log(todo200)
 }
 
 exports.getAsignacalusac = function(req, res, next){
+    if(req.params.id6)
+    {
+    }
+    else
+    {
     if(req.params.id3)
     { 
       
         switch(req.params.id3) {
+            case 'nivelcalusac':
+                Asignacalusac.find({   "estadopago" : "Asignación exitosa"  ,
+                identificador:req.params.id , "ididioma" : req.params.id2
+            }).populate('tipopago')
+               .exec(function(err, todos) {
+                    if (err){ res.send(err); console.log(err) }
+                    res.json(todos);  
+                });
+                break;
             case 'exonerados':
 console.log({ordenpago:req.params.id,cui:req.params.id2})
                 Exonerados.find({ordenpago:req.params.id,cui:req.params.id2}).exec(function(err, todos) {
@@ -854,7 +868,7 @@ break;
             });
         }
 
-    }}
+    }}}
  
 }
 exports.deleteAsignacalusac = function(req, res, next){
@@ -1420,11 +1434,11 @@ else{
 
             }}
 
-
+console.log(filtro)
     Asignacalusac.find(filtro,function(err, todos) {
         if (err){  if(err) return next(err);// res.status(404).send(err); 
         return;}
-      
+
         if(todos.length>0)   {  
             
        
@@ -1453,11 +1467,13 @@ else{
 
             if(req.body.estadopago=='Pendiente de pago')
             {  // pasa de largo esperando el pago
+                console.log('entrocrear una')
                                 Asignacalusac.create({ idtipounidad        	: req.body.tipounidad        	,
                                     userasignado:'',
                                     userasignadoemail:'',
                                     ultrechazo:'',
-                                    estadooperador:'NUEVOS',
+                                    estadooperador:req.body.estadooperador,
+                                    nivelaprobado    	: req.body.nivelaprobado            	,
                                     userejecutaemail:'',
                                     idunidadacademica        	: req.body.unidadacademica        	,
                                     no_orientacion        	: req.body.no_orientacion        	,
@@ -1567,13 +1583,14 @@ else{
                                         var opexx=todosb[0]._id
                                         var opexx2=todosb[0].email
                                      
-                    
+                    console.log('entro a crear 2')
                                         Asignacalusac.create({ idtipounidad        	: req.body.tipounidad        	,
                                             userasignado:opexx,
                                             userasignadoemail:opexx2,
                                             userejecutaemail:'',
                                             ultrechazo:'',
-                                            estadooperador:'NUEVOS',
+                                            estadooperador:req.body.estadooperador,
+                                            nivelaprobado    	: req.body.nivelaprobado            	,
                                             idunidadacademica        	: req.body.unidadacademica        	,
                                             no_orientacion        	: req.body.no_orientacion        	,
                                             idperiodo        	: req.body.periodo        	,
