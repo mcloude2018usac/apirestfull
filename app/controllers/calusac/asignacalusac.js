@@ -7,6 +7,7 @@ var Asignaest = require('../../models/calusac/asignaestudiantecalusac');
 var Asignacalusac = require('../../models/calusac/asignacalusac');
 var Asignacalusac2 = require('../../models/calusac/asignacalusac2');
 
+var Calusacnotas = require('../../models/calusac/calusacnota');
 var Exonerados = require('../../models/calusac/exonerados');
 
 var Bitacora = require('../../models/bitacora');
@@ -127,8 +128,7 @@ exports.getAsignacalusac = function(req, res, next){
             case 'nivelcalusac':
                       var arrt=req.params.id2.split('°')
 
-                Asignacalusac.find({   "estadopago" : "Asignación exitosa"  ,
-                identificador:req.params.id , "ididioma" : arrt[0]
+                Calusacnotas.find({  identificador:req.params.id , "ididioma" : arrt[0],codigocurso:arrt[1]
             }).populate('tipopago')
                .exec(function(err, todos) {
                     if (err){ res.send(err); console.log(err) }
