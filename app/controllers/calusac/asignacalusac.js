@@ -125,8 +125,10 @@ exports.getAsignacalusac = function(req, res, next){
       
         switch(req.params.id3) {
             case 'nivelcalusac':
+                      var arrt=req.params.id2.split('°')
+
                 Asignacalusac.find({   "estadopago" : "Asignación exitosa"  ,
-                identificador:req.params.id , "ididioma" : req.params.id2
+                identificador:req.params.id , "ididioma" : arrt[0]
             }).populate('tipopago')
                .exec(function(err, todos) {
                     if (err){ res.send(err); console.log(err) }
@@ -1496,7 +1498,7 @@ console.log(filtro)
                                 nivel      	: req.body.nivel        	,
                                 ano      	: req.body.ano        	,
                                 llave      	: req.body.llave        	,
-                                
+                                codigocurso:req.body.codigocurso,
                                 ididioma      	: req.body.ididioma        	,
                                 idtipocurso      	: req.body.idtipocurso        	,
                                 idtipogrupo      	: req.body.idtipogrupo        	,
@@ -1590,6 +1592,7 @@ console.log(filtro)
                                             userejecutaemail:'',
                                             ultrechazo:'',
                                             estadooperador:req.body.estadooperador,
+                                            codigocurso:req.body.codigocurso,
                                             nivelaprobado    	: req.body.nivelaprobado            	,
                                             idunidadacademica        	: req.body.unidadacademica        	,
                                             no_orientacion        	: req.body.no_orientacion        	,

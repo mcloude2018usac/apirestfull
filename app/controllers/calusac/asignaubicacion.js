@@ -8,9 +8,75 @@ var unidadnivel3 = require('../../models/calusac/unidadnivel3');
 var unidadidioma3 = require('../../models/calusac/unidadidioma3');
 var Operadores = require('../../models/calusac/operadores');
 var Asignacalusac = require('../../models/calusac/asignacalusac');
+var Calusacnota = require('../../models/calusac/calusacnota');
 var request = require('request');
 var xml2js = require ('xml2js'); 
 var Facplan3 = require('../../models/calusac/unidadplan3');
+var Uniaca3 = require('../../models/calusac/unidadacademica3');
+
+function getNextSequenceValue2(myData3cc,req,res,unixx){
+  
+
+   var testado='Perdida'
+   if( myData3cc.n1>=70)
+   {
+       testado='Ganada'
+   }
+   var unitt='0'
+   for(var i = 0; i < unixx.length;i++){
+       if(unixx[i]._id==myData3cc.idunidadacademica.id)
+       {
+           unitt=unixx[i].codigo
+           break;
+       }
+   }
+
+   console.log({ 
+    idasigna:myData3cc._id,
+    cui:myData3cc.cui,
+    identificador:myData3cc.identificador,
+    carnecalusac:myData3cc.carnecalusac,
+    nombre: myData3cc.nombre,
+    ididioma:myData3cc.ididioma,
+    
+    tipopago: myData3cc.tipopago,
+    n1	: myData3cc.n1,
+    n2	: myData3cc.n2,
+    n3	: myData3cc.n3,
+    n4	: myData3cc.n4,
+    n5	: myData3cc.n5,
+    estado: testado,
+    usuarionew	:myData3cc.usuarionew,
+    codigocurso:unitt
+
+    
+})
+
+                    Calusacnota.create({ 
+                            idasigna:myData3cc._id,
+                            cui:myData3cc.cui,
+                            identificador:myData3cc.identificador,
+                            carnecalusac:myData3cc.carnecalusac,
+                            nombre: myData3cc.nombre,
+                            ididioma:myData3cc.ididioma,
+                            
+                            tipopago: myData3cc.tipopago,
+                            n1	: myData3cc.n1,
+                            n2	: myData3cc.n2,
+                            n3	: myData3cc.n3,
+                            n4	: myData3cc.n4,
+                            n5	: myData3cc.n5,
+                            estado: testado,
+                            usuarionew	:myData3cc.usuarionew,
+                            codigocurso:unitt
+                      
+                            
+                        });
+    
+
+}
+
+
 
 exports.getAsignaubicacion = function(req, res, next){
     if(req.params.id7)
@@ -19,9 +85,15 @@ exports.getAsignaubicacion = function(req, res, next){
         {
          
             //todos100a/5ecc254ebc3a1c001e9ed01d/personasprofe2/1/4/3/2°Final
+
+            Uniaca3.find({ }).select({codigo:1,_id:1}).exec(function(err, todos10) {
+                    if (err){ res.send(err); }
+        
+                  var allt=[]
+                  allt=todos10;
     
                 var aa=(req.params.id7).split('°')
-
+       
                 var conditions = {idplanifica:req.params.id2
                     
                 }
@@ -33,14 +105,38 @@ exports.getAsignaubicacion = function(req, res, next){
                     if (err) {
                         console.error(err);
                     }
-     
-                    res.json(result); 
+                    if(aa[1]=='Final')
+                    {
+                       
+
+                        Asignacalusac.find({idplanifica:req.params.id2}, function (err, result10) {
+                            if (err) {
+                                console.error(err);
+                            }
+
+                            console.log(result10)
+                            for(var i = 0; i < result10.length;i++){
+                                var myData3cc=result10[i] 
+                               
+                               
+                                getNextSequenceValue2(myData3cc,req,res,allt);
+    
+                             }
+
+                             res.json(result);                              
+
+                        });
+                       
+                        
+                 
+                    }
+                 
                    
                 });
 
                
 
-
+            });
 
 
         }
