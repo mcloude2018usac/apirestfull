@@ -2,7 +2,7 @@ var mongoose =require("mongoose");
 
 
 var Asignacalusac2sSchema = new mongoose.Schema({
-    idasigna: {        type: String,        required: true    },
+    idasigna: {        type: String    },
     idtipounidad :  		{    id	: { type : String },   nombre	: { type : String }        },
     idunidadacademica   		: {    id	: { type : String },   nombre	: { type : String }     ,   codigo	: { type : String }       },
     idperiodo   		: {    id	: { type : String },   nombre	: { type : String }        },
