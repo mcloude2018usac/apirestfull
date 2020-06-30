@@ -1010,7 +1010,7 @@ if(req.params.recordID!=='crea')
     }
     else
     {
-  console.log(req.body)
+ 
     if( req.body.operacion=='asignaxxxx')
     {
 
@@ -1530,14 +1530,7 @@ console.log(filtro)
                                     , function(err, todo) {
                                     if (err){    res.status(404).send(err.message)   }
 
-                                    console.log({ _id:todo._id,
-                                        foto1      	: req.body.foto1        	,
-                                        foto2      	: req.body.foto2        	,
-                                        foto3      	: req.body.foto3        	,
-                                        foto4      	: req.body.foto4        	,
-                                        correo:req.body.correo
-                                      
-                                        })
+                              
                                     Asignacalusac2.create({ _id:todo._id,
                                         foto1      	: req.body.foto1        	,
                                         foto2      	: req.body.foto2        	,
