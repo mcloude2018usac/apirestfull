@@ -13,12 +13,13 @@ var request = require('request');
 var xml2js = require ('xml2js'); 
 var Facplan3 = require('../../models/calusac/unidadplan3');
 var Uniaca3 = require('../../models/calusac/unidadacademica3');
+var Uidioma3 = require('../../models/calusac/unidadidioma3');
 
-function getNextSequenceValue2(myData3cc,req,res,unixx){
+function getNextSequenceValue2(myData3cc,req,res,unixx,idixx){
   
 
    var testado='Perdida'
-   if( myData3cc.n1>=70)
+   if( myData3cc.n5>=70)
    {
        testado='Ganada'
    }
@@ -27,6 +28,16 @@ function getNextSequenceValue2(myData3cc,req,res,unixx){
        if(unixx[i]._id==myData3cc.idunidadacademica.id)
        {
            unitt=unixx[i].codigo
+           break;
+       }
+   }
+
+
+   var iditt='0'
+   for(var i = 0; i < idixx.length;i++){
+       if(idixx[i]._id==myData3cc.ididioma.id)
+       {
+           iditt=idixx[i].codigo
            break;
        }
    }
@@ -47,7 +58,8 @@ function getNextSequenceValue2(myData3cc,req,res,unixx){
     n5	: myData3cc.n5,
     estado: testado,
     usuarionew	:myData3cc.usuarionew,
-    codigocurso:unitt
+    codigocurso:unitt,
+    codigoidioma:iditt
 
     
 })
@@ -68,7 +80,8 @@ function getNextSequenceValue2(myData3cc,req,res,unixx){
                             n5	: myData3cc.n5,
                             estado: testado,
                             usuarionew	:myData3cc.usuarionew,
-                            codigocurso:unitt
+                            codigocurso:unitt,
+                            codigoidioma:iditt
                       
                             
                         });
@@ -85,6 +98,12 @@ exports.getAsignaubicacion = function(req, res, next){
         {
          
             //todos100a/5ecc254ebc3a1c001e9ed01d/personasprofe2/1/4/3/2°Final
+
+            Uidioma3.find({ }).select({codigo:1,_id:1}).exec(function(err, todos100) {
+                if (err){ res.send(err); }
+    
+                var allt2=[]
+                allt2=todos100;
 
             Uniaca3.find({ }).select({codigo:1,_id:1}).exec(function(err, todos10) {
                     if (err){ res.send(err); }
@@ -109,7 +128,7 @@ exports.getAsignaubicacion = function(req, res, next){
                     {
                        
 
-                        Asignacalusac.find({idplanifica:req.params.id2}, function (err, result10) {
+                        Asignacalusac.find({idplanifica:req.params.id2}).populate('ididioma').exec( function (err, result10) {
                             if (err) {
                                 console.error(err);
                             }
@@ -119,7 +138,7 @@ exports.getAsignaubicacion = function(req, res, next){
                                 var myData3cc=result10[i] 
                                
                                
-                                getNextSequenceValue2(myData3cc,req,res,allt);
+                                getNextSequenceValue2(myData3cc,req,res,allt,allt2);
     
                              }
 
@@ -130,10 +149,15 @@ exports.getAsignaubicacion = function(req, res, next){
                         
                  
                     }
+                    else
+                    {
+                        res.json(result);      
+
+                    }
                  
                    
                 });
-
+            });
                
 
             });

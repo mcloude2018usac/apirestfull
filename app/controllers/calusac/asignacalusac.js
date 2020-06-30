@@ -127,8 +127,8 @@ exports.getAsignacalusac = function(req, res, next){
         switch(req.params.id3) {
             case 'nivelcalusac':
                       var arrt=req.params.id2.split('°')
-
-                Calusacnotas.find({  identificador:req.params.id , "ididioma" : arrt[0],codigocurso:arrt[1]
+console.log({ identificador:req.params.id , "codigoidioma" : arrt[0],codigocurso:arrt[1]})
+                Calusacnotas.find({  identificador:req.params.id , "codigoidioma" : arrt[0],codigocurso:arrt[1]
             }).populate('tipopago')
                .exec(function(err, todos) {
                     if (err){ res.send(err); console.log(err) }
