@@ -15,7 +15,8 @@ var CalusacnotasSchema = new mongoose.Schema({
     n5	: { type : Number},
     estado: {     type: String    },
     usuarionew	: { type : String },      usuarioup	: { type : String },
-    codigocurso:{        type: String}
+    codigocurso:{        type: String},
+    codigoidioma:{        type: String}
  
 }, {
     timestamps: true
