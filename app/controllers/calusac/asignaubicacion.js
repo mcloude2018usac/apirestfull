@@ -332,6 +332,107 @@ exports.getAsignaubicacion = function(req, res, next){
                         
                 });
         break;
+        case 'horarioprofe2a':
+            
+      
+
+            Asignacalusac.aggregate(   [
+                { 
+                    "$match" : {
+                     
+                    
+                        "estadoacta":req.params.id2
+                      
+                    }
+                }, 
+                { 
+                    "$group" : {
+                        "_id" : {
+                            "idplanifica" : "$idplanifica",
+                            "idtipounidad" : "$idtipounidad",
+                            "estadoacta" : "$estadoacta"
+                        }
+                    }
+                }, 
+                { 
+                    "$project" : {
+                        "idplanifica" : "$_id.idplanifica", 
+                        "estadoacta" : "$_id.estadoacta", 
+                        "idtipounidad" : "$_id.idtipounidad",
+                        "_id" :0
+                    }
+                }
+            ]).exec(function(err, todos10a) {
+                if (err){ res.send(err); }
+
+                var duplicates = [];
+                var duplicates2 = [];
+
+                for(var i = 0; i < todos10a.length;i++){
+                  
+                    duplicates.push(todos10a[i].idplanifica);
+                 
+                
+                }
+
+                Facplan3.find({ _id:duplicates}).populate('idnivel').populate('idjornada').populate('idhorario').
+                populate('idprofesor').exec(function(err, todos10) {
+                       if (err){  res.send(err);  }
+
+                    
+                 var result = [];
+                 for (const item of todos10) {
+                  
+                    var planx=''
+                                for(var i = 0; i < todos10a.length;i++){
+                                    if(todos10a[i].idplanifica==item._id)
+                                    {
+                                        planx=todos10a[i].estadoacta
+                                        break;
+                                    }
+                                }
+                        result.push({_id:item._id,idedificio:{id:item.idedificio.id,nombre:item.idedificio.nombre},
+                            unidad:item.idtipounidad.nombre,horario:item.idhorario.nombre + '-' + item.idhorario.nombre2 + ' Dia: ' + item.idhorario.dia,
+                            idsalon:{id:item.idsalon.id,nombre:item.idsalon.nombre}
+                            ,nombre:'Nombre:'+item.idunidadacademica.nombre + ' Edificio:' + item.idedificio.nombre 
+                            + ' Salon:' + item.idsalon.nombre + ' Periodo:' + item.idperiodo.nombre + '  Jornada:'+item.idjornada.nombre
+                            + ' Nivel:'+item.idnivel.nombre,
+                            edificio:item.idedificio.nombre ,
+                            profesor:item.idprofesor.nombre,
+                            salon:item.idsalon.nombre,
+                            curso:item.idunidadacademica.nombre,
+                            periodo:item.idperiodo.nombre,
+                            jornada:item.idjornada.nombre,nivel:item.idnivel.nombre,
+
+                            iddia:item.idnivel.nombre,idhora:item.idjornada.nombre,estadoacta:planx});
+
+
+                    
+                }
+
+
+           
+
+                        res.json(result);
+
+
+
+
+                });
+
+
+          
+           
+                 
+                       
+                    
+            });
+         
+
+           
+                 
+         
+    break;
         case 'horarioprofe2':
             
             var  aa=(req.params.id2).split('°')
