@@ -399,6 +399,13 @@ exports.getAsignaubicacion = function(req, res, next){
                             ,nombre:'Nombre:'+item.idunidadacademica.nombre + ' Edificio:' + item.idedificio.nombre 
                             + ' Salon:' + item.idsalon.nombre + ' Periodo:' + item.idperiodo.nombre + '  Jornada:'+item.idjornada.nombre
                             + ' Nivel:'+item.idnivel.nombre,
+                            edificio:item.idedificio.nombre ,
+                            profesor:item.idprofesor.nombre,
+                            salon:item.idsalon.nombre,
+                            curso:item.idunidadacademica.nombre,
+                            periodo:item.idperiodo.nombre,
+                            jornada:item.idjornada.nombre,nivel:item.idnivel.nombre,
+
                             iddia:item.idnivel.nombre,idhora:item.idjornada.nombre,estadoacta:planx});
 
 
