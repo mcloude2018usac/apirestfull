@@ -129,12 +129,57 @@ exports.getAsignacalusac = function(req, res, next){
                       var arrt=req.params.id2.split('°')
 console.log({ identificador:req.params.id , "codigoidioma" : arrt[0],codigocurso:arrt[1]})
                 Calusacnotas.find({  identificador:req.params.id , "codigoidioma" : arrt[0],codigocurso:arrt[1]
-            }).populate('tipopago')
-               .exec(function(err, todos) {
+            }).populate('tipopago').exec(function(err, todos) {
                     if (err){ res.send(err); console.log(err) }
                     res.json(todos);  
                 });
                 break;
+                case 'nivelcalusac3':
+              
+              Calusacnotas.find({  identificador:req.params.id  }).populate('tipopago').populate('ididioma')
+              .populate('idasigna')
+             .exec(function(err, todos) {
+                  if (err){ res.send(err); console.log(err) }
+                  res.json(todos);  
+              });
+              break;
+                case 'nivelcalusac2':
+             
+             
+                                Calusacnotas.aggregate(  [
+                                    { 
+                                        "$match" : { 
+                                            "identificador" : req.params.id
+                                        }
+                                    }, 
+                                    { 
+                                        "$group" : { 
+                                            "_id" : { 
+                            
+                                                "carnecalusac" : "$carnecalusac"
+                                            }, 
+                                           
+                                            "COUNT(*)" : { 
+                                                "$sum" : 1
+                                            }
+                                        }
+                                    }, 
+                                    { 
+                                        "$project" : { 
+                                            "carnecalusac" : "$_id.carnecalusac",
+                                           
+                                            "cantidad" : "$COUNT(*)", 
+                                            "_id" : 0
+                                        }
+                                    }
+                                ])
+                               .exec(function(err, todos) {
+                                    if (err){ res.send(err); console.log(err) }
+                                    res.json(todos);  
+                                });
+                                break;
+                                
+
             case 'exonerados':
 console.log({ordenpago:req.params.id,cui:req.params.id2})
                 Exonerados.find({ordenpago:req.params.id,cui:req.params.id2}).exec(function(err, todos) {
