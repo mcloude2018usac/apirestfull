@@ -98,11 +98,12 @@ exports.getAsignaubicacion = function(req, res, next){
         {
          
             //todos100a/5ecc254ebc3a1c001e9ed01d/personasprofe2/1/4/3/2°Final
-            Asignacalusac.find({idplanifica:req.params.id2,estadoacta:'Preliminar'}).exec( function (err, result10a) {
+            console.log({idplanifica:req.params.id2,estadoacta:{$in:['Preliminar','Grabación']}})
+            Asignacalusac.find({idplanifica:req.params.id2,estadoacta:{$in:['Preliminar','Grabación']}}).exec( function (err, result10a) {
                 if (err) {
                     console.error(err);
                 }
-
+console.log(result10a)
               if(result10a.length>0)
               {
             Uidioma3.find({ }).select({codigo:1,_id:1}).exec(function(err, todos100) {
