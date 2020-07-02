@@ -135,7 +135,7 @@ console.log({ identificador:req.params.id , "codigoidioma" : arrt[0],codigocurso
                 });
                 break;
                 case 'nivelcalusac3':
-              
+              console.log({  identificador:req.params.id  })
               Calusacnotas.find({  identificador:req.params.id  }).populate('tipopago').populate('ididioma')
               .populate('idasigna')
              .exec(function(err, todos) {

@@ -517,6 +517,7 @@ console.log(result10a)
                             + ' Salon:' + item.idsalon.nombre + ' Periodo:' + item.idperiodo.nombre + '  Jornada:'+item.idjornada.nombre
                             + ' Nivel:'+item.idnivel.nombre,
                             edificio:item.idedificio.nombre ,
+                            idioma:item.idunidadacademica.nombre,
                             profesor:item.idprofesor.nombre,
                             salon:item.idsalon.nombre,
                             curso:item.idunidadacademica.nombre,
