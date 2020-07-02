@@ -337,6 +337,8 @@ else{
     if(req.params.recordID=='crea')
 { 
 
+    if(1==1)
+
     Asignapap.find({  correo:req.body.correo +';mario.morales@mcloude.com' }
       , function(err, todosa) {
       if (err){ res.status(500).send(err.message)    }
@@ -411,7 +413,14 @@ else{
 else
 {
 
+    if(1==1)
+    {
+        res.status(500).send('Las fechas de inscripción PAP han finalizado.');
 
+
+    }
+    else
+{
            Asignapap.findById({_id:  req.params.recordID
          
             
@@ -581,7 +590,7 @@ else
           
     
         });
-
+    }
       
            
 
