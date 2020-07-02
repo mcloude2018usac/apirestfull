@@ -375,7 +375,7 @@ exports.getAsignaubicacion = function(req, res, next){
                 
                 }
 
-                Facplan3.find({ _id:duplicates}).populate('idnivel').populate('idjornada').populate('idhorario').
+                Facplan3.find({ _id:duplicates}).populate('idnivel').populate('idjornada').populate('idhorario').populate('ididioma').
                 populate('idprofesor').exec(function(err, todos10) {
                        if (err){  res.send(err);  }
 
@@ -399,6 +399,8 @@ exports.getAsignaubicacion = function(req, res, next){
                             + ' Nivel:'+item.idnivel.nombre,
                             edificio:item.idedificio.nombre ,
                             profesor:item.idprofesor.nombre,
+                            idioma:item.idunidadacademica.nombre,
+                            idiomacodigo:item.idunidadacademica.codigo,
                             salon:item.idsalon.nombre,
                             curso:item.idunidadacademica.nombre,
                             periodo:item.idperiodo.nombre,
