@@ -409,7 +409,7 @@ exports.getAsignaubicacion = function(req, res, next){
                             idsalon:{id:item.idsalon.id,nombre:item.idsalon.nombre}
                             ,nombre:'Nombre:'+item.idunidadacademica.nombre + ' Edificio:' + item.idedificio.nombre 
                             + ' Salon:' + item.idsalon.nombre + ' Periodo:' + item.idperiodo.nombre + '  Jornada:'+item.idjornada.nombre
-                            + ' Nivel:'+item.idnivel.nombre,
+                            + ' Nivel:'+item.idnivel.nombre + ' '+ item.idprofesor.nombre + ' '+ item.idunidadacademica.nombre + ' ' + item.idtipounidad.nombre,
                             edificio:item.idedificio.nombre ,
                             profesor:item.idprofesor.nombre,
                             idioma:item.idunidadacademica.nombre,
