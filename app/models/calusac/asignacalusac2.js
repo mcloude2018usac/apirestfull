@@ -1,6 +1,23 @@
 var mongoose =require("mongoose");
+var Asignacalusac2sSchema = new mongoose.Schema({
+    
+    foto1:{        type: String},
+
+ 
+    foto2:{        type: String},
+    foto3:{        type: String},
+    foto4:{        type: String},
+     foto5:{        type: String},
+     correo:{        type: String},
+
+     date 		: { type: Date, default: Date.now }
+
+}, {
+    timestamps: true
+});
 
 
+/*
 var Asignacalusac2sSchema = new mongoose.Schema({
     idasigna: {        type: String    },
     idtipounidad :  		{    id	: { type : String },   nombre	: { type : String }        },
@@ -84,6 +101,6 @@ var Asignacalusac2sSchema = new mongoose.Schema({
     timestamps: true
 });
 
-/* Export model for application usage */
+*/
 
 module.exports = mongoose.model('Asignacalusac2s', Asignacalusac2sSchema);
