@@ -14,6 +14,38 @@ exports.getUnidadplan3 = function(req, res, next){
     {  
        
     switch(req.params.id5) {
+        case 'horariocalusac2aa':
+     console.log( {'idtipounidad':req.params.id, 'idunidadacademica':req.params.id2,'idperiodo.nombre':req.params.id3})
+            Asignacalusac.aggregate( [
+                { 
+                    "$match" : 
+                        {'idtipounidad.id':req.params.id, 'idunidadacademica.id':req.params.id2,'idperiodo.nombre':req.params.id3}
+                    
+                }, 
+                { 
+
+                    
+                    "$group" : { 
+                        "_id" : { 
+                            "estadopago" : "$estadopago",
+                         
+                        }, 
+                        "COUNT(*)" : { 
+                            "$sum" : 1
+                        }
+                    }
+                }, 
+                { 
+                    "$project" : { 
+                        "estadopago" : "$_id.estadopago", 
+                        "estado" : "$COUNT(*)", 
+                        "_id" : 0
+                    }
+                }
+            ]).exec(function(err, todos) {
+                res.json(todos);   
+            });
+break;
         case 'horariocalusac2':
      
             Asignacalusac.aggregate( [
@@ -39,6 +71,48 @@ exports.getUnidadplan3 = function(req, res, next){
                 res.json(todos);   
             });
 break;
+
+case 'horariocalusac22aa':
+ 
+    Asignacalusac.aggregate( [
+        { 
+            "$match" : { 
+                "estadopago" : "Asignación exitosa",
+                'idtipounidad.id':req.params.id, 'idunidadacademica.id':req.params.id2,'idperiodo.nombre':req.params.id3
+            }
+        }, 
+        {    
+          
+        
+            "$group" : { 
+              
+                "_id" : { 
+                    "tipoa" : "$tipoa"
+                }, 
+                "COUNT(*)" : { 
+                    "$sum" :(1)
+                }, 
+                "SUM(monto)" : { 
+                     '$sum': { '$toInt': '$monto' } 
+                }
+            }
+        }, 
+        { 
+            "$project" : { 
+                "tipoa" : "$_id.tipoa", 
+                "cantidad" : "$COUNT(*)", 
+                "monto" : "$SUM(monto)", 
+                "_id" : (0)
+            }
+        }
+    ]).exec(function(err, todos) {
+console.log(todos)
+
+        res.json(todos);   
+        
+    });
+break;
+ 
 case 'horariocalusac22':
     Asignacalusac.aggregate( [
         { 
@@ -78,9 +152,7 @@ console.log(todos)
         
     });
 break;
-
-
-            break;  
+ 
         case 'horariocalusac':
 
             Unidadperiodo3.find({'idtipounidad':req.params.id, 'idunidadacademica':req.params.id2,nombre:req.params.id3})
@@ -116,6 +188,38 @@ break;
                             });
         break;
         case 'horariocalusacsede':
+
+            Asignacalusac.aggregate( 
+                [
+                    { 
+                        "$match" : { 'idtipounidad.id':req.params.id, 'idunidadacademica.id':req.params.id2      }
+                    }, 
+                    { 
+                        "$group" : { 
+                            "_id" : { 
+                                "idperiodo" :{       $toUpper: { $trim: {input:"$idperiodo.nombre"}}}
+                                
+                            }
+                        }
+                    }, 
+                    { 
+                        "$project" : { 
+                            "idperiodo" : "$_id.idperiodo",
+                           
+                            "_id" : 0
+                        }
+                    }
+                ]
+                
+         ).exec(function(err, todos) {
+        console.log(todos)
+        
+                res.json(todos);   
+                
+            });
+
+        break;
+        case 'horariocalusacsede2':
 
             Asignacalusac.aggregate( 
                 [
