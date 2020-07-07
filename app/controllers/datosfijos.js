@@ -737,7 +737,7 @@ fs.outputFile(nombre, contents, err => {
                                                                 if(vector[i].nombre==='nombre' )
                                                         {
                                                                 
-                                                                re= re+ "       '"+ vector[i].nombre + "': new FormControl('', Validators.compose([Validators.required,Validators.pattern('[a-zA-Z ]*')])),\n"
+                                                                re= re+ "       '"+ vector[i].nombre + "': new FormControl('', Validators.compose([Validators.required,Validators.pattern('[a-zA-Z0-9 ]*')])),\n"
                                                         }
                                                         else
                                                         {
@@ -2074,7 +2074,7 @@ break;
 
 
 
-                                Participa.find({correo:req.params.id2, idevento: {$in: duplicates}}).sort({_id:-1}).lean().exec(function(err, todos2) {
+                                Participa.find({correo:req.params.id2, idevento: {$in: duplicates}}).sort({idevento:-1}).lean().exec(function(err, todos2) {
                                        
                                       if(todos2.length)
                                       {
