@@ -15,11 +15,13 @@ exports.getUnidadplan3 = function(req, res, next){
        
     switch(req.params.id5) {
         case 'horariocalusac2':
+     
             Asignacalusac.aggregate( [
                 { 
                     "$group" : { 
                         "_id" : { 
-                            "estadopago" : "$estadopago"
+                            "estadopago" : "$estadopago",
+                         
                         }, 
                         "COUNT(*)" : { 
                             "$sum" : 1
@@ -41,7 +43,8 @@ case 'horariocalusac22':
     Asignacalusac.aggregate( [
         { 
             "$match" : { 
-                "estadopago" : "Asignación exitosa"
+                "estadopago" : "Asignación exitosa",
+                "idperiodo.nombre":"Tercer Bimestre"
             }
         }, 
         {    
@@ -69,7 +72,10 @@ case 'horariocalusac22':
             }
         }
     ]).exec(function(err, todos) {
+console.log(todos)
+
         res.json(todos);   
+        
     });
 break;
 
@@ -77,7 +83,7 @@ break;
             break;  
         case 'horariocalusac':
 
-            Unidadperiodo3.find({'idtipounidad':req.params.id, 'idunidadacademica':req.params.id2, estado:'Activo'})
+            Unidadperiodo3.find({'idtipounidad':req.params.id, 'idunidadacademica':req.params.id2,nombre:req.params.id3})
             .find({}).exec(function(err, todos22) {
             if (err){  res.send(err);  }
                           
@@ -108,7 +114,40 @@ break;
                                 });
 
                             });
-                                break;
+        break;
+        case 'horariocalusacsede':
+
+            Asignacalusac.aggregate( 
+                [
+                    { 
+                        "$match" : { 'idtipounidad.id':req.params.id, 'idunidadacademica.id':req.params.id2      }
+                    }, 
+                    { 
+                        "$group" : { 
+                            "_id" : { 
+                                "idperiodo" :{       $toUpper: { $trim: {input:"$idperiodo.nombre"}}}
+                                
+                            }
+                        }
+                    }, 
+                    { 
+                        "$project" : { 
+                            "idperiodo" : "$_id.idperiodo",
+                           
+                            "_id" : 0
+                        }
+                    }
+                ]
+                
+         ).exec(function(err, todos) {
+        console.log(todos)
+        
+                res.json(todos);   
+                
+            });
+
+        break;
+                                
         case 'jornadas':
             var projectDataForMatch = {
                 $project : {
