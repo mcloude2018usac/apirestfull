@@ -1,7 +1,9 @@
 var AuthenticationController = require('./controllers/authentication'), 
     OraController = require('./controllers/oraclesqlx'), 
     DatosfijosController = require('./controllers/datosfijos'),
+    GeneradorController = require('./controllers/generafrm/generador'),
    SiifController = require('./controllers/siif'),
+   ProductoController = require('./controllers/producto'),
    Unidadprofesor3Controller = require('./controllers/calusac/unidadprofesor3'),
    AuditserverController = require('./controllers/claroaudit/auditserver'),
    AuditserverdController = require('./controllers/claroaudit/auditserverd'),
@@ -77,7 +79,7 @@ var AuthenticationController = require('./controllers/authentication'),
 
     ConveniocalusacController = require('./controllers/calusac/conveniocalusac'),
     ConveniocalusacdController = require('./controllers/calusac/conveniocalusacd'),
-
+    Conveniocalusacd2Controller = require('./controllers/calusac/conveniocalusacd2'),
 
     MarketgrupodController = require('./controllers/marketgrupod'),
     DenunciaunidadController = require('./controllers/denunciaunidad'),
@@ -169,6 +171,7 @@ module.exports = function(app){
         userpostRoutes = express.Router(),
         nuevosalonRoutes = express.Router(),
         datosfijosRoutes = express.Router(),
+        generadorRoutes = express.Router(),
         auditserverRoutes = express.Router(),
         auditserverdRoutes = express.Router(),
         auditserverdhisRoutes = express.Router(),
@@ -176,6 +179,7 @@ module.exports = function(app){
         eventoRoutes = express.Router(),
         indicadorRoutes = express.Router(),
         frmmovilRoutes = express.Router(),
+        productoRoutes = express.Router(),
         frmcatRoutes = express.Router(),
         frmcat2Routes = express.Router(),
         frmmovildRoutes = express.Router(),
@@ -212,6 +216,7 @@ module.exports = function(app){
 
         conveniocalusacRoutes = express.Router(),
         conveniocalusacdRoutes = express.Router(),
+        conveniocalusacd2Routes = express.Router(),
 
         denunciaunidadRoutes = express.Router(),
         catusuarioRoutes = express.Router(),
@@ -841,6 +846,14 @@ userpostRoutes.post('/:recordID',requireAuth,  UserpostController.creaUserpost2s
 
 
 
+apiRoutes.use('/productos', productoRoutes);
+productoRoutes.get('/', requireAuth,ProductoController.getProducto);
+productoRoutes.get('/:id/:id2/:id3',requireAuth,  ProductoController.getProducto);
+productoRoutes.get('/:id/:id2/:id3/:id4',requireAuth,  ProductoController.getProducto);
+productoRoutes.get('/:id',requireAuth,  ProductoController.getProducto);
+productoRoutes.post('/:recordID',requireAuth,  ProductoController.creaProducto2s);
+productoRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  ProductoController.deleteProducto);
+
 
 /*
 apiRoutes.use('/oracle', userRoutes);
@@ -1255,6 +1268,14 @@ conveniocalusacdRoutes.post('/:recordID', requireAuth, ConveniocalusacdControlle
 conveniocalusacdRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth, ConveniocalusacdController.deleteConveniocalusacd);
 
 
+//-----------------------------------conveniod
+apiRoutes.use('/conveniocalusacd2s', conveniocalusacd2Routes);
+conveniocalusacd2Routes.get('/',requireAuth, Conveniocalusacd2Controller.getConveniocalusacd2);
+conveniocalusacd2Routes.get('/:id/:id2/:id3', requireAuth, Conveniocalusacd2Controller.getConveniocalusacd2);
+conveniocalusacd2Routes.post('/:recordID', requireAuth, Conveniocalusacd2Controller.creaConveniocalusacd22s);
+conveniocalusacd2Routes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth, Conveniocalusacd2Controller.deleteConveniocalusacd2);
+
+
 
 //-----------------------------------MARKETGRUPO
 apiRoutes.use('/marketgrupos', marketgrupoRoutes);
@@ -1314,6 +1335,8 @@ participa33Routes.get('/:id/:id2/:id3',requireAuth,  Participa33Controller.getPa
 participa33Routes.post('/:id',requireAuth, Participa33Controller.creaParticipa332s);
 participa33Routes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  Participa33Controller.deleteParticipa33);
 
+apiRoutes.use('/generadors', generadorRoutes);
+generadorRoutes.get('/:id/:id2/:id3',  GeneradorController.getCombofijo);
 //-----------------------------------datos combo fijos
 apiRoutes.use('/datosfijos', datosfijosRoutes);
 datosfijosRoutes.get('/:id', DatosfijosController.getCombofijo);
