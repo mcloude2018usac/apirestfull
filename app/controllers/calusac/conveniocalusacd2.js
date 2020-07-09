@@ -49,6 +49,30 @@ exports.creaConveniocalusacd22s = function(req, res, next){
 
 if(req.params.recordID!=='crea')
 { 
+    if( req.body.operacion=='actualizarinfor')
+    {
+
+        Conveniocalusacd2.findById({ _id: req.params.recordID }, function (err, todo100)  {
+            if (err) {  res.send(err);  }
+            else
+            { 
+              
+
+                todo100.estado=req.body.estado
+    
+                todo100.save(function (err, todo200){
+                    if (err)     {  console.log(err.message)   }
+            
+                    res.json(todo200);
+                    
+                });
+            }
+        });
+
+
+    }
+    else
+    {
 
     if(req.body.operacion=='ordenpago')
     {
@@ -111,7 +135,7 @@ if(req.params.recordID!=='crea')
         }
     });
 
-}}
+}}}
 else{
 
     Conveniocalusacd2.find({correo:req.body.correo  },function(err, todos) {
