@@ -138,12 +138,7 @@ if(req.params.recordID!=='crea')
 }}}
 else{
 
-    Conveniocalusacd2.find({correo:req.body.correo  },function(err, todos) {
-        if (err){ res.send(err); }
-      
-        if(todos.length>0)   {    res.status(500).send('Correo  ya existe'); }
-        else
-        {   
+
 
             Conveniocalusacd2.create({
                 idunidadacademica        	: req.body.idunidadacademica        	,
@@ -190,7 +185,7 @@ else{
             });
 
             
-             }
+             
         
     });
    
