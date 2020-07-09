@@ -138,8 +138,7 @@ if(req.params.recordID!=='crea')
 }}}
 else{
 
-
-
+  
             Conveniocalusacd2.create({
                 idunidadacademica        	: req.body.idunidadacademica        	,
                 idtipounidad:req.body.idtipounidad,
@@ -185,9 +184,7 @@ else{
             });
 
             
-             
-        
-    });
+     
    
  
 }
