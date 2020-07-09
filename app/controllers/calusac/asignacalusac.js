@@ -138,7 +138,7 @@ console.log({ identificador:req.params.id , "codigoidioma" : arrt[0],codigocurso
               console.log({  identificador:req.params.id  })
               Calusacnotas.find({ $or : [
                 { $and : [ {  identificador:req.params.id  }] },
-              
+                { $and : [ {  carnecalusac:req.params.id  }] },
                 { $and : [ { cui:req.params.id  } ] }] }).populate('tipopago').populate('ididioma')
               .populate('idasigna')
              .exec(function(err, todos) {
