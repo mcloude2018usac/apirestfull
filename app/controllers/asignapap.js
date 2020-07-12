@@ -413,7 +413,7 @@ else{
 else
 {
 
-    if(1==1)
+    if(1==2)
     {
         res.status(500).send('Las fechas de inscripción PAP han finalizado.');
 
