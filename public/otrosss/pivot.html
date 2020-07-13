@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link href="https://cdn.flexmonster.com/flexmonster.min.css" rel="stylesheet" type="text/css">
+	<script type="text/javascript" src="https://cdn.flexmonster.com/flexmonster.js"></script>
+	<script src="encrypt.js"></script>
+</head>
+<body>
+    <button onclick="expand()">Expand data</button>
+    <button onclick="collapse()">Collapse data</button>
+	<div id="pivot"></div>
+	<script type="text/javascript">
+
+var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+	});
+
+    function expandAll() {
+  pivot.expandAllData();
+}
+function collapseAll() {
+  pivot.collapseAllData();
+}
+
+
+	var webdevencrypt = {
+    setEncrypt: function(source,destination,passcode) {
+        document.getElementById(destination).innerText = this.encryptCodes(document.getElementById(source).value,document.getElementById(passcode).value);
+    },
+    setDecrypt: function() {
+                document.getElementById('decryptedContent').innerText = this.decryptCodes(document.getElementById('originalContent').value,document.getElementById('passcode').value);
+    },
+    encryptCodes: function(content,passcode) {
+        var result = []; var passLen = passcode.length ;
+        for(var i = 0  ; i < content.length ; i++) {
+            var passOffset = i%passLen ;
+            var calAscii = (content.charCodeAt(i)+passcode.charCodeAt(passOffset));
+            result.push(calAscii);
+        }
+        return JSON.stringify(result) ;
+    },
+    decryptCodes: function(content,passcode) {
+        var result = [];var str = '';
+        var codesArr = JSON.parse(content);var passLen = passcode.length ;
+        for(var i = 0  ; i < codesArr.length ; i++) {
+            var passOffset = i%passLen ;
+            var calAscii = (codesArr[i]-passcode.charCodeAt(passOffset));
+            result.push(calAscii) ;
+        }
+        for(var i = 0 ; i < result.length ; i++) {
+            var ch = String.fromCharCode(result[i]); str += ch ;
+        }
+        return str ;
+    }
+}
+
+var p0= vars['v1'];
+
+	var p1=webdevencrypt.encryptCodes(p0,'Admin123@@');
+	//alert(p1);
+	var p2=webdevencrypt.decryptCodes(p1,'Admin123@@');
+	//alert(p2);
+
+	var p3= vars['v2'];
+//Z7ZM-XJ435H-563D1P-0J3R1K-644W5U-47476C-2O1C07-535U4I-193C5Q-56
+		new Flexmonster({
+			container: "#pivot",
+			componentFolder: "https://cdn.flexmonster.com/",
+			 global: {    localization: "loc/es.json" },
+			 width: "100%",
+			height: 630,
+			toolbar: true,
+			beforetoolbarcreated: customizeToolbar1,
+			licenseKey: "Z7ZM-XJ435H-563D1P-0J3R1K-644W5U-47476C-2O1C07-535U4I-193C5Q-56",
+			 //licenseKey: "XXXX-XXXX-XXXX-XXXX-XXXX"
+			 options: {    grid: {   type: "flat"    }    },
+			report: {
+				dataSource: {
+					dataSourceType: "ocsv",
+					filename: p2
+				},
+				 "options": {     "grid": {       "type": p3    }    }
+			}
+		})
+
+
+		function customizeToolbar1(toolbar) {
+  var tabs = toolbar.getTabs();
+  toolbar.getTabs = function() {
+     var filteredTabs = tabs.filter(function(tab) {
+     	// remove tab "fm-tab-connect"
+     	return (tab.id !== "fm-tab-connect") && (tab.id !== "fm-tab-save")  && (tab.id !== "fm-tab-open");
+     });
+     return filteredTabs;
+  }
+}
+	</script>
+</body>
+</html>
