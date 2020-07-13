@@ -15,6 +15,8 @@ var Participa2 = require('../models/participa2');
 var Moduloxx = require('../models/moduloxx');
 var Asignapcb = require('../models/asignapcb');
 var oracledb = require('oracledb');
+var Evento = require('../models/eventos');
+var Participa = require('../models/participa');
 
 var connAttrs = {
     "user": "dbprocessges",
@@ -54,9 +56,16 @@ console.log(req.params)
                     break
                     case 'cursoslibres':         getcursoslibresrpt(req, res, next);
                     break
+                    case 'cursoslibres2':         getcursoslibres2rpt(req, res, next);
+                    break
                     case 'catalogo':         getcatalogorpt(req, res, next);
                     break
                     case 'segeplan':         getsegeplanrpt(req, res, next);
+                    break
+                    case 'apirest':        
+                  
+                    var rutat=path.join(__dirname+'/pivotm.html')
+
                     break
                     default:
                     break;
@@ -272,7 +281,8 @@ var getcursoslibresrpt = function(req, res, next) {
                                 }        
                                 
                            //   resp.push({ubica:ubica,tipocurso:todos[i].idtipoevento.nombre,area:todos[i].idarea.nombre,nombre:tevento,cantidad:1});
-                                 resp.push({curso:tevento,tipocurso:todos[i].idtipoevento.nombre,area:todos[i].idarea.nombre,cantidad:1});
+                                 resp.push({curso:tevento,tipocurso:todos[i].idtipoevento.nombre
+                                    ,area:todos[i].idarea.nombre,nombreestudiante:todos[i].nombre +' ' +todos[i].apellido ,correo:todos[i].correo,telefono:todos[i].telefono,cantidad:1});
                         }
 
                         let stream = compressor.compressJson(resp);
@@ -292,6 +302,60 @@ var getcursoslibresrpt = function(req, res, next) {
 }
 
 
+
+var getcursoslibres2rpt = function(req, res, next) {
+
+    Evento.find({"_id" :{
+        "$in" : [
+            "5e7a6d15187210001ea6e989","5e7a6d9d187210001ea6e98f","5e7a6e16187210001ea6e991"
+            ,"5e7a7a64187210001ea6e99d","5e7bcb0e737144004a13630f","5e7a79fc187210001ea6e99b","5e7b9e46cf97ea0029d5aa8c"
+        ]
+    }},function(err, todos0) {
+        console.log(todos0)
+        if (err){  res.send(err);  }      
+        Participa.find({"idevento" :{
+            "$in" : [
+                "5e7a6d15187210001ea6e989","5e7a6d9d187210001ea6e98f","5e7a6e16187210001ea6e991"
+                ,"5e7a7a64187210001ea6e99d","5e7bcb0e737144004a13630f","5e7a79fc187210001ea6e99b","5e7b9e46cf97ea0029d5aa8c"
+            ]
+        }},function(err, todos) {
+                    console.log(todos)
+                        if (err){  res.send(err);  }
+                        var resp=[]
+                        var tevento=''
+                        var ubica=''
+                        for(var i = 0; i < todos.length;i++){
+                            
+                                for(var ii = 0; ii < todos0.length;ii++){
+                                        if(todos0[ii]._id==todos[i].idevento)
+                                        {
+                                           tevento= todos0[ii].nombre   
+                                   //        ubica= 'Edificio: '+todos0[ii].edificio + '  Salon: ' +  todos0[ii].salon     
+                                           break;
+                                        }
+                                }        
+                                
+                           //   resp.push({ubica:ubica,tipocurso:todos[i].idtipoevento.nombre,area:todos[i].idarea.nombre,nombre:tevento,cantidad:1});
+                                 resp.push({curso:tevento,cui:todos[i].cui
+                                    ,area:'',nombreestudiante:todos[i].nombre +' ' +todos[i].apellido 
+                                    ,correo:todos[i].correo,telefono:todos[i].telefono,cantidad:1});
+                        }
+
+                        let stream = compressor.compressJson(resp);
+                              
+                        stream.on('data', data => res.write(data));
+                        stream.on('end', () => res.end()
+                        //  res.redirect('pivot.html');
+                        ); 
+                        var rutat=path.join(__dirname+'/pivotm.html')
+
+
+                });
+});
+
+
+
+}
 
 
 var getplancalusacrpt = function(req, res, next) {
