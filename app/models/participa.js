@@ -26,7 +26,7 @@ var ParticipaSchema = new mongoose.Schema({
         required: false
     },
     cui: {
-        type: Number,
+        type: String,
         required: false
     },
     telefono: {
