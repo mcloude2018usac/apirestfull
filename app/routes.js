@@ -3,7 +3,7 @@ var AuthenticationController = require('./controllers/authentication'),
     DatosfijosController = require('./controllers/datosfijos'),
     GeneradorController = require('./controllers/generafrm/generador'),
    SiifController = require('./controllers/siif'),
-   ProductoController = require('./controllers/producto'),
+   ProductoController = require('./controllers/asociadoventa/producto'),
    Unidadprofesor3Controller = require('./controllers/calusac/unidadprofesor3'),
    AuditserverController = require('./controllers/claroaudit/auditserver'),
    AuditserverdController = require('./controllers/claroaudit/auditserverd'),
@@ -76,6 +76,7 @@ var AuthenticationController = require('./controllers/authentication'),
     Tipounidad2Controller = require('./controllers/tipounidad2'),
     DepartamentoController = require('./controllers/departamento'),
     MarketgrupoController = require('./controllers/marketgrupo'),
+    SubcategoriaController = require('./controllers/asociadoventa/subcategoria'),
 
     ConveniocalusacController = require('./controllers/calusac/conveniocalusac'),
     ConveniocalusacdController = require('./controllers/calusac/conveniocalusacd'),
@@ -135,6 +136,7 @@ var AuthenticationController = require('./controllers/authentication'),
     passportService = require('../config/passport'),
     passport = require('passport'),
     AsociadoController = require('./controllers/asociadoventa/asociado'),
+    CategoriaController = require('./controllers/asociadoventa/categoria'),
     PersonalController = require('./controllers/personal');
     //UserController = require('./controllers/sun_facultad');
  
@@ -170,11 +172,13 @@ module.exports = function(app){
         tarifaRoutes = express.Router(),
         userpostRoutes = express.Router(),
         nuevosalonRoutes = express.Router(),
+        categoriaRoutes = express.Router(),
         datosfijosRoutes = express.Router(),
         generadorRoutes = express.Router(),
         auditserverRoutes = express.Router(),
         auditserverdRoutes = express.Router(),
         auditserverdhisRoutes = express.Router(),
+        subcategoriaRoutes = express.Router(),
         datosfijo2sRoutes = express.Router(),
         eventoRoutes = express.Router(),
         indicadorRoutes = express.Router(),
@@ -291,6 +295,15 @@ module.exports = function(app){
    /*
 SINNNNNNNNNNNNNN AUTORIZACION
    */
+
+
+  apiRoutes.use('/subcategorias', subcategoriaRoutes);
+  subcategoriaRoutes.get('/', requireAuth,SubcategoriaController.getSubcategoria);
+  subcategoriaRoutes.get('/:id/:id2/:id3',requireAuth,  SubcategoriaController.getSubcategoria);
+  subcategoriaRoutes.get('/:id/:id2/:id3/:id4',requireAuth,  SubcategoriaController.getSubcategoria);
+  subcategoriaRoutes.get('/:id',requireAuth,  SubcategoriaController.getSubcategoria);
+  subcategoriaRoutes.post('/:recordID',requireAuth,  SubcategoriaController.creaSubcategoria2s);
+  subcategoriaRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  SubcategoriaController.deleteSubcategoria);
 
   apiRoutes.use('/asociados', asociadoRoutes);
   asociadoRoutes.get('/', requireAuth,AsociadoController.getAsociado);
@@ -435,7 +448,14 @@ app.use('/api', apiRoutes);
 
 
 
-
+ //-----------------------------------MODULO
+ apiRoutes.use('/categorias', categoriaRoutes);
+ categoriaRoutes.get('/', requireAuth,CategoriaController.getCategoria);
+ categoriaRoutes.get('/:id/:id2/:id3',requireAuth,  CategoriaController.getCategoria);
+ categoriaRoutes.get('/:id/:id2/:id3/:id4',requireAuth,  CategoriaController.getCategoria);
+ categoriaRoutes.get('/:id',requireAuth,  CategoriaController.getCategoria);
+ categoriaRoutes.post('/:recordID',requireAuth,  CategoriaController.creaCategoria2s);
+ categoriaRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  CategoriaController.deleteCategoria);
 
 
 
@@ -1103,6 +1123,7 @@ apiRoutes.use('/unidadplan3s',unidadplan3Routes);
 unidadplan3Routes.get('/:id',requireAuth,  Unidadplan3Controller.getUnidadplan3);
 unidadplan3Routes.get('/:id2/:id3/:id4',requireAuth,  Unidadplan3Controller.getUnidadplan3);
 unidadplan3Routes.get('/:id/:id2/:id3/:id4/:id5',requireAuth,  Unidadplan3Controller.getUnidadplan3);
+unidadplan3Routes.get('/:id/:id2/:id3/:id4/:id5/:id6',requireAuth,  Unidadplan3Controller.getUnidadplan3);
 unidadplan3Routes.post('/:recordID',requireAuth,  Unidadplan3Controller.creaUnidadplan32s);
 unidadplan3Routes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  Unidadplan3Controller.deleteUnidadplan3);
 
@@ -1336,7 +1357,7 @@ participa33Routes.post('/:id',requireAuth, Participa33Controller.creaParticipa33
 participa33Routes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  Participa33Controller.deleteParticipa33);
 
 apiRoutes.use('/generadors', generadorRoutes);
-generadorRoutes.get('/:id/:id2/:id3',  GeneradorController.getCombofijo);
+generadorRoutes.get('/:id/:id2/:id3/:id4',  GeneradorController.getCombofijo);
 //-----------------------------------datos combo fijos
 apiRoutes.use('/datosfijos', datosfijosRoutes);
 datosfijosRoutes.get('/:id', DatosfijosController.getCombofijo);
