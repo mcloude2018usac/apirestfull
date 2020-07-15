@@ -183,6 +183,7 @@ else{
                 todo.cui 	=	req.body.cui	||	todo.cui 	;
                 todo.telefono    	=	req.body.telefono    	||	todo.telefono    	;
                 todo.unidad   	=	req.body.unidad    	||	todo.unidad   	;
+                todo.categoria	=	req.body.categoria	||	todo.categoria	;
                 todo.otros   	=	req.body.otros    	||	todo.otros   	;
                 todo.estado 	=	req.body.estado 	||	todo.estado 	;
                 todo.usuarioup=req.body.bitacora.email;
@@ -269,6 +270,7 @@ console.log(nopp)
                                                     cui    	: req.body.cui   	,
                                                     telefono 	: req.body.telefono 	,
                                                     unidad 	: req.body.unidad 	,
+                                                    categoria	: req.body.categoria	,
                                                     otros 	: req.body.otros 	,
                                                     estado 	: req.body.estado 	,
                                                     usuarionew:req.body.bitacora.email,
