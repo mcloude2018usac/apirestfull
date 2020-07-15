@@ -37,6 +37,10 @@ var ParticipaSchema = new mongoose.Schema({
         type: String,
         required: false
     } ,
+    categoria: {
+        type: String,
+        required: false
+    } ,
     otros: {
         type: String
     },
