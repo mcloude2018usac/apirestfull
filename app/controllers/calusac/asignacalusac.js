@@ -1572,7 +1572,7 @@ console.log(filtro)
                                     n3:0,
                                     n4:0,
                                     n5:0,
-                                    estadoacta:'',
+                                    estadoacta:'Grabación',
                                     tipoasignacion:req.body.tipoasignacion
                                 }
                                     , function(err, todo) {
@@ -1682,7 +1682,7 @@ console.log(filtro)
                                             n3:0,
                                             n4:0,
                                             n5:0,
-                                            estadoacta:'',                    
+                                            estadoacta:'Grabación',                    
                                       
                                             tipoasignacion:req.body.tipoasignacion
                                         }
