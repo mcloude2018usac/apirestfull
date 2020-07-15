@@ -10,6 +10,41 @@ var Asignacalusac = require('../../models/calusac/asignacalusac');
 var Unidadperiodo3 = require('../../models/calusac/unidadperiodo3');
 
 exports.getUnidadplan3 = function(req, res, next){
+    if(req.params.id6)
+    {  
+        var projectDataForMatch = {
+            $project : {
+              idjornada : 1, //list all fields needed here
+              idtipounidad:1,
+              idunidadacademica:1,
+              idperiodo:1,
+              idnivel:1
+              
+        }
+        }
+        var match = {
+            $match : {  
+             
+                'idtipounidad.id' :req.params.id,'idunidadacademica.id':req.params.id2,'idperiodo.id':req.params.id3,'idjornada':req.params.id5
+            }
+        }
+        Facplan3.aggregate([ projectDataForMatch, match]  ).exec(function(err, todos10) {
+            if (err){ res.send(err); }
+            var duplicates = [];
+            todos10.forEach(function (doc) {duplicates.push(doc.idnivel);  });
+           Unidadpago3.find({nivel: {$in: duplicates},idtipounidad :req.params.id2,idunidadacademica:req.params.id2,tipo:req.params.id4,jornada:req.params.id5}).populate('nivel').populate('jornada').sort([['codigo', 1]]).exec(function(err, todos) {
+                if (err){  res.send(err);  }
+             
+                 res.json(todos);
+             });
+
+             
+
+        });
+    
+
+    }
+    else{
     if(req.params.id5)
     {  
        
@@ -73,7 +108,10 @@ break;
 break;
 
 case 'horariocalusac22aa':
- 
+ console.log({ 
+    "estadopago" : "Asignación exitosa",
+    'idtipounidad.id':req.params.id, 'idunidadacademica.id':req.params.id2,'idperiodo.nombre':req.params.id3
+})
     Asignacalusac.aggregate( [
         { 
             "$match" : { 
@@ -154,8 +192,10 @@ console.log(todos)
 break;
  
         case 'horariocalusac':
-
-            Unidadperiodo3.find({'idtipounidad':req.params.id, 'idunidadacademica':req.params.id2,nombre:req.params.id3})
+console.log({'idtipounidad':req.params.id, 'idunidadacademica':req.params.id2
+,nombre:String(req.params.id3).toUpperCase()})
+            Unidadperiodo3.find({'idtipounidad':req.params.id, 'idunidadacademica':req.params.id2
+            ,nombre:String(req.params.id3).toUpperCase()})
             .find({}).exec(function(err, todos22) {
             if (err){  res.send(err);  }
                           
@@ -288,6 +328,34 @@ break;
                  });
             });
         break
+        case 'jornadas2a':
+            var projectDataForMatch = {
+                $project : {
+                  idjornada : 1, //list all fields needed here
+                  idtipounidad:1,
+                  idunidadacademica:1,
+                  idperiodo:1,
+                  idnivel:1
+                 
+            }
+            }
+            var match = {
+                $match : {  
+                                'idtipounidad.id' :req.params.id,'idunidadacademica.id':req.params.id2,'idperiodo.id':req.params.id3
+                }
+            }
+                 Facplan3.aggregate([ projectDataForMatch, match]  ).exec(function(err, todos10) {
+                if (err){ res.send(err); }
+                var duplicates = [];
+              
+                todos10.forEach(function (doc) {duplicates.push(doc.idjornada);  });
+                 Unidadjornada3.find({_id: {$in: duplicates},idtipounidad :req.params.id,idunidadacademica:req.params.id},function(err, todos) {
+                    if (err){  res.send(err);  }
+                     res.json(todos);
+                 });
+            });
+        break
+     
         case 'horarios':
 
             var id3v=req.params.id4.split('°')
@@ -331,6 +399,42 @@ break;
                  });
             });
         break
+        case 'horarios2a':
+
+            var id3v=req.params.id4.split('°')
+       
+            var projectDataForMatch = {
+                $project : {
+                  idhorario : 1, //list all fields needed here
+                  idtipounidad:1,
+                  idunidadacademica:1,
+                  idperiodo:1,
+                  idjornada:1,
+                  idnivel:1
+                  
+            }
+            }
+            var match = {
+                $match : {
+                   
+                    'idtipounidad.id' :req.params.id,'idunidadacademica.id':req.params.id2
+                    ,'idperiodo.id':req.params.id3,'idjornada':id3v[0],'idnivel':id3v[1]
+                }
+            }
+            console.log({    'idtipounidad.id' :req.params.id,'idunidadacademica.id':req.params.id2
+            ,'idperiodo.id':req.params.id3,'idjornada':id3v[0],'idnivel':id3v[1]})
+            Facplan3.aggregate([ projectDataForMatch, match]  ).exec(function(err, todos10) {
+                if (err){ res.send(err); }
+                var duplicates = [];
+           
+                          todos10.forEach(function (doc) {duplicates.push(doc.idhorario);  });
+                  Unidadhorario3.find({_id: {$in: duplicates},idtipounidad :req.params.id,idunidadacademica:req.params.id},function(err, todos) {
+                    if (err){  res.send(err);  }
+                     res.json(todos);
+                 });
+            });
+        break
+     
         case 'profesores':
 
         var id3v=req.params.id4.split('°')
@@ -377,6 +481,45 @@ break;
                  });
             });
         break
+        case 'profesores2a':
+
+            var id3v=req.params.id4.split('°')
+           
+    
+                var projectDataForMatch = {
+                    $project : {
+                      idprofesor : 1, //list all fields needed here
+                      idtipounidad:1,
+                      idunidadacademica:1,
+                      idperiodo:1,
+                      idhorario:1,
+                      idnivel:1,
+                      idjornada:1
+                  
+                }
+                }
+                var match = {
+                    $match : {
+                     
+                        'idtipounidad.id' :req.params.id,'idunidadacademica.id':req.params.id2,'idperiodo.id':req.params.id3
+                        ,'idjornada':id3v[2],'idnivel':id3v[0], 'idhorario':id3v[1]
+                    }
+                }
+    
+                console.log({ 'idtipounidad.id' :req.params.id,'idunidadacademica.id':req.params.id2,'idperiodo.id':req.params.id3
+                ,'idjornada':id3v[0],'idnivel':id3v[0], 'idhorario':id3v[1]})
+                Facplan3.aggregate([ projectDataForMatch, match]  ).exec(function(err, todos10) {
+                    if (err){ res.send(err); }
+                   
+                    var duplicates = [];
+                    todos10.forEach(function (doc) {duplicates.push(doc.idprofesor);  });
+                      Unidadprofesor3.find({_id: {$in: duplicates}},function(err, todos) {
+                        if (err){  res.send(err);  }
+                         res.json(todos);
+                     });
+                });
+            break
+          
         default:
                 var projectDataForMatch = {
                     $project : {
@@ -472,7 +615,7 @@ break;
             });
         }
     }
-
+    }
  
 }
 exports.deleteUnidadplan3 = function(req, res, next){
