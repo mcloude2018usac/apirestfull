@@ -7,14 +7,14 @@ exports.getAsociado = function(req, res, next){
     {   
             if(req.params.id2=='todos')
             { 
-                Asociado.find({idempresa:req.params.id3}).sort([['index', 1]]).exec(function(err, todos) {
+                Asociado.find({idempresa:req.params.id3}).sort({'_id': -1}).exec(function(err, todos) {
                     if (err){  res.send(err);  }
                      res.json(todos);
                  });
             }
             else
             {
-                Asociado.find({idempresa:req.params.id3,estado:req.params.id2}).sort([['index', 1]]).exec(function(err, todos) {
+                Asociado.find({idempresa:req.params.id3,estado:req.params.id2}).sort({'_id': -1}).exec(function(err, todos) {
                     if (err){  res.send(err);  }
                      res.json(todos);
                  });
@@ -46,6 +46,9 @@ if(req.params.recordID!=='crea')
         {   
  todo.idempresa       	=	req.body.idempresa        	||	todo.idempresa;   
  todo.nombre       	=	req.body.nombre        	||	todo.nombre;   
+ todo.foto	=	req.body.foto        	||	todo.foto;   
+ todo.msmpublicidad	=	req.body.msmpublicidad        	||	todo.msmpublicidad;   
+ 
  todo.direccion       	=	req.body.direccion        	||	todo.direccion;   
  todo.telefono       	=	req.body.telefono        	||	todo.telefono;   
  todo.correo       	=	req.body.correo        	||	todo.correo;   
@@ -72,6 +75,9 @@ else{
             Asociado.create({ 
   idempresa     	: req.body.idempresa    	,
   nombre     	: req.body.nombre    	,
+  
+  msmpublicidad	: req.body.msmpublicidad,  
+  foto	: req.body.foto,
   direccion     	: req.body.direccion    	,
   telefono     	: req.body.telefono    	,
   correo     	: req.body.correo    	,
