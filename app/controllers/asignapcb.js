@@ -8,6 +8,48 @@ var Asignaest = require('../models/asignaestudiante');
 var Asignapcb = require('../models/asignapcb');
 var Bitacora = require('../models/bitacora');
 
+
+var Asignacalusac = require('../models/calusac/asignacalusac');
+var Notascalusac = require('../models/calusac/calusacnota');
+
+
+function getNextSequenceValuenota(req,res,cant,codf){
+
+    Asignacalusac.find({_id:codf }, function (err, todo1)  {
+        if (err) {  res.send(err);  }
+        else
+        {
+            if(todo1.length>0) {
+            console.log(todo1[0]._id)
+      
+    Asignacalusac.findById({_id:todo1[0]._id}, function (err, todo)  {
+                if (err) {  res.send(err);  }
+                else
+                { 
+
+                    console.log(todo)
+                   // console.log(todo)
+                     todo.estadoacta=	'Final'   	;
+                    
+                    todo.save(function (err, todo){
+                        if (err)     {  console.log(err.message) 
+                            console.log({_id:codf })
+                        
+                        
+                        }
+                        console.log(todo)
+                      
+                    });
+                
+                }
+            });
+        }
+        }
+        });
+
+}
+
+
 function getNextSequenceValue2aaa(req,res,cant,codf){
 
                         Facplan.find({codfac:codf }, function (err, todos10)  {
@@ -40,6 +82,22 @@ exports.getAsignapcb = function(req, res, next){
     if(req.params.id3)
     { 
 
+        if(req.params.id3=='notacalusac')
+        {
+          //  http://127.0.0.1:9090/api/asignapcbs/1/1/notacalusac
+          Notascalusac.find({}).exec(function(err, todos) {
+
+                for(var i = 0; i < todos.length;i++){     
+                    getNextSequenceValuenota(req,res,1,todos[i].idasigna);
+
+
+                      }
+              res.json(todos); 
+            });
+
+
+        }
+        else{
         if(req.params.id3=='componesalon')
         {
           //  http://127.0.0.1:9090/api/asignapcbs/1/1/componesalon
@@ -266,7 +324,7 @@ exports.getAsignapcb = function(req, res, next){
                                 
                             });
                         }
-    }}}}}
+    }}}}}}
     else
     {
     if(req.params.id)
@@ -537,10 +595,50 @@ else
   //agregar periodo que se esta trabajando*************************************************************
 
  
-Facplan.find({'idtipounidad.id'        	: req.body.tipounidad.id        	,
-'idunidadacademica.id'        	: req.body.unidadacademica.id  
- //,   asignados:{$lt:capacidad}    	
-         }).sort([['createdAt', 1]]).lean().exec({}, function(err,myData) {
+  var projectDataForMatch = {
+    $project : {
+       _id:1,
+       'idtipounidad.id':1,
+       'idunidadacademica.id' :1,
+
+         filterThisDoc : {
+            $cond : {
+                if  : {
+                    $lt : ["$asignados", "$capacidad"]
+                },
+            then : 1,
+            else  : 0
+        } //or use compare operator $cmp
+    }
+}
+}
+
+var match = {
+    $match : {
+        filterThisDoc : 1,
+        'idtipounidad.id'        	: req.body.tipounidad.id        	,'idunidadacademica.id'        	: req.body.unidadacademica.id  
+       
+    }
+}
+  var duplicates = [];
+console.log({ 'idtipounidad.id'        	: req.body.tipounidad.id        	,'idunidadacademica.id'        	: req.body.unidadacademica.id  })
+
+console.log(projectDataForMatch);
+console.log(match);
+
+
+  Facplan.aggregate([ projectDataForMatch, match] ).exec( function(err,myData200a) {
+    if (err) res.send(err);
+
+    if(myData200a.length==0)   {    res.status(404).send(' No existe  configurado salones para esta unidad academica '); }
+    else
+    {
+
+        for(var i = 0; i < myData200a.length;i++){
+            duplicates.push(myData200a[i]._id );
+            
+        }
+Facplan.find({ _id: {$in: duplicates}     }).sort([['createdAt', 1]]).lean().exec({}, function(err,myData) {
     if (err) res.send(err);
 
 
@@ -681,7 +779,7 @@ Facplan.find({'idtipounidad.id'        	: req.body.tipounidad.id     
                                     if(myData0a[i].idmateria==myData[ii].idmateria )
                                     {
                                       necesito=necesito+' ' +myData0a[i].idmateria
-                                            if( myData[ii].capacidad>=(Number(myData[ii].asignados)-2))
+                                            if( myData[ii].capacidad>=(Number(myData[ii].asignados)))
                                             {//si hay cupo lo hago
                                                 
                                                 cii=0;
@@ -744,7 +842,7 @@ else
        
      });
  
-
+    }});
     }
         
 });
