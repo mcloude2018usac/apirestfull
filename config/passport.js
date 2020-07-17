@@ -61,7 +61,7 @@ if(user==null){
                 return done(null, {
                     _id: '-11',
                     email: '-11',
-                    role: 'Contraseña no valida. (si no se recuerda de su contraseña por favor de click en ¿SE TE OLVIDO TU CONTRASEÑA?)',
+                    role: 'Contraseña no valida. (si no se recuerda de su contraseña por favor de click en reinicio de contraseña (Icono de la llave) )',
                     password:'-11',
                     estadoemail:'1',
                     estadoemail:user.estadoemail,
