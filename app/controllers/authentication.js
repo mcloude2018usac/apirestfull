@@ -88,7 +88,7 @@ exports.register = function(req, res, next){
         }
  
         if(existingUser){
-            return res.status(422).send(' Ya cuentas con un usuario registrado con estos datos: <br> CUI: '+ existingUser.cui +'<br> Correo electrónico: '+ existingUser.email +' <br>  Intenta iniciar sesión con estos datos. ');
+            return res.status(422).send(' Ya cuentas con un usuario registrado con estos datos: <br> CUI: '+ existingUser.cui +'<br> Correo electrónico: '+ existingUser.email +' <br> No debes volver a registrarte, Intenta iniciar sesión con estos datos. ');
         }
 
         
