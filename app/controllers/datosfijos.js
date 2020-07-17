@@ -25,6 +25,7 @@ var Catalogo = require('../models/catalogo');
 var Asignacalusac = require('../models/calusac/asignacalusac');
 var mailt = require('../controllers/mailprueba');
 var tipounidadx = require('../models/tipounidad');
+const compressor = require('flexmonster-compressor');
 
 
 
@@ -1084,6 +1085,49 @@ console.log('TERMINA')
 
 
         break;        
+
+        case 'calusacgeneral':
+        Asignacalusac.aggregate( [
+                { 
+                    "$match" : { 
+                        "estadopago" : "Asignación exitosa",
+                     }
+                }, 
+                {    
+                  
+                
+                    "$group" : { 
+                      
+                        "_id" : { 
+                            "tipoa" : "$tipoa",
+                            "unidad" : "$idtipounidad.nombre",
+                            "periodo" : "$idperiodo.nombre"
+                        }, 
+                        "COUNT(*)" : { 
+                            "$sum" :(1)
+                        }, 
+                        "SUM(monto)" : { 
+                             '$sum': { '$toInt': '$monto' } 
+                        }
+                    }
+                }, 
+                { 
+                    "$project" : { 
+                        "tipoa" : "$_id.tipoa", 
+                        "unidad": "$_id.unidad", 
+                        "periodo": "$_id.periodo", 
+                        "cantidad" : "$COUNT(*)", 
+                        "monto" : "$SUM(monto)", 
+                        "_id" : (0)
+                    }
+                }
+            ]).exec(function(err, todos) {
+
+              //  let stream = compressor.compressJson(todos);
+                res.json(todos);   
+
+            });
+            break;
         case 'eventogeneral':
                 Evento.find({},function(err, todos) {
                         if (err){  res.send(err); console.log(err)  }
