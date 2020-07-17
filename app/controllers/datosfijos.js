@@ -1101,7 +1101,13 @@ console.log('TERMINA')
                         "_id" : { 
                             "tipoa" : "$tipoa",
                             "unidad" : "$idtipounidad.nombre",
-                            "periodo" : "$idperiodo.nombre"
+                            "periodo" : "$idperiodo.nombre",
+                         
+                            "monto":"$monto",
+                            "operador":"$userasignadoemail",
+                            "estadooperador":"$estadooperador",
+                          
+
                         }, 
                         "COUNT(*)" : { 
                             "$sum" :(1)
@@ -1116,6 +1122,9 @@ console.log('TERMINA')
                         "tipoa" : "$_id.tipoa", 
                         "unidad": "$_id.unidad", 
                         "periodo": "$_id.periodo", 
+                       
+                        "operador":"$_id.operador",
+                        "estadooperador":"$_id.estadooperador",
                         "cantidad" : "$COUNT(*)", 
                         "monto" : "$SUM(monto)", 
                         "_id" : (0)
