@@ -203,6 +203,7 @@ if(req.params.recordID!=='crea')
             todo.impresion 	=	req.body.impresion 	||	todo.impresion 	;
             todo.nomax    	=	req.body.nomax    	||	todo.nomax    	;
             todo.fecha    	=	req.body.fecha    	||	todo.fecha    	;
+            todo.unidad	=	req.body.unidad	||	todo.unidad    	;
             todo.usuarioup=req.body.bitacora.email;
             
             
@@ -228,6 +229,7 @@ else{
         costo    	: req.body.costo   	,
         impresion 	: req.body.impresion 	,
         nomax 	: req.body.nomax 	,
+        unidad 	: req.body.unidad 	,
         usuarionew:req.body.bitacora.email,
         date 			: Date.now() }
         , function(err, todo) {
