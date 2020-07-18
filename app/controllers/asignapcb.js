@@ -595,53 +595,14 @@ else
   //agregar periodo que se esta trabajando*************************************************************
 
  
-  var projectDataForMatch = {
-    $project : {
-       _id:1,
-       'idtipounidad.id':1,
-       'idunidadacademica.id' :1,
-
-         filterThisDoc : {
-            $cond : {
-                if  : {
-                    $lt : ["$asignados", "$capacidad"]
-                },
-            then : 1,
-            else  : 0
-        } //or use compare operator $cmp
-    }
-}
-}
-
-var match = {
-    $match : {
-        filterThisDoc : 1,
-        'idtipounidad.id'        	: req.body.tipounidad.id        	,'idunidadacademica.id'        	: req.body.unidadacademica.id  
-       
-    }
-}
-  var duplicates = [];
-console.log({ 'idtipounidad.id'        	: req.body.tipounidad.id        	,'idunidadacademica.id'        	: req.body.unidadacademica.id  })
-
-console.log(projectDataForMatch);
-console.log(match);
-
-
-  Facplan.aggregate([ projectDataForMatch, match] ).exec( function(err,myData200a) {
-    if (err) res.send(err);
-console.log(myData200a)
-    if(myData200a.length==0)   {    res.status(404).send(' No existe  configurado salones para esta unidad academica '); }
-    else
-    {
-
-        for(var i = 0; i < myData200a.length;i++){
-            duplicates.push(myData200a[i]._id );
-            
-        }
-Facplan.find({ _id: {$in: duplicates}     }).sort([['createdAt', 1]]).lean().exec({}, function(err,myData) {
+  
+Facplan.find({'idtipounidad.id'        	: req.body.tipounidad.id        	,
+'idunidadacademica.id'        	: req.body.unidadacademica.id  
+ //,   asignados:{$lt:capacidad}    	
+         }).sort([['createdAt', 1]]).lean().exec({}, function(err,myData) {
     if (err) res.send(err);
 
-console.log(myData)
+
     if(myData.length==0)
     {
      res.status(404).send(' No existe  configurado salones para esta unidad academica')    
@@ -690,7 +651,7 @@ console.log(myData)
            if(myData0t[0].quimica==true){ myData0.push({idmateria:'Quimica'});      }
            if(myData0t[0].biologia==true){ myData0.push({idmateria:'Biologia'});      }
    
-
+console.log(myData0)
            if(myData0.length==0)
            {
        //     res.status(404).send(' No existen materias configuradas para esta unidad academica')    
@@ -842,7 +803,7 @@ else
        
      });
  
-    }});
+
     }
         
 });
