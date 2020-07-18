@@ -10,6 +10,7 @@ var mongoose =require("mongoose");
         impresion	: { type : String, required : true },
         nomax: { type : Number },
         fecha: { type : String },
+        unidad: { type : String },
         tipoevento: { type : String },
         usuarionew	: { type : String },      usuarioup	: { type : String },
         date 		: { type: Date, default: Date.now }}, {
