@@ -629,7 +629,7 @@ console.log(match);
 
   Facplan.aggregate([ projectDataForMatch, match] ).exec( function(err,myData200a) {
     if (err) res.send(err);
-
+console.log(myData200a)
     if(myData200a.length==0)   {    res.status(404).send(' No existe  configurado salones para esta unidad academica '); }
     else
     {
@@ -641,7 +641,7 @@ console.log(match);
 Facplan.find({ _id: {$in: duplicates}     }).sort([['createdAt', 1]]).lean().exec({}, function(err,myData) {
     if (err) res.send(err);
 
-
+console.log(myData)
     if(myData.length==0)
     {
      res.status(404).send(' No existe  configurado salones para esta unidad academica')    
