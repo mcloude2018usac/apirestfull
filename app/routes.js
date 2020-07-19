@@ -726,6 +726,7 @@ eventoRoutes.get('/',requireAuth, EventoController.getEvento);
 eventoRoutes.get('/:id', EventoController.getEvento);
 eventoRoutes.get('/:id/:id2', EventoController.getEvento);
 eventoRoutes.get('/:id/:id2/:id3', EventoController.getEvento);
+eventoRoutes.get('/:id/:id2/:id3/:id4', EventoController.getEvento);
 
 eventoRoutes.post('/:recordID',  EventoController.creaEvento2s);
 eventoRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  EventoController.deleteEvento);
@@ -855,6 +856,7 @@ apiRoutes.use('/dcatalogos', dcatalogoRoutes);
 dcatalogoRoutes.get('/:id',  DcatalogoController.getDcatalogo);
 dcatalogoRoutes.get('/:id/:id2',requireAuth,  DcatalogoController.getDcatalogo);
 dcatalogoRoutes.get('/:id/:id2/:id3',requireAuth,  DcatalogoController.getDcatalogo);
+dcatalogoRoutes.get('/:id/:id2/:id3/:id4', DcatalogoController.getDcatalogo);
 dcatalogoRoutes.post('/:id',requireAuth,  DcatalogoController.creaDcatalogo2s);
 dcatalogoRoutes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  DcatalogoController.deleteDcatalogo);
 
