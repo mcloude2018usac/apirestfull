@@ -9,8 +9,11 @@ var mongoose =require("mongoose");
         "url": "http://localhost:3000/images/59a4093c8068343d9b187d6c"
 */
 var ImageSchema = new mongoose.Schema({
-   img: Buffer
-   , contentType: String
+   img: Buffer,
+   contentType: String,
+   nombre: String,
+   tamano: Number
+
  
 }, {
   timestamps: true

@@ -1,4 +1,5 @@
 var mongoose =require("mongoose");
+
     var EventoSchema 		=	new  mongoose.Schema({
         idempresa		: { type : String, required : true },   
         nombre   		: { type : String, required : true},

@@ -2,7 +2,7 @@ var mongoose =require("mongoose");
 var AsignaestudianteSchema = new mongoose.Schema({
     idasigna: {
         type: String,
-        required: true
+        required: true,ref:'Asignapcb'
     },
     idtipounidad :  		{    id	: { type : String, required : true },   nombre	: { type : String, required : true }        },
     idunidadacademica   		: {    id	: { type : String, required : true },   nombre	: { type : String, required : true }  ,   codigo	: { type : String, required : true }      },
