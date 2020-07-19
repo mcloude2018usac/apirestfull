@@ -4,6 +4,8 @@ var express  = require('express');
 const cron = require("node-cron");
 var crntt = require('./app/controllers/crontabfunc');
 var correop= require('./app/controllers/mailprueba');
+var multer  = require('multer');
+
 //const fs = require("fs");
 var app      = express();
 var mongoose = require('mongoose');
@@ -17,7 +19,7 @@ var router = require('./app/routes');
 
 var mailt = require('./app/controllers/mail');
 const throng = require('throng')
-
+let UPLOAD_PATH = 'uploads'
 const WORKERS = process.env.WEB_CONCURRENCY || 1
 process.env.NODE_TLS_REJECT_UNAUTHORIZED=1
 
@@ -25,6 +27,17 @@ throng({
   workers: WORKERS,
   lifetime: Infinity
 }, start)
+
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+      cb(null, UPLOAD_PATH)
+  },
+  filename: function (req, file, cb) {
+      cb(null, file.fieldname + '-' + Date.now())
+  }
+})
+let upload = multer({ storage: storage })
+
 
 function start() {
 
@@ -101,18 +114,22 @@ function logErrors(err, req, res, next) {
 
 function clientErrorHandler(err, req, res, next) {
   if (req.xhr) {
-    res.status(500).send({ error: 'Something failed!' });
+    res.status(422).send({ error: 'Something failed!' });
   } else {
     next(err);
   }
 }
 
 function errorHandler(err, req, res, next) {
-  res.status(500);
+  res.status(422);
   res.render('error', { error: err });
 }
 
-//correop.mandacorreoprueba2()
+                  
+
+//correop.mandacorreoprueba2(['mario.morales@mcloude.com'],'Solicitando salon para Unidad academica:', 'Solicitud de nuevo salon',['mario.morales@mcloude.com'])
+
+//correop.mandacorreoprueba2('mensaje xxxxxxxxxxxxxxx')
 //correop.mandanoti(); 
 /*
 
