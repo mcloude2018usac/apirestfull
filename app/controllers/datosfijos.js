@@ -1138,7 +1138,7 @@ console.log('TERMINA')
             });
             break;
         case 'eventogeneral':
-                Evento.find({},function(err, todos) {
+                Evento.find({}).sort({_id : -1}).exec(function(err, todos) {
                         if (err){  res.send(err); console.log(err)  }
                 Participa.aggregate( [
                         { 
