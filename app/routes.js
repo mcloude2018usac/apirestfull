@@ -1,6 +1,7 @@
 var AuthenticationController = require('./controllers/authentication'), 
     OraController = require('./controllers/oraclesqlx'), 
     DatosfijosController = require('./controllers/datosfijos'),
+    ImageController = require('./controllers/image'),
     GeneradorController = require('./controllers/generafrm/generador'),
    SiifController = require('./controllers/siif'),
    ProductoController = require('./controllers/asociadoventa/producto'),
@@ -162,6 +163,7 @@ module.exports = function(app){
         reglamentoRoutes = express.Router(),
         reglamentodRoutes = express.Router(),
         participa4Routes = express.Router(),
+        imageRoutes = express.Router(),
         conferenciaRoutes = express.Router(),
         dcatalogoRoutes = express.Router(),
         suscriptorsaldoRoutes = express.Router(),
@@ -295,6 +297,12 @@ module.exports = function(app){
    /*
 SINNNNNNNNNNNNNN AUTORIZACION
    */
+
+  apiRoutes.use('/Images', imageRoutes);
+  imageRoutes.get('/:id',  ImageController.getImages);
+  imageRoutes.post('/:recordID',requireAuth,  ImageController.createImage);
+  imageRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  ImageController.deleteImage);
+
 
 
   apiRoutes.use('/subcategorias', subcategoriaRoutes);
