@@ -4,6 +4,28 @@ var Bitacora = require('../models/bitacora');
 var Participa = require('../models/participa');
 
 exports.getEvento = function(req, res, next){
+    if(req.params.id4)
+    { 
+        if(req.params.id4=='ADMINISTRADOR')
+        {
+            Evento.find({idempresa:req.params.id,impresion:req.params.id2}).
+            select({costo:1,fecha:1,impresion:1,nombre:1,fechaini:1,fechafin:1,ubicacion: 1,nomax:1,foto:1,fecha:1}).sort([['createdAt', -1]]).exec(function(err, todos) {
+                if (err){  res.send(err);  }
+                 res.json(todos);
+             });
+        }
+        else
+        {
+            Evento.find({idempresa:req.params.id,impresion:req.params.id2,unidad:req.params.id4}).
+            select({costo:1,fecha:1,impresion:1,nombre:1,fechaini:1,fechafin:1,ubicacion: 1,nomax:1,foto:1,fecha:1}).sort([['createdAt', -1]]).exec(function(err, todos) {
+                if (err){  res.send(err);  }
+                 res.json(todos);
+             });
+        }
+     
+
+    }
+    else{
     if(req.params.id3)
     { 
         if(req.params.id3=='eventos' )
@@ -37,7 +59,7 @@ if(req.params.id)
 {
     if(req.params.id!='')
 {
-                Evento.findById({_id:req.params.id}).select({nombre:1,foto:1,ubicacion:1,fecha:1,nomax:1,impresion:1,_id:1}).exec(function(err, todos) {
+                Evento.findById({_id:req.params.id}).select({idempresa:1,unidad:1,nombre:1,foto:1,ubicacion:1,fecha:1,nomax:1,impresion:1,_id:1}).exec(function(err, todos) {
                  
                     if (err){  res.status(422).send({estado:'Hubo un error en el sistema , por favor intente mas tarde'});  }
                    
@@ -133,7 +155,7 @@ if(req.params.id)
         if(req.params.id=='todos')
         {
             Evento.find({idempresa:req.params.id2,impresion:req.params.id3})
-            .select({fecha:1,impresion:1,nombre:1,fechaini:1,fechafin:1,ubicacion: 1,no_max:1,foto:1,fecha:1}).sort([['createdAt', -1]]).exec(function(err, todos) {
+            .select({idempresa,unidad:1,fecha:1,impresion:1,nombre:1,fechaini:1,fechafin:1,ubicacion: 1,no_max:1,foto:1,fecha:1}).sort([['createdAt', -1]]).exec(function(err, todos) {
                 if (err){  res.send(err);  }
                  res.json(todos);
              });
@@ -172,6 +194,7 @@ if(req.params.id)
     else
     { 
     }
+}
 }
 }
 exports.deleteEvento = function(req, res, next){

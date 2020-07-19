@@ -11,18 +11,40 @@ var  del= require('del');
 
 
 
-
 exports.getImages = function(req, res, next){
     let imgId = req.params.id;
     Image.findById(imgId, (err, image) => {
         if (err) {
-            res.sendStatus(400);
+            res.sendStatus(402);
+            return;
         }
-        // stream the image back by loading the file
-        console.log(image)
+    
+       if(image)
+       { res.setHeader('content-type', image.contentType);
+       res.send(image.img);}
+       else
+       {
+       
+        Image.findById('5f146aa48caa41db981e6830', (err, image) => {
+            if (err) {
+                res.sendStatus(402);
+                return;
+            }
+                    if(image)
+                    {   res.setHeader('content-type', image.contentType);
+                        res.send(image.img);}
+                    else
+                    {
+                        res.setHeader('content-type', 'image/png');
+                        res.send('iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAIAAADUCbv3AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAAUSURBVChTY/iPF4xKYwWUSP//DwCbIGaosFt0WQAAAABJRU5ErkJggg==');
+                    }
+
+        });
+      
+
+       }
      
-        res.setHeader('content-type', image.contentType);
-        res.send(image.img);
+       
       //  fs.createReadStream(path.join(UPLOAD_PATH, image.filename)).pipe(res);
     })
 
@@ -71,27 +93,83 @@ exports.putImages = function(req, res, next){
 
 exports.createImage = function(req, res, next){
 
+    if(req.body.id=='' || req.body.id=='base64')
+    {
+        const img = req.body.img;
+        const data = img;
+        const split = data.split(','); 
+        var fullUrl = req.protocol + '://' + req.get('host') ;
+        const base64string = split[1];
+        var tipoimg =(split[0]).split(';')
+        const tipoimg2 =(tipoimg[0]).split(':')
+        const buffer = Buffer.from(base64string, 'base64');
+     
+        var new_img = new Image;
+        new_img.img =buffer
+        new_img.nombre =req.body.nombre
+        new_img.tamano =req.body.tamaño
 
-    const img = req.body.img;
-    console.log(img)
+        new_img.contentType = tipoimg2[1] ;
+    
+        new_img.save(function (err, todo){
+            if (err) {
+                return res.sendStatus(400);
+            }
+            res.status(201).send({ url:fullUrl + '/api/images/'+todo._id});
+        });
+    
 
-    const data = img;
-    console.log(data)
-    const split = data.split(','); // or whatever is appropriate here. this will work for the example given
-    const base64string = split[1];
-    const buffer = Buffer.from(base64string, 'base64');
+    }
+    else{
 
-   
-    var new_img = new Image;
-    new_img.img =buffer
-    new_img.contentType = 'image/jpeg';
-    new_img.save(err => {
-        if (err) {
-            return res.sendStatus(400);
+        let imgId = req.body.id ;
+
+        if(imgId=='noexiste')
+        {
+            res.status(201).send({ url:''});
         }
-        res.status(201).send({ new_img });
-    });
+        else
+        {
+            Image.findByIdAndRemove(imgId, (err, image) => {
+                if (err && image) {
+                    res.sendStatus(400);
+                    return;
+                }
+         
+                const img = req.body.img;
+                const data = img;
+                const split = data.split(','); 
+                var fullUrl = req.protocol + '://' + req.get('host') ;
+                const base64string = split[1];
+                var tipoimg =(split[0]).split(';')
+                const tipoimg2 =(tipoimg[0]).split(':')
+                const buffer = Buffer.from(base64string, 'base64');
+                console.log(buffer)
+                var new_img = new Image;
+                new_img.img =buffer
+                new_img.nombre =req.body.nombre
+                new_img.tamano =req.body.tamaño
+        
+                new_img.contentType = tipoimg2[1] ;
+            
+                new_img.save(function (err, todo){
+                    if (err) {
+                        return res.sendStatus(400);
+                    }
+                    res.status(201).send({ url:fullUrl + '/api/images/'+todo._id});
+                });
+    
+    
+    
+            })
+        }
+ 
+      
 
+
+    }
+
+  
 
 
 }
@@ -114,3 +192,7 @@ exports.deleteImage = function(req, res, next){
   
 
 }
+
+
+
+  

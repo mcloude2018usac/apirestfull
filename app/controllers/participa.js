@@ -266,7 +266,7 @@ console.log(nopp)
                                                     apellido    	: req.body.apellido    	,
                                                     genero    	: req.body.genero    	,
                                                     edad   	: req.body.edad 	,
-                                                    correo    	: req.body.correo   	,
+                                                    correo    	: String(req.body.correo).toUpperCase()   	,
                                                     cui    	: req.body.cui   	,
                                                     telefono 	: req.body.telefono 	,
                                                     unidad 	: req.body.unidad 	,

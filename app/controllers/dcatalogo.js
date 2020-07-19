@@ -5,9 +5,37 @@ var catalogo = require('../models/catalogo');
 var Bitacora = require('../models/bitacora');
 
 exports.getDcatalogo = function(req, res, next){
+    if(req.params.id4)
+    {
+console.log({tipo:req.params.id,idempresa:req.params.id2,nombre:req.params.id3})
+   
+        catalogo.find({tipo:req.params.id,idempresa:req.params.id2,nombre:req.params.id3},function(err, todos) {
+            if (err){ res.send(err); }
+           console.log(todos)
+            if(todos.length>0)   {   
+                
+               // res.json(todos); 
+
+                Dcatalogo.find({idcatalogo:todos[0]._id},function(err, todos) {
+                    if (err){  res.send(err);  }
+                    console.log(todos)
+                     res.json(todos);
+                 });
+            
+            
+            }
+            else
+            { res.json(todos);      }
+            
+        });
+
+
+    }
+    else
+    {
     if(req.params.id3)
     { 
-console.log({nombre:req.params.id,idempresa:req.params.id2,estado:'Activo'})
+
         catalogo.find({tipo:req.params.id,idempresa:req.params.id2,estado:'Activo'},function(err, todos) {
             if (err){ res.send(err); }
            
@@ -35,7 +63,7 @@ console.log({nombre:req.params.id,idempresa:req.params.id2,estado:'Activo'})
                 res.json(todos);
             });
         
-    }
+    }}
   
 }
 exports.deleteDcatalogo = function(req, res, next){

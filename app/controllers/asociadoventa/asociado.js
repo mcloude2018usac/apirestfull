@@ -1,6 +1,8 @@
 
 var Asociado = require('../../models/asociadoventa/asociado');
 var Bitacora = require('../../models/bitacora');
+var Image = require('../../models/image');
+var functool = require('../../controllers/funcionesnode');
 
 exports.getAsociado = function(req, res, next){
     if(req.params.id3)
@@ -33,7 +35,9 @@ exports.getAsociado = function(req, res, next){
 exports.deleteAsociado = function(req, res, next){
     Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina Asociado '});
     Asociado.findByIdAndRemove({ _id: req.params.recordID  }, function(err, todo) {
-        res.json(todo);
+        var arra = functool.getImagesruta (todo.foto);
+          
+        Image.findByIdAndRemove(arra, function(err, todo10) {      res.json(todo);    });
     });
 }
 exports.creaAsociado2s = function(req, res, next){

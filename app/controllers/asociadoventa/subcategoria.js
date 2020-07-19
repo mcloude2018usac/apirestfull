@@ -1,18 +1,18 @@
 var Subcategoria = require('../../models/asociadoventa/subcategoria');
 var Bitacora = require('../../models/bitacora');
 exports.getSubcategoria = function(req, res, next){
-    if(req.params.id3)
+    if(req.params.id4)
     {   
             if(req.params.id2=='todos')
             { 
-                Subcategoria.find({idempresa:req.params.id3}).sort([['index', 1]]).exec(function(err, todos) {
+                Subcategoria.find({idempresa:req.params.id3,idpapa:req.params.id4}).sort({'_id': -1}).exec(function(err, todos) {
                     if (err){  res.send(err);  }
                      res.json(todos);
                  });
             }
             else
             {
-                Subcategoria.find({idempresa:req.params.id3,estado:req.params.id2}).sort([['index', 1]]).exec(function(err, todos) {
+                Subcategoria.find({idempresa:req.params.id3,estado:req.params.id2,idpapa:req.params.id4}).sort({'_id': -1}).exec(function(err, todos) {
                     if (err){  res.send(err);  }
                      res.json(todos);
                  });
