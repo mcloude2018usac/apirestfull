@@ -204,6 +204,8 @@ else{
 
            if(todo20a.length==0)
            {
+               console.log({  idempresa       	: req.body.idempresa   ,idevento       	: req.body.idevento , 
+                correo : req.body.correo })
             Participa.find({  idempresa       	: req.body.idempresa   ,idevento       	: req.body.idevento , 
                  correo : req.body.correo }, function (err, todo20)  {
                 if (err) {  res.send(err);  }
@@ -252,7 +254,7 @@ console.log(nopp)
                                                 cuantos =todo10[0].cantidad
                                             }
                           
-                                            console.log(todo10)
+                                         
 
                                                 if(cuantos<=nopp)
                                                 {
@@ -266,7 +268,7 @@ console.log(nopp)
                                                     apellido    	: req.body.apellido    	,
                                                     genero    	: req.body.genero    	,
                                                     edad   	: req.body.edad 	,
-                                                    correo    	: String(req.body.correo).toUpperCase()   	,
+                                                    correo    	: String(req.body.correo).toLowerCase()	,
                                                     cui    	: req.body.cui   	,
                                                     telefono 	: req.body.telefono 	,
                                                     unidad 	: req.body.unidad 	,
