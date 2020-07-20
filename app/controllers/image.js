@@ -93,6 +93,12 @@ exports.putImages = function(req, res, next){
 
 exports.createImage = function(req, res, next){
 
+    if(req.body.img==undefined)
+    {console.log('nula')
+        res.status(201).send({ url:''});
+    }
+    else
+    {
     if(req.body.id=='' || req.body.id=='base64')
     {
         const img = req.body.img;
@@ -166,7 +172,7 @@ exports.createImage = function(req, res, next){
         }
  
       
-
+    }
 
     }
 
