@@ -123,9 +123,10 @@ exports.createImage = function(req, res, next){
     else{
 
         let imgId = req.body.id ;
+        console.log( req.body.img)
 
-        if(imgId=='noexiste')
-        {
+        if(imgId=='noexiste' || req.body.img==undefined)
+        {console.log('nula')
             res.status(201).send({ url:''});
         }
         else
