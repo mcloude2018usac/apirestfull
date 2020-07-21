@@ -26,6 +26,7 @@ var Asignacalusac = require('../models/calusac/asignacalusac');
 var mailt = require('../controllers/mailprueba');
 var tipounidadx = require('../models/tipounidad');
 const compressor = require('flexmonster-compressor');
+var Image=require('../models/image');
 
 
 
@@ -71,58 +72,6 @@ var cleanName = function(str) {
         return str.toUpperCase();
     };
 
-    const  Modulovv = [{nombre:'idempresa',tipo:'String',requerido:1,visible:0},
-   
-    {nombre:'nombre',tipo:'String',requerido:1,visible:1},
-    {nombre:'grupo',tipo:'Grupo',requerido:1,grupo:1,visible:1},
-    {nombre:'titulo',tipo:'String',requerido:1,visible:1},
-    {nombre:'componente',tipo:'String',requerido:1,visible:0},
-    {nombre:'tabcomponente',tipo:'String',requerido:1,visible:0},
-    {nombre:'index',tipo:'Number',requerido:1,visible:1},
-    {nombre:'icono',tipo:'String',requerido:1,visible:1},
-  
-    {nombre:'nivel',tipo:'String',requerido:1,visible:1},
-    {nombre:'estado',tipo:'Estado',requerido:1,visible:1},
-    {nombre:'usuarionew',tipo:'String',requerido:1,visible:0},
-    {nombre:'usuarioup',tipo:'String',requerido:1,visible:0}
-    
-];
-
-const  Asociadovv = [{nombre:'idempresa',tipo:'String',requerido:1,visible:0},
-   
-{nombre:'nombre',tipo:'String',requerido:1,visible:1},
-{nombre:'direccion',tipo:'String',requerido:1,visible:1},
-{nombre:'telefono',tipo:'String',requerido:1,visible:1},
-{nombre:'correo',tipo:'String',requerido:1,visible:1},
-{nombre:'ubicacion',tipo:'String',requerido:1,visible:1},
-{nombre:'horario',tipo:'String',requerido:1,visible:1},
-{nombre:'foto',tipo:'Foto',requerido:1,visible:1},
-{nombre:'nit',tipo:'String',requerido:1,visible:1},
-{nombre:'nombrecomercial',tipo:'String',requerido:1,visible:1},
-{nombre:'direccioncomercial',tipo:'String',requerido:1,visible:1},
-
-{nombre:'estado',tipo:'Estado',requerido:1,visible:1},
-{nombre:'usuarionew',tipo:'String',requerido:0,visible:0},
-{nombre:'usuarioup',tipo:'String',requerido:0,visible:0}
-
-];
-
-const  Productov = [{nombre:'idempresa',tipo:'String',requerido:1,visible:0},
-   
-{nombre:'nombre',tipo:'String',requerido:1,visible:1},
-{nombre:'descripcion',tipo:'String',requerido:0,visible:1},
-{nombre:'precio',tipo:'Number',requerido:1,visible:1},
-{nombre:'unidad',tipo:'String',requerido:1,visible:1},
-{nombre:'xunidad',tipo:'String',requerido:1,visible:1},
-{nombre:'categoria',tipo:'String',requerido:1,visible:1},
-{nombre:'foto',tipo:'Foto',requerido:0,visible:1},
-{nombre:'aplicafoto',tipo:'String',requerido:0,visible:1},
-{nombre:'estado',tipo:'Estado',requerido:1,visible:1},
-{nombre:'idasociado',tipo:'llaved',requerido:0,visible:0},
-{nombre:'usuarionew',tipo:'String',requerido:0,visible:0},
-{nombre:'usuarioup',tipo:'String',requerido:0,visible:0}
-
-];
 
 var defaultDiacriticsRemovalMap = [
         {'base':'A', 'letters':/[\u0041\u24B6\uFF21\u00C0\u00C1\u00C2\u1EA6\u1EA4\u1EAA\u1EA8\u00C3\u0100\u0102\u1EB0\u1EAE\u1EB4\u1EB2\u0226\u01E0\u00C4\u01DE\u1EA2\u00C5\u01FA\u01CD\u0200\u0202\u1EA0\u1EAC\u1EB6\u1E00\u0104\u023A\u2C6F]/g},
@@ -223,142 +172,6 @@ var defaultDiacriticsRemovalMap = [
         return str;
     }
 
-function utf8_decode (strData) { // eslint-disable-line camelcase
-        //  discuss at: https://locutus.io/php/utf8_decode/
-        // original by: Webtoolkit.info (https://www.webtoolkit.info/)
-        //    input by: Aman Gupta
-        //    input by: Brett Zamir (https://brett-zamir.me)
-        // improved by: Kevin van Zonneveld (https://kvz.io)
-        // improved by: Norman "zEh" Fuchs
-        // bugfixed by: hitwork
-        // bugfixed by: Onno Marsman (https://twitter.com/onnomarsman)
-        // bugfixed by: Kevin van Zonneveld (https://kvz.io)
-        // bugfixed by: kirilloid
-        // bugfixed by: w35l3y (https://www.wesley.eti.br)
-        //   example 1: utf8_decode('Kevin van Zonneveld')
-        //   returns 1: 'Kevin van Zonneveld'
-      
-        var tmpArr = []
-        var i = 0
-        var c1 = 0
-        var seqlen = 0
-      
-        strData += ''
-      
-        while (i < strData.length) {
-          c1 = strData.charCodeAt(i) & 0xFF
-          seqlen = 0
-      
-          // https://en.wikipedia.org/wiki/UTF-8#Codepage_layout
-          if (c1 <= 0xBF) {
-            c1 = (c1 & 0x7F)
-            seqlen = 1
-          } else if (c1 <= 0xDF) {
-            c1 = (c1 & 0x1F)
-            seqlen = 2
-          } else if (c1 <= 0xEF) {
-            c1 = (c1 & 0x0F)
-            seqlen = 3
-          } else {
-            c1 = (c1 & 0x07)
-            seqlen = 4
-          }
-      
-          for (var ai = 1; ai < seqlen; ++ai) {
-            c1 = ((c1 << 0x06) | (strData.charCodeAt(ai + i) & 0x3F))
-          }
-      
-          if (seqlen === 4) {
-            c1 -= 0x10000
-            tmpArr.push(String.fromCharCode(0xD800 | ((c1 >> 10) & 0x3FF)))
-            tmpArr.push(String.fromCharCode(0xDC00 | (c1 & 0x3FF)))
-          } else {
-            tmpArr.push(String.fromCharCode(c1))
-          }
-      
-          i += seqlen
-        }
-      
-        return tmpArr.join('')
-      }
-function utf8_encode (argString) { // eslint-disable-line camelcase
-        //  discuss at: https://locutus.io/php/utf8_encode/
-        // original by: Webtoolkit.info (https://www.webtoolkit.info/)
-        // improved by: Kevin van Zonneveld (https://kvz.io)
-        // improved by: sowberry
-        // improved by: Jack
-        // improved by: Yves Sucaet
-        // improved by: kirilloid
-        // bugfixed by: Onno Marsman (https://twitter.com/onnomarsman)
-        // bugfixed by: Onno Marsman (https://twitter.com/onnomarsman)
-        // bugfixed by: Ulrich
-        // bugfixed by: Rafał Kukawski (https://blog.kukawski.pl)
-        // bugfixed by: kirilloid
-        //   example 1: utf8_encode('Kevin van Zonneveld')
-        //   returns 1: 'Kevin van Zonneveld'
-      
-        if (argString === null || typeof argString === 'undefined') {
-          return ''
-        }
-      
-        // .replace(/\r\n/g, "\n").replace(/\r/g, "\n");
-        var string = (argString + '')
-        var utftext = ''
-        var start
-        var end
-        var stringl = 0
-      
-        start = end = 0
-        stringl = string.length
-        for (var n = 0; n < stringl; n++) {
-          var c1 = string.charCodeAt(n)
-          var enc = null
-      
-          if (c1 < 128) {
-            end++
-          } else if (c1 > 127 && c1 < 2048) {
-            enc = String.fromCharCode(
-              (c1 >> 6) | 192, (c1 & 63) | 128
-            )
-          } else if ((c1 & 0xF800) !== 0xD800) {
-            enc = String.fromCharCode(
-              (c1 >> 12) | 224, ((c1 >> 6) & 63) | 128, (c1 & 63) | 128
-            )
-          } else {
-            // surrogate pairs
-            if ((c1 & 0xFC00) !== 0xD800) {
-              throw new RangeError('Unmatched trail surrogate at ' + n)
-            }
-            var c2 = string.charCodeAt(++n)
-            if ((c2 & 0xFC00) !== 0xDC00) {
-              throw new RangeError('Unmatched lead surrogate at ' + (n - 1))
-            }
-            c1 = ((c1 & 0x3FF) << 10) + (c2 & 0x3FF) + 0x10000
-            enc = String.fromCharCode(
-              (c1 >> 18) | 240, ((c1 >> 12) & 63) | 128, ((c1 >> 6) & 63) | 128, (c1 & 63) | 128
-            )
-          }
-          if (enc !== null) {
-            if (end > start) {
-              utftext += string.slice(start, end)
-            }
-            utftext += enc
-            start = end = n + 1
-          }
-        }
-      
-        if (end > start) {
-          utftext += string.slice(start, stringl)
-        }
-      
-        return utftext
-      }
-
-
-      function logErrors(err, req, res, next) {
-        console.error(err.stack);
-        next(err);
-      }
 
 
       
@@ -411,6 +224,54 @@ function utf8_encode (argString) { // eslint-disable-line camelcase
             
       }
 
+
+      function getNextSequenceValueimg(imagen,idd){
+
+        const img = imagen;
+        const data = img;
+        const split = data.split(','); 
+        var fullUrl ='https://rest2019xxaa.herokuapp.com';
+        const base64string = split[1];
+        var tipoimg =(split[0]).split(';')
+        const tipoimg2 =(tipoimg[0]).split(':')
+        const buffer = Buffer.from(base64string, 'base64');
+     
+        var new_img = new Image;
+        new_img.img =buffer
+        new_img.nombre =''
+        new_img.tamano =0
+
+        new_img.contentType = tipoimg2[1] ;
+    
+        new_img.save(function (err, todoe){
+            if (err) {
+                return res.sendStatus(400);
+            }
+
+
+            Evento.findById({ _id: idd }, function (err, todo)  {
+                if (err) {  res.send(err);  }
+                else
+                {  
+                    todo.foto	=	fullUrl + '/api/images/'+todoe._id
+                    todo.save(function (err, todo){
+                        if (err)     {  res.status(500).send(err.message)   }
+                        console.log(fullUrl + '/api/images/'+todoe._id)
+                      //  res.json(todo);
+                    });
+                }
+            });
+
+
+            
+        });
+    
+
+
+
+
+    
+      }
 
 
       function getNextSequenceValue2(salonn, idd,cuentaaa){
@@ -519,6 +380,22 @@ exports.getCombofijo = function(req, res, next){
        console.log(req.params)
 
        switch(req.params.id) {
+        case 'componeeventosimg':
+                Evento.find({"impresion" : "Imprimir diploma" }).exec(function(err, todos) {
+                        if (err){ res.send(err); }
+                      
+                        for(var i = 0; i < todos.length;i++){
+                                var cad=todos[i].foto
+                                if(cad.indexOf('base64')>0)
+                                { getNextSequenceValueimg(todos[i].foto,todos[i]._id)
+
+                                }
+
+                       
+                        }
+                        res.json({ todos});
+                });
+                break;
         case 'correpueba':
                 mailt.mandacorreoprueba2(['eveready11p@gmail.com','ambrosioaleman07@gmail.com','mario.morales@mcloude.com'],'Solicitando salon para Unidad academica:', 'Solicitud de nuevo salon',['mario.morales@mcloude.com'])
 break;
@@ -753,7 +630,7 @@ break;
                         var thora='';
            
                         Evento.find({impresion:'Imprimir diploma'
-                                }).select({_id:1,nombre:1,fecha:1,costo:1,tipoevento:1}).sort({_id:-1}).lean().exec(function(err, todos0aaa) {
+                                }).select({_id:1,nombre:1,fecha:1,costo:1,tipoevento:1,idempresa:1,unidad:1}).sort({_id:-1}).lean().exec(function(err, todos0aaa) {
        
                 
 
@@ -785,7 +662,7 @@ break;
                                                                 thora=todos0aaa[ii].costo;
                                                                 tipoevento=todos0aaa[ii].tipoevento;
                                                                 
-                                                                myData.push({ideve:teveid,tipoevento:tipoevento,idcurso:todos2[i]._id ,nombre:todos2[i].nombre + ' ' +todos2[i].apellido,curso:teve,tipo:2,fecha:tfecha,hora:thora});
+                                                                myData.push({idempresa:todos0aaa[ii].idempresa,unidad:todos0aaa[ii].unidad,ideve:teveid,tipoevento:tipoevento,idcurso:todos2[i]._id ,nombre:todos2[i].nombre + ' ' +todos2[i].apellido,curso:teve,tipo:2,fecha:tfecha,hora:thora});
 
                                                         }
                                                 }
@@ -830,7 +707,7 @@ break;
                                         
 
                                         Evento.find({_id:arrr[2]
-                                        }).select({_id:1,nombre:1,fecha:1,costo:1,tipoevento:1}).lean()
+                                        }).select({_id:1,nombre:1,fecha:1,costo:1,tipoevento:1,idempresa:1,unidad:1}).lean()
                                         .exec(function(err, todos0aaa) {
 
                                                 
@@ -2147,6 +2024,8 @@ break;
 
 break;  
      
+
+
 
 
 case 'excel-asigna33xxxcc':
