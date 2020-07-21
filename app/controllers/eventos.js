@@ -9,7 +9,7 @@ exports.getEvento = function(req, res, next){
         if(req.params.id4=='ADMINISTRADOR')
         {
             Evento.find({idempresa:req.params.id,impresion:req.params.id2}).
-            select({costo:1,fecha:1,impresion:1,nombre:1,fechaini:1,fechafin:1,ubicacion: 1,nomax:1,foto:1,fecha:1}).sort([['createdAt', -1]]).exec(function(err, todos) {
+            select({idempresa:1,unidad:1,costo:1,fecha:1,impresion:1,nombre:1,fechaini:1,fechafin:1,ubicacion: 1,nomax:1,foto:1,fecha:1}).sort([['createdAt', -1]]).exec(function(err, todos) {
                 if (err){  res.send(err);  }
                  res.json(todos);
              });
@@ -17,7 +17,7 @@ exports.getEvento = function(req, res, next){
         else
         {
             Evento.find({idempresa:req.params.id,impresion:req.params.id2,unidad:req.params.id4}).
-            select({costo:1,fecha:1,impresion:1,nombre:1,fechaini:1,fechafin:1,ubicacion: 1,nomax:1,foto:1,fecha:1}).sort([['createdAt', -1]]).exec(function(err, todos) {
+            select({idempresa:1,unidad:1,costo:1,fecha:1,impresion:1,nombre:1,fechaini:1,fechafin:1,ubicacion: 1,nomax:1,foto:1,fecha:1}).sort([['createdAt', -1]]).exec(function(err, todos) {
                 if (err){  res.send(err);  }
                  res.json(todos);
              });
@@ -31,7 +31,7 @@ exports.getEvento = function(req, res, next){
         if(req.params.id3=='eventos' )
         {
             Evento.find({impresion:'Activo' ,idempresa:req.params.id3}).
-            select({costo:1,fecha:1,impresion:1,nombre:1,fechaini:1,fechafin:1,ubicacion: 1,nomax:1,foto:1,fecha:1}).lean().sort([['createdAt', -1]]).exec(function(err, todos) {
+            select({idempresa:1,unidad:1,costo:1,fecha:1,impresion:1,nombre:1,fechaini:1,fechafin:1,ubicacion: 1,nomax:1,foto:1,fecha:1}).lean().sort([['createdAt', -1]]).exec(function(err, todos) {
                 if (err){  res.send(err);  }
                  res.json(todos);
                 
@@ -43,7 +43,7 @@ exports.getEvento = function(req, res, next){
             if(req.params.id3=='todos' )
             {
             Evento.find({idempresa:req.params.id,impresion:req.params.id2}).
-            select({costo:1,fecha:1,impresion:1,nombre:1,fechaini:1,fechafin:1,ubicacion: 1,nomax:1,foto:1,fecha:1}).sort([['createdAt', -1]]).exec(function(err, todos) {
+            select({idempresa:1,unidad:1,costo:1,fecha:1,impresion:1,nombre:1,fechaini:1,fechafin:1,ubicacion: 1,nomax:1,foto:1,fecha:1}).sort([['createdAt', -1]]).exec(function(err, todos) {
                 if (err){  res.send(err);  }
                  res.json(todos);
              });
@@ -51,6 +51,7 @@ exports.getEvento = function(req, res, next){
             }
             else
             {
+                //todosbuscaactivo 
 
                 if(req.params.id3=='todosbuscaactivo' )
                 {
