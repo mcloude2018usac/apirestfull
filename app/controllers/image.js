@@ -104,8 +104,8 @@ exports.createImage = function(req, res, next){
         const img = req.body.img;
         const data = img;
         const split = data.split(','); 
-        var fullUrl = req.protocol + '://' + req.get('host') ;
-        console.log(fullUrl)
+        var fullUrl = 'https://' + req.get('host') ;
+        
         const base64string = split[1];
         var tipoimg =(split[0]).split(';')
         const tipoimg2 =(tipoimg[0]).split(':')
@@ -147,13 +147,13 @@ exports.createImage = function(req, res, next){
                 const img = req.body.img;
                 const data = img;
                 const split = data.split(','); 
-                var fullUrl = req.protocol + '://' + req.get('host') ;
-                console.log(fullUrl)
+                var fullUrl =  'https://' + req.get('host') ;
+             
                 const base64string = split[1];
                 var tipoimg =(split[0]).split(';')
                 const tipoimg2 =(tipoimg[0]).split(':')
                 const buffer = Buffer.from(base64string, 'base64');
-                console.log(buffer)
+            
                 var new_img = new Image;
                 new_img.img =buffer
                 new_img.nombre =req.body.nombre
