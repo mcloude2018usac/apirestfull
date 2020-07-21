@@ -105,6 +105,7 @@ exports.createImage = function(req, res, next){
         const data = img;
         const split = data.split(','); 
         var fullUrl = req.protocol + '://' + req.get('host') ;
+        console.log(fullUrl)
         const base64string = split[1];
         var tipoimg =(split[0]).split(';')
         const tipoimg2 =(tipoimg[0]).split(':')
@@ -147,6 +148,7 @@ exports.createImage = function(req, res, next){
                 const data = img;
                 const split = data.split(','); 
                 var fullUrl = req.protocol + '://' + req.get('host') ;
+                console.log(fullUrl)
                 const base64string = split[1];
                 var tipoimg =(split[0]).split(';')
                 const tipoimg2 =(tipoimg[0]).split(':')
