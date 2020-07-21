@@ -1,6 +1,6 @@
 var mongoose =require("mongoose");
 
-var ImageSchema = new mongoose.Schema({
+var ImagesslSchema = new mongoose.Schema({
    img: Buffer,
    contentType: String,
    nombre: String,
@@ -11,4 +11,4 @@ var ImageSchema = new mongoose.Schema({
   timestamps: true
 });
 
-module.exports = mongoose.model('Image', ImageSchema);
+module.exports = mongoose.model('Imagessl', ImagesslSchema);
