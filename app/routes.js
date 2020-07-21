@@ -2,6 +2,9 @@ var AuthenticationController = require('./controllers/authentication'),
     OraController = require('./controllers/oraclesqlx'), 
     DatosfijosController = require('./controllers/datosfijos'),
     ImageController = require('./controllers/image'),
+    Image2Controller = require('./controllers/image2'),
+    Imagessl2Controller = require('./controllers/imagessl2'),
+    ImagesslController = require('./controllers/imagessl'),
     GeneradorController = require('./controllers/generafrm/generador'),
    SiifController = require('./controllers/siif'),
    ProductoController = require('./controllers/asociadoventa/producto'),
@@ -164,6 +167,9 @@ module.exports = function(app){
         reglamentodRoutes = express.Router(),
         participa4Routes = express.Router(),
         imageRoutes = express.Router(),
+        image2Routes = express.Router(),
+        imagesslRoutes = express.Router(),
+        imagessl2Routes = express.Router(),
         conferenciaRoutes = express.Router(),
         dcatalogoRoutes = express.Router(),
         suscriptorsaldoRoutes = express.Router(),
@@ -303,6 +309,21 @@ SINNNNNNNNNNNNNN AUTORIZACION
   imageRoutes.post('/:recordID',requireAuth,  ImageController.createImage);
   imageRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  ImageController.deleteImage);
 
+  apiRoutes.use('/Image2s', image2Routes);
+  image2Routes.get('/:id',  Image2Controller.getImage2s);
+  image2Routes.post('/:recordID',requireAuth,  Image2Controller.createImage2);
+  image2Routes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  Image2Controller.deleteImage2);
+
+  apiRoutes.use('/Imagessls', imagesslRoutes);
+  imagesslRoutes.get('/:id',  ImagesslController.getImagessls);
+  imagesslRoutes.post('/:recordID',requireAuth,  ImagesslController.createImagessl);
+  imagesslRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  ImagesslController.deleteImagessl);
+
+
+  apiRoutes.use('/Imagessl2s', imagessl2Routes);
+  imagessl2Routes.get('/:id',  Imagessl2Controller.getImagessl2s);
+  imagessl2Routes.post('/:recordID',requireAuth,  Imagessl2Controller.createImagessl2);
+  imagessl2Routes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  Imagessl2Controller.deleteImagessl2);
 
 
   apiRoutes.use('/subcategorias', subcategoriaRoutes);
@@ -829,7 +850,7 @@ moduloRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  Mo
 apiRoutes.use('/catalogos', catalogoRoutes);
 catalogoRoutes.get('/',requireAuth, CatalogoController.getCatalogo);
 catalogoRoutes.get('/:id/:id2',requireAuth,  CatalogoController.getCatalogo);
-catalogoRoutes.get('/:id/:id2/:id3',requireAuth,  CatalogoController.getCatalogo);
+catalogoRoutes.get('/:id/:id2/:id3', CatalogoController.getCatalogo);
 catalogoRoutes.post('/:recordID',requireAuth,  CatalogoController.creaCatalogo2s);
 catalogoRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  CatalogoController.deleteCatalogo);
 
