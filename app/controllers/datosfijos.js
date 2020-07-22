@@ -856,8 +856,7 @@ console.log('TERMINA')
               
                 request(options, function (error, response) { 
                   if (error) throw new Error(error);
-                  console.log(utf8_encode(response.body));
-                  console.log(removeDiacritics(response.body));
+                 
                   res.json(response.body);
                 });
 
