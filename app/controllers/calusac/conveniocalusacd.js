@@ -117,7 +117,7 @@ if(req.params.recordID!=='crea')
 }}
 else{
 
-    Conveniocalusacd.find({correo:req.body.correo  },function(err, todos) {
+    Conveniocalusacd.find({correo:req.body.correo  , idconvenio        	: req.body.idconvenio      },function(err, todos) {
         if (err){ res.send(err); }
       
         if(todos.length>0)   {    res.status(500).send('Correo  ya existe'); }
