@@ -13,6 +13,14 @@ var  del= require('del');
 
 exports.getImage2s = function(req, res, next){
     let imgId = req.params.id;
+    if(imgId=='banco')
+    {
+        res.setHeader('content-type', 'image/png');
+        res.send('iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAIAAADUCbv3AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAAUSURBVChTY/iPF4xKYwWUSP//DwCbIGaosFt0WQAAAABJRU5ErkJggg==');
+
+    }
+    else
+    {
     Image2.findById(imgId, (err, image2) => {
         if (err) {
             res.sendStatus(402);
@@ -47,7 +55,7 @@ exports.getImage2s = function(req, res, next){
        
       //  fs.createReadStream(path.join(UPLOAD_PATH, image2.filename)).pipe(res);
     })
-
+    }
 
   
 }

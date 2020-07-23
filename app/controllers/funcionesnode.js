@@ -1,9 +1,9 @@
 var getImagesruta= function(op){
-    if((op).indexOf('/')>0)
+    if((op).indexOf('/')>=0)
     {
 
         var aar=op.split('/');
-        return aar[5]
+        return aar[3]
     }
     else
     {

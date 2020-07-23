@@ -36,6 +36,7 @@ exports.getEstudiantepcb2 = function(req, res, next){
     { 
       
 
+        console.log({ORIENTACION:req.params.codigo})
         Estudiantepcb.find({ORIENTACION:req.params.codigo}).then(todos => {
                    
             if(todos.length==0)
@@ -65,7 +66,43 @@ exports.getEstudiantepcb2 = function(req, res, next){
  
 }
 
+function getNextSequenceValue2auser(id1,cuentaaa,res){
 
+
+
+            Estudiantepcb.findById({  _id:id1 }, function (err, todo)  {
+             if (err) { console.log(err.message)  }
+             else
+             {  
+                 todo.NOMBRES	=cuentaaa
+                 todo.save(function (err, todo333){
+                     if (err)     { console.log(err.message)  }
+                   
+                  
+                 });
+             }
+         });
+
+         
+         
+   }
+
+exports.creaEstudiantepcb = function(req, res, next){
+   
+ 
+    Estudiantepcb.find({ORIENTACION: req.params.recordID }, function (err, todo10)  {
+      
+        for(var j = 0; j < todo10.length;j++){
+            getNextSequenceValue2auser(todo10[j]._id,req.body.nombre);
+        }
+
+        res.json(todo10);
+
+    });
+
+
+
+}
 
 
    
