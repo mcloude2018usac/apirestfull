@@ -5,13 +5,21 @@
   nombre		: { type : String, required : true },  
   descripcion		: { type : String },  
   precio		: { type : Number, required : true },  
-  unidad		: { type : String, required : true },  
-  xunidad		: { type : String, required : true },  
-  categoria		: { type : String, required : true },  
+  unidad		: { type : String },  
+  xunidad		: { type : String },  
+  categoria		: { type : String, required : true,href:'Categoria' },  
+  subcategoria		: { type : String, required : true,href:'Subcategoria' },  
   foto1		: { type : String },  
   estado		: { type : String, required : true },  
   usuarionew		: { type : String },  
   usuarioup		: { type : String },  
+  preciooferta		: { type : Number },  
+  color	: { type : String },  
+  talla:	 { type : String },  
+  codigo: { type : String },
+  foto2		: { type : String },  
+  foto3		: { type : String }
+
     }, {
     timestamps: true
     }); 
