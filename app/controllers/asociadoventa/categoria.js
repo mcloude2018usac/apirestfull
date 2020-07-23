@@ -1,5 +1,8 @@
 var Categoria = require('../../models/asociadoventa/categoria');
 var Bitacora = require('../../models/bitacora');
+var Image = require('../../models/image2');
+var functool = require('../../controllers/funcionesnode');
+
 exports.getCategoria = function(req, res, next){
     if(req.params.id4)
     {   
@@ -33,7 +36,13 @@ exports.getCategoria = function(req, res, next){
 exports.deleteCategoria = function(req, res, next){
     Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina Categoria '});
     Categoria.findByIdAndRemove({ _id: req.params.recordID  }, function(err, todo) {
-        res.json(todo);
+        var arra = functool.getImagesruta (todo.foto);
+        if(arra == '')  { res.json(todo);    }      else       {
+            Image.findByIdAndRemove(arra, function(err, todo10) {      res.json(todo);    });
+        }  
+       
+
+       
     });
 }
 exports.creaCategoria2s = function(req, res, next){

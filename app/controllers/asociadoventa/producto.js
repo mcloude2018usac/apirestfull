@@ -1,8 +1,22 @@
 var Producto = require('../../models/asociadoventa/producto');
 var Bitacora = require('../../models/bitacora');
+var Image = require('../../models/image2');
+var functool = require('../../controllers/funcionesnode');
+
 exports.getProducto = function(req, res, next){
     if(req.params.id4)
-    {   console.log(req.params)
+    {  
+        if(req.params.id=='todosproductos')
+        { 
+            var arr=(req.params.id4).split('°')
+         
+            Producto.find({idempresa:req.params.id3,idpapa:arr[0], categoria:arr[1]}).sort({'_id': -1}).exec(function(err, todos) {
+                if (err){  res.send(err);  }
+                 res.json(todos);
+             });
+        }
+        else
+        {
         if(req.params.id2=='grupo')
         { 
 
@@ -44,7 +58,7 @@ exports.getProducto = function(req, res, next){
                 if (err){  res.send(err);  }
                  res.json(todos);
              });
-        }}
+        }}}
     }
     else
     {
@@ -79,7 +93,24 @@ exports.deleteProducto = function(req, res, next){
     console.log(req.params)
     Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina Producto '});
     Producto.findByIdAndRemove({ _id: req.params.recordID  }, function(err, todo) {
-        res.json(todo);
+        var arra1 = functool.getImagesruta (todo.foto1);
+        var arra2 = functool.getImagesruta (todo.foto2);
+        var arra3 = functool.getImagesruta (todo.foto3);
+
+      
+        Image.findByIdAndRemove({_id:arra1});
+        console.log(arra1)
+        Image.findByIdAndRemove({_id:arra2});
+        console.log(arra2)
+        Image.findByIdAndRemove({_id:arra3});
+        console.log(arra3)
+
+        res.json(todo); 
+
+   
+
+
+        
     });
 }
 exports.creaProducto2s = function(req, res, next){
@@ -98,8 +129,21 @@ if(req.params.recordID!=='crea')
  todo.unidad       	=	req.body.unidad        	||	todo.unidad;   
  todo.xunidad       	=	req.body.xunidad        	||	todo.xunidad;   
  todo.categoria       	=	req.body.categoria        	||	todo.categoria;   
+ todo.subcategoria       	=	req.body.subcategoria        	||	todo.subcategoria;   
  todo.foto1       	=	req.body.foto1        	||	todo.foto1;   
  todo.estado       	=	req.body.estado        	||	todo.estado;   
+
+ todo.preciooferta       	=	req.body.preciooferta        	||	todo.preciooferta; 
+ todo.color       	=	req.body.color        	||	todo.color; 
+ todo.talla       	=	req.body.talla        	||	todo.talla; 
+ todo.codigo       	=	req.body.codigo        	||	todo.codigo; 
+ todo.foto2       	=	req.body.foto2        	||	todo.foto2; 
+ todo.foto3       	=	req.body.foto3        	||	todo.foto3; 
+
+
+
+
+ 
             todo.usuarioup=req.body.bitacora.email;
             todo.save(function (err, todo){
                 if (err)     {  res.status(500).send(err.message)   }
@@ -123,8 +167,18 @@ else{
   unidad     	: req.body.unidad    	,
   xunidad     	: req.body.xunidad    	,
   categoria     	: req.body.categoria    	,
+  subcategoria     	: req.body.subcategoria    	,
   foto1     	: req.body.foto1    	,
   estado     	: req.body.estado    	,
+
+  preciooferta       : req.body.preciooferta    	,
+  color        : req.body.color           	,
+  talla         : req.body.talla           	,
+  codigo        : req.body.codigo           	,
+  foto2        : req.body.foto2           	,
+  foto3        : req.body.foto3           	,
+
+
                 usuarionew:req.body.bitacora.email,
               }
                 , function(err, todo) {

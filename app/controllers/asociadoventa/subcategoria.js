@@ -57,7 +57,8 @@ if(req.params.recordID!=='crea')
     });
 }
 else{
-    Subcategoria.find({nombre        	: req.body.nombre  },function(err, todos) {
+    Subcategoria.find({nombre        	: req.body.nombre  ,idpapa     	: req.body.idpapa    	,
+        idllave0     	: req.body.idllave0    	, },function(err, todos) {
         if (err){ res.send(err); }
         if(todos.length>0)   {    res.status(500).send('Ya existe un subcategoria en plataforma'); }
         else
