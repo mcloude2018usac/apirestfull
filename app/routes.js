@@ -420,6 +420,7 @@ apiRoutes.use('/estudiantepcb', estudiantepcbRoutes);
 estudiantepcbRoutes.get('/', requireAuth, EstudiantepcbController.getEstudiantepcb);
 estudiantepcbRoutes.get('/:codigo', EstudiantepcbController.getEstudiantepcb);
 estudiantepcbRoutes.get('/:codigo/:id2', EstudiantepcbController.getEstudiantepcb2);
+estudiantepcbRoutes.post('/:recordID', requireAuth, EstudiantepcbController.creaEstudiantepcb);
 
 
 
