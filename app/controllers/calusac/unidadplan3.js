@@ -28,6 +28,7 @@ exports.getUnidadplan3 = function(req, res, next){
                 'idtipounidad.id' :req.params.id,'idunidadacademica.id':req.params.id2,'idperiodo.id':req.params.id3,'idjornada':req.params.id5
             }
         }
+        
         Facplan3.aggregate([ projectDataForMatch, match]  ).exec(function(err, todos10) {
             if (err){ res.send(err); }
             var duplicates = [];
