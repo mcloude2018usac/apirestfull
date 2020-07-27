@@ -34,7 +34,7 @@ exports.getEstudiantecarne = function(req, res, next){
     if(req.params.codigo)
     { 
         console.log({carnet:req.params.codigo})
-        Estudiantecarne.find({carnet:req.params.codigo},function(err, todos) {
+        Estudiantecarne.find({carne:req.params.codigo},function(err, todos) {
             if (err){ res.send(err); }
         
             if(todos.length>0)   {    res.json(todos);   }
@@ -65,7 +65,7 @@ if(req.params.recordID!=='crea')
         if (err) {  res.send(err);  }
         else
         {  
-            todo.carnet        	=	req.body.carnet        	||	todo.carnet        	;
+            todo.carne        	=	req.body.carne        	||	todo.carne        	;
             todo.nombre        	=	req.body.nombre        	||	todo.nombre        	;
             
             todo.save(function (err, todo){
@@ -78,7 +78,7 @@ if(req.params.recordID!=='crea')
 }
 else{
 
-    Estudiantecarne.find({carnet:req.body.carnet },function(err, todos) {
+    Estudiantecarne.find({carne:req.body.carnet },function(err, todos) {
         if (err){ res.send(err); }
       
         if(todos.length>0)   {    res.status(500).send('Ya existe estudiante'); }
@@ -86,7 +86,7 @@ else{
         {   
 
             Estudiantecarne.create({
-                carnet        	: req.body.carnet        	,
+                carne        	: req.body.carnet        	,
                 nombre        	: req.body.nombre        
               }
                 , function(err, todo) {
