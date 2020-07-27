@@ -55,6 +55,7 @@ var AsignacalusacSchema = new mongoose.Schema({
     idinterno: {        type: String,      required: true    },
     foto1:{        type: String},
     estadoacta:{        type: String},
+    exonerado:{        type: String},
     foto2:{        type: String},
     foto3:{        type: String},
     foto4:{        type: String},
