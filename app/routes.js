@@ -57,6 +57,7 @@ var AuthenticationController = require('./controllers/authentication'),
     Permiso3Controller = require('./controllers/permiso3'),
     EstudianteovController = require('./controllers/estudianteov'),
     CarneController = require('./controllers/carne'),
+    EstudiantecarneController = require('./controllers/estudiantecarne'),
     EstudiantevtController = require('./controllers/estudiantevt'),
     EstudiantepcbController = require('./controllers/estudiantepcb'),
     DtarifaController = require('./controllers/dtarifa'),
@@ -199,6 +200,7 @@ module.exports = function(app){
         mailRoutes = express.Router(),
         estudianteovRoutes = express.Router(),
         carneRoutes = express.Router(),
+        estudiantecarneRoutes = express.Router(),
         estudiantevtRoutes = express.Router(),
         estudiantepcbRoutes = express.Router(),
         empresaRoutes = express.Router(),
@@ -414,6 +416,13 @@ estudiantevtRoutes.get('/', requireAuth, EstudiantevtController.getEstudiantevt)
 estudiantevtRoutes.get('/:id/:id2', EstudiantevtController.getEstudiantevt);
 estudiantevtRoutes.get('/:codigo', EstudiantevtController.getEstudiantevt);
 estudiantevtRoutes.post('/:recordID', requireAuth, EstudiantevtController.creaEstudiantevts);
+
+
+apiRoutes.use('/estudiantecarne', estudiantecarneRoutes);
+estudiantecarneRoutes.get('/', requireAuth, EstudiantecarneController.getEstudiantecarne);
+estudiantecarneRoutes.get('/:id/:id2', EstudiantecarneController.getEstudiantecarne);
+estudiantecarneRoutes.get('/:codigo', EstudiantecarneController.getEstudiantecarne);
+estudiantecarneRoutes.post('/:recordID', requireAuth, EstudiantecarneController.creaEstudiantecarnes);
 
 //---------------------------------------estudiantes PCB
 apiRoutes.use('/estudiantepcb', estudiantepcbRoutes);
