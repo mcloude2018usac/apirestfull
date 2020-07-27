@@ -589,7 +589,7 @@ else
         if (err){  if(err) return next(err);// res.status(404).send(err); 
         return;}
       
-        if(todos.length>0)   {    res.status(404).send('Ya existe una Asignación para este periodo'); }
+        if(todos.length>0)   {    res.status(404).send('Ya existe una Asignación para este periodo <br> No puedes volver a asignarte.'); }
         else
         { 
   //agregar periodo que se esta trabajando*************************************************************
