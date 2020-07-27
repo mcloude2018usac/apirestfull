@@ -1365,6 +1365,7 @@ console.log(req.body);
                                                                                     todo100.horario=req.body.horario,
                                                                                     todo100.fechasiif=req.body.fechax,
                                                                                     todo100.profesor=req.body.profesor,
+                                                                                    todo100.exonerado=req.body.exonerado,
                                                                                     todo100.idplanifica=myData[0]._id
 
                                                                                 //   todo100.nivel=todo.nivel
@@ -1373,7 +1374,28 @@ console.log(req.body);
                                                                                     todo100.save(function (err, todo200){
                                                                                         if (err)     {  console.log(err.message)   }
                                                                                 
-                                                                                        res.json(todo200);
+                                                                                        if(req.body.exonerado!=='no')
+                                                                                        {
+
+                                                                                            Exonerados.findById({ _id: req.body.exonerado }, function (err, todo100aaa)  {
+                                                                                                if (err) {  res.send(err);  }
+                                                                                                else
+                                                                                                {
+                                                                                                    todo100aaa.estado=1
+                                                                                                    todo100aaa.save(function (err, todo200cc){
+                                                                                                        if (err)     {  console.log(err.message)   }
+                                                                                                        res.json(todo200);
+                                                                                                    });
+
+                                                                                                }
+                                                                                            });
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                            res.json(todo200);
+                                                                                        }
+
+                                                                                     
                                                                                 
                                                                                         
                                                                                     });
@@ -1401,7 +1423,7 @@ console.log(req.body);
                                                                                 todo100.fechasiif=req.body.fechax,
                                                                             //   todo100.jornada=req.body.jornada,
                                                                                 todo100.horario=req.body.horario,
-                                                                            
+                                                                                todo100.exonerado=req.body.exonerado,
                                                                                 todo100.profesor=req.body.profesor,
                                                                                 todo100.idplanifica=myData[0]._id
 
@@ -1411,7 +1433,26 @@ console.log(req.body);
                                                                                 todo100.save(function (err, todo200){
                                                                                     if (err)     {  console.log(err.message)   }
                                                                             
-                                                                                    res.json(todo200);
+                                                                                    if(req.body.exonerado!=='no')
+                                                                                    {
+
+                                                                                        Exonerados.findById({ _id: req.body.exonerado }, function (err, todo100aaa)  {
+                                                                                            if (err) {  res.send(err);  }
+                                                                                            else
+                                                                                            {
+                                                                                                todo100aaa.estado=1
+                                                                                                todo100aaa.save(function (err, todo200cc){
+                                                                                                    if (err)     {  console.log(err.message)   }
+                                                                                                    res.json(todo200);
+                                                                                                });
+
+                                                                                            }
+                                                                                        });
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        res.json(todo200);
+                                                                                    }
                                                                             
                                                                                     
                                                                                 });
