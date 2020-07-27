@@ -185,12 +185,12 @@ console.log({ identificador:req.params.id , "codigoidioma" : arrt[0],codigocurso
 
             case 'exonerados':
 console.log({ordenpago:req.params.id,cui:req.params.id2})
-                Exonerados.find({ordenpago:req.params.id,cui:req.params.id2}).exec(function(err, todos) {
+                Exonerados.find({ordenpago:req.params.id,cui:req.params.id2,estado:0}).exec(function(err, todos) {
                     if (err){ res.send(err); console.log(err) }
 console.log(todos)
                     if(todos.length>0)
                     {console.log({rr:'ok'})
-                        res.json({rr:'ok'});  
+                        res.json({rr:'ok',_id:todos[0]._id});  
 
                     }
                     else
