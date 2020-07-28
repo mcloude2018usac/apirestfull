@@ -29,7 +29,7 @@ exports.getEstudiantevt = function(req, res, next){
         });
         */
     }
-    else
+    else  
     {
     if(req.params.codigo)
     { 
@@ -53,12 +53,49 @@ exports.getEstudiantevt = function(req, res, next){
  
 }
 
+function getNextSequenceValue2auser(id1,cuentaaa,res){
 
+
+
+    Estudiantevt.findById({  _id:id1 }, function (err, todo)  {
+     if (err) { console.log(err.message)  }
+     else
+     {  
+         todo.nombre	=cuentaaa
+         todo.save(function (err, todo333){
+             if (err)     { console.log(err.message)  }
+           
+          
+         });
+     }
+ });
+
+ 
+ 
+}
 
 exports.creaEstudiantevts = function(req, res, next){
    
  
     Bitacora.create(req.body.bitacora);
+if(req.body.operacion=='act')
+{
+
+    Estudiantevt.find({carnet: req.params.recordID }, function (err, todo10)  {
+      
+        for(var j = 0; j < todo10.length;j++){
+            getNextSequenceValue2auser(todo10[j]._id,req.body.nombre);
+        }
+
+        res.json(todo10);
+
+    });
+
+
+}
+else
+{
+
 if(req.params.recordID!=='crea')
 { 
     Estudiantevt.findById({ _id: req.params.recordID }, function (err, todo)  {
@@ -108,7 +145,7 @@ else{
    
  
 }}
-
+}
 
 
 
