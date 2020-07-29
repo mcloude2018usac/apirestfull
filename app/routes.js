@@ -314,6 +314,7 @@ SINNNNNNNNNNNNNN AUTORIZACION
   apiRoutes.use('/Image2s', image2Routes);
   image2Routes.get('/:id',  Image2Controller.getImage2s);
   image2Routes.post('/:recordID',requireAuth,  Image2Controller.createImage2);
+  image2Routes.post('/:recordID/:recordID2',  Image2Controller.createImage2);
   image2Routes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  Image2Controller.deleteImage2);
 
   apiRoutes.use('/Imagessls', imagesslRoutes);
