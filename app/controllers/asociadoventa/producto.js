@@ -10,7 +10,7 @@ exports.getProducto = function(req, res, next){
         { 
             var arr=(req.params.id4).split('°')
          
-            Producto.find({idempresa:req.params.id3,idpapa:arr[0], categoria:arr[1]}).sort({'_id': -1}).exec(function(err, todos) {
+            Producto.find({idempresa:req.params.id3,idpapa:arr[0], categoria:arr[1]}).sort({'_id': -1}).populate('categoria').populate('subcategoria').exec(function(err, todos) {
                 if (err){  res.send(err);  }
                  res.json(todos);
              });
@@ -46,15 +46,15 @@ exports.getProducto = function(req, res, next){
         else
         {
         if(req.params.id2=='todos')
-        { 
-            Producto.find({idempresa:req.params.id3,idpapa:req.params.id4}).sort({'_id': -1}).exec(function(err, todos) {
+        { console.log('entraeee')
+            Producto.find({idpapa:req.params.id4}).populate('categoria').populate('subcategoria').sort({'_id': -1}).exec(function(err, todos) {
                 if (err){  res.send(err);  }
                  res.json(todos);
              });
         }
         else
         {
-            Producto.find({idempresa:req.params.id3,estado:req.params.id2,idpapa:req.params.id4}).sort({'_id': -1}).exec(function(err, todos) {
+            Producto.find({idempresa:req.params.id3,estado:req.params.id2,idpapa:req.params.id4}).populate('categoria').populate('subcategoria').sort({'_id': -1}).exec(function(err, todos) {
                 if (err){  res.send(err);  }
                  res.json(todos);
              });
@@ -98,11 +98,11 @@ exports.deleteProducto = function(req, res, next){
         var arra3 = functool.getImagesruta (todo.foto3);
 
       
-        Image.findByIdAndRemove({_id:arra1});
+        if(arra1!==''  &&   arra1!=='5f146aa48caa41db981e6830'){Image.findByIdAndRemove({_id:arra1 }, function(err, todo) {});}
         console.log(arra1)
-        Image.findByIdAndRemove({_id:arra2});
+        if(arra2!==''  &&   arra2!=='5f146aa48caa41db981e6830'){Image.findByIdAndRemove({_id:arra2}, function(err, todo) {});}
         console.log(arra2)
-        Image.findByIdAndRemove({_id:arra3});
+        if(arra2!==''  &&   arra2!=='5f146aa48caa41db981e6830'){Image.findByIdAndRemove({_id:arra3}, function(err, todo) {});}
         console.log(arra3)
 
         res.json(todo); 
@@ -153,7 +153,11 @@ if(req.params.recordID!=='crea')
     });
 }
 else{
-    Producto.find({nombre        	: req.body.nombre  },function(err, todos) {
+    Producto.find({idempresa     	: req.body.idempresa   ,   categoria     	: req.body.categoria    	,
+        subcategoria     	: req.body.subcategoria    	,	
+        idpapa	: req.body.idpapa    	,precio     	: req.body.precio    	,
+        nombre     	: req.body.nombre    	
+          },function(err, todos) {
         if (err){ res.send(err); }
         if(todos.length>0)   {    res.status(500).send('Ya existe un producto en plataforma'); }
         else
@@ -177,7 +181,7 @@ else{
   codigo        : req.body.codigo           	,
   foto2        : req.body.foto2           	,
   foto3        : req.body.foto3           	,
-
+codigo:'',
 
                 usuarionew:req.body.bitacora.email,
               }

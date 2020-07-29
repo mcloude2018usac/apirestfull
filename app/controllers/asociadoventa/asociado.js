@@ -36,7 +36,7 @@ exports.deleteAsociado = function(req, res, next){
     Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina Asociado '});
     Asociado.findByIdAndRemove({ _id: req.params.recordID  }, function(err, todo) {
         var arra = functool.getImagesruta (todo.foto);
-        if(arra == '')  { res.json(todo);    }      else       {
+        if(arra == '' || arra=='5f146aa48caa41db981e6830')  { res.json(todo);    }      else       {
             Image.findByIdAndRemove(arra, function(err, todo10) {      res.json(todo);    });
         }  
        
@@ -62,7 +62,9 @@ if(req.params.recordID!=='crea')
  todo.horario       	=	req.body.horario        	||	todo.horario;   
  todo.nit       	=	req.body.nit        	||	todo.nit;   
  todo.nombrecomercial       	=	req.body.nombrecomercial        	||	todo.nombrecomercial;   
- todo.direccioncomercial       	=	req.body.direccioncomercial        	||	todo.direccioncomercial;   
+ todo.direccioncomercial       	=	req.body.direccioncomercial        	||	todo.direccioncomercial; 
+ todo.moneda	=	req.body.moneda        	||	todo.moneda;     
+ todo.tipovista	=	req.body.tipovista        	||	todo.tipovista;   
  todo.estado       	=	req.body.estado        	||	todo.estado;   
             todo.usuarioup=req.body.bitacora.email;
             todo.save(function (err, todo){
@@ -92,7 +94,9 @@ else{
   nit     	: req.body.nit    	,
   nombrecomercial     	: req.body.nombrecomercial    	,
   direccioncomercial     	: req.body.direccioncomercial    	,
-  estado     	: req.body.estado    	,
+  estado     	: req.body.estado   , 
+  moneda	: req.body.moneda    	,	
+  tipovista	: req.body.tipovista    	,
                 usuarionew:req.body.bitacora.email,
               }
                 , function(err, todo) {

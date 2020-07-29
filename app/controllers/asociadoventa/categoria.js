@@ -37,7 +37,7 @@ exports.deleteCategoria = function(req, res, next){
     Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina Categoria '});
     Categoria.findByIdAndRemove({ _id: req.params.recordID  }, function(err, todo) {
         var arra = functool.getImagesruta (todo.foto);
-        if(arra == '')  { res.json(todo);    }      else       {
+        if(arra == '' || arra=='5f146aa48caa41db981e6830')  { res.json(todo);    }      else       {
             Image.findByIdAndRemove(arra, function(err, todo10) {      res.json(todo);    });
         }  
        
