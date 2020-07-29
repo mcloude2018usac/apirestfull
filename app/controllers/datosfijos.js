@@ -28,7 +28,7 @@ var tipounidadx = require('../models/tipounidad');
 const compressor = require('flexmonster-compressor');
 var Image=require('../models/image');
 
-
+var Asignaestudiante = require('../models/asignaestudiante');
 
 
 const fs = require('fs-extra');
@@ -372,7 +372,33 @@ var defaultDiacriticsRemovalMap = [
    
       
      
+function buscaest(id,todos,op)
+{ var re=''
+if(op=='nov')
+{
+        for(var i = 0; i < todos.length;i++){
+                if(todos[i]._id==id)
+                {
+                        re=todos[i].nov
+                        break;
+                }
+        }
 
+}
+else
+{
+
+        
+        for(var i = 0; i < todos.length;i++){
+                if(todos[i]._id==id)
+                {
+                        re=todos[i].email
+                        break;
+                }
+        }
+}
+return re;
+}
       
 exports.getCombofijo = function(req, res, next){
        var sql='';
@@ -380,6 +406,168 @@ exports.getCombofijo = function(req, res, next){
        console.log(req.params)
 
        switch(req.params.id) {
+        case 'reasignapap':
+
+                Asignaestpap.aggregate( [
+                        { 
+                            "$group" : {
+                                "_id" : {
+                                    "idestudiante" : "$idestudiante"
+                                   
+                                }
+                            }
+                        }, 
+                        { 
+                            "$project" : {
+                                "idestudiante" : "$_id.idestudiante", 
+                            
+                            }
+                        }
+                    ]).exec(function(err, todos2) {
+
+                        var duplicates = [];
+
+
+                        for(var i = 0; i < todos2.length;i++){
+        
+                                duplicates.push(todos2[i].idestudiante);
+
+                            }
+
+
+
+
+
+                User.find({_id :{$in: duplicates}  }).select({_id:1,nov:1,email:1,cui:1,nombre:1}).exec(function(err, todos) {
+                        if (err){ res.send(err); }
+                        console.log(todos.length)
+                      
+
+                Asignaestpap.find({}).sort({idasigna :1}).exec(function(err, todosa) {        if (err){ res.send(err); }
+
+              var no=todosa[0].no_orientacion 
+              var materias=''
+              var materiasc=0;
+              var lenguajem=false;
+              var matematicam=false;
+              var fisicam=false;
+              var biologiam=false;
+              var quimicam=false;
+
+              var lenguajem2='';
+              var matematicam2='';
+              var fisicam2='';
+              var biologiam2='';
+              var quimicam2='';
+              var cuenta=0;
+              var cad;
+                for(var i = 0; i < todosa.length;i++){
+                        if(no==todosa[i].no_orientacion )
+                        {       materias=materias + ',' + todosa[i].idmateria
+                                materiasc=materiasc+1
+                                console.log(todosa[i].no_orientacion+ ' '+todosa[i].idmateria + ' ' +todosa[i].idhorario)
+                                if(todosa[i].idmateria=='Lenguaje'){lenguajem=true;lenguajem2=todosa[i].idhorario}
+                                if(todosa[i].idmateria=='Matematica'){matematicam=true;matematicam2=todosa[i].idhorario}
+                                if(todosa[i].idmateria=='Fisica'){fisicam=true;fisicam2=todosa[i].idhorario}
+                                if(todosa[i].idmateria=='Biologia'){biologiam=true;biologiam2=todosa[i].idhorario}
+                                if(todosa[i].idmateria=='Quimica'){quimicam=true;quimicam2=todosa[i].idhorario}
+
+
+                        }
+                        else
+                        {
+                              
+                                var monto=350;
+                                if(materiasc>3) {monto=500}
+                               
+                          
+
+                                var f1 =new Date( todosa[i].createdAt).toISOString().substr(0,10);   
+                                var f2 =new Date( todosa[i].updatedAt).toISOString().substr(0,10);   
+                             
+                             
+                              
+                                console.log(f1)
+                                cad={
+                                        "_id" : "ObjectId('" + todosa[i-1].idasigna +"')",
+                                        "userId" : todosa[i-1].idestudiante,
+                                        "idperiodo" : "5ed6e82dffd35000291a6561",
+                                        "noboleta" : "",
+                                        "monto" : monto,
+                                        "cui" :  todosa[i-1].no_orientacion,
+                                        "nombre" : todosa[i-1].nombre,
+                                        "rubro" : "102",
+                                        "llave" : "",
+                                        "montodeuda" : monto,
+                                        "cursosaplica" : materias,
+                                        "fechasiif" : "",
+                                        "nov" : buscaest(todosa[i-1].idestudiante,todos,'nov'),
+                                        "idpago" : "Nov",
+                                        "correo" :""+ todosa[i-1].usuarionew+";mario.morales@mcloude.com",
+                                        "lenguaje" : lenguajem,
+                                        "matematica" : matematicam,
+                                        "fisica" : fisicam,
+                                        "biologia" : biologiam,
+                                        "quimica" : quimicam,
+                                        "nota" : "Correcta.",
+                                        "estado" : "Asignación finalizada con exito",
+                                        "usuarionew" : buscaest(todosa[i-1].idestudiante,todos,'correo'),
+                                        "createdAt" : "ISODate('"+  f1 +"T05:04:09.195Z')",
+                                        "updatedAt" : "ISODate('"+ f2+"T05:04:09.195Z')",
+                                        "__v" : 0,
+                                        "cierra" : "1",
+                                        "idhorario" : lenguajem2,
+                                        "idhorario2" : matematicam2,
+                                        "idhorario3" :fisicam2,
+                                        "idhorario4" :biologiam2,
+                                        "idhorario5" : quimicam2,
+                                        "usuarioup" : buscaest(todosa[i-1].idestudiante,todos,'correo')
+                                    }
+                                    cuenta=cuenta+1
+                                    console.log(cuenta)
+                                    console.log(cad)
+
+                                    materias=''
+                                    materiasc=0
+                                     lenguajem=false;
+                                     matematicam=false;
+                                     fisicam=false;
+                                     biologiam=false;
+                                     quimicam=false;
+                      
+                                     lenguajem2='';
+                                    matematicam2='';
+                                     fisicam2='';
+                                     biologiam2='';
+                                     quimicam2='';
+                                     no=todosa[i].no_orientacion 
+                                     materias=materias + ',' + todosa[i].idmateria
+                                materiasc=materiasc+1
+                                console.log(todosa[i].no_orientacion+ ' '+todosa[i].idmateria + ' ' +todosa[i].idhorario)
+                                if(todosa[i].idmateria=='Lenguaje'){lenguajem=true;lenguajem2=todosa[i].idhorario}
+                                if(todosa[i].idmateria=='Matematica'){matematicam=true;matematicam2=todosa[i].idhorario}
+                                if(todosa[i].idmateria=='Fisica'){fisicam=true;fisicam2=todosa[i].idhorario}
+                                if(todosa[i].idmateria=='Biologia'){biologiam=true;biologiam2=todosa[i].idhorario}
+                                if(todosa[i].idmateria=='Quimica'){quimicam=true;quimicam2=todosa[i].idhorario}
+                                 
+                                    
+    
+                                
+                        }
+
+                       
+                }
+
+                
+                res.json({ todos});
+
+
+
+                });
+
+        });
+                    });
+                break;
         case 'componeeventosimg':
                 Evento.find({"impresion" : "Imprimir diploma" }).exec(function(err, todos) {
                         if (err){ res.send(err); }
@@ -961,7 +1149,83 @@ console.log('TERMINA')
 
 
         break;        
-
+        case 'sungeneralaspirante':
+                Asignapcb.aggregate( [
+                      
+                        {    
+                          
+                        
+                            "$group" : { 
+                              
+                                "_id": { "tipounidad" : "$idtipounidad.nombre",
+                                "unidad" : "$idunidadacademica.nombre"
+                             },
+                            "cantidad" : { 
+                                                       "$sum" :(1)
+                                                   }
+                            }
+                        }, 
+                        { 
+                            "$project" : { 
+                                "tipounidad" : "$_id.tipounidad", 
+                                "unidad": "$_id.unidad", 
+                              
+                                "cantidad" : "$cantidad", 
+                            
+                                "_id" : (0)
+                            }
+                        }
+                    ]).exec(function(err, todos2) {
+                        if (err){  res.send(err);  }
+                                       
+                                                res.json(todos2);   
+                           
+                    });
+                break;
+                case 'sungeneralmateria':
+                        Asignaestudiante.aggregate( [
+                      
+                                {    
+                                  
+                                
+                                    "$group" : { 
+                                      
+                                        "_id": { "tipounidad" : "$idtipounidad.nombre",
+                                        "unidad" : "$idunidadacademica.nombre",
+                                        "periodo" : "$idperiodo.nombre",
+                                        "edificio" : "$idedificio.nombre",
+                                        "salon" : "$idsalon.nombre",
+                                        "materia":"$idmateria",
+                                        "horario" : "$idhorario",
+                                     },
+                                    "cantidad" : { 
+                                                               "$sum" :(1)
+                                                           }
+                                    }
+                                }, 
+                                { 
+                                    "$project" : { 
+                                        "tipounidad" : "$_id.tipounidad", 
+                                        "unidad": "$_id.unidad", 
+                                        "periodo": "$_id.periodo", 
+                                        "edificio": "$_id.edificio", 
+                                        "salon": "$_id.salon", 
+                                        "materia": "$_id.materia", 
+                                        "horario": "$_id.horario", 
+                                        "cantidad" : "$cantidad", 
+                                    
+                                        "_id" : (0)
+                                    }
+                                }
+                            ]).exec(function(err, todos2) {
+                                if (err){  res.send(err);  }
+                                               
+                                                        res.json(todos2);   
+                                   
+                            });
+                            
+                        
+        break;
         case 'calusacgeneral':
         Asignacalusac.aggregate( [
                 { 
