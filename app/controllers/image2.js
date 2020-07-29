@@ -13,10 +13,19 @@ var  del= require('del');
 
 exports.getImage2s = function(req, res, next){
     let imgId = req.params.id;
-    if(imgId=='banco')
+    console.log(req.params)
+    if(imgId=='banco' || imgId=='5f146aa48caa41db981e6830')
     {
-        res.setHeader('content-type', 'image/png');
-        res.send('iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAIAAADUCbv3AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAAUSURBVChTY/iPF4xKYwWUSP//DwCbIGaosFt0WQAAAABJRU5ErkJggg==');
+        Image2.findById('5f146aa48caa41db981e6830', (err, image2) => {
+            if (err) {
+                res.sendStatus(402);
+                return;
+            }
+                     res.setHeader('content-type', image2.contentType);
+                        res.send(image2.img);
+        
+
+        });
 
     }
     else
@@ -101,9 +110,9 @@ exports.putImage2s = function(req, res, next){
 
 exports.createImage2 = function(req, res, next){
 
-    if(req.body.img==undefined)
+    if(req.body.img==undefined  || req.body.id=='5f146aa48caa41db981e6830')
     {console.log('nula')
-        res.status(201).send({ url:''});
+        res.status(201).send({ url:'/api/image2s/5f146aa48caa41db981e6830'});
     }
     else
     {
@@ -141,7 +150,7 @@ exports.createImage2 = function(req, res, next){
 
         if(imgId=='noexiste' || req.body.img==undefined)
         {console.log('nula')
-            res.status(201).send({ url:''});
+        res.status(201).send({ url:'/api/image2s/5f146aa48caa41db981e6830'});
         }
         else
         {
