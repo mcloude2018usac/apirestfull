@@ -13,6 +13,8 @@
   direccioncomercial		: { type : String, required : true },  
   estado		: { type : String, required : true },  
   foto		: { type : String },  
+  moneda		: { type : String },  
+  tipovista		: { type : String },  
   usuarionew		: { type : String },  
   usuarioup		: { type : String},  
     }, {
