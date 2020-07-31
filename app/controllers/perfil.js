@@ -5,7 +5,7 @@ var Bitacora = require('../models/bitacora');
 exports.getPerfil = function(req, res, next){
     if(req.params.id3)
     { 
-      console.log(req.params.id3)
+     
         if(req.params.id3=='unidad')
         { 
             Perfil.find({'unidad.id':req.params.id,idempresa:req.params.id2},function(err, todos) {
@@ -23,6 +23,25 @@ exports.getPerfil = function(req, res, next){
            if (err){  res.send(err);  }
             res.json(todos);
         });
+        }
+        else
+        {
+
+            
+            if(req.params.id2=='todos')
+            { 
+                Perfil.find({idempresa:req.params.id3}).sort({'_id': -1}).exec(function(err, todos) {
+                    if (err){  res.send(err);  }
+                     res.json(todos);
+                 });
+            }
+            else
+            {
+                Perfil.find({idempresa:req.params.id3,estado:req.params.id2}).sort({'_id': -1}).exec(function(err, todos) {
+                    if (err){  res.send(err);  }
+                     res.json(todos);
+                 });
+            }
         }
 
 
