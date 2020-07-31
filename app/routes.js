@@ -41,6 +41,7 @@ var AuthenticationController = require('./controllers/authentication'),
     Frmcat2Controller = require('./controllers/frmcat2'),
     FrmmovildController = require('./controllers/frmmovild'),
     PerfilController = require('./controllers/perfil'),
+    RolController = require('./controllers/rol'),
     EmpresaController = require('./controllers/empresa'),
     ModuloController = require('./controllers/moduloxx'),
     CatalogoController = require('./controllers/catalogo'),
@@ -197,6 +198,7 @@ module.exports = function(app){
         frmcat2Routes = express.Router(),
         frmmovildRoutes = express.Router(),
         perfilRoutes = express.Router(),
+        rolRoutes = express.Router(),
         mailRoutes = express.Router(),
         estudianteovRoutes = express.Router(),
         carneRoutes = express.Router(),
@@ -772,6 +774,14 @@ perfilRoutes.get('/:id1/:id2/:id3',requireAuth,  PerfilController.getPerfil);
 perfilRoutes.post('/:recordID',requireAuth,  PerfilController.creaPerfil2s);
 perfilRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  PerfilController.deletePerfil);
 
+
+//----------------------------------ROL
+apiRoutes.use('/rols', rolRoutes);
+rolRoutes.get('/',requireAuth,RolController.getRol);
+rolRoutes.get('/:id',requireAuth,  RolController.getRol);
+rolRoutes.get('/:id1/:id2/:id3',requireAuth,  RolController.getRol);
+rolRoutes.post('/:recordID',requireAuth,  RolController.creaRol2s);
+rolRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  RolController.deleteRol);
 
 
 //-----------------------------------FRMCAT
