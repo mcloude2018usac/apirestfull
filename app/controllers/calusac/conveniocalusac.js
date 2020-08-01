@@ -8,7 +8,8 @@ exports.getConveniocalusac = function(req, res, next){
 
             if(req.params.id3=='todos')
             {
-                Conveniocalusac.find({idempresa:req.params.id,categoria:req.params.id2},function(err, todos) {
+                console.log({idempresa:req.params.id,categoria:req.params.id2})
+                Conveniocalusac.find({idempresa:req.params.id},function(err, todos) {
                     if (err){ res.send(err); }
                    
                       res.json(todos);   
