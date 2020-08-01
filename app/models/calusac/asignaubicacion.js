@@ -8,6 +8,10 @@ var AsignaubicacionSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    identificador2: {
+        type: String
+      
+    },
     nombre: {      type: String,     required: true  },
     ididioma: {
         type: String,
