@@ -1220,6 +1220,7 @@ console.log(filtro)
                                 Asignaubicacion.create({ idtipounidad        	: req.body.tipounidad        	,
                                     idperiodo        	: req.body.periodo        	,
                                     identificador      	: req.body.identificador      ,
+                                    identificador2      	: req.body.identificador2      ,
                                     nombre 	: req.body.nombre, 	
                                     ididioma 	: req.body.ididioma, 
                                     idtipo 	: req.body.idtipo, 
