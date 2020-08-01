@@ -1100,6 +1100,7 @@ console.log(filtro)
                                     idtipo 	: req.body.idtipo, 
                                     estadoacta:'Grabación',
                                     idestudiante 	: req.body.idestudiante, 	
+                                    fechasiif	: req.body.fechasiif, 	
                                     idinterno 	: req.body.idinterno,
                                     usuarionew:req.body.bitacora.email,
                                     n1: {    id	: '',   nombre	: ''        },
