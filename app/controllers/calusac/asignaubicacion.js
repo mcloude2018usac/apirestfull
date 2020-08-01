@@ -11,9 +11,12 @@ var Asignacalusac = require('../../models/calusac/asignacalusac');
 var Calusacnota = require('../../models/calusac/calusacnota');
 var request = require('request');
 var xml2js = require ('xml2js'); 
-var Facplan3 = require('../../models/calusac/unidadplan3');
+var Facplan3 = require('../../models/calusac/unidadplan4');
 var Uniaca3 = require('../../models/calusac/unidadacademica3');
 var Uidioma3 = require('../../models/calusac/unidadidioma3');
+var Unidadtipogrupo3 = require('../../models/calusac/unidadtipogrupo3');
+var Unidadidioma3 = require('../../models/calusac/unidadidioma3');
+
 
 function getNextSequenceValue2(myData3cc,req,res,unixx,idixx){
   
@@ -449,7 +452,128 @@ console.log(result10a)
                  
          
     break;
-        case 'horarioprofe2':
+      
+    
+    case 'tipoasignado':
+            
+      
+
+        Facplan3.aggregate(   [
+           
+            { 
+                "$group" : {
+                    "_id" : {
+                        "idtipo" : "$idtipo"
+                      
+                    }
+                }
+            }, 
+            { 
+                "$project" : {
+                    "idtipo" : "$_id.idtipo", 
+                
+                    "_id" :0
+                }
+            }
+        ]).exec(function(err, todos10a) {
+            if (err){ res.send(err); }
+
+            var duplicates = [];
+            var duplicates2 = [];
+
+            for(var i = 0; i < todos10a.length;i++){
+              
+                duplicates.push(todos10a[i].idtipo);
+             
+            
+            }
+
+            Unidadtipogrupo3.find({ _id:duplicates,idtipounidad :req.params.id,idunidadacademica:req.params.id2}).exec(function(err, todos) {
+                   if (err){  res.send(err);  }
+
+                   if(todos.length>0)   {    res.json(todos);   }
+                   else
+                   {  res.status(500).send('NO EXISTE REGISTRO');      }
+
+
+
+            });
+
+
+      
+       
+             
+                   
+                
+        });
+     
+
+       
+             
+     
+break;
+  
+case 'tipoidioma':
+            
+      
+
+    Facplan3.aggregate(   [
+       
+        { 
+            "$group" : {
+                "_id" : {
+                    "ididioma" : "$ididioma"
+                  
+                }
+            }
+        }, 
+        { 
+            "$project" : {
+                "ididioma" : "$_id.ididioma", 
+            
+                "_id" :0
+            }
+        }
+    ]).exec(function(err, todos10a) {
+        if (err){ res.send(err); }
+
+        var duplicates = [];
+        var duplicates2 = [];
+
+        for(var i = 0; i < todos10a.length;i++){
+          
+            duplicates.push(todos10a[i].ididioma);
+         
+        
+        }
+       
+        Unidadidioma3.find({ _id:duplicates,idtipounidad :req.params.id,idunidadacademica:req.params.id2}).exec(function(err, todos) {
+               if (err){  res.send(err);  }
+
+               if(todos.length>0)   {    res.json(todos);   }
+               else
+               {  res.status(500).send('NO EXISTE REGISTRO');      }
+
+
+
+        });
+
+
+  
+   
+         
+               
+            
+    });
+ 
+
+   
+         
+ 
+break;
+
+
+    case 'horarioprofe2':
             
             var  aa=(req.params.id2).split('°')
 
@@ -622,7 +746,8 @@ console.log(result10a)
             });*/
     break;
             case 'idiomasprofe':
-                  
+                  console.log('entra ubicacion')
+                  console.log({'idprofesor' :req.params.id})
                     Asignaubicacion.find({'idprofesor' :req.params.id}).populate('ididioma').exec(function(err, todos10) {
                         if (err){ res.send(err); }
                         var result = [];
@@ -630,7 +755,7 @@ console.log(result10a)
                         for (const item of todos10) {
                             if(!map.has(item.ididioma.nombre)){
                                 map.set(item.ididioma.nombre, true);    // set any value to Map
-                                result.push({codigo:item.ididioma._id,nombre:item.ididioma.nombre});
+                                result.push({codigo:item.ididioma._id,nombre:item.ididioma.nombre,tipounidad:item.idtipounidad.nombre});
                             }
                         }
 
