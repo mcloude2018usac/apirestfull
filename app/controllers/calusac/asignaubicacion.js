@@ -3,7 +3,7 @@ var mailt = require('../../controllers/mail');
 
 var Asignaubicacion = require('../../models/calusac/asignaubicacion');
 var Bitacora = require('../../models/bitacora');
-var Facplan3 = require('../../models/calusac/unidadplan4');
+var Facplan3 = require('../../models/calusac/unidadplan3');
 var unidadnivel3 = require('../../models/calusac/unidadnivel3');
 var unidadidioma3 = require('../../models/calusac/unidadidioma3');
 var Operadores = require('../../models/calusac/operadores');
@@ -11,7 +11,7 @@ var Asignacalusac = require('../../models/calusac/asignacalusac');
 var Calusacnota = require('../../models/calusac/calusacnota');
 var request = require('request');
 var xml2js = require ('xml2js'); 
-var Facplan3 = require('../../models/calusac/unidadplan4');
+
 var Uniaca3 = require('../../models/calusac/unidadacademica3');
 var Uidioma3 = require('../../models/calusac/unidadidioma3');
 var Unidadtipogrupo3 = require('../../models/calusac/unidadtipogrupo3');
@@ -607,7 +607,7 @@ break;
                 }
             ]).exec(function(err, todos10a) {
                 if (err){ res.send(err); }
-
+                  
                 var duplicates = [];
                 var duplicates2 = [];
 
@@ -617,12 +617,13 @@ break;
                  
                 
                 }
-
+                console.log({ _id:duplicates})
+                //cuidado si son examennes de ubicacion deberia de ser facplan4
                 Facplan3.find({ _id:duplicates}).populate('idnivel').populate('idjornada').populate('idhorario').
                 populate('idprofesor').exec(function(err, todos10) {
                        if (err){  res.send(err);  }
 
-                    
+                    console.log(todos10)
                  var result = [];
                  for (const item of todos10) {
                   
