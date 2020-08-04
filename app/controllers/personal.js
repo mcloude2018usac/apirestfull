@@ -413,7 +413,7 @@ exports.getPersonal = function(req, res, next){
   console.log(req.params)   
                 switch(req.params.id2) {
                     case 'pagineo':  
-                    console.log('entra')
+                    console.log('entrassssssssssssssss')
                        
                             var pagex=    Number(req.params.id3);
                             var limitx=    Number(req.params.email);
@@ -426,6 +426,40 @@ exports.getPersonal = function(req, res, next){
                                     res.end();
                                   //  next();
                                 });
+break;
+case 'pagineo2x':  
+console.log('entrassssssssssssssss')
+   
+        var pagex=    Number(req.params.id3);
+        var limitx=    Number(req.params.email);
+        var arr=(req.params.id4).split('°')
+
+        if(arr[1]=='todos')
+        {
+ 
+            Personal.paginate({idempresa:arr[0]},{lean:     false,page:pagex, limit:  limitx})
+            .then(function(err, todos) {
+                if (err){  res.send(err);  }
+                console.log(todos)
+                    res.end(todos);
+                    res.end();
+                  //  next();
+                });
+        }
+        else
+        {
+             
+        Personal.paginate({idempresa:arr[0],estado:arr[1]},{lean:     false,page:pagex, limit:  limitx})
+        .then(function(err, todos) {
+            if (err){  res.send(err);  }
+            console.log(todos)
+                res.end(todos);
+                res.end();
+              //  next();
+            });
+
+        }
+       
 break;
                     case 'persona':
 
@@ -659,7 +693,7 @@ break;
 
                                             if(req.params.email)
                                             {
-                                                Personal.find({email:req.params.email,idempresa:req.params.id3}).populate('unidad').populate('tiposuscriptor')
+                                                Personal.find({email:req.params.email,idempresa:req.params.id3}).populate('idempresa').populate('unidad').populate('tiposuscriptor')
                                                 .then(todos => {
                                               
                                                     res.json(todos);  
@@ -750,7 +784,14 @@ break;
                     res.json(todos);
                 });
                 break;
-
+                case 'empresatodo':
+                    console.log(req.params);
+                    Personal.find({idempresa:req.params.id3,estado:req.params.email},function(err, todos) {
+                     if (err){  res.send(err);  }
+                         res.json(todos);
+                     });
+                     break;
+     
             }
         
         

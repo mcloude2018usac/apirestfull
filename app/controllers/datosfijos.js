@@ -601,6 +601,7 @@ break;
         email    	: 'email'    	,
         telefonos   	: 'email'  	,
         estado    	: 'Activo'   	,
+        moneda    	: 'Q. '   	,
         usuarionew:idempresaxx + 'admin@gmail.com',
         date 			: Date.now() }
         , function(err, todo) {
