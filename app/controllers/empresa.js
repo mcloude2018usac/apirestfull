@@ -90,6 +90,7 @@ if(req.params.recordID!=='crea')
             todo.email   	=	req.body.email    	||	todo.email   	;
             todo.telefonos 	=	req.body.telefonos 	||	todo.telefonos 	;
             todo.estado 	=	req.body.estado 	||	todo.estado 	;
+            todo.moneda 	=	req.body.moneda 	||	todo.moneda 	;
             todo.usuarioup=req.body.bitacora.email;
             
            
@@ -113,6 +114,7 @@ else{
         telefonos   	: req.body.telefonos  	,
         estado    	: req.body.estado   	,
         usuarionew:req.body.bitacora.email,
+        moneda:'Q. ',
         date 			: Date.now() }
         , function(err, todo) {
         if (err){    res.status(500).send(err.message)    }
