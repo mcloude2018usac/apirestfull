@@ -7,6 +7,7 @@ var mongoose =require("mongoose");
         direccion   		: { type : String},
         email   		: { type : String},
         telefonos   		: { type : String},
+        moneda   		: { type : String},
         estado	: { type : String, required : true }
         ,usuarionew	: { type : String },      usuarioup	: { type : String }
        
