@@ -679,6 +679,41 @@ break;
                                     
                                 });
                 break;
+                
+                case 'emailsolonuevo':
+                 
+                   
+                   
+                    if(req.params.email=='')
+                    {
+                    res.status(422).send('NO EXISTE REGISTRO');
+                    }
+                    else
+                    {
+                       
+
+                        if(req.params.email)
+                        {
+                            Personal.find({email:req.params.email,idempresa:req.params.id3}).populate('idempresa').populate('unidad').populate('tiposuscriptor')
+                            .then(todos => {
+                          
+                                res.json(todos);  
+                                
+                            })
+                            .catch(err => {
+                                console.log('entra cath')
+                                res.status(422).send(err.message);  
+                            })
+
+                        }
+                        else
+                        {
+                            res.status(422).send('NO EXISTE REGISTRO');
+                        }
+                  
+                }
+
+                break;
                 case 'emailsolo':
                  
                    
@@ -693,7 +728,7 @@ break;
 
                                             if(req.params.email)
                                             {
-                                                Personal.find({email:req.params.email,idempresa:req.params.id3}).populate('idempresa').populate('unidad').populate('tiposuscriptor')
+                                                Personal.find({email:req.params.email,idempresa:req.params.id3}).populate('unidad').populate('tiposuscriptor')
                                                 .then(todos => {
                                               
                                                     res.json(todos);  
@@ -776,6 +811,38 @@ break;
                     }
 
                     break;
+                    case 'emailsoloidnuevo':
+                        console.log('ENTRA A EMAILSOLOID')
+                        console.log(req.params)
+                        if(req.params.email=='')
+                        {
+                        res.status(422).send('NO EXISTE REGISTRO');
+                        }
+                        else
+                        {
+                            if(req.params.email)
+                            {
+                                Personal.find({_id:req.params.email,idempresa:req.params.id3}).populate('idempresa').populate('unidad').populate('tiposuscriptor')
+                                .then(todos => {
+                                
+                                    res.json(todos);  
+                                    
+                                })
+                                .catch(err => {
+                                    res.status(422).send(err.message);  
+                                })
+
+                            }
+                            else
+                            {
+                                res.status(422).send('NO EXISTE REGISTRO');
+                            }
+                            
+                       
+                    }
+
+                    break;
+        
         
                case 'unidadper':
                console.log(req.params);
