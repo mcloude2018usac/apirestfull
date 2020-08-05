@@ -28,6 +28,16 @@ exports.getArea_evento = function(req, res, next){
     }
      
     }
+    else
+    {
+        Area_evento.find({_id:req.params.id},function(err, todos) {
+            if (err){ res.send(err); }
+            res.json(todos);  
+           
+           
+            
+        });
+    }
 }
 exports.deleteArea_evento = function(req, res, next){
      Bitacora.create({idempresa:req.params.idempresa,idafiliado:req.params.idafiliado,email: req.params.userID ,permiso:'Elimina',accion:'Elimina catalogo '});
