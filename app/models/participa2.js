@@ -2,10 +2,12 @@ var mongoose =require('mongoose');
 var Participa2Schema = new mongoose.Schema({
 
     idtipoevento : {
-        id :  { type : String, required : true }, nombre : { type : String, required : true }, codigo :  { type : String, required : true }
+        type: String,
+        required: true
     },
     idarea : {
-        id :  { type : String, required : true },   nombre :  { type : String, required : true } },
+        type: String,
+        required: true},
     idevento: {
         type: String,   required: true 
     },
