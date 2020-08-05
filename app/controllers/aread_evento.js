@@ -49,6 +49,7 @@ console.log(req.params)
                 todo.email        	=	req.body.email        	||	todo.email        	;
                 todo.fecha        	=	req.body.fecha        	||	todo.fecha        	;
                 todo.clave        	=	req.body.clave        	||	todo.clave        	;
+                todo.estado        	=	req.body.estado        	||	todo.estado        	;
             
 
                 todo.usuarioup=req.body.bitacora.email;
@@ -83,7 +84,7 @@ console.log(req.params)
         email: req.body.email,
         fecha: req.body.fecha,
         clave: req.body.clave,
-        
+        estado: req.body.estado,
 
 
         usuarionew:req.body.bitacora.email 	
