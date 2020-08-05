@@ -15,6 +15,7 @@ var Aread_eventoSchema = new mongoose.Schema({
 
     clave: {     type: String,      required: true  },
     estado: {     type: String,      required: true  },
+    idevento: {     type: String,      required: true  },
  
     usuarionew	: { type : String },      usuarioup	: { type : String }
    
