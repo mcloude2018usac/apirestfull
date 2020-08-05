@@ -49,6 +49,7 @@ var AuthenticationController = require('./controllers/authentication'),
     CatalogoController = require('./controllers/catalogo'),
     GaleriaimgController = require('./controllers/galeriaimg'),
     TiposuscriptorController = require('./controllers/tipo_suscriptor'),
+    Area_eventoController = require('./controllers/aread_evento'),
     TarifaController = require('./controllers/tarifa'),
     OrganigramaController = require('./controllers/organigrama'),
     UserpostController = require('./controllers/user_post'),
@@ -181,6 +182,7 @@ module.exports = function(app){
         catalogoRoutes = express.Router(),
         bibliotecaRoutes = express.Router(),
         tiposuscriptorRoutes = express.Router(),
+        area_eventoRoutes = express.Router(),
         tarifaRoutes = express.Router(),
         userpostRoutes = express.Router(),
         nuevosalonRoutes = express.Router(),
@@ -912,6 +914,13 @@ tarifaRoutes.get('/:id',requireAuth, TarifaController.getTarifa);
 tarifaRoutes.get('/:id/:id2',requireAuth,  TarifaController.getTarifa);
 tarifaRoutes.post('/:recordID',requireAuth,  TarifaController.creaTarifa2s);
 tarifaRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado', requireAuth, TarifaController.deleteTarifa);
+
+
+apiRoutes.use('/area_eventos', area_eventoRoutes);
+area_eventoRoutes.get('/:id',requireAuth, Area_eventoController.getArea_evento);
+area_eventoRoutes.get('/:id/:id2',requireAuth,  Area_eventoController.getArea_evento);
+area_eventoRoutes.post('/:recordID',requireAuth,  Area_eventoController.creaArea_evento2s);
+area_eventoRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado', requireAuth, Area_eventoController.deleteArea_evento);
 
 //-----------------------------------user post
 apiRoutes.use('/userposts', userpostRoutes);
