@@ -734,7 +734,7 @@ else{
          },function(err, todos100) {
             if (err){ res.send(err); }
        
-            if(todos100.length>80)   {    res.status(500).send('Ya no existe cupo para este curso'); }
+            if(todos100.length>50)   {    res.status(500).send('Ya no existe cupo para este curso'); }
             else
             {   
 
