@@ -6,7 +6,8 @@ exports.getArea_evento = function(req, res, next){
    
     if(req.params.id2)
     { 
-      
+        if(req.params.id2=='todos')
+    { 
         Area_evento.find({idempresa:req.params.id},function(err, todos) {
             if (err){ res.send(err); }
            
@@ -14,6 +15,18 @@ exports.getArea_evento = function(req, res, next){
           
             
         });
+    }
+    else
+    {
+        Area_evento.find({idempresa:req.params.id,estado:req.params.id2},function(err, todos) {
+            if (err){ res.send(err); }
+           
+           res.json(todos);   
+          
+            
+        });
+    }
+     
     }
 }
 exports.deleteArea_evento = function(req, res, next){
@@ -32,7 +45,7 @@ console.log(req.params)
 
     if(req.params. recordID!=='crea')
     {  Bitacora.create(req.body.bitacora);
-        Area_evento.findById({ _id: req.params.id}, function (err, todo)  {
+        Area_evento.findById({ _id: req.params.recordID}, function (err, todo)  {
             if (err) {  res.send(err);  }
             else
             {  
@@ -50,6 +63,7 @@ console.log(req.params)
                 todo.fecha        	=	req.body.fecha        	||	todo.fecha        	;
                 todo.clave        	=	req.body.clave        	||	todo.clave        	;
                 todo.estado        	=	req.body.estado        	||	todo.estado        	;
+                todo.idevento        	=	req.body.idevento        	||	todo.idevento        	;
             
 
                 todo.usuarioup=req.body.bitacora.email;
@@ -85,6 +99,7 @@ console.log(req.params)
         fecha: req.body.fecha,
         clave: req.body.clave,
         estado: req.body.estado,
+        idevento: req.body.idevento,
 
 
         usuarionew:req.body.bitacora.email 	
