@@ -918,7 +918,7 @@ tarifaRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado', requireAuth, Ta
 
 apiRoutes.use('/area_eventos', area_eventoRoutes);
 area_eventoRoutes.get('/:id', Area_eventoController.getArea_evento);
-area_eventoRoutes.get('/:id/:id2',requireAuth,  Area_eventoController.getArea_evento);
+area_eventoRoutes.get('/:id/:id2', Area_eventoController.getArea_evento);
 area_eventoRoutes.post('/:recordID',requireAuth,  Area_eventoController.creaArea_evento2s);
 area_eventoRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado', requireAuth, Area_eventoController.deleteArea_evento);
 
