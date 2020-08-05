@@ -8,6 +8,8 @@ var AuthenticationController = require('./controllers/authentication'),
     GeneradorController = require('./controllers/generafrm/generador'),
    SiifController = require('./controllers/siif'),
    ProductoController = require('./controllers/asociadoventa/producto'),
+   Orden_compraController = require('./controllers/asociadoventa/orden_compra'),
+
    Unidadprofesor3Controller = require('./controllers/calusac/unidadprofesor3'),
    AuditserverController = require('./controllers/claroaudit/auditserver'),
    AuditserverdController = require('./controllers/claroaudit/auditserverd'),
@@ -194,6 +196,7 @@ module.exports = function(app){
         indicadorRoutes = express.Router(),
         frmmovilRoutes = express.Router(),
         productoRoutes = express.Router(),
+        orden_compraRoutes = express.Router(),
         frmcatRoutes = express.Router(),
         frmcat2Routes = express.Router(),
         frmmovildRoutes = express.Router(),
@@ -925,6 +928,15 @@ productoRoutes.get('/:id/:id2/:id3/:id4',requireAuth,  ProductoController.getPro
 productoRoutes.get('/:id',requireAuth,  ProductoController.getProducto);
 productoRoutes.post('/:recordID',requireAuth,  ProductoController.creaProducto2s);
 productoRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  ProductoController.deleteProducto);
+
+
+apiRoutes.use('/orden_compras', orden_compraRoutes);
+orden_compraRoutes.get('/', requireAuth,Orden_compraController.getOrden_compra);
+orden_compraRoutes.get('/:id',requireAuth,  Orden_compraController.getOrden_compra);
+orden_compraRoutes.get('/:id/:id2/:id3/:id4/:id5',requireAuth,  Orden_compraController.getOrden_compra);
+orden_compraRoutes.post('/:recordID',requireAuth,  Orden_compraController.creaOrden_compra2s);
+orden_compraRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  Orden_compraController.deleteOrden_compra);
+
 
 
 /*
