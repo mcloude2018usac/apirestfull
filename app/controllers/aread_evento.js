@@ -18,7 +18,7 @@ exports.getArea_evento = function(req, res, next){
     }
     else
     {
-        Area_evento.find({idempresa:req.params.id,estado:req.params.id2},function(err, todos) {
+        Area_evento.find({idempresa:req.params.id,estado:req.params.id2}).sort({idarea:-1}).exec(function(err, todos) {
             if (err){ res.send(err); }
            
            res.json(todos);   
