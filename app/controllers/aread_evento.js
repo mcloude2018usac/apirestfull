@@ -3,6 +3,18 @@ var Area_evento = require('../models/aread_evento');
 var Bitacora = require('../models/bitacora');
 
 exports.getArea_evento = function(req, res, next){
+    if(req.params.id4)
+    { 
+        Area_evento.find({idempresa:req.params.id,estado:req.params.id2,idarea:req.params.id3,idtipoevento:req.params.id4}).sort({idarea:-1}).exec(function(err, todos) {
+            if (err){ res.send(err); }
+           
+           res.json(todos);   
+          
+            
+        });
+    }
+    else
+    {
     if(req.params.id3)
     { 
         Area_evento.find({idempresa:req.params.id,estado:req.params.id2,idarea:req.params.id3}).sort({idarea:-1}).exec(function(err, todos) {
@@ -48,7 +60,7 @@ exports.getArea_evento = function(req, res, next){
            
             
         });
-    }}
+    }}}
 }
 exports.deleteArea_evento = function(req, res, next){
      Bitacora.create({idempresa:req.params.idempresa,idafiliado:req.params.idafiliado,email: req.params.userID ,permiso:'Elimina',accion:'Elimina catalogo '});
