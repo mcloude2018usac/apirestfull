@@ -2,8 +2,10 @@
 var Perfil = require('../models/perfil');
 var Moduloxx = require('../models/moduloxx');
 var Permiso = require('../models/permiso');
+var Area_evento = require('../models/aread_evento');
+var Participa2 = require('../models/participa2');
 var Permison2 = require('../models/permison2');
-var Area_evento = require('../models/area_evento');
+var Area_evento = require('../models/aread_evento');
 var Aread_evento = require('../models/aread_evento');
 var csv      = require('csv-express');
 var Evento = require('../models/eventos');
@@ -1324,6 +1326,58 @@ console.log('TERMINA')
                 });
 
                 break;
+                case 'cursoslibresgeneral':
+                        Area_evento.find({}).sort({_id : -1}).exec(function(err, todos) {
+                                if (err){  res.send(err); console.log(err)  }
+                        Participa2.aggregate( [
+                                { 
+                                    "$group" : {
+                                        "_id" : {
+                                                "idtipoevento" : "$idtipoevento",
+                                                "idarea" : "$idarea",
+                                            "idevento" : "$idevento"
+                                           
+                                        }, 
+                                        "cantidad" : {
+                                            "$sum" : 1
+                                        }
+                                    }
+                                }, 
+                                { 
+                                    "$project" : {
+                                        "idtipoevento" : "$_id.idtipoevento", 
+                                        "idarea" : "$_id.idarea", 
+                                        "idevento" : "$_id.idevento", 
+                                        "cantidad" : "$cantidad", 
+                                        "_id" :0
+                                    }
+                                }
+                            ]).exec(function(err, todos2) {
+        
+                             //   console.log(todos2)
+                                var myData = [];
+                                for (var i = 0; i < todos.length; i++) {
+                                        for (var i2 = 0; i2 < todos2.length; i2++) {
+                                                if(todos[i]._id==todos2[i2].idevento)
+                                                {
+                                                        myData.push({nombre:todos[i].nombre,cantidad:todos2[i2].cantidad,tipoevento:todos[i].idtipoevento
+                                                        ,area:todos[i].idarea});
+                                                }
+                                                
+                                        }
+                                       
+                                }
+                
+                
+                             
+        console.log(myData)
+                                res.json(myData);   
+        
+                            });
+                        });
+        
+                        break;
+               
         case 'actarea':
         
 
