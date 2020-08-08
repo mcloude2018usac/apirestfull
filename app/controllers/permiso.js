@@ -28,17 +28,74 @@ exports.getPermiso = function(req, res, next){
                     res.json(myData);
                 });
         }
-            
-        
-        if(req.params.id3=='orden')
-        { console.log({idrol:req.params.id,idempresa:req.params.id2})
-            Permiso.find({idrol:req.params.id,idempresa:req.params.id2}).sort([['orden', -1]]).exec(function(err, todos) {
-                if (err){ res.send(err); }
-               
-                if(todos.length>0)   {    res.json({orden:todos[0].orden});   }
-                
-            });
+        else
+        {
+  
+            if(req.params.id3=='orden')
+            { console.log({idrol:req.params.id,idempresa:req.params.id2})
+                Permiso.find({idrol:req.params.id,idempresa:req.params.id2}).sort([['orden', -1]]).exec(function(err, todos) {
+                    if (err){ res.send(err); }
+                   
+                    if(todos.length>0)   {    res.json({orden:todos[0].orden});   }
+                    
+                });
+            }
+            else
+            {
+
+                if(req.params.id2=='todos')
+                { 
+                    Permiso.find({idrol:req.params.id,idempresa:req.params.id3}).sort({'orden': -1}).populate('nombre').exec(function(err, todos) {
+                        if (err){  res.send(err);  }
+                        if (err){  res.send(err);  }
+                   var myData = [];
+                   for(var i = 0; i < todos.length;i++){
+                    myData.push({_id:todos[i]._id,idrol:todos[i].idrol,ingreso:todos[i].ingreso
+                        ,nombre:todos[i].nombre.nombre
+                        ,idmodulo:{_id:todos[i].nombre._id,nombre:todos[i].nombre.nombre}
+                        ,consulta:todos[i].consulta
+                        ,eliminacion:todos[i].eliminacion
+                        ,creacion:todos[i].creacion
+                        ,actualizacion:todos[i].actualizacion
+                        ,filtro:todos[i].filtro
+                        ,estado:todos[i].estado
+                        ,reporte:todos[i].reporte
+                        ,orden:todos[i].orden
+                        });
+                   }
+                    res.json(myData);
+                     });
+                }
+                else
+                {
+                    Permiso.find({idrol:req.params.id,idempresa:req.params.id3,estado:req.params.id2}).populate('nombre').sort({'orden': -1}).exec(function(err, todos) {
+                        if (err){  res.send(err);  }
+                        if (err){  res.send(err);  }
+                        var myData = [];
+                        for(var i = 0; i < todos.length;i++){
+                         myData.push({_id:todos[i]._id,idrol:todos[i].idrol,ingreso:todos[i].ingreso
+                             ,nombre:todos[i].nombre.nombre
+                             ,idmodulo:{_id:todos[i].nombre._id,nombre:todos[i].nombre.nombre}
+                             ,consulta:todos[i].consulta
+                             ,eliminacion:todos[i].eliminacion
+                             ,creacion:todos[i].creacion
+                             ,actualizacion:todos[i].actualizacion
+                             ,filtro:todos[i].filtro
+                             ,estado:todos[i].estado
+                             ,reporte:todos[i].reporte
+                             ,orden:todos[i].orden
+                             });
+                        }
+                         res.json(myData);
+                     });
+                }
+
+
+            }
+
         }
+            
+      
        
     }
    
@@ -64,6 +121,7 @@ exports.creaPermiso2s = function(req, res, next){
                 
                 todo.idrol        	=	req.body.idrol        	||	todo.idrol        	;
                 todo.nombre        	=	req.body.nombre        	||	todo.nombre        	;
+                todo.estado        	=	req.body.estado              	;
                 todo.ingreso 	=	req.body.ingreso		;
                 todo.consulta 	=	req.body.consulta		;
                 todo.eliminacion 	=	req.body.eliminacion		;
@@ -77,6 +135,7 @@ exports.creaPermiso2s = function(req, res, next){
                 
              
                 todo.save(function (err, todo){
+                    console.log(todo)
                     if (err)     {  res.status(500).send(err.message)   }
                     res.json(todo);
                 });
@@ -105,6 +164,7 @@ exports.creaPermiso2s = function(req, res, next){
                                 filtro    	: req.body.filtro   	,
                                 reporte    	: req.body.reporte   	,
                                 orden 	: req.body.orden 	,
+                                estado	: req.body.estado	,
                                 potros1: '',votros1:'',
                                 usuarionew:req.body.bitacora.email
                             }
