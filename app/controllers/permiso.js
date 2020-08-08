@@ -22,6 +22,7 @@ exports.getPermiso = function(req, res, next){
                         ,actualizacion:todos[i].actualizacion
                         ,filtro:todos[i].filtro
                         ,reporte:todos[i].reporte
+                        ,estado:todos[i].estado
                         ,orden:todos[i].orden
                         });
                    }
