@@ -26,6 +26,7 @@ exports.getPermison3 = function(req, res, next){
                         ,creacion:todos[i].creacion
                         ,actualizacion:todos[i].actualizacion
                         ,orden:todos[i].orden
+                        ,estado:todos[i].estado
                         ,potros1:todos[i].potros1
                         });
                    }

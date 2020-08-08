@@ -61,6 +61,7 @@ exports.getPermiso = function(req, res, next){
                         ,estado:todos[i].estado
                         ,reporte:todos[i].reporte
                         ,orden:todos[i].orden
+                        ,estado:todos[i].estado
                         });
                    }
                     res.json(myData);
@@ -121,7 +122,8 @@ exports.creaPermiso2s = function(req, res, next){
                 
                 todo.idrol        	=	req.body.idrol        	||	todo.idrol        	;
                 todo.nombre        	=	req.body.nombre        	||	todo.nombre        	;
-                todo.estado        	=	req.body.estado              	;
+                todo.estado        	=	req.body.estado        	||	todo.estado        	;
+                
                 todo.ingreso 	=	req.body.ingreso		;
                 todo.consulta 	=	req.body.consulta		;
                 todo.eliminacion 	=	req.body.eliminacion		;
