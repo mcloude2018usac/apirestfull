@@ -975,14 +975,50 @@ if(req.params.recordID!=='crea')
                 todo100.save(function (err, todo200){
                     if (err)     {  console.log(err.message)   }
             
-                    res.json(todo200);
+
+                    Calusacnotas.find({ idasigna: req.params.recordID }, function (err, todo100)  {
+                        if (err) {  res.send(err);  }
+                        else
+                        { 
+                            if(todo100.length<=0)
+                            {
+
+                                res.json(todo200);
+                            }
+                            else
+                            {
+                            Calusacnotas.findById({ _id: todo100[0]._id }, function (err, todo1000)  {
+                                if (err) {  res.send(err);  }
+                                else
+                                { 
+                                  
+                    
+                                
+                                                todo1000.nombre        	=		req.body.nombre   	;
+                                                todo1000.cui        	=		req.body.cui   	;
+                                                todo1000.carnecalusac        	=		req.body.carnecalusac   	;
+                                                todo1000.identificador        	=		req.body.identificador   	;
+                        
+                                    todo100.save(function (err, todo200){
+                                        if (err)     {  console.log(err.message)   }
+                                        res.json(todo200);
+
+                                        });
+                                 }        
+
+
+              
+                        });
+                    }
+                    }
+                  
                     
                 });
-            }
-        });
+            });
 
    
-
+        }
+    })
 
     }
     else{
