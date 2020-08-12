@@ -2097,6 +2097,37 @@ else
 
         });
         break
+        case 'excel-cursoslibres':
+                console.log(req.params.id2)
+
+                                var filename   = "participantescursuslibres.csv";
+                                
+                                Participa2.find({idevento:req.params.id2}).sort({nombre:1}).exec(function(err, todos2) {
+                                        if (err){ res.send(err); }
+                                        console.log(todos2)
+
+                                        if(todos2.length>0)   {  
+
+                                                var myData = [];
+                                                for(var i = 0; i < todos2.length;i++){
+
+
+                                                myData.push({tipo:todos2[i].idtipoevento,area:todos2[i].idarea,nombre:cleanName(todos2[i].nombre) + ' '+ cleanName(todos2[i].apellido),fecha:todos2[i].fecha.substr(0,10),correo:todos2[i].correo,telefono:todos2[i].telefono,genero:todos2[i].genero,edad:todos2[i].edad  });
+                                                }
+                                                
+                                                res.statusCode = 200;
+                                                res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+                                                res.setHeader("Content-Disposition", 'attachment; filename='+filename);
+                                                res.csv(myData, true);
+                                        
+                                                
+                                        }
+                                
+                                });
+
+        break;
+
+      
         case 'excel-participa':
                 console.log(req.params.id2)
 
