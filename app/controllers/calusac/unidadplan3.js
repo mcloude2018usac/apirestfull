@@ -202,10 +202,41 @@ console.log({'idtipounidad':req.params.id, 'idunidadacademica':req.params.id2
                           
             var duplicates = [];
               
-            todos22.forEach(function (doc) {duplicates.push(doc._id);  });
+            todos22.forEach(function (doc) {duplicates.push('' + doc._id + '');  });
+
+            Asignacalusac.aggregate( 
+                [
+                    { 
+                        "$match" : {  "estadopago" : "Asignación exitosa",'idtipounidad.id':req.params.id, 'idunidadacademica.id':req.params.id2 ,  'idperiodo.id': {$in: duplicates}   }
+                    }, 
+                    { 
+                        "$group" : { 
+                            "_id" : { 
+                                "idplanifica" : "$idplanifica"
+
+                                
+                            },
+                            "COUNT(*)" : { 
+                                "$sum" :(1)
+                            }, 
+                        }
+                    }, 
+                    { 
+                        "$project" : { 
+                            "idplanifica" : "$_id.idplanifica",
+                            "cantidad" : "$COUNT(*)", 
+                           
+                            "_id" : 0
+                        }
+                    }
+                ]
+                
+         ).exec(function(err, todosxxx) {
+
 
             Facplan3.find({'idperiodo.id': {$in: duplicates},'idtipounidad.id':req.params.id, 'idunidadacademica.id':req.params.id2})
-            .populate('idnivel').populate('idjornada').populate('idhorario').populate('idprofesor').find({}).sort(   {  "idnivel" : 1,    "idjornada" : 1 } ).exec(function(err, todos2) {
+            .populate('idnivel').populate('idjornada').populate('idhorario').populate('idprofesor').find({}).
+            sort(   {  "idnivel" : 1,    "idjornada" : 1 } ).exec(function(err, todos2) {
             if (err){  res.send(err);  }
                             var myData31 = [];
 
@@ -213,13 +244,24 @@ console.log({'idtipounidad':req.params.id, 'idunidadacademica':req.params.id2
                             
                            
                             for(var i = 0; i <  todos2.length;i++){
+                                         var asignados=0;
+                                for(var ii = 0; ii <  todosxxx.length;ii++){
+
+                                    if(todos2[i]._id==todosxxx[ii].idplanifica)
+                                    {
+                                            asignados=todosxxx[ii].cantidad;
+                                            break;
+
+                                    }
+                                }
+
                                         myData31.push({ubicacion:todos2[i].idtipounidad.nombre,
                                             curso:todos2[i].idunidadacademica.nombre,periodo:todos2[i].idperiodo.nombre,
                                             edificio:todos2[i].idedificio.nombre,salon:todos2[i].idsalon.nombre,
                                             nivel:todos2[i].idnivel.nombre,jornada:todos2[i].idjornada.nombre,horario:todos2[i].idhorario.nombre +' - '+todos2[i].idhorario.nombre2
                                             ,dias:todos2[i].idhorario.dia   ,profesor:todos2[i].idprofesor.nombre
                                             ,capacidad:todos2[i].capacidad
-                                            ,asignados:todos2[i].asignados,cupo:todos2[i].capacidad-todos2[i].asignados     ,cantidad:1                              })
+                                            ,asignados:asignados,cupo:todos2[i].capacidad-todos2[i].asignados     ,cantidad:1                              })
                                     }
 
                                     res.json(myData31);
@@ -227,6 +269,7 @@ console.log({'idtipounidad':req.params.id, 'idunidadacademica':req.params.id2
                                 });
 
                             });
+                        });
         break;
         case 'horariocalusacsede':
 
