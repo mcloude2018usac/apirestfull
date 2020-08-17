@@ -1,6 +1,6 @@
 
 var Personal = require('../models/user');
-
+var Suscriptorsaldo = require('../models/suscriptorsaldo');
 var Personalsaldo = require('../models/suscriptorsaldo');
 var Personalhis = require('../models/suscriptorhis');
 var Bitacora = require('../models/bitacora');
@@ -12,6 +12,18 @@ function roundxx(value, decimals) {
 
     return Number(Math.round(value+'e'+decimals)+'e-'+decimals).toFixed(2);
   }
+
+
+  function UniqueValue(d){
+    var dat_e = new Date();
+    var uniqu_e = ((Math.random() *1000) +"").slice(-4)
+
+    dat_e = dat_e.toISOString().replace(/[^0-9]/g, "").replace(dat_e.getFullYear(),uniqu_e);
+    if(d==dat_e)
+        dat_e = UniqueValue(dat_e);
+    return dat_e;
+}
+
 
 exports.getPersonal = function(req, res, next){
 
@@ -527,6 +539,76 @@ break;
                             
                         });
                 break;
+                case 'personadispid':
+                   
+                    Personal.findById({_id:req.params.email}).exec(function(err, todos) {
+                        if (err){ res.send(err); }
+                
+                       
+                            console.log({'idsuscriptor.id':todos._id})
+                            Personalsaldo.find({'idsuscriptor.id':todos._id  },function(err, todos4) {
+                                if (err){ res.send(err); }
+
+                            
+                                var myData = [];
+                                        if(todos4.length>0)   {  
+
+                                            myData.push({_id:todos._id,email:todos.email,estado:todos.estado,cui:todos.cui,direccion:todos.direccion,nombre:todos.nombre,foto:todos.foto,telefono:todos.telefono,sexo:todos.sexo,fechanac:todos.fechanac
+                                            ,tiposuscriptor:'',unidad:''
+                                            ,saldo:roundxx(todos4[0].saldoactual,2),codigo1:todos4[0].codigo1,dispositivo1:todos4[0].dispositivo1
+                                            ,codigo2:todos4[0].codigo2,dispositivo2:todos4[0].dispositivo2
+                                            ,codigo3:todos4[0].codigo3,dispositivo3:todos4[0].dispositivo3
+                                            ,codigo4:todos4[0].codigo4,dispositivo4:todos4[0].dispositivo4
+                                            ,codigo5:todos4[0].codigo5,dispositivo5:todos4[0].dispositivo5,encuentra:'si',id2:todos4[0]._id});
+                                            res.json(myData);
+
+                                        }
+                                        else
+                                        {
+                                           
+console.log('crea')
+                                                                               
+                                            Suscriptorsaldo.create({  
+                                                idempresa      	: todos.idempresa     	,
+                                                idsuscriptor      	: {id:todos._id,nombre:todos.nombre,dpi:todos.cui ||'123'}    	,
+                                                saldoactual        	: 0       	,
+                                                codigo1        	: ''        	,
+                                                codigo2        	: ''      	,
+                                                codigo3        	: ''        	,
+                                                codigo4        	: ''        	,
+                                                codigo5        	: ''        	,
+                                                dispositivo1        	: 'Tarjeta'        	,
+                                                dispositivo2        	: ''        	,
+                                                dispositivo3        	: ''        	,
+                                                dispositivo4        	: ''        	,
+                                                dispositivo5        	: ''        	,
+                                                usuarionew:todos.email 	
+                                            }
+                                                , function(err, todo100aa) {
+                                                    if (err){ console.log(err); res.send(err); }
+
+                                                    myData.push({_id:todos._id,email:todos.email,estado:todos.estado,cui:todos.cui,direccion:todos.direccion,nombre:todos.nombre,foto:todos.foto,telefono:todos.telefono,sexo:todos.sexo,fechanac:todos.fechanac
+                                                        ,tiposuscriptor:'',unidad:''
+                                                        ,saldo:'0',codigo1:'',dispositivo1:''
+                                                        ,codigo2:'',dispositivo2:''
+                                                        ,codigo3:'',dispositivo3:''
+                                                        ,codigo4:'',dispositivo4:''
+                                                        ,codigo5:'',dispositivo5:'',encuentra:'no',id2:''});
+        
+                                                        res.json(myData);
+                                                });
+
+                                          
+                                        }
+                                       
+                                       
+                                    });
+
+
+                      
+                        
+                    });
+        break;
                 case 'personadisp':
                             Personal.find({cui:req.params.email,idempresa:req.params.id3}).populate('unidad').populate('tiposuscriptor')
                             .exec(function(err, todos) {
@@ -843,7 +925,36 @@ break;
 
                     break;
         
-        
+                    case 'keyunica':
+                        var d=0;
+                        var dat_e = new Date();
+                        var uniqu_e = ((Math.random() *1000) +"").slice(-4)
+                
+                        dat_e = dat_e.toISOString().replace(/[^0-9]/g, "").replace(dat_e.getFullYear(),uniqu_e);
+                        if(d==dat_e)
+                            dat_e = UniqueValue(dat_e);
+                      
+                            Personal.findById({ _id: req.params.email}, function (err, todo)  {
+                                if (err) {  res.send(err);  }
+                                else
+                                {  
+                                    
+                                    todo.controlacceso        	=dat_e	
+                                 
+                                    todo.save(function (err, todo){
+                                        if (err)     {  res.status(500).send(err.message)   }
+                                        res.json({code:dat_e	});
+                                    });
+                                }
+                            });
+
+
+
+                           
+                        
+                break;
+
+
                case 'unidadper':
                console.log(req.params);
                Personal.find({idempresa:req.params.id3,unidad:req.params.email},function(err, todos) {
@@ -851,6 +962,14 @@ break;
                     res.json(todos);
                 });
                 break;
+                case 'Activo':
+                    console.log(req.params);
+                    Personal.find({idempresa:req.params.id3},function(err, todos) {
+                     if (err){  res.send(err);  }
+                         res.json(todos);
+                     });
+                     break;
+     
                 case 'empresatodo':
                     console.log(req.params);
                     Personal.find({idempresa:req.params.id3,estado:req.params.email},function(err, todos) {
