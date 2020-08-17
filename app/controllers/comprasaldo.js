@@ -171,36 +171,96 @@ console.log(filtro)
     }
     else{
     if(req.params.id3)
-    {    if(req.params.id2=='vende')
+    {   if(req.params.id3=='PAGO0')
+    {
+
+        Personalhis.find({'idsuscriptor.id':req.params.id,grupo1:req.params.id2}).sort([['createdAt', -1]]).exec(function(err, todos) {
+            if (err){ res.send(err); }
+            var myData3 = [];
+            for(var i = 0; i < todos.length;i++){
+                myData3.push({fecha:todos[i].createdAt,nombre:todos[i].descripcion + todos[i].monto,descripcion:todos[i].descripcion,monto:todos[i].monto
+                , tipo:todos[i].tipo})
+            }
+            res.json(myData3);
+        });
+
+
+    
+  
+
+    }
+    else{
+        if(req.params.id3=='PAGO')
         {
-            Comprasaldo.find({'idsuscriptor2.id':req.params.id,idempresa:req.params.id2},function(err, todos) {
+
+            Personalhis.find({'idsuscriptor.id':req.params.id,grupo1:req.params.id2}).sort([['createdAt', -1]]).exec(function(err, todos) {
                 if (err){ res.send(err); }
-               
-                if(todos.length>0)   {    res.json(todos);   }
-                else
-                {  res.status(500).send('NO EXISTE REGISTRO');      }
-                
+                var myData3 = [];
+                for(var i = 0; i < todos.length;i++){
+                    myData3.push({fecha:todos[i].createdAt,nombre:todos[i].descripcion + todos[i].monto,descripcion:todos[i].descripcion,monto:todos[i].monto
+                    , tipo:todos[i].tipo})
+                }
+                res.json(myData3);
             });
+
+
+        
       
 
         }
-        else
-        {
-                  if(req.params.id2=='historial')
-                    {
-                        Personalhis.find({'idsuscriptor.id':req.params.id}).sort([['createdAt', -1]]).exec(function(err, todos) {
-                            if (err){ res.send(err); }
-                            res.json(todos);
-                        });
-            
-                    }
-                    else
-                    {
-                           
+        else{
+            if(req.params.id3=='COBRO')
+            {
 
+                Personalhis.find({'idsuscriptor2.id':req.params.id,grupo2:req.params.id2}).sort([['createdAt', -1]]).exec(function(err, todos) {
+                    if (err){ res.send(err); }
+                    var myData3 = [];
+                    for(var i = 0; i < todos.length;i++){
+                        myData3.push({fecha:todos[i].createdAt,nombre:todos[i].descripcion2 + todos[i].monto,descripcion:todos[i].descripcion2,monto:todos[i].monto
+                        , tipo:todos[i].tipo2})
                     }
+                    res.json(myData3);
+                });
+    
 
-        }
+
+            }
+            else{
+                if(req.params.id2=='vende')
+                {
+                    Comprasaldo.find({'idsuscriptor2.id':req.params.id,idempresa:req.params.id2},function(err, todos) {
+                        if (err){ res.send(err); }
+                       
+                        if(todos.length>0)   {    res.json(todos);   }
+                        else
+                        {  res.status(500).send('NO EXISTE REGISTRO');      }
+                        
+                    });
+              
+        
+                }
+                else
+                {
+                          if(req.params.id2=='historial')
+                            {
+                                Personalhis.find({'idsuscriptor.id':req.params.id}).sort([['createdAt', -1]]).exec(function(err, todos) {
+                                    if (err){ res.send(err); }
+                                    res.json(todos);
+                                });
+                    
+                            }
+                            else
+                            {
+                                   
+        
+                            }
+        
+                }
+               
+                
+            } }
+
+        } 
        
     }
     else
