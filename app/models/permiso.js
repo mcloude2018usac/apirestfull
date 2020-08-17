@@ -15,6 +15,8 @@ var mongoose =require("mongoose");
         orden: { type : Number },
         potros1   		: { type : String },
         votros1   		: { type : String },
+        estado   		: { type : String },
+        
         usuarionew	: { type : String },      usuarioup	: { type : String }
       
         }, {

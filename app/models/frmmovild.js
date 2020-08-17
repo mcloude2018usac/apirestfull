@@ -24,6 +24,8 @@ var mongoose =require("mongoose");
         blike:  { type : String },
         fondoetiqueta:  { type : String },
         coloretiqueta:  { type : String },
+
+        
         rangomin:	 { type : Number },
         rangomax:	 { type : Number },
         rangostep:	 { type : Number },

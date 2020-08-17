@@ -15,8 +15,9 @@ var mongoose =require("mongoose");
         reporte	: { type : Boolean },
         potros1   		: { type : String },
         votros1   		: { type : String },
-        orden: { type : Number }
-        ,usuarionew	: { type : String },      usuarioup	: { type : String }
+        orden: { type : Number },
+        estado   		: { type : String },
+        usuarionew	: { type : String },      usuarioup	: { type : String }
       
         }, {
         timestamps: true
