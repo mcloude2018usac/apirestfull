@@ -374,10 +374,9 @@ if(req.body.operacion=='pagaservicio')
             }
             else
             {
-                    myData.push({nombre:'Saldo insuficiente para poder realizar operación',cui:'',saldo:todos[0].saldoactual,
-                    id:99999,saldoactual:0});
-
-                        res.json(myData);
+                res.status(500).send('Saldo insuficiente para poder realizar operación')  
+                
+              
 
 
 
