@@ -9,13 +9,16 @@ var Orden_compraSchema 		=	new  mongoose.Schema({
  idusuario		: { type : String ,ref:'User' },  
  estado: { type : String },  
  deliveryasignado:{ type : String ,ref:'User'},  
+ userasignado:{        type: String},
+ comentario1:{        type: String},
  dproductos:[{
     id		: { type : String, required : true },
     idproveedor		: { type : String, required : true },
     name		: { type : String, required : true }, 
     price: { type : Number, required : true }, 
     amount: { type : Number, required : true }, 
-    subtotal: { type : Number, required : true }
+    subtotal: { type : Number, required : true },
+   
 
  }]
 
