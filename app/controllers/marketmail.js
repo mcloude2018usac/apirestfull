@@ -4,8 +4,6 @@ var Bitacora = require('../models/bitacora');
 var Usermsg = require('../models/usermsg');
 var User = require('../models/user');
 
-//db.getCollection('carnes').find({ correo: {  $ne: null }}).count()
-
 var datipo = function(str,vector) {
    var re='';
    for(var i = 0; i < vector.length;i++){

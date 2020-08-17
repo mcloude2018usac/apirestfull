@@ -3,6 +3,25 @@ var Frmmovild = require('../models/frmmovild');
 var Bitacora = require('../models/bitacora');
 
 exports.getFrmmovild = function(req, res, next){
+    if(req.params.id4)
+    {   
+            if(req.params.id2=='todos')
+            { 
+                Frmmovild.find({idempresa:req.params.id3,idmovil:req.params.id4}).sort({'_id': -1}).exec(function(err, todos) {
+                    if (err){  res.send(err);  }
+                     res.json(todos);
+                 });
+            }
+            else
+            {
+                Frmmovild.find({idempresa:req.params.id3,estado:req.params.id2,idmovil:req.params.id4}).sort({'_id': -1}).exec(function(err, todos) {
+                    if (err){  res.send(err);  }
+                     res.json(todos);
+                 });
+            }
+    }
+    else
+    {
     if(req.params.id2)
     {
         
@@ -44,7 +63,7 @@ exports.getFrmmovild = function(req, res, next){
            if (err){  res.send(err);  }
             res.json(todos);
         });
-    }
+    }}
 }
 exports.deleteFrmmovild = function(req, res, next){
    
@@ -146,7 +165,7 @@ else{
                         fondoetiqueta: 'cbg117',
                         coloretiqueta:  'cco104',
 
-                        position :'fixed' 	,
+                        position : req.body.position 	,
                         labelsizefondt :'14'	,
                         categoria:'' ,
                         combofijo:'true',

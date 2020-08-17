@@ -2,6 +2,9 @@
 var Catusuario = require('../models/catusuario');
 var Bitacora = require('../models/bitacora');
 var Dcatalogo = require('../models/dcatalogo');
+var formulariousrd = require('../models/formulariousrd');
+var formulariousr = require('../models/formulariousr');
+
 
 function onlyUnique(value, index, self) { 
     return self.indexOf(value) === index;
@@ -22,6 +25,44 @@ exports.getCatusuario = function(req, res, next){
         }
         else
         {
+            if(req.params.id2=='categoriausrmovil')
+            {
+               
+                formulariousrd.find({idempresa:req.params.id}).populate('idpapa').populate('idformulario').exec(function(err, todos) {
+                    if (err){  res.send(err);  }
+                    var myData = [];
+                  
+                    for(var i = 0; i < todos.length;i++){
+                        if(todos[i].idpapa.idusuario==req.params.id3)
+                        {
+                            myData.push({_id:todos[i].idformulario._id,nombre:todos[i].idformulario.categoria });
+                        }
+                       
+                    }
+    
+
+                    var unique =   myData.filter( onlyUnique );
+
+                    var myData2 = [];
+                    var arre=['yellow','red','green','blue','purple','violet','turquoise']    
+                    var j=0;
+                                 for(var i = 0; i < unique.length;i++){
+                                    if(j==6){j=0;} 
+                                     myData2.push({_id:unique[i]._id,nombre:unique[i].nombre,"colort":"box " + arre[j] });
+                                     j=j+1;
+                                 }
+                 
+                                  res.json(myData2);
+
+
+                  
+
+
+                 });
+        
+            }
+            else
+            {
             if(req.params.id2=='categoriausr')
             {
                 Catusuario.find({'idusuario':req.params.id,idempresa:req.params.id3}).populate('idcategoria').exec(function(err, todos) {
@@ -124,7 +165,7 @@ exports.getCatusuario = function(req, res, next){
                     
                 }
                 
-            }
+            }}
 
         }
     }

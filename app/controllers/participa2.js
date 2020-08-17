@@ -733,7 +733,8 @@ else{
             idevento       	: req.body.idevento       	
          },function(err, todos100) {
             if (err){ res.send(err); }
-       
+       console.log(todos100.length)
+       console.log( req.body.capacidad)
             if(todos100.length> req.body.capacidad)   {    res.status(500).send('Ya no existe cupo para este curso'); }
             else
             {   

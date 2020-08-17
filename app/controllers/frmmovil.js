@@ -4,6 +4,8 @@ var Frmmovild = require('../models/frmmovild');
 var Bitacora = require('../models/bitacora');
 var Catusuario = require('../models/catusuario');
 var Formcat2 = require('../models/frmcat2');
+var formulariousrd = require('../models/formulariousrd');
+var formulariousr = require('../models/formulariousr');
                             
 function onlyUnique(value, index, self) { 
     return self.indexOf(value) === index;
@@ -103,97 +105,97 @@ function dafiltrocad(todos,id2,id3) {
     for(var i = 0; i < todos.length;i++){
                                       
      
-        switch(todos[i].type.nombre) {
+        switch(todos[i].type) {
             case 'Rango':  
             if(todos[i].name==id2){cadxx='"' +id2 + '":' +id3 + ''  }
             if(todos[i].required=='false')
-            {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '"},';
+            {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
             }
             else
             {
-                cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
+                cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
             }
             break;
              case 'Fecha': //ISODate("2018-08-08T15:00:56.875Z"),
              if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
              else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
              if(todos[i].required=='false')
-             {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '"},';
+             {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
              }
              else
              {
                 
-                 cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
+                 cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
              }
               break;
               case 'Hora': //ISODate("2018-08-08T15:00:56.875Z"),
               if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
               else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
               if(todos[i].required=='false')
-              {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '"},';
+              {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
               }
               else
               {
                  
-                  cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
+                  cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
               }
                break;
               case 'Fecha y Hora': //ISODate("2018-08-08T15:00:56.875Z"),
               if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
               else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
               if(todos[i].required=='false')
-              {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '"},';
+              {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
               }
               else
               {
                  
-                  cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
+                  cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
               }
                break;
               case 'Check': 
               if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
               else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
               if(todos[i].required=='false')
-              {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '"},';
+              {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
               }
               else
               {
                  
-                  cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
+                  cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
               }
                break;
                case 'Imagen': 
                if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
                else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
                if(todos[i].required=='false')
-               {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '"},';
+               {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
                }
                else
                {
                   
-                   cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
+                   cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
                }
                 break;
          case 'Alfanumerico': 
          if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
          else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
          if(todos[i].required=='false')
-         {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '"},';
+         {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
          }
          else
          {
             
-             cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
+             cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
          }
           break;
         case 'Numerico':  
         if(todos[i].name==id2){cadxx='"' +id2 + '":' +id3 + ''  }
         if(todos[i].required=='false')
-        {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '"},';
+        {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
         }
         else
         {
-            cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
+            cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
         }
         break;
         case 'TextArea':  
@@ -202,11 +204,11 @@ function dafiltrocad(todos,id2,id3) {
 //        if(todos[i].name==id2){cadxx='"' +id2 + '":"' +id3 + '"'  }
    
         if(todos[i].required=='false')
-        {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '"},';
+        {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
         }
         else
         {
-            cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type.nombre) + '","required":"' + todos[i].required +'"},';
+            cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
         }
           break;
         case 'Etiqueta':   
@@ -215,12 +217,12 @@ function dafiltrocad(todos,id2,id3) {
         if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '.label":"' +id3 + '"' }
          else{cadxx='"' +id2 + '.label": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
         if(todos[i].required=='false')
-             {
-                 cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String"},   "label"	: { "type" : "String" }},';
+             {cad=cad+'"'+todos[i].name+'":{"type" : "String"},';
+                 //cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String"},   "label"	: { "type" : "String" }},';
              }
              else
-             {
-                     cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
+             {cad=cad+'"'+todos[i].name+'":{"type" : "String", "required" : "true"},';
+                //     cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
              }
 
           break;
@@ -245,33 +247,113 @@ var objectToArray = function(obj) {
 exports.getFrmmovil = function(req, res, next){
     if(req.params.id4)
     {
+        
+
         if(req.params.id4=='categoriausr')
         {
-            Catusuario.find({'idcategoria':req.params.id,'idusuario':req.params.id2,idempresa:req.params.id3}).populate('idformulario').exec(function(err, todos) {
-                if (err){  res.send(err);  }
-                var myData = [];
-              
-                for(var i = 0; i < todos.length;i++){
-                    myData.push({_id:todos[i].idformulario._id,categoria:todos[i].idformulario.categoria,nombre:todos[i].idformulario.nombre,foto:todos[i].idformulario.foto,estado:todos[i].idformulario.estado });
-                }
+
+
+
+            var arr=(req.params.id3).split('°')
+
+
+            if(arr[1]=='todos')
+            {
+                formulariousr.find({idusuario:req.params.id2,idempresa:arr[0]})
+                .exec(function(err, todosb) {
+                              if (err){  res.send(err);  }
+
+                              if(todosb.length<=0)
+                              {
+                                res.json(todosb);
+                              }
+                              else
+                              {
+                                  
+                formulariousrd.find({idpapa:todosb[0]._id,idempresa:arr[0]}).
+                populate('idpapa').populate('idformulario').exec(function(err, todos) {
+                     if (err){  res.send(err);  }
+                  
+                    var myData = [];
+                    
+                    for(var i = 0; i < todos.length;i++){
+                        if(todos[i].idformulario.categoria==req.params.id)
+                        {
+                            myData.push({_id:todos[i].idformulario._id,categoria:todos[i].idformulario.categoria,nombre:todos[i].idformulario.nombre,foto:todos[i].idformulario.foto,estado:todos[i].idformulario.estado });
+                        }
+                        
+                    }
+                   
+        
+                    var unique =   myData.filter( onlyUnique );
+                  
+                    var myData2 = [];
+                                  for(var i = 0; i < unique.length;i++){
+                                     myData2.push({_id:unique[i]._id,categoria:todos[i].idformulario.categoria,nombre:unique[i].nombre,foto:unique[i].foto,estado:unique[i].estado});
+                                 }
                
-    
-                var unique =   myData.filter( onlyUnique );
-              
-                var myData2 = [];
-                              for(var i = 0; i < unique.length;i++){
-                                 myData2.push({_id:unique[i]._id,categoria:todos[i].idformulario.categoria,nombre:unique[i].nombre,foto:unique[i].foto,estado:unique[i].estado});
-                             }
-             
-                              res.json(myData2);
+                                  res.json(myData2);
+                                });
+                              }
+
+
                             });
+            }
+            else
+            {
+
+                formulariousr.find({idusuario:req.params.id2,idempresa:arr[0], estado:arr[1]})
+                .exec(function(err, todosb) {
+                      if (err){  res.send(err);  }
+
+                      
+                      if(todosb.length<=0)
+                      {
+                        res.json(todosb);
+                      }
+                      else
+                      {
+                                      
+                formulariousrd.find({idpapa:todosb[0]._id,idempresa:arr[0]}).
+                populate('idpapa').populate('idformulario').exec(function(err, todos) {
+                  
+
+                    if (err){  res.send(err);  }
+                    var myData = [];
+                    
+                    for(var i = 0; i < todos.length;i++){
+                        if(todos[i].idformulario.categoria==req.params.id)
+                        {
+                            myData.push({_id:todos[i].idformulario._id,categoria:todos[i].idformulario.categoria,nombre:todos[i].idformulario.nombre,foto:todos[i].idformulario.foto,estado:todos[i].idformulario.estado });
+                        }
+                        
+                    }
+                   
+        
+                    var unique =   myData.filter( onlyUnique );
+                  
+                    var myData2 = [];
+                                  for(var i = 0; i < unique.length;i++){
+                                     myData2.push({_id:unique[i]._id,categoria:todos[i].idformulario.categoria,nombre:unique[i].nombre,foto:unique[i].foto,estado:unique[i].estado});
+                                 }
+               
+                                  res.json(myData2);
+                                });
+                      }
+
+
+          
+                            });
+            }
+
+        
 
         }
         else
         {
         var namess=req.params.id //formulario
         //req.params.id2   campo   req.params.id3   informacion
-        Frmmovild.find({idmovil:req.params.id, display : "true"}).populate('type').sort([['order', 1]]).exec(function(err, todos) {
+        Frmmovild.find({idmovil:req.params.id, display : "true"}).sort([['order', 1]]).exec(function(err, todos) {
             if (err){ res.send(err); }
                                 if(todos.length>0)   {  
                                
@@ -318,6 +400,37 @@ exports.getFrmmovil = function(req, res, next){
    
     if(req.params.id3)
     { 
+       
+        if(req.params.id=='todos')
+        { 
+
+            if(req.params.id2=='todos')
+            { 
+                Frmmovil.find({idempresa:req.params.id3}).sort({'_id': -1}).exec(function(err, todos) {
+                    if (err){  res.send(err);  }
+                  
+                     res.json(todos);
+                 });
+            }
+            else
+            {  
+                Frmmovil.find({idempresa:req.params.id3,estado:req.params.id2}).sort({'_id': -1}).exec(function(err, todos) {
+                    if (err){  res.send(err);  }
+                  
+                     res.json(todos);
+                 });
+
+            }
+          
+          
+        }
+        else
+        {
+          
+        
+
+
+
         switch(req.params.id2) {
             case 'estado':
                     Frmmovil.find({estado:req.params.id,idempresa:req.params.id3},function(err, todos) {
@@ -327,7 +440,7 @@ exports.getFrmmovil = function(req, res, next){
                     });
               break;
               case 'categoria':
-                  console.log({categoria:req.params.id,idempresa:req.params.id3})
+               
               Frmmovil.find({categoria:req.params.id,idempresa:req.params.id3},function(err, todos) {
                   if (err){  res.send(err);  }
                   res.json(todos);
@@ -350,11 +463,11 @@ exports.getFrmmovil = function(req, res, next){
 
         break;
         case 'formulariocamposver2':
-        Frmmovild.find({idmovil:req.params.id, display : "true",idempresa:req.params.id3}).populate('type').exec(function(err, todos) {
+        Frmmovild.find({idmovil:req.params.id, display : "true",idempresa:req.params.id3}).exec(function(err, todos) {
             if (err){  res.send(err);  }
             var data=[]
             for(var i = 0; i < todos.length;i++){
-                if(todos[i].type.nombre!='Imagen')
+                if(todos[i].type!='Imagen')
                 {
                     data.push({_id:todos[i].name,nombre:todos[i].title})
 
@@ -368,16 +481,17 @@ exports.getFrmmovil = function(req, res, next){
         });
         break;
         case 'formulario':
+         
             var namess=req.params.id
-                Frmmovild.find({idmovil:req.params.id, display : "true",idempresa:req.params.id3}).populate('type').sort([['order', 1]]).exec(function(err, todos) {
+                Frmmovild.find({idmovil:req.params.id, display : "true",idempresa:req.params.id3}).sort([['order', 1]]).exec(function(err, todos) {
                     if (err){ res.send(err); }
-                  //  console.log(todos)
+                
                                         if(todos.length>0)   {  
                                        
                                             var cad=''
                                             var cadxx=''
                                             var cad3=(dafiltrocad(todos,'','')).split('°')
-                                            console.log(cad3)
+                                      
                                             cad=cad3[0]
                                             cadxx='{'+ cad3[1] + '}'
                                             cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
@@ -428,18 +542,18 @@ exports.getFrmmovil = function(req, res, next){
                         if(todos1.length>0)   {   
                         }
 
-                        Frmmovild.find({idmovil:req.params.id}).populate('type').exec(function(err, todos) {
+                        Frmmovild.find({idmovil:req.params.id}).exec(function(err, todos) {
                             if (err){ res.send(err); }
                                                 if(todos.length>0)   {   
                                                   
                                                   var data=[];
                                                   for(var i = 0; i < todos.length;i++){
 
-                                                     
+                                               
                                                       data.push({  
                                                       _id :  todos[i]._id, 
                                                       idmovil	:  todos[i].idmovil._id,
-                                                      type   		: datipo2(todos[i].type.nombre) ,
+                                                      type   		: datipo2(todos[i].type) ,
                                                       name   		: todos[i].name,
                                                       default:todos[i].default,
                                                       nombre   		:  todos[i].nombre,
@@ -481,6 +595,7 @@ break;
            
              
           }
+        }
     }
     else
     {
@@ -535,7 +650,7 @@ exports.deleteFrmmovil2 = function(req, res, next){
     Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina formulario movil '});
     var namess=req.params.recordID2
 
-    Frmmovild.find({idmovil:req.params.recordID2}).populate('type').exec(function(err, todos) {
+    Frmmovild.find({idmovil:req.params.recordID2}).exec(function(err, todos) {
         if (err){ res.send(err); }
                             if(todos.length>0)   {     
                                  var cad=''
@@ -588,7 +703,7 @@ if(req.params.recordID!=='crea')
 {   Bitacora.create(req.body.bitacora);
     var namess=req.body.idform
 
-    Frmmovild.find({idmovil:req.body.idform}).populate('type').exec(function(err, todos) {
+    Frmmovild.find({idmovil:req.body.idform}).exec(function(err, todos) {
         if (err){ res.send(err); }
                             if(todos.length>0)   {     
                                  var cad=''
@@ -633,9 +748,12 @@ if(req.params.recordID!=='crea')
 
 }
 else{
+
+
     var namess=req.body.idform
     Bitacora.create(req.body.bitacora);
-    Frmmovild.find({idmovil:req.body.idform}).populate('type').exec(function(err, todos) {
+    Frmmovild.find({idmovil:req.body.idform}).exec(function(err, todos) {
+       
         if (err){ res.send(err); }
                             if(todos.length>0)   {  
                                
@@ -645,29 +763,32 @@ else{
                                 cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" }'
                                 cad='{' + cad + '}'
                                 var jsonObject = stringToObject(cad);
-                              
+                                console.log(jsonObject)
                                 var mongoose = require("mongoose");
                                 var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
 
                                 try {
-                                    var  frmtt= mongoose.model(namess,tt);
-                                   
+                                    var  frmtt=  mongoose.model(namess,tt);
+                                   console.log(req.body.estructura)
                                     frmtt.create(req.body.estructura
                                         , function(err, todo3) {
-                                        if (err){      res.status(500).send(err.message)    }
-                                             
+                                        if (err){  console.log(err.message);    res.status(500).send(err.message)    }
+                                             console.log('crea')
                                         res.json(todo3);
                                     
                                         });
                                   
                                   } catch(e) {
                                     
+                                    console.log(e)
+                                    //ya no le pongo esquema eso dice la solucion// pero no graba lo nuevo campo
+                                    //aqui tendria que se un sabe
                                     var  frmtt= mongoose.model(namess);
                                   
                                     frmtt.create(req.body.estructura
                                         , function(err, todo3) {
                                         if (err){       res.status(500).send(err.message)    }
-                                      
+                                      console.log('crea2')
                                         res.json(todo3);
                                     
                                         });
