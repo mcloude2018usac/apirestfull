@@ -173,7 +173,7 @@ console.log(filtro)
     if(req.params.id3)
     {   if(req.params.id3=='PAGO0')
     {
-
+console.log({'idsuscriptor.id':req.params.id,grupo1:req.params.id2})
         Personalhis.find({'idsuscriptor.id':req.params.id,grupo1:req.params.id2}).sort([['createdAt', -1]]).exec(function(err, todos) {
             if (err){ res.send(err); }
             var myData3 = [];
@@ -192,7 +192,7 @@ console.log(filtro)
     else{
         if(req.params.id3=='PAGO')
         {
-
+console.log({'idsuscriptor.id':req.params.id,grupo1:req.params.id2})
             Personalhis.find({'idsuscriptor.id':req.params.id,grupo1:req.params.id2}).sort([['createdAt', -1]]).exec(function(err, todos) {
                 if (err){ res.send(err); }
                 var myData3 = [];
@@ -212,6 +212,7 @@ console.log(filtro)
             if(req.params.id3=='COBRO')
             {
 
+                console.log({'idsuscriptor2.id':req.params.id,grupo2:req.params.id2})
                 Personalhis.find({'idsuscriptor2.id':req.params.id,grupo2:req.params.id2}).sort([['createdAt', -1]]).exec(function(err, todos) {
                     if (err){ res.send(err); }
                     var myData3 = [];
@@ -478,7 +479,7 @@ console.log({'idsuscriptor.id':req.body.idsuscriptor.id,    idempresa      
                                                 noprov 		: '0',
                                                 idempresa0:req.body.idempresa0        	,
                                                 idsuscriptor2:req.body.idsuscriptor2 ,
-                                                grupo1:'COBRO',
+                                                grupo2:'COBRO',
                                                 tipo2   		: 'Venta '+req.body.tipocompra+' (+)',descripcion2   		: 'Operación de venta '+req.body.tipocompra+' (+)', 
                                                 monto2:roundxx(Number(req.body.monto2   ),2),
                                                 
