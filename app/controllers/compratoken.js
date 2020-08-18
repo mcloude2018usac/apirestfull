@@ -2,6 +2,18 @@ var Compratoken = require('../models/compratoken');
 var Bitacora = require('../models/bitacora');
 
 exports.getCompratoken = function(req, res, next){
+    if(req.params.id2)
+    {console.log({_id:req.params.id})
+        Compratoken.find({_id:req.params.id},function(err, todos) {
+            if (err){ res.send(err); }
+console.log(todos)
+            res.json(todos);
+        
+            
+        });
+    }
+    else
+    {
     Compratoken.find({_id:req.params.id,estado:0},function(err, todos) {
         if (err){ res.send(err); }
        
@@ -10,6 +22,7 @@ exports.getCompratoken = function(req, res, next){
         {  res.status(500).send('NO EXISTE REGISTRO');      }
         
     });
+}
 }
 exports.deleteCompratoken = function(req, res, next){
    
@@ -22,7 +35,7 @@ exports.deleteCompratoken = function(req, res, next){
 
 exports.creaCompratoken2s = function(req, res, next){
    
- 
+ console.log(req.body)
     Bitacora.create(req.body.bitacora);
 if(req.params.recordID!=='crea')
 { 
@@ -31,6 +44,8 @@ if(req.params.recordID!=='crea')
         else
         { 
             todo.estado    	=	req.body.estado    	||	todo.estado    	;
+            todo.cobroservicio	=	req.body.cobroservicio	||	todo.cobroservicio	;
+            
             todo.usuarioup=req.body.bitacora.email;
 
             todo.save(function (err, todo){
@@ -43,15 +58,21 @@ if(req.params.recordID!=='crea')
 }
 else{
 
-    Compratoken.find({},function(err, todos) {
-        if (err){ res.send(err); }
- 
+ console.log({ 
+    idempresa        	: req.body.idempresa       	,
+    trama        	: req.body.trama        	,
+    tipo        	: req.body.tipo        	,
+    usuarionew:req.body.bitacora.email,
+    cobroservicio:'',
+    estado 	: req.body.estado 	
+  })
 
             Compratoken.create({ 
                 idempresa        	: req.body.idempresa       	,
                 trama        	: req.body.trama        	,
-             
+                tipo        	: req.body.tipo        	,
                 usuarionew:req.body.bitacora.email,
+                cobroservicio:'',
                 estado 	: req.body.estado 	
               }
                 , function(err, todo) {
@@ -68,8 +89,7 @@ else{
 
             
              
-        
-    });
+
    
  
 }
