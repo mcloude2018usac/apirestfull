@@ -921,6 +921,7 @@ catalogoRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  
 apiRoutes.use('/compratokens', compratokenRoutes);
 
 compratokenRoutes.get('/:id',requireAuth,  CompratokenController.getCompratoken);
+compratokenRoutes.get('/:id/:id2',requireAuth,  CompratokenController.getCompratoken);
 
 compratokenRoutes.post('/:recordID',requireAuth,  CompratokenController.creaCompratoken2s);
 compratokenRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  CompratokenController.deleteCompratoken);
