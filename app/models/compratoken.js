@@ -3,7 +3,8 @@ var mongoose =require("mongoose");
         idempresa   		: { type : String, required : true },
         trama   		: { type : String, required : true },
         estado   		: { type : Number},
-     
+        cobroservicio:{ type : String },
+        tipo:{ type : String },
         usuarionew	: { type : String },      usuarioup	: { type : String }
        
         
