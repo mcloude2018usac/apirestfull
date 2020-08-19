@@ -41,7 +41,7 @@ let upload = multer({ storage: storage })
 
 function start() {
 
-  mongoose.connect(databaseConfig.url, { useNewUrlParser: true ,useCreateIndex: true });
+  mongoose.connect(databaseConfig.url, { useNewUrlParser: true ,useCreateIndex: true , useUnifiedTopology: true });
   cron.schedule("59 23 * * *", function() {
     crntt.mandaeventos();
   });
