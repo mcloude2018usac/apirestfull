@@ -30,6 +30,9 @@ exports.getUnidadacademica3 = function(req, res, next){
                         case 'Extranjero':
                                 filtro={idtipounidad:req.params.id,estado:'Activo', aext:true};
                         break;
+                        case 'Extranjerocentroamericano':
+                            filtro={idtipounidad:req.params.id,estado:'Activo', aext2:true};
+                    break;
                         default:
                                 filtro={idtipounidad:req.params.id,estado:'Activo'};
 
@@ -133,7 +136,7 @@ exports.creaUnidadacademica32s = function(req, res, next){
                 todo.apoblacion=	req.body.apoblacion           	;
                 todo.aadol=	req.body.aadol               	;
                 todo.aext=	req.body.aext        	  	;
-
+                todo.aext2=	req.body.aext2        	  	;
                 
 
                 todo.estado        	=	req.body.estado        	||	todo.estado        	;
@@ -175,7 +178,7 @@ exports.creaUnidadacademica32s = function(req, res, next){
                 apoblacion	: req.body.apoblacion        ,
                 aadol	: req.body.aadol        ,
                 aext	: req.body.aext        ,
-
+                aext2	: req.body.aext2        ,
                 estado        	: req.body.estado        ,
                 usuarionew:req.body.bitacora.email	
             
