@@ -1009,7 +1009,7 @@ if(req.params.recordID)
                
              //   todo.nombre        	=	req.body.nombre          	;
               //  todo.cui 	=	req.body.cui 		;
-                todo.nov 	=	req.body.nov 		;
+                todo.nov 	=	(req.body.nov).trim() 		;
            
     
                 todo.save(function (err, todo){
