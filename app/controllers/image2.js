@@ -87,7 +87,7 @@ exports.putImage2s = function(req, res, next){
 
         todo.save(function (err, todo){
         
-            /* If we encounter an error send the details as a HTTP response */
+          
             if (err)
         {
             res.status(500).send(err)
@@ -111,13 +111,14 @@ exports.putImage2s = function(req, res, next){
 exports.createImage2 = function(req, res, next){
 
     if(req.body.img==undefined  || req.body.id=='5f146aa48caa41db981e6830')
-    {console.log('nula')
+    {console.log('no elimina nada')
         res.status(201).send({ url:'/api/image2s/5f146aa48caa41db981e6830'});
     }
     else
     {
     if(req.body.id=='' || req.body.id=='base64')
     {
+        console.log('crea de una ves porque id es nada   o base64')
         const img = req.body.img;
         const data = img;
         const split = data.split(','); 
@@ -146,14 +147,19 @@ exports.createImage2 = function(req, res, next){
     else{
 
         let imgId = req.body.id ;
-        console.log( req.body.img)
-
-        if(imgId=='noexiste' || req.body.img==undefined)
-        {console.log('nula')
-        res.status(201).send({ url:'/api/image2s/5f146aa48caa41db981e6830'});
+      
+        if(imgId=='lamisma')
+        {
+            res.status(201).send({ url:req.body.nombre});
         }
         else
         {
+        if(imgId=='noexiste' || req.body.img==undefined)
+        {console.log('no elimina nada porque imageid  no existe o img undefined')
+        res.status(201).send({ url:'/api/image2s/5f146aa48caa41db981e6830'});
+        }
+        else
+        {console.log('elimina y pone ' + imgId)
             Image2.findByIdAndRemove(imgId, (err, image2) => {
                 if (err && image2) {
                     res.sendStatus(400);
@@ -187,7 +193,7 @@ exports.createImage2 = function(req, res, next){
     
             })
         }
- 
+    }
       
     }
 
