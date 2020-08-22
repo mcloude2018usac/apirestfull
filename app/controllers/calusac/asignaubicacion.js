@@ -224,6 +224,46 @@ console.log(result10a)
         }
         else
         {
+            if(req.params.id=='todos1000excel')
+            {
+                var filename   = "registros.csv";
+                console.log('entra aqui')
+              
+                Asignacalusac.find({idplanifica:req.params.id2
+                
+            }).populate('ididioma')  .select({carnecalusac:1, "correo":1,"telefono":1, "nombre":1,"cui": 1,"carnecalusac": 1,"n1": 1,"n2": 1,"n3": 1,
+            "n4":1,"n5":1,  "profedor":"1",     "_id": 1}).sort({   "carnecalusac" :1    }).exec(function(err, todos10) {
+                    if (err){ res.send(err); }
+      
+                    var result = [];
+                    for (const item of todos10) {
+                        var n1a='0';
+                        var n2a='0';
+                        var n3a='0';
+                        var n4a='0';
+                        var n5a='0';
+
+                        if(item.n1){ if(item.n1!=null){  n1a=item.n1;}}
+                        if(item.n2){ if(item.n2!=null){  n2a=item.n2;}}
+                        if(item.n3){ if(item.n3!=null){  n3a=item.n3;}}
+                        if(item.n4){ if(item.n4!=null){  n4a=item.n4;}}
+                        if(item.n5){ if(item.n5!=null){  n5a=item.n5;}}
+
+                           result.push({carnecalusac:item.carnecalusac,correo:item.correo,telefono:item.telefono,nombre:item.nombre,cui:item.cui,identificador:item.carnecalusac,n1:n1a,n2:n2a,n3:n3a,n4:n4a,n5:n5a,
+                            profesor:item.profesor,_id:item._id});
+                       
+                   }
+
+                   res.statusCode = 200;
+                   res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+                   res.setHeader("Content-Disposition", 'attachment; filename='+filename);
+                   res.csv(result, true);
+                  
+                });
+    
+            }
+            else
+            {
             if(req.params.id=='todos1000')
             {
                 console.log('entra aqui')
@@ -281,7 +321,7 @@ console.log(result10a)
                 res.json(todos10);
             });
 
-        }}
+        }}}
     }}
 
 
