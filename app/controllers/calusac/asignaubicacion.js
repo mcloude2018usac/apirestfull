@@ -249,8 +249,7 @@ console.log(result10a)
                         if(item.n4){ if(item.n4!=null){  n4a=item.n4;}}
                         if(item.n5){ if(item.n5!=null){  n5a=item.n5;}}
 
-                           result.push({carnecalusac:item.carnecalusac,correo:item.correo,telefono:item.telefono,nombre:item.nombre,cui:item.cui,identificador:item.carnecalusac,n1:n1a,n2:n2a,n3:n3a,n4:n4a,n5:n5a,
-                            profesor:item.profesor,_id:item._id});
+                           result.push({carnecalusac:item.carnecalusac,correo:item.correo,telefono:item.telefono,nombre:item.nombre,cui:item.cui,n1:n1a,n2:n2a,n3:n3a,n4:n4a,n5:n5a});
                        
                    }
 
