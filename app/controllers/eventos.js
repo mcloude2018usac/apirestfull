@@ -219,6 +219,7 @@ if(req.params.recordID!=='crea')
         {   
             todo.idempresa       	=	req.body.idempresa        	||	todo.idempresa;   
             todo.nombre        	=	req.body.nombre        	||	todo.nombre        	;
+            todo.plantilla        	=	req.body.plantilla        	||	todo.plantilla        	;
             todo.fechaini 	=	req.body.fechaini	||	todo.fechaini 	;
              todo.fechafin 	=	req.body.fechafin	||	todo.fechafin 	;
             todo.foto    	=	req.body.foto    	||	todo.foto    	;
@@ -244,6 +245,7 @@ else{
     Evento.create({
         idempresa      	: req.body.idempresa     	,
         nombre        	: req.body.nombre        	,
+        plantilla        	: req.body.plantilla        	,
         fechaini 	: req.body.fechaini 	,
         fecha: req.body.fecha 	,
         fechafin    	: req.body.fechafin    	,
