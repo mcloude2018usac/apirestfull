@@ -12,6 +12,7 @@ var mongoose =require("mongoose");
         nomax: { type : Number },
         fecha: { type : String },
         unidad: { type : String },
+        plantilla: { type : String },
         tipoevento: { type : String },
         usuarionew	: { type : String },      usuarioup	: { type : String },
         date 		: { type: Date, default: Date.now }}, {
