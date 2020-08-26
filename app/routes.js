@@ -7,12 +7,13 @@ var AuthenticationController = require('./controllers/authentication'),
     Imagessl2Controller = require('./controllers/imagessl2'),
     formulariousrController = require('./controllers/formulariousr'),
     formulariousrdController = require('./controllers/formulariousrd'),
+    UbicacionentregaController = require('./controllers/asociadoventa/ubicacionentrega'),
     ImagesslController = require('./controllers/imagessl'),
     GeneradorController = require('./controllers/generafrm/generador'),
    SiifController = require('./controllers/siif'),
    ProductoController = require('./controllers/asociadoventa/producto'),
    Orden_compraController = require('./controllers/asociadoventa/orden_compra'),
-
+   Orden_ventaController = require('./controllers/asociadoventa/orden_venta'),
    Unidadprofesor3Controller = require('./controllers/calusac/unidadprofesor3'),
    AuditserverController = require('./controllers/claroaudit/auditserver'),
    AuditserverdController = require('./controllers/claroaudit/auditserverd'),
@@ -51,6 +52,7 @@ var AuthenticationController = require('./controllers/authentication'),
     EmpresaController = require('./controllers/empresa'),
     ModuloController = require('./controllers/moduloxx'),
     CatalogoController = require('./controllers/catalogo'),
+    CatalogodiplomaController = require('./controllers/catalogodiploma'),
     GaleriaimgController = require('./controllers/galeriaimg'),
     TiposuscriptorController = require('./controllers/tipo_suscriptor'),
     Area_eventoController = require('./controllers/aread_evento'),
@@ -185,10 +187,12 @@ module.exports = function(app){
         suscriptorsaldoRoutes = express.Router(),
         moduloRoutes = express.Router(),
         catalogoRoutes = express.Router(),
+        catalogodiplomaRoutes = express.Router(),
         compratokenRoutes = express.Router(),
         bibliotecaRoutes = express.Router(),
         tiposuscriptorRoutes = express.Router(),
         area_eventoRoutes = express.Router(),
+        ubicacionentregaRoutes = express.Router(),
         tarifaRoutes = express.Router(),
         userpostRoutes = express.Router(),
         nuevosalonRoutes = express.Router(),
@@ -206,6 +210,7 @@ module.exports = function(app){
         frmmovilRoutes = express.Router(),
         productoRoutes = express.Router(),
         orden_compraRoutes = express.Router(),
+        orden_ventaRoutes = express.Router(),
         frmcatRoutes = express.Router(),
         frmcat2Routes = express.Router(),
         frmmovildRoutes = express.Router(),
@@ -375,6 +380,18 @@ apiRoutes.use('/siifs', siifRoutes);
 siifRoutes.get('/:id/:id2', SiifController.getsiif);
 siifRoutes.get('/:id/:id2/:id3', SiifController.getsiif);
 siifRoutes.get('/:id/:id2/:id3/:id4/:id5/:id6/:id7', SiifController.getsiif);
+
+
+
+apiRoutes.use('/ubicacionentregas', ubicacionentregaRoutes);
+ubicacionentregaRoutes.get('/', requireAuth,UbicacionentregaController.getUbicacionentrega);
+ubicacionentregaRoutes.get('/:id/:id2/:id3',requireAuth,  UbicacionentregaController.getUbicacionentrega);
+ubicacionentregaRoutes.get('/:id/:id2/:id3/:id4',requireAuth,  UbicacionentregaController.getUbicacionentrega);
+ubicacionentregaRoutes.get('/:id',requireAuth,  UbicacionentregaController.getUbicacionentrega);
+ubicacionentregaRoutes.post('/:recordID',requireAuth,  UbicacionentregaController.creaUbicacionentrega2s);
+ubicacionentregaRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  UbicacionentregaController.deleteUbicacionentrega);
+
+
 
 
 
@@ -829,6 +846,7 @@ apiRoutes.use('/frmcats', frmcatRoutes);
 frmcatRoutes.get('/',requireAuth, FrmcatController.getFormcat);
 frmcatRoutes.get('/:id',requireAuth,  FrmcatController.getFormcat);
 frmcatRoutes.get('/:id/:id2/:id3', requireAuth,  FrmcatController.getFormcat);
+frmcatRoutes.get('/:id/:id2/:id3/:id4', requireAuth,  FrmcatController.getFormcat);
 frmcatRoutes.post('/:recordID', requireAuth,  FrmcatController.creaFormcat2s);
 frmcatRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  FrmcatController.deleteFormcat);
  
@@ -917,6 +935,15 @@ catalogoRoutes.get('/:id/:id2/:id3', CatalogoController.getCatalogo);
 catalogoRoutes.post('/:recordID',requireAuth,  CatalogoController.creaCatalogo2s);
 catalogoRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  CatalogoController.deleteCatalogo);
 
+
+//-----------------------------------Ccatalogodiploma
+apiRoutes.use('/catalogodiplomas', catalogodiplomaRoutes);
+catalogodiplomaRoutes.get('/',requireAuth, CatalogodiplomaController.getCatalogodiploma);
+catalogodiplomaRoutes.get('/:id/:id2',requireAuth,  CatalogodiplomaController.getCatalogodiploma);
+catalogodiplomaRoutes.get('/:id/:id2/:id3', CatalogodiplomaController.getCatalogodiploma);
+catalogodiplomaRoutes.post('/:recordID',requireAuth,  CatalogodiplomaController.creaCatalogodiploma2s);
+catalogodiplomaRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  CatalogodiplomaController.deleteCatalogodiploma);
+
 //-----------------------------------CATALOGO
 apiRoutes.use('/compratokens', compratokenRoutes);
 
@@ -940,7 +967,9 @@ tiposuscriptorRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireA
 apiRoutes.use('/empresas', empresaRoutes);
 empresaRoutes.get('/',requireAuth, EmpresaController.getEmpresa);
 empresaRoutes.get('/:id',requireAuth,  EmpresaController.getEmpresa);
-empresaRoutes.get('/:id/:id2',requireAuth,  EmpresaController.getEmpresa);
+empresaRoutes.get('/:id/:id2',  EmpresaController.getEmpresa);
+empresaRoutes.get('/:id/:id2/:id3',requireAuth,  EmpresaController.getEmpresa);
+empresaRoutes.get('/:id/:id2/:id3/:id4',requireAuth,  EmpresaController.getEmpresa);
 empresaRoutes.post('/:recordID',requireAuth,  EmpresaController.creaEmpresa2s);
 empresaRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  EmpresaController.deleteEmpresa);
 
@@ -994,6 +1023,13 @@ orden_compraRoutes.get('/:id/:id2/:id3/:id4/:id5',requireAuth,  Orden_compraCont
 orden_compraRoutes.post('/:recordID',requireAuth,  Orden_compraController.creaOrden_compra2s);
 orden_compraRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  Orden_compraController.deleteOrden_compra);
 
+
+apiRoutes.use('/orden_ventas', orden_ventaRoutes);
+orden_ventaRoutes.get('/', requireAuth,Orden_ventaController.getOrden_venta);
+orden_ventaRoutes.get('/:id',requireAuth,  Orden_ventaController.getOrden_venta);
+orden_ventaRoutes.get('/:id/:id2/:id3/:id4/:id5',requireAuth,  Orden_ventaController.getOrden_venta);
+orden_ventaRoutes.post('/:recordID',requireAuth,  Orden_ventaController.creaOrden_venta2s);
+orden_ventaRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  Orden_ventaController.deleteOrden_venta);
 
 
 /*
