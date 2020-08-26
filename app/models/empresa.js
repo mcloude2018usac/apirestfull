@@ -1,15 +1,28 @@
 var mongoose =require("mongoose");
     var EmpresaSchema 		=	new  mongoose.Schema({
         idempresa0  		: { type : String, required : true },
-        nit   		: { type : String, required : true },
         nombre   		: { type : String},
-        razon   		: { type : String},
+        nombrecorto   		: { type : String},
         direccion   		: { type : String},
+        nit   		: { type : String, required : true },
+        razon   		: { type : String},
         email   		: { type : String},
         telefonos   		: { type : String},
         moneda   		: { type : String},
-        estado	: { type : String, required : true }
-        ,usuarionew	: { type : String },      usuarioup	: { type : String }
+        estado	: { type : String, required : true },
+        titulo0	: { type : String, required : true },
+        foto0	: { type : String },
+        foto1	: { type : String },
+        logo1	: { type : String },
+        logo2	: { type : String },
+        color1	: { type : String },
+        color2:	 { type : String },
+        horario	: { type : String },
+        redsocial1	: { type : String },
+        redsocial2	: { type : String },
+        redsocial3	: { type : String },
+        nombredominio	: { type : String },
+        usuarionew	: { type : String },      usuarioup	: { type : String }
        
         }, {
         timestamps: true

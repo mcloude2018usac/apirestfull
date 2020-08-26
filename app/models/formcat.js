@@ -3,6 +3,7 @@ var mongoose =require("mongoose");
         idempresa  		: { type : String, required : true },
         idunidad  		: { type : String, required : true },
         nombre   		: { type : String, required : true},
+        idunidad2  		: { type : String},
         usuarionew	: { type : String },      usuarioup	: { type : String }
        
         }, {
