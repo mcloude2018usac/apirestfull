@@ -14,27 +14,35 @@ var Moduloxx = require('../models/moduloxx');
 var User = require('../models/user');
 
 exports.getEmpresa = function(req, res, next){
+    if(req.params.id3)
+    {   console.log(req.params)
+            if(req.params.id2=='todos')
+            { 
+                Empresa.find({_id:req.params.id3}).sort({'_id': -1}).exec(function(err, todos) {
+                    if (err){  res.send(err);  }
+                    console.log(todos)
+                     res.json(todos);
+                 });
+            }
+            else
+            {
+                Empresa.find({_id:req.params.id3,estado:req.params.id2}).sort({'_id': -1}).exec(function(err, todos) {
+                    if (err){  res.send(err);  }
+                     res.json(todos);
+                 });
+            }
+    }
+    else
+    {
     if(req.params.id2)
     { 
         if(req.params.id2=='todos')
         {
-            Empresa.find({idempresa0:req.params.id},function(err, todos) {
+            Empresa.find({_id:req.params.id},function(err, todos) {
                 if (err){  res.send(err);  }
                  res.json(todos);
                 
             });
-        }
-        else
-        {
-            if(req.params.id2=='superusuario')
-            {
-                Empresa.find({},function(err, todos) {
-                    if (err){  res.send(err);  }
-                     res.json(todos);
-                    
-                });
-            }
-
         }
        
        
@@ -47,7 +55,7 @@ exports.getEmpresa = function(req, res, next){
            if (err){  res.send(err);  }
             res.json(todos);
         });
-    }
+    }}
 }
 exports.deleteEmpresa = function(req, res, next){
 
@@ -83,15 +91,33 @@ if(req.params.recordID!=='crea')
          
             res.send(err);  }
         else
-        {   todo.nit 	=	req.body.nit	||	todo.nit 	;
-            todo.nombre        	=	req.body.nombre        	||	todo.nombre        	;
-            todo.razon 	=	req.body.razon	||	todo.razon 	;
-            todo.direccion    	=	req.body.direccion    	||	todo.direccion    	;
-            todo.email   	=	req.body.email    	||	todo.email   	;
-            todo.telefonos 	=	req.body.telefonos 	||	todo.telefonos 	;
-            todo.estado 	=	req.body.estado 	||	todo.estado 	;
-            todo.moneda 	=	req.body.moneda 	||	todo.moneda 	;
+        {   
             todo.usuarioup=req.body.bitacora.email;
+
+
+            todo.nombre       	=	req.body.nombre        	||	todo.nombre;   
+            todo.nombrecorto       	=	req.body.nombrecorto        	||	todo.nombrecorto;   
+            todo.direccion       	=	req.body.direccion        	||	todo.direccion;   
+            todo.email       	=	req.body.email        	||	todo.email;   
+            todo.telefonos       	=	req.body.telefonos        	||	todo.telefonos;   
+            todo.horario       	=	req.body.horario        	||	todo.horario;   
+             todo.moneda     	= req.body.moneda    	;
+            todo.nit       	=	req.body.nit        	||	todo.nit;   
+            todo.razon       	=	req.body.razon        	||	todo.razon;   
+            todo.titulo0       	=	req.body.titulo0        	||	todo.titulo0;   
+            todo.foto0       	=	req.body.foto0        	||	todo.foto0;   
+            todo.foto1       	=	req.body.foto1        	||	todo.foto1;   
+            todo.logo1       	=	req.body.logo1        	||	todo.logo1;   
+            todo.logo2       	=	req.body.logo2        	||	todo.logo2;   
+            todo.nombredominio       	=	req.body.nombredominio        	||	todo.nombredominio;   
+            todo.color1       	=	req.body.color1        	||	todo.color1;   
+            todo.color2       	=	req.body.color2        	||	todo.color2;   
+            todo.redsocial1       	=	req.body.redsocial1        	||	todo.redsocial1;   
+            todo.redsocial2       	=	req.body.redsocial2        	||	todo.redsocial2;   
+            todo.redsocial3       	=	req.body.redsocial3        	||	todo.redsocial3;   
+            todo.estado       	=	req.body.estado        	||	todo.estado; 
+
+            
             
            
             todo.save(function (err, todo){
@@ -105,16 +131,33 @@ if(req.params.recordID!=='crea')
 else{
    
     Empresa.create({ 
-        idempresa0        	: req.body.idempresa0       	,
-        nit        	: req.body.nit        	,
-        nombre        	: req.body.nombre        	,
-        razon 	: req.body.razon 	,
-        direccion    	: req.body.direccion    	,
-        email    	: req.body.email    	,
-        telefonos   	: req.body.telefonos  	,
-        estado    	: req.body.estado   	,
+       
+         idempresa0     	: req.body.idempresa0    	,
+         nombre     	: req.body.nombre    	,
+         nombrecorto     	: req.body.nombrecorto    	,
+         direccion     	: req.body.direccion    	,
+         email     	: req.body.email    	,
+         telefonos     	: req.body.telefonos    	,
+         horario     	: req.body.horario    	,
+         moneda     	: req.body.moneda    	,
+         nit     	: req.body.nit    	,
+         razon     	: req.body.razon    	,
+         titulo0     	: req.body.titulo0    	,
+         foto0     	: req.body.foto0    	,
+         foto1     	: req.body.foto1    	,
+         logo1     	: req.body.logo1    	,
+         logo2     	: req.body.logo2    	,
+         nombredominio     	: req.body.nombredominio    	,
+         color1     	: req.body.color1    	,
+         color2     	: req.body.color2    	,
+         redsocial1     	: req.body.redsocial1    	,
+         redsocial2     	: req.body.redsocial2    	,
+         redsocial3     	: req.body.redsocial3    	,
+         estado     	: req.body.estado    	,
+
+
         usuarionew:req.body.bitacora.email,
-        moneda:'Q. ',
+     
         date 			: Date.now() }
         , function(err, todo) {
         if (err){    res.status(500).send(err.message)    }

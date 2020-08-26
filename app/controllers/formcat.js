@@ -3,6 +3,36 @@ var Formcat = require('../models/formcat');
 var Bitacora = require('../models/bitacora');
 
 exports.getFormcat = function(req, res, next){
+    if(req.params.id4)
+    {  console.log({idunidad:req.params.id2,idempresa:req.params.id3,idunidad2:req.params.id4})
+        Formcat.find({idunidad:req.params.id2,idempresa:req.params.id3,idunidad2:req.params.id4},function(err, todos) {
+            if (err){ res.send(err); }
+           
+            if(todos.length>0)   {   
+
+                var myData = [];
+                var arre=['yellow','red','green','blue','purple','violet','turquoise']    
+                var j=0;
+                for(var i = 0; i < todos.length;i++){
+
+                     if(j==6){j=0;} 
+                        myData.push({"_id":todos[i]._id,"nombre":todos[i].nombre,"colort":"box " + arre[j]});
+                        j=j+1;
+                }
+                                                        
+                
+
+
+
+                 res.json(myData);
+
+
+              }
+          
+            
+        });
+    }
+    else{
     if(req.params.id3)
     {  
         
@@ -90,7 +120,7 @@ exports.getFormcat = function(req, res, next){
            if (err){  res.send(err);  }
             res.json(todos);
         });
-    }
+    }}
 }
 exports.deleteFormcat = function(req, res, next){
    
@@ -111,7 +141,8 @@ exports.creaFormcat2s = function(req, res, next){
             if (err) {  res.send(err);  }
             else
             {   todo.idempresa       	=	req.body.idempresa        	||	todo.idempresa;  
-                todo.idunidad        	=	req.body.idunidad        	||	todo.idunidad;        	;
+                todo.idunidad        	=	req.body.idunidad        	||	todo.idunidad;        
+                todo.idunidad2        	=	req.body.idunidad2        	||	todo.idunidad2;        		
                 todo.nombre        	=	req.body.nombre        	||	todo.nombre        	;
                 todo.usuarioup=req.body.bitacora.email;
 
@@ -126,7 +157,7 @@ exports.creaFormcat2s = function(req, res, next){
     }
     else{
   
-        Formcat.find({idunidad: req.body.idunidad, nombre: req.body.nombre},function(err, todos) {
+        Formcat.find({idunidad: req.body.idunidad, idunidad2      	: req.body.idunidad2     	, nombre: req.body.nombre},function(err, todos) {
             if (err){ res.send(err); }
           
             if(todos.length>0)   {    res.status(500).send('Ya existe registro'); }
@@ -136,6 +167,7 @@ exports.creaFormcat2s = function(req, res, next){
                         Formcat.create({  
                             idempresa      	: req.body.idempresa     	,
                             idunidad      	: req.body.idunidad     	,
+                            idunidad2      	: req.body.idunidad2     	,
                             nombre        	: req.body.nombre        	,
                             usuarionew:req.body.bitacora.email 	
                             
