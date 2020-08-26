@@ -2,12 +2,23 @@ var Catalogodiploma = require('../models/catalogodiploma');
 var Bitacora = require('../models/bitacora');
 
 exports.getCatalogodiploma = function(req, res, next){
+
+    if(req.params.id3)
+    {  Catalogodiploma.find({_id:req.params.id},function(err, todos) {
+        if (err){ res.send(err); }
+       
+         res.json(todos); 
+        
+    });}
+    else
+    {
     Catalogodiploma.find({idempresa:req.params.id},function(err, todos) {
         if (err){ res.send(err); }
        
          res.json(todos); 
         
     });
+}
  
 }
 exports.deleteCatalogodiploma = function(req, res, next){
