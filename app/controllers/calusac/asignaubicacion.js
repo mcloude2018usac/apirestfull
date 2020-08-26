@@ -231,7 +231,7 @@ console.log(result10a)
               
                 Asignacalusac.find({idplanifica:req.params.id2
                 
-            }).populate('ididioma')  .select({carnecalusac:1, "correo":1,"telefono":1, "nombre":1,"cui": 1,"carnecalusac": 1,"n1": 1,"n2": 1,"n3": 1,
+            }).populate('ididioma')  .select({carnecalusac:1, "idinterno":1,"telefono":1, "nombre":1,"cui": 1,"carnecalusac": 1,"n1": 1,"n2": 1,"n3": 1,
             "n4":1,"n5":1,  "profedor":"1",     "_id": 1}).sort({   "carnecalusac" :1    }).exec(function(err, todos10) {
                     if (err){ res.send(err); }
       
@@ -249,7 +249,7 @@ console.log(result10a)
                         if(item.n4){ if(item.n4!=null){  n4a=item.n4;}}
                         if(item.n5){ if(item.n5!=null){  n5a=item.n5;}}
 
-                           result.push({carnecalusac:item.carnecalusac,correo:item.correo,telefono:item.telefono,nombre:item.nombre,cui:item.cui,n1:n1a,n2:n2a,n3:n3a,n4:n4a,n5:n5a});
+                           result.push({carnecalusac:item.carnecalusac,correo:item.idinterno,telefono:item.telefono,nombre:item.nombre,cui:item.cui,n1:n1a,n2:n2a,n3:n3a,n4:n4a,n5:n5a});
                        
                    }
 
