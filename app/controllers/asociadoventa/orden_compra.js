@@ -1,7 +1,7 @@
 var Orden_compra = require('../../models/asociadoventa/orden_compra');
 var Bitacora = require('../../models/bitacora');
 var Operadores = require('../../models/asociadoventa/compra_operador');
-
+var Orden_venta = require('../../models/asociadoventa/orden_venta');
 var functool = require('../../controllers/funcionesnode');
 
 exports.getOrden_compra = function(req, res, next){
@@ -184,35 +184,147 @@ exports.creaOrden_compra2s = function(req, res, next){
 if(req.params.recordID!=='crea')
 { 
     console.log(req.body)
-    if( req.body.operacion=='actualizaestado1')
-    {
-
-
-        Orden_compra.findById({ _id: req.params.recordID }, function (err, todo100)  {
-            if (err) {  res.send(err);  }
-            else
-            { 
-              
-
-                todo100.comentario1        	=		req.body.comentario1	;
-                            todo100.estado        	=		req.body.estado   	;
-                         
-    
-                todo100.save(function (err, todo200){
-                    if (err)     {  console.log(err.message)   }
-            
-                    res.json(todo200);
-                    
+    switch(req.body.operacion) {
+        case 'actualizafactura':
+            Orden_compra.findById({ _id: req.params.recordID }, function (err, todo100)  {
+                if (err) {  res.send(err);  }
+                else  { 
+                    todo100.comentario7        	=		req.body.comentario7	;
+                    todo100.estado        	=		req.body.estado   	;
+                    todo100.idventa	=		req.body.idventa   	;
+                    todo100.save(function (err, todo200){
+                        if (err)     {  console.log(err.message)   }
+                        res.json(todo200);
+                    });
+                }
+            });
+            break;
+        case 'actualiza1':
+            Orden_compra.findById({ _id: req.params.recordID }, function (err, todo100)  {
+                if (err) {  res.send(err);  }
+                else  { 
+                    todo100.comentario1        	=		req.body.comentario1	;
+                    todo100.estado        	=		req.body.estado   	;
+                    todo100.save(function (err, todo200){
+                        if (err)     {  console.log(err.message)   }
+                        res.json(todo200);
+                    });
+                }
+            });
+            break;
+            case 'actualiza2':
+                Orden_compra.findById({ _id: req.params.recordID }, function (err, todo100)  {
+                    if (err) {  res.send(err);  }
+                    else  { 
+                        todo100.comentario2        	=		req.body.comentario2	;
+                        todo100.estado        	=		req.body.estado   	;
+                        todo100.save(function (err, todo200){
+                            if (err)     {  console.log(err.message)   }
+                            res.json(todo200);
+                        });
+                    }
                 });
-            }
-        });
+                break;
+                case 'actualiza3':
+                    Orden_compra.findById({ _id: req.params.recordID }, function (err, todo100)  {
+                        if (err) {  res.send(err);  }
+                        else  { 
+                            todo100.comentario3        	=		req.body.comentario3	;
+                            todo100.estado        	=		req.body.estado   	;
+                            todo100.save(function (err, todo200){
+                                if (err)     {  console.log(err.message)   }
+                                res.json(todo200);
+                            });
+                        }
+                    });
+                    break;
+                    case 'actualiza4':
+                        Orden_compra.findById({ _id: req.params.recordID }, function (err, todo100)  {
+                            if (err) {  res.send(err);  }
+                            else  { 
+                                todo100.comentario4        	=		req.body.comentario4	;
+                                todo100.estado        	=		req.body.estado   	;
+                                todo100.save(function (err, todo200){
+                                    if (err)     {  console.log(err.message)   }
+                                    res.json(todo200);
+                                });
+                            }
+                        });
+                        break;
+                        case 'actualiza5':
+                            Orden_compra.findById({ _id: req.params.recordID }, function (err, todo100)  {
+                                if (err) {  res.send(err);  }
+                                else  { 
+                                    todo100.comentario5        	=		req.body.comentario5	;
+                                    todo100.estado        	=		req.body.estado   	;
+                                    todo100.save(function (err, todo200){
+                                        if (err)     {  console.log(err.message)   }
+                                        res.json(todo200);
+                                    });
+                                }
+                            });
+                            break;
+                            case 'actualiza6':
+                                Orden_compra.findById({ _id: req.params.recordID }, function (err, todo100)  {
+                                    if (err) {  res.send(err);  }
+                                    else  { 
+                                        todo100.comentario6        	=		req.body.comentario6	;
+                                        todo100.estado        	=		req.body.estado   	;
+                                        todo100.save(function (err, todo200){
+                                            if (err)     {  console.log(err.message)   }
+                                           
+                                            if(req.body.idventa==='')
+                                            {
+                                                res.json(todo200);
+                                            }
+                                            else
+                                            {
+                                                    Orden_venta.findById({ _id: req.body.idventa}, function (err, todo1001)  {
+                                                            if (err) {  res.send(err);  }
+                                                            else  { 
+                                                                todo1001.estado        	=		req.body.estado   	;
+                                                                todo1001.save(function (err, todo2001){
+                                                                    if (err)     {  console.log(err.message)   }
+                                                                    res.json(todo200);
+                                                                });
+                                                            }
+                                                    });
 
-   
+                                            }
+
+                                        });
+                                    }
+                                });
+                                break;       
+                                case 'actualiza7':
+                                    Orden_compra.findById({ _id: req.params.recordID }, function (err, todo100)  {
+                                        if (err) {  res.send(err);  }
+                                        else  { 
+                                            todo100.comentario7        	=		req.body.comentario7	;
+                                            todo100.estado        	=		req.body.estado   	;
+                                            todo100.save(function (err, todo200){
+                                                if (err)     {  console.log(err.message)   }
+                                                res.json(todo200);
+                                            });
+                                        }
+                                    });
+                                    break;     
+                                    case 'actualiza8':
+                                        Orden_compra.findById({ _id: req.params.recordID }, function (err, todo100)  {
+                                            if (err) {  res.send(err);  }
+                                            else  { 
+                                                todo100.comentario8        	=		req.body.comentario8	;
+                                                todo100.estado        	=		req.body.estado   	;
+                                                todo100.save(function (err, todo200){
+                                                    if (err)     {  console.log(err.message)   }
+                                                    res.json(todo200);
+                                                });
+                                            }
+                                        });
+                                        break;                                                                                                                                                            
+        }
 
 
-    }
-    else{
-    }
 }
 else{
 
@@ -238,6 +350,20 @@ console.log(todosb)
                 tipopago	: req.body.tipopago	,
                 idusuario	: req.body.idusuario	,
                 estado     	: req.body.estado    	,
+
+                direccion2a		: req.body.direccion2a    	,
+                nombre2		: req.body.nombre2    	,
+                direccion2		: req.body.direccion2    	,
+                nit				: req.body.nit    	,
+                totalenvio			: req.body.totalenvio    	,
+                totalproductos			: req.body.totalproductos    	,
+                departamento		: req.body.departamento    	,
+                municipio		: req.body.municipio    	,
+                zona		: req.body.zona    	,
+                pagaracambio		: req.body.pagaracambio    	,
+
+                
+
                 userasignado:opexx,
                 deliveryasignado: req.body.deliveryasignado	,
                 dproductos: req.body.dproductos,

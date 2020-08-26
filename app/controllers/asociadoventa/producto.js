@@ -63,7 +63,7 @@ exports.getProducto = function(req, res, next){
     else
     {
     if(req.params.id3)
-    {   console.log(req.params)
+    {  
             if(req.params.id2=='todos')
             { 
                 Producto.find({idempresa:req.params.id3}).sort({'_id': -1}).exec(function(err, todos) {
@@ -75,7 +75,12 @@ exports.getProducto = function(req, res, next){
             {
                 Producto.find({idempresa:req.params.id3,estado:req.params.id2}).sort({'_id': -1}).exec(function(err, todos) {
                     if (err){  res.send(err);  }
-                     res.json(todos);
+                    var myData3 = [];
+                    for(var i = 0; i < todos.length;i++){
+                        myData3.push({_id: todos[i]._id +'°'+todos[i].idpapa + '°' +todos[i].precio
+                        ,nombre:todos[i].nombre +' '+todos[i].xunidad+' '+todos[i].unidad + '    °'+ todos[i].precio});
+                    }
+                     res.json(myData3);
                  });
             }
     }
@@ -132,7 +137,7 @@ if(req.params.recordID!=='crea')
  todo.subcategoria       	=	req.body.subcategoria        	||	todo.subcategoria;   
  todo.foto1       	=	req.body.foto1        	||	todo.foto1;   
  todo.estado       	=	req.body.estado        	||	todo.estado;   
-
+ todo.compraminima	=	req.body.compraminima        	||	todo.compraminima;   
  todo.preciooferta       	=	req.body.preciooferta        	||	todo.preciooferta; 
  todo.color       	=	req.body.color        	||	todo.color; 
  todo.talla       	=	req.body.talla        	||	todo.talla; 
@@ -174,7 +179,7 @@ else{
   subcategoria     	: req.body.subcategoria    	,
   foto1     	: req.body.foto1    	,
   estado     	: req.body.estado    	,
-
+  compraminima	: req.body.compraminima    	,
   preciooferta       : req.body.preciooferta    	,
   color        : req.body.color           	,
   talla         : req.body.talla           	,
