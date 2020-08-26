@@ -1,14 +1,17 @@
 var mongoose =require("mongoose");
-var Orden_compraSchema 		=	new  mongoose.Schema({
+var Orden_ventaSchema 		=	new  mongoose.Schema({
  idempresa		: { type : String, required : true },  
+ idcompra		: { type : String }, 
  nombre		: { type : String, required : true },  
- direccion		: { type : String }, 
+ direccion		: { type : String },  
  telefono		: { type : String }, 
+ 
  total		: { type : Number, required : true },  
  tipopago		: { type : String },  
  idusuario		: { type : String ,ref:'User' },  
  estado: { type : String },  
- idventa: { type : String },  
+ efectivo: { type : String }, 
+
 
  direccion2a		: { type : String }, 
  nombre2		: { type : String }, 
@@ -23,17 +26,7 @@ var Orden_compraSchema 		=	new  mongoose.Schema({
 
 
 
- deliveryasignado:{ type : String ,ref:'User'},  
- userasignado:{        type: String},
- comentario1:{        type: String},
- comentario2:{        type: String},
- comentario3:{        type: String},
- comentario4:{        type: String},
- comentario5:{        type: String},
- comentario6:{        type: String},
- comentario7:{        type: String},
- comentario8:{        type: String},
- comentario9:{        type: String},
+ firma: { type : String }, 
  dproductos:[{
     id		: { type : String, required : true },
     idproveedor		: { type : String, required : true },
@@ -51,4 +44,4 @@ var Orden_compraSchema 		=	new  mongoose.Schema({
    }, {
    timestamps: true
    }); 
-module.exports = mongoose.model('Orden_compra', Orden_compraSchema);
+module.exports = mongoose.model('Orden_venta', Orden_ventaSchema);
