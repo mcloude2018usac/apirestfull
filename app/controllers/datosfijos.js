@@ -821,7 +821,7 @@ break;
                         var thora='';
            
                         Evento.find({impresion:'Imprimir diploma'
-                                }).select({_id:1,nombre:1,fecha:1,costo:1,tipoevento:1,idempresa:1,unidad:1}).sort({_id:-1}).lean().exec(function(err, todos0aaa) {
+                                }).select({_id:1,nombre:1,fecha:1,costo:1,tipoevento:1,idempresa:1,unidad:1,plantilla:1}).sort({_id:-1}).lean().exec(function(err, todos0aaa) {
        
                 
 
@@ -853,7 +853,7 @@ break;
                                                                 thora=todos0aaa[ii].costo;
                                                                 tipoevento=todos0aaa[ii].tipoevento;
                                                                 
-                                                                myData.push({idempresa:todos0aaa[ii].idempresa,unidad:todos0aaa[ii].unidad,ideve:teveid,tipoevento:tipoevento,idcurso:todos2[i]._id ,nombre:todos2[i].nombre + ' ' +todos2[i].apellido,curso:teve,tipo:2,fecha:tfecha,hora:thora});
+                                                                myData.push({plantilla:todos0aaa[ii].plantilla, idempresa:todos0aaa[ii].idempresa,unidad:todos0aaa[ii].unidad,ideve:teveid,tipoevento:tipoevento,idcurso:todos2[i]._id ,nombre:todos2[i].nombre + ' ' +todos2[i].apellido,curso:teve,tipo:2,fecha:tfecha,hora:thora});
 
                                                         }
                                                 }
