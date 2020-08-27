@@ -607,14 +607,14 @@ else
                         Rol.find({nombre:req.params.id,idempresa:req.params.id2},function(err, todos) {
                                 if (err){ res.send(err); }
         
-                           
+                          
         
         if(todos.length>0)   {  
         
                 Permiso.find({idrol:todos[0]._id}).sort([['orden', 1]]).exec(function(err, todos) {
                         if (err){ res.send(err); }
-        
-                        
+                        if(todos.length>0)   {  
+                        console.log(todos)
                                 
                         Permiso3.find({idrol:todos[0].idrol}).sort([['orden', 1]]).exec(function(err, todos40) {
                                 if (err){ res.send(err); }
@@ -757,15 +757,14 @@ else
                         });       
                 });       
                         
+        } else   {    res.json([]);    }
                         
                         });
         
                 
         
         
-        }
-        else
-        {  res.status(500).send('NO EXISTE ROL ASIGNADO');      }
+        } else   {  res.status(500).send('NO EXISTE ROL ASIGNADO');      }
                                 
                             });
                             break;

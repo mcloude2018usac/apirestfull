@@ -94,7 +94,7 @@ if(req.params.recordID!=='crea')
         {   
             todo.usuarioup=req.body.bitacora.email;
 
-
+            todo.pinicio       	=	req.body.pinicio        	||	todo.pinicio;  
             todo.nombre       	=	req.body.nombre        	||	todo.nombre;   
             todo.nombrecorto       	=	req.body.nombrecorto        	||	todo.nombrecorto;   
             todo.direccion       	=	req.body.direccion        	||	todo.direccion;   
@@ -140,6 +140,7 @@ else{
          telefonos     	: req.body.telefonos    	,
          horario     	: req.body.horario    	,
          moneda     	: req.body.moneda    	,
+         pinicio     	: req.body.pinicio    	,
          nit     	: req.body.nit    	,
          razon     	: req.body.razon    	,
          titulo0     	: req.body.titulo0    	,
