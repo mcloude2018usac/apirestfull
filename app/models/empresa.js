@@ -7,6 +7,7 @@ var mongoose =require("mongoose");
         nit   		: { type : String, required : true },
         razon   		: { type : String},
         email   		: { type : String},
+        pinicio   		: { type : String},
         telefonos   		: { type : String},
         moneda   		: { type : String},
         estado	: { type : String, required : true },
