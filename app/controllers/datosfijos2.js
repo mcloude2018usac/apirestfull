@@ -248,7 +248,7 @@ break;
                             });
                             break;
                             case 'rolusuarionuevo':
-
+console.log('entraaaaaaaaaaaaaaaaaaaaaaaaaa')
                                 Rol.find({nombre:req.params.id,idempresa:req.params.id2},function(err, todos) {
                                         if (err){ res.send(err); }
                                         console.log(todos)
@@ -436,7 +436,7 @@ if(req.params.id3)
                 break;
     
                 case 'rolusuario':
-
+                               
                 Perfil.find({nombre:req.params.id,idempresa:req.params.id2},function(err, todos) {
                         if (err){ res.send(err); }
 
@@ -603,11 +603,11 @@ else
                     });
                     break;
                     case 'rolusuarionuevo':
-
+                        console.log('aquiiiiiiiiiiiiii essssssssssssss')
                         Rol.find({nombre:req.params.id,idempresa:req.params.id2},function(err, todos) {
                                 if (err){ res.send(err); }
         
-                          
+                          console.log(todos)
         
         if(todos.length>0)   {  
         

@@ -2,16 +2,20 @@ var User = require('../models/user');
 var Empresa = require('../models/empresa');
 var generator = require('generate-password');
 var Bitacora = require('../models/bitacora');
+var Formcat = require('../models/formcat');
+
 var mailt = require('../controllers/mailprueba');
 
 var Tiposuscriptor = require('../models/tipo_suscriptor');
 var Perfil = require('../models/perfil');
+var Rol = require('../models/rol');
 var Catalogo = require('../models/catalogo');
 
 var Permiso = require('../models/permiso');
 var Permison2 = require('../models/permison2');
 var Moduloxx = require('../models/moduloxx');
 var User = require('../models/user');
+
 
 exports.getEmpresa = function(req, res, next){
     if(req.params.id3)
@@ -69,7 +73,7 @@ exports.deleteEmpresa = function(req, res, next){
         Tiposuscriptor.find({ "idempresa" : req.params.recordID }).remove().exec();
         Catalogo.find({ "idempresa" : req.params.recordID }).remove().exec();
         Moduloxx.find({ "idempresa" : req.params.recordID }).remove().exec();
-         Perfil.find({ "idempresa" : req.params.recordID }).remove().exec();
+         rol.find({ "idempresa" : req.params.recordID }).remove().exec();
          Permiso.find({ "idempresa" : req.params.recordID }).remove().exec();
          Permison2.find({ "idempresa" : req.params.recordID }).remove().exec();
          User.find({ "idempresa" : req.params.recordID }).remove().exec();
@@ -107,11 +111,14 @@ if(req.params.recordID!=='crea')
             todo.titulo0       	=	req.body.titulo0        	||	todo.titulo0;   
             todo.foto0       	=	req.body.foto0        	||	todo.foto0;   
             todo.foto1       	=	req.body.foto1        	||	todo.foto1;   
+            todo.foto2       	=	req.body.foto2        	||	todo.foto2;   
             todo.logo1       	=	req.body.logo1        	||	todo.logo1;   
             todo.logo2       	=	req.body.logo2        	||	todo.logo2;   
             todo.nombredominio       	=	req.body.nombredominio        	||	todo.nombredominio;   
             todo.color1       	=	req.body.color1        	||	todo.color1;   
-            todo.color2       	=	req.body.color2        	||	todo.color2;   
+            todo.color2       	=	req.body.color2        	||	todo.color2;  
+            todo.color3       	=	req.body.color3        	||	todo.color3;  
+            todo.color4       	=	req.body.color4        	||	todo.color4;   
             todo.redsocial1       	=	req.body.redsocial1        	||	todo.redsocial1;   
             todo.redsocial2       	=	req.body.redsocial2        	||	todo.redsocial2;   
             todo.redsocial3       	=	req.body.redsocial3        	||	todo.redsocial3;   
@@ -140,17 +147,20 @@ else{
          telefonos     	: req.body.telefonos    	,
          horario     	: req.body.horario    	,
          moneda     	: req.body.moneda    	,
-         pinicio     	: req.body.pinicio    	,
+         pinicio     	: req.body.pinicio   || 'app/billetera-list'  	,
          nit     	: req.body.nit    	,
          razon     	: req.body.razon    	,
          titulo0     	: req.body.titulo0    	,
          foto0     	: req.body.foto0    	,
          foto1     	: req.body.foto1    	,
+         foto2     	: req.body.foto2    	,
          logo1     	: req.body.logo1    	,
          logo2     	: req.body.logo2    	,
          nombredominio     	: req.body.nombredominio    	,
          color1     	: req.body.color1    	,
          color2     	: req.body.color2    	,
+         color3     	: req.body.color3    	,
+         color4     	: req.body.color4    	,
          redsocial1     	: req.body.redsocial1    	,
          redsocial2     	: req.body.redsocial2    	,
          redsocial3     	: req.body.redsocial3    	,
@@ -163,223 +173,168 @@ else{
         , function(err, todo) {
         if (err){    res.status(500).send(err.message)    }
     
-       // res.json(todo);
-        //crear toda la estructura
-    
+  
        var idempresa=todo._id
        var idtiposus=''
-       var iduniuser=''
-       var iduniadmin=''
+
+     
        Tiposuscriptor.create({    "idempresa" : idempresa,             "nombre" : "Administrador",             "cobroparqueos" : "1",             "usuarionew" : req.body.email,             "createdAt" : "2019-10-12T23:29:56.961+0000",      
        "updatedAt" :"2019-10-12T23:29:56.961+0000",             "__v" : 0       } , function(err, xtiposus2) {
          if (err){    res.status(500).send(err.message)    }
        Tiposuscriptor.create({    "idempresa" : idempresa,             "nombre" : "Usuario",             "cobroparqueos" : "1",             "usuarionew" : req.body.email,             "createdAt" : "2019-10-12T23:29:56.961+0000",      
-              "updatedAt" :"2019-10-12T23:29:56.961+0000",             "__v" : 0       } , function(err, xtiposus) {
-                if (err){    res.status(500).send(err.message)    }
-                idtiposus=xtiposus._id
-
-                Catalogo.create({   "tipo" : "UNIDADES",    "nombre" : "WEBAPP",   "filtro" : ("2018-09-27T18:29:11.918+0000"),  "estado" : "Activo", "createdAt" : ("2018-09-27T18:29:53.037+0000"),   "updatedAt" : ("2018-09-27T18:29:53.037+0000"),   "__v" : (0),  "idempresa" : idempresa                    }, function(err, xcatuni1) {
-                    if (err){    res.status(500).send(err.message)    }
-                    iduniuser=xcatuni1._id
-    
-                    Catalogo.create({   "tipo" : "UNIDADES",    "nombre" : "ADMINISTRADOR",   "fecha" : ("2018-09-27T18:29:11.918+0000"),  "estado" : "Activo", "createdAt" : ("2018-09-27T18:29:53.037+0000"),   "updatedAt" : ("2018-09-27T18:29:53.037+0000"),   "__v" : (0),  "idempresa" : idempresa                    }, function(err, xcatuni2) {
-                        if (err){    res.status(500).send(err.message)    }
-                        iduniadmin=xcatuni2._id
+        "updatedAt" :"2019-10-12T23:29:56.961+0000",             "__v" : 0       } , function(err, xtiposus) {
+        if (err){    res.status(500).send(err.message)    }
+        idtiposus=xtiposus._id
         
-                                                Moduloxx.create({   "componente" : "ProfilePage", "estado" : "Activo",  "grupo" : "PAGINA",  "icono" : "contact",  "idempresa" : idempresa,  "index" : "20", 
-                                                "nivel" : "Usuario",    "nombre" : "Perfil",   "tabcomponente" : "TabsPage",   "titulo" : "ProfilePage",   "usuarionew" : req.body.email, 
-                                                    }, function(err, xmod1) {
-                                                    if (err){    res.status(500).send(err.message)    }
-                                                
-
-                                                        Moduloxx.create( {   "componente" : "EventosList2Page",  "estado" : "Activo", "grupo" : "PAGINA",   "icono" : "home",    "idempresa" : idempresa,      "index" : "70",   "nivel" : "Administrador",    "nombre" : "Eventos",      "tabcomponente" : "EventosList2Page",   "titulo" : "EventosList2Page",  "usuarionew" : req.body.email  }
-                                                        , function(err, xmod2) {
-                                                        if (err){    res.status(500).send(err.message)    }
-                                                                    
-                                                                        Perfil.create({  "nombre" : "user",  "estado" : "Activo",  "createdAt" : ("2018-08-03T01:25:07.733+0000"),    "updatedAt" : ("2018-11-02T16:12:22.847+0000"),   "__v" : (0),      "unidad" : {         "id" : xcatuni1._id,        "nombre" : xcatuni1.nombre   },      "usuarionew" : req.body.email,        "idempresa" : idempresa    },
-                                                                        function(err, xperfil1) {
-                                                                            if (err){    res.status(500).send(err.message)    }
-                                                                        
-                                                                                //  crear todos los permisos de user
-                                                                                Permiso.create({   "idrol" : xperfil1._id,    "nombre" : xmod1._id,    "ingreso" : true,   "consulta" : true,    "eliminacion" : true,                          "creacion" : true,                                   "actualizacion" : true,      "createdAt" : ("2018-08-03T01:25:49.367+0000"),      "updatedAt" : ("2019-01-17T20:28:13.600+0000"),                               "__v" : (0),                                     "usuarionew" : req.body.email,         "orden" : (10),        "idempresa" : idempresa                                });
-                                                                                Permiso.create({   "idrol" : xperfil1._id,    "nombre" : xmod2._id,    "ingreso" : true,   "consulta" : true,    "eliminacion" : true,                          "creacion" : true,                                   "actualizacion" : true,      "createdAt" : ("2018-08-03T01:25:49.367+0000"),      "updatedAt" : ("2019-01-17T20:28:13.600+0000"),                               "__v" : (0),                                     "usuarionew" : req.body.email,         "orden" : (10),        "idempresa" : idempresa                                });
-
-                                                                            
-
-
-                                                                                Moduloxx.create( {  "componente" : "ChatHomePage", "estado" : "Activo",   "grupo" : "PAGINA",  "icono" : "chatboxes",    "idempresa" :idempresa,     "index" : "310",                                                "nivel" : ".",                                        "nombre" : "Chats",    "tabcomponente" : "ChatHomePage",   "titulo" : "ChatHomePage",    "usuarionew" :  req.body.email            }
-                                                                                , function(err, xmod22) {
-                                                                                if (err){    res.status(500).send(err.message)    }
-                                                                                        //-------------------------SEGURIDAD
-                                                                                        Moduloxx.create({     "componente" : "SEGURIDAD",   "estado" : "Activo",   "grupo" : "MENU",   "icono" : "key",       "idempresa" : idempresa,                                                             "index" : "190", "nivel" : ".",     "nombre" : "SEGURIDAD",  "tabcomponente" : "seguridad",   "titulo" : "Seguridad del sistema",                                                                  "usuarionew" : req.body.email               }
-                                                                                        , function(err, xmod23) {
-                                                                                            if (err){    res.status(500).send(err.message)    }
-                                                                                        //-------------------------EMPRESAS
-                                                                                            Moduloxx.create( {   "componente" : "EMPRESAS", "estado" : "Activo",  "grupo" : "MENU", "icono" : "control",    "idempresa" : idempresa,  "index" : "250",  "nivel" : ".",   "nombre" : "EMPRESAS",  "tabcomponente" : "CONTROL DE ACCESO",                                          "titulo" : "CONTROL DE ACCESO",                                                             "usuarionew" : req.body.email }
-                                                                                            , function(err, xmod24) {
-                            
-                                                                                            if (err){    res.status(500).send(err.message)    }
-                                                                                          
-                                                                                            
-                                                                                                        //----PERFIL ADMINISTRADOR
-                                                                                                        Perfil.create({  "nombre" : "Administrador",  "estado" : "Activo",  "createdAt" : ("2018-08-03T01:25:07.733+0000"),    "updatedAt" : ("2018-11-02T16:12:22.847+0000"),   "__v" : (0),      "unidad" : {         "id" : xcatuni2._id,        "nombre" : xcatuni2.nombre   },      "usuarionew" : req.body.email,        "idempresa" : idempresa    }, function(err,
-                                                                                                             xperfil2) {
-                                                                                                            if (err){    res.status(500).send('3333333333333333333333333333'+err.message)    }
-                                                                                                         
-                                                                                                            //crear PERFIL Y CHAT
-                                                                                                                        Permiso.create({   "idrol" : xperfil2._id,    "nombre" : xmod1._id,    "ingreso" : true,   "consulta" : true,    "eliminacion" : true,                          "creacion" : true,                                   "actualizacion" : true,      "createdAt" : ("2018-08-03T01:25:49.367+0000"),      "updatedAt" : ("2019-01-17T20:28:13.600+0000"),                               "__v" : (0),                                     "usuarionew" : req.body.email,         "orden" : (10),        "idempresa" : idempresa                                });
-                                                                                                                        Permiso.create({   "idrol" : xperfil2._id,    "nombre" :xmod22._id,    "ingreso" : true,   "consulta" : true,    "eliminacion" : true,                          "creacion" : true,                                   "actualizacion" : true,      "createdAt" : ("2018-08-03T01:25:49.367+0000"),      "updatedAt" : ("2019-01-17T20:28:13.600+0000"),                               "__v" : (0),                                     "usuarionew" : req.body.email,         "orden" : (10),        "idempresa" : idempresa                                });
-                                                                                                                    
-                                                                                                                        //seguridad 
-                                                                                                                        Permiso.create({   "idrol" : xperfil2._id,    "nombre" :xmod23._id,    "ingreso" : true,   "consulta" : true,    "eliminacion" : true,                          "creacion" : true,                                   "actualizacion" : true,      "createdAt" : ("2018-08-03T01:25:49.367+0000"),      "updatedAt" : ("2019-01-17T20:28:13.600+0000"),                               "__v" : (0),                                     "usuarionew" : req.body.email,         "orden" : (10),        "idempresa" : idempresa                                }
-                                                                                                                        , function(err, xper1) {
-                                                                                                                            if (err){    res.status(500).send('22222222222222222222222222222'+err.message)    }
-                                                                                                                    
-                                        
-                                                                                                                            Moduloxx.create( {    "componente" : "UserListPage",  "estado" : "Activo",   "grupo" : "PAGINA",                                                                       "icono" : "person-add",      "idempresa" : idempresa,   "index" : "60",  "nivel" : "Usuario",         "nombre" : "Usuarios",                                               "tabcomponente" : " UserListPage",                                                    "titulo" : "UserListPage",    "usuarionew" :  req.body.email       } 
-                                                                                                                            , function(err, xmodb1) {
-                                                                                                                                        //USUARIOS SEGURIDAD
-                                                                                                                                        if (err){    res.status(500).send('55555555555555555555'+err.message)    }
-                                                                                                                                   //     res.json(todo);***********************************************************************************************
-
-                                                                                                                                   
-                                                                                                                                                    Permison2.create({   "idpermiso" : xper1._id,   "idrol" : xperfil2._id, "nombre" :xmodb1._id, "ingreso" : true, "consulta" : true,  "eliminacion" : true,     "creacion" : true,                                                               "actualizacion" : true, "createdAt" : ("2018-10-17T21:03:49.206+0000"),                                                                      "updatedAt" : ("2019-01-17T20:24:32.369+0000"),   "usuarioup" : req.body.email,  "orden" : (10)         ,  "idempresa" : idempresa                                                                    });    
-                                                                                                                                        
-                                                                                                                                                    Moduloxx.create( {   "componente" : "TiposuscriptorListPage",       "estado" : "Activo",      "grupo" : "PAGINA" ,  "icono" : "more",    "idempresa" : idempresa,    "index" : "280",                                "nivel" : ".",                                                                                         "nombre" : "Tipo usuario",            "tabcomponente" : "TiposuscriptorListPage",                           "titulo" : "TiposuscriptorListPage",  "usuarionew" : req.body.email          }
-                                                                                                                                                    , function(err, xmodb1a) {
-                                                                                                                                                        if (err){    res.status(500).send('1111111111111' +err.message)    }
-                                                                                                                                                        //------------TIPO SUSCRIPTOR
-                                                                                                                                                               Permison2.create({   "idpermiso" : xper1._id,   "idrol" : xperfil2._id, "nombre" :xmodb1a._id, "ingreso" : true, "consulta" : true,  "eliminacion" : true,     "creacion" : true,                                                               "actualizacion" : true, "createdAt" : ("2018-10-17T21:03:49.206+0000"),                                                                      "updatedAt" : ("2019-01-17T20:24:32.369+0000"),   "usuarioup" : req.body.email,  "orden" : (10)         ,  "idempresa" : idempresa                                                                    });    
-                                                                                                                                                        
-                                                                                                                                                        //  res.json(todo);
-                                                                                                                                                            
-                            
-                                                                                                                                                            //EMPRESAS    
-                                                                                                                                                            
-                                                                                                                                                            
-                                                                                                                                                            Permiso.create({   "idrol" : xperfil2._id,    "nombre" :xmod24._id,    "ingreso" : true,   "consulta" : true,    "eliminacion" : true,                          "creacion" : true,                                   "actualizacion" : true,      "createdAt" : ("2018-08-03T01:25:49.367+0000"),      "updatedAt" : ("2019-01-17T20:28:13.600+0000"),                               "__v" : (0),                                     "usuarionew" : req.body.email,         "orden" : (10),        "idempresa" : idempresa                                }
-                                                                                                                                                            , function(err, xper2) {
-                                                                                                                                                                if (err){    res.status(500).send('777777777777777777777'+err.message)    }
-                                                                            
-                                                                                                                                                                Moduloxx.create({   "componente" : "EmpresaListPage",   "estado" : "Activo",  "grupo" : "BUSES",     "icono" : "filing",  "idempresa" : idempresa, "index" : "50",   "nivel" : "Administrador",                   "nombre" : "Empresa",  "tabcomponente" : "EmpresaListPage",        "titulo" : "EmpresaListPage",    "usuarionew" :  req.body.email  }
-                                                                                                                                                                            , function(err, xmodb2) {
-                                                                                                                                                                                if (err){    res.status(500).send('333333333333333333333'+err.message)    }
-                            
-                                                                                                                                                                                    
-                                                                                                                                                                                    Permison2.create({   "idpermiso" : xper2._id,   "idrol" : xperfil2._id, "nombre" :xmodb2._id, "ingreso" : true, "consulta" : true,  "eliminacion" : true,     "creacion" : true,                                                               "actualizacion" : true, "createdAt" : ("2018-10-17T21:03:49.206+0000"),                                                                      "updatedAt" : ("2019-01-17T20:24:32.369+0000"),   "usuarioup" : req.body.email,  "orden" : (10) ,  "idempresa" : idempresa                                                                           });    
-                                                                                                                                                                                   
-                                                                                                                                                                                    
-                                                                                                                                                                                    var password2= generator.generate({
-                                                                                                                                                                                        length: 4,
-                                                                                                                                                                                        numbers: true
-                                                                                                                                                                                    });   
-                                                                                                                                                                                    var user = new User({
-                                                                                                                                                                                        "email" : req.body.email, 
-                                                                                                                                                                                        "password" : password2+'A123@', 
-                                                                                                                                                                                        "role" : "Administrador", 
-                                                                                                                                                                                        "idempresa" : idempresa, 
-                                                                                                                                                                                        "nombre" : req.body.nombre, 
-                                                                                                                                                                                        "cui" : req.body.nit, 
-                                                                                                                                                                                        "direccion" : req.body.direccion  , 
-                                                                                                                                                                                        "telefono" : req.body.telefonos , 
-                                                                                                                                                                                        "lenguaje" : "Español", 
-                                                                                                                                                                                        "sexo" : "Masculino", 
-                                                                                                                                                                                        "estado" : "Activo", 
-                                                                                                                                                                                        "nov" : "", 
-                                                                                                                                                                                        "unidad" : xcatuni2._id, 
-                                                                                                                                                                                        "codpersonal" : "123", 
-                                                                                                                                                                                        "interno" : "0", 
-                                                                                                                                                                                        "estadoemail" : "1", 
-                                                                                                                                                                                        "tiposuscriptor" : xtiposus2._id, 
-                                                                                                                                                                                        "APP" : idempresa, 
-                                                                                                                                                                                        "accesoestado" : "", 
-                                                                                                                                                                                        "accesohora" : "", 
-                                                                                                                                                                                        "controlacceso" : "", 
-                                                                                                                                                                                        "carnecalusac" : "", 
-                                                                                                                                                                                        "createdAt" : ("2019-10-09T16:35:33.769+0000"), 
-                                                                                                                                                                                        "updatedAt" : ("2019-10-13T16:19:15.357+0000"), 
-                                                                                                                                                                                        "__v" : (0), 
-                                                                                                                                                                                        "fechanac" : ("2019-10-11T00:00:00.000+0000"), 
-                                                                                                                                                                                        "foto" : "./assets/img/profilelocal.png", 
-                                                                                                                                                                                        "usuarionew" : req.body.email
-                                                                                                                                                                                        
-                                                                                                                                                                                     
-                                                                                                                                                                                    });
-
-                                                      
-
-                                                                                                                                                                                    user.save(function(err, user){
- 
-                                                                                                                                                                                        if(err){
-                                                                                                                                                                                            return next(err);
-                                                                                                                                                                                        }
-
-                                                                                                                                                                                   
-                                                                                                                                                                                        
-                                                                                                                                                                            
-                                                                                                                                                                                        mailt.sendEmail([req.body.email,'mario.morales@mcloude.com'],'body creacion de empresa correo ' +  req.body.email + '   clave: ' +  password2+'A123@', 'Creación de empresa :'+req.body.nombre,['mario.morales@mcloude.com']);
-                                                                                                                                                                             
-                                                                                                                                                                                        res.json(todo);
-                                                                                                                                                                             
-                                                                                                                                                                                    });
-
-                                                                                                                                                                                  
-                                                                                              
-                                                                                                                                                                                  
-
-
-
-
-                                                                                                                                                                            });
-                                                                            
-                                                                                                                                                            });
-                                                                                                                                                            
-                                    
-                                    
-                                                                                                                                                    });
-                                                                
-                                                                                                                            });
-                                                                                                                            
-                                                                                                                        
-                                        
-                                                                                                                        });
-                            
-                                                                                                            //empresas    
-                                                                                                         
-                                                                                                            });
-                                                                                                            
-                                                                                            });   });});  
-
-                                                                                //ADMINISTRADOR
-
-                                                                            });
-
-
-
-
-
-                                                                                  
-
-
-                                                });   });
-
-                                     
-                                                                
-    
         
+    formcat.create({  "idunidad" : "1000-unidad-plantilla",                "nombre" : "SEGURIDAD",                "usuarionew" : "lonecesito@gmail.com",                "createdAt" : "2019-10-12T23:29:56.961+0000",                "updatedAt" : "2019-10-12T23:29:56.961+0000",                "__v" : 0,                "idunidad2" : "",  "idempresa" : idempresa                    }, function(err, xcatuni1) {
+        if (err){    res.status(500).send(err.message)    }
+        
+
+    Catalogo.create({   "tipo" : "UNIDADES",    "nombre" : "ADMINISTRADOR",   "fecha" : ("2018-09-27T18:29:11.918+0000"),  "estado" : "Activo", "createdAt" : ("2018-09-27T18:29:53.037+0000"),   "updatedAt" : ("2018-09-27T18:29:53.037+0000"),   "__v" : (0),  "idempresa" : idempresa                    }, function(err, xcatuni2) {
+        if (err){    res.status(500).send(err.message)    }
+        iduniadmin=xcatuni2._id
+        
+
+        Rol.create({      "nombre" : "user",    "estado" : "Activo",    "createdAt" : "2019-10-12T23:29:56.961+0000",    "updatedAt" : "2019-10-12T23:29:56.961+0000",    "__v" : 0,    "unidad" : "SEGURIDAD",    "usuarionew" :  req.body.email,    "idempresa" : idempresa}, function(err, xrol1) { if (err){    res.status(500).send(err.message)    }
+        Rol.create({       "nombre" : "Administrador",    "estado" : "Activo",    "createdAt" : "2019-10-12T23:29:56.961+0000",    "updatedAt" : "2019-10-12T23:29:56.961+0000",    "__v" : 0,    "unidad" : "SEGURIDAD",    "usuarionew" :  req.body.email,    "idempresa" : idempresa}, function(err, xrol2) { if (err){    res.status(500).send(err.message)    }
                         
-                      });
-            
+            Moduloxx.create({      "idempresa" : idempresa,    "grupo" : "MENU",    "nombre" : "Formularios",    "titulo" : "Formularios",    "componente" : "Formularios",    "tabcomponente" : "Formularios",    "index" : 40,    "icono" : "apps",    "nivel" : ".",    "estado" : "Activo",    "createdAt" : "2019-10-12T23:29:56.961+0000",    "updatedAt" : "2019-10-12T23:29:56.961+0000",    "__v" : 0}, function(err, xmod1) { if (err){    res.status(500).send(err.message)    }
+            Moduloxx.create({      "componente" : "Seguridad",    "estado" : "Activo",    "grupo" : "MENU",    "icono" : "key",    "idempresa" : idempresa,    "index" : 190,    "nivel" : ".",    "nombre" : "Seguridad",    "tabcomponente" : "seguridad",    "titulo" : "Seguridad del sistema",    "usuarionew" :  req.body.email,    "createdAt" : "2019-10-12T23:29:56.961+0000",    "updatedAt" : "2019-10-12T23:29:56.961+0000",    "__v" : 0}, function(err, xmod2) { if (err){    res.status(500).send(err.message)    }
+            Moduloxx.create({      "componente" : "CONTROL DE ACCESO",    "estado" : "Activo",    "grupo" : "MENU",    "icono" : "control",    "idempresa" : idempresa,    "index" : 250,    "nivel" : ".",    "nombre" : "Asociado",    "tabcomponente" : "CONTROL DE ACCESO",    "titulo" : "CONTROL DE ACCESO",    "usuarionew" :  req.body.email,    "createdAt" : "2019-10-12T23:29:56.961+0000",    "updatedAt" : "2019-10-12T23:29:56.961+0000",    "__v" : 0}, function(err, xmod3) { if (err){    res.status(500).send(err.message)    }
+            Moduloxx.create({        "idempresa" : idempresa,    "grupo" : "PAGINA",    "nombre" : "Empresa",    "titulo" : "EmpresaListPage",    "componente" : "EmpresaListPage",    "tabcomponente" : "EmpresaListPage",    "index" : 40,    "icono" : "home-outline",    "nivel" : ".",    "estado" : "Activo",    "createdAt" : "2019-10-12T23:29:56.961+0000",    "updatedAt" : "2019-10-12T23:29:56.961+0000",    "__v" : 0}, function(err, xmod4) { if (err){    res.status(500).send(err.message)    }
+            Moduloxx.create({      "componente" : "UserListPage",    "estado" : "Activo",    "grupo" : "PAGINA",    "icono" : "person-outline",    "idempresa" : idempresa,    "index" : 60,    "nivel" : "Usuario",    "nombre" : "Usuarios",    "tabcomponente" : "UserListPage",    "titulo" : "UserListPage",    "usuarionew" :  req.body.email,    "createdAt" : "2019-10-12T23:29:56.961+0000",    "updatedAt" : "2019-10-12T23:29:56.961+0000",    "__v" : 0}, function(err, xmod5) { if (err){    res.status(500).send(err.message)    }
+            Moduloxx.create({        "grupo" : "PAGINA",    "nombre" : "Modulos",    "titulo" : "ModuloListPage",    "componente" : "/ModuloListPage",    "tabcomponente" : "ModuloListPage",    "index" : 40,    "icono" : "albums-outline",    "nivel" : "Superusuario",    "estado" : "Activo",    "createdAt" : "2019-10-12T23:29:56.961+0000",    "updatedAt" :"2019-10-12T23:29:56.961+0000",    "__v" : 0,    "idempresa" : idempresa,    "usuarioup" :  req.body.email}, function(err, xmod6) { if (err){    res.status(500).send(err.message)    }
+            Moduloxx.create({      "componente" : "/RolListPage",    "createdAt" : "2018-07-23T20:16:48.388Z",    "estado" : "Activo",    "grupo" : "PAGINA",    "icono" : "people-outline",    "idempresa" : idempresa,    "index" : "30",    "nivel" : "Usuario",    "nombre" : "Rol",    "tabcomponente" : "PerfilListPage",    "titulo" : "RolListPage",    "updatedAt" : "2019-10-12T23:29:56.961+0000",    "usuarionew" : null}, function(err, xmod7) { if (err){    res.status(500).send(err.message)    }
+            Moduloxx.create({      "idempresa" : idempresa,    "grupo" : "PAGINA",    "nombre" : "Formularios moviles",    "titulo" : "categoriaformularioListPage",    "componente" : "categoriaformularioListPage",    "tabcomponente" : "categoriaformularioListPage",    "index" : 40,    "icono" : "receipt-outline",    "nivel" : ".",    "estado" : "Activo",    "createdAt" : "2019-10-12T23:29:56.961+0000",    "updatedAt" : "2019-10-12T23:29:56.961+0000",    "__v" : 0}, function(err, xmod8) { if (err){    res.status(500).send(err.message)    }
+            Moduloxx.create({       "idempresa" : idempresa,    "grupo" : "PAGINA",    "nombre" : "Formulario usuario",    "titulo" : "formulariousrListPage",    "componente" : "formulariousrListPage",    "tabcomponente" : "formulariousrListPage",    "index" : 40,    "icono" : "reader-outline",    "nivel" : ".",    "estado" : "Activo",    "createdAt" : "2019-10-12T23:29:56.961+0000",    "updatedAt" : "2019-10-12T23:29:56.961+0000",    "__v" : 0}, function(err, xmod9) { if (err){    res.status(500).send(err.message)    }
+            Moduloxx.create({       "idempresa" : idempresa,    "grupo" : "PAGINA",    "nombre" : "Creación de formularios",    "titulo" : "FormsListPage",    "componente" : "FormsListPage",    "tabcomponente" : "FormsListPage",    "index" : 40,    "icono" : "apps",    "nivel" : ".",    "estado" : "Activo",    "createdAt" : "2019-10-12T23:29:56.961+0000",    "updatedAt" : "2019-10-12T23:29:56.961+0000",    "__v" : 0}, function(err, xmod10) { if (err){    res.status(500).send(err.message)    }
+                        
 
-
-    
-                    
-                  });
-
-
-
+                Permiso.create({       "idempresa" : idempresa,    "idrol" : xrol2._id,    "nombre" : xmod1._id,    "ingreso" : true,    "consulta" : true,    "eliminacion" : true,    "creacion" : true,    "actualizacion" : true,    "filtro" : true,    "reporte" : true,    "orden" : 10,    "estado" : "Activo",    "potros1" : "",    "votros1" : "",    "usuarionew" : "lonecesito@gmail.com",    "createdAt" : "2019-10-12T23:29:56.961+0000",    "updatedAt" : "2019-10-12T23:29:56.961+0000",    "__v" : 0}, function(err, xper1) { if (err){    res.status(500).send(err.message)    }
+                Permiso.create({        "idrol" : xrol2._id,    "nombre" : xmod2._id,    "ingreso" : true,    "consulta" : true,    "eliminacion" : true,    "creacion" : true,    "actualizacion" : true,    "createdAt" : "2019-10-12T23:29:56.961+0000",    "updatedAt" : "2019-10-12T23:29:56.961+0000",    "__v" : 0,    "usuarionew" :  req.body.email,    "orden" : 30,    "idempresa" : idempresa,    "filtro" : true,    "reporte" : true,    "estado" : "Activo",    "usuarioup" : "lonecesito@gmail.com"}, function(err, xper2) { if (err){    res.status(500).send(err.message)    }
+                Permiso.create({      "idrol" : xrol2._id,    "nombre" : xmod3._id,    "ingreso" : true,    "consulta" : true,    "eliminacion" : true,    "creacion" : true,    "actualizacion" : true,    "createdAt" : "2019-10-12T23:29:56.961+0000",    "updatedAt" : "2019-10-12T23:29:56.961+0000",    "__v" : 0,    "usuarionew" :  req.body.email,    "orden" : 40,    "idempresa" : idempresa,    "filtro" : true,    "reporte" : true,    "estado" : "Activo",    "usuarioup" : "lonecesito@gmail.com"}, function(err, xper3) { if (err){    res.status(500).send(err.message)    }
                 
-              });
+                    Permison2.create({        "idempresa" : idempresa,    "idpermiso" : xper3._id,    "idrol" : xrol2._id,    "nombre" : xmod4._id,    "ingreso" : true,    "consulta" : true,    "eliminacion" : true,    "filtro" : true,    "reporte" : true,    "creacion" : true,    "potros1" : "",    "votros1" : "",    "actualizacion" : true,    "orden" : 20,    "estado" : "Activo",    "usuarionew" : "lonecesito@gmail.com",    "createdAt" : "2019-10-12T23:29:56.961+0000",    "updatedAt" : "2019-10-12T23:29:56.961+0000",    "__v" : 0});
+                    Permison2.create({        "idpermiso" : xper2._id,    "idrol" : xrol2._id,    "nombre" : xmod5._id,    "filtro" : true,    "reporte" : true,    "ingreso" : true,    "consulta" : true,    "eliminacion" : true,    "creacion" : true,    "actualizacion" : true,    "createdAt" :"2019-10-12T23:29:56.961+0000",    "updatedAt" : "2019-10-12T23:29:56.961+0000",    "usuarioup" : "lonecesito@gmail.com",    "orden" : 10,   "idempresa" : idempresa,    "__v" : 0,    "estado" : "Activo"});
+                    Permison2.create({       "idpermiso" : xper2._id,    "idrol" : xrol2._id,    "nombre" : xmod6._id,    "ingreso" : true,    "consulta" : true,    "eliminacion" : true,    "creacion" : true,    "actualizacion" : true,    "createdAt" :"2019-10-12T23:29:56.961+0000",    "updatedAt" : "2019-10-12T23:29:56.961+0000",    "usuarioup" : "lonecesito@gmail.com",    "orden" : 30,    "idempresa" : idempresa,    "__v" : 0,    "filtro" : true,    "reporte" : true,    "estado" : "Activo"});
+                    Permison2.create({       "idpermiso" : xper2._id,    "idrol" : xrol2._id,    "nombre" : xmod7._id,    "ingreso" : true,    "consulta" : true,    "eliminacion" : true,    "creacion" : true,    "actualizacion" : true,    "createdAt" :"2019-10-12T23:29:56.961+0000",    "updatedAt" : "2019-10-12T23:29:56.961+0000",    "usuarioup" : "lonecesito@gmail.com",    "orden" : 20,    "idempresa" : idempresa,    "__v" : 0,    "filtro" : true,    "reporte" : true,    "estado" : "Activo"});
+                    Permison2.create({        "idempresa" : idempresa,    "idpermiso" : xper1._id,    "idrol" : xrol2._id,    "nombre" : xmod10._id,    "ingreso" : true,    "consulta" : true,    "eliminacion" : true,    "filtro" : true,    "reporte" : true,    "creacion" : true,    "potros1" : "",    "votros1" : "",    "actualizacion" : true,    "orden" : 10,    "estado" : "Activo",    "usuarionew" : "lonecesito@gmail.com",    "createdAt" : "2019-10-12T23:29:56.961+0000",    "updatedAt" : "2019-10-12T23:29:56.961+0000",    "__v" : 0});
+                    Permison2.create({       "idempresa" : idempresa,    "idpermiso" : xper1._id,    "idrol" : xrol2._id,    "nombre" : xmod9._id,    "ingreso" : true,    "consulta" : true,    "eliminacion" : true,    "filtro" : true,    "reporte" : true,    "creacion" : true,    "potros1" : "",    "votros1" : "",    "actualizacion" : true,    "orden" : 20,    "estado" : "Activo",    "usuarionew" : "lonecesito@gmail.com",    "createdAt" : "2019-10-12T23:29:56.961+0000",    "updatedAt" : "2019-10-12T23:29:56.961+0000",    "__v" : 0});
+                    Permison2.create({        "idempresa" : idempresa,    "idpermiso" : xper1._id,    "idrol" : xrol2._id,    "nombre" : xmod8._id,    "ingreso" : true,    "consulta" : true,    "eliminacion" : true,    "filtro" : true,    "reporte" : true,    "creacion" : true,    "potros1" : "",    "votros1" : "",    "actualizacion" : true,    "orden" : 30,    "estado" : "Activo",    "usuarionew" : "lonecesito@gmail.com",    "createdAt" : "2019-10-12T23:29:56.961+0000",    "updatedAt" : "2019-10-12T23:29:56.961+0000",    "__v" : 0});
+                    
+
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "1000-labelsizefondt-plantilla",    "nombre" : "10",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-08-09T21:44:36.719Z"),    "updatedAt" : "2019-10-12T23:29:56.961+0000",    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "1000-labelsizefondt-plantilla",    "nombre" : "12",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-08-09T21:44:41.334Z"),    "updatedAt" : "2019-10-12T23:29:56.961+0000",    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "1000-labelsizefondt-plantilla",    "nombre" : "14",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-08-09T21:44:46.246Z"),    "updatedAt" : "2019-10-12T23:29:56.961+0000",    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "1000-labelsizefondt-plantilla",    "nombre" : "16",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-08-09T21:44:51.420Z"),    "updatedAt" : "2019-10-12T23:29:56.961+0000",    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "1000-labelsizefondt-plantilla",    "nombre" : "18",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-08-09T21:45:01.473Z"),    "updatedAt" : "2019-10-12T23:29:56.961+0000",    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "1000-labelsizefondt-plantilla",    "nombre" : "20",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-08-09T21:45:06.579Z"),    "updatedAt" :"2019-10-12T23:29:56.961+0000",    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "1000-lenguaje-plantilla",    "nombre" : "Español",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-08-02T23:22:49.862Z"),    "updatedAt" : "2019-10-12T23:29:56.961+0000",    "__v" : 0,   "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "1000-lenguaje-plantilla",    "nombre" : "Ingles",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-08-02T23:22:57.161Z"),    "updatedAt" :"2019-10-12T23:29:56.961+0000",    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "1000-moneda-plantilla",    "nombre" : "Q.",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-07-25T16:04:36.196Z"),    "updatedAt" : "2019-10-12T23:29:56.961+0000"  ,  "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "1000-moneda-plantilla",    "nombre" : "$.",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-07-25T16:04:47.283Z"),    "updatedAt" : "2019-10-12T23:29:56.961+0000",    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "1000-position-plantilla",    "nombre" : "fixed",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-08-09T21:44:02.451Z"),    "updatedAt" : "2019-10-12T23:29:56.961+0000",    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "1000-position-plantilla",    "nombre" : "floating",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-08-09T21:44:14.538Z"),    "updatedAt" : "2019-10-12T23:29:56.961+0000",    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "1000-position-plantilla",    "nombre" : "stacked",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-08-09T21:44:23.760Z"),    "updatedAt" : ISODate("2020-08-09T21:44:23.760Z"),    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "1000-position-plantilla",    "nombre" : "na",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-08-09T21:44:02.451Z"),    "updatedAt" : ISODate("2020-08-09T21:44:02.451Z"),    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "1000-sexo-plantilla",    "nombre" : "Masculino",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-08-02T23:23:13.361Z"),    "updatedAt" : ISODate("2020-08-02T23:23:13.361Z"),    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "1000-sexo-plantilla",    "nombre" : "Femenino",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-08-02T23:23:24.159Z"),    "updatedAt" : ISODate("2020-08-02T23:23:24.159Z"),    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "1000-type-plantilla",    "nombre" : "Rango",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-08-09T14:29:41.749Z"),    "updatedAt" : ISODate("2020-08-09T14:29:41.749Z"),    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "1000-type-plantilla",    "nombre" : "Numerico",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-08-09T14:29:50.037Z"),    "updatedAt" : ISODate("2020-08-09T14:29:50.037Z"),    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "1000-type-plantilla",    "nombre" : "Fecha",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-08-09T14:29:58.616Z"),    "updatedAt" : ISODate("2020-08-09T14:29:58.616Z"),    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "1000-type-plantilla",    "nombre" : "Check",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-08-09T14:30:08.750Z"),    "updatedAt" : ISODate("2020-08-09T14:30:08.750Z"),    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "1000-type-plantilla",    "nombre" : "Fecha y Hora",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-08-09T14:30:29.047Z"),    "updatedAt" : ISODate("2020-08-09T14:30:29.047Z"),    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "1000-type-plantilla",    "nombre" : "TextArea",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-08-09T14:30:39.619Z"),    "updatedAt" : ISODate("2020-08-09T14:30:39.619Z"),    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "1000-type-plantilla",    "nombre" : "Lista de valores",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-08-09T14:30:51.249Z"),    "updatedAt" : ISODate("2020-08-09T14:30:51.249Z"),    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "1000-type-plantilla",    "nombre" : "Alfanumerico",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-08-09T14:31:03.384Z"),    "updatedAt" : ISODate("2020-08-09T14:31:03.384Z"),    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "1000-type-plantilla",    "nombre" : "Imagen",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-08-09T14:31:13.295Z"),    "updatedAt" : ISODate("2020-08-09T14:31:13.295Z"),    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "1000-type-plantilla",    "nombre" : "Etiqueta",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-08-09T14:31:19.253Z"),    "updatedAt" : ISODate("2020-08-09T14:31:19.253Z"),    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "1000-type-plantilla",    "nombre" : "Hora",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-08-09T14:31:28.048Z"),    "updatedAt" : ISODate("2020-08-09T14:31:28.048Z"),    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "1000-type-plantilla",    "nombre" : "Formulario detalle",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-08-09T14:31:43.397Z"),    "updatedAt" : ISODate("2020-08-09T14:31:43.397Z"),    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "1000-unidad-plantilla",    "nombre" : "INVENTARIO",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-07-31T16:25:58.610Z"),    "updatedAt" : ISODate("2020-07-31T16:25:58.610Z"),    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "1000-unidad-plantilla",    "nombre" : "DELIVERY",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-07-31T16:26:13.504Z"),    "updatedAt" : ISODate("2020-07-31T16:26:13.504Z"),    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "1000-vista-plantilla",    "nombre" : "Clasica con imagenes",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-07-25T16:40:17.494Z"),    "updatedAt" : ISODate("2020-07-25T16:40:17.494Z"),    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "1000-vista-plantilla",    "nombre" : "Lista con imagenes",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-07-25T16:40:26.907Z"),    "updatedAt" : ISODate("2020-07-25T16:40:26.907Z"),    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "1000-vista-plantilla",    "nombre" : "Lista sin imagenes",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-07-25T16:40:34.738Z"),    "updatedAt" : ISODate("2020-07-25T16:40:34.738Z"),    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "1001-categoria-plantilla",    "nombre" : "CATALOGOS",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-08-09T03:36:50.466Z"),    "updatedAt" : ISODate("2020-08-09T03:36:50.466Z"),    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "5e765557885e0b13c8c15c64-1000-departamento-plantilla",    "idunidad2" : "",    "nombre" : "Guatemala",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-08-25T00:36:32.116Z"),    "updatedAt" : ISODate("2020-08-25T00:36:32.116Z"),    "__v" : 0});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "5e765557885e0b13c8c15c64-1000-municipio-plantilla",    "idunidad2" : "Guatemala",    "nombre" : "Guatemala",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-08-25T00:36:44.592Z"),    "updatedAt" : ISODate("2020-08-25T00:36:44.592Z"),    "__v" : 0});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "5e765557885e0b13c8c15c64-1000-municipio-plantilla",    "idunidad2" : "Guatemala",    "nombre" : "Peten",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-08-25T00:37:52.716Z"),    "updatedAt" : ISODate("2020-08-25T00:37:52.716Z"),    "__v" : 0});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "5ea220a423687a50a0f3b4e1-1000-color-plantilla",    "nombre" : "COLOR",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-07-23T19:52:13.771Z"),    "updatedAt" : ISODate("2020-07-23T19:52:13.771Z"),    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "5ea220a423687a50a0f3b4e1-1000-talla-plantilla",    "nombre" : "TALLA",   "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-07-22T18:12:40.679Z"),    "updatedAt" : ISODate("2020-07-22T18:12:40.679Z"),    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "5ea220a423687a50a0f3b4e1-categoria-plantilla",    "nombre" : "CATEGORIA",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-07-11T16:10:33.873Z"),    "updatedAt" : ISODate("2020-07-11T16:10:33.873Z"),   "__v" : 0,   "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "5ea220a423687a50a0f3b4e1-color-plantilla",    "nombre" : "NEGRO",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-07-22T18:12:50.643Z"),    "updatedAt" : ISODate("2020-07-22T18:12:50.643Z"),    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "5ea220a423687a50a0f3b4e1-talla-plantilla",    "nombre" : "TALLA",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-07-22T23:06:43.407Z"),    "updatedAt" : ISODate("2020-07-22T23:06:43.407Z"),    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "5ea220a423687a50a0f3b4e1-unidadmedida-plantilla",    "nombre" : "Lib.",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-07-11T16:11:38.803Z"),    "updatedAt" : ISODate("2020-07-20T19:16:06.864Z"),    "__v" : 0,    "usuarioup" :  req.body.email,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "5ea220a423687a50a0f3b4e1-unidadmedida-plantilla",    "nombre" : "Uni.",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-07-23T23:56:38.697Z"),    "updatedAt" : ISODate("2020-07-23T23:56:38.697Z"),    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "5ea220a423687a50a0f3b4e1-unidadmedida-plantilla",    "nombre" : "x",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-07-24T00:05:04.775Z"),    "updatedAt" : ISODate("2020-07-24T00:05:04.775Z"),    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "5ea220a423687a50a0f3b4e1-unidadmedida-plantilla",    "nombre" : "Manojo",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-07-24T00:12:41.369Z"),    "updatedAt" : ISODate("2020-07-24T00:12:41.369Z"),    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "5ea220a423687a50a0f3b4e1-unidadmedida-plantilla",    "nombre" : "Bolsa",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-07-24T00:40:16.467Z"),    "updatedAt" : ISODate("2020-07-24T00:40:16.467Z"),    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "5ea220a423687a50a0f3b4e1-unidadmedida-plantilla",    "nombre" : "Doc.",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-07-24T00:48:12.053Z"),    "updatedAt" : ISODate("2020-07-24T00:48:12.053Z"),    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "5ea220a423687a50a0f3b4e1-unidadmedida-plantilla",    "nombre" : "Onz.",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-07-24T02:21:31.839Z"),    "updatedAt" : ISODate("2020-07-24T02:21:31.839Z"),    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "5ea220a423687a50a0f3b4e1-unidadmedida-plantilla",    "nombre" : "Caja",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-07-24T02:31:21.694Z"),    "updatedAt" : ISODate("2020-07-24T02:31:21.694Z"),    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "5ea220a423687a50a0f3b4e1-unidadmedida-plantilla",    "nombre" : "Mano",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-07-24T16:40:57.476Z"),    "updatedAt" : ISODate("2020-07-24T16:40:57.476Z"),    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "5ea220a423687a50a0f3b4e1-unidadmedida-plantilla",    "nombre" : "Lbs. aprox",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-07-25T04:45:10.168Z"),    "updatedAt" : ISODate("2020-07-25T04:45:10.168Z"),    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "5f0bbeca577bf439f4581328-unidadmedida-plantilla",    "nombre" : "Onzas",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-07-25T04:50:56.475Z"),    "updatedAt" : ISODate("2020-07-25T04:50:56.475Z"),    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "5f0bbeca577bf439f4581328-unidadmedida-plantilla",    "nombre" : "Uni.",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-07-25T04:51:09.673Z"),    "updatedAt" : ISODate("2020-07-25T04:51:09.673Z"),    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "5f0bbeca577bf439f4581328-unidadmedida-plantilla",    "nombre" : "Lbs.",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-07-25T04:51:25.988Z"),    "updatedAt" : ISODate("2020-07-25T04:51:25.988Z"),   "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "5f0bbeca577bf439f4581328-unidadmedida-plantilla",    "nombre" : "(8 Uni.)",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-07-25T14:18:40.241Z"),    "updatedAt" : ISODate("2020-07-25T14:18:40.241Z"),    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "5f340a35b6b6046a8ce2f749",    "nombre" : "campolista",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-08-12T21:01:50.679Z"),    "updatedAt" : ISODate("2020-08-12T21:01:50.679Z"),    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "5f340a35b6b6046a8ce2f749",    "nombre" : "campolista2",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-08-12T21:02:18.451Z"),    "updatedAt" : ISODate("2020-08-12T21:02:18.451Z"),    "__v" : 0,    "idunidad2" : ""});
+                    formcat.create({      "idempresa" : idempresa,    "idunidad" : "5f340a35b6b6046a8ce2f749",    "nombre" : "campolista3",    "usuarionew" :  req.body.email,    "createdAt" : ISODate("2020-08-12T21:16:02.271Z"),    "updatedAt" : ISODate("2020-08-12T21:16:02.271Z"),    "__v" : 0,    "idunidad2" : ""});
+
+
+                    var password2= generator.generate({
+                        length: 4,
+                        numbers: true
+                        });   
+                        var user = new User({
+                        "email" : req.body.email, 
+                        "password" : 'admin'+'123', 
+                        "role" : "Administrador", 
+                        "idempresa" : idempresa, 
+                        "nombre" : req.body.nombre, 
+                        "foto" : "/api/image2s/5f38410d2f47f013d41ca573",
+                        "cui" : req.body.nit, 
+                        "direccion" : req.body.direccion  , 
+                        "telefono" : req.body.telefonos , 
+                        "lenguaje" : "Español", 
+                        "sexo" : "Masculino", 
+                        "estado" : "Activo", 
+                        "nov" : "", 
+                        "unidad" : xcatuni2._id, 
+                        "codpersonal" : "123", 
+                        "interno" : "0", 
+                        "estadoemail" : "1", 
+                        "tiposuscriptor" : xtiposus2._id, 
+                        "APP" : idempresa, 
+                        "accesoestado" : "", 
+                        "accesohora" : "", 
+                        "controlacceso" : "", 
+                        "carnecalusac" : "", 
+                        "createdAt" : ("2019-10-09T16:35:33.769+0000"), 
+                        "updatedAt" : ("2019-10-13T16:19:15.357+0000"), 
+                        "__v" : (0), 
+                        "fechanac" : ("2019-10-11T00:00:00.000+0000"), 
+                       
+                        "usuarionew" : req.body.email
+                        });
+                        user.save(function(err, user){                        if(err){                        return next(err);                        }
+                    //    mailt.sendEmail([req.body.email,'mario.morales@mcloude.com'],'body creacion de empresa correo ' +  req.body.email + '   clave: ' +  password2+'A123@', 'Creación de empresa :'+req.body.nombre,['mario.morales@mcloude.com']);
+                                            res.json(todo);
+                        });
+                });                    });                      });
+
+             });         });                 });               });               });                    });                         });            });            });            });                 });         });
+
+
+        
+        });
+                    
+        });
+        
+        });
             });
 
        
