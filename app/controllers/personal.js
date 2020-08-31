@@ -796,14 +796,14 @@ console.log('crea')
 
                         if(req.params.email)
                         {
-                            Personal.find({email:req.params.email,idempresa:req.params.id3}).populate('idempresa').populate('unidad').populate('tiposuscriptor')
+                            Personal.find({email:req.params.email,idempresa:req.params.id3}).populate('idempresa')
                             .then(todos => {
-                          
+                          console.log(todos)
                                 res.json(todos);  
                                 
                             })
                             .catch(err => {
-                                console.log('entra cath')
+                                console.log('entra cath' + err.message)
                                 res.status(422).send(err.message);  
                             })
 
