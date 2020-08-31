@@ -92,7 +92,7 @@ var AuthenticationController = require('./controllers/authentication'),
     DepartamentoController = require('./controllers/departamento'),
     MarketgrupoController = require('./controllers/marketgrupo'),
     SubcategoriaController = require('./controllers/asociadoventa/subcategoria'),
-
+    SucursalController = require('./controllers/asociadoventa/sucursal'),
     ConveniocalusacController = require('./controllers/calusac/conveniocalusac'),
     ConveniocalusacdController = require('./controllers/calusac/conveniocalusacd'),
     Conveniocalusacd2Controller = require('./controllers/calusac/conveniocalusacd2'),
@@ -183,6 +183,7 @@ module.exports = function(app){
         imagesslRoutes = express.Router(),
         imagessl2Routes = express.Router(),
         conferenciaRoutes = express.Router(),
+        sucursalRoutes = express.Router(),
         dcatalogoRoutes = express.Router(),
         suscriptorsaldoRoutes = express.Router(),
         moduloRoutes = express.Router(),
@@ -369,6 +370,7 @@ SINNNNNNNNNNNNNN AUTORIZACION
   apiRoutes.use('/asociados', asociadoRoutes);
   asociadoRoutes.get('/', requireAuth,AsociadoController.getAsociado);
   asociadoRoutes.get('/:id/:id2/:id3',requireAuth,  AsociadoController.getAsociado);
+  asociadoRoutes.get('/:id/:id2/:id3/:id4',requireAuth,  AsociadoController.getAsociado);
   asociadoRoutes.get('/:id',requireAuth,  AsociadoController.getAsociado);
   asociadoRoutes.post('/:recordID',requireAuth,  AsociadoController.creaAsociado2s);
   asociadoRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  AsociadoController.deleteAsociado);
@@ -392,7 +394,13 @@ ubicacionentregaRoutes.post('/:recordID',requireAuth,  UbicacionentregaControlle
 ubicacionentregaRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  UbicacionentregaController.deleteUbicacionentrega);
 
 
-
+apiRoutes.use('/sucursals', sucursalRoutes);
+sucursalRoutes.get('/', requireAuth,SucursalController.getSucursal);
+sucursalRoutes.get('/:id/:id2/:id3',requireAuth,  SucursalController.getSucursal);
+sucursalRoutes.get('/:id/:id2/:id3/:id4',requireAuth,  SucursalController.getSucursal);
+sucursalRoutes.get('/:id',requireAuth,  SucursalController.getSucursal);
+sucursalRoutes.post('/:recordID',requireAuth,  SucursalController.creaSucursal2s);
+sucursalRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  SucursalController.deleteSucursal);
 
 
 //-----------------------------------USER PERFIL----------------------------------
