@@ -115,6 +115,30 @@ console.log(todo200)
  
 }
 
+
+
+
+function getNextSequenceValue2aaa(req,res,cant,codf){
+
+           console.log(codf + ' '+ cant)
+            Facplan3.findById({_id:codf}, function (err, todo)  {
+                if (err) {  res.send(err);  }
+                else
+                { 
+                    console.log(todo)
+                     todo.asignados        	=		cant   	;
+                    
+                    todo.save(function (err, todo){
+                        if (err)     {  console.log(err.message)   }
+                      
+                    });
+                }
+            });
+
+
+}
+
+
 exports.getAsignacalusac = function(req, res, next){
     if(req.params.id6)
     {
@@ -125,6 +149,41 @@ exports.getAsignacalusac = function(req, res, next){
     { 
       
         switch(req.params.id3) {
+            case 'componesaloncalusac':
+
+                Asignacalusac.aggregate([
+                    { $match: {estadoacta : "Grabación",
+                estadopago:'Asignación exitosa' }
+                },
+                    { 
+                        "$group" : {
+                            "_id" : {
+                                "idplanifica" : "$idplanifica"
+                            }, 
+                            "COUNT(*)" : {
+                                "$sum" : 1
+                            }
+                        }
+                    }, 
+                    { 
+                        "$project" : {
+                            "idplanifica" : "$_id.idplanifica", 
+                            "cantidad" : "$COUNT(*)", 
+                            "_id" :0
+                        }
+                    }
+                ]).exec(function(err, todos) {
+    
+                    for(var i = 0; i < todos.length;i++){     
+                        getNextSequenceValue2aaa(req,res,todos[i].cantidad,todos[i].idplanifica);
+    
+    
+                          }
+                  res.json(todos); 
+                });
+    
+
+            break;
             case 'nivelcalusac':
                       var arrt=req.params.id2.split('°')
 console.log({ identificador:req.params.id , "codigoidioma" : arrt[0],codigocurso:arrt[1]})
@@ -1337,7 +1396,9 @@ console.log(req.body);
                 var match = {
                     $match : {
                         filterThisDoc : 1,
-                        'idtipounidad.id' : todo.idtipounidad.id   ,'idunidadacademica.id':todo.idunidadacademica.id ,'idperiodo.id':todo.idperiodo.id 
+                        'idtipounidad.id' : todo.idtipounidad.id   
+                        ,'idunidadacademica.id':todo.idunidadacademica.id 
+                        ,'idperiodo.id':todo.idperiodo.id 
                         ,idnivel:todo.nivel,
                             idjornada:todo.jornada,
                             idhorario:req.body.horario,
