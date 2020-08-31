@@ -138,7 +138,7 @@ console.log(result10a)
                     {
                        
 
-                        Asignacalusac.find({idplanifica:req.params.id2}).populate('ididioma').exec( function (err, result10) {
+                        Asignacalusac.find({idplanifica:req.params.id2,  estadoacta: { $nin: [ 'Final' ] } }).populate('ididioma').exec( function (err, result10) {
                             if (err) {
                                 console.error(err);
                             }
