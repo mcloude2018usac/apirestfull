@@ -5,6 +5,26 @@ var Image = require('../../models/image2');
 var functool = require('../../controllers/funcionesnode');
 
 exports.getAsociado = function(req, res, next){
+    if(req.params.id4)
+    { 
+        
+        if(req.params.id2=='todos')
+        { 
+            Asociado.find({idempresa:req.params.id3,usuarionew:req.params.id4}).sort({'_id': -1}).exec(function(err, todos) {
+                if (err){  res.send(err);  }
+                 res.json(todos);
+             });
+        }
+        else
+        {
+            Asociado.find({idempresa:req.params.id3,estado:req.params.id2,usuarionew:req.params.id4}).sort({'_id': -1}).exec(function(err, todos) {
+                if (err){  res.send(err);  }
+                 res.json(todos);
+             });
+        }
+    }
+    else
+    {
     if(req.params.id3)
     {   
             if(req.params.id2=='todos')
@@ -30,7 +50,7 @@ exports.getAsociado = function(req, res, next){
             else
             {  res.status(500).send('NO EXISTE REGISTRO');      }
         });
-    }
+    }}
 }
 exports.deleteAsociado = function(req, res, next){
     Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina Asociado '});
