@@ -98,6 +98,7 @@ exports.register = function(req, res, next){
             password: password,
             role: req.body.role,
             idempresa:req.body.idempresa,
+            idasociado:req.body.idasociado,
             nombre        	: req.body.nombre        	,
             cui 	: req.body.cui 	,
             foto 	: req.body.foto 	,
@@ -126,6 +127,8 @@ exports.register = function(req, res, next){
             if(err){
                 return next(err);
             }
+
+
  
             var userInfo = setUserInfo(user);
  
@@ -160,7 +163,7 @@ exports.registera = function(req, res, next){
     }
     Bitacora.create(bitacora);
     var password2= generator.generate({
-        length: 8,
+        length: 4,
         numbers: true
     });   
 
@@ -181,13 +184,14 @@ exports.registera = function(req, res, next){
             return res.status(500).send('Esta direccion de correo electronico o Identificador ya esta en uso');
         }
  
-        var password3='' + password2+'123@'
-
+        var password3='' + password2+'@'
+console.log('passswo'+password3)
         var user = new User({
             email: email,
             password: password3,
             role: req.body.role,
             idempresa:req.body.idempresa,
+            idasociado:req.body.idasociado,
             nombre        	: req.body.nombre        	,
             cui 	: req.body.cui 	,
             foto 	: req.body.foto 	,
@@ -217,7 +221,12 @@ exports.registera = function(req, res, next){
                 return next(err);
             }
  
-            var userInfo = setUserInfo(user);
+            var userInfo = setUserInfo({           _id: user._id,
+                email: user.email,
+                role: user.role,
+                password:password3,
+                estadoemail:user.estadoemail,
+                idempresa:user.idempresa});
  
             res.status(201).json({
                 token: 'JWT ' + generateToken(userInfo),
@@ -290,7 +299,7 @@ exports.register3 = function(req, res, next){
             return next(err);
         }
         var password2= generator.generate({
-            length: 8,
+            length: 4,
             numbers: true
         });   
 
@@ -298,7 +307,7 @@ exports.register3 = function(req, res, next){
 if(user)
 {
   //  var password2= user._id;
-        user.password='' + password2+'123@'
+        user.password='' + password2+'@'
         user.save(function(err){
  
             if(err){
@@ -351,7 +360,7 @@ exports.register4 = function(req, res, next){
                 if(user)
                 {
                 //  var password2= user._id;
-                        user.password='' + password2+'123@'
+                        user.password='' + password2+'@'
                         user.save(function(err){
                 
                             if(err){
@@ -359,7 +368,7 @@ exports.register4 = function(req, res, next){
                             }
                 
                         
-                            res.json( password2+'123@');    
+                            res.json( password2+'@');    
                 
                         });
                 

@@ -6,6 +6,8 @@ var Personalhis = require('../models/suscriptorhis');
 var Bitacora = require('../models/bitacora');
 var Tiposuscriptor = require('../models/tipo_suscriptor');
 var Entradasdpi = require('../models/entradasdpi');
+var Image = require('../models/image2');
+var functool = require('../controllers/funcionesnode');
 
 function roundxx(value, decimals) {
     //parseFloat(Math.round(num3 * 100) / 100).toFixed(2);
@@ -424,6 +426,24 @@ exports.getPersonal = function(req, res, next){
             else{
   console.log(req.params)   
                 switch(req.params.id2) {
+                    case 'empresatodoasociado':
+                      
+                        if(req.params.email==='todos')
+                        {
+                            Personal.find({idempresa:req.params.id3,idasociado:req.params.id4},function(err, todos) {
+                                if (err){  res.send(err);  }
+                                    res.json(todos);
+                                });
+                        }
+                        else
+                        {
+                            Personal.find({idempresa:req.params.id3,estado:req.params.email,idasociado:req.params.id4},function(err, todos) {
+                                if (err){  res.send(err);  }
+                                    res.json(todos);
+                                });
+                        }
+                      
+                         break;
                     case 'pagineo':  
                     console.log('entrassssssssssssssss')
                        
@@ -977,7 +997,7 @@ console.log('crea')
                          res.json(todos);
                      });
                      break;
-     
+                   
             }
         
         
@@ -986,7 +1006,14 @@ console.log('crea')
 }
 exports.deletePersonal = function(req, res, next){
     Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina Usuario '});
+
+
+
+
     Personal.findByIdAndRemove({ _id: req.params.recordID  }, function(err, todo) {
+        var arra1 = functool.getImagesruta (todo.foto);
+        if(arra1!==''  &&   arra1!=='5f146aa48caa41db981e6830'){Image.findByIdAndRemove({_id:arra1 }, function(err, todo) {});}
+    
         res.json(todo);
     });
 }

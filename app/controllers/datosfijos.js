@@ -740,6 +740,7 @@ break;
                                                                                                                                                                 "APP" : idempresa, 
                                                                                                                                                                 "accesoestado" : "", 
                                                                                                                                                                 "accesohora" : "", 
+                                                                                                                                                                "idasociado" : "", 
                                                                                                                                                                 "controlacceso" : "", 
                                                                                                                                                                 "carnecalusac" : "", 
                                                                                                                                                                 "createdAt" : ("2019-10-09T16:35:33.769+0000"), 
