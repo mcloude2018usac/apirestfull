@@ -55,7 +55,7 @@ exports.getEvento = function(req, res, next){
 
                 if(req.params.id3=='todosbuscaactivo' )
                 {
-                    /*
+                    
 
 if(req.params.id)
 {
@@ -63,9 +63,9 @@ if(req.params.id)
 {
                 Evento.findById({_id:req.params.id}).select({idempresa:1,unidad:1,nombre:1,foto:1,ubicacion:1,fecha:1,nomax:1,impresion:1,_id:1}).exec(function(err, todos) {
                  
-                    if (err){  res.status(422).send({estado:'Hubo un error en el sistema , por favor intente mas tarde'});  }
+                    if (err){  res.status(422).send({estado:'Hubo un error en el sistema , por favor intente mas tarde'}); return; }
                    
-                    if(todos.length==0     ) {  res.status(422).send({estado:'No existe evento'});  }
+                    if(todos.length==0     ) {  res.status(422).send({estado:'No existe evento'}); return; }
                     else
                     { 
                         
@@ -112,7 +112,7 @@ if(req.params.id)
                             }
                             else
                             {
-                                res.status(422).send({estado:'Cupo de evento lleno'});
+                                res.status(422).send({estado:'Cupo de evento lleno'});return;
     
                             }
 
@@ -122,7 +122,7 @@ if(req.params.id)
                     }
                     else
                     {
-                        res.status(422).send({estado:'Evento Inactivo'});
+                        res.status(422).send({estado:'Evento Inactivo'});return;
 
                     }
 
@@ -145,7 +145,7 @@ if(req.params.id)
                     res.status(422).send({estado:'El evento ya no se encuentra activo'});
 
                 }
-            */
+            
             }
 
             }
