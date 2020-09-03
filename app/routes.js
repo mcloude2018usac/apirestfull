@@ -490,6 +490,7 @@ apiRoutes.use('/estudiantepcb', estudiantepcbRoutes);
 estudiantepcbRoutes.get('/', requireAuth, EstudiantepcbController.getEstudiantepcb);
 estudiantepcbRoutes.get('/:codigo', EstudiantepcbController.getEstudiantepcb);
 estudiantepcbRoutes.get('/:codigo/:id2', EstudiantepcbController.getEstudiantepcb2);
+estudiantepcbRoutes.get('/:codigo/:id2/:id3', EstudiantepcbController.getEstudiantepcb2);
 estudiantepcbRoutes.post('/:recordID', requireAuth, EstudiantepcbController.creaEstudiantepcb);
 
 apiRoutes.use('/formulariousrs', formulariousrRoutes);
@@ -1408,7 +1409,7 @@ asignaubicacionRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',require
 //-----------------------------------ASIGNA PCB
 apiRoutes.use('/asignapcbs', asignapcbRoutes);
 asignapcbRoutes.get('/',requireAuth, AsignapcbController.getAsignapcb);
-asignapcbRoutes.get('/:id',requireAuth,  AsignapcbController.getAsignapcb);
+asignapcbRoutes.get('/:id',  AsignapcbController.getAsignapcb);
 asignapcbRoutes.get('/:id/:id2',requireAuth,  AsignapcbController.getAsignapcb);
 asignapcbRoutes.get('/:id/:id2/:id3', AsignapcbController.getAsignapcb);
 asignapcbRoutes.post('/:recordID', requireAuth, AsignapcbController.creaAsignapcb2s);
