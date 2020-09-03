@@ -992,10 +992,22 @@ console.log('crea')
      
                 case 'empresatodo':
                     console.log(req.params);
-                    Personal.find({idempresa:req.params.id3,estado:req.params.email},function(err, todos) {
-                     if (err){  res.send(err);  }
-                         res.json(todos);
-                     });
+                    if(req.params.email==='todos')
+                    {
+                        Personal.find({idempresa:req.params.id3},function(err, todos) {
+                            if (err){  res.send(err);  }
+                                res.json(todos);
+                            });
+
+                    }
+                    else
+                    {
+                        Personal.find({idempresa:req.params.id3,estado:req.params.email},function(err, todos) {
+                            if (err){  res.send(err);  }
+                                res.json(todos);
+                            });
+                    }
+        
                      break;
                    
             }

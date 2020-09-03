@@ -1,8 +1,34 @@
 
 var Estudiantepcb =  require('../models/estudiantepcb');
+var Asignapcb = require('../models/asignapcb');
 
 
 exports.getEstudiantepcb = function(req, res, next){
+    if(req.params.id3)
+    {
+        console.log('entraaaaaaaaaaaaa')
+        console.log({_id:req.params.codigo})
+        Asignapcb.findById({_id:req.params.codigo}).then(todos => {
+            Estudiantepcb.find({ORIENTACION:todos[0].ORIENTACION}).then(todos2 => {
+                   
+       
+                res.json(todos2);  
+            
+            
+          
+            })
+            .catch(err => {
+                res.status(422).send(err.message);  
+            })
+
+    })
+    .catch(err => {
+        res.status(422).send(err.message);  
+    })
+
+    }
+    else
+    {
     if(req.params.codigo)
     { 
 
@@ -22,8 +48,7 @@ exports.getEstudiantepcb = function(req, res, next){
 
   
     }
-    else
-    {
+   
 
     }
     
@@ -32,6 +57,32 @@ exports.getEstudiantepcb = function(req, res, next){
 }
 //para las impresiones
 exports.getEstudiantepcb2 = function(req, res, next){
+    if(req.params.id3)
+    {
+      
+        Asignapcb.findById({_id:req.params.codigo}).then(todos => {
+            console.log(todos)
+            console.log({ORIENTACION:todos.no_orientacion})
+            Estudiantepcb.find({ORIENTACION:todos.no_orientacion}).then(todos2 => {
+                   
+       console.log(todos2)
+                res.json(todos2);  
+            
+            
+          
+            })
+            .catch(err => {
+                res.status(422).send(err.message);  
+            })
+
+    })
+    .catch(err => {
+        res.status(422).send(err.message);  
+    })
+
+    }
+    else
+    {
     if(req.params.codigo)
     { 
       
@@ -60,7 +111,7 @@ exports.getEstudiantepcb2 = function(req, res, next){
     else
     {
 
-    }
+    }}
     
     
  

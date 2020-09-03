@@ -77,12 +77,16 @@ exports.register = function(req, res, next){
 
 
 //email: email
+console.log({idempresa:empresa,  $or : [
+    { $and : [ { email : req.body.email }] },
+    { $and : [ {cui : req.body.cui } ] }]});
 
     User.findOne({idempresa:empresa,  $or : [
         { $and : [ { email : req.body.email }] },
         { $and : [ {cui : req.body.cui } ] }]
 }, function(err, existingUser){
  
+    console.log(existingUser)
         if(err){
             return next(err);
         }

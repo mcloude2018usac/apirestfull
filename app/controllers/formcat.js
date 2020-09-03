@@ -126,7 +126,7 @@ exports.deleteFormcat = function(req, res, next){
    
     Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina categoria de formulario '});
     Formcat.findByIdAndRemove({ _id: req.params.recordID }, function(err, todo) {
-        res.json({id:todo.id,nombre:todo.nombre});
+        res.json({_id:todo._id,nombre:todo.nombre});
     });
 }
 
