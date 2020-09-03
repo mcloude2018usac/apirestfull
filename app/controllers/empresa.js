@@ -330,7 +330,7 @@ else{
                         user.save(function(err, user){                        if(err){                        return next(err);                        }
 
                         var user = new User({
-                            "email" : req.body.email, 
+                            "email" : "admin" + String(req.body.nombrecorto).toLowerCase()	+'@gmail.com', 
                             "password" : 'admin'+'123', 
                             "role" : "admin" + String(req.body.nombre).toLowerCase()	, 
                             "idempresa" : idempresa, 

@@ -1327,6 +1327,54 @@ console.log('TERMINA')
                 });
 
                 break;
+                case 'eventogeneralmes2':
+                        Evento.find({  "unidad" : "CURSOSLIBRES",mes:{"$ne":'na'}}).sort({_id : -1}).exec(function(err, todos) {
+                                if (err){  res.send(err); console.log(err)  }
+                               
+                        Participa.aggregate( [
+                                { 
+                                    "$group" : {
+                                        "_id" : {
+                                            "idevento" : "$idevento"
+                                           
+                                        }, 
+                                        "cantidad" : {
+                                            "$sum" : 1
+                                        }
+                                    }
+                                }, 
+                                { 
+                                    "$project" : {
+                                        "idevento" : "$_id.idevento", 
+                                        "cantidad" : "$cantidad", 
+                                        "_id" :0
+                                    }
+                                }
+                            ]).exec(function(err, todos2) {
+        
+                                var myData = [];
+                                for (var i = 0; i < todos.length; i++) {
+                                        for (var i2 = 0; i2 < todos2.length; i2++) {
+                                                if(todos[i]._id==todos2[i2].idevento)
+                                                { 
+                                                       
+                                                        myData.push({ nombre:todos[i].nombre,cantidad:todos2[i2].cantidad,estado:todos[i].impresion
+                                                        ,grupo:todos[i].tipoevento,id:todos[i]._id,mes:todos[i].mes});
+                                                }
+                                                
+                                        }
+                                       
+                                }
+                
+                
+                             
+        
+                                res.json(myData);   
+        
+                            });
+                        });
+        
+                        break;
                 case 'cursoslibresgeneral':
                         Area_evento.find({}).sort({_id : -1}).exec(function(err, todos) {
                                 if (err){  res.send(err); console.log(err)  }
@@ -1362,7 +1410,7 @@ console.log('TERMINA')
                                                 if(todos[i]._id==todos2[i2].idevento)
                                                 {
                                                         myData.push({nombre:todos[i].nombre,cantidad:todos2[i2].cantidad,tipoevento:todos[i].idtipoevento
-                                                        ,area:todos[i].idarea});
+                                                        ,area:todos[i].idarea,mes:todos[i].mes});
                                                 }
                                                 
                                         }

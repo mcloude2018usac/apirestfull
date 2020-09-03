@@ -4,6 +4,8 @@ var Asignapcb = require('../models/asignapcb');
 
 
 exports.getEstudiantepcb = function(req, res, next){
+
+    console.log(req.params)
     if(req.params.id3)
     {
         console.log('entraaaaaaaaaaaaa')
@@ -29,6 +31,7 @@ exports.getEstudiantepcb = function(req, res, next){
     }
     else
     {
+        console.log('entraaa')
     if(req.params.codigo)
     { 
 
@@ -57,6 +60,7 @@ exports.getEstudiantepcb = function(req, res, next){
 }
 //para las impresiones
 exports.getEstudiantepcb2 = function(req, res, next){
+    console.log('entraaa')
     if(req.params.id3)
     {
       
@@ -89,7 +93,7 @@ exports.getEstudiantepcb2 = function(req, res, next){
 
         console.log({ORIENTACION:req.params.codigo})
         Estudiantepcb.find({ORIENTACION:req.params.codigo}).then(todos => {
-                   
+                   console.log(todos)
             if(todos.length==0)
             {
                 res.status(422).send('Resultados no existen');  
