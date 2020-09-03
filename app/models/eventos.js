@@ -13,6 +13,7 @@ var mongoose =require("mongoose");
         fecha: { type : String },
         unidad: { type : String },
         plantilla: { type : String },
+       mes: { type : String },
         tipoevento: { type : String },
         usuarionew	: { type : String },      usuarioup	: { type : String },
         date 		: { type: Date, default: Date.now }}, {
