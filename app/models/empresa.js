@@ -10,6 +10,7 @@ var mongoose =require("mongoose");
         pinicio   		: { type : String},
         telefonos   		: { type : String},
         moneda   		: { type : String},
+        pmodulo   		: { type :Array},
         estado	: { type : String, required : true },
         titulo0	: { type : String, required : true },
         foto0	: { type : String },
