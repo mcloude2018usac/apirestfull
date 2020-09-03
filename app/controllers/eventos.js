@@ -55,6 +55,7 @@ exports.getEvento = function(req, res, next){
 
                 if(req.params.id3=='todosbuscaactivo' )
                 {
+                    /*
 
 if(req.params.id)
 {
@@ -144,7 +145,7 @@ if(req.params.id)
                     res.status(422).send({estado:'El evento ya no se encuentra activo'});
 
                 }
-            
+            */
             }
 
             }
