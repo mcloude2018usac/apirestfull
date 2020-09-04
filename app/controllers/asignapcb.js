@@ -81,7 +81,19 @@ function getNextSequenceValue2aaa(req,res,cant,codf){
 exports.getAsignapcb = function(req, res, next){
     if(req.params.id3)
     { 
+        if(req.params.id3=='existepcb')
+        {
+          //  http://127.0.0.1:9090/api/asignapcbs/1/1/notacalusac
+          Asignapcb.find({no_orientacion:req.params.id2}).exec(function(err, todos) {
 
+               
+              res.json(todos); 
+            });
+
+
+        }
+        else
+        {
         if(req.params.id3=='notacalusac')
         {
           //  http://127.0.0.1:9090/api/asignapcbs/1/1/notacalusac
@@ -324,7 +336,7 @@ exports.getAsignapcb = function(req, res, next){
                                 
                             });
                         }
-    }}}}}}
+    }}}}}}}
     else
     {
     if(req.params.id)
