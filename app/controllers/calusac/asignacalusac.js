@@ -150,6 +150,7 @@ exports.getAsignacalusac = function(req, res, next){
       
         switch(req.params.id3) {
             case 'componesaloncalusac':
+                //http://127.0.0.1:9090/api/asignacalusacs/1/2/componesaloncalusac
 
                 Asignacalusac.aggregate([
                     { $match: {estadoacta : "Grabación",
@@ -1034,14 +1035,15 @@ if(req.params.recordID!=='crea')
                 todo100.save(function (err, todo200){
                     if (err)     {  console.log(err.message)   }
             
-
+                    console.log(todo200)
                     Calusacnotas.find({ idasigna: req.params.recordID }, function (err, todo100)  {
+                        console.log('entraaa1')
                         if (err) {  res.send(err);  }
                         else
                         { 
                             if(todo100.length<=0)
                             {
-
+                                console.log('entraaa2222')
                                 res.json(todo200);
                             }
                             else
@@ -1058,7 +1060,7 @@ if(req.params.recordID!=='crea')
                                                 todo1000.carnecalusac        	=		req.body.carnecalusac   	;
                                                 todo1000.identificador        	=		req.body.identificador   	;
                         
-                                    todo100.save(function (err, todo200){
+                                    todo1000.save(function (err, todo200){
                                         if (err)     {  console.log(err.message)   }
                                         res.json(todo200);
 
