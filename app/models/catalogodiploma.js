@@ -13,6 +13,7 @@ var mongoose =require("mongoose");
         cuerpo2   		: { type : String},
         cuerpo3   		: { type : String},
         cuerpo4   		: { type : String},
+        unidad   		: { type : String},
         estado	: { type : String, required : true }
         ,usuarionew	: { type : String },      usuarioup	: { type : String }
        
