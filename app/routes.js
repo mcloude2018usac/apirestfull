@@ -9,6 +9,9 @@ var AuthenticationController = require('./controllers/authentication'),
     formulariousrdController = require('./controllers/formulariousrd'),
     UbicacionentregaController = require('./controllers/asociadoventa/ubicacionentrega'),
     ImagesslController = require('./controllers/imagessl'),
+    frmactividadController = require('./controllers/asociadoventa/frmactividad'),
+    frmactorController = require('./controllers/asociadoventa/frmactor'),
+    frmactorgrupoController = require('./controllers/asociadoventa/frmactorgrupo'),
     GeneradorController = require('./controllers/generafrm/generador'),
    SiifController = require('./controllers/siif'),
    ProductoController = require('./controllers/asociadoventa/producto'),
@@ -179,7 +182,9 @@ module.exports = function(app){
         participa4Routes = express.Router(),
         imageRoutes = express.Router(),
         image2Routes = express.Router(),
+        frmactorRoutes = express.Router(),
         image2frmRoutes = express.Router(),
+        frmactorgrupoRoutes = express.Router(),
         imagesslRoutes = express.Router(),
         imagessl2Routes = express.Router(),
         conferenciaRoutes = express.Router(),
@@ -194,6 +199,7 @@ module.exports = function(app){
         tiposuscriptorRoutes = express.Router(),
         area_eventoRoutes = express.Router(),
         ubicacionentregaRoutes = express.Router(),
+        frmactividadRoutes = express.Router(),
         tarifaRoutes = express.Router(),
         userpostRoutes = express.Router(),
         nuevosalonRoutes = express.Router(),
@@ -338,6 +344,14 @@ SINNNNNNNNNNNNNN AUTORIZACION
   image2Routes.post('/:recordID/:recordID2',  Image2Controller.createImage2);
   image2Routes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  Image2Controller.deleteImage2);
 
+  apiRoutes.use('/frmactors', frmactorRoutes);
+frmactorRoutes.get('/', requireAuth,frmactorController.getfrmactor);
+frmactorRoutes.get('/:id/:id2/:id3',requireAuth,  frmactorController.getfrmactor);
+frmactorRoutes.get('/:id/:id2/:id3/:id4',requireAuth,  frmactorController.getfrmactor);
+frmactorRoutes.get('/:id',requireAuth,  frmactorController.getfrmactor);
+frmactorRoutes.post('/:recordID',requireAuth,  frmactorController.creafrmactor2s);
+frmactorRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  frmactorController.deletefrmactor);
+
 
 
   apiRoutes.use('/Image2frms', image2frmRoutes);
@@ -345,6 +359,15 @@ SINNNNNNNNNNNNNN AUTORIZACION
   image2frmRoutes.post('/:recordID',requireAuth,  Image2frmController.createImage2frm);
   image2frmRoutes.post('/:recordID/:recordID2',  Image2frmController.createImage2frm);
   image2frmRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  Image2frmController.deleteImage2frm);
+
+
+  apiRoutes.use('/frmactividads', frmactividadRoutes);
+frmactividadRoutes.get('/', requireAuth,frmactividadController.getfrmactividad);
+frmactividadRoutes.get('/:id/:id2/:id3',requireAuth,  frmactividadController.getfrmactividad);
+frmactividadRoutes.get('/:id/:id2/:id3/:id4',requireAuth,  frmactividadController.getfrmactividad);
+frmactividadRoutes.get('/:id',requireAuth,  frmactividadController.getfrmactividad);
+frmactividadRoutes.post('/:recordID',requireAuth,  frmactividadController.creafrmactividad2s);
+frmactividadRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  frmactividadController.deletefrmactividad);
 
 
   apiRoutes.use('/Imagessls', imagesslRoutes);
@@ -403,6 +426,16 @@ sucursalRoutes.post('/:recordID',requireAuth,  SucursalController.creaSucursal2s
 sucursalRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  SucursalController.deleteSucursal);
 
 
+
+apiRoutes.use('/frmactorgrupos', frmactorgrupoRoutes);
+frmactorgrupoRoutes.get('/', requireAuth,frmactorgrupoController.getfrmactorgrupo);
+frmactorgrupoRoutes.get('/:id/:id2/:id3',requireAuth,  frmactorgrupoController.getfrmactorgrupo);
+frmactorgrupoRoutes.get('/:id/:id2/:id3/:id4',requireAuth,  frmactorgrupoController.getfrmactorgrupo);
+frmactorgrupoRoutes.get('/:id',requireAuth,  frmactorgrupoController.getfrmactorgrupo);
+frmactorgrupoRoutes.post('/:recordID',requireAuth,  frmactorgrupoController.creafrmactorgrupo2s);
+frmactorgrupoRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  frmactorgrupoController.deletefrmactorgrupo);
+
+
 //-----------------------------------USER PERFIL----------------------------------
 
 
@@ -415,6 +448,8 @@ apiRoutes.use('/formulariousrds', formulariousrdRoutes);
 formulariousrdRoutes.get('/', requireAuth,formulariousrdController.getformulariousrd);
 formulariousrdRoutes.get('/:id/:id2/:id3',requireAuth,  formulariousrdController.getformulariousrd);
 formulariousrdRoutes.get('/:id/:id2/:id3/:id4',requireAuth,  formulariousrdController.getformulariousrd);
+formulariousrdRoutes.get('/:id/:id2/:id3/:id4/:id5',requireAuth,  formulariousrdController.getformulariousrd);
+
 formulariousrdRoutes.get('/:id',requireAuth,  formulariousrdController.getformulariousrd);
 formulariousrdRoutes.post('/:recordID',requireAuth,  formulariousrdController.creaformulariousrd2s);
 formulariousrdRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  formulariousrdController.deleteformulariousrd);
@@ -622,6 +657,7 @@ apiRoutes.use('/catusuarios', catusuarioRoutes);
 catusuarioRoutes.get('/',requireAuth, CatusuarioController.getCatusuario);
 catusuarioRoutes.get('/:id',requireAuth,  CatusuarioController.getCatusuario);
 catusuarioRoutes.get('/:id/:id2/:id3',requireAuth, CatusuarioController.getCatusuario);
+catusuarioRoutes.get('/:id/:id2/:id3/:id4',requireAuth, CatusuarioController.getCatusuario);
 catusuarioRoutes.post('/:recordID', requireAuth, CatusuarioController.creaCatusuario2s);
 catusuarioRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth, CatusuarioController.deleteCatusuario);
 
@@ -948,7 +984,7 @@ catalogoRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  
 //-----------------------------------Ccatalogodiploma
 apiRoutes.use('/catalogodiplomas', catalogodiplomaRoutes);
 catalogodiplomaRoutes.get('/',requireAuth, CatalogodiplomaController.getCatalogodiploma);
-catalogodiplomaRoutes.get('/:id/:id2',requireAuth,  CatalogodiplomaController.getCatalogodiploma);
+catalogodiplomaRoutes.get('/:id/:id2', CatalogodiplomaController.getCatalogodiploma);
 catalogodiplomaRoutes.get('/:id/:id2/:id3', CatalogodiplomaController.getCatalogodiploma);
 catalogodiplomaRoutes.post('/:recordID',requireAuth,  CatalogodiplomaController.creaCatalogodiploma2s);
 catalogodiplomaRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  CatalogodiplomaController.deleteCatalogodiploma);
