@@ -19,7 +19,7 @@ exports.getCatalogodiploma = function(req, res, next){
         }
         else
         {
-            Catalogodiploma.find({_id:req.params.id},function(err, todos) {
+            Catalogodiploma.find({idempresa:req.params.id,unidad:req.params.id2},function(err, todos) {
                 if (err){ res.send(err); }
                
                  res.json(todos); 
