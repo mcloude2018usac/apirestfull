@@ -4,7 +4,7 @@ var Bitacora = require('../models/bitacora');
 exports.getCatalogodiploma = function(req, res, next){
 
     if(req.params.id3)
-    {  Catalogodiploma.find({_id:req.params.id},function(err, todos) {
+    {  Catalogodiploma.find({_id:req.params.id,unidad:req.params.id3},function(err, todos) {
         if (err){ res.send(err); }
        
          res.json(todos); 
@@ -42,7 +42,7 @@ if(req.params.recordID!=='crea')
         {  
             todo.nombre        	=	req.body.nombre        	||	todo.nombre        	;
             todo.foto        	=	req.body.foto        	||	todo.foto        	;
-
+          
             todo.encabezado1        	=	req.body.encabezado1        	||	todo.encabezado1        	;
             todo.encabezado2        	=	req.body.encabezado2        	||	todo.encabezado2        	;
             todo.encabezado3        	=	req.body.encabezado3        	||	todo.encabezado3        	;
@@ -86,6 +86,7 @@ else{
                 cuerpo2        	: req.body.cuerpo2        	,
                 cuerpo3        	: req.body.cuerpo3        	,
                 cuerpo4        	: req.body.cuerpo4        	,
+                unidad: req.body.unidad        	,
 
                 usuarionew:req.body.bitacora.email,
                 estado 	: req.body.estado 	
