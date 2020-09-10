@@ -4,12 +4,43 @@ var Bitacora = require('../models/bitacora');
 exports.getCatalogodiploma = function(req, res, next){
 
     if(req.params.id3)
-    {  Catalogodiploma.find({_id:req.params.id,unidad:req.params.id3},function(err, todos) {
-        if (err){ res.send(err); }
-       
-         res.json(todos); 
-        
-    });}
+    { 
+        if(req.params.id3==='todos')
+    {
+
+        if(req.params.id2==='ADMINISTRADOR')
+        {
+            Catalogodiploma.find({idempresa:req.params.id},function(err, todos) {
+                if (err){ res.send(err); }
+               
+                 res.json(todos); 
+                
+            });
+        }
+        else
+        {
+            Catalogodiploma.find({_id:req.params.id},function(err, todos) {
+                if (err){ res.send(err); }
+               
+                 res.json(todos); 
+                
+            });
+
+        }
+
+    
+    }
+    else
+    {
+        Catalogodiploma.find({_id:req.params.id},function(err, todos) {
+            if (err){ res.send(err); }
+           
+             res.json(todos); 
+            
+        });
+
+    }
+       }
     else
     {
     Catalogodiploma.find({idempresa:req.params.id,unidad:req.params.id2},function(err, todos) {
