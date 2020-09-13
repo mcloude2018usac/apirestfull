@@ -73,7 +73,7 @@ exports.getEstudiantepcb2 = function(req, res, next){
                 res.json(todos2);  
             
             
-          
+             
             })
             .catch(err => {
                 res.status(422).send(err.message);  
