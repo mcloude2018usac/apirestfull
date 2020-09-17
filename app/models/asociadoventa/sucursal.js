@@ -13,6 +13,8 @@
   foto0		: { type : String },  
   logo1		: { type : String, required : true },  
   estado		: { type : String, required : true },  
+  usuarionew		: { type : String },  
+  usuarioup		: { type : String },  
     }, {
     timestamps: true
     }); 
