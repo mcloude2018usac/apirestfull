@@ -12,6 +12,7 @@ var mongoose =require("mongoose");
         nodispositivo 		: { type : String},
         noprov 		: { type : String},
         idempresa0   		: { type : String},
+        idasociado   		: { type : String},
         idsuscriptor2 :  		{    id	: { type : String, required : true, ref: 'User' },   nombre	: { type : String, required : true }        },
         tipo2   		: { type : String},
         tokentrama   		: { type : String},

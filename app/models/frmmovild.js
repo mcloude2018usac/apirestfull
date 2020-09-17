@@ -24,7 +24,8 @@ var mongoose =require("mongoose");
         blike:  { type : String },
         fondoetiqueta:  { type : String },
         coloretiqueta:  { type : String },
-
+        idformdetalle:  	{    id	: { type : String },   nombre	: { type : String }        },
+        
         
         rangomin:	 { type : Number },
         rangomax:	 { type : Number },
