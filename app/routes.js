@@ -3,8 +3,12 @@ var AuthenticationController = require('./controllers/authentication'),
     DatosfijosController = require('./controllers/datosfijos'),
     ImageController = require('./controllers/image'),
     Image2Controller = require('./controllers/image2'),
+    tarjetacreditoController = require('./controllers/asociadoventa/tarjetacredito'),
     Image2frmController = require('./controllers/image2frm'),
     Imagessl2Controller = require('./controllers/imagessl2'),
+    tarifaController = require('./controllers/asociadoventa/tarifa'),
+    dispositivoController = require('./controllers/asociadoventa/dispositivo'),
+
     formulariousrController = require('./controllers/formulariousr'),
     formulariousrdController = require('./controllers/formulariousrd'),
     UbicacionentregaController = require('./controllers/asociadoventa/ubicacionentrega'),
@@ -59,7 +63,7 @@ var AuthenticationController = require('./controllers/authentication'),
     GaleriaimgController = require('./controllers/galeriaimg'),
     TiposuscriptorController = require('./controllers/tipo_suscriptor'),
     Area_eventoController = require('./controllers/aread_evento'),
-    TarifaController = require('./controllers/tarifa'),
+
     OrganigramaController = require('./controllers/organigrama'),
     UserpostController = require('./controllers/user_post'),
     NuevosalonController = require('./controllers/nuevosalon'),
@@ -73,7 +77,7 @@ var AuthenticationController = require('./controllers/authentication'),
     EstudiantecarneController = require('./controllers/estudiantecarne'),
     EstudiantevtController = require('./controllers/estudiantevt'),
     EstudiantepcbController = require('./controllers/estudiantepcb'),
-    DtarifaController = require('./controllers/dtarifa'),
+
     AfiliadoController = require('./controllers/afiliado'),
     ComprasaldoController = require('./controllers/comprasaldo'),
     EntradasdpiController = require('./controllers/entradasdpi'),
@@ -90,6 +94,7 @@ var AuthenticationController = require('./controllers/authentication'),
     AsignapcbController = require('./controllers/asignapcb'),
     AsignacalusacController = require('./controllers/calusac/asignacalusac'),
     AsignaubicacionController = require('./controllers/calusac/asignaubicacion'),
+    AsignaubicacionaController = require('./controllers/calusac/asignaubicaciona'),
     TipounidadController = require('./controllers/tipounidad'),
     Tipounidad2Controller = require('./controllers/tipounidad2'),
     DepartamentoController = require('./controllers/departamento'),
@@ -122,13 +127,15 @@ var AuthenticationController = require('./controllers/authentication'),
     Unidadtipocurso3Controller = require('./controllers/calusac/unidadtipocurso3'),
 
     Periodousac3Controller = require('./controllers/calusac/unidadperiodo3'),
+    Periodousac3aController = require('./controllers/calusac/unidadperiodo3a'),
     Periodousac4Controller = require('./controllers/calusac/unidadperiodo4'),
     Edificiosalon3Controller = require('./controllers/calusac/unidadedificiosalon3'),
     Unidadplan3Controller = require('./controllers/calusac/unidadplan3'),
     Unidadplan4Controller = require('./controllers/calusac/unidadplan4'),
+    Unidadplan4aController = require('./controllers/calusac/unidadplan4a'),
     Facultadmateria3Controller = require('./controllers/calusac/facultadmateria3'),
     Unidadacademica3Controller = require('./controllers/calusac/unidadacademica3'),
-
+    dtarifaController = require('./controllers/asociadoventa/dtarifa'),
 
       
     Edificiousac2Controller = require('./controllers/unidadedificio2'),
@@ -179,7 +186,9 @@ module.exports = function(app){
         mailmarketRoutes = express.Router(),
         reglamentoRoutes = express.Router(),
         reglamentodRoutes = express.Router(),
+        tarjetacreditoRoutes = express.Router(),
         participa4Routes = express.Router(),
+        tarifaRoutes = express.Router(),
         imageRoutes = express.Router(),
         image2Routes = express.Router(),
         frmactorRoutes = express.Router(),
@@ -192,6 +201,7 @@ module.exports = function(app){
         dcatalogoRoutes = express.Router(),
         suscriptorsaldoRoutes = express.Router(),
         moduloRoutes = express.Router(),
+        dispositivoRoutes = express.Router(),
         catalogoRoutes = express.Router(),
         catalogodiplomaRoutes = express.Router(),
         compratokenRoutes = express.Router(),
@@ -200,7 +210,7 @@ module.exports = function(app){
         area_eventoRoutes = express.Router(),
         ubicacionentregaRoutes = express.Router(),
         frmactividadRoutes = express.Router(),
-        tarifaRoutes = express.Router(),
+        dtarifaRoutes = express.Router(),
         userpostRoutes = express.Router(),
         nuevosalonRoutes = express.Router(),
         categoriaRoutes = express.Router(),
@@ -266,6 +276,7 @@ module.exports = function(app){
         asignapcbRoutes = express.Router(),
         asignacalusacRoutes = express.Router(),
         asignaubicacionRoutes = express.Router(),
+        asignaubicacionaRoutes = express.Router(),
         tipounidadRoutes = express.Router(),
         tipounidad2Routes = express.Router(),
         autorizaRoutes = express.Router(),
@@ -295,11 +306,13 @@ module.exports = function(app){
         unidadtipocurso3Routes = express.Router(),
         periodousac4Routes = express.Router(),
         periodousac3Routes = express.Router(),
+        periodousac3aRoutes = express.Router(),
         unidadacademica3Routes = express.Router(),
         facultadmateria3Routes = express.Router(),
         edificiosalon3Routes = express.Router(),
         unidadplan3Routes = express.Router(),
         unidadplan4Routes = express.Router(),
+        unidadplan4aRoutes = express.Router(),
         edificiousac2Routes = express.Router(),
         periodousac2Routes = express.Router(),
         unidadacademica2Routes = express.Router(),
@@ -369,12 +382,36 @@ frmactividadRoutes.get('/:id',requireAuth,  frmactividadController.getfrmactivid
 frmactividadRoutes.post('/:recordID',requireAuth,  frmactividadController.creafrmactividad2s);
 frmactividadRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  frmactividadController.deletefrmactividad);
 
+apiRoutes.use('/dispositivos', dispositivoRoutes);
+dispositivoRoutes.get('/', requireAuth,dispositivoController.getdispositivo);
+dispositivoRoutes.get('/:id/:id2/:id3',requireAuth,  dispositivoController.getdispositivo);
+dispositivoRoutes.get('/:id/:id2/:id3/:id4',requireAuth,  dispositivoController.getdispositivo);
+dispositivoRoutes.get('/:id',requireAuth,  dispositivoController.getdispositivo);
+dispositivoRoutes.post('/:recordID',requireAuth,  dispositivoController.creadispositivo2s);
+dispositivoRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  dispositivoController.deletedispositivo);
+
+
+apiRoutes.use('/tarjetacreditos', tarjetacreditoRoutes);
+tarjetacreditoRoutes.get('/', requireAuth,tarjetacreditoController.gettarjetacredito);
+tarjetacreditoRoutes.get('/:id/:id2/:id3',requireAuth,  tarjetacreditoController.gettarjetacredito);
+tarjetacreditoRoutes.get('/:id/:id2/:id3/:id4',requireAuth,  tarjetacreditoController.gettarjetacredito);
+tarjetacreditoRoutes.get('/:id',requireAuth,  tarjetacreditoController.gettarjetacredito);
+tarjetacreditoRoutes.post('/:recordID',requireAuth,  tarjetacreditoController.creatarjetacredito2s);
+tarjetacreditoRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  tarjetacreditoController.deletetarjetacredito);
 
   apiRoutes.use('/Imagessls', imagesslRoutes);
   imagesslRoutes.get('/:id',  ImagesslController.getImagessls);
   imagesslRoutes.post('/:recordID',requireAuth,  ImagesslController.createImagessl);
   imagesslRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  ImagesslController.deleteImagessl);
 
+
+  apiRoutes.use('/dtarifas', dtarifaRoutes);
+dtarifaRoutes.get('/', requireAuth,dtarifaController.getdtarifa);
+dtarifaRoutes.get('/:id/:id2/:id3',requireAuth,  dtarifaController.getdtarifa);
+dtarifaRoutes.get('/:id/:id2/:id3/:id4',requireAuth,  dtarifaController.getdtarifa);
+dtarifaRoutes.get('/:id',requireAuth,  dtarifaController.getdtarifa);
+dtarifaRoutes.post('/:recordID',requireAuth,  dtarifaController.creadtarifa2s);
+dtarifaRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  dtarifaController.deletedtarifa);
 
   apiRoutes.use('/Imagessl2s', imagessl2Routes);
   imagessl2Routes.get('/:id',  Imagessl2Controller.getImagessl2s);
@@ -691,16 +728,6 @@ mailmarketRoutes.get('/:id/:id2/:id3/:id4',requireAuth, MailmarketController.get
 mailmarketRoutes.get('/:id/:id2/:id3', MailmarketController.getMarketemail);//help del menu  sin login
 mailmarketRoutes.post('/:id',requireAuth, MailmarketController.creaMarketemail2s);
 mailmarketRoutes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  MailmarketController.deleteMarketemail);
-
-
-
-//-----------------------------------DTARIFA
-apiRoutes.use('/dtarifas', dtarifaRoutes);
-dtarifaRoutes.get('/:id/:id2', requireAuth, DtarifaController.getDtarifa);
-dtarifaRoutes.get('/:id/:id2/:id3', requireAuth, DtarifaController.getDtarifa);
-dtarifaRoutes.post('/:id',requireAuth,  DtarifaController.creaDtarifa2s);
-dtarifaRoutes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  DtarifaController.deleteDtarifa);
-
 
 
 
@@ -1027,14 +1054,13 @@ dcatalogoRoutes.get('/:id/:id2/:id3/:id4', DcatalogoController.getDcatalogo);
 dcatalogoRoutes.post('/:id',requireAuth,  DcatalogoController.creaDcatalogo2s);
 dcatalogoRoutes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  DcatalogoController.deleteDcatalogo);
 
-
-//-----------------------------------TARIFA
 apiRoutes.use('/tarifas', tarifaRoutes);
-tarifaRoutes.get('/:id',requireAuth, TarifaController.getTarifa);
-tarifaRoutes.get('/:id/:id2',requireAuth,  TarifaController.getTarifa);
-tarifaRoutes.post('/:recordID',requireAuth,  TarifaController.creaTarifa2s);
-tarifaRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado', requireAuth, TarifaController.deleteTarifa);
-
+tarifaRoutes.get('/', requireAuth,tarifaController.gettarifa);
+tarifaRoutes.get('/:id/:id2/:id3',requireAuth,  tarifaController.gettarifa);
+tarifaRoutes.get('/:id/:id2/:id3/:id4',requireAuth,  tarifaController.gettarifa);
+tarifaRoutes.get('/:id',requireAuth,  tarifaController.gettarifa);
+tarifaRoutes.post('/:recordID',requireAuth,  tarifaController.creatarifa2s);
+tarifaRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  tarifaController.deletetarifa);
 
 apiRoutes.use('/area_eventos', area_eventoRoutes);
 area_eventoRoutes.get('/:id', Area_eventoController.getArea_evento);
@@ -1237,6 +1263,13 @@ periodousac3Routes.get('/:id2/:id3/:id4',requireAuth,  Periodousac3Controller.ge
 periodousac3Routes.post('/:recordID', requireAuth, Periodousac3Controller.creaUnidadperiodo32s);
 periodousac3Routes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  Periodousac3Controller.deleteUnidadperiodo3);
 
+apiRoutes.use('/unidadperiodo3as',periodousac3aRoutes);
+periodousac3aRoutes.get('/:id',requireAuth,  Periodousac3aController.getUnidadperiodo3a);
+periodousac3aRoutes.get('/:id2/:id3',requireAuth,  Periodousac3aController.getUnidadperiodo3a);
+periodousac3aRoutes.get('/:id2/:id3/:id4',requireAuth,  Periodousac3aController.getUnidadperiodo3a);
+periodousac3aRoutes.post('/:recordID', requireAuth, Periodousac3aController.creaUnidadperiodo3a2s);
+periodousac3aRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  Periodousac3aController.deleteUnidadperiodo3a);
+
 //-----------------------------------unidad profesores 3
 apiRoutes.use('/unidadprofesor3s',unidadprofesor3Routes);
 unidadprofesor3Routes.get('/:id',requireAuth,  Unidadprofesor3Controller.getUnidadprofesor3);
@@ -1340,6 +1373,13 @@ unidadplan4Routes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth
 
 
 
+apiRoutes.use('/unidadplan4as',unidadplan4aRoutes);
+unidadplan4aRoutes.get('/:id',requireAuth,  Unidadplan4aController.getUnidadplan4a);
+unidadplan4aRoutes.get('/:id2/:id3/:id4',requireAuth,  Unidadplan4aController.getUnidadplan4a);
+unidadplan4aRoutes.get('/:id/:id2/:id3/:id4/:id5',requireAuth,  Unidadplan4aController.getUnidadplan4a);
+unidadplan4aRoutes.post('/:recordID',requireAuth,  Unidadplan4aController.creaUnidadplan4a2s);
+unidadplan4aRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  Unidadplan4aController.deleteUnidadplan4a);
+
 
 //-----------------------------------FACULTAD MATERIA3
 apiRoutes.use('/facultadmateria3s', facultadmateria3Routes);
@@ -1440,6 +1480,16 @@ asignaubicacionRoutes.get('/:id/:id2/:id3/:id4/:id5/:id6/:id7', AsignaubicacionC
 asignaubicacionRoutes.post('/:recordID', requireAuth, AsignaubicacionController.creaAsignaubicacion2s);
 asignaubicacionRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  AsignaubicacionController.deleteAsignaubicacion);
 
+
+//-----------------------------------ASIGNA CALUSAC UBICACION
+apiRoutes.use('/asignaubicacionas', asignaubicacionaRoutes);
+asignaubicacionaRoutes.get('/',requireAuth, AsignaubicacionaController.getAsignaubicaciona);
+asignaubicacionaRoutes.get('/:id',requireAuth,  AsignaubicacionaController.getAsignaubicaciona);
+asignaubicacionaRoutes.get('/:id/:id2',requireAuth,  AsignaubicacionaController.getAsignaubicaciona);
+asignaubicacionaRoutes.get('/:id/:id2/:id3', AsignaubicacionaController.getAsignaubicaciona);
+asignaubicacionaRoutes.get('/:id/:id2/:id3/:id4/:id5/:id6/:id7', AsignaubicacionaController.getAsignaubicaciona);
+asignaubicacionaRoutes.post('/:recordID', requireAuth, AsignaubicacionaController.creaAsignaubicaciona2s);
+asignaubicacionaRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  AsignaubicacionaController.deleteAsignaubicaciona);
 
 
 //-----------------------------------ASIGNA PCB
@@ -1574,7 +1624,7 @@ datosfijosRoutes.get('/:id/:id2/:id3/:id4/:id5/:id6',  DatosfijosController.getC
 apiRoutes.use('/datosfijos2', datosfijo2sRoutes);
 datosfijo2sRoutes.get('/:id',requireAuth, Datosfijo2sController.getCombofijo);
 datosfijo2sRoutes.get('/:id/:id2', Datosfijo2sController.getCombofijo);
-datosfijo2sRoutes.get('/:id/:id2/:id3',requireAuth,  Datosfijo2sController.getCombofijo);
+datosfijo2sRoutes.get('/:id/:id2/:id3',  Datosfijo2sController.getCombofijo);
 datosfijo2sRoutes.get('/:id/:id2/:id3/:id4',requireAuth,  Datosfijo2sController.getCombofijo);
 
 
