@@ -1,5 +1,5 @@
 var mongoose =require("mongoose");
-    var Unidadperiodo3Schema 		=	new  mongoose.Schema({
+    var Unidadperiodo3aSchema 		=	new  mongoose.Schema({
         idtipounidad   		: { type : String, required : true },
         idunidadacademica   		: { type : String, required : true },
         codigo	: { type : String, required : true }
@@ -13,5 +13,5 @@ var mongoose =require("mongoose");
 
       
 
-module.exports = mongoose.model('Unidadperiodo3', Unidadperiodo3Schema);
+module.exports = mongoose.model('Unidadperiodo3a', Unidadperiodo3aSchema);
 

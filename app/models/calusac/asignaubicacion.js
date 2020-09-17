@@ -36,6 +36,7 @@ var AsignaubicacionSchema = new mongoose.Schema({
     n3: {    id	: { type : String },   nombre	: { type : String }        },
     estadopago:{        type: String},
     monto:{        type: String},
+    foto:{        type: String},
     fechasiif:{        type: String},
     rubro:{        type: String},
     idplanifica:{        type: String},
@@ -47,6 +48,11 @@ var AsignaubicacionSchema = new mongoose.Schema({
     iddia: {  type: Date  },
     idprofesor: {  type: String },
     idprofesornombre: {  type: String },
+    estadooperador:{        type: String},
+    userasignado:{        type: String},
+    userasignadoemail:{        type: String},
+    userejecutaemail:{        type: String},
+    ultrechazo:{        type: String},
     date 		: { type: Date, default: Date.now }
     ,usuarionew	: { type : String },      usuarioup	: { type : String },tipoasignacion	: { type : String }
  

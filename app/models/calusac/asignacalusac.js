@@ -66,8 +66,9 @@ var AsignacalusacSchema = new mongoose.Schema({
      userasignado:{        type: String},
      userasignadoemail:{        type: String},
      userejecutaemail:{        type: String},
-     noorden:{        type: String},
      ultrechazo:{        type: String},
+     noorden:{        type: String},
+
      n1	: { type : Number},
      n2	: { type : Number},
      n3	: { type : Number},
