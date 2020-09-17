@@ -13,7 +13,7 @@ function onlyUnique(value, index, self) {
 
 exports.getCatusuario = function(req, res, next){
     
-    if(req.params.id3)
+    if(req.params.id4)
     {  
         if(req.params.id2=='categoria')
         {
@@ -25,35 +25,57 @@ exports.getCatusuario = function(req, res, next){
         }
         else
         {
-            if(req.params.id2=='categoriausrmovil')
+            if(req.params.id2=='categoriausrmoviladmin')
             {
                
-                formulariousrd.find({idempresa:req.params.id}).populate('idpapa').populate('idformulario').exec(function(err, todos) {
+                formulariousrd.find({idempresa:req.params.id,tipo:req.params.id4}).populate('idpapa').populate('idformulario').exec(function(err, todos) {
                     if (err){  res.send(err);  }
                     var myData = [];
                   
-                    for(var i = 0; i < todos.length;i++){
-                        if(todos[i].idpapa.idusuario==req.params.id3)
-                        {
-                            myData.push({_id:todos[i].idformulario._id,nombre:todos[i].idformulario.categoria });
-                        }
-                       
+                    var uniqueNames = [];
+                    for(var i = 0; i< todos.length; i++){    
+                        if(uniqueNames.indexOf(todos[i].idformulario.categoria) === -1){
+                            uniqueNames.push(todos[i].idformulario.categoria);        
+                        }        
                     }
-    
 
-                    var unique =   myData.filter( onlyUnique );
+                    for(var i = 0; i< uniqueNames.length; i++){    
+                        myData.push({nombre: uniqueNames[i] });
+                      
+                    }
 
-                    var myData2 = [];
-                    var arre=['yellow','red','green','blue','purple','violet','turquoise']    
-                    var j=0;
-                                 for(var i = 0; i < unique.length;i++){
-                                    if(j==6){j=0;} 
-                                     myData2.push({_id:unique[i]._id,nombre:unique[i].nombre,"colort":"box " + arre[j] });
-                                     j=j+1;
-                                 }
-                 
-                                  res.json(myData2);
+                    res.json(myData);
 
+
+                  
+
+
+                 });
+        
+            }
+            else
+            {
+            if(req.params.id2=='categoriausrmovil')
+            {
+               
+                formulariousrd.find({idempresa:req.params.id,tipo:req.params.id4}).populate('idpapa').populate('idformulario').exec(function(err, todos) {
+                    if (err){  res.send(err);  }
+                    var myData = [];
+                  
+                         
+                    var uniqueNames = [];
+                    for(var i = 0; i< todos.length; i++){    
+                        if(uniqueNames.indexOf(todos[i].idformulario.categoria) === -1){
+                            uniqueNames.push(todos[i].idformulario.categoria);        
+                        }        
+                    }
+
+                    for(var i = 0; i< uniqueNames.length; i++){    
+                        myData.push({nombre: uniqueNames[i] });
+                      
+                    }
+
+                    res.json(myData);
 
                   
 
@@ -165,7 +187,7 @@ exports.getCatusuario = function(req, res, next){
                     
                 }
                 
-            }}
+            }}}
 
         }
     }

@@ -298,7 +298,8 @@ exports.getPersonal = function(req, res, next){
             if(req.params.id9)
             {
 
-
+console.log('entra')
+console.log(req.params)
                 Personalsaldo.find({idempresa:req.params.id8,  $or : [
                     { $and : [ { 'idsuscriptor.dpi' : req.params.email }] },
                     { $and : [ { codigo1 : req.params.email }] },
@@ -309,20 +310,19 @@ exports.getPersonal = function(req, res, next){
             }).populate('idsuscriptor.id').exec(function(err, todos) {
                     if (err){ res.send(err); }
                     var myData = [];
+                    console.log(todos)
 
                     if(todos.length>0)   { 
-                        Tiposuscriptor.findById({ _id:todos[0].idsuscriptor.id.tiposuscriptor,idempresa:req.params.id8}, function (err, todo15)  {
-                            if (err) {  res.send(err);  }
-                            else
-                            { 
+                   //     Tiposuscriptor.findById({ _id:todos[0].idsuscriptor.id.tiposuscriptor,idempresa:req.params.id8}, function (err, todo15)  {
+                 //           if (err) {  res.send(err);  }                            else                            { 
 
-                                req.params.id3=todo15.cobroparqueos;
+                           //     req.params.id3=todo15.cobroparqueos;
                         Personalsaldo.findById({ _id:todos[0]._id }, function (err, todo)  {
                     if (err) {  res.send(err);  }
                     else
                     { 
                         
-                        
+                        console.log(todos[0].saldoactual  + ' ' +Number(req.params.id3))
                         if(Number(todos[0].saldoactual)>=Number(req.params.id3))
                         {
 
@@ -337,13 +337,14 @@ exports.getPersonal = function(req, res, next){
                                     id:todos[0]._id,saldoactual:roundxx(Number(todos[0].saldoactual)-Number(req.params.id3) ,2)});
                     //  {    id	:todo[0].idsuscriptor.id ,   nombre	: todo[0].idsuscriptor.nombre       },
                     var cservicio='Cobro por servicio';
-                                    if(req.params.id5=='cobro_parqueo')
+                                    if(req.params.id5=='cobro_parqueo' || req.params.id5=='cobro_servicio_bus' )
                                     {
                                             cservicio='Cobro de servicio ,acceso (-)'
                                     }
+                                    var  arr= req.params.id2.split('°')
                                     Personalhis.create({idsuscriptor :{    id	:todos[0].idsuscriptor.id._id, 
                                         nombre	: todos[0].idsuscriptor.id.nombre       },
-                                        tipo   		: cservicio,descripcion   		: 'Cobro por servicio utilizado', 
+                                        tipo   		: cservicio,descripcion   		: 'Pago por servicio utilizado', 
                                         saldoanterior   		: roundxx(todos[0].saldoactual,2),
                                             monto   		: roundxx(Number(req.params.id3),2),                                  
                                             saldoactual   		: roundxx(Number(todos[0].saldoactual)-Number(req.params.id3) ,2),
@@ -352,6 +353,16 @@ exports.getPersonal = function(req, res, next){
                                             noprov 		: req.params.id7,
                                             idempresa:req.params.id8,
                                             idempresa0:req.params.id9,
+                                            idasociado: arr[2],
+                                            grupo1:'PAGO',
+                                            grupo2:'COBRA',
+                                            tipo2:'Cobro de trasporte (+)',
+                                            descripcion2:'Operación de cobro de trasporte (+)',
+                                            idsuscriptor2 : {
+                                                "id" :  arr[0],
+                                                "nombre" : arr[1]
+                                            },
+                                            
                                             
                                 codigo1: req.params.email, usuarionew	: req.params.id4,      usuarioup	: req.params.id4});
 
@@ -374,9 +385,7 @@ exports.getPersonal = function(req, res, next){
                     
                     }
                 });
-            }
-
-            });
+           // }            });
                         
                     
                     }
@@ -430,14 +439,14 @@ exports.getPersonal = function(req, res, next){
                       
                         if(req.params.email==='todos')
                         {
-                            Personal.find({idempresa:req.params.id3,idasociado:req.params.id4},function(err, todos) {
+                            Personal.find({idempresa:req.params.id3,idsucursal:req.params.id4},function(err, todos) {
                                 if (err){  res.send(err);  }
                                     res.json(todos);
                                 });
                         }
                         else
                         {
-                            Personal.find({idempresa:req.params.id3,estado:req.params.email,idasociado:req.params.id4},function(err, todos) {
+                            Personal.find({idempresa:req.params.id3,estado:req.params.email,idsucursal:req.params.id4},function(err, todos) {
                                 if (err){  res.send(err);  }
                                     res.json(todos);
                                 });
@@ -633,12 +642,14 @@ console.log('crea')
                             Personal.find({cui:req.params.email,idempresa:req.params.id3}).populate('unidad').populate('tiposuscriptor')
                             .exec(function(err, todos) {
                                 if (err){ res.send(err); }
+
+                                console.log(todos)
                             
                                 if(todos.length>0)   {   
 
                                     Personalsaldo.find({'idsuscriptor.id':todos[0]._id},function(err, todos4) {
                                         if (err){ res.send(err); }
-
+console.log(todos4)
                                     
                                         var myData = [];
                                                 if(todos4.length>0)   {  
@@ -798,7 +809,7 @@ console.log('crea')
                         {
                             Personal.find({email:req.params.email,idempresa:req.params.id3}).populate('idempresa')
                             .then(todos => {
-                          console.log(todos)
+                       
                                 res.json(todos);  
                                 
                             })
@@ -990,6 +1001,16 @@ console.log('crea')
                      });
                      break;
      
+                     case 'personasactivas':
+                     
+                        Personal.find({idempresa:req.params.id3,estado:req.params.email},function(err, todos) {
+                         if (err){  res.send(err);  }
+                        
+                             res.json(todos);
+                         });
+                         break;
+         
+                     
                 case 'empresatodo':
                     console.log(req.params);
                     if(req.params.email==='todos')
@@ -1111,6 +1132,7 @@ if(req.params.recordID)
             todo.nov    	=	req.body.nov    	||	todo.nov    	;
             todo.unidad    	=	req.body.unidad    	||	todo.unidad    	;
             todo.interno    	=	req.body.interno    	||	todo.interno    	;
+            todo.accesohora    	=	req.body.accesohora    	||	todo.accesohora    	;
             todo.estadoemail=req.body.estadoemail  || todo.estadoemail;
             todo.codpersonal    	=	req.body.codpersonal    	||	todo.codpersonal    	;
             todo.fechanac    	=	req.body.fechanac    	||	todo.fechanac    	;

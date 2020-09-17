@@ -5,6 +5,15 @@ var Bitacora = require('../models/bitacora');
 exports.getFrmmovild = function(req, res, next){
     if(req.params.id4)
     {   
+        if(req.params.id2=='camposdetalle')
+        { 
+            Frmmovild.find({idempresa:req.params.id3,idmovil:req.params.id,  "type" : "Formulario detalle"}).sort({'_id': -1}).exec(function(err, todos) {
+                if (err){  res.send(err);  }
+                 res.json(todos);
+             });
+        }
+        else
+        {
             if(req.params.id2=='todos')
             { 
                 Frmmovild.find({idempresa:req.params.id3,idmovil:req.params.id4}).sort({'_id': -1}).exec(function(err, todos) {
@@ -18,7 +27,7 @@ exports.getFrmmovild = function(req, res, next){
                     if (err){  res.send(err);  }
                      res.json(todos);
                  });
-            }
+            }}
     }
     else
     {
@@ -107,6 +116,10 @@ if(req.params.id!=='crea')
             todo.coloretiqueta=  req.body.coloretiqueta        	||	todo.coloretiqueta       ,
 
             todo.categoria   			=	req.body.categoria        	||	todo.categoria        	;
+           
+            todo.idformdetalle   		 ={id:req.body.idformdetalle.id,nombre:req.body.idformdetalle.nombre   }   	;
+
+            
             todo.combofijo   			=	req.body.combofijo        	   	;
             todo.rangomin=req.body.rangomin        	||	todo.rangomin        	;
             todo.rangomax=req.body.rangomax        	||	todo.rangomax        	;
@@ -164,7 +177,7 @@ else{
                         blike:  'false',
                         fondoetiqueta: 'cbg117',
                         coloretiqueta:  'cco104',
-
+                        idformdetalle:'',
                         position : req.body.position 	,
                         labelsizefondt :'14'	,
                         categoria:'' ,
@@ -200,8 +213,10 @@ exports.creaFrmmovild3s = function(req, res, next){
    
  
     Bitacora.create(req.body.bitacora);
+    console.log( req.params)
 if(req.params.id!=='crea')
 { 
+   
     Frmmovild.findById({ _id: req.params.id }, function (err, todo)  {
         if (err) {  res.send(err);  }
         else
@@ -269,6 +284,7 @@ else{
                         labelsizefondt :'14'	,
                         categoria:'' ,
                         combofijo:'true',
+                        idformdetalle:'',
                     
                         rangomin:	 0,
                         rangomax:	 1000,

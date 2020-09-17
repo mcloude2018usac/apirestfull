@@ -16,6 +16,7 @@ var tt='';
 switch(value) {
     case 'Alfanumerico':  tt='String';   break;
    case 'Numerico':  tt='Number';   break;
+   case 'Moneda':  tt='Number';   break;
    case 'TextArea':   tt='String';   break;
    case 'Etiqueta':   tt='String';   break;
    case 'Rango':   tt='Number';   break;
@@ -36,6 +37,7 @@ switch(value) {
     switch(value) {
         case 'Alfanumerico':  tt='text';   break;
        case 'Numerico':  tt='Number';   break;
+       case 'Moneda':  tt='moneda';   break;
        case 'TextArea':   tt='textarea';   break;
        case 'Etiqueta':   tt='label';   break;
        case 'Lista de valores':   tt='select';   break;
@@ -198,6 +200,16 @@ function dafiltrocad(todos,id2,id3) {
             cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
         }
         break;
+        case 'Moneda':  
+        if(todos[i].name==id2){cadxx='"' +id2 + '":' +id3 + ''  }
+        if(todos[i].required=='false')
+        {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+        }
+        else
+        {
+            cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+        }
+        break;
         case 'TextArea':  
         if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
         else{cadxx='"' +id2 + '": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
@@ -248,6 +260,134 @@ exports.getFrmmovil = function(req, res, next){
     if(req.params.id4)
     {
         
+        if(req.params.id4=='frmmovilp')
+        {
+
+
+            if(req.params.id2=='todos')
+            { 
+                Frmmovil.find({idempresa:req.params.id3,tipo:req.params.id}).sort({'_id': -1}).exec(function(err, todos) {
+                    if (err){  res.send(err);  }
+                  
+                     res.json(todos);
+                 });
+            }
+            else
+            {  
+                Frmmovil.find({idempresa:req.params.id3,estado:req.params.id2,tipo:req.params.id}).sort({'_id': -1}).exec(function(err, todos) {
+                    if (err){  res.send(err);  }
+                  
+                     res.json(todos);
+                 });
+
+            }
+          
+
+        }
+        else
+        {
+        if(req.params.id4=='categoriausradmin')
+        {
+
+
+
+            var arr=(req.params.id3).split('°')
+
+
+            if(arr[1]=='todos')
+            {
+                formulariousr.find({idempresa:arr[0]})
+                .exec(function(err, todosb) {
+                              if (err){  res.send(err);  }
+
+                              if(todosb.length<=0)
+                              {
+                                res.json(todosb);
+                              }
+                              else
+                              {
+                                  
+                formulariousrd.find({idpapa:todosb[0]._id,idempresa:arr[0]}).
+                populate('idpapa').populate('idformulario').exec(function(err, todos) {
+                     if (err){  res.send(err);  }
+                  
+                    var myData = [];
+                    
+                    for(var i = 0; i < todos.length;i++){
+                        if(todos[i].idformulario.categoria==req.params.id)
+                        {
+                            myData.push({_id:todos[i].idformulario._id,categoria:todos[i].idformulario.categoria,nombre:todos[i].idformulario.nombre,foto:todos[i].idformulario.foto,estado:todos[i].idformulario.estado });
+                        }
+                        
+                    }
+                   
+        
+                    var unique =   myData.filter( onlyUnique );
+                  
+                    var myData2 = [];
+                                  for(var i = 0; i < unique.length;i++){
+                                     myData2.push({_id:unique[i]._id,categoria:todos[i].idformulario.categoria,nombre:unique[i].nombre,foto:unique[i].foto,estado:unique[i].estado});
+                                 }
+               
+                                  res.json(myData2);
+                                });
+                              }
+
+
+                            });
+            }
+            else
+            {
+
+                formulariousr.find({idempresa:arr[0], estado:arr[1]})
+                .exec(function(err, todosb) {
+                      if (err){  res.send(err);  }
+
+                      
+                      if(todosb.length<=0)
+                      {
+                        res.json(todosb);
+                      }
+                      else
+                      {
+                                      
+                formulariousrd.find({idpapa:todosb[0]._id,idempresa:arr[0]}).
+                populate('idpapa').populate('idformulario').exec(function(err, todos) {
+                  
+
+                    if (err){  res.send(err);  }
+                    var myData = [];
+                    
+                    for(var i = 0; i < todos.length;i++){
+                        if(todos[i].idformulario.categoria==req.params.id)
+                        {
+                            myData.push({_id:todos[i].idformulario._id,categoria:todos[i].idformulario.categoria,nombre:todos[i].idformulario.nombre,foto:todos[i].idformulario.foto,estado:todos[i].idformulario.estado });
+                        }
+                        
+                    }
+                   
+        
+                    var unique =   myData.filter( onlyUnique );
+                  
+                    var myData2 = [];
+                                  for(var i = 0; i < unique.length;i++){
+                                     myData2.push({_id:unique[i]._id,categoria:todos[i].idformulario.categoria,nombre:unique[i].nombre,foto:unique[i].foto,estado:unique[i].estado});
+                                 }
+               
+                                  res.json(myData2);
+                                });
+                      }
+
+
+          
+                            });
+            }
+
+        
+
+        }
+        else
+        {
 
         if(req.params.id4=='categoriausr')
         {
@@ -393,7 +533,7 @@ exports.getFrmmovil = function(req, res, next){
                     
             }
         });
-    }
+    }}}
 
     }
     else{
@@ -439,6 +579,63 @@ exports.getFrmmovil = function(req, res, next){
                         
                     });
               break;
+              case 'categoriagrupo':
+                Frmmovil.aggregate(  [
+                    { 
+                        "$match" : { 
+                            tipo:req.params.id3,idempresa:req.params.id
+                        }
+                    }, 
+                    { 
+                        "$group" : { 
+                            "_id" : { 
+            
+                                "categoria" : "$categoria"
+                            }
+                        }
+                    }, 
+                    { 
+                        "$project" : { 
+                            "categoria" : "$_id.categoria",
+                          
+                            "_id" : 0
+                        }
+                    }
+                ]).exec(function(err, todos) {
+                    if (err){  res.send(err);  }
+                    res.json(todos);
+                    
+                });
+          break;
+          case 'categoriagrupo2':
+              var arr=(req.params.id3).split('°')
+            Frmmovil.aggregate(  [
+                { 
+                    "$match" : { 
+                        tipo:arr[0],idempresa:req.params.id,
+                    }
+                }, 
+                { 
+                    "$group" : { 
+                        "_id" : { 
+        
+                            "categoria" : "$categoria"
+                        }
+                    }
+                }, 
+                { 
+                    "$project" : { 
+                        "categoria" : "$_id.categoria",
+                      
+                        "_id" : 0
+                    }
+                }
+            ]).exec(function(err, todos) {
+                if (err){  res.send(err);  }
+                res.json(todos);
+                
+            });
+      break;
               case 'categoria':
                
               Frmmovil.find({categoria:req.params.id,idempresa:req.params.id3},function(err, todos) {
@@ -466,8 +663,9 @@ exports.getFrmmovil = function(req, res, next){
         Frmmovild.find({idmovil:req.params.id, display : "true",idempresa:req.params.id3}).exec(function(err, todos) {
             if (err){  res.send(err);  }
             var data=[]
+          
             for(var i = 0; i < todos.length;i++){
-                if(todos[i].type!='Imagen')
+                if(todos[i].type!='Imagen' && todos[i].type!='Formulario detalle')
                 {
                     data.push({_id:todos[i].name,nombre:todos[i].title})
 
@@ -605,7 +803,7 @@ break;
                     {
 
                     
-                    Frmmovil.find({idempresa:req.params.id2}).populate('categoria').exec(function(err, todos) {
+                    Frmmovil.find({idempresa:req.params.id2}).exec(function(err, todos) {
                         if (err){  res.send(err);  }
                             res.json(todos);
                         });
@@ -710,7 +908,15 @@ if(req.params.recordID!=='crea')
                                
                                var cad3=(dafiltrocad(todos,'','')).split('°')
                                cad=cad3[0]
+                               if(req.body.idpapa)
+                               {
+                                cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                               }
+                               else
+                               {
                                 cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" }'
+                               }
+                                
                                 cad='{' + cad + '}'
                                 var jsonObject = stringToObject(cad);
                                
@@ -760,7 +966,17 @@ else{
                                  var cad=''
                                  var cad3=(dafiltrocad(todos,'','')).split('°')
                                  cad=cad3[0]
-                                cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" }'
+                                 if(req.body.idpapa)
+                                 {
+                                  cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                 }
+                                 else
+                                 {
+                                  cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" }'
+                                 }
+                                
+                                 
+                                
                                 cad='{' + cad + '}'
                                 var jsonObject = stringToObject(cad);
                                 console.log(jsonObject)
@@ -784,7 +1000,7 @@ else{
                                     //ya no le pongo esquema eso dice la solucion// pero no graba lo nuevo campo
                                     //aqui tendria que se un sabe
                                     var  frmtt= mongoose.model(namess);
-                                  
+                                    console.log(req.body.estructura)
                                     frmtt.create(req.body.estructura
                                         , function(err, todo3) {
                                         if (err){       res.status(500).send(err.message)    }
@@ -822,7 +1038,10 @@ if(req.params.recordID!=='crea')
         {   todo.idempresa       	=	req.body.idempresa        	||	todo.idempresa;   
             todo.categoria        	=	req.body.categoria        	||	todo.categoria        	;
             todo.nombre        	=	req.body.nombre        	||	todo.nombre        	;
+            todo.tipo    	=	req.body.tipo    	||	todo.tipo    	;
             todo.foto    	=	req.body.foto    	||	todo.foto    	;
+            todo.idformdetalle   		 ={id:req.body.idformdetalle.id,nombre:req.body.idformdetalle.nombre   }   	;
+
             todo.estado 	=	req.body.estado 	||	todo.estado 	;
             todo.usuarioup=req.body.bitacora.email;
             
@@ -850,9 +1069,11 @@ else{
 
                     Frmmovil.create({ 
                         idempresa      	: req.body.idempresa     	,
+                        tipo        	: req.body.tipo        	,
                         categoria        	: req.body.categoria        	,
                         nombre        	: req.body.nombre        	,
                         foto    	: req.body.foto    	,
+                        idformdetalle:   req.body.idformdetalle,
                         estado 	: req.body.estado 	,
                         usuarionew:req.body.bitacora.email
                 }

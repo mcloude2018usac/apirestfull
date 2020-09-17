@@ -68,6 +68,7 @@ var cleanName = function(str) {
 
 exports.getCombofijo = function(req, res, next){
        var sql='';
+    
        if(req.params.id4)
 
 
@@ -424,7 +425,30 @@ else
 {
 if(req.params.id3)
 {
+        console.log(req.params)
         switch(req.params.id3) {
+                case 'dtarifa':
+                        //busca el disppsitivo y se encuentra la tarifa
+                        tarifa.find({nombre:req.params.id,idempresa:req.params.id2,estado:'Activo'},function(err, todos2) {
+                            if (err){  res.send(err);  }
+            
+                       
+                            Dtarifa.find({idtarifa:todos2[0]._id,idempresa:req.params.id2},function(err, todos) {
+                                    if (err){  res.send(err);  }
+                  
+                                    var myData = [];
+                                    for(var i = 0; i < todos.length;i++){
+                                            myData.push({nombre:todos[i].nombre + ',' + todos[i].horaini+ ',' + todos[i].horafin + ',' + todos[i].monto});
+                                    }
+            
+                                    res.json(myData);
+                                                 
+            
+                        });
+                                                            
+            
+                });
+                break;
                 case 'user-rol':
         
         
@@ -834,10 +858,10 @@ else{
             tarifa.find({nombre:req.params.id2,idempresa:req.params.id3,estado:'Activo'},function(err, todos2) {
                 if (err){  res.send(err);  }
 
-             
+             console.log(todos2)
                 Dtarifa.find({idtarifa:todos2[0]._id,idempresa:req.params.id3},function(err, todos) {
                         if (err){  res.send(err);  }
-        
+        console.log(todos)
                         var myData = [];
                         for(var i = 0; i < todos.length;i++){
                                 myData.push({nombre:todos[i].nombre + ',' + todos[i].horaini+ ',' + todos[i].horafin + ',' + todos[i].monto});
