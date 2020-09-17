@@ -201,7 +201,7 @@ console.log({'idtipounidad':req.params.id, 'idunidadacademica':req.params.id2
             if (err){  res.send(err);  }
                           
             var duplicates = [];
-              
+              console.log(todos22)
             todos22.forEach(function (doc) {duplicates.push('' + doc._id + '');  });
 
             Asignacalusac.aggregate( 
@@ -626,7 +626,7 @@ console.log({'idtipounidad':req.params.id, 'idunidadacademica':req.params.id2
         }
         else
         {
-          
+          console.log({'idtipounidad.id' :req.params.id2,'idunidadacademica.id':req.params.id3,'idperiodo.id':req.params.id4})
             Unidadplan3.find({'idtipounidad.id' :req.params.id2,'idunidadacademica.id':req.params.id3,'idperiodo.id':req.params.id4})
         .populate('idnivel').populate('idjornada').populate('idhorario').populate('idprofesor').exec(function(err, todos) {
                if (err){  res.send(err);  }

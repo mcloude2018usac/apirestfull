@@ -63,6 +63,18 @@ exports.getUnidadacademica3 = function(req, res, next){
         }
         else
         {
+            if(req.params.id2=='todosactivo')
+            {   
+                Unidadacademica3.find({idtipounidad:req.params.id,estado:'Activo'}
+            ,null, {sort: {codigo: 1}})
+            .populate('ididioma').populate('idtipocurso').populate('idtipogrupo').exec(function(err, todos) {
+               if (err){  res.send(err);  }
+             
+                res.json(todos);
+            });
+            }
+            else   
+            {
         if(req.params.id2=='todos')
         {   
             Unidadacademica3.find({idtipounidad:req.params.id}
@@ -84,7 +96,7 @@ exports.getUnidadacademica3 = function(req, res, next){
                     {  res.status(500).send('NO EXISTE REGISTRO');      }
                     
                 });   
-        }
+        }}
     }
         
         

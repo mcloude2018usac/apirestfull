@@ -1,13 +1,12 @@
 
 var mailt = require('../../controllers/mail');
 
-var Asignaubicacion = require('../../models/calusac/asignaubicacion');
+var Asignaubicaciona = require('../../models/calusac/asignaubicaciona');
 var Bitacora = require('../../models/bitacora');
-var Facplan3 = require('../../models/calusac/unidadplan3');
-var Facplan4 = require('../../models/calusac/unidadplan4');
+var Facplan3 = require('../../models/calusac/unidadplan4a');
 var unidadnivel3 = require('../../models/calusac/unidadnivel3');
 var unidadidioma3 = require('../../models/calusac/unidadidioma3');
-var Operadores = require('../../models/calusac/operadoresb');
+var Operadores = require('../../models/calusac/operadoresa');
 var Asignacalusac = require('../../models/calusac/asignacalusac');
 var Calusacnota = require('../../models/calusac/calusacnota');
 var request = require('request');
@@ -95,7 +94,7 @@ function getNextSequenceValue2(myData3cc,req,res,unixx,idixx){
 
 
 
-exports.getAsignaubicacion = function(req, res, next){
+exports.getAsignaubicaciona = function(req, res, next){
     if(req.params.id7)
     { 
         if(req.params.id=='todos100aitem')
@@ -186,7 +185,7 @@ exports.getAsignaubicacion = function(req, res, next){
         {
         if(req.params.id=='todos100item')
         {
-            Asignaubicacion.find({_id:req.params.id2 }).populate('ididioma').exec(function(err, todos10) {
+            Asignaubicaciona.find({_id:req.params.id2 }).populate('ididioma').exec(function(err, todos10) {
                 if (err){ res.send(err); }
     
               
@@ -203,7 +202,7 @@ exports.getAsignaubicacion = function(req, res, next){
                 , options = { multi: true };
 
 
-                Asignaubicacion.update(conditions, update, options, function (err, result) {
+                Asignaubicaciona.update(conditions, update, options, function (err, result) {
                     if (err) {
                         console.error(err);
                     }
@@ -310,7 +309,7 @@ exports.getAsignaubicacion = function(req, res, next){
         {
         if(req.params.id=='todos100')
         {
-            Asignaubicacion.find({ididioma:req.params.id2
+            Asignaubicaciona.find({ididioma:req.params.id2
             ,'idedificio.id': req.params.id4,'idsalon.id':req.params.id5,iddia:req.params.id6,idhora:req.params.id7
         }).populate('ididioma').exec(function(err, todos10) {
                 if (err){ res.send(err); }
@@ -331,7 +330,7 @@ exports.getAsignaubicacion = function(req, res, next){
                 , options = { multi: true };
 
 
-                Asignaubicacion.update(conditions, update, options, function (err, result) {
+                Asignaubicaciona.update(conditions, update, options, function (err, result) {
                     if (err) {
                         console.error(err);
                     }
@@ -425,7 +424,7 @@ exports.getAsignaubicacion = function(req, res, next){
             {
         if(req.params.id=='todos')
         {
-            Asignaubicacion.find({ididioma:req.params.id2
+            Asignaubicaciona.find({ididioma:req.params.id2
             ,'idedificio.id': req.params.id4,'idsalon.id':req.params.id5,iddia:req.params.id6
             ,idhora:req.params.id7
         }).populate('ididioma').exec(function(err, todos10) {
@@ -437,7 +436,7 @@ exports.getAsignaubicacion = function(req, res, next){
         }
         else
         {
-            Asignaubicacion.find({'idprofesor' :req.params.id,ididioma:req.params.id2
+            Asignaubicaciona.find({'idprofesor' :req.params.id,ididioma:req.params.id2
             ,'idedificio.id': req.params.id4,'idsalon.id':req.params.id5,iddia:req.params.id6,idhora:req.params.id7
         }).populate('ididioma').exec(function(err, todos10) {
                 if (err){ res.send(err); }
@@ -456,9 +455,7 @@ exports.getAsignaubicacion = function(req, res, next){
         console.log(req.params)
         switch(req.params.id3) {
             case 'todosautorizaxid':
-                Asignaubicacion.find({userasignadoemail:req.params.id,"estadooperador" : req.params.id2}).populate('tipopago').exec(function(err, todos) {
-           
-              
+                Asignaubicaciona.find({userasignadoemail:req.params.id,"estadooperador" : req.params.id2}).populate('tipopago').exec(function(err, todos) {
                     if (err){ res.send(err); }
              
                 res.json(todos);   
@@ -471,7 +468,7 @@ exports.getAsignaubicacion = function(req, res, next){
             var  aa=(req.params.id2).split('°')
 
             console.log(aa)
-                Asignaubicacion.aggregate(   [
+                Asignaubicaciona.aggregate(   [
                     { 
                         "$match" : {
                             "idprofesor" : req.params.id, 
@@ -630,9 +627,9 @@ exports.getAsignaubicacion = function(req, res, next){
     
     case 'tipoasignado':
             
-      
+      console.log('entra')
 
-        Facplan4.aggregate(   [
+        Facplan3.aggregate(   [
            
             { 
                 "$group" : {
@@ -691,7 +688,7 @@ case 'tipoidioma':
             
       
 
-    Facplan4.aggregate(   [
+    Facplan3.aggregate(   [
        
         { 
             "$group" : {
@@ -923,7 +920,7 @@ break;
             case 'idiomasprofe':
                   console.log('entra ubicacion')
                   console.log({'idprofesor' :req.params.id})
-                    Asignaubicacion.find({'idprofesor' :req.params.id}).populate('ididioma').exec(function(err, todos10) {
+                    Asignaubicaciona.find({'idprofesor' :req.params.id}).populate('ididioma').exec(function(err, todos10) {
                         if (err){ res.send(err); }
                         var result = [];
                         const map = new Map();
@@ -941,10 +938,10 @@ console.log(result)
                             
                     });
             break;
-              case 'todosasignaubicacion':
+              case 'todosasignaubicaciona':
 
          
-                    Asignaubicacion.find({$or : [
+                    Asignaubicaciona.find({$or : [
                         { $and : [ { cui : req.params.id2 }] },
                         { $and : [ { noboletapago : req.params.id2 }] },
                         { $and : [ { correo : req.params.id2 }] },
@@ -964,7 +961,7 @@ console.log(result)
             case 'todosautoriza':
 console.log({userasignadoemail:req.params.id2   })
          
-                    Asignaubicacion.find({userasignadoemail:req.params.id2,estadooperador:req.params.id ,estadopago:{ $nin: [ 'Pendiente de pago' ]}  }).populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia').exec(function(err, todos) {
+                    Asignaubicaciona.find({userasignadoemail:req.params.id2,estadooperador:req.params.id ,estadopago:{ $nin: [ 'Pendiente de pago' ]}  }).populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia').exec(function(err, todos) {
                         if (err){ res.send(err); console.log(err) }
                  
                     res.json(todos);   
@@ -978,7 +975,7 @@ console.log({userasignadoemail:req.params.id2   })
 
 
 
-                    Asignaubicacion.find({estadopago:{ $in: [ 'Pendiente de pago' ]},     $or : [
+                    Asignaubicaciona.find({estadopago:{ $in: [ 'Pendiente de pago' ]},     $or : [
                         { $and : [ { cui : req.params.id2 }] },
                         { $and : [ { noboletapago : req.params.id2 }] },
                         { $and : [ { correo : req.params.id2 }] },
@@ -996,7 +993,7 @@ console.log({userasignadoemail:req.params.id2   })
                     });
                 break;
                       case 'todosautorizaestado':
-                    Asignaubicacion.find({estadopago:req.params.id2}).populate('tipopago').exec(function(err, todos) {
+                    Asignaubicaciona.find({estadopago:req.params.id2}).populate('tipopago').exec(function(err, todos) {
                         if (err){ res.send(err); }
                  
                     res.json(todos);   
@@ -1059,7 +1056,7 @@ console.log({userasignadoemail:req.params.id2   })
                                         }
                                         else{
                                             
-                                                Asignaubicacion.find({idestudiante:req.params.id3}).populate('idtipo').populate('ididioma').exec(function(err, todos) {
+                                                Asignaubicaciona.find({idestudiante:req.params.id3}).populate('idtipo').populate('ididioma').exec(function(err, todos) {
                                                     if (err){ res.send(err); }
                           
                                                 res.json(todos);   
@@ -1078,7 +1075,7 @@ console.log({userasignadoemail:req.params.id2   })
     {
     if(req.params.id)
     { 
-        Asignaubicacion.find({tipo:req.params.id2},function(err, todos) {
+        Asignaubicaciona.find({tipo:req.params.id2},function(err, todos) {
             if (err){ res.send(err); }
            
             if(todos.length>0)   {    res.json(todos);   }
@@ -1093,7 +1090,7 @@ console.log({userasignadoemail:req.params.id2   })
         if(req.params.id)
         {  
            
-                Asignaubicacion.find({_id:req.params.id},function(err, todos) {
+                Asignaubicaciona.find({_id:req.params.id},function(err, todos) {
                     if (err){ res.send(err); }
                    
                     if(todos.length>0)   {    res.json(todos);   }
@@ -1105,7 +1102,7 @@ console.log({userasignadoemail:req.params.id2   })
            
         }
         else
-        { Asignaubicacion.find(function(err, todos) {
+        { Asignaubicaciona.find(function(err, todos) {
                if (err){  res.send(err);  }
                 res.json(todos);
             });
@@ -1114,14 +1111,14 @@ console.log({userasignadoemail:req.params.id2   })
     }}
 }
 }
-exports.deleteAsignaubicacion = function(req, res, next){
+exports.deleteAsignaubicaciona = function(req, res, next){
    
-    Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina Asignaubicacion '});
+    Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina Asignaubicaciona '});
 /*
 
     Asignaest.remove({idasigna: req.params.recordID  }, function(err, todo) {
 
-        Asignaubicacion.findByIdAndRemove({ _id: req.params.recordID  }, function(err, todo) {
+        Asignaubicaciona.findByIdAndRemove({ _id: req.params.recordID  }, function(err, todo) {
 
             // Asignaest
      
@@ -1137,17 +1134,65 @@ exports.deleteAsignaubicacion = function(req, res, next){
 
 
 
-exports.creaAsignaubicacion2s = function(req, res, next){
+exports.creaAsignaubicaciona2s = function(req, res, next){
    
   //  res.status(404).send(' espere un momento ')    
    //  return;
 
   
 console.log(req.params)
+if(req.body.operacion=='actualizadatos')
+{ 
+
+    Asignaubicaciona.findById({ _id: req.params.recordID }, function (err, todo100)  {
+        if (err) {  res.send(err);  }
+        else
+        {
+           
+             
+                todo100.estadooperador=req.body.estadooperador,
+                todo100.estadopago= req.body.estadopago,
+                todo100.ultrechazo= req.body.ultrechazo,
+
+                todo100.nombre = req.body.nombre
+                todo100.foto1 = req.body.foto1,
+                todo100.foto2 = req.body.foto2,
+                todo100.foto3 = req.body.foto3,
+                todo100.notelefono = req.body.notelefono,
+                todo100.carneusac = req.body.carneusac,
+               
+                todo100.idestudiante = req.body.idestudiante,
+
+                todo100.idinterno = req.body.idinterno,
+                todo100.identificador = req.body.identificador,
+                todo100.identificador2 = req.body.identificador2,
+       
+                
+               
+     
+    
+                todo100.save(function (err, todo200){
+                    if (err)     {  console.log(err.message)   }
+            
+                    res.json(todo200);
+               
+                    
+                });
+
+          
+
+
+        }
+    });
+
+
+
+}
+else{
 if(req.body.operacion=='actualiza')
 { 
 
-    Asignaubicacion.findById({ _id: req.params.recordID }, function (err, todo100)  {
+    Asignaubicaciona.findById({ _id: req.params.recordID }, function (err, todo100)  {
         if (err) {  res.send(err);  }
         else
         {
@@ -1217,7 +1262,7 @@ else{
 if(req.body.operacion=='ponenota')
 { 
 
-    Asignaubicacion.findById({ _id: req.params.recordID }, function (err, todo100)  {
+    Asignaubicaciona.findById({ _id: req.params.recordID }, function (err, todo100)  {
         if (err) {  res.send(err);  }
         else
         {
@@ -1254,146 +1299,6 @@ if(req.params.recordID!=='crea')
   
 
     
-  
-        Bitacora.create(req.body.bitacora);
-        Asignaubicacion.findById({ _id: req.params.recordID }, function (err, todo)  {
-            if (err) {  res.send(err);  }
-            else
-            { 
-    
-                var projectDataForMatch = {
-                    $project : {
-                       _id:1,
-                  idtipounidad:1,
-                  idperiodo:1,
-                  ididioma:1,
-                  idedificio:1,
-                  idsalon:1,
-                  idtipo:1,
-                  idprofesor:1,
-                  iddia:1,
-                  idhora:1,
-                  asignados:1,
-                   //list all fields needed here
-                  
-                        filterThisDoc : {
-                            $cond : {
-                                if  : {
-                                    $lt : ["$asignados", "$capacidad"]
-                                },
-                            then : 1,
-                            else  : 0
-                        } //or use compare operator $cmp
-                    }
-                }
-                }
-                
-                var match = {
-                    $match : {
-                        filterThisDoc : 1,
-                        'idtipounidad.id' : todo.idtipounidad.id    ,'idperiodo.id':todo.idperiodo.id 
-                        ,ididioma:todo.ididioma,
-                            idtipo:todo.idtipo                  
-                            ,iddia: {"$eq": new Date(req.body.iddia)},
-                            idhora:req.body.idhora
-                           
-                    }
-                }
-    console.log({ 'idtipounidad.id' : todo.idtipounidad.id    ,'idperiodo.id':todo.idperiodo.id 
-    ,ididioma:todo.ididioma,
-        idtipo:todo.idtipo             
-        ,iddia: {"$eq": new Date(req.body.iddia)},
-        idhora:req.body.idhora})
-         
-                var duplicates = [];
-                var asigno=0;
-            
-                    Facplan4.aggregate([ projectDataForMatch, match] ).exec( function(err,myData) {
-                        if (err) res.send(err);
-  console.log(myData)
-                        if(myData.length==0)   {    res.status(404).send('Cupo lleno en salon / No existe definido en estructura '); }
-                        else
-                        {
-                         
-                            asigno=myData[0].asignados;
-                          
-                            asigno=asigno+1;
-                           
-                            
-    
-                                            Facplan4.findById({ _id:myData[0]._id }).populate('idprofesor').exec( function (err, todo300)  {
-                                              
-                                                if (err) {  res.send(err);  }
-                                                else
-                                                {
-                                                    todo300.asignados        	=		asigno     	;
-                                                  
-                                                    todo300.save(function (err, todo400){
-                                                        if (err)     {  console.log(err.message)   }
-    
-    
-                                                        Asignaubicacion.findById({ _id: req.params.recordID }, function (err, todo100)  {
-                                                            if (err) {  res.send(err);  }
-                                                            else
-                                                            {
-                                                               
-                                                                    todo100.estadopago        	=		'Asignación exitosa'    	;
-                                                                    todo100.idedificio=myData[0].idedificio,
-                                                                    todo100.idsalon= myData[0].idsalon,
-                                                                    todo100.iddia= myData[0].iddia,
-                                                                    todo100.idhora= myData[0].idhora,
-                                                                    todo100.estadoacta='Grabación',
-                                                                   
-                                                                 
-                                                                 
-                                                                   
-                                                                   
-                                                                    todo100.idprofesor=todo300.idprofesor._id,
-                                                                    todo100.idprofesornombre=todo300.idprofesor.nombre,
-                                                                    todo100.idplanifica=myData[0]._id
-    
-                                                                 //   todo100.nivel=todo.nivel
-                                                                    
-                                                        
-                                                                    todo100.save(function (err, todo200){
-                                                                        if (err)     {  console.log(err.message)   }
-                                                                
-                                                                        res.json(todo200);
-                                                                   
-                                                                        
-                                                                    });
-
-                                                              
-
-
-                                                            }
-                                                        });
-                                                        
-                                                        
-                                                    });
-                                                }
-                                            });
-    
-                          
-                         
-        
-    
-                        }
-    
-                    });
-    
-    
-             
-    
-    
-    
-                   
-                            
-    
-    
-            }
-        });
-
     
     
     
@@ -1406,16 +1311,17 @@ else{
 
                 
                 filtro= {'idtipounidad.id'        	: req.body.tipounidad.id        	,
+                'idunidadacademica.id': req.body.unidadacademica.id,
                 
                 identificador      	: req.body.identificador      	  }  ;
 
          
 console.log(filtro)
 
-    Asignaubicacion.find(filtro,function(err, todos) {
+    Asignaubicaciona.find(filtro,function(err, todos) {
         if (err){  if(err) return next(err);// res.status(404).send(err); 
         return;}
-      console.log(todos)
+    
         if(todos.length>0)   {  
                             res.status(404).send('Ya existe una Asignación para esta unidad academica' );
          }
@@ -1423,132 +1329,215 @@ console.log(filtro)
         { 
             //hagarra un aperador
 
-            if(req.body.estadopago=='Pendiente de pago')
-            {  // pasa de largo esperando el pago
-
-
-
-                Operadores.find({}).sort([['encola', 1]]).exec(function(err, todosb) {
-                  
-                                                        
-                            if (err){  if(err) return next(err);// res.status(404).send(err); 
-                            return;}
-                            if(todosb.length>0)   {  
-                                var opexx=todosb[0].email
-                                var opexxid=todosb[0]._id
+            var projectDataForMatch = {
+                $project : {
+                   _id:1,
+              idtipounidad:1,
+              idunidadacademica:1,
+              idperiodo:1,
+              ididioma:1,
+              idedificio:1,
+              idsalon:1,
+              idtipo:1,
+              idprofesor:1,
+              iddia:1,
+              idhora:1,
+              asignados:1,
+               //list all fields needed here
+              
+                    filterThisDoc : {
+                        $cond : {
+                            if  : {
+                                $lt : ["$asignados", "$capacidad"]
+                            },
+                        then : 1,
+                        else  : 0
+                    } //or use compare operator $cmp
+                }
+            }
+            }
+            var match = {
+                $match : {
+                    filterThisDoc : 1,
+                    'idtipounidad.id' :  req.body.tipounidad.id    ,'idperiodo.id': req.body.periodo.id ,
+                    'idunidadacademica.id': req.body.unidadacademica.id
+                    ,ididioma:req.body.ididioma,
+                        idtipo: req.body.idtipo                  
+                        ,iddia: {"$eq":  new Date(req.body.iddia)},
+                        idhora:req.body.idhora
                        
-                         
+                }
+            }
+            
+         
 
-                                Asignaubicacion.create({ idtipounidad        	: req.body.tipounidad        	,
-                                    idperiodo        	: req.body.periodo        	,
-                                    identificador      	: req.body.identificador      ,
-                                    identificador2      	: req.body.identificador2      ,
-                                    nombre 	: req.body.nombre, 	
-                                    ididioma 	: req.body.ididioma, 
-                                    idtipo 	: req.body.idtipo, 
-                                    estadoacta:'Grabación',
-                                    idestudiante 	: req.body.idestudiante, 	
-                                    fechasiif	: req.body.fechasiif, 	
-                                    idinterno 	: req.body.idinterno,
-                                    usuarionew:req.body.bitacora.email,
-                                    n1: {    id	: '',   nombre	: ''        },
-                                    n2: {    id	: '',   nombre	: ''        },
-                                    n3: {    id	: '',   nombre	: ''        },
-                                    estadopago:req.body.estadopago,
-                                    noorden:req.body.noorden,
-                                    monto       	: req.body.monto        	,
+            var asigno=0;
+                Facplan3.aggregate([ projectDataForMatch, match] ).exec( function(err,myData) {
+                    if (err) res.send(err);
+                  
 
-                                rubro      	: req.body.rubro        	,
-                                ano      	: req.body.ano        	,
-                                tipoasignacion 	: req.body.tipoasignacion, 
-                                llave      	: req.body.llave        	,
-                                foto	: req.body.foto        	,
-
-                                estadooperador:'NUEVO',
-                                userasignado:opexxid,
-                                userasignadoemail:opexx,
-                                userejecutaemail:opexx,
-                                ultrechazo:'',
-                                
-                                idprofesor: '',
-                                idprofesornombre:'',
-                                idedificio: {    id	: '',   nombre	: ''        },
-                                idsalon: {    id	: '',   nombre	: ''       },
-                                iddia:'',
-                                idhora:''
-
-                                     	
-                                }
-                                  
-
-                                    , function(err, todo) {
-
-                                        console.log(todo)
-                                      if (err){ 
-                                          res.status(500).send(err.message)    }
-        
-        
-                                          Operadores.findById({ _id: opexxid}, function (err, todo1000)  {
+                    if(myData.length==0)   {    res.status(404).send('Cupo lleno en salon / No existe definido en estructura '); }
+                    else
+                    {
+                        asigno=myData[0].asignados;
+                        asigno=asigno+1;
+                                        Facplan3.findById({ _id:myData[0]._id }).populate('idprofesor').exec( function (err, todo300)  {
                                             if (err) {  res.send(err);  }
                                             else
                                             {
-                                            
-                                                    todo1000.asignada      	=		todo1000.asignada+1    	;
-                                                    todo1000.encola      	=		(todo1000.asignada) - (todo1000.ejecutada)  	;
-                                                    
-                                        
-                                                    todo1000.save(function (err, todo200){
-                                                        if (err)     {  console.log(err.message)   }
-                                                
-                                                        res.json(todo);
-                                                
+                                                todo300.asignados        	=		asigno     	;
+                                                todo300.save(function (err, todo400){
+                                                    if (err)     {  console.log(err.message)   }
+
+                                                    if(req.body.estadopago=='Pendiente de pago')
+                                                    {  // pasa de largo esperando el pago
                                                         
-                                                    });
-                
-                                                
+                                                        Operadores.find({}).sort([['encola', 1]]).exec(function(err, todosb) {
+                                                          
+                                                                                                
+                                                            if (err){  if(err) return next(err);// res.status(404).send(err); 
+                                                            return;}
+                                                            if(todosb.length>0)   {  
+                                                                var opexx=todosb[0].email
+                                                                var opexxid=todosb[0]._id
+                                                                console.log('mydata')
+                                                                console.log(todo300)
+                                                                console.log(myData)
+                                                                console.log({  idedificio:myData[0].idedificio,
+                                                                    idsalon: myData[0].idsalon,
+                                                                   
+                                                                    idprofesor:todo300.idprofesor._id,
+                                                                    idprofesornombre:todo300.idprofesor.nombre
+                                                                 })
+                                                       
+                                                                        Asignaubicaciona.create({ idtipounidad        	: req.body.tipounidad        	,
+                                                                            idunidadacademica        	: req.body.unidadacademica        	,
+                                                                            idtipo 	: req.body.idtipo, 
+                                                                            ididioma 	: req.body.ididioma, 
+                                                                            idperiodo        	: req.body.periodo        	,
+                                                                            foto1 	: req.body.foto1 ,
+                                                                            foto2 	: req.body.foto2 ,
+                                                                            foto3 	: req.body.foto3 ,
+                                                                            notelefono 	: req.body.notelefono,
+                                                                            carneusac	: req.body.carneusac ,
+                                                                            iddia:req.body.iddia,
+                                                                            idhora:req.body.idhora,
+                                                                            idestudiante 	: req.body.idestudiante, 
+                                                                            idinterno 	: req.body.idinterno,	
+                                                                            identificador      	: req.body.identificador      ,
+                                                                            identificador2      	: req.body.identificador2      ,
+                                                                            noorden:req.body.noorden,
+                                                                            noorden2:req.body.noorden2,
+                                                                            rubro      	: req.body.rubro        	,
+                                                                            ano      	: req.body.ano        	,
+                                                                            llave      	: req.body.llave        	,
+                                                                            llave2      	: req.body.llave2        	,
+                                                                            monto2       	: req.body.monto2        	,
+                                                                            estadopago:req.body.estadopago,
+                                                                            monto       	: req.body.monto        	,
+                                                                            fechasiif	: req.body.fechasiif, 	
+                                                                            fechasiif2	: req.body.fechasiif2, 	
+                                                                            tipoasignacion 	: req.body.tipoasignacion, 
+                                                                            nombre 	: req.body.nombre, 	
+                                                                            estadoacta:'Grabación',
+                                        
+                                                                            estadooperador:'NUEVO',
+                                                                            userasignado:opexxid,
+                                                                            userasignadoemail:opexx,
+                                                                            userejecutaemail:opexx,
+                                                                            ultrechazo:'',
+                                                                            
+                                                                            idedificio:{    id	: myData[0].idedificio.id,   nombre	: myData[0].idedificio.nombre        },
+                                                                            idsalon:{    id	: myData[0].idsalon.id,   nombre	: myData[0].idsalon.nombre        },
+                                                                            iddia: myData[0].iddia,
+                                                                            idhora: myData[0].idhora,
+                                                                            idprofesor:todo300.idprofesor._id,
+                                                                            idprofesornombre:todo300.idprofesor.nombre,
+                                                                            idplanifica:myData[0]._id,
+                                        
+                                                                            usuarionew:req.body.bitacora.email,
+                                                                            n1: {    id	: '',   nombre	: ''        },
+                                                                            n2: {    id	: '',   nombre	: ''        },
+                                                                            n3: {    id	: '',   nombre	: ''        },
+                                                                     
+                                                                       
+                                        
+                                                                             	
+                                                                        }
+                                                                        , function(err, todo) {
+                                        
+                                                                          
+                                                                          if (err){ 
+                                                                              res.status(500).send(err.message)    }
                                             
-                
-                
+                                            
+                                                                              Operadores.findById({ _id: opexxid}, function (err, todo1000)  {
+                                                                                if (err) {  res.send(err);  }
+                                                                                else
+                                                                                {
+                                                                                
+                                                                                        todo1000.asignada      	=		todo1000.asignada+1    	;
+                                                                                        todo1000.encola      	=		(todo1000.asignada) - (todo1000.ejecutada)  	;
+                                                                                        
+                                                                            
+                                                                                        todo1000.save(function (err, todo200){
+                                                                                            if (err)     {  console.log(err.message)   }
+                                                                                    
+                                                                                            res.json(todo);
+                                                                                    
+                                                                                            
+                                                                                        });
+                                                    
+                                                                                    
+                                                                                
+                                                    
+                                                    
+                                                                                }
+                                                                            });
+                                                                        
+                                                                      });
+                                        
+                                                    }else{//queda con el operador
+                                        
+                                                    }
+                                        
+                                                 
+                                        
+                                                            
+                                        
+                                                });
+                                        
+                                        
+                                        
+                                           
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                         
+                                        }
+
+
+
+
+
+                                               
+                                                });
                                             }
                                         });
-                                    
-                                  });
-         
-                                  
-        
-        
-                }
-        
-            });
-
-
-
-
-
-            }else{//queda con el operador
-
-            }
-
-         
-
-                    
-
-        }});
-
-
-
-   
-
-
-
+                    }
+                });
 
 
 
  
+
+
+
+}
+});
+}}}
 }}
 }
-}
-}
-
-
-

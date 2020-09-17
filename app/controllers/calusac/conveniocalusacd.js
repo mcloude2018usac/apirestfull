@@ -8,10 +8,12 @@ exports.getConveniocalusacd = function(req, res, next){
            
             if(req.params.id3=='todos')
             {
+                console.log({idempresa:req.params.id,idconvenio:req.params.id2})
                 Conveniocalusacd.find({idempresa:req.params.id,idconvenio:req.params.id2}).
                 populate('ididioma').populate('tipopago').populate('jornada').populate('profesor').
                 populate('nivel').populate('horario').exec(function(err, todos) {
                     if (err){ res.send(err); }
+                  
                    
                       res.json(todos);   
                       
