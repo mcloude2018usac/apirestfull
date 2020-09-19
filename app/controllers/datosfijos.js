@@ -1247,7 +1247,7 @@ console.log('TERMINA')
                             "unidad" : "$idtipounidad.nombre",
                             "curso" : "$idunidadacademica.nombre",
                             "periodo" : "$idperiodo.nombre",
-                         
+                            "mes": { $substr: [ "$fechasiif", 0, 8 ] },
                             "monto":"$monto",
                             "operador":"$userasignadoemail",
                             "estadooperador":"$estadooperador",
@@ -1268,6 +1268,7 @@ console.log('TERMINA')
                         "unidad": "$_id.unidad", 
                         "curso": "$_id.curso", 
                         "periodo": "$_id.periodo", 
+                        "mes": "$_id.mes", 
                        
                         "operador":"$_id.operador",
                         "estadooperador":"$_id.estadooperador",
