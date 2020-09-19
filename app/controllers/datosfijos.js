@@ -1245,6 +1245,7 @@ console.log('TERMINA')
                         "_id" : { 
                             "tipoa" : "$tipoa",
                             "unidad" : "$idtipounidad.nombre",
+                            "curso" : "$idunidadacademica.nombre",
                             "periodo" : "$idperiodo.nombre",
                          
                             "monto":"$monto",
@@ -1265,6 +1266,7 @@ console.log('TERMINA')
                     "$project" : { 
                         "tipoa" : "$_id.tipoa", 
                         "unidad": "$_id.unidad", 
+                        "curso": "$_id.curso", 
                         "periodo": "$_id.periodo", 
                        
                         "operador":"$_id.operador",
