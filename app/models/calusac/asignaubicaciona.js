@@ -9,6 +9,7 @@ var AsignaubicacionaSchema = new mongoose.Schema({
     foto1:{        type: String},
     foto2:{        type: String},
     foto3:{        type: String},
+    foto4:{        type: String},
     notelefono:{        type: String},
     carneusac:{        type: String},
     idhora: {  type: String },
