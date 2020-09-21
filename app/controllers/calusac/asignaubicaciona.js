@@ -1158,6 +1158,7 @@ if(req.body.operacion=='actualizadatos')
                 todo100.foto1 = req.body.foto1,
                 todo100.foto2 = req.body.foto2,
                 todo100.foto3 = req.body.foto3,
+                todo100.foto4 = req.body.foto4,
                 todo100.notelefono = req.body.notelefono,
                 todo100.carneusac = req.body.carneusac,
                
@@ -1418,6 +1419,7 @@ console.log(filtro)
                                                                             foto1 	: req.body.foto1 ,
                                                                             foto2 	: req.body.foto2 ,
                                                                             foto3 	: req.body.foto3 ,
+                                                                            foto4 	: req.body.foto4 ,
                                                                             notelefono 	: req.body.notelefono,
                                                                             carneusac	: req.body.carneusac ,
                                                                             iddia:req.body.iddia,
