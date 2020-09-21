@@ -255,6 +255,8 @@ if(req.params.recordID!=='crea')
             todo.idhora=	req.body.idhora       	||	todo.idhora       	;
             todo.ididioma=	req.body.ididioma       	||	todo.ididioma       	;
             todo.idtipo=	req.body.idtipo       	||	todo.idtipo       	;
+            todo.comentario=	req.body.comentario       	||	todo.comentario       	;
+            todo.estado=	req.body.estado       	||	todo.estado       	;
             todo.idprofesor=	req.body.idprofesor        	||	todo.idprofesor        	;
             
           
@@ -306,7 +308,8 @@ else{
             idprofesor: req.body.idprofesor,
             capacidad: req.body.capacidad,
             asignados: req.body.asignados,
-        
+            comentario: req.body.comentario,
+            estado: req.body.estado,
         
             usuarionew:req.body.bitacora.email
         
