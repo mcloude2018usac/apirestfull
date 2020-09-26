@@ -135,7 +135,7 @@ exports.getUsermsg = function(req, res, next){
       
                 }
                 else{
-      
+      console.log('entra aquiii')
                   Usermsg.find(  {  $or : [
                       { $and : [ { userId:req.params.id,toUserId:req.params.id2}] },
                       { $and : [ { toUserId:req.params.id,userId:req.params.id2 }] }]
@@ -169,8 +169,38 @@ exports.deleteUsermsg = function(req, res, next){
 
 
 exports.creaUsermsg2s = function(req, res, next){
+
+console.log(req.body)
+
+    Usermsg.create({
+        userId        	: req.body.userId        	,
+        toUserId	: req.body.toUserId	,  
+  
+        status	: req.body.status	,
+        message	: req.body.message	,
+        messageimg	: req.body.messageimg	,
+        message2	: req.body.message2	,
+        userId2        	: req.body.userId2       	,
+        imagen2 	: req.body.imagen2 	
+      
+
+      }
+        , function(err, todo) {
+        if (err){ 
+           
+            res.status(500).send(err.message)    }
+    
+        res.json(todo);
+
+     
+        
+
+    });
+
+
+
    
- 
+ /*
     Bitacora.create(req.body.bitacora);
 if(req.params.recordID!=='crea')
 { 
@@ -231,6 +261,7 @@ else{
    
  
 }
+*/
 
 }
 

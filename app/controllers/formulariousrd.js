@@ -3,12 +3,12 @@ var Bitacora = require('../models/bitacora');
 var Image = require('../models/image2');
 var functool = require('../controllers/funcionesnode');
 exports.getformulariousrd = function(req, res, next){
-    if(req.params.id4)
+    if(req.params.id5)
     {   
         if(req.params.id2=='orden')
         { 
 
-            formulariousrd.find({idempresa:req.params.id3,idpapa:req.params.id4}).sort([['orden', -1]]).exec(function(err, todos) {
+            formulariousrd.find({idempresa:req.params.id3,idpapa:req.params.id4,tipo:req.params.id5}).sort([['orden', -1]]).exec(function(err, todos) {
                 if (err){  res.send(err);  }
                 if(todos.length>0)   {    res.json({orden:todos[0].orden});   }
              });
@@ -19,14 +19,14 @@ exports.getformulariousrd = function(req, res, next){
         {
             if(req.params.id2=='todos')
             { 
-                formulariousrd.find({idempresa:req.params.id3,idpapa:req.params.id4}).sort({'_id': -1}).exec(function(err, todos) {
+                formulariousrd.find({idempresa:req.params.id3,idpapa:req.params.id4,tipo:req.params.id5}).sort({'_id': -1}).exec(function(err, todos) {
                     if (err){  res.send(err);  }
                      res.json(todos);
                  });
             }
             else
             {
-                formulariousrd.find({idempresa:req.params.id3,estado:req.params.id2,idpapa:req.params.id4}).sort({'_id': -1}).exec(function(err, todos) {
+                formulariousrd.find({idempresa:req.params.id3,estado:req.params.id2,idpapa:req.params.id4,tipo:req.params.id5}).sort({'_id': -1}).exec(function(err, todos) {
                     if (err){  res.send(err);  }
                      res.json(todos);
                  });
@@ -59,7 +59,8 @@ if(req.params.recordID!=='crea')
  todo.idempresa       	=	req.body.idempresa        	||	todo.idempresa;   
  todo.idpapa       	=	req.body.idpapa        	||	todo.idpapa;   
  todo.nombre       	=	 req.body.formulario         	||	todo.formulario;   
- todo.orden       	=	req.body.orden        	||	todo.orden;   
+ todo.orden       	=	req.body.orden        	||	todo.orden;  
+ todo.tipo       	=	req.body.tipo        	||	todo.tipo;    
   todo.formulario     	= req.body.formulario    	||	todo.formulario;   
  todo.idformulario       	=	req.body.idformulario        	||	todo.idformulario;   
  todo.consulta       	=	req.body.consulta        	||	todo.consulta;   
@@ -88,6 +89,7 @@ else{
   idpapa     	: req.body.idpapa    	,
   nombre     	: req.body.nombre    	,
   orden     	: req.body.orden    	,
+  tipo     	: req.body.tipo    	,
   idformulario     	: req.body.idformulario    	,
   formulario     	: req.body.formulario    	,
   consulta     	: req.body.consulta    	,

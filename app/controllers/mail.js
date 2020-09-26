@@ -1,9 +1,6 @@
 
 var nodemailer = require('nodemailer');
 //var ses = require('nodemailer-ses-transport');
-   
-
-
 const REGION = 'us-east-1'
 const PROFILE = 'ses'
 const CREDENTIALS_FILE = 'credentials'
