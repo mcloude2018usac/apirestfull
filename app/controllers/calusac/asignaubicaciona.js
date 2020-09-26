@@ -1312,7 +1312,7 @@ else{
 
                 
                 filtro= {'idtipounidad.id'        	: req.body.tipounidad.id        	,
-                'idunidadacademica.id': req.body.unidadacademica.id,
+                'idunidadacademica.id': req.body.tipounidad.id,
                 
                 identificador      	: req.body.identificador      	  }  ;
 
@@ -1361,7 +1361,7 @@ console.log(filtro)
                 $match : {
                     filterThisDoc : 1,
                     'idtipounidad.id' :  req.body.tipounidad.id    ,'idperiodo.id': req.body.periodo.id ,
-                    'idunidadacademica.id': req.body.unidadacademica.id
+                    'idunidadacademica.id': req.body.tipounidad.id
                     ,ididioma:req.body.ididioma,
                         idtipo: req.body.idtipo                  
                         ,iddia: {"$eq":  new Date(req.body.iddia)},
@@ -1423,6 +1423,7 @@ console.log(filtro)
                                                                             notelefono 	: req.body.notelefono,
                                                                             carneusac	: req.body.carneusac ,
                                                                             iddia:req.body.iddia,
+                                                                            unidad:req.body.unidad,
                                                                             idhora:req.body.idhora,
                                                                             idestudiante 	: req.body.idestudiante, 
                                                                             idinterno 	: req.body.idinterno,	
