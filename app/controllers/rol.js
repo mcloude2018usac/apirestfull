@@ -27,9 +27,19 @@ exports.getRol = function(req, res, next){
         else
         {
 
+            if(req.params.id2=='todosope')
+            { 
+                Rol.find({idempresa:req.params.id3,estado:'Activo',nombre:{$nin:['Administrador','user']}}).sort({'_id': -1}).exec(function(err, todos) {
+                    if (err){  res.send(err);  }
+                     res.json(todos);
+                 });
+            }
+            else
+            {
             
             if(req.params.id2=='todos')
             { 
+             
                 Rol.find({idempresa:req.params.id3}).sort({'_id': -1}).exec(function(err, todos) {
                     if (err){  res.send(err);  }
                      res.json(todos);
@@ -41,7 +51,7 @@ exports.getRol = function(req, res, next){
                     if (err){  res.send(err);  }
                      res.json(todos);
                  });
-            }
+            }}
         }
 
 

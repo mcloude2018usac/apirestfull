@@ -1,9 +1,90 @@
 
 var Suscriptorsaldo = require('../models/suscriptorsaldo');
+var Suscriptorhis = require('../models/suscriptorhis');
 var Bitacora = require('../models/bitacora');
 var Solcarne = require('../models/solcarne');
 
 exports.getSuscriptorsaldo = function(req, res, next){
+    if(req.params.id6)
+    { 
+        switch(req.params.id) {
+            case 'cobrobus'://$dateToString: { format: "%d-%m-%Y", date: "$createdAt" },
+            console.log({   
+                "$match" : { 
+                    idempresa:req.params.id2,idasociado:req.params.id3,noprov:req.params.id4,nodispositivo:req.params.id5
+                 }},
+            {
+                "$group" : {
+                    _id: { 
+                        "codigo1" : "$codigo1",
+                      "fecha":{  $dateToString: { format: "%d-%m-%Y", date: "$createdAt" }}
+                    
+                    },
+                    
+                    "monto": { $sum: "$monto"  },
+                    "cantidad" : {  "$sum" : 1 }
+                }
+            
+          
+            },
+            { 
+                "$project" : { 
+                    "codigo1" : "$_id.codigo1", 
+                    "fecha" : "$_id.fecha", 
+                    "cantidad" : "$COUNT(*)", 
+                    "monto" : "$SUM(monto)", 
+                    "_id" : (0)
+                }
+            }
+            
+            )
+                Suscriptorhis.aggregate( [
+                    {   
+                        "$match" : { 
+                            idempresa:req.params.id2,idasociado:req.params.id3,noprov:req.params.id4,nodispositivo:req.params.id5
+                         }
+                        },
+                    {
+                        "$group" : {
+                            _id: { 
+                                "codigo1" : "$codigo1",
+                              "fecha":{  $dateToString: { format: "%d-%m-%Y", date: "$createdAt" }}
+                            
+                            },
+                            
+                            "monto": { $sum: "$monto"  },
+                            "cantidad" : {  "$sum" : 1 }
+                        }
+                    
+                  
+                    },
+                    { 
+                        "$project" : { 
+                            "codigo1" : "$_id.codigo1", 
+                            "fecha" : "$_id.fecha", 
+                            "cantidad" : "$cantidad", 
+                            "monto" : "$monto", 
+                            "_id" : (0)
+                        }
+                    }
+                  
+                ]).exec(function(err, todos) {
+                    if (err){ res.send(err); }
+                   
+                    if(todos.length>0)   {    res.json(todos);  
+                    console.log(todos)
+                    }
+                    else
+                    {  res.status(500).send('NO EXISTE REGISTRO');      }
+                    
+                });
+                break;
+
+        }
+      
+    }
+    else
+    {
     if(req.params.id2)
     {   Suscriptorsaldo.find({idsuscriptor:req.params.id,_id:req.params.id2},function(err, todos) {
             if (err){ res.send(err); }
@@ -22,7 +103,7 @@ exports.getSuscriptorsaldo = function(req, res, next){
            {  res.status(500).send('NO EXISTE REGISTRO');      }
            
         });
-    }
+    }}
 }
 exports.deleteSuscriptorsaldo = function(req, res, next){
     Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina Suscriptor saldo '});

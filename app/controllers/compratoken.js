@@ -2,6 +2,46 @@ var Compratoken = require('../models/compratoken');
 var Bitacora = require('../models/bitacora');
 
 exports.getCompratoken = function(req, res, next){
+    console.log(req.params)
+    if(req.params.id4)
+    {               if(req.params.id2=='0' )
+    { console.log({idempresa:req.params.id3,estado:req.params.id2,tipo:req.params.id4,usertrasferencia:req.params.id })
+        Compratoken.find({idempresa:req.params.id3,estado:req.params.id2,tipo:req.params.id4,usertrasferencia:req.params.id }).sort({'_id': -1}).exec(function(err, todos) {
+                if (err){  res.send(err);  }
+                 res.json(todos);
+             });
+    }
+    else
+    {
+            if(req.params.id2=='1')
+            { console.log({idempresa:req.params.id3,estado:'20',tipo:req.params.id4,usertrasferencia:req.params.id })
+                Compratoken.find({idempresa:req.params.id3,estado:'20',tipo:req.params.id4,usertrasferencia:req.params.id }).sort({'_id': -1}).exec(function(err, todos) {
+                        if (err){  res.send(err);  }
+                         res.json(todos);
+                     });
+            }
+            else
+            {
+                if(req.params.id2=='-1')
+                { 
+                    console.log('entre')
+                    console.log({idempresa:req.params.id3,estado:req.params.id2,tipo:req.params.id4,usertrasferencia:req.params.id })
+                    Compratoken.find({idempresa:req.params.id3,estado:req.params.id2,tipo:req.params.id4,usertrasferencia:req.params.id }).sort({'_id': -1}).exec(function(err, todos) {
+                            if (err){  res.send(err);  }
+                             res.json(todos);
+                         });
+                }
+                else
+                {
+                Compratoken.find({idempresa:req.params.id3,tipo:req.params.id4,usuarionew:req.params.id
+                , }).sort({'_id': -1}).exec(function(err, todos) {
+                    if (err){  res.send(err);  }
+                     res.json(todos);
+                 });
+            }}}
+    }
+    else
+    {
     if(req.params.id2)
     {console.log({_id:req.params.id})
         Compratoken.find({_id:req.params.id},function(err, todos) {
@@ -22,7 +62,7 @@ console.log(todos)
         {  res.status(500).send('NO EXISTE REGISTRO');      }
         
     });
-}
+}}
 }
 exports.deleteCompratoken = function(req, res, next){
    
@@ -35,7 +75,7 @@ exports.deleteCompratoken = function(req, res, next){
 
 exports.creaCompratoken2s = function(req, res, next){
    
- console.log(req.body)
+
     Bitacora.create(req.body.bitacora);
 if(req.params.recordID!=='crea')
 { 
@@ -58,21 +98,16 @@ if(req.params.recordID!=='crea')
 }
 else{
 
- console.log({ 
-    idempresa        	: req.body.idempresa       	,
-    trama        	: req.body.trama        	,
-    tipo        	: req.body.tipo        	,
-    usuarionew:req.body.bitacora.email,
-    cobroservicio:'',
-    estado 	: req.body.estado 	
-  })
+
 
             Compratoken.create({ 
                 idempresa        	: req.body.idempresa       	,
                 trama        	: req.body.trama        	,
+                nombre        	: req.body.trama + '°' +  req.body.usertrasferencia +'°'+   req.body.bitacora.email     	,
                 tipo        	: req.body.tipo        	,
                 usuarionew:req.body.bitacora.email,
                 cobroservicio:'',
+                usertrasferencia:req.body.usertrasferencia,
                 estado 	: req.body.estado 	
               }
                 , function(err, todo) {

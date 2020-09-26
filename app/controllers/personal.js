@@ -29,10 +29,109 @@ function roundxx(value, decimals) {
 
 exports.getPersonal = function(req, res, next){
 
+console.log(req.params)
+    if(req.params.id11)
+    {///5f57d41f07c8795ae87297c2/5f6bd903e8e3885c9c1f386c%C2%B0busrojono234%C2%B05f57d5e507c8795ae87297c5/3/busrojono234@gmail.com/cobro_servicio_bus/5f5ebc3ca9d1cc40cc8f5a36/5f57d65a07c8795ae87297cb/5f57d0b407c8795ae8729761/5f57d0b407c8795ae8729761/1/cobraconqr
 
-    if(req.params.page)
-    {
+        switch(req.params.id11) {
+            case 'cobraconqr':
+                console.log('entra 999999999999999999')
+console.log(req.params)
+                Personalsaldo.find({idempresa:req.params.id8,'idsuscriptor.id' : req.params.email
+            }).populate('idsuscriptor.id').exec(function(err, todos) {
+                    if (err){ res.send(err); }
+                    var myData = [];
+                    console.log(todos)
 
+                    if(todos.length>0)   { 
+                   //     Tiposuscriptor.findById({ _id:todos[0].idsuscriptor.id.tiposuscriptor,idempresa:req.params.id8}, function (err, todo15)  {
+                 //           if (err) {  res.send(err);  }                            else                            { 
+
+                           //     req.params.id3=todo15.cobroparqueos;
+                        Personalsaldo.findById({ _id:todos[0]._id }, function (err, todo)  {
+                    if (err) {  res.send(err);  }
+                    else
+                    { 
+                        
+                        console.log(todos[0].saldoactual  + ' ' +Number(req.params.id3))
+                        if(Number(todos[0].saldoactual)>=Number(req.params.id3))
+                        {
+
+                                    
+                            todo.saldoactual        	=		Number(todos[0].saldoactual)-Number(req.params.id3)    	;
+                        
+                            todo.save(function (err, todo){
+                                if (err)     {  console.log(err.message)   }
+                                myData.push({tarifa:roundxx(Number(req.params.id3),2),
+                                nombre:todos[0].idsuscriptor.id.nombre,cui:todos[0].idsuscriptor.id.cui
+                                ,saldo:roundxx(todos[0].saldoactual,2),
+                                    id:todos[0]._id,saldoactual:roundxx(Number(todos[0].saldoactual)-Number(req.params.id3) ,2)});
+                    //  {    id	:todo[0].idsuscriptor.id ,   nombre	: todo[0].idsuscriptor.nombre       },
+                    var cservicio='Cobro por servicio';
+                                    if(req.params.id5=='cobro_parqueo' || req.params.id5=='cobro_servicio_bus' )
+                                    {
+                                            cservicio='Cobro de servicio de transporte,acceso (-)'
+                                    }
+                                    var  arr= req.params.id2.split('°')
+                                    Personalhis.create({idsuscriptor :{    id	:todos[0].idsuscriptor.id._id, 
+                                        nombre	: todos[0].idsuscriptor.id.nombre       },
+                                        tipo   		: cservicio,descripcion   		: 'Pago por servicio utilizado, Pago de transporte (-)', 
+                                        saldoanterior   		: roundxx(todos[0].saldoactual,2),
+                                            monto   		: roundxx(Number(req.params.id3),2),                                  
+                                            saldoactual   		: roundxx(Number(todos[0].saldoactual)-Number(req.params.id3) ,2),
+                                            idtrans   		: todo._id,
+                                            nodispositivo 		: req.params.id6,
+                                            noprov 		: req.params.id7,
+                                            idempresa:req.params.id8,
+                                            idempresa0:req.params.id9,
+                                            idasociado: arr[2],
+                                            grupo1:'PAGO',
+                                            grupo2:'COBRA',
+                                            tipo2:'Cobro de trasporte (+)',
+                                            descripcion2:'Operación de cobro de trasporte (+)',
+                                            idsuscriptor2 : {
+                                                "id" :  arr[0],
+                                                "nombre" : arr[1]
+                                            },
+                                            
+                                            
+                                codigo1: req.params.id10, usuarionew	: req.params.id4,      usuarioup	: req.params.id4});
+
+                                    res.json(myData);
+
+                            
+                            });
+                            
+                        }
+                        else
+                        {
+                                myData.push({nombre:'Saldo insuficiente para poder realizar operación',cui:'',saldo:todos[0].saldoactual,
+                                id:99999,saldoactual:0});
+    
+                                    res.json(myData);
+
+
+
+                        }
+                    
+                    }
+                });
+           // }            });
+                        
+                    
+                    }
+                    else
+                    {  res.status(500).send('NO EXISTE REGISTRO');      }
+                    
+                });
+            break;
+            case 'cobrarfid':
+            break;
+            case 'cobracondpi':
+            break;
+            case 'cobraconpasaporte':
+            break;
+        }
      
     }
     else
@@ -298,7 +397,7 @@ exports.getPersonal = function(req, res, next){
             if(req.params.id9)
             {
 
-console.log('entra')
+console.log('entra 999999999999999999')
 console.log(req.params)
                 Personalsaldo.find({idempresa:req.params.id8,  $or : [
                     { $and : [ { 'idsuscriptor.dpi' : req.params.email }] },
@@ -435,6 +534,24 @@ console.log(req.params)
             else{
   console.log(req.params)   
                 switch(req.params.id2) {
+                    case 'empresatodoasociadodisp':
+                      var arr=req.params.id4.split('°')
+                        if(req.params.email==='todos')
+                        { console.log({idempresa:req.params.id3,idsucursal:arr[0],iddispositivo:arr[1]})
+                            Personal.find({idempresa:req.params.id3,idsucursal:arr[0],iddispositivo:arr[1]},function(err, todos) {
+                                if (err){  res.send(err);  }
+                                    res.json(todos);
+                                });
+                        }
+                        else
+                        {console.log({idempresa:req.params.id3,estado:req.params.email,idsucursal:req.params.id4,iddispositivo:arr[1]})
+                            Personal.find({idempresa:req.params.id3,estado:req.params.email,idsucursal:req.params.id4,iddispositivo:arr[1]},function(err, todos) {
+                                if (err){  res.send(err);  }
+                                    res.json(todos);
+                                });
+                        }
+                      
+                         break;
                     case 'empresatodoasociado':
                       
                         if(req.params.email==='todos')

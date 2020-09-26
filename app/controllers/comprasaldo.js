@@ -209,6 +209,25 @@ console.log({'idsuscriptor.id':req.params.id,grupo1:req.params.id2})
 
         }
         else{
+            if(req.params.id3=='TRANSFERENCIA')
+            {
+
+                console.log({'idsuscriptor2.id':req.params.id,grupo2:req.params.id2})
+                Personalhis.find({'idsuscriptor2.id':req.params.id,grupo2:req.params.id2}).sort([['createdAt', -1]]).exec(function(err, todos) {
+                    if (err){ res.send(err); }
+                    var myData3 = [];
+                    for(var i = 0; i < todos.length;i++){
+                        myData3.push({fecha:todos[i].createdAt,nombre:todos[i].descripcion2 + todos[i].monto,descripcion:todos[i].descripcion2,monto:todos[i].monto
+                        , tipo:todos[i].tipo2})
+                    }
+                    res.json(myData3);
+                });
+    
+
+
+            }
+            else
+            {
             if(req.params.id3=='COBRO')
             {
 
@@ -259,7 +278,7 @@ console.log({'idsuscriptor.id':req.params.id,grupo1:req.params.id2})
                 }
                
                 
-            } }
+            } }}
 
         } 
        
@@ -298,7 +317,234 @@ exports.creaComprasaldo2s = function(req, res, next){
    
  
     Bitacora.create(req.body.bitacora);
+    if(req.body.operacion=='transferencia+')
+    {
+       Personalsaldo.find({idempresa:req.body.idempresa,'idsuscriptor.id': req.body.idsuscriptor }).populate('idsuscriptor.id').exec(function(err, todos) {
+            if (err){ res.send(err); }
+            var myData = [];
+    
+            if(todos.length>0)   { 
+          
+                console.log('pasa1')
+                       
+                Personalsaldo.findById({ _id:todos[0]._id }, function (err, todo)  {
+            if (err) {  res.send(err);  }
+            else
+            { 
+                console.log('pasa2')
+                
+                if(Number(todos[0].saldoactual)>=Number(req.body.monto))
+                {
+    
+                            
+                    todo.saldoactual        	=		Number(todos[0].saldoactual)-Number(req.body.monto)    	;
+                
+                    todo.save(function (err, todo){
+                        if (err)     {  console.log(err.message)   }
+                        myData.push({tarifa:roundxx(Number(req.body.monto),2),
+                        nombre:todos[0].idsuscriptor.id.nombre,cui:todos[0].idsuscriptor.id.cui
+                        ,saldo:roundxx(todos[0].saldoactual,2),
+                            id:todos[0]._id,saldoactual:roundxx(Number(todos[0].saldoactual)-Number(req.body.monto) ,2)});
+    
+                            Compratoken.findById({ _id: req.body.tokencompra }, function (err, todott)  {
+                                if (err) {  res.send(err);  }
+                                else
+                                { 
+                                    todott.estado    	=	1  	;
+                                    todott.usuarioup=req.body.bitacora.email;
+                        
+                                    todott.save(function (err, todott){
+                                        if (err)     {  res.status(500).send(err.message)   }
+                                       
+                                        Personalhis.create({idempresa        	: req.body.idempresa        ,  
+                                            idsuscriptor :{    id	:todos[0].idsuscriptor.id._id,    nombre	: todos[0].idsuscriptor.id.nombre       },
+                                         tipo   		: 'Pago por '+req.body.tipocompra+' (+)',descripcion   		: 'Operación de pago por '+req.body.tipocompra+' (+)', 
+                                         saldoanterior   		: roundxx(todos[0].saldoactual,2),
+                                         grupo1:'PAGO',
+                                           monto   		: roundxx(Number(req.body.monto   ),2),                                  
+                                            saldoactual   		: roundxx(Number(todos[0].saldoactual)-Number(req.body.monto   ) ,2),
+                                            idtrans   		:todo._id,
+                                            nodispositivo 		: '0',
+                                            noprov 		: '0',
+                                            idempresa0:req.body.idempresa0        	,
+                                            idsuscriptor2:req.body.idsuscriptor2 ,
+                                            tipo2   		: 'Venta por '+req.body.tipocompra+' (+)',descripcion2   		: 'Operación de venta por '+req.body.tipocompra+' (+)', 
+                                            grupo2:'COBRO',
+                                            monto2:roundxx(Number(req.body.monto2   ),2),
+                                            tokentrama:todott._id,
+                                  codigo1: '', usuarionew	: req.body.bitacora.email,      usuarioup	: req.body.bitacora.email});
+                              
+                    
+                    
+                                            res.json(myData);
+    
+                                    });
+                                }
+                            });
+                        
+               
+    
+                    
+                    });
+                    
+                }
+                else
+                {
+                    res.status(500).send('Saldo insuficiente para poder realizar operación')  
+                    
+                  
+    
+    
+    
+                }
+            
+            }
+        });
+            }
+            else
+            {
+                res.status(500).send('No existe suscriptor')  
+            }
+    
+    });
+                
+            
+           
+     
+    
+    
+    }
+    else
+    {
+    if(req.body.operacion=='transferencia')
+    { console.log({idempresa:req.body.idempresa,'idsuscriptor.id': req.body.idsuscriptor })
+       Personalsaldo.find({idempresa:req.body.idempresa,'idsuscriptor.id': req.body.idsuscriptor.id }).populate('idsuscriptor.id').exec(function(err, todos) {
+            if (err){ res.send(err); }
+            var myData = [];
+    
+            if(todos.length>0)   { 
+          
+                console.log('pasa1')
+                       
+                Personalsaldo.findById({ _id:todos[0]._id }, function (err, todo)  {
+            if (err) {  res.send(err);  }
+            else
+            { 
+                console.log('pasa2')
+                
+                if(Number(todos[0].saldoactual)>=Number(req.body.monto))
+                {
+    
+                            
+                    todo.saldoactual        	=		Number(todos[0].saldoactual)-Number(req.body.monto)    	;
+                
+                    todo.save(function (err, todo){
+                        if (err)     {  console.log(err.message)   }
+                        myData.push({tarifa:roundxx(Number(req.body.monto),2),
+                        nombre:todos[0].idsuscriptor.id.nombre,cui:todos[0].idsuscriptor.id.cui
+                        ,saldo:roundxx(todos[0].saldoactual,2),
+                            id:todos[0]._id,saldoactual:roundxx(Number(todos[0].saldoactual)-Number(req.body.monto) ,2)});
+    
+                            Compratoken.findById({ _id: req.body.tokencompra }, function (err, todott)  {
+                                if (err) {  res.send(err);  }
+                                else
+                                { 
+                                    todott.estado    	=	1  	;
+                                    todott.usuarioup=req.body.bitacora.email;
+                        
+                                    todott.save(function (err, todott){
+                                        if (err)     {  res.status(500).send(err.message)   }
 
+                                        Personalsaldo.find({idempresa:req.body.idempresa,'idsuscriptor.id': req.body.idsuscriptor2.id }).populate('idsuscriptor.id').exec(function(err, todos11) {
+                                          
+                                            if (err) {  res.send(err);  }
+                                            else
+                                            { 
+
+                                                Personalsaldo.findById({ _id:todos11[0]._id }, function (err, todoA100)  {
+                                                    console.log(todoA100)
+                                                    if (err) {  res.send(err);  }
+                                                    else
+                                                    { 
+
+                                                todoA100.saldoactual        	=		Number(todoA100.saldoactual)+Number(req.body.monto)    	;
+                                                
+                                                todoA100.save(function (err, todoXXXX){
+                                                        if (err)     {  console.log(err.message)   }
+
+                                                        Personalhis.create({idempresa        	: req.body.idempresa        ,  
+                                                            idsuscriptor :{    id	:todos[0].idsuscriptor.id._id,    nombre	: todos[0].idsuscriptor.id.nombre       },
+                                                         tipo   		: 'Pago por '+req.body.tipocompra+' (-)',descripcion   		: 'Operación de saldo por '+req.body.tipocompra+' (-)', 
+                                                         saldoanterior   		: roundxx(todos[0].saldoactual,2),
+                                                         grupo1:'PAGO',
+                                                           monto   		: roundxx(Number(req.body.monto   ),2),                                  
+                                                            saldoactual   		: roundxx(Number(todos[0].saldoactual)-Number(req.body.monto   ) ,2),
+                                                            idtrans   		:todo._id,
+                                                            nodispositivo 		: '0',
+                                                            noprov 		: '0',
+                                                            idempresa0:req.body.idempresa0        	,
+                                                            idsuscriptor2:req.body.idsuscriptor2 ,
+                                                            tipo2   		: 'Transferencia por '+req.body.tipocompra+' (+ )',descripcion2   		: 'Operación de saldo por '+req.body.tipocompra+' (+)', 
+                                                            grupo2:'TRANSFERENCIA',
+                                                            monto2:roundxx(Number(req.body.monto2   ),2),
+                                                            tokentrama:todott._id,
+                                                  codigo1: '', usuarionew	: req.body.bitacora.email,      usuarioup	: req.body.bitacora.email});
+                                              
+                                    
+                                    
+                                                            res.json(myData);
+
+                                                });
+                                                 } });
+                                            }
+
+                                        });
+
+
+
+
+
+                                       
+                             
+    
+                                    });
+                                }
+                            });
+                        
+               
+    
+                    
+                    });
+                    
+                }
+                else
+                {
+                    res.status(500).send('Saldo insuficiente para poder realizar operación')  
+                    
+                  
+    
+    
+    
+                }
+            
+            }
+        });
+            }
+            else
+            {
+                res.status(500).send('No existe suscriptor')  
+            }
+    
+    });
+                
+            
+           
+     
+    
+    
+    }
+    else
+    {
 if(req.body.operacion=='pagaservicio')
 {
 
@@ -515,7 +761,7 @@ console.log({'idsuscriptor.id':req.body.idsuscriptor.id,    idempresa      
 
    
  
-}}
+}}}}
 
 }
 

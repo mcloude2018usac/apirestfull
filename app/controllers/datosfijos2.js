@@ -427,6 +427,9 @@ if(req.params.id3)
 {
         console.log(req.params)
         switch(req.params.id3) {
+                case 'diasfestivos':
+                        res.json([{}]);
+                        break;
                 case 'dtarifa':
                         //busca el disppsitivo y se encuentra la tarifa
                         tarifa.find({nombre:req.params.id,idempresa:req.params.id2,estado:'Activo'},function(err, todos2) {
@@ -816,15 +819,25 @@ else{
                 }
             break;
             case 'dcatalogo':
+                    console.log('entra')
 
                         Catalogo.find({tipo:req.params.id2,idempresa:req.params.id3,estado:'Activo'},function(err, todos) {
                                 if (err){ res.send(err); }
+                                console.log(todos)
+                                if(todos.length>0)
+                                {
+                                        Dcatalogo.find({idcatalogo:todos1[0]._id,idempresa:req.params.id3},function(err, todos) {
+                                                if (err){  res.send(err);  }
+                                                 res.json(todos);
+                                             });
+                                       
+                                }
+                                else
+                                {
+                                        res.json(todos);
+                                }
                                
-                                Dcatalogo.find({idcatalogo:todos1[0]._id,idempresa:req.params.id3},function(err, todos) {
-                                        if (err){  res.send(err);  }
-                                         res.json(todos);
-                                     });
-                               
+                                
                                 
                             });
 
