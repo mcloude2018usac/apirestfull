@@ -40,6 +40,8 @@ var UserSchema = new mongoose.Schema({
     fechanac   		: { type : Date},
     saldo 	: { type : String },
     idasociado 	: { type : String },
+    iddispositivo: { type : String },
+    iddispositivo2: { type : String },
     idsucursal 	: { type : String },
     tiposuscriptor 	: { type : String , ref: 'Tiposuscriptor'} ,
     APP: { type : String },
