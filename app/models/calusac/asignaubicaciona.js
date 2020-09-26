@@ -38,7 +38,7 @@ var AsignaubicacionaSchema = new mongoose.Schema({
     ultrechazo:{        type: String},
     nombre: {      type: String,     required: true  },
     
-
+    unidad:{        type: String},
 
 
 
