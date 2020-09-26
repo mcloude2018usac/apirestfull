@@ -737,6 +737,7 @@ personalRoutes.get('/',requireAuth, PersonalController.getPersonal);
 personalRoutes.get('/:email/:id2/:id3/:id4',requireAuth, PersonalController.getPersonal);
 personalRoutes.get('/:email/:id2/:id3',requireAuth, PersonalController.getPersonal);
 personalRoutes.get('/:email/:id2/:id3/:id4/:id5/:id6/:id7/:id8/:id9/:id10', requireAuth,PersonalController.getPersonal);
+personalRoutes.get('/:email/:id2/:id3/:id4/:id5/:id6/:id7/:id8/:id9/:id10/:id11', requireAuth,PersonalController.getPersonal);
 personalRoutes.get('/:email/:id2/:id3/:id4/:id5/:id6/:id7/:id8/:id9', requireAuth,PersonalController.getPersonal);
 
 personalRoutes.get('/:pagineo/:limit/:page/:idempresa',requireAuth,  PersonalController.getPersonal);
@@ -767,6 +768,7 @@ suscriptorRoutes.delete('/:nodpi/:idempresa/:idafiliado',requireAuth,  Suscripto
 apiRoutes.use('/suscriptorsaldos', suscriptorsaldoRoutes);
 suscriptorsaldoRoutes.get('/:id',requireAuth,  SuscriptorsaldoController.getSuscriptorsaldo);
 suscriptorsaldoRoutes.get('/:id/:id2',requireAuth,  SuscriptorsaldoController.getSuscriptorsaldo);
+suscriptorsaldoRoutes.get('/:id/:id2/:id3/:id4/:id5/:id6',requireAuth,  SuscriptorsaldoController.getSuscriptorsaldo);
 suscriptorsaldoRoutes.post('/:id',requireAuth,  SuscriptorsaldoController.creaSuscriptorsaldo2s);
 suscriptorsaldoRoutes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  SuscriptorsaldoController.deleteSuscriptorsaldo);
 
@@ -856,6 +858,7 @@ repcarneRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  
 apiRoutes.use('/userchats', userchatRoutes);
 userchatRoutes.get('/:id',requireAuth, UserchatController.getUserchat);
 userchatRoutes.get('/:id/:id2',requireAuth,  UserchatController.getUserchat);
+userchatRoutes.get('/:id/:id2/:id3',requireAuth,  UserchatController.getUserchat);
 userchatRoutes.post('/:recordID',requireAuth,  UserchatController.creaUserchat2s);
 userchatRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  UserchatController.deleteUserchat);
 
@@ -866,7 +869,7 @@ userchatRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  
 apiRoutes.use('/usermsgs', usermsgRoutes);
 usermsgRoutes.get('/:id',requireAuth, UsermsgController.getUsermsg);
 usermsgRoutes.get('/:id/:id2',requireAuth,  UsermsgController.getUsermsg);
-//usermsgRoutes.post('/:recordID',requireAuth,  UsermsgController.creaUsermsg2s);
+usermsgRoutes.post('/:recordID',requireAuth,  UsermsgController.creaUsermsg2s);
 usermsgRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  UsermsgController.deleteUsermsg);
 
 
@@ -1021,7 +1024,8 @@ apiRoutes.use('/compratokens', compratokenRoutes);
 
 compratokenRoutes.get('/:id',requireAuth,  CompratokenController.getCompratoken);
 compratokenRoutes.get('/:id/:id2',requireAuth,  CompratokenController.getCompratoken);
-
+compratokenRoutes.get('/:id/:id2/:id3/:id4',requireAuth,  CompratokenController.getCompratoken);
+compratokenRoutes.get('/:id/:id2/:id3',requireAuth,  CompratokenController.getCompratoken);
 compratokenRoutes.post('/:recordID',requireAuth,  CompratokenController.creaCompratoken2s);
 compratokenRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  CompratokenController.deleteCompratoken);
 
