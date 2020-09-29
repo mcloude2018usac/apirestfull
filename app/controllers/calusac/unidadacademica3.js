@@ -63,6 +63,19 @@ exports.getUnidadacademica3 = function(req, res, next){
         }
         else
         {
+            if(req.params.id2=='todosactivofiltro')
+            {   
+                Unidadacademica3.find({idtipounidad:req.params.id,estado:'Activo',
+                _id:{$in:['5e949ab03d1b0a001e30a57c','5e9750e3c37fcd001eeb1e39', '5f06014b2ae3c100b8deac4e','5f0601742ae3c100b8deac58','5e99d961693031001e9e7ae1','5f062f491dc7b500e4225e76']}}
+            ,null, {sort: {codigo: 1}})
+            .populate('ididioma').populate('idtipocurso').populate('idtipogrupo').exec(function(err, todos) {
+               if (err){  res.send(err);  }
+             
+                res.json(todos);
+            });
+            }
+            else   
+            {
             if(req.params.id2=='todosactivo')
             {   
                 Unidadacademica3.find({idtipounidad:req.params.id,estado:'Activo'}
@@ -96,7 +109,7 @@ exports.getUnidadacademica3 = function(req, res, next){
                     {  res.status(500).send('NO EXISTE REGISTRO');      }
                     
                 });   
-        }}
+        }}}
     }
         
         
