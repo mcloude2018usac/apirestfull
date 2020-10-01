@@ -6,6 +6,8 @@ var Unidadnivel3 = require('../../models/calusac/unidadnivel3');
 var Unidadacademica3 = require('../../models/calusac/unidadacademica3');
 var Unidadprofesor3 = require('../../models/user');
 var Unidadpago3 = require('../../models/calusac/unidadpago3');
+var Tipounidad3 = require('../../models/calusac/tipounidad3');
+
 
 exports.getUnidadplan4a = function(req, res, next){
     if(req.params.id5)
@@ -45,7 +47,52 @@ exports.getUnidadplan4a = function(req, res, next){
              
 
         break;
-   
+        case 'unidadaca':
+
+            var id3v=req.params.id4.split('°')
+           
+    
+                var projectDataForMatch = {
+                    $project : {
+                    
+                      idtipounidad:1,
+                     
+                        filterThisDoc : {
+                            $cond : {
+                                if  : {
+                                    $lt : ["$asignados", "$capacidad"]
+                                },
+                            then : 1,
+                            else  : 0
+                        } //or use compare operator $cmp
+                    }
+                }
+                }
+                var match = {
+                    $match : {
+                        filterThisDoc : 1
+                        
+                    }
+                }
+                Facplan4.aggregate([ projectDataForMatch, match]  ).exec(function(err, todos10) {
+                    if (err){ res.send(err); }
+                 
+                    var duplicates = [];
+                    todos10.forEach(function (doc) {duplicates.push(doc.idtipounidad.id);  });
+                  //  res.json(duplicates);
+                  console.log(duplicates)
+                    Tipounidad3.find({_id: {$in: duplicates}}
+                        ,null, {sort: {codigo: 1}},function(err, todos) {
+                        if (err){ res.send(err); }
+                       
+                        if(todos.length>0)   {    res.json(todos);   }
+                        else
+                        {  res.status(500).send('NO EXISTE REGISTRO');      }
+                        
+                    });
+
+                });
+            break
         case 'dias':
 
         var id3v=req.params.id4.split('°')
