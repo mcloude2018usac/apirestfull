@@ -105,7 +105,7 @@ exports.register = function(req, res, next){
             iddispositivo2:req.body.iddispositivo2,
             idsucursal:req.body.idsucursal,
             nombre        	: req.body.nombre        	,
-            cui 	: '',
+            cui 	: '-',
             foto 	: req.body.foto 	,
             direccion   	: req.body.direccion   	,
             telefono    	: req.body.telefono    	,
