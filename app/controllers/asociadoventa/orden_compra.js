@@ -183,7 +183,7 @@ exports.creaOrden_compra2s = function(req, res, next){
     Bitacora.create(req.body.bitacora);
 if(req.params.recordID!=='crea')
 { 
-    console.log(req.body)
+    
     switch(req.body.operacion) {
         case 'actualizafactura':
             Orden_compra.findById({ _id: req.params.recordID }, function (err, todo100)  {
@@ -361,8 +361,11 @@ console.log(todosb)
                 municipio		: req.body.municipio    	,
                 zona		: req.body.zona    	,
                 pagaracambio		: req.body.pagaracambio    	,
-
-                
+                p1		: req.body.p1    	,
+                p2		: req.body.p2    	,
+                p3		: req.body.p3    	,
+                p4		: req.body.p4    	,
+                p5		: req.body.p5    	,
 
                 userasignado:opexx,
                 deliveryasignado: req.body.deliveryasignado	,
