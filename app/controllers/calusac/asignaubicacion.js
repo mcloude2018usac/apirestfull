@@ -453,7 +453,7 @@ exports.getAsignaubicacion = function(req, res, next){
     else{
     if(req.params.id3)
     { 
-        console.log(req.params)
+        
         switch(req.params.id3) {
             case 'todosautorizaxid':
                 Asignaubicacion.find({userasignadoemail:req.params.id,"estadooperador" : req.params.id2}).populate('tipopago').exec(function(err, todos) {
@@ -1143,7 +1143,43 @@ exports.creaAsignaubicacion2s = function(req, res, next){
    //  return;
 
   
-console.log(req.params)
+
+   if(req.body.operacion=='actualizatodo')
+   { 
+   
+       Asignaubicacion.findById({ _id: req.params.recordID }, function (err, todo100)  {
+           if (err) {  res.send(err);  }
+           else
+           {
+              
+                
+                   todo100.estadooperador='ACTUALIZADAS',
+                   todo100.nombre= req.body.nombre,
+                   todo100.foto= req.body.foto,
+                   todo100.identificador= req.body.identificador,
+                   
+                  
+        
+       
+                   todo100.save(function (err, todo200){
+                       if (err)     {  console.log(err.message)   }
+               
+                       res.json(todo200);
+                  
+                       
+                   });
+   
+             
+   
+   
+           }
+       });
+   
+   
+   
+   }
+   else
+   {
 if(req.body.operacion=='actualiza')
 { 
 
@@ -1186,7 +1222,7 @@ console.log({ _id: req.params.recordID })
         else
         {
            
-             console.log(req.body);
+             ;
                 todo100.n1=req.body.n1,
                 todo100.n2= req.body.n2,
                 todo100.n3= req.body.n3,
@@ -1399,7 +1435,7 @@ if(req.params.recordID!=='crea')
     
 }
 else{
-    console.log(req.body)
+    
     Bitacora.create(req.body.bitacora);
         
             var filtro;
@@ -1547,7 +1583,7 @@ console.log(filtro)
  
 }}
 }
-}
+}}
 }
 
 
