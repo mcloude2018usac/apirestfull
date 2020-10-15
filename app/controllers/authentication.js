@@ -77,16 +77,14 @@ exports.register = function(req, res, next){
 
 
 //email: email
-console.log({idempresa:empresa,  $or : [
-    { $and : [ { email : req.body.email }] },
-    { $and : [ {cui : req.body.cui } ] }]});
+
 
     User.findOne({idempresa:empresa,  $or : [
         { $and : [ { email : req.body.email }] },
         { $and : [ {cui : req.body.cui } ] }]
 }, function(err, existingUser){
  
-    console.log(existingUser)
+ 
         if(err){
             return next(err);
         }
@@ -107,7 +105,7 @@ console.log({idempresa:empresa,  $or : [
             iddispositivo2:req.body.iddispositivo2,
             idsucursal:req.body.idsucursal,
             nombre        	: req.body.nombre        	,
-            cui 	: req.body.cui 	,
+            cui 	: '',
             foto 	: req.body.foto 	,
             direccion   	: req.body.direccion   	,
             telefono    	: req.body.telefono    	,
@@ -192,7 +190,7 @@ exports.registera = function(req, res, next){
         }
  
         var password3='' + password2+'@'
-console.log('passswo'+password3)
+
         var user = new User({
             email: email,
             password: password3,
@@ -357,7 +355,7 @@ exports.register4 = function(req, res, next){
 
    // Bitacora.create(bitacora);
     User.findOne({email: email,cui:cui,idempresa:empresa}, function(err, user){
- //console.log(user)
+
         if(err){
             return next(err);
         }
