@@ -21,11 +21,7 @@ var Orden_compraSchema 		=	new  mongoose.Schema({
  zona: { type : String },  
  pagaracambio: { type : String }, 
 
- p1: { type : Number, required : true }, 
- p2: { type : Number, required : true }, 
- p3: { type : Number, required : true }, 
- p4: { type : Number, required : true }, 
- p5: { type : Number, required : true }, 
+
 
  deliveryasignado:{ type : String ,ref:'User'},  
  userasignado:{        type: String},
@@ -45,6 +41,7 @@ var Orden_compraSchema 		=	new  mongoose.Schema({
     price: { type : Number, required : true }, 
     amount: { type : Number, required : true }, 
     subtotal: { type : Number, required : true },
+    rate		: { type : String } 
    
 
  }]

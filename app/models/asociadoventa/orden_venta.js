@@ -34,6 +34,7 @@ var Orden_ventaSchema 		=	new  mongoose.Schema({
     price: { type : Number, required : true }, 
     amount: { type : Number, required : true }, 
     subtotal: { type : Number, required : true },
+    rate		: { type : String } 
    
 
  }]
