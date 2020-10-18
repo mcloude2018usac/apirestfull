@@ -1494,8 +1494,8 @@ else{
 
                 
                 filtro= {'idtipounidad.id'        	: req.body.tipounidad.id        	,
-                
-                identificador      	: req.body.identificador      	  }  ;
+                idperiodo        	: req.body.periodo        	,
+                idinterno 	: req.body.idinterno  	  }  ;
 
          
 console.log(filtro)
