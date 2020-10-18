@@ -1,6 +1,6 @@
 
 var mailt = require('../../controllers/mail');
-
+var Tipounidad3 = require('../../models/calusac/tipounidad3');
 var Asignaubicacion = require('../../models/calusac/asignaubicacion');
 var Bitacora = require('../../models/bitacora');
 var Facplan3 = require('../../models/calusac/unidadplan3');
@@ -686,7 +686,59 @@ console.log(todos10a)
              
      
 break;
-  
+case 'tipounidad':
+            
+      
+    var projectDataForMatch = {
+        $project : {
+        
+          idtipounidad:1,
+         
+            filterThisDoc : {
+                $cond : {
+                    if  : {
+                        $lt : ["$asignados", "$capacidad"]
+                    },
+                then : 1,
+                else  : 0
+            } //or use compare operator $cmp
+        }
+    }
+    }
+    var match = {
+        $match : {
+            filterThisDoc : 1
+            
+        }
+    }
+
+    Facplan4.aggregate([ projectDataForMatch, match]  ).exec(function(err, todos10) {
+   console.log(todos10)
+        if (err){ res.send(err); }
+
+        var duplicates = [];
+        todos10.forEach(function (doc) {duplicates.push(doc.idtipounidad.id);  });
+      //  res.json(duplicates);
+      console.log(duplicates)
+      Tipounidad3.find({_id: {$in: duplicates}}
+            ,null, {sort: {codigo: 1}},function(err, todos) {
+            if (err){ res.send(err); }
+           
+            if(todos.length>0)   {    res.json(todos);   }
+            else
+            {  res.status(500).send('NO EXISTE REGISTRO');      }
+            
+        });
+
+
+    });
+ 
+
+   
+         
+ 
+break;
+
 case 'tipoidioma':
             
       
