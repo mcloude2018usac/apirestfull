@@ -58,8 +58,9 @@ exports.getCatusuario = function(req, res, next){
             if(req.params.id2=='categoriausrmovil')
             {
                
-                formulariousrd.find({idempresa:req.params.id,tipo:req.params.id4}).populate('idpapa').populate('idformulario').exec(function(err, todos) {
+                formulariousrd.find({idempresa:req.params.id,tipo:req.params.id4,idusuario:req.params.id3}).populate('idpapa').populate('idformulario').exec(function(err, todos) {
                     if (err){  res.send(err);  }
+                    console.log(todos)
                     var myData = [];
                   
                          

@@ -6,8 +6,8 @@ exports.getFrmmovild = function(req, res, next){
     if(req.params.id4)
     {   
         if(req.params.id2=='camposdetalle')
-        { 
-            Frmmovild.find({idempresa:req.params.id3,idmovil:req.params.id,  "type" : "Formulario detalle"}).sort({'_id': -1}).exec(function(err, todos) {
+        { //,"Check list detalle"
+            Frmmovild.find({idempresa:req.params.id3,idmovil:req.params.id,  "type" : {$in :  ["Formulario detalle","Check List Detalle"]}}).sort({'order': 1}).exec(function(err, todos) {
                 if (err){  res.send(err);  }
                  res.json(todos);
              });
@@ -16,14 +16,14 @@ exports.getFrmmovild = function(req, res, next){
         {
             if(req.params.id2=='todos')
             { 
-                Frmmovild.find({idempresa:req.params.id3,idmovil:req.params.id4}).sort({'_id': -1}).exec(function(err, todos) {
+                Frmmovild.find({idempresa:req.params.id3,idmovil:req.params.id4}).sort({'order': 1}).exec(function(err, todos) {
                     if (err){  res.send(err);  }
                      res.json(todos);
                  });
             }
             else
             {
-                Frmmovild.find({idempresa:req.params.id3,estado:req.params.id2,idmovil:req.params.id4}).sort({'_id': -1}).exec(function(err, todos) {
+                Frmmovild.find({idempresa:req.params.id3,estado:req.params.id2,idmovil:req.params.id4}).sort({'order': 1}).exec(function(err, todos) {
                     if (err){  res.send(err);  }
                      res.json(todos);
                  });
@@ -50,6 +50,20 @@ exports.getFrmmovild = function(req, res, next){
                
                 
             });
+            case 'camposformulario':
+                console.log({idmovil:req.params.id})
+                Frmmovild.find({idmovil:req.params.id}).populate('type').sort([['order', 1]]).exec(function(err, todos) {
+                  if (err){ res.send(err); }
+                 
+                  var myData = [];
+                  for(var i = 0; i < todos.length;i++){
+                    myData.push({_id:todos[i]._id ,nombre:todos[i].name  })
+                  }
+
+                 res.json(myData);   
+                 
+                  
+              });
             break;
             case 'tipofrmorden':
             Frmmovild.find({idmovil:req.params.id}).sort([['order', -1]]).exec(function(err, todos) {
@@ -102,16 +116,16 @@ if(req.params.id!=='crea')
 
 
           
-            todo.required		=	rr2         	||	todo.required    	;
+            todo.required		=	rr2         	    	;
             todo.placeholder		=	req.body.placeholder        	||	todo.placeholder        	;
             todo.display		=	    rr        	   	||	todo.display   	;
-            todo.selected		=	req.body.selected        	||	todo.selected        	;
+            todo.selected		=	req.body.selected           	;
             todo.default		=	req.body.default        	||	todo.default        	;
-            todo.disabled		=	req.body.disabled        	||	todo.disabled        	;
-            todo.hidden		=	    req.body.hidden        	||	todo.hidden        	;
+            todo.disabled		=	req.body.disabled        		;
+            todo.hidden		=	    req.body.hidden             	;
             todo.position		=	req.body.position        	||	todo.position        	;
             todo.labelsizefondt		=	req.body.labelsizefondt        	||	todo.labelsizefondt        	;
-            todo.blike=req.body.blike        	||	todo.blike        	;
+            todo.blike=req.body.blike                	;
             todo.fondoetiqueta= req.body.fondoetiqueta        	||	todo.fondoetiqueta        ,
             todo.coloretiqueta=  req.body.coloretiqueta        	||	todo.coloretiqueta       ,
 
@@ -119,6 +133,9 @@ if(req.params.id!=='crea')
            
             todo.idformdetalle   		 ={id:req.body.idformdetalle.id,nombre:req.body.idformdetalle.nombre   }   	;
 
+            todo.usarunaves   			=	req.body.usarunaves             	;
+            
+            todo.verregistros   			=	req.body.verregistros      	||	todo.verregistros       	;
             
             todo.combofijo   			=	req.body.combofijo        	   	;
             todo.rangomin=req.body.rangomin        	||	todo.rangomin        	;
@@ -126,7 +143,25 @@ if(req.params.id!=='crea')
             todo.rangostep=req.body.rangostep        	||	todo.rangostep        	;
             todo.alfatypo=req.body.alfatypo        	||	todo.alfatypo        	;
             todo.respuesta=req.body.respuesta        	||	todo.respuesta        	;
+            todo.geoposicion=req.body.geoposicion        	       	;
+            
+
+            todo.maxnumregistros=req.body.maxnumregistros        	||	todo.maxnumregistros        	;
+            
+
             todo.valor=req.body.valor        	||	todo.valor        	;
+            todo.idfrmconsultaorigen =req.body.idfrmconsultaorigen        	||	todo.idfrmconsultaorigen        	;
+            todo.idfrmconsulta2origen=req.body.idfrmconsulta2origen        	||	todo.idfrmconsulta2origen        	;
+            todo.nombreconsulta2origen=req.body.nombreconsulta2origen        	||	todo.nombreconsulta2origen        	;
+            todo.idcampofiltro=req.body.idcampofiltro        	||	todo.idcampofiltro        	;
+            todo.idcampofiltropapa=req.body.idcampofiltropapa        	||	todo.idcampofiltropapa        	;
+            todo.idcampofiltromanual=req.body.idcampofiltromanual        	||	todo.idcampofiltromanual        	;
+            todo.idfrmconsultaorigenpapa =req.body.idfrmconsultaorigenpapa        	||	todo.idfrmconsultaorigenpapa        	;
+            todo.idfrmconsulta=req.body.idfrmconsulta        	||	todo.idfrmconsulta        	;
+          
+            todo.idfrmconsulta2=req.body.idfrmconsulta2        	||	todo.idfrmconsulta2        	;
+            todo.nombreconsulta2=req.body.nombreconsulta2        	||	todo.nombreconsulta2        	;
+            
             todo.usuarioup=req.body.bitacora.email;
             
             
@@ -167,27 +202,40 @@ else{
                         title :req.body.title 	,
                         estado 	: req.body.estado 	,
                         default 	: '' 	,
-
+                        
+                        idfrmconsultaorigen:req.body.idfrmconsultaorigen,
+                        idfrmconsulta2origen:req.body.idfrmconsulta2origen,
+                        nombreconsulta2origen:'',
+                        idfrmconsultaorigen:req.body.idfrmconsultaorigenpapa,
+                        idfrmconsulta:req.body.idfrmconsulta,
+                        idfrmconsulta2:req.body.idfrmconsulta2,
+                        nombreconsulta2:'',
                         required :rr	,
                         placeholder :'Ingrese un '+ req.body.title+'  Valido'	,
                         display :rr,
                         selected :true 	,
                         disabled :'false' 	,
                         hidden :'false' 	,
+                        geoposicion :'false' 	,
                         blike:  'false',
+                        usarunaves:  'false',
                         fondoetiqueta: 'cbg117',
                         coloretiqueta:  'cco104',
                         idformdetalle:'',
+                        idcampofiltro:'',
+                        idcampofiltropapa:'',
+                        idcampofiltromanual:'',
                         position : req.body.position 	,
                         labelsizefondt :'14'	,
                         categoria:'' ,
                         combofijo:'true',
-                    
+                        verregistros:'Ver Todos',
                         rangomin:	 0,
                         rangomax:	 1000,
                         rangostep:	 100,
-                        alfatypo: '',
+                        alfatypo: 'text',
                         respuesta:'',
+                        maxnumregistros:0,
                         valor:0,
                         usuarionew:req.body.bitacora.email
                 }
@@ -289,7 +337,7 @@ else{
                         rangomin:	 0,
                         rangomax:	 1000,
                         rangostep:	 100,
-                        alfatypo: '',
+                        alfatypo: 'text',
                         respuesta:'',
                         valor:0,
                         usuarionew:req.body.bitacora.email

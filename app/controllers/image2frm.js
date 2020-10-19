@@ -13,7 +13,7 @@ var  del= require('del');
 
 exports.getImage2frms = function(req, res, next){
     let imgId = req.params.id;
-    console.log(req.params)
+    
     if(imgId=='banco' || imgId=='5f146aa48caa41db981e6830')
     {
         Image2frm.findById('5f146aa48caa41db981e6830', (err, image2frm) => {
@@ -87,7 +87,7 @@ exports.putImage2frms = function(req, res, next){
 
         todo.save(function (err, todo){
         
-            /* If we encounter an error send the details as a HTTP response */
+        
             if (err)
         {
             res.status(500).send(err)

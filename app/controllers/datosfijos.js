@@ -180,12 +180,12 @@ var defaultDiacriticsRemovalMap = [
       function getNextSequenceValue2auser(id1,cuentaaa,res){
 
 
-        console.log(id1 + '  ' + cuentaaa)
+    
         User.find({ email:id1 }, function (err, todo10)  {
                 if (err) { console.log(err.message)  }
                 if(todo10.length>0)
                 {
-                console.log(todo10[0]._id)
+                
  
          User.findById({  _id:todo10[0]._id }, function (err, todo)  {
                  if (err) { console.log(err.message)  }
@@ -195,7 +195,7 @@ var defaultDiacriticsRemovalMap = [
                      todo.save(function (err, todo333){
                          if (err)     { console.log(err.message)  }
                        //  res.json(todo);
-                       console.log('actualizo:'+id1)
+                    
                      });
                  }
              });
@@ -209,7 +209,7 @@ var defaultDiacriticsRemovalMap = [
       function getNextSequenceValue2a(id1,cuentaaa,res){
 
 
-       console.log(id1 + '  ' + cuentaaa)
+    
 
         Facplan.findById({  _id:id1 }, function (err, todo)  {
                 if (err) { console.log(err.message)  }
@@ -219,7 +219,7 @@ var defaultDiacriticsRemovalMap = [
                     todo.save(function (err, todo333){
                         if (err)     { console.log(err.message)  }
                       //  res.json(todo);
-                      console.log('actualizo:'+cuentaaa)
+                     
                     });
                 }
             });
@@ -258,7 +258,7 @@ var defaultDiacriticsRemovalMap = [
                     todo.foto	=	fullUrl + '/api/images/'+todoe._id
                     todo.save(function (err, todo){
                         if (err)     {  res.status(500).send(err.message)   }
-                        console.log(fullUrl + '/api/images/'+todoe._id)
+                      
                       //  res.json(todo);
                     });
                 }
@@ -332,7 +332,7 @@ var defaultDiacriticsRemovalMap = [
 
                 for (var ii = 0; ii < aa.length; ii++) {
                        
-                        console.log(mat)
+                      
 
                         if(aa[ii].ID_MATERIA==mat  &&  aa[ii].APROBACION=='1')
                         {
@@ -405,7 +405,7 @@ return re;
 exports.getCombofijo = function(req, res, next){
        var sql='';
 
-       console.log(req.params)
+       
 
        switch(req.params.id) {
         case 'reasignapap':
@@ -1611,12 +1611,14 @@ console.log('TERMINA')
                         var d2 =new Date( todos[i].idasigna.fechaini).toISOString().substr(0,10);   
                         var n2 = d2.split('-')   
                         var codu='0'
+                        var codu2='0'
                   
                         for(var jj = 0; jj < todosu.length;jj++){
                                 if(todosu[jj]._id== todos[i].idtipounidad.id)
                                 {
                                         
                                         codu=todosu[jj].codigo
+                                        codu2=todosu[jj].nombre
                                         break;
                                 }
 
@@ -1626,7 +1628,7 @@ console.log('TERMINA')
 
 
                         resp.push({no_orientacion:todos[i].no_orientacion,fechanac:n2[2] + '-'+ n2[1] + '-' + n2[0],
-                                nombre:todos[i].nombre,idcentro:codu,idfacultad:todos[i].idunidadacademica.codigo,codigofac:todos[i].codfac,id_materia:idmat,
+                                nombre:todos[i].nombre,idcentro:codu,nombrecentro:codu2,idfacultad:todos[i].idunidadacademica.codigo,nombrefacultad:todos[i].idunidadacademica.nombre,codigofac:todos[i].codfac,id_materia:idmat,
                               no_asignado:todos[i].noasignado,salon:todos[i].idsalon.nombre,fechaprueba:n[2] + '-'+ n[1] + '-' + n[0],
                               horario:todos[i].idhorario,ingreso:tno,correo:todos[i].idestudiante});
                   

@@ -170,7 +170,7 @@ exports.deleteUsermsg = function(req, res, next){
 
 exports.creaUsermsg2s = function(req, res, next){
 
-console.log(req.body)
+
 
     Usermsg.create({
         userId        	: req.body.userId        	,

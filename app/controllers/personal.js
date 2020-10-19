@@ -29,14 +29,14 @@ function roundxx(value, decimals) {
 
 exports.getPersonal = function(req, res, next){
 
-console.log(req.params)
+
     if(req.params.id11)
     {///5f57d41f07c8795ae87297c2/5f6bd903e8e3885c9c1f386c%C2%B0busrojono234%C2%B05f57d5e507c8795ae87297c5/3/busrojono234@gmail.com/cobro_servicio_bus/5f5ebc3ca9d1cc40cc8f5a36/5f57d65a07c8795ae87297cb/5f57d0b407c8795ae8729761/5f57d0b407c8795ae8729761/1/cobraconqr
 
         switch(req.params.id11) {
             case 'cobraconqr':
                 console.log('entra 999999999999999999')
-console.log(req.params)
+
                 Personalsaldo.find({idempresa:req.params.id8,'idsuscriptor.id' : req.params.email
             }).populate('idsuscriptor.id').exec(function(err, todos) {
                     if (err){ res.send(err); }
@@ -398,7 +398,7 @@ console.log(req.params)
             {
 
 console.log('entra 999999999999999999')
-console.log(req.params)
+
                 Personalsaldo.find({idempresa:req.params.id8,  $or : [
                     { $and : [ { 'idsuscriptor.dpi' : req.params.email }] },
                     { $and : [ { codigo1 : req.params.email }] },
@@ -532,7 +532,7 @@ console.log(req.params)
               
             }
             else{
-  console.log(req.params)   
+     
                 switch(req.params.id2) {
                     case 'empresatodoasociadodisp':
                       var arr=req.params.id4.split('°')
@@ -980,7 +980,7 @@ console.log(todos4)
                                     break;
                                     case 'emailsolorol':
                                         console.log('ENTRA A EMAILSOLOROL')
-                                        console.log(req.params)
+                                        
                                         if(req.params.email=='')
                                         {
                                         res.status(422).send('NO EXISTE REGISTRO');
@@ -1012,7 +1012,7 @@ console.log(todos4)
                                     break;
                     case 'emailsoloid':
                         console.log('ENTRA A EMAILSOLOID')
-                        console.log(req.params)
+                        
                         if(req.params.email=='')
                         {
                         res.status(422).send('NO EXISTE REGISTRO');
@@ -1043,7 +1043,7 @@ console.log(todos4)
                     break;
                     case 'emailsoloidnuevo':
                         console.log('ENTRA A EMAILSOLOID')
-                        console.log(req.params)
+                        
                         if(req.params.email=='')
                         {
                         res.status(422).send('NO EXISTE REGISTRO');
@@ -1104,14 +1104,14 @@ console.log(todos4)
 
 
                case 'unidadper':
-               console.log(req.params);
+               ;
                Personal.find({idempresa:req.params.id3,unidad:req.params.email},function(err, todos) {
                 if (err){  res.send(err);  }
                     res.json(todos);
                 });
                 break;
                 case 'Activo':
-                    console.log(req.params);
+                    ;
                     Personal.find({idempresa:req.params.id3},function(err, todos) {
                      if (err){  res.send(err);  }
                          res.json(todos);
@@ -1127,9 +1127,30 @@ console.log(todos4)
                          });
                          break;
          
-                     
+                         case 'personasactivasfiltro':
+                     var arrr=req.params.id3.split('¬')
+                     console.log(arrr)
+
+                     var filtro=''
+                     if(arrr[1]==='')
+                     {
+                        filtro='{' +  '"idempresa":' + '"' + arrr[0] + '",' + '"estado":' + '"' +  req.params.email+ '"' + '}'
+                     }
+                     else
+                     {
+                        filtro='{' + '"idempresa":' + '"' + arrr[0] + '",' + '"estado":' + '"' +  req.params.email+ '",' + arrr[1] +'}'
+                     }
+console.log(filtro)
+                            Personal.find(JSON.parse(filtro),function(err, todos) {
+                             if (err){  res.send(err);  }
+                            
+                                 res.json(todos);
+                             });
+                             break;
+             
+                         
                 case 'empresatodo':
-                    console.log(req.params);
+                    ;
                     if(req.params.email==='todos')
                     {
                         Personal.find({idempresa:req.params.id3},function(err, todos) {
@@ -1177,7 +1198,7 @@ if(req.params.recordID)
 {
     if(req.params.recordID=='actualizanov')
     {  
-        console.log(req.body)
+        
 
         Personal.findById({ _id: req.body._id}, function (err, todo)  {
             if (err) {  res.send(err);  }
@@ -1204,7 +1225,7 @@ if(req.params.recordID)
  
     if(req.params.recordID=='actualiza2')
     {  
-        console.log(req.body)
+        
 
         Personal.findById({ _id: req.body._id}, function (err, todo)  {
             if (err) {  res.send(err);  }

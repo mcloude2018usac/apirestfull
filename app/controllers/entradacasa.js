@@ -289,7 +289,7 @@ if(req.params.recordID!=='crea')
             Entradacasa.findById({ _id: todos1[0]._id }, function (err, todo)  {
                 if (err) {  res.send(err);  }
                 else
-                {  console.log(req.body)
+                {  
                     
                     todo.estado=	req.body.estado        	||	todo.estado        	;
                     todo.fotos=	req.body.fotos        	||	todo.fotos       	;

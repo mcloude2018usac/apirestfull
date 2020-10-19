@@ -36,7 +36,7 @@ function removeDups(names) {
 
 
 exports.getPivotm = function(req, res, next){
-console.log(req.params)
+
     switch(req.params.id) {
         case 'db1':
 
@@ -103,7 +103,7 @@ var getsegeplanrpt = function(req, res, next) {
       }
   
   var qry=''
-  console.log(req.params)
+  
       switch(req.params.id3) {
         
   case 'grafica':

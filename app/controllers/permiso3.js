@@ -127,7 +127,7 @@ exports.creaPermison32s = function(req, res, next){
 
     if(req.params.id!=='crea')
     {  Bitacora.create(req.body.bitacora);
-        console.log(req.body)
+        
         Permison3.findById({ _id: req.params.id}, function (err, todo)  {
             if (err) {  res.send(err);  }
             else

@@ -57,10 +57,12 @@ if(req.params.recordID!=='crea')
         else
         {   
  todo.idempresa       	=	req.body.idempresa        	||	todo.idempresa;   
- todo.idpapa       	=	req.body.idpapa        	||	todo.idpapa;   
+  
  todo.nombre       	=	 req.body.formulario         	||	todo.formulario;   
  todo.orden       	=	req.body.orden        	||	todo.orden;  
  todo.tipo       	=	req.body.tipo        	||	todo.tipo;    
+ todo.verregistros	=	req.body.verregistros        	||	todo.verregistros;  
+ 
   todo.formulario     	= req.body.formulario    	||	todo.formulario;   
  todo.idformulario       	=	req.body.idformulario        	||	todo.idformulario;   
  todo.consulta       	=	req.body.consulta        	||	todo.consulta;   
@@ -87,6 +89,7 @@ else{
             formulariousrd.create({ 
   idempresa     	: req.body.idempresa    	,
   idpapa     	: req.body.idpapa    	,
+  idusuario     	: req.body.idusuario    	,
   nombre     	: req.body.nombre    	,
   orden     	: req.body.orden    	,
   tipo     	: req.body.tipo    	,
@@ -99,6 +102,7 @@ else{
   filtro     	: req.body.filtro    	,
   reporte     	: req.body.reporte    	,
   estado     	: req.body.estado    	,
+  verregistros	: req.body.verregistros	,
                 usuarionew:req.body.bitacora.email,
               }
                 , function(err, todo) {

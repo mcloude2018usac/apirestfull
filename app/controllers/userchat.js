@@ -10,7 +10,7 @@ function roundxx(value, decimals) {
 
   
 exports.getUserchat = function(req, res, next){
-    console.log(req.params)
+    
     if(req.params.id3)
     {  
         if(req.params.id2=='mios')
