@@ -8,6 +8,8 @@ var AuthenticationController = require('./controllers/authentication'),
     Imagessl2Controller = require('./controllers/imagessl2'),
     tarifaController = require('./controllers/asociadoventa/tarifa'),
     dispositivoController = require('./controllers/asociadoventa/dispositivo'),
+    frmaccionesController = require('./controllers/asociadoventa/frmacciones'),
+    frmtareasprogramadasController = require('./controllers/asociadoventa/frmtareasprogramadas'),
 
     formulariousrController = require('./controllers/formulariousr'),
     formulariousrdController = require('./controllers/formulariousrd'),
@@ -178,6 +180,7 @@ module.exports = function(app){
         participaRoutes = express.Router(),
         pivotemonsterRoutes = express.Router(),
         organigramaRoutes = express.Router(),
+        frmtareasprogramadasRoutes = express.Router(),
         userperfilRoutes = express.Router(),
         participa2Routes = express.Router(),
         siifRoutes = express.Router(),
@@ -195,6 +198,7 @@ module.exports = function(app){
         image2frmRoutes = express.Router(),
         frmactorgrupoRoutes = express.Router(),
         imagesslRoutes = express.Router(),
+        frmaccionesRoutes = express.Router(),
         imagessl2Routes = express.Router(),
         conferenciaRoutes = express.Router(),
         sucursalRoutes = express.Router(),
@@ -391,6 +395,14 @@ dispositivoRoutes.post('/:recordID',requireAuth,  dispositivoController.creadisp
 dispositivoRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  dispositivoController.deletedispositivo);
 
 
+apiRoutes.use('/frmtareasprogramadass', frmtareasprogramadasRoutes);
+frmtareasprogramadasRoutes.get('/', requireAuth,frmtareasprogramadasController.getfrmtareasprogramadas);
+frmtareasprogramadasRoutes.get('/:id/:id2/:id3',requireAuth,  frmtareasprogramadasController.getfrmtareasprogramadas);
+frmtareasprogramadasRoutes.get('/:id/:id2/:id3/:id4/:id5',requireAuth,  frmtareasprogramadasController.getfrmtareasprogramadas);
+frmtareasprogramadasRoutes.get('/:id',requireAuth,  frmtareasprogramadasController.getfrmtareasprogramadas);
+frmtareasprogramadasRoutes.post('/:recordID',requireAuth,  frmtareasprogramadasController.creafrmtareasprogramadas2s);
+frmtareasprogramadasRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  frmtareasprogramadasController.deletefrmtareasprogramadas);
+
 apiRoutes.use('/tarjetacreditos', tarjetacreditoRoutes);
 tarjetacreditoRoutes.get('/', requireAuth,tarjetacreditoController.gettarjetacredito);
 tarjetacreditoRoutes.get('/:id/:id2/:id3',requireAuth,  tarjetacreditoController.gettarjetacredito);
@@ -436,6 +448,15 @@ dtarifaRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  d
   asociadoRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  AsociadoController.deleteAsociado);
 
    //-----------------------------------SIIF----------------------------------
+
+
+   apiRoutes.use('/frmaccioness', frmaccionesRoutes);
+frmaccionesRoutes.get('/', requireAuth,frmaccionesController.getfrmacciones);
+frmaccionesRoutes.get('/:id/:id2/:id3',requireAuth,  frmaccionesController.getfrmacciones);
+frmaccionesRoutes.get('/:id/:id2/:id3/:id4',requireAuth,  frmaccionesController.getfrmacciones);
+frmaccionesRoutes.get('/:id',requireAuth,  frmaccionesController.getfrmacciones);
+frmaccionesRoutes.post('/:recordID',requireAuth,  frmaccionesController.creafrmacciones2s);
+frmaccionesRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  frmaccionesController.deletefrmacciones);
 
 
 apiRoutes.use('/siifs', siifRoutes);
@@ -944,6 +965,7 @@ frmmovilRoutes.get('/:id',requireAuth, FrmmovilController.getFrmmovil);
 frmmovilRoutes.get('/:id/:id2',requireAuth, FrmmovilController.getFrmmovil);
 frmmovilRoutes.get('/:id/:id2/:id3',requireAuth, FrmmovilController.getFrmmovil);
 frmmovilRoutes.get('/:id/:id2/:id3/:id4',requireAuth, FrmmovilController.getFrmmovil);
+frmmovilRoutes.get('/:id/:id2/:id3/:id4/:id5',requireAuth, FrmmovilController.getFrmmovil);
 frmmovilRoutes.post('/:recordID',requireAuth,  FrmmovilController.creaFrmmovil2s);
 frmmovilRoutes.post('/:recordID/:recordID2',requireAuth,  FrmmovilController.creaFrmmovil3s);
 frmmovilRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  FrmmovilController.deleteFrmmovil);
