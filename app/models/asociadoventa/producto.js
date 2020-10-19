@@ -18,7 +18,8 @@
   talla:	 { type : String },  
   codigo: { type : String },
   foto2		: { type : String },  
-  foto3		: { type : String }
+  foto3		: { type : String },
+  compraminima		: { type : Number}
 
     }, {
     timestamps: true
