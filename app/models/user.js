@@ -20,7 +20,7 @@ var UserSchema = new mongoose.Schema({
         required: true
     },
     nombre   		: { type : String, required : true },
-    cui	: { type : String, required : true },
+    cui	: { type : String},
     direccion	: { type : String},
     telefono	: { type : String},
 

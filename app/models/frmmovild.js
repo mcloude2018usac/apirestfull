@@ -22,6 +22,7 @@ var mongoose =require("mongoose");
         categoria: { type : String },
         combofijo: { type : String },
         blike:  { type : String },
+        geoposicion:  { type : String },
         fondoetiqueta:  { type : String },
         coloretiqueta:  { type : String },
         idformdetalle:  	{    id	: { type : String },   nombre	: { type : String }        },
@@ -34,6 +35,20 @@ var mongoose =require("mongoose");
         default: { type : String },
         respuesta: { type : String },
         valor: { type : Number },
+        verregistros: { type : String },
+
+        usarunaves:  { type : String },
+        idfrmconsultaorigen:  { id	: { type : String },   nombre	: { type : String }   },
+        idfrmconsulta2origen:[{   id	: { type : String, required : true },   nombre		: { type : String, required : true }}],
+        nombreconsulta2origen		: { type : String },  
+        idcampofiltro:  { type : String },
+        idcampofiltromanual:  { type : String },
+        idfrmconsulta:  { id	: { type : String },   nombre	: { type : String }   },
+        idfrmconsulta2:[{   id	: { type : String, required : true },   nombre		: { type : String, required : true }}],
+        nombreconsulta2		: { type : String },  
+        idfrmconsultaorigenpapa:  { id	: { type : String },   nombre	: { type : String }   },
+        idcampofiltropapa:  { type : String },
+        maxnumregistros: { type : Number },
         usuarionew	: { type : String },      usuarioup	: { type : String }}, {
         timestamps: true
         });

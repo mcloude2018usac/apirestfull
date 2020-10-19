@@ -2,6 +2,7 @@
  var formulariousrdSchema 		=	new  mongoose.Schema({
   idempresa		: { type : String, required : true },  
  idpapa		: { type : String, required : true,ref:'formulariousr' },  
+ idusuario		: { type : String },  
   nombre		: { type : String },  
   orden		: { type : Number, required : true },  
   formulario		: { type : String, required : true }, 
@@ -14,6 +15,7 @@
   filtro		: { type : String },  
   reporte		: { type : String },  
   estado		: { type : String, required : true },  
+  verregistros	: { type : String },  
   usuarionew		: { type : String },  
   usuarioup		: { type : String },  
     }, {
