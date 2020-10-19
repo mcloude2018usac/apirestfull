@@ -95,7 +95,7 @@ exports.getProducto = function(req, res, next){
     }}
 }
 exports.deleteProducto = function(req, res, next){
-    console.log(req.params)
+    
     Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina Producto '});
     Producto.findByIdAndRemove({ _id: req.params.recordID  }, function(err, todo) {
         var arra1 = functool.getImagesruta (todo.foto1);
@@ -186,7 +186,7 @@ else{
   codigo        : req.body.codigo           	,
   foto2        : req.body.foto2           	,
   foto3        : req.body.foto3           	,
-codigo:'',
+codigo: req.body.codigo,
 
                 usuarionew:req.body.bitacora.email,
               }
