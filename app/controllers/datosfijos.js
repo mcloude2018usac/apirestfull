@@ -1291,7 +1291,8 @@ console.log('TERMINA')
                         { 
                             "$group" : {
                                 "_id" : {
-                                    "idevento" : "$idevento"
+                                    "idevento" : "$idevento",
+                                    "mes": { $dateToString: { format: "%Y-%m}", date: "$createdAt" } }
                                    
                                 }, 
                                 "cantidad" : {
@@ -1302,6 +1303,7 @@ console.log('TERMINA')
                         { 
                             "$project" : {
                                 "idevento" : "$_id.idevento", 
+                                "mes" : "$_id.mes", 
                                 "cantidad" : "$cantidad", 
                                 "_id" :0
                             }
@@ -1314,7 +1316,7 @@ console.log('TERMINA')
                                         if(todos[i]._id==todos2[i2].idevento)
                                         {
                                                 myData.push({nombre:todos[i].nombre,cantidad:todos2[i2].cantidad,estado:todos[i].impresion
-                                                ,grupo:todos[i].tipoevento,id:todos[i]._id});
+                                                ,grupo:todos[i].tipoevento,id:todos[i]._id,mes:todos[i].mes});
                                         }
                                         
                                 }
@@ -1387,7 +1389,8 @@ console.log('TERMINA')
                                         "_id" : {
                                                 "idtipoevento" : "$idtipoevento",
                                                 "idarea" : "$idarea",
-                                            "idevento" : "$idevento"
+                                            "idevento" : "$idevento",
+                                            "mes": { $dateToString: { format: "%Y-%m}", date: "$createdAt" } }
                                            
                                         }, 
                                         "cantidad" : {
@@ -1400,6 +1403,7 @@ console.log('TERMINA')
                                         "idtipoevento" : "$_id.idtipoevento", 
                                         "idarea" : "$_id.idarea", 
                                         "idevento" : "$_id.idevento", 
+                                          "mes" : "$_id.mes", 
                                         "cantidad" : "$cantidad", 
                                         "_id" :0
                                     }
@@ -2189,13 +2193,15 @@ else
                                 
                                 Participa.find({idevento:req.params.id2}).sort({nombre:1}).exec(function(err, todos2) {
                                         if (err){ res.send(err); }
-                                        console.log(todos2)
+                                       
 
                                         if(todos2.length>0)   {  
 
                                                 var myData = [];
                                                 for(var i = 0; i < todos2.length;i++){
-
+                                                        console.log(i)
+console.log({nombre:cleanName(todos2[i].nombre) + ' '+ cleanName(todos2[i].apellido),
+fecha:todos2[i].fecha.substr(0,10),ingresos:cleanName(todos2[i].cuenta),correo:todos2[i].correo  });
 
                                                 myData.push({nombre:cleanName(todos2[i].nombre) + ' '+ cleanName(todos2[i].apellido),fecha:todos2[i].fecha.substr(0,10),ingresos:cleanName(todos2[i].cuenta),correo:todos2[i].correo  });
                                                 }
