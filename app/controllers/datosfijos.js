@@ -1315,7 +1315,7 @@ console.log('TERMINA')
                                 for (var i2 = 0; i2 < todos2.length; i2++) {
                                         if(todos[i]._id==todos2[i2].idevento)
                                         {
-                                                myData.push({nombre:todos[i].nombre,cantidad:todos2[i2].cantidad,estado:todos[i].impresion
+                                                myData.push({unidad:todos[i].unidad,nombre:todos[i].nombre,cantidad:todos2[i2].cantidad,estado:todos[i].impresion
                                                 ,grupo:todos[i].tipoevento,id:todos[i]._id,mes:todos2[i2].mes});
                                         }
                                         
