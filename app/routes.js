@@ -11,6 +11,10 @@ var AuthenticationController = require('./controllers/authentication'),
     frmaccionesController = require('./controllers/asociadoventa/frmacciones'),
     frmtareasprogramadasController = require('./controllers/asociadoventa/frmtareasprogramadas'),
 
+    frmtareasprogramadasfotosController = require('./controllers/asociadoventa/frmtareasprogramadasfotos'),
+    frmtareasprogramadasserviciosController = require('./controllers/asociadoventa/frmtareasprogramadasservicios'),
+
+
     formulariousrController = require('./controllers/formulariousr'),
     formulariousrdController = require('./controllers/formulariousrd'),
     UbicacionentregaController = require('./controllers/asociadoventa/ubicacionentrega'),
@@ -125,6 +129,7 @@ var AuthenticationController = require('./controllers/authentication'),
 
     Edificiousac3Controller = require('./controllers/calusac/unidadedificio3'),
     Idiomausac3Controller = require('./controllers/calusac/unidadidioma3'),
+    Idiomausacnivel3Controller = require('./controllers/calusac/unidadidiomanivel3'),
     Unidadtipogrupo3Controller = require('./controllers/calusac/unidadtipogrupo3'),
     Unidadtipocurso3Controller = require('./controllers/calusac/unidadtipocurso3'),
 
@@ -197,6 +202,8 @@ module.exports = function(app){
         frmactorRoutes = express.Router(),
         image2frmRoutes = express.Router(),
         frmactorgrupoRoutes = express.Router(),
+        frmtareasprogramadasfotosRoutes = express.Router(),
+        frmtareasprogramadasserviciosRoutes = express.Router(),
         imagesslRoutes = express.Router(),
         frmaccionesRoutes = express.Router(),
         imagessl2Routes = express.Router(),
@@ -306,6 +313,7 @@ module.exports = function(app){
         operadoresRoutes = express.Router(),
         edificiousac3Routes = express.Router(),
         idiomausac3Routes = express.Router(),
+        idiomausacnivel3Routes = express.Router(),
         unidadtipogrupo3Routes = express.Router(),
         unidadtipocurso3Routes = express.Router(),
         periodousac4Routes = express.Router(),
@@ -370,6 +378,22 @@ frmactorRoutes.post('/:recordID',requireAuth,  frmactorController.creafrmactor2s
 frmactorRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  frmactorController.deletefrmactor);
 
 
+apiRoutes.use('/frmtareasprogramadasservicioss', frmtareasprogramadasserviciosRoutes);
+frmtareasprogramadasserviciosRoutes.get('/', requireAuth,frmtareasprogramadasserviciosController.getfrmtareasprogramadasservicios);
+frmtareasprogramadasserviciosRoutes.get('/:id/:id2/:id3',requireAuth,  frmtareasprogramadasserviciosController.getfrmtareasprogramadasservicios);
+frmtareasprogramadasserviciosRoutes.get('/:id/:id2/:id3/:id4',requireAuth,  frmtareasprogramadasserviciosController.getfrmtareasprogramadasservicios);
+frmtareasprogramadasserviciosRoutes.get('/:id',requireAuth,  frmtareasprogramadasserviciosController.getfrmtareasprogramadasservicios);
+frmtareasprogramadasserviciosRoutes.post('/:recordID',requireAuth,  frmtareasprogramadasserviciosController.creafrmtareasprogramadasservicios2s);
+frmtareasprogramadasserviciosRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  frmtareasprogramadasserviciosController.deletefrmtareasprogramadasservicios);
+
+
+apiRoutes.use('/frmtareasprogramadasfotoss', frmtareasprogramadasfotosRoutes);
+frmtareasprogramadasfotosRoutes.get('/', requireAuth,frmtareasprogramadasfotosController.getfrmtareasprogramadasfotos);
+frmtareasprogramadasfotosRoutes.get('/:id/:id2/:id3',requireAuth,  frmtareasprogramadasfotosController.getfrmtareasprogramadasfotos);
+frmtareasprogramadasfotosRoutes.get('/:id/:id2/:id3/:id4',requireAuth,  frmtareasprogramadasfotosController.getfrmtareasprogramadasfotos);
+frmtareasprogramadasfotosRoutes.get('/:id',requireAuth,  frmtareasprogramadasfotosController.getfrmtareasprogramadasfotos);
+frmtareasprogramadasfotosRoutes.post('/:recordID',requireAuth,  frmtareasprogramadasfotosController.creafrmtareasprogramadasfotos2s);
+frmtareasprogramadasfotosRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  frmtareasprogramadasfotosController.deletefrmtareasprogramadasfotos);
 
   apiRoutes.use('/Image2frms', image2frmRoutes);
   image2frmRoutes.get('/:id',  Image2frmController.getImage2frms);
@@ -1252,6 +1276,13 @@ idiomausac3Routes.get('/:id2/:id3',requireAuth,  Idiomausac3Controller.getUnidad
 idiomausac3Routes.post('/:recordID', requireAuth, Idiomausac3Controller.creaUnidadidioma32s);
 idiomausac3Routes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  Idiomausac3Controller.deleteUnidadidioma3);
 
+
+
+apiRoutes.use('/unidadidiomanivel3s',idiomausacnivel3Routes);
+idiomausacnivel3Routes.get('/:id',requireAuth,  Idiomausacnivel3Controller.getUnidadidiomanivel3);
+idiomausacnivel3Routes.get('/:id2/:id3/:id4',requireAuth,  Idiomausacnivel3Controller.getUnidadidiomanivel3);
+idiomausacnivel3Routes.post('/:recordID', requireAuth, Idiomausacnivel3Controller.creaUnidadidiomanivel32s);
+idiomausacnivel3Routes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  Idiomausacnivel3Controller.deleteUnidadidiomanivel3);
 
 
 //-----------------------------------unidad tipogrupo 3
