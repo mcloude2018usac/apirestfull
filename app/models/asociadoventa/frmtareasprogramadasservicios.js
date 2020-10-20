@@ -6,6 +6,7 @@
   nombre		: { type : String, required : true },  
   descripcion		: { type : String, required : true },  
   foto		: { type : String, required : true },  
+  estado		: { type : String, required : true },  
   monto		: { type : Number, required : true },  
     }, {
     timestamps: true
