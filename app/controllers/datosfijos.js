@@ -1316,7 +1316,7 @@ console.log('TERMINA')
                                         if(todos[i]._id==todos2[i2].idevento)
                                         {
                                                 myData.push({nombre:todos[i].nombre,cantidad:todos2[i2].cantidad,estado:todos[i].impresion
-                                                ,grupo:todos[i].tipoevento,id:todos[i]._id,mes:todos[i].mes});
+                                                ,grupo:todos[i].tipoevento,id:todos[i]._id,mes:todos2[i2].mes});
                                         }
                                         
                                 }
@@ -1417,7 +1417,7 @@ console.log('TERMINA')
                                                 if(todos[i]._id==todos2[i2].idevento)
                                                 {
                                                         myData.push({nombre:todos[i].nombre,cantidad:todos2[i2].cantidad,tipoevento:todos[i].idtipoevento
-                                                        ,area:todos[i].idarea,mes:todos[i].mes});
+                                                        ,area:todos[i].idarea,mes:todos2[i2].mes});
                                                 }
                                                 
                                         }
