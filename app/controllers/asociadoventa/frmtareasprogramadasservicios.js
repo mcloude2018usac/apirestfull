@@ -44,13 +44,13 @@ if(req.params.recordID!=='crea')
         if (err) {  res.send(err);  }
         else
         {   
- todo.idempresa       	=	req.body.idempresa        	||	todo.idempresa;   
- todo.idpapa       	=	req.body.idpapa        	||	todo.idpapa;   
+ 
  todo.tipo       	=	req.body.tipo        	||	todo.tipo;   
  todo.nombre       	=	req.body.nombre        	||	todo.nombre;   
  todo.descripcion       	=	req.body.descripcion        	||	todo.descripcion;   
  todo.foto       	=	req.body.foto        	||	todo.foto;   
  todo.monto       	=	req.body.monto        	||	todo.monto;   
+ todo.estado       	=	req.body.estado        	||	todo.estado   
             todo.usuarioup=req.body.bitacora.email;
             todo.save(function (err, todo){
                 if (err)     {  res.status(500).send(err.message)   }
@@ -67,12 +67,13 @@ else{
         {   
             frmtareasprogramadasservicios.create({ 
   idempresa     	: req.body.idempresa    	,
- // idpapa     	: req.body.idpapa    	,
+  idpapa     	: req.body.idpapa    	,
   tipo     	: req.body.tipo    	,
   nombre     	: req.body.nombre    	,
   descripcion     	: req.body.descripcion    	,
   foto     	: req.body.foto    	,
   monto     	: req.body.monto    	,
+ estado    	: req.body.estado    	,
                 usuarionew:req.body.bitacora.email,
               }
                 , function(err, todo) {
