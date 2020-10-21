@@ -74,7 +74,7 @@ if(req.params.recordID!=='crea')
  todo.nombre       	=	req.body.nombre        	||	todo.nombre;   
  todo.foto	=	req.body.foto        	||	todo.foto;   
  todo.msmpublicidad	=	req.body.msmpublicidad        	||	todo.msmpublicidad;   
- 
+ todo.sienvio	=	req.body.sienvio        	;   
  todo.direccion       	=	req.body.direccion        	||	todo.direccion;   
  todo.telefono       	=	req.body.telefono        	||	todo.telefono;   
  todo.correo       	=	req.body.correo        	||	todo.correo;   
@@ -115,6 +115,7 @@ else{
   nombrecomercial     	: req.body.nombrecomercial    	,
   direccioncomercial     	: req.body.direccioncomercial    	,
   estado     	: req.body.estado   , 
+  sienvio :req.body.sienvio  , 
   moneda	: req.body.moneda    	,	
   tipovista	: req.body.tipovista    	,
                 usuarionew:req.body.bitacora.email,
