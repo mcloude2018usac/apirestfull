@@ -456,7 +456,7 @@ exports.getAsignaubicacion = function(req, res, next){
         
         switch(req.params.id3) {
             case 'todosautorizaxid':
-                Asignaubicacion.find({userasignadoemail:req.params.id,"estadooperador" : req.params.id2}).populate('tipopago').exec(function(err, todos) {
+                Asignaubicacion.find({userasignadoemail:req.params.id,"estadooperador" : req.params.id2}).populate('tipopago').populate('ididioma').exec(function(err, todos) {
            
               
                     if (err){ res.send(err); }
@@ -713,20 +713,21 @@ case 'tipounidad':
     }
 
     Facplan4.aggregate([ projectDataForMatch, match]  ).exec(function(err, todos10) {
-   console.log(todos10)
+  
         if (err){ res.send(err); }
 
         var duplicates = [];
         todos10.forEach(function (doc) {duplicates.push(doc.idtipounidad.id);  });
       //  res.json(duplicates);
-      console.log(duplicates)
-      Tipounidad3.find({_id: {$in: duplicates}}
+
+  
+    
+      Tipounidad3.find({_id: {$in: duplicates},estado:'Activo'}
             ,null, {sort: {codigo: 1}},function(err, todos) {
             if (err){ res.send(err); }
-           
-            if(todos.length>0)   {    res.json(todos);   }
-            else
-            {  res.status(500).send('NO EXISTE REGISTRO');      }
+       
+               res.json(todos);   
+          
             
         });
 
@@ -762,7 +763,7 @@ case 'tipoidioma':
         }
     ]).exec(function(err, todos10a) {
         if (err){ res.send(err); }
-
+console.log(todos10a)
         var duplicates = [];
         var duplicates2 = [];
 
