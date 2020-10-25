@@ -455,6 +455,26 @@ exports.getAsignaubicacion = function(req, res, next){
     { 
         
         switch(req.params.id3) {
+            case 'todosasignacalusac':
+console.log(req.params.id2)
+         
+                Asignaubicacion.find({$or : [
+                    { $and : [ { identificador : req.params.id2 }] },
+                    { $and : [ { noorden : req.params.id2 }] },
+                 
+                    { $and : [ { idinterno : req.params.id2 }] },
+                  
+                    { $and : [ { identificador2 : req.params.id2 }] },
+                 ]
+                }).populate('tipopago').populate('ididioma').exec(function(err, todos) {
+                    if (err){ res.send(err); console.log(err) }
+             
+                res.json(todos);   
+               
+                    
+                    
+                });
+                break;
             case 'todosautorizaxid':
                 Asignaubicacion.find({userasignadoemail:req.params.id,"estadooperador" : req.params.id2}).populate('tipopago').populate('ididioma').exec(function(err, todos) {
            
