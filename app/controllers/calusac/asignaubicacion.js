@@ -502,6 +502,9 @@ console.log(req.params.id2)
                     { 
                         "$group" : {
                             "_id" : {
+                                "idprofesor":"$idprofesor",
+                                "ididioma":"$ididioma",
+                                "idprofesornombre":"$idprofesornombre",
                                 "iddia" : "$iddia", 
                                 "idhora" : "$idhora", 
                                 "idedificio" : "$idedificio", 
@@ -512,8 +515,11 @@ console.log(req.params.id2)
                     }, 
                     { 
                         "$project" : {
+                            "idprofesor" : "$_id.idprofesor", 
+                            "idprofesornombre" : "$_id.idprofesornombre", 
                             "idedificio" : "$_id.idedificio", 
                             "idsalon" : "$_id.idsalon", 
+                            "ididioma" : "$_id.ididioma", 
                             "iddia" : "$_id.iddia", 
                             "idhora" : "$_id.idhora", 
                             "estadoacta":"$_id.estadoacta",
@@ -522,11 +528,13 @@ console.log(req.params.id2)
                     }
                 ]).exec(function(err, todos10) {
                     if (err){ res.send(err); }
-              
+              console.log(todos10)
                      var result = [];
                      for (const item of todos10) {
+
+                        
                       
-                            result.push({idedificio:{id:item.idedificio.id,nombre:item.idedificio.nombre},
+                            result.push({ididioma:item.ididioma,idprofesornombre:item.idprofesornombre,idprofesor:item.idprofesor,idedificio:{id:item.idedificio.id,nombre:item.idedificio.nombre},
                                 idsalon:{id:item.idsalon.id,nombre:item.idsalon.nombre},nombre:item.idsalon.nombre + ' ' + item.idedificio.nombre + ' ' + item.iddia + ' ' + item.iddia,
                                 iddia:item.iddia,idhora:item.idhora,estadoacta:item.estadoacta});
                         

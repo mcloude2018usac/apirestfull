@@ -6,19 +6,31 @@ var Unidadnivel3 = require('../../models/calusac/unidadnivel3');
 var Unidadacademica3 = require('../../models/calusac/unidadacademica3');
 var Unidadprofesor3 = require('../../models/user');
 var Unidadpago3 = require('../../models/calusac/unidadpago3');
+var Unidadidiomanivel3 = require('../../models/calusac/unidadidiomanivel3');
 
 exports.getUnidadplan4 = function(req, res, next){
     if(req.params.id5)
     {  
-       
+       console.log(req.params)
     switch(req.params.id5) {
+        case 'nivelubica22':
+            console.log({idtipounidad:req.params.id,ididioma:req.params.id2 ,idtipogrupo:req.params.id3})
+            Unidadidiomanivel3.find({idtipounidad:req.params.id,ididioma:req.params.id2 },function(err, todos) {
+                    if (err){ res.send(err); }
 
+                    res.json(todos);
+                    
+                });
+             
+
+        break;
+   
         case 'nivelubica':
-          //  console.log({idtipounidad:req.params.id,ididioma:req.params.id2 ,idtipogrupo:req.params.id3})
+            console.log({idtipounidad:req.params.id,ididioma:req.params.id2 ,idtipogrupo:req.params.id3})
                 Unidadacademica3.find({idtipounidad:req.params.id,ididioma:req.params.id2 ,idtipogrupo:req.params.id3},function(err, todos) {
                     if (err){ res.send(err); }
 
-            //        console.log(todos)
+                   console.log(todos)
                    
                     if(todos.length>0)   {    
                         
