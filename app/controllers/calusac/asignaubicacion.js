@@ -486,6 +486,73 @@ console.log(req.params.id2)
                     
                 });
                 break;
+                case 'horarioprofe2aubica':
+              
+                 
+                        Asignaubicacion.aggregate(   [
+                            { 
+                                "$match" : {
+                                  
+                                    "estadopago" : "Asignación exitosa",
+                                    "estadoacta":req.params.id2
+                                }
+                            }, 
+                            { 
+                                "$group" : {
+                                    "_id" : {
+                                        "idplanifica" : "$idplanifica",
+                                        "idtipounidad" : "$idtipounidad",
+                                        "estadoacta" : "$estadoacta"
+                                    }
+                                }
+                            }, 
+                            { 
+                                "$project" : {
+                                        "idplanifica" : "$_id.idplanifica", 
+                                        "estadoacta" : "$_id.estadoacta", 
+                                        "idtipounidad" : "$_id.idtipounidad",
+                                    "_id" :0
+                                }
+                            }
+                        ]).exec(function(err, todos10a) {
+                            if (err){ res.send(err); }
+                             var result = [];
+                             var duplicates = [];
+                             var duplicates2 = [];
+                             for(var i = 0; i < todos10a.length;i++){
+                                 duplicates.push(todos10a[i].idplanifica);
+                             }
+                             Facplan4.find({ _id:duplicates}).populate('ididioma').populate('idprofesor').populate('idtipo').exec(function(err, todos10) {
+                                    if (err){  res.send(err);  }
+                              var result = [];
+                              for (const item of todos10) {
+                                 var planx=''
+                                             for(var i = 0; i < todos10a.length;i++){
+                                                 if(todos10a[i].idplanifica==item._id)
+                                                 {
+                                                     planx=todos10a[i].estadoacta
+                                                     break;
+                                                 }
+                                             }
+                                     result.push({_id:item._id,idtipounidad:item.idtipounidad,
+                                       
+                                         nombre:'Nombre:'+item.idtipounidad.nombre ,
+                                         idperiodo:item.idperiodo ,
+                                         ididioma:item.ididioma,
+                                         idedificio:item.idedificio ,
+                                         idsalon:item.idsalon ,
+                                         idhora:item.idhora ,
+                                         iddia:item.iddia ,
+                                         idtipo:item.idtipo,
+                                         idprofesor:item.idprofesor,
+                                         estadoacta:planx
+                                       });             
+                             }
+                                     res.json(result);
+                             });
+                                //    res.json(result);
+                        });
+                break;
             case 'horarioprofe':
               
             var  aa=(req.params.id2).split('°')
@@ -494,6 +561,7 @@ console.log(req.params.id2)
                 Asignaubicacion.aggregate(   [
                     { 
                         "$match" : {
+                            "estadopago" : "Asignación exitosa",
                             "idprofesor" : req.params.id, 
                             "ididioma" : aa[0],
                             "estadoacta":aa[1]
@@ -559,7 +627,7 @@ console.log(req.params.id2)
                 { 
                     "$match" : {
                      
-                    
+                        "estadopago" : "Asignación exitosa",
                         "estadoacta":req.params.id2
                       
                     }
