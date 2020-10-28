@@ -310,7 +310,7 @@ exports.getAsignaubicacion = function(req, res, next){
         {
         if(req.params.id=='todos100')
         {
-            Asignaubicacion.find({ididioma:req.params.id2
+            Asignaubicacion.find({ "estadopago" : "Asignación exitosa",ididioma:req.params.id2
             ,'idedificio.id': req.params.id4,'idsalon.id':req.params.id5,iddia:req.params.id6,idhora:req.params.id7
         }).populate('ididioma').exec(function(err, todos10) {
                 if (err){ res.send(err); }
@@ -392,7 +392,7 @@ exports.getAsignaubicacion = function(req, res, next){
             {
                 console.log('entra aqui')
               
-                Asignacalusac.find({idplanifica:req.params.id2
+                Asignacalusac.find({ "estadopago" : "Asignación exitosa",idplanifica:req.params.id2
                 
             }).populate('ididioma')  .select({carnecalusac:1, "correo":1,"telefono":1, "nombre":1,"cui": 1,"carnecalusac": 1,"n1": 1,"n2": 1,"n3": 1,
             "n4":1,"n5":1,  "profedor":"1",     "_id": 1}).sort({   "carnecalusac" :1    }).exec(function(err, todos10) {
@@ -425,19 +425,20 @@ exports.getAsignaubicacion = function(req, res, next){
             {
         if(req.params.id=='todos')
         {
-            Asignaubicacion.find({ididioma:req.params.id2
+            
+            Asignaubicacion.find({ "estadopago" : "Asignación exitosa",ididioma:req.params.id2
             ,'idedificio.id': req.params.id4,'idsalon.id':req.params.id5,iddia:req.params.id6
             ,idhora:req.params.id7
         }).populate('ididioma').exec(function(err, todos10) {
                 if (err){ res.send(err); }
-    
+              
                 res.json(todos10);
             });
 
         }
         else
         {
-            Asignaubicacion.find({'idprofesor' :req.params.id,ididioma:req.params.id2
+            Asignaubicacion.find({ "estadopago" : "Asignación exitosa",'idprofesor' :req.params.id,ididioma:req.params.id2
             ,'idedificio.id': req.params.id4,'idsalon.id':req.params.id5,iddia:req.params.id6,idhora:req.params.id7
         }).populate('ididioma').exec(function(err, todos10) {
                 if (err){ res.send(err); }
@@ -476,7 +477,7 @@ console.log(req.params.id2)
                 });
                 break;
             case 'todosautorizaxid':
-                Asignaubicacion.find({userasignadoemail:req.params.id,"estadooperador" : req.params.id2}).populate('tipopago').populate('ididioma').exec(function(err, todos) {
+                Asignaubicacion.find({ "estadopago" : "Asignación exitosa",userasignadoemail:req.params.id,"estadooperador" : req.params.id2}).populate('tipopago').populate('ididioma').exec(function(err, todos) {
            
               
                     if (err){ res.send(err); }
@@ -519,12 +520,14 @@ console.log(req.params.id2)
                              var result = [];
                              var duplicates = [];
                              var duplicates2 = [];
+                             console.log(todos10a)
                              for(var i = 0; i < todos10a.length;i++){
                                  duplicates.push(todos10a[i].idplanifica);
                              }
                              Facplan4.find({ _id:duplicates}).populate('ididioma').populate('idprofesor').populate('idtipo').exec(function(err, todos10) {
                                     if (err){  res.send(err);  }
                               var result = [];
+                          
                               for (const item of todos10) {
                                  var planx=''
                                              for(var i = 0; i < todos10a.length;i++){
@@ -534,6 +537,19 @@ console.log(req.params.id2)
                                                      break;
                                                  }
                                              }
+                                             console.log({_id:item._id,idtipounidad:item.idtipounidad,
+                                       
+                                                nombre:'Nombre:'+item.idtipounidad.nombre ,
+                                                idperiodo:item.idperiodo ,
+                                                ididioma:item.ididioma,
+                                                idedificio:item.idedificio ,
+                                                idsalon:item.idsalon ,
+                                                idhora:item.idhora ,
+                                                iddia:item.iddia ,
+                                                idtipo:item.idtipo,
+                                                idprofesor:item.idprofesor,
+                                                estadoacta:planx
+                                              })
                                      result.push({_id:item._id,idtipounidad:item.idtipounidad,
                                        
                                          nombre:'Nombre:'+item.idtipounidad.nombre ,
@@ -1072,7 +1088,7 @@ break;
             case 'idiomasprofe':
                   console.log('entra ubicacion')
                   console.log({'idprofesor' :req.params.id})
-                    Asignaubicacion.find({'idprofesor' :req.params.id}).populate('ididioma').exec(function(err, todos10) {
+                    Asignaubicacion.find({ "estadopago" : "Asignación exitosa",'idprofesor' :req.params.id}).populate('ididioma').exec(function(err, todos10) {
                         if (err){ res.send(err); }
                         var result = [];
                         const map = new Map();
