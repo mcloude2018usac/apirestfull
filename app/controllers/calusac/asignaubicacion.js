@@ -13,6 +13,9 @@ var Calusacnota = require('../../models/calusac/calusacnota');
 var request = require('request');
 var xml2js = require ('xml2js'); 
 
+
+var Unidadperiodo4 = require('../../models/calusac/unidadperiodo4');
+
 var Uniaca3 = require('../../models/calusac/unidadacademica3');
 var Uidioma3 = require('../../models/calusac/unidadidioma3');
 var Unidadtipogrupo3 = require('../../models/calusac/unidadtipogrupo3');
@@ -855,8 +858,22 @@ break;
 case 'tipoidioma':
             
       
+    Unidadperiodo4.find({estado :'Activo'},function(err, todosaaa) {
+        if (err){  res.send(err);  }
+        
+         var duplicates2 = [];
 
+         for(var i = 0; i < todosaaa.length;i++){
+           
+             duplicates2.push(''+todosaaa[i]._id+'');
+          
+         
+         }
+console.log(duplicates2)
     Facplan4.aggregate(   [
+       { $match : {
+            'idperiodo.id' : {$in:duplicates2}
+       }},
        
         { 
             "$group" : {
@@ -900,7 +917,7 @@ console.log(todos10a)
 
   
    
-         
+    });
                
             
     });
