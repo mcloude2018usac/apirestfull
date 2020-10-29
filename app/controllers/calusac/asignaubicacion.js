@@ -10,6 +10,8 @@ var unidadidioma3 = require('../../models/calusac/unidadidioma3');
 var Operadores = require('../../models/calusac/operadoresb');
 var Asignacalusac = require('../../models/calusac/asignacalusac');
 var Calusacnota = require('../../models/calusac/calusacnota');
+var Calusacnota2 = require('../../models/calusac/calusacnota2');
+
 var request = require('request');
 var xml2js = require ('xml2js'); 
 
@@ -18,6 +20,8 @@ var Unidadperiodo4 = require('../../models/calusac/unidadperiodo4');
 
 var Uniaca3 = require('../../models/calusac/unidadacademica3');
 var Uidioma3 = require('../../models/calusac/unidadidioma3');
+
+
 var Unidadtipogrupo3 = require('../../models/calusac/unidadtipogrupo3');
 var Unidadidioma3 = require('../../models/calusac/unidadidioma3');
 
@@ -49,27 +53,7 @@ function getNextSequenceValue2(myData3cc,req,res,unixx,idixx){
        }
    }
 
-   console.log({ 
-    idasigna:myData3cc._id,
-    cui:myData3cc.cui,
-    identificador:myData3cc.identificador,
-    carnecalusac:myData3cc.carnecalusac,
-    nombre: myData3cc.nombre,
-    ididioma:myData3cc.ididioma,
-    
-    tipopago: myData3cc.tipopago,
-    n1	: myData3cc.n1,
-    n2	: myData3cc.n2,
-    n3	: myData3cc.n3,
-    n4	: myData3cc.n4,
-    n5	: myData3cc.n5,
-    estado: testado,
-    usuarionew	:myData3cc.usuarionew,
-    codigocurso:unitt,
-    codigoidioma:iditt
 
-    
-})
 
                     Calusacnota.create({ 
                             idasigna:myData3cc._id,
@@ -96,7 +80,37 @@ function getNextSequenceValue2(myData3cc,req,res,unixx,idixx){
 
 }
 
+function getNextSequenceValue23(myData3cc,req,res,unitt,iditt){
+  
 
+
+ console.log( myData3cc)
+ 
+ 
+                     Calusacnota2.create({ 
+                             idasigna:myData3cc._id,
+                             cui:myData3cc.identificador,
+                             identificador:myData3cc.identificador,
+                            
+                             nombre: myData3cc.nombre,
+                             ididioma:myData3cc.ididioma,
+                             
+                    
+                             n1	:{id: myData3cc.n1.id,nombre:myData3cc.n1.nombre},
+                             n2	:{id: myData3cc.n2.id,nombre:myData3cc.n2.nombre}, 
+                             n3	:{id: myData3cc.n3.id,nombre:myData3cc.n3.nombre},                          
+                             estado: 'Ganada',
+                             usuarionew	:myData3cc.usuarionew,
+                             codigocurso:unitt,
+                             codigoidioma:iditt
+                       
+                             
+                         });
+     
+ 
+ }
+ 
+ 
 
 exports.getAsignaubicacion = function(req, res, next){
     if(req.params.id7)
@@ -339,7 +353,38 @@ exports.getAsignaubicacion = function(req, res, next){
                         console.error(err);
                     }
      
-                    res.json(duplicates); 
+                    if(aa[1]=='Final')
+                    {
+                       
+
+                        Asignaubicacion.find({idplanifica:aa[2]}).populate('ididioma').exec( function (err, result10) {
+                            if (err) {
+                                console.error(err);
+                            }
+
+                            console.log(result10)
+                            for(var i = 0; i < result10.length;i++){
+                                var myData3cc=result10[i] 
+                               
+                               
+                                getNextSequenceValue23(myData3cc,req,res,aa[2],req.params.id2);
+    
+                             }
+
+                             res.json(duplicates);                         
+
+                        });
+                       
+                        
+                 
+                    }
+                    else
+                    {
+                        res.json(duplicates); 
+
+                    }
+                 
+                  
                    
                 });
 
@@ -540,25 +585,14 @@ console.log(req.params.id2)
                                                      break;
                                                  }
                                              }
-                                             console.log({_id:item._id,idtipounidad:item.idtipounidad,
-                                       
-                                                nombre:'Nombre:'+item.idtipounidad.nombre ,
-                                                idperiodo:item.idperiodo ,
-                                                ididioma:item.ididioma,
-                                                idedificio:item.idedificio ,
-                                                idsalon:item.idsalon ,
-                                                idhora:item.idhora ,
-                                                iddia:item.iddia ,
-                                                idtipo:item.idtipo,
-                                                idprofesor:item.idprofesor,
-                                                estadoacta:planx
-                                              })
+                                           
                                      result.push({_id:item._id,idtipounidad:item.idtipounidad,
                                        
                                          nombre:'Nombre:'+item.idtipounidad.nombre ,
                                          idperiodo:item.idperiodo ,
                                          ididioma:item.ididioma,
                                          idedificio:item.idedificio ,
+                                         codigocurso:item.codigocurso ,
                                          idsalon:item.idsalon ,
                                          idhora:item.idhora ,
                                          iddia:item.iddia ,
