@@ -266,7 +266,7 @@ if(req.params.recordID!=='crea')
             todo.ididioma=	req.body.ididioma       	||	todo.ididioma       	;
             todo.idtipo=	req.body.idtipo       	||	todo.idtipo       	;
             todo.idprofesor=	req.body.idprofesor        	||	todo.idprofesor        	;
-            
+            todo.codigocurso=	req.body.codigocurso       	||	todo.codigocurso       	;
           
             todo.capacidad=	req.body.capacidad        	||	todo.capacidad        	;
             todo.asignados=	req.body.asignados        	||	todo.asignados        	;
@@ -293,6 +293,7 @@ else{
            nombre: req.body.nombre,
            idhora: req.body.idhora,
            ididioma: req.body.ididioma,
+           codigocurso:req.body.codigocurso,
            idtipo: req.body.idtipo,
            iddia: req.body.iddia, idprofesor: req.body.idprofesor
            },function(err, todos) {
@@ -315,6 +316,7 @@ else{
             idprofesor: req.body.idprofesor,
             capacidad: req.body.capacidad,
             asignados: req.body.asignados,
+            codigocurso:req.body.codigocurso,
         
         
             usuarionew:req.body.bitacora.email
