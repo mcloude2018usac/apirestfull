@@ -480,7 +480,7 @@ console.log(req.params.id2)
                 });
                 break;
             case 'todosautorizaxid':
-                Asignaubicacion.find({ "estadopago" : "Asignación exitosa",userasignadoemail:req.params.id,"estadooperador" : req.params.id2}).populate('tipopago').populate('ididioma').exec(function(err, todos) {
+                Asignaubicacion.find({ userasignadoemail:req.params.id,"estadooperador" : req.params.id2}).populate('tipopago').populate('ididioma').exec(function(err, todos) {
            
               
                     if (err){ res.send(err); }
