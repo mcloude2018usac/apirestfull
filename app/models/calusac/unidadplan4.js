@@ -10,6 +10,10 @@ var mongoose =require("mongoose");
             type: String,
             required: true
         },
+        codigocurso: {
+            type: String,
+            required: true
+        },
         ididioma: {
             type: String,
             required: true,ref:'Unidadidioma3'
