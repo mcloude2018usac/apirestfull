@@ -84,8 +84,6 @@ function getNextSequenceValue23(myData3cc,req,res,unitt,iditt){
   
 
 
- console.log( myData3cc)
- 
  
                      Calusacnota2.create({ 
                              idasigna:myData3cc._id,
@@ -93,7 +91,7 @@ function getNextSequenceValue23(myData3cc,req,res,unitt,iditt){
                              identificador:myData3cc.identificador,
                             
                              nombre: myData3cc.nombre,
-                             ididioma:myData3cc.ididioma,
+                             ididioma:myData3cc.ididioma._id,
                              
                     
                              n1	:{id: myData3cc.n1.id,nombre:myData3cc.n1.nombre},
@@ -161,7 +159,7 @@ exports.getAsignaubicacion = function(req, res, next){
                                 console.error(err);
                             }
 
-                            console.log(result10)
+                        
                             for(var i = 0; i < result10.length;i++){
                                 var myData3cc=result10[i] 
                                
@@ -243,7 +241,7 @@ exports.getAsignaubicacion = function(req, res, next){
         {
          
             //todos100a/5ecc254ebc3a1c001e9ed01d/personasprofe2/1/4/3/2°Final
-            console.log({idplanifica:req.params.id2,estadoacta:{$in:['Preliminar','Grabación']}})
+           
             Asignacalusac.find({idplanifica:req.params.id2,estadoacta:{$in:['Preliminar','Grabación']}}).exec( function (err, result10a) {
                 if (err) {
                     console.error(err);
@@ -285,7 +283,7 @@ exports.getAsignaubicacion = function(req, res, next){
                                 console.error(err);
                             }
 
-                            console.log(result10)
+                     
                             for(var i = 0; i < result10.length;i++){
                                 var myData3cc=result10[i] 
                                
@@ -362,12 +360,12 @@ exports.getAsignaubicacion = function(req, res, next){
                                 console.error(err);
                             }
 
-                            console.log(result10)
+                          
                             for(var i = 0; i < result10.length;i++){
                                 var myData3cc=result10[i] 
                                
                                
-                                getNextSequenceValue23(myData3cc,req,res,aa[2],req.params.id2);
+                                getNextSequenceValue23(myData3cc,req,res,aa[3],req.params.id2);
     
                              }
 
@@ -400,7 +398,7 @@ exports.getAsignaubicacion = function(req, res, next){
             if(req.params.id=='todos1000excel')
             {
                 var filename   = "registros.csv";
-                console.log('entra aqui')
+               
               
                 Asignacalusac.find({idplanifica:req.params.id2
                 
@@ -438,7 +436,7 @@ exports.getAsignaubicacion = function(req, res, next){
             {
             if(req.params.id=='todos1000')
             {
-                console.log('entra aqui')
+              
               
                 Asignacalusac.find({ "estadopago" : "Asignación exitosa",idplanifica:req.params.id2
                 
@@ -505,7 +503,7 @@ exports.getAsignaubicacion = function(req, res, next){
         
         switch(req.params.id3) {
             case 'todosasignacalusac':
-console.log(req.params.id2)
+
          
                 Asignaubicacion.find({$or : [
                     { $and : [ { identificador : req.params.id2 }] },
@@ -568,7 +566,7 @@ console.log(req.params.id2)
                              var result = [];
                              var duplicates = [];
                              var duplicates2 = [];
-                             console.log(todos10a)
+                 
                              for(var i = 0; i < todos10a.length;i++){
                                  duplicates.push(todos10a[i].idplanifica);
                              }
@@ -610,7 +608,7 @@ console.log(req.params.id2)
               
             var  aa=(req.params.id2).split('°')
 
-            console.log(aa)
+
                 Asignaubicacion.aggregate(   [
                     { 
                         "$match" : {
@@ -649,7 +647,7 @@ console.log(req.params.id2)
                     }
                 ]).exec(function(err, todos10) {
                     if (err){ res.send(err); }
-              console.log(todos10)
+  
                      var result = [];
                      for (const item of todos10) {
 
@@ -800,7 +798,7 @@ console.log(req.params.id2)
             }
         ]).exec(function(err, todos10a) {
             if (err){ res.send(err); }
-console.log(todos10a)
+
             var duplicates = [];
             var duplicates2 = [];
 
@@ -903,7 +901,7 @@ case 'tipoidioma':
           
          
          }
-console.log(duplicates2)
+
     Facplan4.aggregate(   [
        { $match : {
             'idperiodo.id' : {$in:duplicates2}
@@ -926,7 +924,7 @@ console.log(duplicates2)
         }
     ]).exec(function(err, todos10a) {
         if (err){ res.send(err); }
-console.log(todos10a)
+
         var duplicates = [];
         var duplicates2 = [];
 
@@ -1007,13 +1005,13 @@ break;
                  
                 
                 }
-                console.log({ _id:duplicates})
+    
                 //cuidado si son examennes de ubicacion deberia de ser facplan4
                 Facplan3.find({ _id:duplicates}).populate('idnivel').populate('idjornada').populate('idhorario').
                 populate('idprofesor').exec(function(err, todos10) {
                        if (err){  res.send(err);  }
 
-                    console.log(todos10)
+                
                  var result = [];
                  for (const item of todos10) {
                   
@@ -1107,7 +1105,7 @@ break;
                 unidadidioma3.find({ _id: {$in: duplicates}}).populate('idtipounidad').exec(function(err, todos10) {
                     if (err){ res.send(err); console.log(err) }
                     var result = [];
-                    console.log(todos10)
+                  
                     for(var i = 0; i < todos10.length;i++){
                         result.push({codigo:todos10[i]._id,nombre:todos10[i].nombre,tipounidad:todos10[i].idtipounidad.nombre});
                     }
@@ -1137,8 +1135,7 @@ break;
             });*/
     break;
             case 'idiomasprofe':
-                  console.log('entra ubicacion')
-                  console.log({'idprofesor' :req.params.id})
+                 
                     Asignaubicacion.find({ "estadopago" : "Asignación exitosa",'idprofesor' :req.params.id}).populate('ididioma').exec(function(err, todos10) {
                         if (err){ res.send(err); }
                         var result = [];
@@ -1150,7 +1147,7 @@ break;
                             }
                         }
 
-console.log(result)
+
                    
                          
                                 res.json(result);
@@ -1178,7 +1175,7 @@ console.log(result)
                     });
                     break;
             case 'todosautoriza':
-console.log({userasignadoemail:req.params.id2   })
+
          
                     Asignaubicacion.find({userasignadoemail:req.params.id2,estadooperador:req.params.id ,estadopago:{ $nin: [ 'Pendiente de pago' ]}  }).populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia').exec(function(err, todos) {
                         if (err){ res.send(err); console.log(err) }
@@ -1432,7 +1429,7 @@ if(req.body.operacion=='actualiza')
 else{
 if(req.body.operacion=='ponenota2')
 { 
-console.log({ _id: req.params.recordID })
+
     Asignacalusac.findById({ _id: req.params.recordID }, function (err, todo100)  {
         if (err) {  res.send(err);  }
         else
@@ -1551,18 +1548,14 @@ if(req.params.recordID!=='crea')
                            
                     }
                 }
-    console.log({ 'idtipounidad.id' : todo.idtipounidad.id    ,'idperiodo.id':todo.idperiodo.id 
-    ,ididioma:todo.ididioma,
-        idtipo:todo.idtipo             
-        ,iddia: {"$eq": new Date(req.body.iddia)},
-        idhora:req.body.idhora})
+
          
                 var duplicates = [];
                 var asigno=0;
             
                     Facplan4.aggregate([ projectDataForMatch, match] ).exec( function(err,myData) {
                         if (err) res.send(err);
-  console.log(myData)
+  
                         if(myData.length==0)   {    res.status(404).send('Cupo lleno en salon / No existe definido en estructura '); }
                         else
                         {
@@ -1662,12 +1655,12 @@ else{
                 idinterno 	: req.body.idinterno  	  }  ;
 
          
-console.log(filtro)
+
 
     Asignaubicacion.find(filtro,function(err, todos) {
         if (err){  if(err) return next(err);// res.status(404).send(err); 
         return;}
-      console.log(todos)
+
         if(todos.length>0)   {  
                             res.status(404).send('Ya existe una Asignación para esta unidad academica' );
          }
@@ -1735,7 +1728,7 @@ console.log(filtro)
 
                                     , function(err, todo) {
 
-                                        console.log(todo)
+                                      
                                       if (err){ 
                                           res.status(500).send(err.message)    }
         

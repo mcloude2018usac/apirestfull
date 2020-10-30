@@ -3,6 +3,9 @@ var Unidadperiodo4 = require('../../models/calusac/unidadperiodo4');
 var Bitacora = require('../../models/bitacora');
 
 exports.getUnidadperiodo4 = function(req, res, next){
+
+    console.log(req.params)
+    
     if(req.params.id4)
     { 
 
@@ -52,6 +55,7 @@ exports.getUnidadperiodo4 = function(req, res, next){
         else
         { Unidadperiodo4.find({idtipounidad :req.params.id2,estado:'Activo'},function(err, todos) {
                if (err){  res.send(err);  }
+               console.log(todos)
                 res.json(todos);
             });
         }
