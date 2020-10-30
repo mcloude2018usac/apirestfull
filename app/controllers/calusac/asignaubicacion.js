@@ -475,7 +475,7 @@ exports.getAsignaubicacion = function(req, res, next){
             Asignaubicacion.find({ "estadopago" : "Asignación exitosa",ididioma:req.params.id2
             ,'idedificio.id': req.params.id4,'idsalon.id':req.params.id5,iddia:req.params.id6
             ,idhora:req.params.id7
-        }).populate('ididioma').exec(function(err, todos10) {
+        }).populate('ididioma').populate('idtipo').exec(function(err, todos10) {
                 if (err){ res.send(err); }
               
                 res.json(todos10);
