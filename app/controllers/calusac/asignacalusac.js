@@ -7,6 +7,7 @@ var Asignaest = require('../../models/calusac/asignaestudiantecalusac');
 var Asignacalusac = require('../../models/calusac/asignacalusac');
 var Asignacalusac2 = require('../../models/calusac/asignacalusac2');
 
+var Calusacnotas2 = require('../../models/calusac/calusacnota2');
 var Calusacnotas = require('../../models/calusac/calusacnota');
 var Exonerados = require('../../models/calusac/exonerados');
 
@@ -187,13 +188,26 @@ exports.getAsignacalusac = function(req, res, next){
             break;
             case 'nivelcalusac':
                       var arrt=req.params.id2.split('°')
-console.log({ identificador:req.params.id , "codigoidioma" : arrt[0],codigocurso:arrt[1]})
+
                 Calusacnotas.find({  identificador:req.params.id , "codigoidioma" : arrt[0],codigocurso:arrt[1]
             }).populate('tipopago').exec(function(err, todos) {
                     if (err){ res.send(err); console.log(err) }
                     res.json(todos);  
                 });
                 break;
+
+                case 'nivelcalusacnotas2':
+                    var arrt=req.params.id2.split('°')
+                    console.log({  identificador:req.params.id , "codigoidioma" : arrt[1],codigocurso:arrt[0]
+                })
+
+              Calusacnotas2.find({  identificador:req.params.id , "codigoidioma" : arrt[1],codigocurso:arrt[0]
+          }).exec(function(err, todos) {
+                  if (err){ res.send(err); console.log(err) }
+                  res.json(todos);  
+              });
+              break;
+
                 case 'nivelcalusac3':
               console.log({  identificador:req.params.id  })
               Calusacnotas.find({ $or : [
@@ -606,6 +620,7 @@ break;
         
         
                         break;
+                      
               case 'todosasignacalusac':
 
          
@@ -1282,7 +1297,7 @@ console.log( req.params.recordID + ' ' + req.body.noorden + ' ' +req.body.identi
         if( req.body.operacion=='nuevaorden')
         {
     //decrementar 
-    console.log(req.body);
+    ;
 
     
             Asignacalusac.findById({ _id: req.params.recordID }, function (err, todo100)  {
@@ -1314,7 +1329,7 @@ console.log( req.params.recordID + ' ' + req.body.noorden + ' ' +req.body.identi
     if( req.body.operacion=='cambiaestado')
     {
 //decrementar 
-console.log(req.body);
+;
 
 
         Asignacalusac.findById({ _id: req.params.recordID }, function (err, todo100)  {
