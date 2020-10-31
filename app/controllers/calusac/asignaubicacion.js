@@ -365,7 +365,7 @@ exports.getAsignaubicacion = function(req, res, next){
                                 var myData3cc=result10[i] 
                                
                                
-                                getNextSequenceValue23(myData3cc,req,res,aa[3],req.params.id2);
+                                getNextSequenceValue23(myData3cc,req,res,aa[3],result10[i].ididioma.codigo);
     
                              }
 
