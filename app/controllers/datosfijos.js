@@ -11,6 +11,10 @@ var csv      = require('csv-express');
 var Evento = require('../models/eventos');
 var Pagopap = require('../models/pagospap');
 var Denunciaunidad = require('../models/denunciaunidad');
+var Orden_compra = require('../models/asociadoventa/orden_compra');
+var producto = require('../models/asociadoventa/producto');
+
+
 var Participa3 = require('../models/participa3');
 var Participa33 = require('../models/participa33');
 var Unidadplan2 = require('../models/unidadplan2');
@@ -1230,7 +1234,58 @@ console.log('TERMINA')
                             
                         
         break;
-        case 'calusacgeneral':
+        case 'comprasgeneral':
+                producto.find({ "idempresa" : "5f8471ef1fcbb219a08e9c82"}).sort({_id : -1}).exec(function(err, todos10) {
+
+                     
+         Orden_compra.find({}).sort({_id : -1}).exec(function(err, todos) {
+                if (err){  res.send(err); console.log(err)  }
+                var myData = [];
+                for (var i = 0; i < todos.length; i++) {
+                        for (var i2 = 0; i2 < todos[i].dproductos.length; i2++) {
+
+                                var encuesta= (todos[i].dproductos[i2].rate).split('°')
+                                var codigp=''
+                                for (var i3 = 0; i3 < todos10.length; i3++) {
+                                        var aa=''
+                                        aa=todos10[i3]._id.toString()
+                                        var bb=''
+                                        bb=todos[i].dproductos[i2].id.toString()
+
+                                        if(aa === bb)
+                                        {   
+                                                
+                                                codigp=todos10[i3].codigo
+                                                myData.push({nombre:todos[i].nombre,nombre2:todos[i].nombre2,
+                                                        codigoproducto:codigp,
+                                                        productonombre:todos[i].dproductos[i2].name,
+                                                comproporprecio:encuesta[0],
+                                                comproporbeneficios:encuesta[1],
+                                                comproporseguridad:encuesta[2],
+                                                comproporconfiable:encuesta[3],
+                                                comproporutil:encuesta[4],
+                                                cantidad:todos[i].dproductos[i2].amount,
+                                                total:todos[i].dproductos[i2].subtotal
+                                               
+                                        
+                                        })
+                                                break;
+                                        }
+                                }
+
+
+                               
+                        }
+
+                       
+                }
+
+                res.json(myData);   
+
+         });
+        });
+break;
+                case 'calusacgeneral':
         Asignacalusac.aggregate( [
                 { 
                     "$match" : { 
