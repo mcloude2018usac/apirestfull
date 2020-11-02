@@ -6,7 +6,7 @@ var mailt = require('../../controllers/mail');
 var Asignaest = require('../../models/calusac/asignaestudiantecalusac');
 var Asignacalusac = require('../../models/calusac/asignacalusac');
 var Asignacalusac2 = require('../../models/calusac/asignacalusac2');
-
+var Unidadidiomanivel3 = require('../../models/calusac/unidadidiomanivel3');
 var Calusacnotas2 = require('../../models/calusac/calusacnota2');
 var Calusacnotas = require('../../models/calusac/calusacnota');
 var Exonerados = require('../../models/calusac/exonerados');
@@ -198,13 +198,44 @@ exports.getAsignacalusac = function(req, res, next){
 
                 case 'nivelcalusacnotas2':
                     var arrt=req.params.id2.split('°')
+                    //arr[2] deveria ser el codigo aprobado en ña nota 3
                     console.log({  identificador:req.params.id , "codigoidioma" : arrt[1],codigocurso:arrt[0]
                 })
 
               Calusacnotas2.find({  identificador:req.params.id , "codigoidioma" : arrt[1],codigocurso:arrt[0]
           }).exec(function(err, todos) {
                   if (err){ res.send(err); console.log(err) }
-                  res.json(todos);  
+                
+                  var vector1= [];
+                  for(var i = 0; i < todos.length;i++){    
+                    vector1.push(todos[i].n3.id)
+                  }
+
+                  if(vector1.length>=0)
+                  {
+                    Unidadidiomanivel3.find({  _id:{$in:vector1}        }).exec(function(err, todos2) {
+                        if (err){ res.send(err); console.log(err) }
+                        var encuentra=0;
+                        for(var i = 0; i < todos2.length;i++){  
+                            if(todos2[i].codigo===arrt[2])
+                            {
+                                encuentra=1;
+                            }  
+                        }
+
+                        res.json({encuentra:encuentra});  
+
+
+                });
+                  }
+                  else
+                  {
+                    res.json({encuentra:0});  
+                  }
+          
+
+
+                 
               });
               break;
 
