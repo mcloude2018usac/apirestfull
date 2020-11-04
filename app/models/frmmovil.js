@@ -9,7 +9,7 @@ var mongoose =require("mongoose");
         estado	: { type : String, required : true },
         geoposicion:  { type : String },
         ejecuta:  { type : String },
-        idformdetalle:  	{    id	: { type : String },   nombre	: { type : String }        },
+      //  idformdetalle:  	{    id	: { type : String },   nombre	: { type : String }        },
         usuarionew	: { type : String },      usuarioup	: { type : String }}, {
         timestamps: true
         });

@@ -7,7 +7,10 @@ var Image2frmSchema = new mongoose.Schema({
    tamano: Number,
    id: String,
    idformulario: String,
-   idcampo: String
+   idcampo: String,
+   idpapa0: String,
+   idpapa: String,
+   idempresa: String
 }, {
   timestamps: true
 });

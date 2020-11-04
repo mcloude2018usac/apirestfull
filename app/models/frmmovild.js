@@ -2,7 +2,7 @@ var mongoose =require("mongoose");
     var FrmmovildSchema 		=	new  mongoose.Schema({
         idempresa		: { type : String, required : true },    
         idmovil	: { type : String, required : true, ref:'Frmmovil' },
-        type   		: { type : String, required : true ,ref:'Formcat' },
+        type   		: { type : String, required : true  },
         name   		: { type : String, required : true },
         nombre   		: { type : String, required : true },
         order:	 { type : Number, required : true },

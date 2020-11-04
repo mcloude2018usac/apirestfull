@@ -4,8 +4,10 @@ var Image2Schema = new mongoose.Schema({
    img: Buffer,
    contentType: String,
    nombre: String,
-   tamano: Number
-
+   tamano: Number,
+   idpapa: String,
+   idpapa0: String,
+   idempresa: String
  
 }, {
   timestamps: true
