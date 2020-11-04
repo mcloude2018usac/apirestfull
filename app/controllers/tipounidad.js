@@ -19,7 +19,7 @@ exports.getTipounidad = function(req, res, next){
            
         }
         else
-        { Tipounidad.find({}, null, {sort: {codigo: 1}},function(err, todos) {
+        { Tipounidad.find({estado:'Activo'}, null, {sort: {codigo: 1}},function(err, todos) {
                if (err){  res.send(err);  }
                 res.json(todos);
             });
