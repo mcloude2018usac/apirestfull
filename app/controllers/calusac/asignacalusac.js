@@ -202,10 +202,10 @@ exports.getAsignacalusac = function(req, res, next){
                     console.log({  identificador:req.params.id , "codigoidioma" : arrt[1],codigocurso:arrt[0]
                 })
 
-              Calusacnotas2.find({  identificador:req.params.id , "codigoidioma" : arrt[1],codigocurso:arrt[0]
+              Calusacnotas2.find({  identificador:req.params.id , "codigoidioma" : arrt[0],codigocurso:arrt[1]
           }).exec(function(err, todos) {
                   if (err){ res.send(err); console.log(err) }
-                
+                console.log(todos)
                   var vector1= [];
                   for(var i = 0; i < todos.length;i++){    
                     vector1.push(todos[i].n3.id)
