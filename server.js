@@ -1,6 +1,6 @@
 
 var express  = require('express');
-
+const fileUpload = require('express-fileupload');
 const cron = require("node-cron");
 var crntt = require('./app/controllers/crontabfunc');
 var correop= require('./app/controllers/mailprueba');
@@ -40,8 +40,9 @@ let upload = multer({ storage: storage })
 
 
 function start() {
-
-  mongoose.connect(databaseConfig.url, { useNewUrlParser: true ,useCreateIndex: true , useUnifiedTopology: true });
+//mongoose.set('useFindAndModify', false);
+  mongoose.connect(databaseConfig.url, { useNewUrlParser: true ,useCreateIndex: true 
+    , useUnifiedTopology: true ,useFindAndModify: false});
   cron.schedule("59 23 * * *", function() {
     crntt.mandaeventos();
   });
@@ -54,6 +55,7 @@ console.log("App listening on port 9090");
 
 //app.use(express.static('app/controllers'));
 app.use(express.static('public'));
+app.use(fileUpload({  createParentPath: true}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: false })); // Parses urlencoded bodies
 app.use(bodyParser.json({limit: '50mb'})); // Send JSON responses
 app.use(methodOverride());
@@ -87,7 +89,7 @@ router(app);
     const large = Buffer.alloc(10 * 1024 * 1024, 'X')
     setTimeout(() => {
       const len = large.length  // close over the Buffer for 1s to try to foil V8's optimizations and bloat memory
-      console.log(len)
+     
     }, 1000).unref()
     res.send('Allocated 10 MB buffer')
   }
@@ -125,7 +127,27 @@ function errorHandler(err, req, res, next) {
   res.render('error', { error: err });
 }
 
-                  
+/*
+var CryptoJS = require("crypto-js")
+
+
+
+var key = CryptoJS.enc.Utf8.parse('N0T!3n3%');
+   
+var iv = CryptoJS.enc.Utf8.parse('N0T!3n3%');
+
+var decrypted = CryptoJS.AES.decrypt('4ET+fXArweOEOA3Bf72xAY7BFC9lYQB7E9yXVjyrg+lEqUrpQthjjajqOSXoatCCDu8rFf1hrg+JEv9EvS8rul4lxKFYwP4+DyeLUyukSQa0f0DdCQmrIOZbCz8GZaBh', key, {
+    keySize: 128 / 8,
+    iv: iv,
+    mode: CryptoJS.mode.CBC,
+    padding: CryptoJS.pad.Pkcs7
+});
+
+var originalText= decrypted.toString(CryptoJS.enc.Utf8);
+
+ 
+console.log(originalText); // 'my message'
+*/
 
 //correop.mandacorreoprueba2(['mario.morales@mcloude.com'],'Solicitando salon para Unidad academica:', 'Solicitud de nuevo salon',['mario.morales@mcloude.com'])
 
@@ -157,3 +179,67 @@ var port = 3000;
 console.log(' [*] Listening on 0.0.0.0:' + port);
 server.listen(port, '0.0.0.0');
 */
+/*
+const qrcode = require('qrcode')
+const generatePayload = require('promptpay-qr')
+
+const mobileNumber = '000-000-0000'
+const amount = 4.22
+const payload = generatePayload(mobileNumber, { amount })
+console.log(payload)
+
+const options = { type: 'svg', color: { dark: '#003b6a', light: '#f7f8f7' } }
+
+  qrcode.toString(payload, options, (err, svg) => {
+    if (err) return reject(err)
+    console.log(svg)
+  })
+
+
+
+
+
+var  fps = require('node-fps-hk')
+
+// set custom variables
+fps.setMerchantID("0000001");
+fps.setBillNumber("0002");
+fps.setStoreLabel("0003");
+fps.setLoyaltyNumber("0004");
+fps.setCustomerLabel("0005");
+fps.setTerminalLabel("0006");
+fps.setPurposeOfTransaction("0007");
+fps.setMobileNumber("12345678");
+fps.setTransactionAmount("5000");
+fps.setReferenceLabel("ABCD");
+
+//generate qr content string
+var  qrContent = fps.generate();
+
+
+
+
+
+const options = { type: 'svg', color: { dark: '#003b6a', light: '#f7f8f7' } }
+await new Promise((resolve, reject) => {
+  qrcode.toString(payload, options, (err, svg) => {
+    if (err) return reject(err)
+    resolve(svg)
+  })
+})
+
+
+
+const generatePayload = require('promptpay-qr')
+
+const mobileNumber = '1234444'
+const amount = 4.22
+const payload = generatePayload(mobileNumber, { amount })
+console.log(payload)
+
+var parser = require('promptpay-emvco-parser');
+var input = '00020101021229370016A000000677010111011300668711111115802TH53037645406500.006304ABAC';
+var info = parser(payload);
+console.log(info)
+*/
+
