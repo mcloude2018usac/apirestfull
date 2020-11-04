@@ -32,8 +32,6 @@
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "pdfkit": "^0.10.0",
-    "promptpay-emvco-parser": "0.0.2",
-    "promptpay-qr": "^0.4.4",
     "qr-image": "^3.2.0",
     "qrcode": "^1.4.4",
     "request": "^2.88.0",
