@@ -7,7 +7,8 @@
   descripcion		: { type : String, required : true },  
   foto		: { type : String, required : true },  
   estado		: { type : String, required : true },  
-  monto		: { type : Number, required : true },  
+  monto		: { type : String, required : true },  
+  geoposicion		: { type : String },  
     }, {
     timestamps: true
     }); 

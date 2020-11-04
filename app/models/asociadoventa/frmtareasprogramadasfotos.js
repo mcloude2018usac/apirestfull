@@ -6,6 +6,7 @@
   nombre		: { type : String, required : true },  
   descripcion		: { type : String, required : true },  
   foto		: { type : String, required : true },  
+  geoposicion		: { type : String },  
     }, {
     timestamps: true
     }); 
