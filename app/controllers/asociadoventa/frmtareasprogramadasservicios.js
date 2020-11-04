@@ -50,11 +50,25 @@ if(req.params.recordID!=='crea')
  todo.descripcion       	=	req.body.descripcion        	||	todo.descripcion;   
  todo.foto       	=	req.body.foto        	||	todo.foto;   
  todo.monto       	=	req.body.monto        	||	todo.monto;   
+
  todo.estado       	=	req.body.estado        	||	todo.estado   
             todo.usuarioup=req.body.bitacora.email;
             todo.save(function (err, todo){
                 if (err)     {  res.status(500).send(err.message)   }
-                res.json(todo);
+               
+
+                if(req.body.supervisor===1)
+                {
+                    //crear multa segun proyecto
+                    console.log(req.body.datareg)
+                    res.json(todo);
+                }
+                else
+                {
+                    res.json(todo);
+                }    
+
+
             });
         }
     });
@@ -73,6 +87,7 @@ else{
   descripcion     	: req.body.descripcion    	,
   foto     	: req.body.foto    	,
   monto     	: req.body.monto    	,
+  geoposicion:req.body.geoposicion	,
  estado    	: req.body.estado    	,
                 usuarionew:req.body.bitacora.email,
               }

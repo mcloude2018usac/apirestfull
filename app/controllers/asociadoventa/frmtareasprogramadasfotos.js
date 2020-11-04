@@ -70,6 +70,7 @@ else{
   idpapa     	: req.body.idpapa    	,
   tipo     	: req.body.tipo    	,
   nombre     	: req.body.nombre    	,
+  geoposicion:req.body.geoposicion	,
   descripcion     	: req.body.descripcion    	,
   foto	: req.body.foto    	,
                 usuarionew:req.body.bitacora.email,

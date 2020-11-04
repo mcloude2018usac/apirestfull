@@ -40,6 +40,7 @@ exports.creatarjetacredito2s = function(req, res, next){
     Bitacora.create(req.body.bitacora);
 if(req.params.recordID!=='crea')
 { 
+    console.log(req.body)
     tarjetacredito.findById({ _id: req.params.recordID }, function (err, todo)  {
         if (err) {  res.send(err);  }
         else

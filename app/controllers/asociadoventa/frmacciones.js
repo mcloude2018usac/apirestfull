@@ -7,10 +7,10 @@ exports.getfrmacciones = function(req, res, next){
     {   
         if(req.params.id2=='accionproceso')
         { 
-           // console.log({idempresa:req.params.id3,idpapa:req.params.id4})
+          
             frmacciones.find({idempresa:req.params.id3,idpapa0:req.params.id4}).sort({'_id': -1}).exec(function(err, todos) {
                 if (err){  res.send(err);  }
-                 res.json(todos);
+                res.json(todos);
              });
         }
         else

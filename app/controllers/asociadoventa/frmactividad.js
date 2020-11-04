@@ -30,6 +30,24 @@ exports.getfrmactividad = function(req, res, next){
     }
     else
     {
+        if(req.params.id2==='orden')
+        {
+            frmactividad.find({idempresa:req.params.id3,idpapa:req.params.id4}).sort({'_id': -1}).exec(function(err, todos) {
+                if (err){  res.send(err);  }
+                if(todos.length>0)
+                { res.json({orden:todos[0].orden +10});
+                   
+                }
+                else
+                {
+                    res.json({orden:10});
+                }
+
+               
+             });
+        }
+        else
+        {
             if(req.params.id2=='todos')
             { 
                 frmactividad.find({idempresa:req.params.id3,idpapa:req.params.id4}).sort({'_id': 1}).exec(function(err, todos) {
@@ -63,7 +81,7 @@ exports.getfrmactividad = function(req, res, next){
                      });
                 }
             }
-            }
+            }}
         }
     }
     else
