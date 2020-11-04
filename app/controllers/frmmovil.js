@@ -4,9 +4,21 @@ var Frmmovild = require('../models/frmmovild');
 var Bitacora = require('../models/bitacora');
 var Catusuario = require('../models/catusuario');
 var Formcat2 = require('../models/frmcat2');
+var Image = require('../models/image2');
 var formulariousrd = require('../models/formulariousrd');
 var formulariousr = require('../models/formulariousr');
 var frmejecuta= require('../controllers/frmmovilejecuta');
+var functool = require('../controllers/funcionesnode');
+
+var formulariotrayectoria = require('../models/asociadoventa/formulariotrayectoria');
+var formulariocomentarios = require('../models/asociadoventa/formulariocomentarios');
+var formulariofotos = require('../models/asociadoventa/formulariofotos');
+var formulariotareas = require('../models/asociadoventa/formulariotareas');
+
+var frmactividad = require('../models/asociadoventa/frmactividad');
+var frmacciones = require('../models/asociadoventa/frmacciones');
+
+
                             
 function onlyUnique(value, index, self) { 
     return self.indexOf(value) === index;
@@ -610,7 +622,7 @@ exports.getFrmmovil = function(req, res, next){
                                               for(var i = 0; i < todos2.length;i++){
                                                 var nombret ='';
                                                 for(var j = 0; j < myDatavector.length;j++){
-                                                    nombret = nombret + myDatavector[j] + ': ' +  todos2[i][myDatavector[j]]  + ' , '
+                                                    nombret = nombret + myDatavector[j] + ': ' +  todos2[i][myDatavector[j]]  + ' °'
                                                 }
                                                 myData.push({_id:todos2[i]._id , nombre: nombret })
 
@@ -866,7 +878,7 @@ exports.getFrmmovil = function(req, res, next){
                                               for(var i = 0; i < todos2.length;i++){
                                                 var nombret ='';
                                                 for(var j = 0; j < myDatavector.length;j++){
-                                                    nombret = nombret + myDatavector[j] + ': ' +  todos2[i][myDatavector[j]]  + ' , '
+                                                    nombret = nombret + myDatavector[j] + ': ' +  todos2[i][myDatavector[j]]  + '°'
                                                 }
                                                 myData.push({_id:todos2[i]._id , nombre: nombret })
 
@@ -888,7 +900,7 @@ exports.getFrmmovil = function(req, res, next){
                                                for(var i = 0; i < todos2.length;i++){
                                                  var nombret ='';
                                                  for(var j = 0; j < myDatavector.length;j++){
-                                                     nombret = nombret + myDatavector[j] + ': ' +  todos2[i][myDatavector[j]]  + ' , '
+                                                     nombret = nombret + myDatavector[j] + ': ' +  todos2[i][myDatavector[j]]  + ' ° '
                                                  }
                                                  myData.push({_id:todos2[i]._id , nombre: nombret })
  
@@ -1269,6 +1281,74 @@ console.log(cadxx)
 
 
         switch(req.params.id2) {
+            case 'flujotrayectoriaorden':
+                console.log(req.params)
+                var arr=req.params.id3.split('°')
+                console.log(arr)
+                Frmmovil.findById({_id:arr[1]}).sort({'order': 1}).exec(function(err, todos10a) {
+
+                Frmmovild.find({idempresa:arr[0],idmovil:arr[1]}).sort({'order': 1}).exec(function(err, todos10) {
+
+
+                formulariotrayectoria.find({idorden:req.params.id,idempresa:arr[0]}).sort({'_id': 1}).exec(function(err, todos) {
+                    if (err){  res.send(err);  }
+                    
+
+                    frmactividad.find({idempresa:arr[0],idpapa:arr[1] }).sort({'orden': 1}).exec(function(err, todos1) {
+                        if (err){  res.send(err);  }
+                      
+                        frmacciones.find({idempresa:arr[0],idpapa0:arr[1]}).sort({'orden': 1}).exec(function(err, todos2) {
+                            if (err){  res.send(err);  }
+                           
+                           var actividades= []
+                           for(var i = 0; i < todos1.length;i++){
+                               var acciones=[]
+                            for(var j = 0; j < todos2.length;j++){
+                               
+                                if(todos1[i]._id==todos2[j].idpapa)
+                                {
+                                    acciones.push({nombre:todos2[j].nombre,tipo:todos2[j].tipo,orden:todos2[j].orden,subtipo:todos2[j].subtipo,estado:todos2[j].estado})
+                                }
+                            }
+
+                            var trayecto=[]
+                            for(var k = 0; k < todos.length;k++){
+                              
+                                if(todos1[i]._id==todos[k].idactividad)
+                                {
+                                    trayecto.push(todos[k])
+                                }
+                            }
+
+
+
+                            actividades.push({orden:todos1[i].orden,nombre:todos1[i].nombre,actor:todos1[i].actor,
+                                clase:todos1[i].clase,estado:todos1[i].estado,acciones:acciones,trayecto:trayecto});
+                           }
+                           
+                           
+                            res.json({formulario: todos10a,actividad:actividades,campos:todos10});
+                         });
+
+
+            
+                        });     
+                     });
+
+
+                   
+                    
+                });
+
+            });
+          break;
+            case 'trayectoriaorden':
+                    formulariotrayectoria.find({idorden:req.params.id,idempresa:req.params.id3},function(err, todos) {
+                        if (err){  res.send(err);  }
+                        res.json(todos);
+                        
+                    });
+              break;
             case 'estado':
                     Frmmovil.find({estado:req.params.id,idempresa:req.params.id3},function(err, todos) {
                         if (err){  res.send(err);  }
@@ -1519,9 +1599,11 @@ console.log(cadxx)
            
   break;
   case 'formularioproceso':
-         
+    console.log(req.params)
     var namess=req.params.id
     var arrtodos=req.params.id3.split('°')
+   
+    console.log(arrtodos)
     var filtro
     if(arrtodos[1]==='todos')
     {
@@ -1531,7 +1613,7 @@ console.log(cadxx)
     {
         filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1],estadoordenxxx:arrtodos[2]}
     }
-
+console.log(filtro)
 
         Frmmovild.find({idmovil:req.params.id, display : "true",idempresa:arrtodos[0]}).exec(function(err, todos) {
             if (err){ res.send(err); }
@@ -1938,9 +2020,43 @@ exports.deleteFrmmovil2 = function(req, res, next){
                                  
                                     var  frmtt= mongoose.model(namess,tt);
                                   
+                        
+console.log(req.params)
+
+
                                     frmtt.findByIdAndRemove({ _id: req.params.recordID }, function(err, todo) {
                                        
-                                            res.json(todo);
+                                        if(req.params.recordID3==='proceso')
+                                        {
+                                        formulariocomentarios.deleteMany({idpapa:req.params.recordID}, function(err, todo10) {  
+                                            console.log('comentatios')
+                                            formulariofotos.deleteMany({idpapa:req.params.recordID}, function(err, todo100) {  
+                                   
+
+                                               formulariotareas.deleteMany({idpapa:req.params.recordID}, function(err, todo10) {  
+                                            console.log('tareas')
+                                                    formulariotrayectoria.deleteMany({idmobil:req.params.recordID}, function(err, todo10) {  
+                                            console.log('traye')
+                                            Image.deleteMany({idpapa0:req.params.recordID}, function(err, todo10) {  
+                                            console.log('fotos')
+                                                        res.json(todo);
+                                                    
+                                                    });
+                                                    
+                                                    });
+                                                
+                                                });
+                                            
+                                            });
+                                        
+                                        });
+                                    }
+                                    else
+                                    {
+                                        res.json(todo);
+                                    }
+
+                                           
                                         
                                            
                                     });
@@ -1951,7 +2067,42 @@ exports.deleteFrmmovil2 = function(req, res, next){
                                     var  frmtt= mongoose.model(namess);
                                   
                                     frmtt.findByIdAndRemove({ _id: req.params.recordID }, function(err, todo) {
+                                       
+                                        if(req.params.recordID3==='proceso')
+                                        {
+                               
+                                            formulariocomentarios.deleteMany({idpapa:req.params.recordID}, function(err, todo10) {  
+                                                console.log('comentatios')
+                                                formulariofotos.deleteMany({idpapa:req.params.recordID}, function(err, todo100) {  
+                                       
+    
+                                                   formulariotareas.deleteMany({idpapa:req.params.recordID}, function(err, todo10) {  
+                                                console.log('tareas')
+                                                        formulariotrayectoria.deleteMany({idmobil:req.params.recordID}, function(err, todo10) {  
+                                                console.log('traye')
+                                                Image.deleteMany({idpapa0:req.params.recordID}, function(err, todo10) {  
+                                                console.log('fotos')
+                                                            res.json(todo);
+                                                        
+                                                        });
+                                                        
+                                                        });
+                                                    
+                                                    });
+                                                
+                                                });
+                                            
+                                            });
+                                   
+                                    }
+                                    else
+                                    {
                                         res.json(todo);
+                                    }
+
+                                           
+                                        
+                                           
                                     });
 
                                   }
@@ -1979,6 +2130,51 @@ tipoaccion: "EJECUCIÓN"
 */
 exports.creaFrmmovil3s = function(req, res, next){
 
+    if(req.body.operacion==='actualizaordentrayectoria')
+    {
+
+        formulariotrayectoria.findOne({ _id:{$nin:[req.body.idtrayectoria]},idorden:req.body.idmovil }).sort({_id:-1}).exec( function (err, todo)  {
+            if (err) {  res.send(err);  }
+            var ff3=new Date(req.body.fechaactual)
+            var ff4=todo.createdAt 
+            console.log( ff3 + '     ' +   ff4)
+
+            var diffDays = parseInt((ff3 - ff4) / (1000 * 60 * 60 * 24)); //gives day difference
+            var diffhoras = parseInt((ff3 - ff4) / (1000 * 60 * 60 )); //gives day difference
+            var diffminutos = parseInt((ff3 - ff4) / (1000 * 60 )); //gives day difference
+            var diffseg = parseInt((ff3 - ff4) / (1000  )); //gives day difference
+//one_day means 1000*60*60*24
+//one_hour means 1000*60*60
+//one_minute means 1000*60
+//one_second means 1000
+
+
+            formulariotrayectoria.findById({ _id:todo._id}, function (err, todo)  {
+                
+                if (err) {  res.send(err);  }
+                else
+                {  todo.salioorden=1;
+                    todo.usuarioejecutor=req.body.usuarioejecutor;
+                    todo.dias=diffDays;
+                    todo.horas=diffhoras;
+                    todo.minutos=diffminutos;
+                    todo.segundos=diffseg;
+
+                    todo.save(function (err, todo){
+                        if (err)     {  res.status(500).send(err.message)   }
+                        
+                        res.json(todo);
+                    });
+                }
+            });
+
+        });
+       
+
+
+    }
+    else
+    {
     if(req.body.operacion==='ejecutaoperacion')
     {
         console.log('entraaaaaaaaaaaaaaaaaaaaaaaaa  EJECUTA OPERACION')
@@ -2043,7 +2239,50 @@ if(req.params.recordID!=='crea')
                                
                                     frmtt.update({ _id: req.params.recordID }, req.body.estructura, function(err, todo3) {
                                         if (err){       res.status(500).send(err.message)    }
-                                        res.json(todo3);
+                                        if(req.body.tipo==='proceso')
+                                        {//crea trayectoria
+                                         formulariotrayectoria.create({
+                                             idempresa		:  req.body.trayectoria.idempresa,
+                                             idorden	: req.params.recordID,
+                                             usuariocreador		: req.body.trayectoria.usuariocreador,
+                                               email:req.body.trayectoria.email,
+                                             minutos		:0,
+                                             dias:0,
+                                             horas:0,
+                                             segundos:0,
+                                             tipocreacionorden		:req.body.trayectoria.tipocreacionorden,
+                                             nombre		:req.body.trayectoria.nombre,
+                                             idform		: req.body.trayectoria.idform,
+                                             tipoform	:req.body.trayectoria.tipoform,
+                                             tipo2form	:req.body.trayectoria.tipo2form,
+                                             ejecuta: req.body.trayectoria.ejecuta,
+                                             estadoorden: req.body.trayectoria.estadoorden,
+                                             salioorden:req.body.trayectoria.salioorden,
+                                             categoriaform	: req.body.trayectoria.categoriaform,
+                                             idactividad		: req.body.trayectoria.idactividad,
+                                             actoractividad		:req.body.trayectoria.actoractividad,
+                                             claseactividad		: req.body.trayectoria.claseactividad,
+                                             nombreactividad		: req.body.trayectoria.nombreactividad,
+                                             tipoactividad		: req.body.trayectoria.tipoactividad,
+                                             etapaactividad		:req.body.trayectoria.etapaactividad,
+                                             idaccion		: req.body.trayectoria.idaccion,
+                                             tipoaccion		: req.body.trayectoria.tipoaccion,
+                                             subtipoaccion		: req.body.trayectoria.subtipoaccion,
+                                             nombreaccion		: req.body.trayectoria.nombreaccion,
+                                             estadoaccion		: req.body.trayectoria.estadoaccion,
+                                             actividadsiguienteaccion		:  req.body.trayectoria.actividadsiguienteaccion
+                                       }  , function(err, todo330) {
+                                        if (err){  console.log(err.message);    res.status(500).send(err.message)    }
+                                        res.json(todo330);
+                                       });
+                                
+                                
+                                        
+                                        }
+                                        else
+                                        {
+                                         res.json(todo3);
+                                        }
 
                                      
                                         });
@@ -2055,7 +2294,50 @@ if(req.params.recordID!=='crea')
                                     var  frmtt= mongoose.model(namess);
                                     frmtt.update({ _id: req.params.recordID }, req.body.estructura, function(err, todo3) {
                                         if (err){       res.status(500).send(err.message)    }
-                                        res.json(todo3);
+                                        if(req.body.tipo==='proceso')
+                                        {//crea trayectoria
+                                         formulariotrayectoria.create({
+                                             idempresa		:  req.body.trayectoria.idempresa,
+                                             idorden	: req.params.recordID,
+                                             usuariocreador		: req.body.trayectoria.usuariocreador,
+                                               email:req.body.trayectoria.email,
+                                               minutos		:0,
+                                             dias:0,
+                                             horas:0,
+                                             segundos:0,
+                                             tipocreacionorden		:req.body.trayectoria.tipocreacionorden,
+                                             nombre		:req.body.trayectoria.nombre,
+                                             idform		: req.body.trayectoria.idform,
+                                             tipoform	:req.body.trayectoria.tipoform,
+                                             tipo2form	:req.body.trayectoria.tipo2form,
+                                             ejecuta: req.body.trayectoria.ejecuta,
+                                             estadoorden: req.body.trayectoria.estadoorden,
+                                             salioorden:req.body.trayectoria.salioorden,
+                                             categoriaform	: req.body.trayectoria.categoriaform,
+                                             idactividad		: req.body.trayectoria.idactividad,
+                                             actoractividad		:req.body.trayectoria.actoractividad,
+                                             claseactividad		: req.body.trayectoria.claseactividad,
+                                             nombreactividad		: req.body.trayectoria.nombreactividad,
+                                             tipoactividad		: req.body.trayectoria.tipoactividad,
+                                             etapaactividad		:req.body.trayectoria.etapaactividad,
+                                             idaccion		: req.body.trayectoria.idaccion,
+                                             tipoaccion		: req.body.trayectoria.tipoaccion,
+                                             subtipoaccion		: req.body.trayectoria.subtipoaccion,
+                                             nombreaccion		: req.body.trayectoria.nombreaccion,
+                                             estadoaccion		: req.body.trayectoria.estadoaccion,
+                                             actividadsiguienteaccion		:  req.body.trayectoria.actividadsiguienteaccion
+                                       }  , function(err, todo330) {
+                                        if (err){  console.log(err.message);    res.status(500).send(err.message)    }
+                                        res.json(todo330);
+                                       });
+                                
+                                
+                                        
+                                        }
+                                        else
+                                        {
+                                         res.json(todo3);
+                                        }
                                         });
 
                                   }
@@ -2162,7 +2444,50 @@ try {
         , function(err, todo3) {
         if (err){  console.log(err.message);    res.status(500).send(err.message)    }
             
-        res.json(todo3);
+        if(req.body.tipo==='proceso')
+        {//crea trayectoria
+         formulariotrayectoria.create({
+             idempresa		:  req.body.trayectoria.idempresa,
+             idorden	: todo3._id,
+             usuariocreador		: req.body.trayectoria.usuariocreador,
+               email:req.body.trayectoria.email,
+               minutos		:0,
+               dias:0,
+               horas:0,
+               segundos:0,
+             tipocreacionorden		:req.body.trayectoria.tipocreacionorden,
+             nombre		:req.body.trayectoria.nombre,
+             idform		: req.body.trayectoria.idform,
+             tipoform	:req.body.trayectoria.tipoform,
+             tipo2form	:req.body.trayectoria.tipo2form,
+             ejecuta: req.body.trayectoria.ejecuta,
+             estadoorden: req.body.trayectoria.estadoorden,
+             salioorden:req.body.trayectoria.salioorden,
+             categoriaform	: req.body.trayectoria.categoriaform,
+             idactividad		: req.body.trayectoria.idactividad,
+             actoractividad		:req.body.trayectoria.actoractividad,
+             claseactividad		: req.body.trayectoria.claseactividad,
+             nombreactividad		: req.body.trayectoria.nombreactividad,
+             tipoactividad		: req.body.trayectoria.tipoactividad,
+             etapaactividad		:req.body.trayectoria.etapaactividad,
+             idaccion		: req.body.trayectoria.idaccion,
+             tipoaccion		: req.body.trayectoria.tipoaccion,
+             subtipoaccion		: req.body.trayectoria.subtipoaccion,
+             nombreaccion		: req.body.trayectoria.nombreaccion,
+             estadoaccion		: req.body.trayectoria.estadoaccion,
+             actividadsiguienteaccion		:  req.body.trayectoria.actividadsiguienteaccion
+       }  , function(err, todo330) {
+        if (err){  console.log(err.message);    res.status(500).send(err.message)    }
+        res.json(todo330);
+       });
+
+
+        
+        }
+        else
+        {
+         res.json(todo3);
+        }
         console.log('finallllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll0000000000000000000000')
      
       
@@ -2183,7 +2508,47 @@ try {
         , function(err, todo3) {
         if (err){       res.status(500).send(err.message)    }
    
-        res.json(todo3);
+        if(req.body.tipo==='proceso')
+                                       {//crea trayectoria
+                                        formulariotrayectoria.create({
+                                            idempresa		:  req.body.trayectoria.idempresa,
+                                            idorden	: todo3._id,
+                                            usuariocreador		: req.body.trayectoria.usuariocreador,
+                                              email:req.body.trayectoria.email,
+                                              minutos		:0,
+                                             dias:0,
+                                             horas:0,
+                                             segundos:0,
+                                            tipocreacionorden		:req.body.trayectoria.tipocreacionorden,
+                                            nombre		:req.body.trayectoria.nombre,
+                                            idform		: req.body.trayectoria.idform,
+                                            tipoform	:req.body.trayectoria.tipoform,
+                                            tipo2form	:req.body.trayectoria.tipo2form,
+                                            estadoorden: req.body.trayectoria.estadoorden,
+                                            ejecuta: req.body.trayectoria.ejecuta,
+                                            salioorden:req.body.trayectoria.salioorden,
+                                            categoriaform	: req.body.trayectoria.categoriaform,
+                                            idactividad		: req.body.trayectoria.idactividad,
+                                            actoractividad		:req.body.trayectoria.actoractividad,
+                                            claseactividad		: req.body.trayectoria.claseactividad,
+                                            nombreactividad		: req.body.trayectoria.nombreactividad,
+                                            tipoactividad		: req.body.trayectoria.tipoactividad,
+                                            etapaactividad		:req.body.trayectoria.etapaactividad,
+                                            idaccion		: req.body.trayectoria.idaccion,
+                                            tipoaccion		: req.body.trayectoria.tipoaccion,
+                                            subtipoaccion		: req.body.trayectoria.subtipoaccion,
+                                            nombreaccion		: req.body.trayectoria.nombreaccion,
+                                            estadoaccion		: req.body.trayectoria.estadoaccion,
+                                            actividadsiguienteaccion		:  req.body.trayectoria.actividadsiguienteaccion
+                                        }  , function(err, todo330) {
+                                            if (err){  console.log(err.message);    res.status(500).send(err.message)    }
+                                            res.json(todo330);
+                                           });
+                                       }
+                                       else
+                                       {
+                                        res.json(todo3);
+                                       }
         console.log('finallllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll')
       
     
@@ -2259,7 +2624,47 @@ try {
                                        , function(err, todo3) {
                                        if (err){  console.log(err.message);    res.status(500).send(err.message)    }
                                            
-                                       res.json(todo3);
+                                       if(req.body.tipo==='proceso')
+                                       {//crea trayectoria
+                                        formulariotrayectoria.create({
+                                            idempresa		:  req.body.trayectoria.idempresa,
+                                            idorden	: todo3._id,
+                                            usuariocreador		: req.body.trayectoria.usuariocreador,
+                                              email:req.body.trayectoria.email,
+                                              minutos		:0,
+                                              dias:0,
+                                              horas:0,
+                                              segundos:0,
+                                            tipocreacionorden		:req.body.trayectoria.tipocreacionorden,
+                                            nombre		:req.body.trayectoria.nombre,
+                                            estadoorden: req.body.trayectoria.estadoorden,
+                                            idform		: req.body.trayectoria.idform,
+                                            salioorden:req.body.trayectoria.salioorden,
+                                            tipoform	:req.body.trayectoria.tipoform,
+                                            tipo2form	:req.body.trayectoria.tipo2form,
+                                            ejecuta: req.body.trayectoria.ejecuta,
+                                            categoriaform	: req.body.trayectoria.categoriaform,
+                                            idactividad		: req.body.trayectoria.idactividad,
+                                            actoractividad		:req.body.trayectoria.actoractividad,
+                                            claseactividad		: req.body.trayectoria.claseactividad,
+                                            nombreactividad		: req.body.trayectoria.nombreactividad,
+                                            tipoactividad		: req.body.trayectoria.tipoactividad,
+                                            etapaactividad		:req.body.trayectoria.etapaactividad,
+                                            idaccion		: req.body.trayectoria.idaccion,
+                                            tipoaccion		: req.body.trayectoria.tipoaccion,
+                                            subtipoaccion		: req.body.trayectoria.subtipoaccion,
+                                            nombreaccion		: req.body.trayectoria.nombreaccion,
+                                            estadoaccion		: req.body.trayectoria.estadoaccion,
+                                            actividadsiguienteaccion		:  req.body.trayectoria.actividadsiguienteaccion
+                                        }  , function(err, todo330) {
+                                            if (err){  console.log(err.message);    res.status(500).send(err.message)    }
+                                            res.json(todo330);
+                                           });
+                                       }
+                                       else
+                                       {
+                                        res.json(todo3);
+                                       }
                                    
                                        });
                                  
@@ -2274,7 +2679,48 @@ try {
                                        , function(err, todo3) {
                                        if (err){       res.status(500).send(err.message)    }
                                   
-                                       res.json(todo3);
+                                       if(req.body.tipo==='proceso')
+                                       {//crea trayectoria
+                                        formulariotrayectoria.create({
+                                            idempresa		:  req.body.trayectoria.idempresa,
+                                            idorden	: todo3._id,
+                                            usuariocreador		: req.body.trayectoria.usuariocreador,
+                                              email:req.body.trayectoria.email,
+                                              minutos		:0,
+                                              dias:0,
+                                              horas:0,
+                                              segundos:0,
+                                            tipocreacionorden		:req.body.trayectoria.tipocreacionorden,
+                                            nombre		:req.body.trayectoria.nombre,
+                                            idform		: req.body.trayectoria.idform,
+                                            tipoform	:req.body.trayectoria.tipoform,
+                                            tipo2form	:req.body.trayectoria.tipo2form,
+                                            salioorden:req.body.trayectoria.salioorden,
+                                            estadoorden: req.body.trayectoria.estadoorden,
+                                            ejecuta: req.body.trayectoria.ejecuta,
+                                            categoriaform	: req.body.trayectoria.categoriaform,
+                                            idactividad		: req.body.trayectoria.idactividad,
+                                            actoractividad		:req.body.trayectoria.actoractividad,
+                                            claseactividad		: req.body.trayectoria.claseactividad,
+                                            nombreactividad		: req.body.trayectoria.nombreactividad,
+                                            tipoactividad		: req.body.trayectoria.tipoactividad,
+                                            etapaactividad		:req.body.trayectoria.etapaactividad,
+                                            idaccion		: req.body.trayectoria.idaccion,
+                                            tipoaccion		: req.body.trayectoria.tipoaccion,
+                                            subtipoaccion		: req.body.trayectoria.subtipoaccion,
+                                            nombreaccion		: req.body.trayectoria.nombreaccion,
+                                            estadoaccion		: req.body.trayectoria.estadoaccion,
+                                            actividadsiguienteaccion		:  req.body.trayectoria.actividadsiguienteaccion
+                                        }  , function(err, todo330) {
+                                            if (err){  console.log(err.message);    res.status(500).send(err.message)    }
+                                            res.json(todo330);
+                                           });
+                                       }
+                                       else
+                                       {
+                                        res.json(todo3);
+                                       }
+                                      
                                    
                                        });
                                  }
@@ -2308,7 +2754,47 @@ try {
        , function(err, todo3) {
        if (err){  console.log(err.message);    res.status(500).send(err.message)    }
            
-       res.json(todo3);
+       if(req.body.tipo==='proceso')
+                                       {//crea trayectoria
+                                        formulariotrayectoria.create({
+                                            idempresa		:  req.body.trayectoria.idempresa,
+                                            idorden	: todo3._id,
+                                            usuariocreador		: req.body.trayectoria.usuariocreador,
+                                              email:req.body.trayectoria.email,
+                                              minutos		:0,
+                                              dias:0,
+                                              horas:0,
+                                              segundos:0,
+                                            tipocreacionorden		:req.body.trayectoria.tipocreacionorden,
+                                            nombre		:req.body.trayectoria.nombre,
+                                            idform		: req.body.trayectoria.idform,
+                                            tipoform	:req.body.trayectoria.tipoform,
+                                            tipo2form	:req.body.trayectoria.tipo2form,
+                                            ejecuta: req.body.trayectoria.ejecuta,
+                                            salioorden:req.body.trayectoria.salioorden,
+                                            estadoorden: req.body.trayectoria.estadoorden,
+                                            categoriaform	: req.body.trayectoria.categoriaform,
+                                            idactividad		: req.body.trayectoria.idactividad,
+                                            actoractividad		:req.body.trayectoria.actoractividad,
+                                            claseactividad		: req.body.trayectoria.claseactividad,
+                                            nombreactividad		: req.body.trayectoria.nombreactividad,
+                                            tipoactividad		: req.body.trayectoria.tipoactividad,
+                                            etapaactividad		:req.body.trayectoria.etapaactividad,
+                                            idaccion		: req.body.trayectoria.idaccion,
+                                            tipoaccion		: req.body.trayectoria.tipoaccion,
+                                            subtipoaccion		: req.body.trayectoria.subtipoaccion,
+                                            nombreaccion		: req.body.trayectoria.nombreaccion,
+                                            estadoaccion		: req.body.trayectoria.estadoaccion,
+                                            actividadsiguienteaccion		:  req.body.trayectoria.actividadsiguienteaccion
+                                        }  , function(err, todo330) {
+                                            if (err){  console.log(err.message);    res.status(500).send(err.message)    }
+                                            res.json(todo330);
+                                           });
+                                       }
+                                       else
+                                       {
+                                        res.json(todo3);
+                                       }
    
        });
  
@@ -2323,7 +2809,48 @@ try {
        , function(err, todo3) {
        if (err){       res.status(500).send(err.message)    }
   
-       res.json(todo3);
+       if(req.body.tipo==='proceso')
+       {//crea trayectoria
+
+        formulariotrayectoria.create({
+              idempresa		:  req.body.trayectoria.idempresa,
+              idorden	: todo3._id,
+              usuariocreador		: req.body.trayectoria.usuariocreador,
+                email:req.body.trayectoria.email,
+                minutos		:0,
+                dias:0,
+                horas:0,
+                segundos:0,
+              tipocreacionorden		:req.body.trayectoria.tipocreacionorden,
+              nombre		:req.body.trayectoria.nombre,
+              idform		: req.body.trayectoria.idform,
+              tipoform	:req.body.trayectoria.tipoform,
+              tipo2form	:req.body.trayectoria.tipo2form,
+              ejecuta: req.body.trayectoria.ejecuta,
+              categoriaform	: req.body.trayectoria.categoriaform,
+              salioorden:req.body.trayectoria.salioorden,
+              idactividad		: req.body.trayectoria.idactividad,
+              estadoorden: req.body.trayectoria.estadoorden,
+              actoractividad		:req.body.trayectoria.actoractividad,
+              claseactividad		: req.body.trayectoria.claseactividad,
+              nombreactividad		: req.body.trayectoria.nombreactividad,
+              tipoactividad		: req.body.trayectoria.tipoactividad,
+              etapaactividad		:req.body.trayectoria.etapaactividad,
+              idaccion		: req.body.trayectoria.idaccion,
+              tipoaccion		: req.body.trayectoria.tipoaccion,
+              subtipoaccion		: req.body.trayectoria.subtipoaccion,
+              nombreaccion		: req.body.trayectoria.nombreaccion,
+              estadoaccion		: req.body.trayectoria.estadoaccion,
+              actividadsiguienteaccion		:  req.body.trayectoria.actividadsiguienteaccion
+            }  , function(err, todo330) {
+                if (err){  console.log(err.message);    res.status(500).send(err.message)    }
+                res.json(todo330);
+               });
+       }
+       else
+       {
+        res.json(todo3);
+       }
    
        });
  }
@@ -2359,7 +2886,7 @@ try {
 
 
 
-}}
+}}}
 }
 
 
@@ -2386,7 +2913,7 @@ if(req.params.recordID!=='crea')
             todo.foto    	=	req.body.foto    	||	todo.foto    	;
             todo.geoposicion    	=	req.body.geoposicion      	;
            
-            todo.idformdetalle   		 ={id:req.body.idformdetalle.id,nombre:req.body.idformdetalle.nombre   }   	;
+       //     todo.idformdetalle   		 ={id:req.body.idformdetalle.id,nombre:req.body.idformdetalle.nombre   }   	;
 
             todo.estado 	=	req.body.estado 	||	todo.estado 	;
             todo.usuarioup=req.body.bitacora.email;
@@ -2425,7 +2952,7 @@ else{
                     categoria        	: req.body.categoria        	,
                     nombre        	: req.body.nombre        	,
                     foto    	: req.body.foto    	,
-                    idformdetalle:   req.body.idformdetalle,
+                //    idformdetalle:   req.body.idformdetalle,
                     estado 	: req.body.estado 	,
                     geoposicion :   req.body.geoposicion,
                     usuarionew:req.body.bitacora.email
@@ -2453,7 +2980,7 @@ else{
                     nombre        	: req.body.nombre        	,
                     ejecuta        	: req.body.ejecuta        	,
                     foto    	: req.body.foto    	,
-                    idformdetalle:   req.body.idformdetalle,
+              //      idformdetalle:   req.body.idformdetalle,
                     geoposicion :   req.body.geoposicion,
                     estado 	: req.body.estado 	,
                     usuarionew:req.body.bitacora.email

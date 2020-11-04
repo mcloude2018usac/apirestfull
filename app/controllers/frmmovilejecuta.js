@@ -642,6 +642,7 @@ Frmmovild.find({idmovil:'5f7f5f7b85f18458404125fd', display : "true"}).sort([['o
                                               "verificavehiculos":'',
                                               "verificaherramienta":'',
                                               "comentariopersonal":'',
+                                              "geoposicion":'',
                                               "comentariovehiculos":'',
                                               "comentarioherramienta":'',
                                               "proyecto" :todos2[i].proyecto,

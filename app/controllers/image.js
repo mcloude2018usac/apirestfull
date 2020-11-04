@@ -70,7 +70,7 @@ exports.putImages = function(req, res, next){
 
         todo.save(function (err, todo){
         
-            /* If we encounter an error send the details as a HTTP response */
+          
             if (err)
         {
             res.status(500).send(err)
@@ -95,7 +95,9 @@ exports.createImage = function(req, res, next){
 
     if(req.body.img==undefined)
     {console.log('nula')
-        res.status(201).send({ url:''});
+
+    var fullUrl = 'https://' + req.get('host') ;
+        res.status(201).send({ url:fullUrl + '/api/images/5f146aa48caa41db981e6830'});
     }
     else
     {
@@ -115,6 +117,9 @@ exports.createImage = function(req, res, next){
         new_img.img =buffer
         new_img.nombre =req.body.nombre
         new_img.tamano =req.body.tamaño
+        new_img.idempresa =req.body.idempresa
+        new_img.idpapa0 =req.body.idpapa0
+        new_img.idpapa =req.body.idpapa
 
         new_img.contentType = tipoimg2[1] ;
     
@@ -158,6 +163,9 @@ exports.createImage = function(req, res, next){
                 new_img.img =buffer
                 new_img.nombre =req.body.nombre
                 new_img.tamano =req.body.tamaño
+                new_img.idempresa =req.body.idempresa
+                new_img.idpapa0 =req.body.idpapa0
+                new_img.idpapa =req.body.idpapa
         
                 new_img.contentType = tipoimg2[1] ;
             

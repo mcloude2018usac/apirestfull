@@ -29,6 +29,8 @@ exports.getCatusuario = function(req, res, next){
             {
                
                 formulariousrd.find({idempresa:req.params.id,tipo:req.params.id4}).populate('idpapa').populate('idformulario').exec(function(err, todos) {
+
+                    console.log(todos)
                     if (err){  res.send(err);  }
                     var myData = [];
                   

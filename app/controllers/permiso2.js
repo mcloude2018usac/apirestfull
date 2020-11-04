@@ -41,7 +41,12 @@ exports.getPermison2 = function(req, res, next){
                 Permison2.find({idpermiso:req.params.id3,idrol:req.params.id2,idempresa:req.params.id}).sort([['orden', -1]]).exec(function(err, todos) {
                     if (err){ res.send(err); }
                    
-                    if(todos.length>0)   {    res.json({orden:todos[0].orden});   }
+                                                
+                            if(todos.length>0)   {    res.json({orden:todos[0].orden+10});   }
+                            else
+                            {
+                                res.json({orden:'10'});
+                            }
                     
                 });
             }

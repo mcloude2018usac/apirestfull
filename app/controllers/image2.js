@@ -13,7 +13,7 @@ var  del= require('del');
 
 exports.getImage2s = function(req, res, next){
     let imgId = req.params.id;
-    console.log(req.params)
+    
     if(imgId=='banco' || imgId=='5f146aa48caa41db981e6830')
     {
         Image2.findById('5f146aa48caa41db981e6830', (err, image2) => {
@@ -21,6 +21,7 @@ exports.getImage2s = function(req, res, next){
                 res.sendStatus(402);
                 return;
             }
+            console.log(image2)
                      res.setHeader('content-type', image2.contentType);
                         res.send(image2.img);
         
@@ -132,7 +133,9 @@ exports.createImage2 = function(req, res, next){
         new_img.img =buffer
         new_img.nombre =req.body.nombre
         new_img.tamano =req.body.tamaño
-
+        new_img.idpapa =req.body.idpapa
+        new_img.idpapa0 =req.body.idpapa0
+        new_img.idempresa =req.body.idempresa
         new_img.contentType = tipoimg2[1] ;
     
         new_img.save(function (err, todo){
@@ -179,6 +182,9 @@ exports.createImage2 = function(req, res, next){
                 new_img.img =buffer
                 new_img.nombre =req.body.nombre
                 new_img.tamano =req.body.tamaño
+                new_img.idpapa =req.body.idpapa
+                new_img.idpapa0 =req.body.idpapa0
+                new_img.idempresa =req.body.idempresa
         
                 new_img.contentType = tipoimg2[1] ;
             

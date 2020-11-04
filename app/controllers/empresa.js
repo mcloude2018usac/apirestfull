@@ -19,7 +19,7 @@ var User = require('../models/user');
 
 exports.getEmpresa = function(req, res, next){
     if(req.params.id3)
-    {   console.log(req.params)
+    {   
             if(req.params.id2=='todos')
             { 
                 Empresa.find({_id:req.params.id3}).sort({'_id': -1}).exec(function(err, todos) {
@@ -139,7 +139,7 @@ if(req.params.recordID!=='crea')
 else{
    
     Empresa.create({ 
-       
+       _id:'5f503bededa4710798a79b84',
          idempresa0     	: req.body.idempresa0    	,
          nombre     	: req.body.nombre    	,
          nombrecorto     	: req.body.nombrecorto    	,
@@ -203,7 +203,7 @@ else{
         Rol.create({       "nombre" : "Asociado operador",    "estado" : "Activo",    "createdAt" : "2019-10-12T23:29:56.961+0000",    "updatedAt" : "2019-10-12T23:29:56.961+0000",    "__v" : 0,    "unidad" : "SEGURIDAD",    "usuarionew" :  req.body.email,    "idempresa" : idempresa}, function(err, xrol3) { if (err){    res.status(500).send(err.message)    }
                         
             Moduloxx.create({      "idempresa" : idempresa,    "grupo" : "MENU",    "nombre" : "Procesos y formularios",    "titulo" : "Procesos y formularios",    "componente" : "Procesos y formularios",    "tabcomponente" : "Procesos y formularios",    "index" : 40,    "icono" : "apps",    "nivel" : ".",    "estado" : "Activo",    "createdAt" : "2019-10-12T23:29:56.961+0000",    "updatedAt" : "2019-10-12T23:29:56.961+0000",    "__v" : 0}, function(err, xmod1) { if (err){    res.status(500).send(err.message)    }
-            Moduloxx.create({      "componente" : "Seguridad",    "estado" : "Activo",    "grupo" : "MENU",    "icono" : "key",    "idempresa" : idempresa,    "index" : 190,    "nivel" : ".",    "nombre" : "Seguridad",    "tabcomponente" : "seguridad",    "titulo" : "Seguridad del sistema",    "usuarionew" :  req.body.email,    "createdAt" : "2019-10-12T23:29:56.961+0000",    "updatedAt" : "2019-10-12T23:29:56.961+0000",    "__v" : 0}, function(err, xmod2) { if (err){    res.status(500).send(err.message)    }
+            Moduloxx.create({      "componente" : "Seguridad del sistema",    "estado" : "Activo",    "grupo" : "MENU",    "icono" : "key",    "idempresa" : idempresa,    "index" : 190,    "nivel" : ".",    "nombre" : "Seguridad",    "tabcomponente" : "Seguridad del sistema",    "titulo" : "Seguridad del sistema",    "usuarionew" :  req.body.email,    "createdAt" : "2019-10-12T23:29:56.961+0000",    "updatedAt" : "2019-10-12T23:29:56.961+0000",    "__v" : 0}, function(err, xmod2) { if (err){    res.status(500).send(err.message)    }
             Moduloxx.create({      "componente" : "AsociadoListPage",    "estado" : "Activo",    "grupo" : "MENU",    "icono" : "man-outline",    "idempresa" : idempresa,    "index" : 250,    "nivel" : ".",    "nombre" : "Asociado",    "tabcomponente" : "CONTROL DE ACCESO",    "titulo" : "CONTROL DE ACCESO",    "usuarionew" :  req.body.email,    "createdAt" : "2019-10-12T23:29:56.961+0000",    "updatedAt" : "2019-10-12T23:29:56.961+0000",    "__v" : 0}, function(err, xmod3) { if (err){    res.status(500).send(err.message)    }
             Moduloxx.create({        "idempresa" : idempresa,    "grupo" : "PAGINA",    "nombre" : "Empresa",    "titulo" : "EmpresaListPage",    "componente" : "EmpresaListPage",    "tabcomponente" : "EmpresaListPage",    "index" : 40,    "icono" : "home-outline",    "nivel" : ".",    "estado" : "Activo",    "createdAt" : "2019-10-12T23:29:56.961+0000",    "updatedAt" : "2019-10-12T23:29:56.961+0000",    "__v" : 0}, function(err, xmod4) { if (err){    res.status(500).send(err.message)    }
             Moduloxx.create({      "componente" : "UserListPage",    "estado" : "Activo",    "grupo" : "PAGINA",    "icono" : "person-outline",    "idempresa" : idempresa,    "index" : 60,    "nivel" : "Usuario",    "nombre" : "Usuarios",    "tabcomponente" : "UserListPage",    "titulo" : "UserListPage",    "usuarionew" :  req.body.email,    "createdAt" : "2019-10-12T23:29:56.961+0000",    "updatedAt" : "2019-10-12T23:29:56.961+0000",    "__v" : 0}, function(err, xmod5) { if (err){    res.status(500).send(err.message)    }
@@ -211,7 +211,7 @@ else{
             Moduloxx.create({      "componente" : "/RolListPage",    "createdAt" : "2018-07-23T20:16:48.388Z",    "estado" : "Activo",    "grupo" : "PAGINA",    "icono" : "people-outline",    "idempresa" : idempresa,    "index" : "30",    "nivel" : "Usuario",    "nombre" : "Rol",    "tabcomponente" : "PerfilListPage",    "titulo" : "RolListPage",    "updatedAt" : "2019-10-12T23:29:56.961+0000",    "usuarionew" : null}, function(err, xmod7) { if (err){    res.status(500).send(err.message)    }
             Moduloxx.create({      "idempresa" : idempresa,    "grupo" : "PAGINA",    "nombre" : "Mis procesos y formularios",    "titulo" : "categoriaformularioListPage",    "componente" : "categoriaformularioListPage",    "tabcomponente" : "categoriaformularioListPage",    "index" : 40,    "icono" : "receipt-outline",    "nivel" : ".",    "estado" : "Activo",    "createdAt" : "2019-10-12T23:29:56.961+0000",    "updatedAt" : "2019-10-12T23:29:56.961+0000",    "__v" : 0}, function(err, xmod8) { if (err){    res.status(500).send(err.message)    }
             Moduloxx.create({       "idempresa" : idempresa,    "grupo" : "PAGINA",    "nombre" : "Crear permisos a usuario",    "titulo" : "formulariousrListPage",    "componente" : "formulariousrListPage",    "tabcomponente" : "formulariousrListPage",    "index" : 40,    "icono" : "reader-outline",    "nivel" : ".",    "estado" : "Activo",    "createdAt" : "2019-10-12T23:29:56.961+0000",    "updatedAt" : "2019-10-12T23:29:56.961+0000",    "__v" : 0}, function(err, xmod9) { if (err){    res.status(500).send(err.message)    }
-            Moduloxx.create({       "idempresa" : idempresa,    "grupo" : "PAGINA",    "nombre" : "Creación de procesos y formularios",    "titulo" : "FormsListPage",    "componente" : "FormsListPage",    "tabcomponente" : "FormsListPage",    "index" : 40,    "icono" : "apps",    "nivel" : ".",    "estado" : "Activo",    "createdAt" : "2019-10-12T23:29:56.961+0000",    "updatedAt" : "2019-10-12T23:29:56.961+0000",    "__v" : 0}, function(err, xmod10) { if (err){    res.status(500).send(err.message)    }
+            Moduloxx.create({       "idempresa" : idempresa,    "grupo" : "PAGINA",    "nombre" : "Creación de procesos y formularios",    "titulo" : "Forms0ListPage",    "componente" : "Forms0ListPage",    "tabcomponente" : "Forms0ListPage",    "index" : 40,    "icono" : "apps",    "nivel" : ".",    "estado" : "Activo",    "createdAt" : "2019-10-12T23:29:56.961+0000",    "updatedAt" : "2019-10-12T23:29:56.961+0000",    "__v" : 0}, function(err, xmod10) { if (err){    res.status(500).send(err.message)    }
                         
 
                 Permiso.create({       "idempresa" : idempresa,    "idrol" : xrol2._id,    "nombre" : xmod1._id,    "ingreso" : true,    "consulta" : true,    "eliminacion" : true,    "creacion" : true,    "actualizacion" : true,    "filtro" : true,    "reporte" : true,    "orden" : 10,    "estado" : "Activo",    "potros1" : "",    "votros1" : "",    "usuarionew" : "lonecesito@gmail.com",    "createdAt" : "2019-10-12T23:29:56.961+0000",    "updatedAt" : "2019-10-12T23:29:56.961+0000",    "__v" : 0}, function(err, xper1) { if (err){    res.status(500).send(err.message)    }
@@ -259,6 +259,189 @@ else{
                     Formcat.create({      "idempresa" : idempresa,    "idunidad" : "1000-type-plantilla",    "nombre" : "Etiqueta",    "usuarionew" :  req.body.email,    "createdAt" : ("2020-08-09T14:31:19.253Z"),    "updatedAt" : ("2020-08-09T14:31:19.253Z"),    "__v" : 0,    "idunidad2" : ""});
                     Formcat.create({      "idempresa" : idempresa,    "idunidad" : "1000-type-plantilla",    "nombre" : "Hora",    "usuarionew" :  req.body.email,    "createdAt" : ("2020-08-09T14:31:28.048Z"),    "updatedAt" : ("2020-08-09T14:31:28.048Z"),    "__v" : 0,    "idunidad2" : ""});
                     Formcat.create({      "idempresa" : idempresa,    "idunidad" : "1000-type-plantilla",    "nombre" : "Formulario detalle",    "usuarionew" :  req.body.email,    "createdAt" : ("2020-08-09T14:31:43.397Z"),    "updatedAt" : ("2020-08-09T14:31:43.397Z"),    "__v" : 0,    "idunidad2" : ""});
+
+
+                    Formcat.create({                    
+                        "idempresa" : idempresa,
+                        "idunidad" : "1000-type-plantilla",
+                        "idunidad2" : "",
+                        "nombre" : "Moneda",
+                        "usuarionew" :  req.body.email,
+                        "createdAt" : ("2020-08-09T14:31:43.397Z"),    "updatedAt" : ("2020-08-09T14:31:43.397Z"),    "__v" : 0,    "idunidad2" : ""});
+                    
+                    /* 14 */
+                    Formcat.create({    
+                       
+                        "idempresa" : idempresa,
+                        "idunidad" : "1000-type-plantilla",
+                        "idunidad2" : "",
+                        "nombre" : "Check List",
+                        "usuarionew" :  req.body.email,
+                        "createdAt" : ("2020-08-09T14:31:43.397Z"),    "updatedAt" : ("2020-08-09T14:31:43.397Z"),    "__v" : 0,    "idunidad2" : ""});
+                    /* 15 */
+                    Formcat.create({    
+                      
+                        "idempresa" : idempresa,
+                        "idunidad" : "1000-type-plantilla",
+                        "idunidad2" : "",
+                        "nombre" : "Check List Detalle",
+                        "usuarionew" :  req.body.email,
+                        "createdAt" : ("2020-08-09T14:31:43.397Z"),    "updatedAt" : ("2020-08-09T14:31:43.397Z"),    "__v" : 0,    "idunidad2" : ""});
+
+
+
+                        Formcat.create({      "idempresa" : idempresa,  
+                            "idunidad" : "1000-clase-plantilla",
+                            "idunidad2" : "",
+                            "nombre" : "INICIO",
+                            "usuarionew" :  req.body.email,
+                            "createdAt" : ("2020-08-09T14:31:43.397Z"),    "updatedAt" : ("2020-08-09T14:31:43.397Z"),    "__v" : 0,    "idunidad2" : ""});
+                        /* 2 */
+                        Formcat.create({      "idempresa" : idempresa,  
+                            "idunidad" : "1000-clase-plantilla",
+                            "idunidad2" : "",
+                            "nombre" : "NORMAL",
+                            "usuarionew" :  req.body.email,
+                            "createdAt" : ("2020-08-09T14:31:43.397Z"),    "updatedAt" : ("2020-08-09T14:31:43.397Z"),    "__v" : 0,    "idunidad2" : ""});
+                        
+                        /* 3 */
+                        Formcat.create({      "idempresa" : idempresa,  
+                            "idunidad" : "1000-clase-plantilla",
+                            "idunidad2" : "",
+                            "nombre" : "FINAL",
+                            "usuarionew" :  req.body.email,
+                            "createdAt" : ("2020-08-09T14:31:43.397Z"),    "updatedAt" : ("2020-08-09T14:31:43.397Z"),    "__v" : 0,    "idunidad2" : ""});
+                        
+                        /* 4 */
+                        Formcat.create({      "idempresa" : idempresa,  
+                            "idunidad" : "1000-conector-plantilla",
+                            "idunidad2" : "",
+                            "nombre" : "BASE DE DATOS",
+                            "usuarionew" :  req.body.email,
+                            "createdAt" : ("2020-08-09T14:31:43.397Z"),    "updatedAt" : ("2020-08-09T14:31:43.397Z"),    "__v" : 0,    "idunidad2" : ""});
+                        
+                        /* 5 */
+                        Formcat.create({      "idempresa" : idempresa,  
+                            "idunidad" : "1000-conector-plantilla",
+                            "idunidad2" : "",
+                            "nombre" : "DATOS",
+                            "usuarionew" :  req.body.email,
+                            "createdAt" : ("2020-08-09T14:31:43.397Z"),    "updatedAt" : ("2020-08-09T14:31:43.397Z"),    "__v" : 0,    "idunidad2" : ""});
+                        
+                        /* 6 */
+                        Formcat.create({      "idempresa" : idempresa,  
+                            "idunidad" : "1000-conector-plantilla",
+                            "idunidad2" : "",
+                            "nombre" : "INICIO",
+                            "usuarionew" :  req.body.email,
+                            "createdAt" : ("2020-08-09T14:31:43.397Z"),    "updatedAt" : ("2020-08-09T14:31:43.397Z"),    "__v" : 0,    "idunidad2" : ""});
+                        
+                        /* 7 */
+                        Formcat.create({      "idempresa" : idempresa,  
+                            "idunidad" : "1000-conector-plantilla",
+                            "idunidad2" : "",
+                            "nombre" : "FIN",
+                            "usuarionew" :  req.body.email,
+                            "createdAt" : ("2020-08-09T14:31:43.397Z"),    "updatedAt" : ("2020-08-09T14:31:43.397Z"),    "__v" : 0,    "idunidad2" : ""});
+                        
+                        /* 8 */
+                        Formcat.create({      "idempresa" : idempresa,  
+                            "idunidad" : "1000-conector-plantilla",
+                            "idunidad2" : "",
+                            "nombre" : "DISPLAY",
+                            "usuarionew" :  req.body.email,
+                            "createdAt" : ("2020-08-09T14:31:43.397Z"),    "updatedAt" : ("2020-08-09T14:31:43.397Z"),    "__v" : 0,    "idunidad2" : ""});
+                        
+                        /* 9 */
+                        Formcat.create({      "idempresa" : idempresa,  
+                            "idunidad" : "1000-conector-plantilla",
+                            "idunidad2" : "",
+                            "nombre" : "PROCESO",
+                            "usuarionew" :  req.body.email,
+                            "createdAt" : ("2020-08-09T14:31:43.397Z"),    "updatedAt" : ("2020-08-09T14:31:43.397Z"),    "__v" : 0,    "idunidad2" : ""});
+                        
+                        /* 10 */
+                        Formcat.create({      "idempresa" : idempresa,  
+                            "idunidad" : "1000-etapa-plantilla",
+                            "idunidad2" : "",
+                            "nombre" : "INGRESO",
+                            "usuarionew" :  req.body.email,
+                            "createdAt" : ("2020-08-09T14:31:43.397Z"),    "updatedAt" : ("2020-08-09T14:31:43.397Z"),    "__v" : 0,    "idunidad2" : ""});
+                        
+                        /* 11 */
+                        Formcat.create({      "idempresa" : idempresa,  
+                            "idunidad" : "1000-etapa-plantilla",
+                            "idunidad2" : "",
+                            "nombre" : "PROGRAMACIÓN",
+                            "usuarionew" :  req.body.email,
+                            "createdAt" : ("2020-08-09T14:31:43.397Z"),    "updatedAt" : ("2020-08-09T14:31:43.397Z"),    "__v" : 0,    "idunidad2" : ""});
+                        
+                        /* 12 */
+                        Formcat.create({      "idempresa" : idempresa,  
+                            "idunidad" : "1000-etapa-plantilla",
+                            "idunidad2" : "",
+                            "nombre" : "EJECUCIÓN",
+                            "usuarionew" :  req.body.email,
+                            "createdAt" : ("2020-08-09T14:31:43.397Z"),    "updatedAt" : ("2020-08-09T14:31:43.397Z"),    "__v" : 0,    "idunidad2" : ""});
+                        
+                        /* 13 */
+                        Formcat.create({      "idempresa" : idempresa,  
+                            "idunidad" : "1000-etapa-plantilla",
+                            "idunidad2" : "",
+                            "nombre" : "LIQUIDACIÓN",
+                            "usuarionew" :  req.body.email,
+                            "createdAt" : ("2020-08-09T14:31:43.397Z"),    "updatedAt" : ("2020-08-09T14:31:43.397Z"),    "__v" : 0,    "idunidad2" : ""});
+                        
+                        /* 14 */
+                        Formcat.create({      "idempresa" : idempresa,  
+                            "idunidad" : "1000-etapa-plantilla",
+                            "idunidad2" : "",
+                            "nombre" : "VERIFICACIÓN",
+                            "usuarionew" :  req.body.email,
+                            "createdAt" : ("2020-08-09T14:31:43.397Z"),    "updatedAt" : ("2020-08-09T14:31:43.397Z"),    "__v" : 0,    "idunidad2" : ""});
+
+                        
+                            Formcat.create({      "idempresa" : idempresa,
+                                "idunidad" : "1000-subtipo-plantilla",
+                                "idunidad2" : "ASIGNACIÓN",
+                                "nombre" : "NO DESMENBRADOS",
+                                "usuarionew" :  req.body.email,
+                                "createdAt" : ("2020-08-09T14:31:43.397Z"),    "updatedAt" : ("2020-08-09T14:31:43.397Z"),    "__v" : 0,    "idunidad2" : ""});
+                            /* 14 */
+                            Formcat.create({      "idempresa" : idempresa,
+                                "idunidad" : "1000-subtipo-plantilla",
+                                "idunidad2" : "ASIGNACIÓN",
+                                "nombre" : "DESMENBRADOS",
+                                "usuarionew" :  req.body.email,
+                                "createdAt" : ("2020-08-09T14:31:43.397Z"),    "updatedAt" : ("2020-08-09T14:31:43.397Z"),    "__v" : 0,    "idunidad2" : ""});
+                            
+                            
+                            /* 15 */
+                            Formcat.create({      "idempresa" : idempresa,
+                                "idunidad" : "1000-subtipo-plantilla",
+                                "idunidad2" : "ASIGNACIÓN",
+                                "nombre" : "TODOS",
+                                "usuarionew" :  req.body.email,
+                                "createdAt" : ("2020-08-09T14:31:43.397Z"),    "updatedAt" : ("2020-08-09T14:31:43.397Z"),    "__v" : 0,    "idunidad2" : ""});
+                            
+                            /* 16 */
+                            Formcat.create({      "idempresa" : idempresa,
+                                "idunidad" : "1000-subtipo-plantilla",
+                                "idunidad2" : "EJECUCIÓN",
+                                "nombre" : "USUARIO",
+                                "usuarionew" :  req.body.email,
+                                "createdAt" : ("2020-08-09T14:31:43.397Z"),    "updatedAt" : ("2020-08-09T14:31:43.397Z"),    "__v" : 0,    "idunidad2" : ""});
+                            
+                            /* 17 */
+                            Formcat.create({      "idempresa" : idempresa,
+                                "idunidad" : "1000-subtipo-plantilla",
+                                "idunidad2" : "EJECUCIÓN",
+                                "nombre" : "GRUPO",
+                                "usuarionew" :  req.body.email,
+                                "createdAt" : ("2020-08-09T14:31:43.397Z"),    "updatedAt" : ("2020-08-09T14:31:43.397Z"),    "__v" : 0,    "idunidad2" : ""});
+                            
+
+
                     Formcat.create({      "idempresa" : idempresa,    "idunidad" : "1000-unidad-plantilla",    "nombre" : "INVENTARIO",    "usuarionew" :  req.body.email,    "createdAt" : ("2020-07-31T16:25:58.610Z"),    "updatedAt" : ("2020-07-31T16:25:58.610Z"),    "__v" : 0,    "idunidad2" : ""});
                     Formcat.create({      "idempresa" : idempresa,    "idunidad" : "1000-unidad-plantilla",    "nombre" : "DELIVERY",    "usuarionew" :  req.body.email,    "createdAt" : ("2020-07-31T16:26:13.504Z"),    "updatedAt" : ("2020-07-31T16:26:13.504Z"),    "__v" : 0,    "idunidad2" : ""});
                     Formcat.create({      "idempresa" : idempresa,    "idunidad" : "1000-vista-plantilla",    "nombre" : "Clasica con imagenes",    "usuarionew" :  req.body.email,    "createdAt" : ("2020-07-25T16:40:17.494Z"),    "updatedAt" : ("2020-07-25T16:40:17.494Z"),    "__v" : 0,    "idunidad2" : ""});
@@ -301,7 +484,7 @@ else{
                         "password" : 'admin'+'123', 
                         "role" : "Administrador", 
                         "idempresa" : idempresa, 
-                        "nombre" : req.body.nombre, 
+                        "nombre" : 'Administrador', 
                         "foto" : "/api/image2s/5f38410d2f47f013d41ca573",
                         "cui" : req.body.nit, 
                         "direccion" : req.body.direccion  , 
@@ -334,7 +517,7 @@ else{
                             "password" : 'admin'+'123', 
                             "role" : "Asociado operador"	, 
                             "idempresa" : idempresa, 
-                            "nombre" :' admin'+ req.body.nombre, 
+                            "nombre" :'Asociado operador', 
                             "foto" : "/api/image2s/5f38410d2f47f013d41ca573",
                             "cui" : req.body.nit, 
                             "direccion" : req.body.direccion  , 

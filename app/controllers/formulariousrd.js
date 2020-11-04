@@ -10,7 +10,12 @@ exports.getformulariousrd = function(req, res, next){
 
             formulariousrd.find({idempresa:req.params.id3,idpapa:req.params.id4,tipo:req.params.id5}).sort([['orden', -1]]).exec(function(err, todos) {
                 if (err){  res.send(err);  }
-                if(todos.length>0)   {    res.json({orden:todos[0].orden});   }
+                
+                if(todos.length>0)   {    res.json({orden:todos[0].orden+10});   }
+                else
+                {
+                    res.json({orden:'10'});
+                }
              });
 
         
@@ -56,9 +61,8 @@ if(req.params.recordID!=='crea')
         if (err) {  res.send(err);  }
         else
         {   
- todo.idempresa       	=	req.body.idempresa        	||	todo.idempresa;   
-  
- todo.nombre       	=	 req.body.formulario         	||	todo.formulario;   
+
+ todo.nombre       	=	 req.body.nombre        	||	todo.nombre;   
  todo.orden       	=	req.body.orden        	||	todo.orden;  
  todo.tipo       	=	req.body.tipo        	||	todo.tipo;    
  todo.verregistros	=	req.body.verregistros        	||	todo.verregistros;  
@@ -86,6 +90,7 @@ else{
         if(todos.length>0)   {    res.status(500).send('Ya existe formulario asoviado a usuario'); }
         else
         {   
+            console.log(req.body)
             formulariousrd.create({ 
   idempresa     	: req.body.idempresa    	,
   idpapa     	: req.body.idpapa    	,

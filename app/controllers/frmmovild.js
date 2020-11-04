@@ -14,6 +14,24 @@ exports.getFrmmovild = function(req, res, next){
         }
         else
         {
+            if(req.params.id2==='orden')
+            {
+                Frmmovild.find({idempresa:req.params.id3,idmovil:req.params.id4}).sort({'_id': -1}).exec(function(err, todos) {
+                    if (err){  res.send(err);  }
+                    if(todos.length>0)
+                    { res.json({orden:todos[0].orden +10});
+                       
+                    }
+                    else
+                    {
+                        res.json({orden:10});
+                    }
+    
+                   
+                 });
+            }
+            else
+            {
             if(req.params.id2=='todos')
             { 
                 Frmmovild.find({idempresa:req.params.id3,idmovil:req.params.id4}).sort({'order': 1}).exec(function(err, todos) {
@@ -27,7 +45,7 @@ exports.getFrmmovild = function(req, res, next){
                     if (err){  res.send(err);  }
                      res.json(todos);
                  });
-            }}
+            }}}
     }
     else
     {
@@ -43,7 +61,7 @@ exports.getFrmmovild = function(req, res, next){
                     });
               break;
               case 'tipoformulario':
-              Frmmovild.find({idmovil:req.params.id}).populate('type').sort([['order', 1]]).exec(function(err, todos) {
+              Frmmovild.find({idmovil:req.params.id}).sort([['order', 1]]).exec(function(err, todos) {
                 if (err){ res.send(err); }
                
                 if(todos.length>0)   {    res.json(todos);   }
@@ -52,9 +70,9 @@ exports.getFrmmovild = function(req, res, next){
             });
             case 'camposformulario':
                 console.log({idmovil:req.params.id})
-                Frmmovild.find({idmovil:req.params.id}).populate('type').sort([['order', 1]]).exec(function(err, todos) {
+                Frmmovild.find({idmovil:req.params.id}).sort([['order', 1]]).exec(function(err, todos) {
                   if (err){ res.send(err); }
-                 
+              
                   var myData = [];
                   for(var i = 0; i < todos.length;i++){
                     myData.push({_id:todos[i]._id ,nombre:todos[i].name  })

@@ -13,7 +13,7 @@ var Pagopap = require('../models/pagospap');
 var Denunciaunidad = require('../models/denunciaunidad');
 var Orden_compra = require('../models/asociadoventa/orden_compra');
 var producto = require('../models/asociadoventa/producto');
-
+var usuarios = require('../models/user');
 
 var Participa3 = require('../models/participa3');
 var Participa33 = require('../models/participa33');
@@ -1235,6 +1235,10 @@ console.log('TERMINA')
                         
         break;
         case 'comprasgeneral':
+
+                usuarios.find({ "idempresa" : "5f8471ef1fcbb219a08e9c82"}).sort({_id : -1}).exec(function(err, todos100) {
+
+                   
                 producto.find({ "idempresa" : "5f8471ef1fcbb219a08e9c82"}).sort({_id : -1}).exec(function(err, todos10) {
 
                      
@@ -1242,6 +1246,17 @@ console.log('TERMINA')
                 if (err){  res.send(err); console.log(err)  }
                 var myData = [];
                 for (var i = 0; i < todos.length; i++) {
+var  usuarioid=''
+var usuarionombre=''
+                        for (var kk = 0; kk < todos100.length; kk++) {
+                                        var yy=todos100[kk]._id.toString()
+                                        if(yy===todos[i].idusuario)
+                                        {
+                                                usuarioid=todos100[kk].
+                                                break;
+                                        }
+                        }
+
                         for (var i2 = 0; i2 < todos[i].dproductos.length; i2++) {
 
                                 var encuesta= (todos[i].dproductos[i2].rate).split('°')
@@ -1281,7 +1296,7 @@ console.log('TERMINA')
                 }
 
                 res.json(myData);   
-
+        });
          });
         });
 break;

@@ -133,6 +133,9 @@ exports.createImage2frm = function(req, res, next){
         new_img.tamano =req.body.tamaño
         new_img.idformulario =req.body.idformulario
         new_img.idcampo =req.body.idcampo
+        new_img.idpapa =req.body.idpapa
+        new_img.idpapa0 =req.body.idpapa0
+        new_img.idempresa =req.body.idempresa
         new_img.id ='0'
 
         new_img.contentType = tipoimg2[1] ;
@@ -178,6 +181,9 @@ exports.createImage2frm = function(req, res, next){
                 new_img.tamano =req.body.tamaño
                 new_img.idformulario =req.body.idformulario
                 new_img.idcampo =req.body.idcampo
+                new_img.idpapa =req.body.idpapa
+                new_img.idpapa0 =req.body.idpapa0
+                new_img.idempresa =req.body.idempresa
                 new_img.id ='0'
                 new_img.contentType = tipoimg2[1] ;
             
