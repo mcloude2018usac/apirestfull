@@ -5,7 +5,16 @@ var Bitacora = require('../models/bitacora');
 exports.getTipounidad = function(req, res, next){
        if(req.params.id)
         {  
-           
+            if(req.params.id==='todos1000')
+            {  
+                console.log({estado:'Activo'})
+            Tipounidad.find({estado:'Activo'}, null, {sort: {codigo: 1}},function(err, todos) {
+                if (err){  res.send(err);  }
+                 res.json(todos);
+             });
+            }
+            else
+            {
                 Tipounidad.find({_id:req.params.id}
                     ,null, {sort: {codigo: 1}},function(err, todos) {
                     if (err){ res.send(err); }
@@ -15,14 +24,31 @@ exports.getTipounidad = function(req, res, next){
                     {  res.status(500).send('NO EXISTE REGISTRO');      }
                     
                 });
-             
+            }
            
         }
         else
-        { Tipounidad.find({estado:'Activo'}, null, {sort: {codigo: 1}},function(err, todos) {
-               if (err){  res.send(err);  }
-                res.json(todos);
-            });
+        {
+
+            if(req.params.id==='todos1000')
+            {  
+                console.log({estado:'Activo'})
+            Tipounidad.find({estado:'Activo'}, null, {sort: {codigo: 1}},function(err, todos) {
+                if (err){  res.send(err);  }
+                 res.json(todos);
+             });
+            }
+            else
+            {
+                
+            Tipounidad.find({}, null, {sort: {codigo: 1}},function(err, todos) {
+                if (err){  res.send(err);  }
+                 res.json(todos);
+             });
+
+            }
+            
+         
         }
 
  
