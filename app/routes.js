@@ -10,6 +10,11 @@ var AuthenticationController = require('./controllers/authentication'),
     dispositivoController = require('./controllers/asociadoventa/dispositivo'),
     frmaccionesController = require('./controllers/asociadoventa/frmacciones'),
     frmtareasprogramadasController = require('./controllers/asociadoventa/frmtareasprogramadas'),
+    formulariotareasdocController = require('./controllers/asociadoventa/formulariotareasdoc'),
+
+    formulariofotosController = require('./controllers/asociadoventa/formulariofotos'),
+    formulariotareasController = require('./controllers/asociadoventa/formulariotareas'),
+    formulariocomentariosController = require('./controllers/asociadoventa/formulariocomentarios'),
 
     frmtareasprogramadasfotosController = require('./controllers/asociadoventa/frmtareasprogramadasfotos'),
     frmtareasprogramadasserviciosController = require('./controllers/asociadoventa/frmtareasprogramadasservicios'),
@@ -24,6 +29,7 @@ var AuthenticationController = require('./controllers/authentication'),
     frmactorgrupoController = require('./controllers/asociadoventa/frmactorgrupo'),
     GeneradorController = require('./controllers/generafrm/generador'),
    SiifController = require('./controllers/siif'),
+   fileuploadxController = require('./controllers/fileuploadx'),
    ProductoController = require('./controllers/asociadoventa/producto'),
    Orden_compraController = require('./controllers/asociadoventa/orden_compra'),
    Orden_ventaController = require('./controllers/asociadoventa/orden_venta'),
@@ -189,6 +195,7 @@ module.exports = function(app){
         userperfilRoutes = express.Router(),
         participa2Routes = express.Router(),
         siifRoutes = express.Router(),
+        fileuploadxRoutes = express.Router(),
         participa3Routes = express.Router(),
         participa33Routes = express.Router(),
         mailmarketRoutes = express.Router(),
@@ -196,6 +203,10 @@ module.exports = function(app){
         reglamentodRoutes = express.Router(),
         tarjetacreditoRoutes = express.Router(),
         participa4Routes = express.Router(),
+        formulariocomentariosRoutes = express.Router(),
+        formulariofotosRoutes = express.Router(),
+        formulariotareasRoutes = express.Router(),
+        formulariotareasdocRoutes = express.Router(),
         tarifaRoutes = express.Router(),
         imageRoutes = express.Router(),
         image2Routes = express.Router(),
@@ -387,6 +398,38 @@ frmtareasprogramadasserviciosRoutes.post('/:recordID',requireAuth,  frmtareaspro
 frmtareasprogramadasserviciosRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  frmtareasprogramadasserviciosController.deletefrmtareasprogramadasservicios);
 
 
+apiRoutes.use('/formulariotareasdocs', formulariotareasdocRoutes);
+formulariotareasdocRoutes.get('/', requireAuth,formulariotareasdocController.getformulariotareasdoc);
+formulariotareasdocRoutes.get('/:id/:id2/:id3',requireAuth,  formulariotareasdocController.getformulariotareasdoc);
+formulariotareasdocRoutes.get('/:id/:id2/:id3/:id4',requireAuth,  formulariotareasdocController.getformulariotareasdoc);
+formulariotareasdocRoutes.get('/:id',requireAuth,  formulariotareasdocController.getformulariotareasdoc);
+formulariotareasdocRoutes.post('/:recordID',requireAuth,  formulariotareasdocController.creaformulariotareasdoc2s);
+formulariotareasdocRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  formulariotareasdocController.deleteformulariotareasdoc);
+
+apiRoutes.use('/formulariotareass', formulariotareasRoutes);
+formulariotareasRoutes.get('/', requireAuth,formulariotareasController.getformulariotareas);
+formulariotareasRoutes.get('/:id/:id2/:id3',requireAuth,  formulariotareasController.getformulariotareas);
+formulariotareasRoutes.get('/:id/:id2/:id3/:id4',requireAuth,  formulariotareasController.getformulariotareas);
+formulariotareasRoutes.get('/:id',requireAuth,  formulariotareasController.getformulariotareas);
+formulariotareasRoutes.post('/:recordID',requireAuth,  formulariotareasController.creaformulariotareas2s);
+formulariotareasRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  formulariotareasController.deleteformulariotareas);
+
+apiRoutes.use('/formulariofotoss', formulariofotosRoutes);
+formulariofotosRoutes.get('/', requireAuth,formulariofotosController.getformulariofotos);
+formulariofotosRoutes.get('/:id/:id2/:id3',requireAuth,  formulariofotosController.getformulariofotos);
+formulariofotosRoutes.get('/:id/:id2/:id3/:id4',requireAuth,  formulariofotosController.getformulariofotos);
+formulariofotosRoutes.get('/:id',requireAuth,  formulariofotosController.getformulariofotos);
+formulariofotosRoutes.post('/:recordID',requireAuth,  formulariofotosController.creaformulariofotos2s);
+formulariofotosRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  formulariofotosController.deleteformulariofotos);
+
+apiRoutes.use('/formulariocomentarioss', formulariocomentariosRoutes);
+formulariocomentariosRoutes.get('/', requireAuth,formulariocomentariosController.getformulariocomentarios);
+formulariocomentariosRoutes.get('/:id/:id2/:id3',requireAuth,  formulariocomentariosController.getformulariocomentarios);
+formulariocomentariosRoutes.get('/:id/:id2/:id3/:id4',requireAuth,  formulariocomentariosController.getformulariocomentarios);
+formulariocomentariosRoutes.get('/:id',requireAuth,  formulariocomentariosController.getformulariocomentarios);
+formulariocomentariosRoutes.post('/:recordID',requireAuth,  formulariocomentariosController.creaformulariocomentarios2s);
+formulariocomentariosRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  formulariocomentariosController.deleteformulariocomentarios);
+
 apiRoutes.use('/frmtareasprogramadasfotoss', frmtareasprogramadasfotosRoutes);
 frmtareasprogramadasfotosRoutes.get('/', requireAuth,frmtareasprogramadasfotosController.getfrmtareasprogramadasfotos);
 frmtareasprogramadasfotosRoutes.get('/:id/:id2/:id3',requireAuth,  frmtareasprogramadasfotosController.getfrmtareasprogramadasfotos);
@@ -488,6 +531,11 @@ siifRoutes.get('/:id/:id2', SiifController.getsiif);
 siifRoutes.get('/:id/:id2/:id3', SiifController.getsiif);
 siifRoutes.get('/:id/:id2/:id3/:id4/:id5/:id6/:id7', SiifController.getsiif);
 
+
+//http://127.0.0.1:9090/api/fileuploadxs       body-form-data   key=  uploadedFile    tipo file
+apiRoutes.use('/fileuploadxs', fileuploadxRoutes);
+fileuploadxRoutes.get('/:id/:id2', fileuploadxController.getaFileuploadx);
+fileuploadxRoutes.post('/:id',  fileuploadxController.creaFileuploadxs);
 
 
 apiRoutes.use('/ubicacionentregas', ubicacionentregaRoutes);
@@ -993,7 +1041,7 @@ frmmovilRoutes.get('/:id/:id2/:id3/:id4/:id5',requireAuth, FrmmovilController.ge
 frmmovilRoutes.post('/:recordID',requireAuth,  FrmmovilController.creaFrmmovil2s);
 frmmovilRoutes.post('/:recordID/:recordID2',requireAuth,  FrmmovilController.creaFrmmovil3s);
 frmmovilRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  FrmmovilController.deleteFrmmovil);
-frmmovilRoutes.delete('/:recordID/:recordID2/:userID/:idempresa/:idafiliado',requireAuth,  FrmmovilController.deleteFrmmovil2);
+frmmovilRoutes.delete('/:recordID/:recordID2/:recordID3/:userID/:idempresa/:idafiliado',requireAuth,  FrmmovilController.deleteFrmmovil2);
 
 
 //-----------------------------------FRMMOVILD
