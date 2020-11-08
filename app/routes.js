@@ -12,6 +12,9 @@ var AuthenticationController = require('./controllers/authentication'),
     frmtareasprogramadasController = require('./controllers/asociadoventa/frmtareasprogramadas'),
     formulariotareasdocController = require('./controllers/asociadoventa/formulariotareasdoc'),
 
+    
+    formulariofotos2Controller = require('./controllers/asociadoventa/formulariofotos2'),
+
     formulariofotosController = require('./controllers/asociadoventa/formulariofotos'),
     formulariotareasController = require('./controllers/asociadoventa/formulariotareas'),
     formulariocomentariosController = require('./controllers/asociadoventa/formulariocomentarios'),
@@ -205,6 +208,8 @@ module.exports = function(app){
         participa4Routes = express.Router(),
         formulariocomentariosRoutes = express.Router(),
         formulariofotosRoutes = express.Router(),
+        formulariofotos2Routes = express.Router(),
+
         formulariotareasRoutes = express.Router(),
         formulariotareasdocRoutes = express.Router(),
         tarifaRoutes = express.Router(),
@@ -421,6 +426,16 @@ formulariofotosRoutes.get('/:id/:id2/:id3/:id4',requireAuth,  formulariofotosCon
 formulariofotosRoutes.get('/:id',requireAuth,  formulariofotosController.getformulariofotos);
 formulariofotosRoutes.post('/:recordID',requireAuth,  formulariofotosController.creaformulariofotos2s);
 formulariofotosRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  formulariofotosController.deleteformulariofotos);
+
+apiRoutes.use('/formulariofotos2s', formulariofotos2Routes);
+formulariofotos2Routes.get('/', requireAuth,formulariofotos2Controller.getformulariofotos2);
+formulariofotos2Routes.get('/:id/:id2/:id3',requireAuth,  formulariofotos2Controller.getformulariofotos2);
+formulariofotos2Routes.get('/:id/:id2/:id3/:id4',requireAuth,  formulariofotos2Controller.getformulariofotos2);
+formulariofotos2Routes.get('/:id',requireAuth,  formulariofotos2Controller.getformulariofotos2);
+formulariofotos2Routes.post('/:recordID',requireAuth,  formulariofotos2Controller.creaformulariofotos22s);
+formulariofotos2Routes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  formulariofotos2Controller.deleteformulariofotos2);
+
+
 
 apiRoutes.use('/formulariocomentarioss', formulariocomentariosRoutes);
 formulariocomentariosRoutes.get('/', requireAuth,formulariocomentariosController.getformulariocomentarios);
