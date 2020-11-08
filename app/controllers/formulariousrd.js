@@ -69,12 +69,27 @@ if(req.params.recordID!=='crea')
  
   todo.formulario     	= req.body.formulario    	||	todo.formulario;   
  todo.idformulario       	=	req.body.idformulario        	||	todo.idformulario;   
- todo.consulta       	=	req.body.consulta        	||	todo.consulta;   
- todo.eliminacion       	=	req.body.eliminacion        	||	todo.eliminacion;   
- todo.creacion       	=	req.body.creacion        	||	todo.creacion;   
- todo.actualizacion       	=	req.body.actualizacion        	||	todo.actualizacion;   
- todo.filtro       	=	req.body.filtro        	||	todo.filtro;   
- todo.reporte       	=	req.body.reporte        	||	todo.reporte;   
+ todo.consulta       	=	req.body.consulta        	;   
+ todo.eliminacion       	=	req.body.eliminacion        	;   
+ todo.creacion       	=	req.body.creacion        	;   
+ todo.actualizacion       	=	req.body.actualizacion       ;   
+ todo.filtro       	=	req.body.filtro        ;   
+ todo.reporte       	=	req.body.reporte        ;   
+
+ 
+ todo.imprimeorden		= req.body.imprimeorden	;   
+ todo.finalizaorden  	= req.body.finalizaorden	;   
+ todo.eliminaorden   	= req.body.eliminaorden	;   
+ todo.trayectoriaorden 	= req.body.trayectoriaorden	;   
+ todo.documentacionorden 	= req.body.documentacionorden	;   
+ todo.pausarorden 	= req.body.pausarorden;
+ todo.anularorden 	= req.body.anularorden;   
+ todo.fotosorden	= req.body.fotosorden	;   
+ todo.comentariosorden	= req.body.comentariosorden	;   
+ todo.documentosorden 	= req.body.documentosorden;   
+ todo.tareasorden  	= req.body.tareasorden;   
+
+
  todo.estado       	=	req.body.estado        	||	todo.estado;   
             todo.usuarioup=req.body.bitacora.email;
             todo.save(function (err, todo){
@@ -108,6 +123,21 @@ else{
   reporte     	: req.body.reporte    	,
   estado     	: req.body.estado    	,
   verregistros	: req.body.verregistros	,
+
+   
+ imprimeorden	: req.body.imprimeorden	,
+ finalizaorden  	: req.body.finalizaorden	,
+ eliminaorden   	: req.body.eliminaorden	,
+ trayectoriaorden 	: req.body.trayectoriaorden	,
+ documentacionorden 	: req.body.documentacionorden	,
+ pausarorden 	: req.body.pausarorden	,
+ anularorden 	: req.body.anularorden	,
+ fotosorden	: req.body.fotosorden	,
+ comentariosorden	: req.body.comentariosorden	,
+ documentosorden 	: req.body.documentosorden	,
+ tareasorden  	: req.body.tareasorden	,
+ acciones  	: req.body.acciones	,
+
                 usuarionew:req.body.bitacora.email,
               }
                 , function(err, todo) {

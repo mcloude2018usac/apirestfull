@@ -612,15 +612,15 @@ Frmmovild.find({idmovil:'5f7f5f7b85f18458404125fd', display : "true"}).sort([['o
                                  console.log('fechass ---' + fechas.length)
                                  console.log('visitas ---' + visitas)
                                  console.log('proyectos ---' + todos2.length)
-                                 
-
+                                
+                             
                                  for(var j = 0; j < fechas.length;j++){ // todas las fechas
                                   for(var k = 0; k < visitas;k++){//no visitas
                                     for(var i = 0; i < todos2.length;i++){ // todos los proyectpos
                                    
                           
                                         var aarr=todos2[i].proyecto.split('¬')
-                                      
+                                        console.log(aarr)
                                             var names='5f81d95fc07d6532900465a4'
                                             var estructura= {
                                               "novisita" :k+1,
@@ -634,9 +634,9 @@ Frmmovild.find({idmovil:'5f7f5f7b85f18458404125fd', display : "true"}).sort([['o
                                               "idinspector0" : inspectort._id,
                                               "idsupervisor0" : supervidort._id,
                                               "idproyecto0" : todos2[i]._id,
-                                              "idproyecto" :  aarr[1].split(',')[0].trim(),
-                                              "idempresa0" : aarr[2].split(',')[0].trim(),
-                                              "idcontrato" : aarr[3].split(',')[0].trim(),
+                                              "idproyecto" :  aarr[1].split('°')[0],
+                                              "idempresa0" : aarr[2].split('°')[0],
+                                              "idcontrato" : aarr[3].split('°')[0],
                                               "fechaasignada" :""+ fechas[j] + "",
                                               "verificapersonal":'',
                                               "verificavehiculos":'',
@@ -651,16 +651,16 @@ Frmmovild.find({idmovil:'5f7f5f7b85f18458404125fd', display : "true"}).sort([['o
                                               "idpapa" : req.body.idpapa,
                                               "estado" : 'activa',
                                               "idempresa" : req.body.idempresa,
-                                              "nombre":  "  <strong>No contrato:</strong> "+aarr[0].split(',')[0].trim().split(':')[1]+ " <br> "+
-                                              "<strong>Empresa:</strong>"+aarr[0].split(',')[2].trim().split(':')[1]+ " <br> "+
-                                              "<strong>Nit Empresa:</strong>"+aarr[0].split(',')[1].trim().split(':')[2]+ " <br> "+
-                                              "<strong>Codigo proyecto:</strong>"+ aarr[1].split(',')[1].trim().split(':')[2] + " <br> "+
-                                              "<strong>Nombre proyecto:</strong>"+  aarr[1].split(',')[2].trim().split(':')[1] +" <br> "+
+                                              "nombre":  "  <strong>No contrato:</strong> "+aarr[0].split('°')[0].trim().split(':')[1]+ " <br> "+
+                                              "<strong>Empresa:</strong>"+aarr[0].split('°')[2].split(':')[1]+ " <br> "+
+                                              "<strong>Nit Empresa:</strong>"+aarr[0].split('°')[1].split(':')[2]+ " <br> "+
+                                              "<strong>Codigo proyecto:</strong>"+ aarr[1].split('°')[1].split(':')[2] + " <br> "+
+                                              "<strong>Nombre proyecto:</strong>"+  aarr[1].split('°')[2].split(':')[1] +" <br> "+
                                               " <strong>Supervisor:</strong> "+ supervidort.usuario.split('¬')[0] +" <br>"+
                                               " <strong>Inspector:</strong> " + inspectort.usuario.split('¬')[0] +" <br>"
                                               
                                           }
-                                          console.log(aarr[0].split(','))
+                                          
 /*
                                           "proyecto" : "nocontrato: a225 , empresa: nit: 848484848 , nombreempresa: empresa3 ,        
                                           5f763d91691ddf2820befd00 , proyecto: codigoproyecto: proyecto 2 , nombreproyecto: proyecto2     
