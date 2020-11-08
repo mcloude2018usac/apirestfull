@@ -16,7 +16,7 @@ var formulariotrayectoriaSchema 		=	new  mongoose.Schema({
  idform		: { type : String, required : true },
  tipoform	: { type : String, required : true }, 
  tipo2form	: { type : String, required : true }, 
- ejecuta	: { type : String, required : true }, 
+ ejecuta	: { type : String}, 
  estadoorden	: { type : String, required : true }, 
  categoriaform	: { type : String, required : true },
  idactividad		: { type : String, required : true }, 
