@@ -17,6 +17,10 @@ var formulariotareas = require('../models/asociadoventa/formulariotareas');
 
 var frmactividad = require('../models/asociadoventa/frmactividad');
 var frmacciones = require('../models/asociadoventa/frmacciones');
+var frmactor = require('../models/asociadoventa/frmactor');
+var frmactorgrupo = require('../models/asociadoventa/frmactorgrupo');
+const frmmovil = require('../models/frmmovil');
+
 
 
                             
@@ -454,18 +458,21 @@ exports.getFrmmovil = function(req, res, next){
                                             var  frmtt= mongoose.model(namess,tt);
                                             frmtt.find(JSON.parse(filtro) ,function(err, todos2) {
                                                 if (err){  res.send(err); }
-                                             
+                                            
 
                                               var myData = [];
                                               for(var i = 0; i < todos2.length;i++){
                                                 var nombret ='';
                                                 for(var j = 0; j < myDatavector.length;j++){
-                                                    nombret = nombret + myDatavector[j] + ': ' +  todos2[i][myDatavector[j]]  + ' , '
+
+                                                  
+                                                    nombret = nombret + myDatavector[j] + ': ' +  todos2[i][myDatavector[j]]  + '°'
                                                 }
                                                 myData.push({_id:todos2[i]._id , nombre: nombret })
 
                                                  
                                               }
+                                              
                                                 res.json(myData);
                                               
                                             });
@@ -482,7 +489,7 @@ exports.getFrmmovil = function(req, res, next){
                                                for(var i = 0; i < todos2.length;i++){
                                                  var nombret ='';
                                                  for(var j = 0; j < myDatavector.length;j++){
-                                                     nombret = nombret + myDatavector[j] + ': ' +  todos2[i][myDatavector[j]]  + ' , '
+                                                     nombret = nombret + myDatavector[j] + ': ' +  todos2[i][myDatavector[j]].trim()  + '°'
                                                  }
                                                  myData.push({_id:todos2[i]._id , nombre: nombret })
  
@@ -528,7 +535,7 @@ exports.getFrmmovil = function(req, res, next){
                                         cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
                                         cad='{' + cad + '}'
                                         cadxx='{' + cadxx + '}'
-
+                                     console.log(namess)   
                                      console.log(filtro)
                                         var jsonObject = stringToObject(cad);
                                       
@@ -580,7 +587,10 @@ exports.getFrmmovil = function(req, res, next){
             var campost=req.params.id2
           
             var myDatavector = campost.split(',');
+
+        
             var arremp=req.params.id3.split('°')
+            console.log(arremp)
 //,_id:{$in: myData}
 
 
@@ -594,8 +604,15 @@ exports.getFrmmovil = function(req, res, next){
                                         var cadxx=''
                                         var cad3=(dafiltrocad(todos,'','')).split('°')
                                         var filtro=''
-                                  
-                                        filtro='{' + arremp[1] + '}'
+                                  if(arremp[2] ===undefined && arremp[3]===undefined )
+                                  {
+                                    filtro='{' + arremp[1] +'}'
+                                  }
+                                  else
+                                  {
+                                    filtro='{' + arremp[1] + '°' + arremp[2] + '°' + arremp[3] + '}'
+                                  }
+                                       
                                    
                                         cad=cad3[0]
                                         cadxx='{'+ cad3[1] + '}'
@@ -613,6 +630,7 @@ exports.getFrmmovil = function(req, res, next){
                                      
                                         try {
                                             var  frmtt= mongoose.model(namess,tt);
+                                            console.log('formulario:'+namess)
                                             console.log(filtro)
                                             frmtt.find(JSON.parse(filtro) ,function(err, todos2) {
                                                 if (err){  res.send(err); }
@@ -622,7 +640,7 @@ exports.getFrmmovil = function(req, res, next){
                                               for(var i = 0; i < todos2.length;i++){
                                                 var nombret ='';
                                                 for(var j = 0; j < myDatavector.length;j++){
-                                                    nombret = nombret + myDatavector[j] + ': ' +  todos2[i][myDatavector[j]]  + ' °'
+                                                    nombret = nombret + myDatavector[j] + ': ' +  todos2[i][myDatavector[j]]  + '°'
                                                 }
                                                 myData.push({_id:todos2[i]._id , nombre: nombret })
 
@@ -958,7 +976,9 @@ exports.getFrmmovil = function(req, res, next){
 
 
             if(arr[1]=='todos')
-            {
+            {  frmmovil.find({idempresa:arr[0], tipo:arr[2],publico:'Si'}).
+            exec(function(err, todosa) {
+                if (err){  res.send(err);  }
                 formulariousr.find({idempresa:arr[0],idusuario:req.params.id2})
                 .exec(function(err, todosb) {
                               if (err){  res.send(err);  }
@@ -966,7 +986,35 @@ exports.getFrmmovil = function(req, res, next){
 
                               if(todosb.length<=0)
                               {
-                                res.json(todosb);
+                                if(todosa.length<=0)
+                                {
+                                    res.json(todosb);
+
+                                }
+                                else
+                                {
+                                    var myData = [];
+                                    for(var i = 0; i < todosa.length;i++){
+                                        if(todosa[i].categoria==req.params.id)
+                                        {
+                                            myData.push({_id:todosa[i]._id,categoria:todosa[i].categoria,nombre:todosa[i].nombre,foto:todosa[i].foto,estado:todosa[i].estado ,verregistros:todosa[i].verregistros,geoposicion:todosa[i].geoposicion ,tipo2:todosa[i].tipo2,ejecuta:todosa[i].ejecuta  ,tipo:todosa[i].tipo});
+                                        }
+                                        
+                                    }
+                        
+                                    var unique =   myData.filter( onlyUnique );
+                                  
+                                    var myData2 = [];
+                                                  for(var i = 0; i < unique.length;i++){
+                                                     myData2.push({_id:unique[i]._id,tipo:unique[i].tipo,ejecuta:unique[i].ejecuta,tipo2:unique[i].tipo2,geoposicion:unique[i].geoposicion ,categoria:unique[i].categoria,nombre:unique[i].nombre,foto:unique[i].foto,estado:unique[i].estado ,verregistros:unique[i].verregistros,permisos:{pactualizacion:'true',  pconsulta:'true', pcreacion:'true', peliminacion:'true',  pfiltro:'true', pingreso:'true', preporte:'true',  potros1:''}});
+                                                 }
+                               
+                                                  res.json(myData2);
+
+
+
+                                }  
+                               
                               }
                               else
                               {
@@ -977,39 +1025,60 @@ exports.getFrmmovil = function(req, res, next){
 
                   
                    
-                    var myData = [];
+                     var myData = [];
                     
-                    for(var i = 0; i < todos.length;i++){
-                        if(todos[i].idformulario.categoria==req.params.id)
-                        {
-                            myData.push({_id:todos[i].idformulario._id,categoria:todos[i].idformulario.categoria,nombre:todos[i].idformulario.nombre,foto:todos[i].idformulario.foto,estado:todos[i].idformulario.estado ,verregistros:todos[i].verregistros ,geoposicion:todos[i].idformulario.geoposicion,tipo2:todos[i].idformulario.tipo2,ejecuta:todos[i].idformulario.ejecuta ,tipo:todos[i].idformulario.tipo});
-                        }
-                        
-                    }
-
+                     for(var i = 0; i < todos.length;i++){
+                     
+                         if(todos[i].idformulario.categoria==req.params.id)
+                         {
+                             myData.push({_id:todos[i].idformulario._id,categoria:todos[i].idformulario.categoria,nombre:todos[i].idformulario.nombre,foto:todos[i].idformulario.foto,estado:todos[i].idformulario.estado ,verregistros:todos[i].verregistros,geoposicion:todos[i].idformulario.geoposicion ,tipo2:todos[i].idformulario.tipo2,ejecuta:todos[i].idformulario.ejecuta  ,tipo:todos[i].idformulario.tipo,
+                                 pactualizacion:todos[i].actualizacion,  pconsulta:todos[i].consulta, pcreacion:todos[i].creacion, peliminacion:todos[i].eliminacion,  pfiltro:todos[i].filtro, pingreso:'true', preporte:todos[i].preporte,  potros1:''});
+                         }
+                         
+                     }
                     
-
-
-
-                    var unique =   myData.filter( onlyUnique );
-                  
-                    var myData2 = [];
-                                  for(var i = 0; i < unique.length;i++){
-                                      
-                                     myData2.push({_id:unique[i]._id,tipo:unique[i].tipo,ejecuta:unique[i].ejecuta,tipo2:unique[i].tipo2,geoposicion:unique[i].geoposicion ,categoria:todos[i].idformulario.categoria,nombre:unique[i].nombre,foto:unique[i].foto,estado:unique[i].estado,verregistros:unique[i].verregistros,permisos:{pactualizacion:todos[i].actualizacion,  pconsulta:todos[i].consulta, pcreacion:todos[i].creacion, peliminacion:todos[i].eliminacion,  pfiltro:todos[i].filtro, pingreso:'true', preporte:todos[i].preporte,  potros1:''}});
+        
+                     for(var i = 0; i < todosa.length;i++){
+                         if(todosa[i].categoria==req.params.id)
+                         {
+                             var encuentra=0;
+                             for(var ii = 0; ii < myData.length;ii++){
+                             
+                                 if(String(myData[ii]._id)===String(todosa[i]._id))
+                                 {
+                                     encuentra=1;
+                                     break;
                                  }
-            
-                                  res.json(myData2);
+                             }
+                             if(encuentra==0)
+                             {
+                             myData.push({_id:todosa[i]._id,categoria:todosa[i].categoria,nombre:todosa[i].nombre,foto:todosa[i].foto,estado:todosa[i].estado ,verregistros:todosa[i].verregistros,geoposicion:todosa[i].geoposicion ,tipo2:todosa[i].tipo2,ejecuta:todosa[i].ejecuta  ,tipo:todosa[i].tipo,
+                                 pactualizacion:'true',  pconsulta:'true', pcreacion:'true', peliminacion:'true',  pfiltro:'true', pingreso:'true', preporte:'true',  potros1:''});
+                             }
+                         }
+                         
+                     }
+         
+                     var unique =   myData.filter( onlyUnique );
+                   
+                     var myData2 = [];
+                                   for(var i = 0; i < unique.length;i++){
+                                      myData2.push({_id:unique[i]._id,tipo:unique[i].tipo,ejecuta:unique[i].ejecuta,tipo2:unique[i].tipo2,geoposicion:unique[i].geoposicion ,categoria:unique[i].categoria,nombre:unique[i].nombre,foto:unique[i].foto,estado:unique[i].estado ,verregistros:unique[i].verregistros,permisos:{pactualizacion:unique[i].actualizacion,  pconsulta:unique[i].consulta, pcreacion:unique[i].creacion, peliminacion:unique[i].eliminacion,  pfiltro:unique[i].filtro, pingreso:'true', preporte:unique[i].preporte,  potros1:''}});
+                                  }
+               
+                                   res.json(myData2);
                                   
                                 });
                               }
 
 
-                            });
+                            });});
             }
             else
             {
-
+                frmmovil.find({idempresa:arr[0], tipo:arr[2],publico:'Si'}).
+                exec(function(err, todosa) {
+                    if (err){  res.send(err);  }
                 formulariousr.find({idempresa:arr[0], estado:arr[1],idusuario:req.params.id2})
                 .exec(function(err, todosb) {
                       if (err){  res.send(err);  }
@@ -1017,7 +1086,35 @@ exports.getFrmmovil = function(req, res, next){
                       
                       if(todosb.length<=0)
                       {
-                        res.json(todosb);
+                        if(todosa.length<=0)
+                        {
+                            res.json(todosb);
+
+                        }
+                        else
+                        {
+                            var myData = [];
+                            for(var i = 0; i < todosa.length;i++){
+                                if(todosa[i].categoria==req.params.id)
+                                {
+                                    myData.push({_id:todosa[i]._id,categoria:todosa[i].categoria,nombre:todosa[i].nombre,foto:todosa[i].foto,estado:todosa[i].estado ,verregistros:todosa[i].verregistros,geoposicion:todosa[i].geoposicion ,tipo2:todosa[i].tipo2,ejecuta:todosa[i].ejecuta  ,tipo:todosa[i].tipo});
+                                }
+                                
+                            }
+                
+                            var unique =   myData.filter( onlyUnique );
+                          
+                            var myData2 = [];
+                                          for(var i = 0; i < unique.length;i++){
+                                             myData2.push({_id:unique[i]._id,tipo:unique[i].tipo,ejecuta:unique[i].ejecuta,tipo2:unique[i].tipo2,geoposicion:unique[i].geoposicion ,categoria:unique[i].categoria,nombre:unique[i].nombre,foto:unique[i].foto,estado:unique[i].estado ,verregistros:unique[i].verregistros,permisos:{pactualizacion:'true',  pconsulta:'true', pcreacion:'true', peliminacion:'true',  pfiltro:'true', pingreso:'true', preporte:'true',  potros1:''}});
+                                         }
+                       
+                                          res.json(myData2);
+
+
+
+                        }  
+                       
                       }
                       else
                       {
@@ -1029,28 +1126,51 @@ exports.getFrmmovil = function(req, res, next){
                     var myData = [];
                     
                     for(var i = 0; i < todos.length;i++){
+                    
                         if(todos[i].idformulario.categoria==req.params.id)
                         {
-                            myData.push({_id:todos[i].idformulario._id,categoria:todos[i].idformulario.categoria,nombre:todos[i].idformulario.nombre,foto:todos[i].idformulario.foto,estado:todos[i].idformulario.estado ,verregistros:todos[i].verregistros,geoposicion:todos[i].idformulario.geoposicion,tipo2:todos[i].idformulario.tipo2,ejecuta:todos[i].idformulario.ejecuta ,tipo:todos[i].idformulario.tipo});
+                            myData.push({_id:todos[i].idformulario._id,categoria:todos[i].idformulario.categoria,nombre:todos[i].idformulario.nombre,foto:todos[i].idformulario.foto,estado:todos[i].idformulario.estado ,verregistros:todos[i].verregistros,geoposicion:todos[i].idformulario.geoposicion ,tipo2:todos[i].idformulario.tipo2,ejecuta:todos[i].idformulario.ejecuta  ,tipo:todos[i].idformulario.tipo,
+                                pactualizacion:todos[i].actualizacion,  pconsulta:todos[i].consulta, pcreacion:todos[i].creacion, peliminacion:todos[i].eliminacion,  pfiltro:todos[i].filtro, pingreso:'true', preporte:todos[i].preporte,  potros1:''});
                         }
                         
                     }
                    
+       
+                    for(var i = 0; i < todosa.length;i++){
+                        if(todosa[i].categoria==req.params.id)
+                        {
+                            var encuentra=0;
+                            for(var ii = 0; ii < myData.length;ii++){
+                            
+                                if(String(myData[ii]._id)===String(todosa[i]._id))
+                                {
+                                    encuentra=1;
+                                    break;
+                                }
+                            }
+                            if(encuentra==0)
+                            {
+                            myData.push({_id:todosa[i]._id,categoria:todosa[i].categoria,nombre:todosa[i].nombre,foto:todosa[i].foto,estado:todosa[i].estado ,verregistros:todosa[i].verregistros,geoposicion:todosa[i].geoposicion ,tipo2:todosa[i].tipo2,ejecuta:todosa[i].ejecuta  ,tipo:todosa[i].tipo,
+                                pactualizacion:'true',  pconsulta:'true', pcreacion:'true', peliminacion:'true',  pfiltro:'true', pingreso:'true', preporte:'true',  potros1:''});
+                            }
+                        }
+                        
+                    }
         
                     var unique =   myData.filter( onlyUnique );
                   
                     var myData2 = [];
                                   for(var i = 0; i < unique.length;i++){
-                                     myData2.push({_id:unique[i]._id,tipo:unique[i].tipo,ejecuta:unique[i].ejecuta,tipo2:unique[i].tipo2,geoposicion:unique[i].geoposicion ,categoria:todos[i].idformulario.categoria,nombre:unique[i].nombre,foto:unique[i].foto,estado:unique[i].estado,verregistros:unique[i].verregistros,permisos:{pactualizacion:todos[i].actualizacion,  pconsulta:todos[i].consulta, pcreacion:todos[i].creacion, peliminacion:todos[i].eliminacion,  pfiltro:todos[i].filtro, pingreso:'true', preporte:todos[i].preporte,  potros1:''}});
+                                     myData2.push({_id:unique[i]._id,tipo:unique[i].tipo,ejecuta:unique[i].ejecuta,tipo2:unique[i].tipo2,geoposicion:unique[i].geoposicion ,categoria:unique[i].categoria,nombre:unique[i].nombre,foto:unique[i].foto,estado:unique[i].estado ,verregistros:unique[i].verregistros,permisos:{pactualizacion:unique[i].actualizacion,  pconsulta:unique[i].consulta, pcreacion:unique[i].creacion, peliminacion:unique[i].eliminacion,  pfiltro:unique[i].filtro, pingreso:'true', preporte:unique[i].preporte,  potros1:''}});
                                  }
-                                
+              
                                   res.json(myData2);
                                 });
                       }
 
 
           
-                            });
+                            });});
             }
 
         
@@ -1069,17 +1189,53 @@ exports.getFrmmovil = function(req, res, next){
 
             if(arr[1]=='todos')
             {
+                frmmovil.find({idempresa:arr[0], tipo:arr[2],publico:'Si'}).
+                exec(function(err, todosa) {
+
+                  
+                    if (err){  res.send(err);  }
                 formulariousr.find({idusuario:req.params.id2,idempresa:arr[0]})
                 .exec(function(err, todosb) {
                               if (err){  res.send(err);  }
 
                               if(todosb.length<=0)
                               {
-                                res.json(todosb);
+                                
+                                if(todosa.length<=0)
+                                {
+                                    res.json(todosb);
+
+                                }
+                                else
+                                {
+                                    var myData = [];
+                                    for(var i = 0; i < todosa.length;i++){
+                                        if(todosa[i].categoria==req.params.id)
+                                        {
+                                            myData.push({_id:todosa[i]._id,categoria:todosa[i].categoria,nombre:todosa[i].nombre,foto:todosa[i].foto,estado:todosa[i].estado ,verregistros:todosa[i].verregistros,geoposicion:todosa[i].geoposicion ,tipo2:todosa[i].tipo2,ejecuta:todosa[i].ejecuta  ,tipo:todosa[i].tipo});
+                                        }
+                                        
+                                    }
+                        
+                                    var unique =   myData.filter( onlyUnique );
+                                  
+                                    var myData2 = [];
+                                                  for(var i = 0; i < unique.length;i++){
+                                                     myData2.push({_id:unique[i]._id,tipo:unique[i].tipo,ejecuta:unique[i].ejecuta,tipo2:unique[i].tipo2,geoposicion:unique[i].geoposicion ,categoria:unique[i].categoria,nombre:unique[i].nombre,foto:unique[i].foto,estado:unique[i].estado ,verregistros:unique[i].verregistros,permisos:{pactualizacion:'true',  pconsulta:'true', pcreacion:'true', peliminacion:'true',  pfiltro:'true', pingreso:'true', preporte:'true',  potros1:''}});
+                                                 }
+                               
+                                                  res.json(myData2);
+
+
+
+                                }  
+                               
+
+
                               }
                               else
                               {
-                                  
+                                  console.log('entro aqui')
                 formulariousrd.find({idpapa:todosb[0]._id,idempresa:arr[0], tipo:arr[2]}).
                 populate('idpapa').populate('idformulario').exec(function(err, todos) {
                      if (err){  res.send(err);  }
@@ -1087,31 +1243,57 @@ exports.getFrmmovil = function(req, res, next){
                     var myData = [];
                     
                     for(var i = 0; i < todos.length;i++){
+                    
                         if(todos[i].idformulario.categoria==req.params.id)
                         {
-                            myData.push({_id:todos[i].idformulario._id,categoria:todos[i].idformulario.categoria,nombre:todos[i].idformulario.nombre,foto:todos[i].idformulario.foto,estado:todos[i].idformulario.estado ,verregistros:todos[i].verregistros,geoposicion:todos[i].idformulario.geoposicion ,tipo2:todos[i].idformulario.tipo2,ejecuta:todos[i].idformulario.ejecuta  ,tipo:todos[i].idformulario.tipo});
+                            myData.push({_id:todos[i].idformulario._id,categoria:todos[i].idformulario.categoria,nombre:todos[i].idformulario.nombre,foto:todos[i].idformulario.foto,estado:todos[i].idformulario.estado ,verregistros:todos[i].verregistros,geoposicion:todos[i].idformulario.geoposicion ,tipo2:todos[i].idformulario.tipo2,ejecuta:todos[i].idformulario.ejecuta  ,tipo:todos[i].idformulario.tipo,
+                                pactualizacion:todos[i].actualizacion,  pconsulta:todos[i].consulta, pcreacion:todos[i].creacion, peliminacion:todos[i].eliminacion,  pfiltro:todos[i].filtro, pingreso:'true', preporte:todos[i].preporte,  potros1:''});
                         }
                         
                     }
                    
+       
+                    for(var i = 0; i < todosa.length;i++){
+                        if(todosa[i].categoria==req.params.id)
+                        {
+                            var encuentra=0;
+                            for(var ii = 0; ii < myData.length;ii++){
+                            
+                                if(String(myData[ii]._id)===String(todosa[i]._id))
+                                {
+                                    encuentra=1;
+                                    break;
+                                }
+                            }
+                            if(encuentra==0)
+                            {
+                            myData.push({_id:todosa[i]._id,categoria:todosa[i].categoria,nombre:todosa[i].nombre,foto:todosa[i].foto,estado:todosa[i].estado ,verregistros:todosa[i].verregistros,geoposicion:todosa[i].geoposicion ,tipo2:todosa[i].tipo2,ejecuta:todosa[i].ejecuta  ,tipo:todosa[i].tipo,
+                                pactualizacion:'true',  pconsulta:'true', pcreacion:'true', peliminacion:'true',  pfiltro:'true', pingreso:'true', preporte:'true',  potros1:''});
+                            }
+                        }
+                        
+                    }
         
                     var unique =   myData.filter( onlyUnique );
                   
                     var myData2 = [];
                                   for(var i = 0; i < unique.length;i++){
-                                     myData2.push({_id:unique[i]._id,tipo:unique[i].tipo,ejecuta:unique[i].ejecuta,tipo2:unique[i].tipo2,geoposicion:unique[i].geoposicion ,categoria:todos[i].idformulario.categoria,nombre:unique[i].nombre,foto:unique[i].foto,estado:unique[i].estado ,verregistros:unique[i].verregistros,permisos:{pactualizacion:todos[i].actualizacion,  pconsulta:todos[i].consulta, pcreacion:todos[i].creacion, peliminacion:todos[i].eliminacion,  pfiltro:todos[i].filtro, pingreso:'true', preporte:todos[i].preporte,  potros1:''}});
+                                     myData2.push({_id:unique[i]._id,tipo:unique[i].tipo,ejecuta:unique[i].ejecuta,tipo2:unique[i].tipo2,geoposicion:unique[i].geoposicion ,categoria:unique[i].categoria,nombre:unique[i].nombre,foto:unique[i].foto,estado:unique[i].estado ,verregistros:unique[i].verregistros,permisos:{pactualizacion:unique[i].actualizacion,  pconsulta:unique[i].consulta, pcreacion:unique[i].creacion, peliminacion:unique[i].eliminacion,  pfiltro:unique[i].filtro, pingreso:'true', preporte:unique[i].preporte,  potros1:''}});
                                  }
-               
+              
                                   res.json(myData2);
                                 });
                               }
 
 
-                            });
+                            }); });
             }
             else
             {
 
+                frmmovil.find({idempresa:arr[0], tipo:arr[2],publico:'Si'}).
+                exec(function(err, todosa) {
+                    if (err){  res.send(err);  }
                 formulariousr.find({idusuario:req.params.id2,idempresa:arr[0], estado:arr[1]})
                 .exec(function(err, todosb) {
                       if (err){  res.send(err);  }
@@ -1119,7 +1301,40 @@ exports.getFrmmovil = function(req, res, next){
                       
                       if(todosb.length<=0)
                       {
-                        res.json(todosb);
+                       
+
+                        if(todosa.length<=0)
+                        {
+                            res.json(todosb);
+
+                        }
+                        else
+                        {
+                            var myData = [];
+                            for(var i = 0; i < todosa.length;i++){
+                                if(todosa[i].categoria==req.params.id)
+                                {
+                                    myData.push({_id:todosa[i]._id,categoria:todosa[i].categoria,nombre:todosa[i].nombre,foto:todosa[i].foto,estado:todosa[i].estado ,verregistros:todosa[i].verregistros,geoposicion:todosa[i].geoposicion ,tipo2:todosa[i].tipo2,ejecuta:todosa[i].ejecuta  ,tipo:todosa[i].tipo});
+                                }
+                                
+                            }
+                
+                            var unique =   myData.filter( onlyUnique );
+                          
+                            var myData2 = [];
+                                          for(var i = 0; i < unique.length;i++){
+                                             myData2.push({_id:unique[i]._id,tipo:unique[i].tipo,ejecuta:unique[i].ejecuta,tipo2:unique[i].tipo2,geoposicion:unique[i].geoposicion ,categoria:unique[i].categoria,nombre:unique[i].nombre,foto:unique[i].foto,estado:unique[i].estado ,verregistros:unique[i].verregistros,permisos:{pactualizacion:'true',  pconsulta:'true', pcreacion:'true', peliminacion:'true',  pfiltro:'true', pingreso:'true', preporte:'true',  potros1:''}});
+                                         }
+                       
+                                          res.json(myData2);
+
+
+
+                        }  
+                       
+                       
+
+
                       }
                       else
                       {
@@ -1132,28 +1347,51 @@ exports.getFrmmovil = function(req, res, next){
                     var myData = [];
                     
                     for(var i = 0; i < todos.length;i++){
+                    
                         if(todos[i].idformulario.categoria==req.params.id)
                         {
-                            myData.push({_id:todos[i].idformulario._id,categoria:todos[i].idformulario.categoria,nombre:todos[i].idformulario.nombre,foto:todos[i].idformulario.foto,estado:todos[i].idformulario.estado ,verregistros:todos[i].verregistros,geoposicion:todos[i].idformulario.geoposicion ,tipo2:todos[i].idformulario.tipo2,ejecuta:todos[i].idformulario.ejecuta ,tipo:todos[i].idformulario.tipo  });
+                            myData.push({_id:todos[i].idformulario._id,categoria:todos[i].idformulario.categoria,nombre:todos[i].idformulario.nombre,foto:todos[i].idformulario.foto,estado:todos[i].idformulario.estado ,verregistros:todos[i].verregistros,geoposicion:todos[i].idformulario.geoposicion ,tipo2:todos[i].idformulario.tipo2,ejecuta:todos[i].idformulario.ejecuta  ,tipo:todos[i].idformulario.tipo,
+                                pactualizacion:todos[i].actualizacion,  pconsulta:todos[i].consulta, pcreacion:todos[i].creacion, peliminacion:todos[i].eliminacion,  pfiltro:todos[i].filtro, pingreso:'true', preporte:todos[i].preporte,  potros1:''});
                         }
                         
                     }
                    
+       
+                    for(var i = 0; i < todosa.length;i++){
+                        if(todosa[i].categoria==req.params.id)
+                        {
+                            var encuentra=0;
+                            for(var ii = 0; ii < myData.length;ii++){
+                            
+                                if(String(myData[ii]._id)===String(todosa[i]._id))
+                                {
+                                    encuentra=1;
+                                    break;
+                                }
+                            }
+                            if(encuentra==0)
+                            {
+                            myData.push({_id:todosa[i]._id,categoria:todosa[i].categoria,nombre:todosa[i].nombre,foto:todosa[i].foto,estado:todosa[i].estado ,verregistros:todosa[i].verregistros,geoposicion:todosa[i].geoposicion ,tipo2:todosa[i].tipo2,ejecuta:todosa[i].ejecuta  ,tipo:todosa[i].tipo,
+                                pactualizacion:'true',  pconsulta:'true', pcreacion:'true', peliminacion:'true',  pfiltro:'true', pingreso:'true', preporte:'true',  potros1:''});
+                            }
+                        }
+                        
+                    }
         
                     var unique =   myData.filter( onlyUnique );
                   
                     var myData2 = [];
                                   for(var i = 0; i < unique.length;i++){
-                                     myData2.push({_id:unique[i]._id,tipo:unique[i].tipo,ejecuta:unique[i].ejecuta,tipo2:unique[i].tipo2,geoposicion:unique[i].geoposicion  ,categoria:todos[i].idformulario.categoria,nombre:unique[i].nombre,foto:unique[i].foto,estado:unique[i].estado ,verregistros:unique[i].verregistros,permisos:{pactualizacion:todos[i].actualizacion,  pconsulta:todos[i].consulta, pcreacion:todos[i].creacion, peliminacion:todos[i].eliminacion,  pfiltro:todos[i].filtro, pingreso:'true', preporte:todos[i].preporte,  potros1:''}});
+                                     myData2.push({_id:unique[i]._id,tipo:unique[i].tipo,ejecuta:unique[i].ejecuta,tipo2:unique[i].tipo2,geoposicion:unique[i].geoposicion ,categoria:unique[i].categoria,nombre:unique[i].nombre,foto:unique[i].foto,estado:unique[i].estado ,verregistros:unique[i].verregistros,permisos:{pactualizacion:unique[i].actualizacion,  pconsulta:unique[i].consulta, pcreacion:unique[i].creacion, peliminacion:unique[i].eliminacion,  pfiltro:unique[i].filtro, pingreso:'true', preporte:unique[i].preporte,  potros1:''}});
                                  }
-               
+              
                                   res.json(myData2);
                                 });
                       }
 
 
           
-                            });
+                            });});
             }
 
         
@@ -1167,7 +1405,7 @@ exports.getFrmmovil = function(req, res, next){
         var filtro
        
        var arrtodos=     req.params.id4.split('°')
-       console.log(arrtodos)
+
 
         Frmmovild.find({idmovil:req.params.id, display : "true"}).sort([['order', 1]]).exec(function(err, todos) {
             if (err){ res.send(err); }
@@ -1599,11 +1837,19 @@ console.log(cadxx)
            
   break;
   case 'formularioproceso':
-    console.log(req.params)
-    var namess=req.params.id
+ 
+  
     var arrtodos=req.params.id3.split('°')
+
+    var actividadt=[]
    
-    console.log(arrtodos)
+
+        actividadt=req.params.id.split(',')
+ 
+
+
+  
+    var namess=arrtodos[3]
     var filtro
     if(arrtodos[1]==='todos')
     {
@@ -1611,11 +1857,33 @@ console.log(cadxx)
     }
     else
     {
-        filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1],estadoordenxxx:arrtodos[2]}
-    }
-console.log(filtro)
+        if(arrtodos[1]==='todosmios')
+        {
+       
+                filtro={idempresa:arrtodos[0],estadoordenxxx:arrtodos[2],
+                    idactividadxxx:{$in:actividadt}}
+          
+           
+        }
+        else
+        {
+            if(actividadt[0]!=='123')
+            {
+                filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1],estadoordenxxx:arrtodos[2],
+                    idactividadxxx:{$in:actividadt}}
+            }
+            else
+            {filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1],estadoordenxxx:arrtodos[2]}
 
-        Frmmovild.find({idmovil:req.params.id, display : "true",idempresa:arrtodos[0]}).exec(function(err, todos) {
+            }
+            
+
+        }
+     
+    }
+
+console.log(filtro)
+        Frmmovild.find({idmovil:arrtodos[3], display : "true",idempresa:arrtodos[0]}).exec(function(err, todos) {
             if (err){ res.send(err); }
          
         
@@ -1638,10 +1906,11 @@ console.log(filtro)
                                     var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
                                   //  console.log(tt)
                                     console.log(filtro)
+                                    console.log(namess)
                                 
                                     try {
                                         var  frmtt= mongoose.model(namess,tt);
-                                        frmtt.find(filtr ).sort([['_id', -1]]).exec(function(err, todos2) {
+                                        frmtt.find(filtro ).sort([['_id', -1]]).exec(function(err, todos2) {
                                             if (err){  res.send(err); }
                                           //  console.log(todos2)
                                             res.json(todos2);
@@ -1987,7 +2256,41 @@ exports.deleteFrmmovil = function(req, res, next){
    
     Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina formulario movil '});
     Frmmovil.findByIdAndRemove({ _id: req.params.recordID  }, function(err, todo) {
-        res.json(todo);
+
+       Frmmovild.deleteMany({idmovil:req.params.recordID  }, function(err, todo100) {  
+            frmactividad.deleteMany({idpapa:req.params.recordID  }, function(err, todo100) {  
+                frmacciones.deleteMany({idpapa0:req.params.recordID  }, function(err, todo100) {  
+                    frmactor.find({idpapa:req.params.recordID  }, function(err, todo100a) { 
+                        var duplicates = [];
+                        for(var i = 0; i < todo100a.length;i++){
+                                        duplicates.push(todo100a[i]._id);
+                        }
+                        console.log(duplicates)
+                frmactor.deleteMany({idpapa:req.params.recordID  }, function(err, todo100) { 
+                    
+                   
+
+
+
+                        frmactorgrupo.deleteMany({idpapa: {$in: duplicates}  }, function(err, todo100) { 
+
+                            formulariousrd.deleteMany({idformulario:req.params.recordID  }, function(err, todo100) { 
+                                res.json(todo);
+                            });
+
+
+                            
+                        });
+                    });
+                });
+ });
+            });
+
+           
+
+
+        });
+        
     });
 }
 
@@ -2177,7 +2480,7 @@ exports.creaFrmmovil3s = function(req, res, next){
     {
     if(req.body.operacion==='ejecutaoperacion')
     {
-        console.log('entraaaaaaaaaaaaaaaaaaaaaaaaa  EJECUTA OPERACION')
+        console.log('entraaaaaaaaaaaaaaaaaaaaaaaaa  EJECUTA OPERACION '+ req.body.ejecuta)
         switch(req.body.ejecuta) {
             case 'visitas_programadas':  frmejecuta.visitas_programadas(req, res, next);  
             break;
@@ -2908,6 +3211,7 @@ if(req.params.recordID!=='crea')
             todo.categoria        	=	req.body.categoria        	||	todo.categoria        	;
             todo.nombre        	=	req.body.nombre        	||	todo.nombre        	;
             todo.tipo    	=	req.body.tipo    	||	todo.tipo    	;
+            todo.publico    	=	req.body.publico    	||	todo.publico    	;
             todo.tipo2    	=	req.body.tipo2    	||	todo.tipo2    	;
             todo.ejecuta    	=	req.body.ejecuta    	||	todo.ejecuta    	;
             todo.foto    	=	req.body.foto    	||	todo.foto    	;
@@ -2947,6 +3251,7 @@ else{
                     idempresa      	: req.body.idempresa     	,
                     tipo        	: req.body.tipo        	,
                     tipo2        	: req.body.tipo2        	,
+                    publico        	: req.body.publico        	,
                     idpapa        	: req.body.idpapa        	,
                     ejecuta        	: req.body.ejecuta        	,
                     categoria        	: req.body.categoria        	,

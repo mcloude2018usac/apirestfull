@@ -4,7 +4,7 @@ var Bitacora = require('../models/bitacora');
 var Dcatalogo = require('../models/dcatalogo');
 var formulariousrd = require('../models/formulariousrd');
 var formulariousr = require('../models/formulariousr');
-
+var frmmovil = require('../models/frmmovil');
 
 function onlyUnique(value, index, self) { 
     return self.indexOf(value) === index;
@@ -27,10 +27,12 @@ exports.getCatusuario = function(req, res, next){
         {
             if(req.params.id2=='categoriausrmoviladmin')
             {
-               
+                frmmovil.find({idempresa:req.params.id,tipo:req.params.id4,publico:'Si'}).
+                exec(function(err, todosa) {
+                    if (err){  res.send(err);  }
                 formulariousrd.find({idempresa:req.params.id,tipo:req.params.id4}).populate('idpapa').populate('idformulario').exec(function(err, todos) {
 
-                    console.log(todos)
+                  
                     if (err){  res.send(err);  }
                     var myData = [];
                   
@@ -38,6 +40,12 @@ exports.getCatusuario = function(req, res, next){
                     for(var i = 0; i< todos.length; i++){    
                         if(uniqueNames.indexOf(todos[i].idformulario.categoria) === -1){
                             uniqueNames.push(todos[i].idformulario.categoria);        
+                        }        
+                    }
+
+                    for(var i = 0; i< todosa.length; i++){    
+                        if(uniqueNames.indexOf(todosa[i].categoria) === -1){
+                            uniqueNames.push(todosa[i].categoria);        
                         }        
                     }
 
@@ -51,7 +59,7 @@ exports.getCatusuario = function(req, res, next){
 
                   
 
-
+                });
                  });
         
             }
@@ -59,10 +67,12 @@ exports.getCatusuario = function(req, res, next){
             {
             if(req.params.id2=='categoriausrmovil')
             {
-               
+                frmmovil.find({idempresa:req.params.id,tipo:req.params.id4,publico:'Si'}).
+                exec(function(err, todosa) {
+                    if (err){  res.send(err);  }
                 formulariousrd.find({idempresa:req.params.id,tipo:req.params.id4,idusuario:req.params.id3}).populate('idpapa').populate('idformulario').exec(function(err, todos) {
                     if (err){  res.send(err);  }
-                    console.log(todos)
+                    
                     var myData = [];
                   
                          
@@ -73,16 +83,25 @@ exports.getCatusuario = function(req, res, next){
                         }        
                     }
 
+                    for(var i = 0; i< todosa.length; i++){    
+                        if(uniqueNames.indexOf(todosa[i].categoria) === -1){
+                            uniqueNames.push(todosa[i].categoria);        
+                        }        
+                    }
+
                     for(var i = 0; i< uniqueNames.length; i++){    
                         myData.push({nombre: uniqueNames[i] });
                       
                     }
 
+               
+
+                    
                     res.json(myData);
 
                   
 
-
+                });
                  });
         
             }

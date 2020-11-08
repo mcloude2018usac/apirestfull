@@ -97,3 +97,45 @@ exports.getMail = function(req, res, next){
 
 
 }
+
+
+exports.getMailarray = function(req, res, next){
+
+  let params = {
+    Destination: {
+      BccAddresses:req.body.destino
+    },
+    Message: {
+      Body: {
+        Html: {
+          Charset: CHARSET,
+          Data: req.body.html
+        }
+      },
+      Subject: {
+        Charset: CHARSET,
+        Data:  req.body.subjet
+      }
+    },
+    ReplyToAddresses: [],
+    ReturnPath: RETURN_PATH,
+    Source: SOURCE
+  }
+
+  ses.sendEmail(params, function(err, data) {
+   
+    if (err) {
+      res.status(500).send('error al enviar correo');
+      console.log(err)
+      return
+    }
+    res.json(data);
+  })
+
+
+  
+
+
+
+
+}
