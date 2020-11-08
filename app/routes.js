@@ -710,6 +710,7 @@ bibliotecaRoutes.get('/:id',requireAuth,  BibliotecaController.getBiblioteca);
 //-----------------------------------MAIL
 apiRoutes.use('/mails', mailRoutes);
 mailRoutes.post('/:id',  MailController.getMail);
+mailRoutes.post('/:id/:id2',  MailController.getMailarray);
 //mailRoutes.post('/:id',  MailController.getMail2);
 
 //-----------------------------------QR
