@@ -2,9 +2,51 @@ var frmactividad = require('../../models/asociadoventa/frmactividad');
 var Bitacora = require('../../models/bitacora');
 var Image = require('../../models/image2');
 var functool = require('../../controllers/funcionesnode');
+var frmactoractividad = require('../../models/asociadoventa/frmactorgrupo');
+
 exports.getfrmactividad = function(req, res, next){
     if(req.params.id4)
-    {   
+    {       if(req.params.id2=='actividadprocesosmias')
+    { 
+        var arr=req.params.id4.split('°')
+   
+        frmactividad.find({idempresa:req.params.id3,idpapa:arr[0] }).sort({'orden': 1}).exec(function(err, todos) {
+            if (err){  res.send(err);  }
+
+           
+
+            frmactoractividad.find({idempresa:req.params.id3,idpapa0:arr[0] }).sort({'orden': 1}).exec(function(err, todos10) {
+                if (err){  res.send(err);  }
+
+             
+
+                var myData = [];
+                for(var i = 0; i < todos.length;i++){
+
+                    for(var ii = 0; ii < todos10.length;ii++){
+                        if(todos[i].actor.id===todos10[ii].idpapa)
+                        { if(todos10[ii])
+                            {
+                            var usuarios= todos10[ii].usuarios
+                          
+                            for(var k = 0; k < usuarios.length;k++){
+                                if(usuarios[k].email===arr[1])
+                                {
+                                    myData.push(todos[i]._id)
+                                }
+                            }}
+
+                        }
+
+                    }
+                }
+
+             res.json(myData);
+         });
+        });
+    }
+    else
+    {
         if(req.params.id2=='actividadprocesos')
         { 
             frmactividad.find({idempresa:req.params.id3,idpapa:req.params.id4 }).sort({'orden': 1}).exec(function(err, todos) {
@@ -82,7 +124,7 @@ exports.getfrmactividad = function(req, res, next){
                 }
             }
             }}
-        }
+        }}
     }
     else
     {

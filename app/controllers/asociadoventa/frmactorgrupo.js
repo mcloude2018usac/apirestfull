@@ -67,6 +67,7 @@ else{
             frmactorgrupo.create({ 
   idempresa     	: req.body.idempresa    	,
   idpapa     	: req.body.idpapa    	,
+  idpapa0     	: req.body.idpapa0    	,
   nombre     	: req.body.nombre    	,
   usuarios     	: req.body.usuarios    	,
   nombreusuarios	: req.body.nombreusuarios	,

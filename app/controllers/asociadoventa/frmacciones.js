@@ -2,16 +2,49 @@ var frmacciones = require('../../models/asociadoventa/frmacciones');
 var Bitacora = require('../../models/bitacora');
 var Image = require('../../models/image2');
 var functool = require('../../controllers/funcionesnode');
+
+
+var frmactividad = require('../../models/asociadoventa/frmactividad');
+
+var frmactoractividad = require('../../models/asociadoventa/frmactorgrupo');
+
 exports.getfrmacciones = function(req, res, next){
     if(req.params.id4)
     {   
         if(req.params.id2=='accionproceso')
         { 
           
-            frmacciones.find({idempresa:req.params.id3,idpapa0:req.params.id4}).sort({'_id': -1}).exec(function(err, todos) {
+            frmacciones.find({idempresa:req.params.id3,idpapa0:req.params.id4}).sort({'_id': -1}).exec(function(err, todos50) {
                 if (err){  res.send(err);  }
-                res.json(todos);
+
+                res.json(todos50);   
+
+
+              
              });
+        }
+        else
+        {
+        if(req.params.id2=='accionproceso2')
+        { 
+          
+
+        
+                   
+        
+                    frmactoractividad.find({idempresa:req.params.id3,idpapa0:req.params.id4 }).sort({'orden': 1}).exec(function(err, todos10) {
+                        if (err){  res.send(err);  }
+        
+                     
+                        res.json(todos10);  
+                   
+                      
+                    });
+        
+                   
+        
+
+
         }
         else
         {
@@ -51,7 +84,7 @@ exports.getfrmacciones = function(req, res, next){
                 }
 
 
-            }}
+            }}}
     }
     else
     {
