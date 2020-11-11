@@ -1868,9 +1868,16 @@ console.log(cadxx)
     {
         if(arrtodos[1]==='todosmios')
         {
-       
+            if(arrtodos[2]==='ejecutadas')
+            {
+                filtro={idempresa:arrtodos[0]}
+            }
+            else
+            {
                 filtro={idempresa:arrtodos[0],estadoordenxxx:arrtodos[2],
                     idactividadxxx:{$in:actividadt}}
+            }
+           
           
            
         }
@@ -1878,8 +1885,18 @@ console.log(cadxx)
         {
             if(actividadt[0]!=='123')
             {
-                filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1],estadoordenxxx:arrtodos[2],
-                    idactividadxxx:{$in:actividadt}}
+
+                if(arrtodos[2]==='ejecutadas')
+                {
+                    filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1]}
+                }
+                else
+                {
+                    filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1],estadoordenxxx:arrtodos[2],
+                        idactividadxxx:{$in:actividadt}}
+                }
+                
+               
             }
             else
             {filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1],estadoordenxxx:arrtodos[2]}
