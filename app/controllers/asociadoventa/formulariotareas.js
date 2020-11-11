@@ -5,14 +5,27 @@ var functool = require('../../controllers/funcionesnode');
 exports.getformulariotareas = function(req, res, next){
     if(req.params.id4)
     {    if(req.params.id==='tareasusuario2')
-    { console.log(req.params.id4)
-        var arr=req.params.id4.split(',')
-        var arr2=req.params.id2.split('°')
-        console.log(arr2)
-        formulariotareas.find({idempresa:req.params.id3,idusuario:arr2[0],estado:arr2[1], _id: {$in:arr}}).sort({'_id': -1}).exec(function(err, todos) {
-            if (err){  res.send(err);  }
-             res.json(todos);
-         });
+    { console.log(req.params)
+
+        if(req.params.id4)
+        {
+            var arr=req.params.id4.split(',')
+            var arr2=req.params.id2.split('°')
+    
+            formulariotareas.find({idempresa:req.params.id3,idusuario:arr2[0]
+                ,estado:arr2[1], _id: {$in:arr}}).sort({'_id': -1}).exec(function(err, todos) {
+                if (err){  res.send(err);  }
+                 res.json(todos);
+             });
+
+        }
+        else
+        {
+           
+                 res.json([]);
+            
+        }
+      
     }
     else
     {
