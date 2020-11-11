@@ -550,7 +550,7 @@ siifRoutes.get('/:id/:id2/:id3/:id4/:id5/:id6/:id7', SiifController.getsiif);
 //http://127.0.0.1:9090/api/fileuploadxs       body-form-data   key=  uploadedFile    tipo file
 apiRoutes.use('/fileuploadxs', fileuploadxRoutes);
 fileuploadxRoutes.get('/:id/:id2', fileuploadxController.getaFileuploadx);
-fileuploadxRoutes.post('/:id',  fileuploadxController.creaFileuploadxs);
+fileuploadxRoutes.post('',  fileuploadxController.creaFileuploadxs);
 
 
 apiRoutes.use('/ubicacionentregas', ubicacionentregaRoutes);
