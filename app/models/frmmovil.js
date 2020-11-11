@@ -7,6 +7,7 @@ var mongoose =require("mongoose");
         nombre   		: { type : String, required : true },
         foto 	: { type : String},
         estado	: { type : String, required : true },
+        publico	: { type : String},
         geoposicion:  { type : String },
         ejecuta:  { type : String },
       //  idformdetalle:  	{    id	: { type : String },   nombre	: { type : String }        },

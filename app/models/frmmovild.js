@@ -8,15 +8,12 @@ var mongoose =require("mongoose");
         order:	 { type : Number, required : true },
         title:  { type : String, required : true },
         estado	: { type : String, required : true },
-
-     
         required: 	 { type : String },
         placeholder: { type : String },
         display: { type : String },
         selected:  { type : String },
         disabled:  { type : String },
         hidden:  { type : String },
-       
         position: { type : String },
         labelsizefondt: { type : String },
         categoria: { type : String },
@@ -26,8 +23,6 @@ var mongoose =require("mongoose");
         fondoetiqueta:  { type : String },
         coloretiqueta:  { type : String },
         idformdetalle:  	{    id	: { type : String },   nombre	: { type : String }        },
-        
-        
         rangomin:	 { type : Number },
         rangomax:	 { type : Number },
         rangostep:	 { type : Number },
@@ -36,7 +31,6 @@ var mongoose =require("mongoose");
         respuesta: { type : String },
         valor: { type : Number },
         verregistros: { type : String },
-
         usarunaves:  { type : String },
         idfrmconsultaorigen:  { id	: { type : String },   nombre	: { type : String }   },
         idfrmconsulta2origen:[{   id	: { type : String, required : true },   nombre		: { type : String, required : true }}],
