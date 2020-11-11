@@ -9,7 +9,7 @@ var formulariousrd = require('../models/formulariousrd');
 var formulariousr = require('../models/formulariousr');
 var frmejecuta= require('../controllers/frmmovilejecuta');
 var functool = require('../controllers/funcionesnode');
-
+var Contador = require('../models/contador');
 var formulariotrayectoria = require('../models/asociadoventa/formulariotrayectoria');
 var formulariocomentarios = require('../models/asociadoventa/formulariocomentarios');
 var formulariofotos = require('../models/asociadoventa/formulariofotos');
@@ -22,7 +22,23 @@ var frmactor = require('../models/asociadoventa/frmactor');
 var frmactorgrupo = require('../models/asociadoventa/frmactorgrupo');
 const frmmovil = require('../models/frmmovil');
 
+function padLeadingZeros(num, size) {
+    var s = num+"";
+    while (s.length < size) s = "0" + s;
+    return s;
+}
+function sequenceGenerator(id){
 
+
+
+    Contador.findByIdAndUpdate(id, { $inc: { sequence_value: 1 } }, function(err, seq){
+      if(err) { throw(err); }
+   
+      return seq.sequence_value;
+    });
+
+
+}
 
                             
 function onlyUnique(value, index, self) { 
@@ -2573,6 +2589,7 @@ if(req.params.recordID!=='crea')
                                          formulariotrayectoria.create({
                                              idempresa		:  req.body.trayectoria.idempresa,
                                              idorden	: req.params.recordID,
+                                             sequencia:todo3.sequencia,
                                              usuariocreador		: req.body.trayectoria.usuariocreador,
                                                email:req.body.trayectoria.email,
                                              minutos		:0,
@@ -2628,6 +2645,7 @@ if(req.params.recordID!=='crea')
                                          formulariotrayectoria.create({
                                              idempresa		:  req.body.trayectoria.idempresa,
                                              idorden	: req.params.recordID,
+                                             sequencia:todo3.sequencia,
                                              usuariocreador		: req.body.trayectoria.usuariocreador,
                                                email:req.body.trayectoria.email,
                                                minutos		:0,
@@ -2689,7 +2707,13 @@ console.log('crea formulario mnuevo')
      
         if (err){ res.send(err); }
                             if(todos.length>0)   {  
-
+console.log(namess)
+                                Contador.findByIdAndUpdate(namess, { $inc: { sequence_value: 1 } }, function(err, seq){
+                                    if(err) { throw(err); }
+                                    var secuencia;
+                                    secuencia=padLeadingZeros(seq.sequence_value,7)
+                                    req.body.estructura['sequencia']= secuencia;
+                                   console.log( req.body.estructura)
                                //validar si ya existe algunos de los que son llave 
                                 var validarcampos =[];
                                 var filtrovalida=''
@@ -2727,11 +2751,11 @@ console.log('crea formulario mnuevo')
                                 {
                                     if(req.body.tipo==='proceso')
                                     {
-                                     cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"}'
+                                     cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},"sequencia":{"type":"String"}'
                                     }
                                     else
                                     {
-                                     cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"}'
+                                     cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"sequencia":{"type":"String"}'
                                     }
                                  
                                 }
@@ -2740,12 +2764,12 @@ console.log('crea formulario mnuevo')
  
                                      if(req.body.tipo==='proceso')
                                      {
-                                         cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"}'
+                                         cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},"sequencia":{"type":"String"}'
                                        
                                      }
                                      else
                                      {
-                                         cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"}'
+                                         cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"sequencia":{"type":"String"}'
                                      }
                                  
  
@@ -2778,6 +2802,7 @@ try {
          formulariotrayectoria.create({
              idempresa		:  req.body.trayectoria.idempresa,
              idorden	: todo3._id,
+             sequencia:todo3.sequencia,
              usuariocreador		: req.body.trayectoria.usuariocreador,
                email:req.body.trayectoria.email,
                minutos		:0,
@@ -2842,6 +2867,7 @@ try {
                                         formulariotrayectoria.create({
                                             idempresa		:  req.body.trayectoria.idempresa,
                                             idorden	: todo3._id,
+                                            sequencia:todo3.sequencia,
                                             usuariocreador		: req.body.trayectoria.usuariocreador,
                                               email:req.body.trayectoria.email,
                                               minutos		:0,
@@ -2898,11 +2924,12 @@ try {
                                 {
                                     if(req.body.tipo==='proceso')
                                     {
-                                     cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"}'
+                                     cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},"sequencia":{"type":"String"}'
+                                     
                                     }
                                     else
                                     {
-                                     cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"}'
+                                     cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"sequencia":{"type":"String"}'
                                     }
                                  
                                 }
@@ -2911,11 +2938,11 @@ try {
  
                                      if(req.body.tipo==='proceso')
                                      {
-                                         cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"}'
+                                         cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},"sequencia":{"type":"String"}'
                                      }
                                      else
                                      {
-                                         cad=cad + 'usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"}'
+                                         cad=cad + 'usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"sequencia":{"type":"String"}'
                                      }
                                  
  
@@ -2958,6 +2985,7 @@ try {
                                         formulariotrayectoria.create({
                                             idempresa		:  req.body.trayectoria.idempresa,
                                             idorden	: todo3._id,
+                                            sequencia:todo3.sequencia,
                                             usuariocreador		: req.body.trayectoria.usuariocreador,
                                               email:req.body.trayectoria.email,
                                               minutos		:0,
@@ -3013,6 +3041,7 @@ try {
                                         formulariotrayectoria.create({
                                             idempresa		:  req.body.trayectoria.idempresa,
                                             idorden	: todo3._id,
+                                            sequencia:todo3.sequencia,
                                             usuariocreador		: req.body.trayectoria.usuariocreador,
                                               email:req.body.trayectoria.email,
                                               minutos		:0,
@@ -3088,6 +3117,7 @@ try {
                                         formulariotrayectoria.create({
                                             idempresa		:  req.body.trayectoria.idempresa,
                                             idorden	: todo3._id,
+                                            sequencia:todo3.sequencia,
                                             usuariocreador		: req.body.trayectoria.usuariocreador,
                                               email:req.body.trayectoria.email,
                                               minutos		:0,
@@ -3144,6 +3174,7 @@ try {
         formulariotrayectoria.create({
               idempresa		:  req.body.trayectoria.idempresa,
               idorden	: todo3._id,
+              sequencia:todo3.sequencia,
               usuariocreador		: req.body.trayectoria.usuariocreador,
                 email:req.body.trayectoria.email,
                 minutos		:0,
@@ -3206,7 +3237,7 @@ try {
 
 
 
-
+                            });
                                 
                   
 
@@ -3322,9 +3353,15 @@ else{
                     
                         res.status(500).send(err.message)    }
                 
-                    res.json(todo);
+                 console.log(todo)
 
-                
+                    Contador.create({
+                        "_id" : todo._id,
+                       
+                        "sequence_value" : 1
+                    });
+
+                    res.json(todo);
                     
 
                 });
