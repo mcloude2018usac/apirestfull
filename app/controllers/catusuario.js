@@ -69,6 +69,8 @@ exports.getCatusuario = function(req, res, next){
             {
                 frmmovil.find({idempresa:req.params.id,tipo:req.params.id4,publico:'Si'}).
                 exec(function(err, todosa) {
+
+                    console.log(todosa)
                     if (err){  res.send(err);  }
                 formulariousrd.find({idempresa:req.params.id,tipo:req.params.id4,idusuario:req.params.id3}).populate('idpapa').populate('idformulario').exec(function(err, todos) {
                     if (err){  res.send(err);  }

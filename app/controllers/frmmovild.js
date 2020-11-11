@@ -87,7 +87,16 @@ exports.getFrmmovild = function(req, res, next){
             Frmmovild.find({idmovil:req.params.id}).sort([['order', -1]]).exec(function(err, todos) {
               if (err){ res.send(err); }
            
-              if(todos.length>0)   {    res.json({orden:todos[0].order});   }
+              if(todos.length>0)
+              { res.json({orden:todos[0].order +10});
+                 
+              }
+              else
+              {
+                  res.json({orden:10});
+              }
+
+            
              
               
           });

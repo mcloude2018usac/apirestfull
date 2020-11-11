@@ -12,7 +12,8 @@ console.log(__dirname +'/uploadedFiles/'+req.params.id + '/' + req.params.id2)
 
 }
 exports.creaFileuploadxs = function(req, res, next){
-   
+    console.log('entraaaaa')
+    console.log(req.body.name)
     try {
         if(!req.files) {
             res.send({
@@ -20,8 +21,10 @@ exports.creaFileuploadxs = function(req, res, next){
                 message: 'Error: No file uploaded'
             });
         } else {
+        
+
             let uploadedFile = req.files.uploadedFile;
-            uploadedFile.mv('./uploadedFiles/'+req.params.id+'/' + uploadedFile.name);
+            uploadedFile.mv('./uploadedFiles'+'/' + req.body.name + '/'+uploadedFile.name);
             res.json({
                 message: 'File is uploaded',
                 data: {
