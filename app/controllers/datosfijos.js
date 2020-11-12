@@ -1301,6 +1301,8 @@ var usuarionombre=''
         });
 break;
                 case 'calusacgeneral':
+
+                console.log('entra')
         Asignacalusac.aggregate( [
                 { 
                     "$match" : { 
@@ -1315,13 +1317,18 @@ break;
                         "_id" : { 
                             "tipoa" : "$tipoa",
                             "unidad" : "$idtipounidad.nombre",
+                            "sexo" : "$sexo",
                             "curso" : "$idunidadacademica.nombre",
                             "periodo" : "$idperiodo.nombre",
                             "mes": { $substr: [ "$fechasiif", 0, 8 ] },
                             "monto":"$monto",
                             "operador":"$userasignadoemail",
                             "estadooperador":"$estadooperador",
-                          
+                            "edad":{$round: [ {  
+                 $divide: [{$subtract: [ new Date(), "$fechanac" ] },(365 * 24*60*60*1000)]
+                         
+                            }  ,0  ]
+                        }
 
                         }, 
                         "COUNT(*)" : { 
@@ -1336,10 +1343,11 @@ break;
                     "$project" : { 
                         "tipoa" : "$_id.tipoa", 
                         "unidad": "$_id.unidad", 
+                        "sexo": "$_id.sexo", 
                         "curso": "$_id.curso", 
                         "periodo": "$_id.periodo", 
                         "mes": "$_id.mes", 
-                       
+                        "edad": "$_id.age", 
                         "operador":"$_id.operador",
                         "estadooperador":"$_id.estadooperador",
                         "cantidad" : "$COUNT(*)", 
