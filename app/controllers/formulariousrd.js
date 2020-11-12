@@ -89,6 +89,10 @@ if(req.params.recordID!=='crea')
  todo.documentosorden 	= req.body.documentosorden;   
  todo.tareasorden  	= req.body.tareasorden;   
 
+ todo.activas  	= req.body.activas;
+ todo.cerradas  	= req.body.cerradas;  
+ todo.ejecutadas  	= req.body.ejecutadas;    
+ todo.filtrarorden  	= req.body.filtrarorden;  
 
  todo.estado       	=	req.body.estado        	||	todo.estado;   
             todo.usuarioup=req.body.bitacora.email;
@@ -137,6 +141,11 @@ else{
  documentosorden 	: req.body.documentosorden	,
  tareasorden  	: req.body.tareasorden	,
  acciones  	: req.body.acciones	,
+
+ activas  	: req.body.activas	,
+ cerradas  	: req.body.cerradas	,
+ ejecutadas  	: req.body.ejecutadas	,
+ filtrarorden  	: req.body.filtrarorden	,
 
                 usuarionew:req.body.bitacora.email,
               }
