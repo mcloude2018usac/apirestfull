@@ -28,6 +28,11 @@
   tareasorden    : { type : String },  
   acciones    : { type : String },  
 
+  activas    : { type : String },  
+  cerradas    : { type : String },  
+  ejecutadas    : { type : String },  
+  filtrarorden    : { type : String },  
+
   estado		: { type : String, required : true },  
   verregistros	: { type : String },  
   usuarionew		: { type : String },  
