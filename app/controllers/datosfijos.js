@@ -1350,7 +1350,7 @@ break;
                         "curso": "$_id.curso", 
                         "periodo": "$_id.periodo", 
                         "mes": "$_id.mes", 
-                        "edad": "$_id.age", 
+                        "edad": "$_id.edad", 
                         "operador":"$_id.operador",
                         "estadooperador":"$_id.estadooperador",
                         "cantidad" : "$COUNT(*)", 
