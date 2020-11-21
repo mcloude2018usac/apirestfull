@@ -31,7 +31,7 @@ function sequenceGenerator(id){
 
 
 
-    Contador.findByIdAndUpdate(id, { $inc: { sequence_value: 1 } }, function(err, seq){
+    Contador.findOneAndUpdate({tipo:id}, { $inc: { sequence_value: 1 } }, function(err, seq){
       if(err) { throw(err); }
    
       return seq.sequence_value;
@@ -1055,43 +1055,72 @@ console.log('unnnnnnnnn registro')
         }
         else
         {
-        if(req.params.id4=='categoriausradmin')
+        if(req.params.id4=='categoriausr')
         {
 
 
 
             var arr=(req.params.id3).split('°')
-
-
+            var filtro1;
             if(arr[1]=='todos')
-            {  frmmovil.find({idempresa:arr[0], tipo:arr[2],publico:'Si'}).
-            exec(function(err, todosa) {
-                if (err){  res.send(err);  }
-                formulariousr.find({idempresa:arr[0],idusuario:req.params.id2})
-                .exec(function(err, todosb) {
+            {  filtro1={idempresa:arr[0],idusuario:req.params.id2}
+            }
+            else
+            {
+                filtro1={idempresa:arr[0], estado:arr[1],idusuario:req.params.id2}
+            }
+
+                  frmmovil.find({idempresa:arr[0], tipo:arr[2],publico:'Si'}).exec(function(err, todosa) {
+                     formulariousr.find(filtro1).exec(function(err, todosb) {
+                         console.log(todosb)
                               if (err){  res.send(err);  }
-
-
-                              if(todosb.length<=0)
+                              if(todosb.length>0 && todosa.length<=0)
                               {
-                                if(todosa.length<=0)
-                                {
-                                    res.json(todosb);
+                                formulariousrd.find({idpapa:todosb[0]._id,idempresa:arr[0], tipo:arr[2]}).
+                                populate('idpapa').populate('idformulario').exec(function(err, todos) {
+                                    if (err){  res.send(err);  }
 
-                                }
-                                else
-                                {
+                                
+                                
+                                    var myData = [];
+                                    
+                                    for(var i = 0; i < todos.length;i++){
+                                    
+                                        if(todos[i].idformulario.categoria==req.params.id)
+                                        {
+                                            myData.push({_id:todos[i].idformulario._id,categoria:todos[i].idformulario.categoria,nombre:todos[i].idformulario.nombre,foto:todos[i].idformulario.foto,estado:todos[i].idformulario.estado ,verregistros:todos[i].verregistros,geoposicion:todos[i].idformulario.geoposicion ,tipo2:todos[i].idformulario.tipo2,ejecuta:todos[i].idformulario.ejecuta  ,tipo:todos[i].idformulario.tipo,permisos:{
+                                                pactualizacion:todos[i].actualizacion,  pconsulta:todos[i].consulta, 
+                                                activas:todos[i].activas,cerradas:todos[i].cerradas,ejecutadas:todos[i].ejecutadas,
+                                                        filtrarorden:todos[i].filtrarorden,pcreacion:todos[i].creacion, peliminacion:todos[i].eliminacion,  pfiltro:todos[i].filtro, pingreso:'true', reporte:todos[i].preporte,  potros1:'', imprimeorden	:todos[i].imprimeorden,  finalizaorden :todos[i].finalizaorden,  eliminaorden  :todos[i].eliminaorden,  trayectoriaorden:todos[i].trayectoriaorden,  documentacionorden:todos[i].documentacionorden,  pausarorden  :todos[i].pausarorden,  anularorden  :todos[i].anularorden,  fotosorden:todos[i].fotosorden, comentariosorden:todos[i].comentariosorden,  documentosorden :todos[i].documentosorden,  tareasorden  :todos[i].tareasorden,acciones:todos[i].acciones,publico:todos[i].idformulario.publico}});
+                                        }
+
+
+
+
+                                        
+                                    }
+                                    
+                        
+                             
+                        
+                                
+                                                res.json(myData);
+                                                
+                                                });
+                              }
+                              else
+                              {
+                              if(todosb.length<=0 && todosa.length>0)
+                              {// no tiene formularios detalle
+                             
                                     var myData = [];
                                     for(var i = 0; i < todosa.length;i++){
                                         if(todosa[i].categoria==req.params.id)
                                         {
                                             myData.push({_id:todosa[i]._id,categoria:todosa[i].categoria,nombre:todosa[i].nombre,foto:todosa[i].foto,estado:todosa[i].estado ,verregistros:todosa[i].verregistros,geoposicion:todosa[i].geoposicion ,tipo2:todosa[i].tipo2,ejecuta:todosa[i].ejecuta  ,tipo:todosa[i].tipo,publico:todosa[i].publico});
                                         }
-                                        
                                     }
-                        
                                     var unique =   myData.filter( onlyUnique );
-                                  
                                     var myData2 = [];
                                                   for(var i = 0; i < unique.length;i++){
                                                      myData2.push({_id:unique[i]._id,tipo:unique[i].tipo,ejecuta:unique[i].ejecuta,tipo2:unique[i].tipo2,geoposicion:unique[i].geoposicion ,categoria:unique[i].categoria,nombre:unique[i].nombre,foto:unique[i].foto,estado:unique[i].estado ,verregistros:unique[i].verregistros,permisos:{pactualizacion:'true',  pconsulta:'true', pcreacion:'true', peliminacion:'true',  pfiltro:'true', pingreso:'true', reporte:'true',  potros1:'',
@@ -1099,430 +1128,85 @@ console.log('unnnnnnnnn registro')
                                                      filtrarorden:'false',
                                                      imprimeorden	:'true',  finalizaorden :'false',  eliminaorden  :'false',  trayectoriaorden:'true',  documentacionorden:'true',  pausarorden  :'false',  anularorden  :'false',  fotosorden:'true', comentariosorden:'true',  documentosorden :'true',  tareasorden  :'false',acciones:'true',publico:unique[i].publico}});
                                                  }
-
-                                                 
-
-                               
-
                                                   res.json(myData2);
-
-
-
-                                }  
-                               
+                                
                               }
                               else
                               {
-                                  
-                formulariousrd.find({idpapa:todosb[0]._id,idempresa:arr[0], tipo:arr[2]}).
-                populate('idpapa').populate('idformulario').exec(function(err, todos) {
-                     if (err){  res.send(err);  }
-
-                  
-                   
-                     var myData = [];
-                    
-                     for(var i = 0; i < todos.length;i++){
-                     
-                         if(todos[i].idformulario.categoria==req.params.id)
-                         {
-                             myData.push({_id:todos[i].idformulario._id,categoria:todos[i].idformulario.categoria,nombre:todos[i].idformulario.nombre,foto:todos[i].idformulario.foto,estado:todos[i].idformulario.estado ,verregistros:todos[i].verregistros,geoposicion:todos[i].idformulario.geoposicion ,tipo2:todos[i].idformulario.tipo2,ejecuta:todos[i].idformulario.ejecuta  ,tipo:todos[i].idformulario.tipo,
-                                 pactualizacion:todos[i].actualizacion,  pconsulta:todos[i].consulta, 
-                                 activas:unique[i].activas,cerradas:unique[i].cerradas,ejecutadas:unique[i].ejecutadas,
-                                        filtrarorden:unique[i].filtrarorden,pcreacion:todos[i].creacion, peliminacion:todos[i].eliminacion,  pfiltro:todos[i].filtro, pingreso:'true', reporte:todos[i].preporte,  potros1:'', imprimeorden	:todos[i].imprimeorden,  finalizaorden :todos[i].finalizaorden,  eliminaorden  :todos[i].eliminaorden,  trayectoriaorden:todos[i].trayectoriaorden,  documentacionorden:todos[i].documentacionorden,  pausarorden  :todos[i].pausarorden,  anularorden  :todos[i].anularorden,  fotosorden:todos[i].fotosorden, comentariosorden:todos[i].comentariosorden,  documentosorden :todos[i].documentosorden,  tareasorden  :todos[i].tareasorden,acciones:todos[i].acciones,publico:todos[i].idformulario.publico});
-                         }
-                         
-                     }
-                    
-        
-                     for(var i = 0; i < todosa.length;i++){
-                         if(todosa[i].categoria==req.params.id)
-                         {
-                             var encuentra=0;
-                             for(var ii = 0; ii < myData.length;ii++){
-                             
-                                 if(String(myData[ii]._id)===String(todosa[i]._id))
-                                 {
-                                     encuentra=1;
-                                     break;
-                                 }
-                             }
-                             if(encuentra==0)
-                             {
-                             myData.push({_id:todosa[i]._id,categoria:todosa[i].categoria,nombre:todosa[i].nombre,foto:todosa[i].foto,estado:todosa[i].estado ,verregistros:todosa[i].verregistros,geoposicion:todosa[i].geoposicion ,tipo2:todosa[i].tipo2,ejecuta:todosa[i].ejecuta  ,tipo:todosa[i].tipo,
-                                 pactualizacion:'true',  pconsulta:'true', pcreacion:'true', peliminacion:'true',  pfiltro:'true', pingreso:'true', reporte:'true',
-                                 activas:'true',cerradas:'true',ejecutadas:'false',
-                                 filtrarorden:'false',potros1:'' , imprimeorden	:'true',  finalizaorden :'false',  eliminaorden  :'false',  trayectoriaorden:'true',  documentacionorden:'true',  pausarorden  :'false',  anularorden  :'false',  fotosorden:'true', comentariosorden:'true',  documentosorden :'true',  tareasorden  :'false',acciones:'true',publico:todosa[i].publico});
-                             }
-                         }
-                         
-                     }
-         
-                     var unique =   myData.filter( onlyUnique );
-                   
-                     var myData2 = [];
-                                   for(var i = 0; i < unique.length;i++){
-                                      myData2.push({_id:unique[i]._id,tipo:unique[i].tipo,ejecuta:unique[i].ejecuta,tipo2:unique[i].tipo2,geoposicion:unique[i].geoposicion ,categoria:unique[i].categoria,nombre:unique[i].nombre,foto:unique[i].foto,estado:unique[i].estado ,verregistros:unique[i].verregistros,permisos:{pactualizacion:unique[i].pactualizacion, 
-                                        activas:unique[i].activas,cerradas:unique[i].cerradas,ejecutadas:unique[i].ejecutadas,
-                                        filtrarorden:unique[i].filtrarorden, pconsulta:unique[i].pconsulta, pcreacion:unique[i].pcreacion, peliminacion:unique[i].peliminacion,  pfiltro:unique[i].filtro, pingreso:'true', preporte:unique[i].preporte,  potros1:'', imprimeorden	:unique[i].imprimeorden,  finalizaorden :unique[i].finalizaorden,  eliminaorden  :unique[i].eliminaorden,  trayectoriaorden:unique[i].trayectoriaorden,  documentacionorden:unique[i].documentacionorden,  pausarorden  :unique[i].pausarorden,  anularorden  :unique[i].anularorden, 
-                                      publico:unique[i].publico, fotosorden:unique[i].fotosorden, comentariosorden:unique[i].comentariosorden,  documentosorden :unique[i].documentosorden,  tareasorden  :unique[i].tareasorden,acciones:unique[i].acciones}});
-                                  }
-               
-                                   res.json(myData2);
-                                  
-                                });
-                              }
-
-
-                            });});
-            }
-            else
-            {
-                frmmovil.find({idempresa:arr[0], tipo:arr[2],publico:'Si'}).
-                exec(function(err, todosa) {
-                    if (err){  res.send(err);  }
-                formulariousr.find({idempresa:arr[0], estado:arr[1],idusuario:req.params.id2})
-                .exec(function(err, todosb) {
-                      if (err){  res.send(err);  }
-
-                      
-                      if(todosb.length<=0)
-                      {
-                        if(todosa.length<=0)
-                        {
-                            res.json(todosb);
-
-                        }
-                        else
-                        {
-                            var myData = [];
-                            for(var i = 0; i < todosa.length;i++){
-                                if(todosa[i].categoria==req.params.id)
-                                {
-                                    myData.push({_id:todosa[i]._id,categoria:todosa[i].categoria,nombre:todosa[i].nombre,foto:todosa[i].foto,estado:todosa[i].estado ,publico:todosa[i].publico,verregistros:todosa[i].verregistros,geoposicion:todosa[i].geoposicion ,tipo2:todosa[i].tipo2,ejecuta:todosa[i].ejecuta  ,tipo:todosa[i].tipo});
-                                }
-                                
-                            }
-                
-                            var unique =   myData.filter( onlyUnique );
-                          
-                            var myData2 = [];
-                                          for(var i = 0; i < unique.length;i++){
-                                             myData2.push({_id:unique[i]._id,tipo:unique[i].tipo,ejecuta:unique[i].ejecuta,tipo2:unique[i].tipo2,geoposicion:unique[i].geoposicion ,categoria:unique[i].categoria,nombre:unique[i].nombre,foto:unique[i].foto,estado:unique[i].estado ,verregistros:unique[i].verregistros,permisos:{pactualizacion:'true',  pconsulta:'true', pcreacion:'true', peliminacion:'true',  pfiltro:'true', pingreso:'true', 
-                                             activas:'true',cerradas:'true',ejecutadas:'false',
-                                             filtrarorden:'false',reporte:'true',  potros1:'', imprimeorden	:'true',  finalizaorden :'false',  eliminaorden  :'false',  trayectoriaorden:'true',  documentacionorden:'true',  pausarorden  :'false',  anularorden  :'false',  fotosorden:'true', comentariosorden:'true',  documentosorden :'true',  tareasorden  :'false',acciones:'true',publico:unique[i].publico}});
-                                         }
-                       
-                                          res.json(myData2);
-
-
-
-                        }  
-                       
-                      }
-                      else
-                      {
-                                      
-                formulariousrd.find({idpapa:todosb[0]._id,idempresa:arr[0], tipo:arr[2]}).
-                populate('idpapa').populate('idformulario').exec(function(err, todos) {
-
-                    if (err){  res.send(err);  }
-                    var myData = [];
-                    
-                    for(var i = 0; i < todos.length;i++){
-                    
-                        if(todos[i].idformulario.categoria==req.params.id)
-                        {
-                            myData.push({_id:todos[i].idformulario._id,categoria:todos[i].idformulario.categoria,nombre:todos[i].idformulario.nombre,foto:todos[i].idformulario.foto,estado:todos[i].idformulario.estado ,verregistros:todos[i].verregistros,geoposicion:todos[i].idformulario.geoposicion ,tipo2:todos[i].idformulario.tipo2,ejecuta:todos[i].idformulario.ejecuta  ,tipo:todos[i].idformulario.tipo,
-                                pactualizacion:todos[i].actualizacion,  pconsulta:todos[i].consulta, 
-                                activas:todos[i].activas,cerradas:todos[i].cerradas,ejecutadas:todos[i].ejecutadas,        filtrarorden:todos[i].filtrarorden,pcreacion:todos[i].creacion, peliminacion:todos[i].eliminacion,  pfiltro:todos[i].filtro, pingreso:'true', preporte:todos[i].reporte,  potros1:'', imprimeorden	:todos[i].imprimeorden,  finalizaorden :todos[i].finalizaorden,  eliminaorden  :todos[i].eliminaorden,  trayectoriaorden:todos[i].trayectoriaorden,  documentacionorden:todos[i].documentacionorden,  pausarorden  :todos[i].pausarorden,  anularorden  :todos[i].anularorden,  fotosorden:todos[i].fotosorden, comentariosorden:todos[i].comentariosorden,  documentosorden :todos[i].documentosorden,  tareasorden  :todos[i].tareasorden,acciones:todos[i].acciones,publico:todos[i].idformulario.publico});
-                        }
-                        
-                    }
-                   
-       
-                    for(var i = 0; i < todosa.length;i++){
-                        if(todosa[i].categoria==req.params.id)
-                        {
-                            var encuentra=0;
-                            for(var ii = 0; ii < myData.length;ii++){
-                            
-                                if(String(myData[ii]._id)===String(todosa[i]._id))
-                                {
-                                    encuentra=1;
-                                    break;
-                                }
-                            }
-                            if(encuentra==0)
-                            {
-                            myData.push({_id:todosa[i]._id,categoria:todosa[i].categoria,nombre:todosa[i].nombre,foto:todosa[i].foto,estado:todosa[i].estado ,verregistros:todosa[i].verregistros,geoposicion:todosa[i].geoposicion ,tipo2:todosa[i].tipo2,ejecuta:todosa[i].ejecuta  ,tipo:todosa[i].tipo,
-                                pactualizacion:'true',  pconsulta:'true', pcreacion:'true', peliminacion:'true',  pfiltro:'true', pingreso:'true', reporte:'true',  
-                                activas:'true',cerradas:'true',ejecutadas:'false',
-                                filtrarorden:'false',potros1:'', imprimeorden	:'true',  finalizaorden :'false',  eliminaorden  :'false',  trayectoriaorden:'true',  documentacionorden:'true',  pausarorden  :'false',  anularorden  :'false',  fotosorden:'true', comentariosorden:'true',  documentosorden :'true',  tareasorden  :'false',acciones:'true',publico:todosa[i].publico});
-                            }
-                        }
-                        
-                    }
-        
-                    var unique =   myData.filter( onlyUnique );
-                  
-                    var myData2 = [];
-                                  for(var i = 0; i < unique.length;i++){
-                                     myData2.push({_id:unique[i]._id,tipo:unique[i].tipo,ejecuta:unique[i].ejecuta,tipo2:unique[i].tipo2,geoposicion:unique[i].geoposicion ,categoria:unique[i].categoria,nombre:unique[i].nombre,foto:unique[i].foto,estado:unique[i].estado ,verregistros:unique[i].verregistros,permisos:{pactualizacion:unique[i].pactualizacion,  pconsulta:unique[i].pconsulta, pcreacion:unique[i].pcreacion, peliminacion:unique[i].peliminacion,  pfiltro:unique[i].filtro, pingreso:'true', preporte:unique[i].preporte,  potros1:'',activas:unique[i].activas,cerradas:unique[i].cerradas,ejecutadas:unique[i].ejecutadas,
-                                     filtrarorden:unique[i].filtrarorden,
-                                      imprimeorden	:unique[i].imprimeorden,  finalizaorden :unique[i].finalizaorden,  eliminaorden  :unique[i].eliminaorden,  trayectoriaorden:unique[i].trayectoriaorden,  documentacionorden:unique[i].documentacionorden,  pausarorden  :unique[i].pausarorden,  anularorden  :unique[i].anularorden,  fotosorden:unique[i].fotosorden, comentariosorden:unique[i].comentariosorden,  documentosorden :unique[i].documentosorden,  tareasorden  :unique[i].tareasorden,acciones:unique[i].acciones,publico:unique[i].publico}});
-                                 }
               
-                                  res.json(myData2);
-                                });
-                      }
+                                            formulariousrd.find({idpapa:todosb[0]._id,idempresa:arr[0], tipo:arr[2]}).
+                                            populate('idpapa').populate('idformulario').exec(function(err, todos) {
+                                                if (err){  res.send(err);  }
 
-
-          
-                            });});
-            }
-
-        
-
-        }
-        else
-        {
-
-        if(req.params.id4=='categoriausr')
-        {
-
-
-
-            var arr=(req.params.id3).split('°')
-
-
-            if(arr[1]=='todos')
-            {
-                frmmovil.find({idempresa:arr[0], tipo:arr[2],publico:'Si'}).
-                exec(function(err, todosa) {
-
-                  
-                    if (err){  res.send(err);  }
-                formulariousr.find({idusuario:req.params.id2,idempresa:arr[0]})
-                .exec(function(err, todosb) {
-                              if (err){  res.send(err);  }
-
-                              if(todosb.length<=0)
-                              {
-                                
-                                if(todosa.length<=0)
-                                {
-                                    res.json(todosb);
-
-                                }
-                                else
-                                {
-                                    var myData = [];
-                                    for(var i = 0; i < todosa.length;i++){
-                                        if(todosa[i].categoria==req.params.id)
-                                        {
-                                            myData.push({_id:todosa[i]._id,categoria:todosa[i].categoria,nombre:todosa[i].nombre,foto:todosa[i].foto,estado:todosa[i].estado ,verregistros:todosa[i].verregistros,geoposicion:todosa[i].geoposicion ,tipo2:todosa[i].tipo2,ejecuta:todosa[i].ejecuta  ,tipo:todosa[i].tipo,publico:todosa[i].publico});
-                                        }
+                                            
+                                            
+                                                var myData = [];
+                                                
+                                                for(var i = 0; i < todos.length;i++){
+                                                
+                                                    if(todos[i].idformulario.categoria==req.params.id)
+                                                    {
+                                                        myData.push({_id:todos[i].idformulario._id,categoria:todos[i].idformulario.categoria,nombre:todos[i].idformulario.nombre,foto:todos[i].idformulario.foto,estado:todos[i].idformulario.estado ,verregistros:todos[i].verregistros,geoposicion:todos[i].idformulario.geoposicion ,tipo2:todos[i].idformulario.tipo2,ejecuta:todos[i].idformulario.ejecuta  ,tipo:todos[i].idformulario.tipo,
+                                                            pactualizacion:todos[i].actualizacion,  pconsulta:todos[i].consulta, 
+                                                            activas:unique[i].activas,cerradas:unique[i].cerradas,ejecutadas:unique[i].ejecutadas,
+                                                                    filtrarorden:unique[i].filtrarorden,pcreacion:todos[i].creacion, peliminacion:todos[i].eliminacion,  pfiltro:todos[i].filtro, pingreso:'true', reporte:todos[i].preporte,  potros1:'', imprimeorden	:todos[i].imprimeorden,  finalizaorden :todos[i].finalizaorden,  eliminaorden  :todos[i].eliminaorden,  trayectoriaorden:todos[i].trayectoriaorden,  documentacionorden:todos[i].documentacionorden,  pausarorden  :todos[i].pausarorden,  anularorden  :todos[i].anularorden,  fotosorden:todos[i].fotosorden, comentariosorden:todos[i].comentariosorden,  documentosorden :todos[i].documentosorden,  tareasorden  :todos[i].tareasorden,acciones:todos[i].acciones,publico:todos[i].idformulario.publico});
+                                                    }
+                                                    
+                                                }
+                                                
+                                    
+                                                for(var i = 0; i < todosa.length;i++){
+                                                    if(todosa[i].categoria==req.params.id)
+                                                    {
+                                                        var encuentra=0;
+                                                        for(var ii = 0; ii < myData.length;ii++){
+                                                        
+                                                            if(String(myData[ii]._id)===String(todosa[i]._id))
+                                                            {
+                                                                encuentra=1;
+                                                                break;
+                                                            }
+                                                        }
+                                                        if(encuentra==0)
+                                                        {
+                                                        myData.push({_id:todosa[i]._id,categoria:todosa[i].categoria,nombre:todosa[i].nombre,foto:todosa[i].foto,estado:todosa[i].estado ,verregistros:todosa[i].verregistros,geoposicion:todosa[i].geoposicion ,tipo2:todosa[i].tipo2,ejecuta:todosa[i].ejecuta  ,tipo:todosa[i].tipo,
+                                                            pactualizacion:'true',  pconsulta:'true', pcreacion:'true', peliminacion:'true',  pfiltro:'true', pingreso:'true', reporte:'true',
+                                                            activas:'true',cerradas:'true',ejecutadas:'false',
+                                                            filtrarorden:'false',potros1:'' , imprimeorden	:'true',  finalizaorden :'false',  eliminaorden  :'false',  trayectoriaorden:'true',  documentacionorden:'true',  pausarorden  :'false',  anularorden  :'false',  fotosorden:'true', comentariosorden:'true',  documentosorden :'true',  tareasorden  :'false',acciones:'true',publico:todosa[i].publico});
+                                                        }
+                                                    }
+                                                    
+                                                }
+                                    
+                                                var unique =   myData.filter( onlyUnique );
+                                            
+                                                var myData2 = [];
+                                                            for(var i = 0; i < unique.length;i++){
+                                                                myData2.push({_id:unique[i]._id,tipo:unique[i].tipo,ejecuta:unique[i].ejecuta,tipo2:unique[i].tipo2,geoposicion:unique[i].geoposicion ,categoria:unique[i].categoria,nombre:unique[i].nombre,foto:unique[i].foto,estado:unique[i].estado ,verregistros:unique[i].verregistros,permisos:{pactualizacion:unique[i].pactualizacion, 
+                                                                    activas:unique[i].activas,cerradas:unique[i].cerradas,ejecutadas:unique[i].ejecutadas,
+                                                                    filtrarorden:unique[i].filtrarorden, pconsulta:unique[i].pconsulta, pcreacion:unique[i].pcreacion, peliminacion:unique[i].peliminacion,  pfiltro:unique[i].filtro, pingreso:'true', preporte:unique[i].preporte,  potros1:'', imprimeorden	:unique[i].imprimeorden,  finalizaorden :unique[i].finalizaorden,  eliminaorden  :unique[i].eliminaorden,  trayectoriaorden:unique[i].trayectoriaorden,  documentacionorden:unique[i].documentacionorden,  pausarorden  :unique[i].pausarorden,  anularorden  :unique[i].anularorden, 
+                                                                publico:unique[i].publico, fotosorden:unique[i].fotosorden, comentariosorden:unique[i].comentariosorden,  documentosorden :unique[i].documentosorden,  tareasorden  :unique[i].tareasorden,acciones:unique[i].acciones}});
+                                                            }
                                         
-                                    }
-                        
-                                    var unique =   myData.filter( onlyUnique );
-                                  console.log('6666666666666666666666666')
-                                    var myData2 = [];
-                                                  for(var i = 0; i < unique.length;i++){
-                                                     myData2.push({_id:unique[i]._id,tipo:unique[i].tipo,ejecuta:unique[i].ejecuta,tipo2:unique[i].tipo2,publico:unique[i].publico,geoposicion:unique[i].geoposicion ,categoria:unique[i].categoria,nombre:unique[i].nombre,foto:unique[i].foto,estado:unique[i].estado ,verregistros:unique[i].verregistros,permisos:{pactualizacion:'true',  pconsulta:'true', 
-                                                     activas:'true',cerradas:'true',ejecutadas:'false',
-                                                     filtrarorden:'false',pcreacion:'true', peliminacion:'true',  pfiltro:'true', pingreso:'true', preporte:'true',  potros1:'',imprimeorden	:'true',  finalizaorden :'false',  eliminaorden  :'false',  trayectoriaorden:'true',  documentacionorden:'true',  pausarorden  :'false',  anularorden  :'false',  fotosorden:'true', comentariosorden:'true',  documentosorden :'true',  tareasorden  :'false',acciones:'true'}});
-                                                 }
-                               console.log(myData2)
-                                                  res.json(myData2);
+                                                            res.json(myData2);
+                                                            
+                                                            });
 
 
 
-                                }  
-                              }
-                              else
-                              {
-                                  console.log('entro aqui')
-                formulariousrd.find({idpapa:todosb[0]._id,idempresa:arr[0], tipo:arr[2]}).
-                populate('idpapa').populate('idformulario').exec(function(err, todos) {
-                     if (err){  res.send(err);  }
-                  
-                    var myData = [];
-                    
-                    for(var i = 0; i < todos.length;i++){
-                    
-                        if(todos[i].idformulario.categoria==req.params.id)
-                        {  
-                            myData.push({_id:todos[i].idformulario._id,categoria:todos[i].idformulario.categoria,nombre:todos[i].idformulario.nombre,foto:todos[i].idformulario.foto,estado:todos[i].idformulario.estado ,verregistros:todos[i].verregistros,publico:todos[i].idformulario.publico,geoposicion:todos[i].idformulario.geoposicion ,tipo2:todos[i].idformulario.tipo2,ejecuta:todos[i].idformulario.ejecuta  ,tipo:todos[i].idformulario.tipo,
-                                activas:todos[i].activas,cerradas:todos[i].cerradas,ejecutadas:todos[i].ejecutadas,        filtrarorden:todos[i].filtrarorden,
-                                pactualizacion:todos[i].actualizacion,  pconsulta:todos[i].consulta, pcreacion:todos[i].creacion, peliminacion:todos[i].eliminacion,  pfiltro:todos[i].filtro, pingreso:'true', preporte:todos[i].reporte,  potros1:'',imprimeorden	:todos[i].imprimeorden,  finalizaorden :todos[i].finalizaorden,  eliminaorden  :todos[i].eliminaorden,  trayectoriaorden:todos[i].trayectoriaorden,  documentacionorden:todos[i].documentacionorden,  pausarorden  :todos[i].pausarorden,  anularorden  :todos[i].anularorden,  fotosorden:todos[i].fotosorden, comentariosorden:todos[i].comentariosorden,  documentosorden :todos[i].documentosorden,  tareasorden  :todos[i].tareasorden,acciones:todos[i].acciones});
-                        }
-                        
-                    }
-                   
-      
-                    for(var i = 0; i < todosa.length;i++){
-                        if(todosa[i].categoria==req.params.id)
-                        {
-                            var encuentra=0;
-                            for(var ii = 0; ii < myData.length;ii++){
-                            
-                                if(String(myData[ii]._id)===String(todosa[i]._id))
-                                {
-                                    encuentra=1;
-                                    break;
-                                }
-                            }
-                            if(encuentra==0)
-                            {
-                            myData.push({_id:todosa[i]._id,categoria:todosa[i].categoria,nombre:todosa[i].nombre,foto:todosa[i].foto,estado:todosa[i].estado ,verregistros:todosa[i].verregistros,geoposicion:todosa[i].geoposicion ,tipo2:todosa[i].tipo2,ejecuta:todosa[i].ejecuta  ,tipo:todosa[i].tipo,publico:todosa[i].publico,
-                                pactualizacion:'false',  pconsulta:'true', pcreacion:'false', 
-                                activas:'true',cerradas:'true',ejecutadas:'false',
-                                filtrarorden:'false',peliminacion:'true',  pfiltro:'true', pingreso:'true', reporte:'true',  potros1:'', imprimeorden	:'true',  finalizaorden :'false',  eliminaorden  :'false',  trayectoriaorden:'true',  documentacionorden:'true',  pausarorden  :'false',  anularorden  :'false',  fotosorden:'true', comentariosorden:'true',  documentosorden :'true',  tareasorden  :'false',acciones:'true'});
-                            }
-                        }
-                        
-                    }
-        
-                    var unique =   myData.filter( onlyUnique );
-              
-                    var myData2 = [];
-                                  for(var i = 0; i < unique.length;i++){
-                                     myData2.push({_id:unique[i]._id,tipo:unique[i].tipo,ejecuta:unique[i].ejecuta,tipo2:unique[i].tipo2,geoposicion:unique[i].geoposicion ,categoria:unique[i].categoria,nombre:unique[i].nombre,foto:unique[i].foto,estado:unique[i].estado ,verregistros:unique[i].verregistros
-                                        ,publico:unique[i].publico,permisos:{pactualizacion:unique[i].pactualizacion,  pconsulta:unique[i].pconsulta, pcreacion:unique[i].pcreacion, peliminacion:unique[i].peliminacion,  pfiltro:unique[i].filtro, pingreso:'true', preporte:unique[i].preporte,  potros1:'', imprimeorden	:unique[i].imprimeorden,  finalizaorden :unique[i].finalizaorden,  eliminaorden  :unique[i].eliminaorden,  
-                                        activas:unique[i].activas,cerradas:unique[i].cerradas,ejecutadas:unique[i].ejecutadas,
-                                        filtrarorden:unique[i].filtrarorden,trayectoriaorden:unique[i].trayectoriaorden,  documentacionorden:unique[i].documentacionorden,  pausarorden  :unique[i].pausarorden,  anularorden  :unique[i].anularorden,  fotosorden:unique[i].fotosorden, comentariosorden:unique[i].comentariosorden,  documentosorden :unique[i].documentosorden,  tareasorden  :unique[i].tareasorden,acciones:unique[i].acciones}});
-                                 }
-              
-                                  res.json(myData2);
-                                });
-                              }
 
-
-                            }); });
-            }
-            else
-            {
-
-                frmmovil.find({idempresa:arr[0], tipo:arr[2],publico:'Si'}).
-                exec(function(err, todosa) {
-                    if (err){  res.send(err);  }
-                formulariousr.find({idusuario:req.params.id2,idempresa:arr[0], estado:arr[1]})
-                .exec(function(err, todosb) {
-                      if (err){  res.send(err);  }
-
-                      
-                      if(todosb.length<=0)
-                      {
-                       
-
-                        if(todosa.length<=0)
-                        {
-                            res.json(todosb);
-
-                        }
-                        else
-                        {
-                            var myData = [];
-                            for(var i = 0; i < todosa.length;i++){
-                                if(todosa[i].categoria==req.params.id)
-                                {
-                                    myData.push({_id:todosa[i]._id,categoria:todosa[i].categoria,nombre:todosa[i].nombre,foto:todosa[i].foto,estado:todosa[i].estado ,verregistros:todosa[i].verregistros,geoposicion:todosa[i].geoposicion ,tipo2:todosa[i].tipo2,ejecuta:todosa[i].ejecuta  ,publico:todosa[i].publico});
-                                }
-                                
-                            }
-                
-                            var unique =   myData.filter( onlyUnique );
-                          
-                            var myData2 = [];
-                                          for(var i = 0; i < unique.length;i++){
-                                             myData2.push({_id:unique[i]._id,tipo:unique[i].tipo,ejecuta:unique[i].ejecuta,tipo2:unique[i].tipo2
-                                                ,publico:unique[i].publico,geoposicion:unique[i].geoposicion ,categoria:unique[i].categoria,nombre:unique[i].nombre,foto:unique[i].foto,estado:unique[i].estado ,verregistros:unique[i].verregistros,permisos:{pactualizacion:'true',  pconsulta:'true', pcreacion:'true', peliminacion:'true',  pfiltro:'true', pingreso:'true', 
-                                                activas:'true',cerradas:'true',ejecutadas:'false',
-                                                filtrarorden:'false',preporte:'true',  potros1:'', imprimeorden	:'true',  finalizaorden :'false',  eliminaorden  :'false',  trayectoriaorden:'true',  documentacionorden:'true',  pausarorden  :'false',  anularorden  :'false',  fotosorden:'true', comentariosorden:'true',  documentosorden :'true',  tareasorden  :'false',acciones:'true'}});
-                                         }
-                       
-                                          res.json(myData2);
-
-
-
-                        }  
-                       
-                       
-
-
-                      }
-                      else
-                      {
-                                      
-                formulariousrd.find({idpapa:todosb[0]._id,idempresa:arr[0], tipo:arr[2]}).
-                populate('idpapa').populate('idformulario').exec(function(err, todos) {
-                  
-
-                    if (err){  res.send(err);  }
-                    var myData = [];
-                    
-                    for(var i = 0; i < todos.length;i++){
-                    
-                        if(todos[i].idformulario.categoria==req.params.id)
-                        {
-                            myData.push({_id:todos[i].idformulario._id,categoria:todos[i].idformulario.categoria,nombre:todos[i].idformulario.nombre,foto:todos[i].idformulario.foto,estado:todos[i].idformulario.estado ,verregistros:todos[i].verregistros,geoposicion:todos[i].idformulario.geoposicion ,tipo2:todos[i].idformulario.tipo2,ejecuta:todos[i].idformulario.ejecuta  ,tipo:todos[i].idformulario.tipo,
-                                pactualizacion:todos[i].actualizacion,  pconsulta:todos[i].consulta, pcreacion:todos[i].creacion, peliminacion:todos[i].eliminacion,  pfiltro:todos[i].filtro, pingreso:'true', preporte:todos[i].reporte,  potros1:'',
-                                activas:todos[i].activas,cerradas:todos[i].cerradas,ejecutadas:todos[i].ejecutadas,        filtrarorden:todos[i].filtrarorden,
-                                        imprimeorden	:todos[i].imprimeorden,  finalizaorden :todos[i].finalizaorden,  eliminaorden  :todos[i].eliminaorden,  trayectoriaorden:todos[i].trayectoriaorden,  documentacionorden:todos[i].documentacionorden,  pausarorden  :todos[i].pausarorden,  anularorden  :todos[i].anularorden,  fotosorden:todos[i].fotosorden, comentariosorden:todos[i].comentariosorden,  documentosorden :todos[i].documentosorden,  tareasorden  :todos[i].tareasorden,acciones:todos[i].acciones,publico:todos[i].idformulario.publico});
-                        }
-                        
-                    }
-                   
-       
-                    for(var i = 0; i < todosa.length;i++){
-                        if(todosa[i].categoria==req.params.id)
-                        {
-                            var encuentra=0;
-                            for(var ii = 0; ii < myData.length;ii++){
-                            
-                                if(String(myData[ii]._id)===String(todosa[i]._id))
-                                {
-                                    encuentra=1;
-                                    break;
-                                }
-                            }
-                            if(encuentra==0)
-                            {
-                            myData.push({_id:todosa[i]._id,categoria:todosa[i].categoria,nombre:todosa[i].nombre,foto:todosa[i].foto,estado:todosa[i].estado ,verregistros:todosa[i].verregistros,geoposicion:todosa[i].geoposicion ,tipo2:todosa[i].tipo2,ejecuta:todosa[i].ejecuta  ,tipo:todosa[i].tipo,publico:todosa[i].publico,
-                                pactualizacion:'true',  pconsulta:'true', pcreacion:'true', 
-                                activas:'true',cerradas:'true',ejecutadas:'false',
-                                filtrarorden:'false',peliminacion:'true',  pfiltro:'true', pingreso:'true', reporte:'true',  potros1:'' ,imprimeorden	:'true',  finalizaorden :'false',  eliminaorden  :'false',  trayectoriaorden:'true',  documentacionorden:'true',  pausarorden  :'false',  anularorden  :'false',  fotosorden:'true', comentariosorden:'true',  documentosorden :'true',  tareasorden  :'false',acciones:'true'});
-                            }
-                        }
-                        
-                    }
-        
-                    var unique =   myData.filter( onlyUnique );
-                  
-                    var myData2 = [];
-                                  for(var i = 0; i < unique.length;i++){
-                                     myData2.push({_id:unique[i]._id,tipo:unique[i].tipo,ejecuta:unique[i].ejecuta,tipo2:unique[i].tipo2,geoposicion:unique[i].geoposicion,publico:unique[i].publico ,categoria:unique[i].categoria,nombre:unique[i].nombre,foto:unique[i].foto,estado:unique[i].estado ,verregistros:unique[i].verregistros,permisos:{pactualizacion:unique[i].pactualizacion,  pconsulta:unique[i].pconsulta, pcreacion:unique[i].pcreacion, 
-                                        activas:unique[i].activas,cerradas:unique[i].cerradas,ejecutadas:unique[i].ejecutadas,
-                                        filtrarorden:unique[i].filtrarorden,
-                                        peliminacion:unique[i].peliminacion,  pfiltro:unique[i].filtro, pingreso:'true', preporte:unique[i].preporte,  potros1:'', imprimeorden	:unique[i].imprimeorden,  finalizaorden :unique[i].finalizaorden,  eliminaorden  :unique[i].eliminaorden,  trayectoriaorden:unique[i].trayectoriaorden,  documentacionorden:unique[i].documentacionorden,  pausarorden  :unique[i].pausarorden,  anularorden  :unique[i].anularorden,  fotosorden:unique[i].fotosorden, comentariosorden:unique[i].comentariosorden,  documentosorden :unique[i].documentosorden,  tareasorden  :unique[i].tareasorden,acciones:unique[i].acciones}});
-                                 }
-              
-                                  res.json(myData2);
-                                });
-                      }
-
-
-          
-                            });});
-            }
+                              }}
+                            });
+                        });
+             
 
         
 
         }
         else
         {
+
+       
         var namess=req.params.id //formulario
         //req.params.id2   campo   req.params.id3   informacion
         console.log('entraaaaaaaaaaaaaaaaaaaaaaaaaa')
@@ -1604,7 +1288,7 @@ console.log(cadxx)
                     
             }
         });
-    }}}}}}}}}}
+    }}}}}}}}}
 
     }
     else{
@@ -1964,7 +1648,9 @@ console.log(cadxx)
  
   
     var arrtodos=req.params.id3.split('°')
-
+console.log(arrtodos)
+var usuarito=''
+usuarioup=arrtodos[4]
     var actividadt=[]
    
 
@@ -1985,7 +1671,7 @@ console.log(cadxx)
         {
             if(arrtodos[2]==='ejecutadas')
             {
-                filtro={idempresa:arrtodos[0]}
+                filtro={idempresa:arrtodos[0],pmodulo: {$in:[[usuarioup]]}}
             }
             else
             {
@@ -2003,7 +1689,7 @@ console.log(cadxx)
 
                 if(arrtodos[2]==='ejecutadas')
                 {
-                    filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1]}
+                    filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1],pmodulo: {$in:[[usuarioup]]}}
                 }
                 else
                 {
@@ -2014,7 +1700,16 @@ console.log(cadxx)
                
             }
             else
-            {filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1],estadoordenxxx:arrtodos[2]}
+            {
+                if(arrtodos[2]==='ejecutadas')
+                {
+                    filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1],pmodulo: {$in:[[usuarioup]]}}
+                }
+                else
+                {
+                    filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1],estadoordenxxx:arrtodos[2]}
+                }
+               
 
             }
             
@@ -2646,7 +2341,7 @@ if(req.params.recordID!=='crea')
                                {
                                    if(req.body.tipo==='proceso')
                                    {
-                                    cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"}'
+                                    cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},  "pmodulo": { "type" :"Array"}'
                                    }
                                    else
                                    {
@@ -2659,7 +2354,7 @@ if(req.params.recordID!=='crea')
 
                                     if(req.body.tipo==='proceso')
                                     {
-                                        cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"}'
+                                        cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},  "pmodulo": { "type" :"Array"}'
                                       
                                     }
                                     else
@@ -2807,7 +2502,7 @@ console.log('crea formulario mnuevo')
         if (err){ res.send(err); }
                             if(todos.length>0)   {  
 console.log(namess)
-                                Contador.findByIdAndUpdate(namess, { $inc: { sequence_value: 1 } }, function(err, seq){
+                                Contador.findOneAndUpdate({tipo:namess}, { $inc: { sequence_value: 1 } }, function(err, seq){
                                     if(err) { throw(err); }
                                     var secuencia;
                                     secuencia=padLeadingZeros(seq.sequence_value,7)
@@ -2850,7 +2545,7 @@ console.log(namess)
                                 {
                                     if(req.body.tipo==='proceso')
                                     {
-                                     cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},"sequencia":{"type":"String"}'
+                                     cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},"sequencia":{"type":"String"},  "pmodulo": { "type" :"Array"}'
                                     }
                                     else
                                     {
@@ -2863,7 +2558,7 @@ console.log(namess)
  
                                      if(req.body.tipo==='proceso')
                                      {
-                                         cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},"sequencia":{"type":"String"}'
+                                         cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},"sequencia":{"type":"String"},  "pmodulo": { "type" :"Array"}'
                                        
                                      }
                                      else
@@ -3023,7 +2718,7 @@ try {
                                 {
                                     if(req.body.tipo==='proceso')
                                     {
-                                     cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},"sequencia":{"type":"String"}'
+                                     cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},"sequencia":{"type":"String"},  "pmodulo": { "type" :"Array"}'
                                      
                                     }
                                     else
@@ -3037,7 +2732,7 @@ try {
  
                                      if(req.body.tipo==='proceso')
                                      {
-                                         cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},"sequencia":{"type":"String"}'
+                                         cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},"sequencia":{"type":"String"},  "pmodulo": { "type" :"Array"}'
                                      }
                                      else
                                      {
@@ -3455,8 +3150,7 @@ else{
                  console.log(todo)
 
                     Contador.create({
-                        "_id" : todo._id,
-                       
+                        "tipo" : todo._id,
                         "sequence_value" : 1
                     });
 
