@@ -31,60 +31,486 @@ var cleanName = function(str) {
         return str.toUpperCase();
     };
 
-    const  Modulovv = [{nombre:'idempresa',tipo:'String',requerido:1,visible:0},
+    const  Modulovv = [{nombre:'idempresa',tipo:'String',requerido:1,visible:0,primero:0},
    
-    {nombre:'nombre',tipo:'String',requerido:1,visible:1},
-    {nombre:'grupo',tipo:'Grupo',requerido:1,grupo:1,visible:1},
-    {nombre:'titulo',tipo:'String',requerido:1,visible:1},
-    {nombre:'componente',tipo:'String',requerido:1,visible:0},
-    {nombre:'tabcomponente',tipo:'String',requerido:1,visible:0},
-    {nombre:'index',tipo:'Number',requerido:1,visible:1},
-    {nombre:'icono',tipo:'String',requerido:1,visible:1},
+    {nombre:'nombre',tipo:'String',requerido:1,visible:1,primero:1},
+    {nombre:'grupo',tipo:'Grupo',requerido:1,grupo:1,visible:1,primero:0},
+    {nombre:'titulo',tipo:'String',requerido:1,visible:1,primero:0},
+    {nombre:'componente',tipo:'String',requerido:1,visible:0,primero:0},
+    {nombre:'tabcomponente',tipo:'String',requerido:1,visible:0,primero:0},
+    {nombre:'index',tipo:'Number',requerido:1,visible:1,primero:0},
+    {nombre:'icono',tipo:'String',requerido:1,visible:1,primero:0},
   
-    {nombre:'nivel',tipo:'String',requerido:1,visible:1},
-    {nombre:'estado',tipo:'Estado',requerido:1,visible:1},
-    {nombre:'usuarionew',tipo:'String',requerido:1,visible:0},
-    {nombre:'usuarioup',tipo:'String',requerido:1,visible:0}
+    {nombre:'nivel',tipo:'String',requerido:1,visible:1,primero:0},
+    {nombre:'estado',tipo:'Estado',requerido:1,visible:1,primero:0},
+    {nombre:'usuarionew',tipo:'String',requerido:1,visible:0,primero:0},
+    {nombre:'usuarioup',tipo:'String',requerido:1,visible:0,primero:0}
     
 ];
 
-const  Asociadovv = [{nombre:'idempresa',tipo:'String',requerido:1,visible:0},
+const  Asociadovv = [{nombre:'idempresa',tipo:'String',requerido:1,visible:0,primero:0},
    
-{nombre:'nombre',tipo:'String',requerido:1,visible:1},
-{nombre:'direccion',tipo:'String',requerido:1,visible:1},
-{nombre:'telefono',tipo:'String',requerido:1,visible:1},
-{nombre:'correo',tipo:'String',requerido:1,visible:1},
-{nombre:'ubicacion',tipo:'String',requerido:1,visible:1},
-{nombre:'horario',tipo:'String',requerido:1,visible:1},
-{nombre:'foto',tipo:'Foto',requerido:1,visible:1},
-{nombre:'nit',tipo:'String',requerido:1,visible:1},
-{nombre:'nombrecomercial',tipo:'String',requerido:1,visible:1},
-{nombre:'direccioncomercial',tipo:'String',requerido:1,visible:1},
+{nombre:'nombre',tipo:'String',requerido:1,visible:1,primero:1},
+{nombre:'direccion',tipo:'String',requerido:1,visible:1,primero:0},
+{nombre:'telefono',tipo:'String',requerido:1,visible:1,primero:0},
+{nombre:'correo',tipo:'String',requerido:1,visible:1,primero:0},
+{nombre:'ubicacion',tipo:'String',requerido:1,visible:1,primero:0},
+{nombre:'horario',tipo:'String',requerido:1,visible:1,primero:0},
+{nombre:'foto',tipo:'Foto',requerido:1,visible:1,primero:0},
+{nombre:'nit',tipo:'String',requerido:1,visible:1,primero:0},
+{nombre:'nombrecomercial',tipo:'String',requerido:1,visible:1,primero:0},
+{nombre:'direccioncomercial',tipo:'String',requerido:1,visible:1,primero:0},
 
-{nombre:'estado',tipo:'Estado',requerido:1,visible:1},
-{nombre:'usuarionew',tipo:'String',requerido:0,visible:0},
-{nombre:'usuarioup',tipo:'String',requerido:0,visible:0}
+{nombre:'estado',tipo:'Estado',requerido:1,visible:1,primero:0},
+{nombre:'usuarionew',tipo:'String',requerido:0,visible:0,primero:0},
+{nombre:'usuarioup',tipo:'String',requerido:0,visible:0,primero:0}
 
 ];
 
-const  Productov = [{nombre:'idempresa',tipo:'String',requerido:1,visible:0},
+const  Productov = [{nombre:'idempresa',tipo:'String',requerido:1,visible:0,primero:0},
    
-{nombre:'nombre',tipo:'String',requerido:1,visible:1},
-{nombre:'descripcion',tipo:'String',requerido:0,visible:1},
-{nombre:'precio',tipo:'Number',requerido:1,visible:1},
-{nombre:'unidad',tipo:'String',requerido:1,visible:1},
-{nombre:'xunidad',tipo:'String',requerido:1,visible:1},
-{nombre:'categoria',tipo:'String',requerido:1,visible:1},
-{nombre:'foto',tipo:'Foto',requerido:0,visible:1},
-{nombre:'aplicafoto',tipo:'String',requerido:0,visible:1},
-{nombre:'estado',tipo:'Estado',requerido:1,visible:1},
-{nombre:'idasociado',tipo:'llaved',requerido:0,visible:0},
-{nombre:'usuarionew',tipo:'String',requerido:0,visible:0},
-{nombre:'usuarioup',tipo:'String',requerido:0,visible:0}
+{nombre:'nombre',tipo:'String',requerido:1,visible:1,primero:1},
+{nombre:'descripcion',tipo:'String',requerido:0,visible:1,primero:0},
+{nombre:'precio',tipo:'Number',requerido:1,visible:1,primero:0},
+{nombre:'unidad',tipo:'String',requerido:1,visible:1,primero:0},
+{nombre:'xunidad',tipo:'String',requerido:1,visible:1,primero:0},
+{nombre:'categoria',tipo:'String',requerido:1,visible:1,primero:0},
+{nombre:'foto',tipo:'Foto',requerido:0,visible:1,primero:0},
+{nombre:'aplicafoto',tipo:'String',requerido:0,visible:1,primero:0},
+{nombre:'estado',tipo:'Estado',requerido:1,visible:1,primero:0},
+{nombre:'idasociado',tipo:'llaved',requerido:0,visible:0,primero:0},
+{nombre:'usuarionew',tipo:'String',requerido:0,visible:0,primero:0},
+{nombre:'usuarioup',tipo:'String',requerido:0,visible:0,primero:0}
+
+];
+
+const  Categoriaasociadov = [{nombre:'idempresa',tipo:'String',requerido:1,visible:0,primero:0},
+   
+{nombre:'nombre',tipo:'String',requerido:1,visible:1,primero:1},
+{nombre:'descripcion',tipo:'String',requerido:0,visible:1,primero:0},
+{nombre:'foto',tipo:'Foto',requerido:0,visible:1,primero:0},
+{nombre:'estado',tipo:'Estado',requerido:1,visible:1,primero:0},
+{nombre:'usuarionew',tipo:'String',requerido:0,visible:0,primero:0},
+{nombre:'usuarioup',tipo:'String',requerido:0,visible:0,primero:0}
+
+];
+
+const  Subcategoriaasociadov = [{nombre:'idempresa',tipo:'String',requerido:1,visible:0,primero:0},
+{nombre:'idllave2',tipo:'String',requerido:0,visible:0,primero:0},
+   
+{nombre:'nombre',tipo:'String',requerido:1,visible:1,primero:1},
+{nombre:'descripcion',tipo:'String',requerido:0,visible:1,primero:0},
+{nombre:'estado',tipo:'Estado',requerido:1,visible:1,primero:0},
+{nombre:'usuarionew',tipo:'String',requerido:0,visible:0,primero:0},
+{nombre:'usuarioup',tipo:'String',requerido:0,visible:0,primero:0}
 
 ];
 
 
+const  Otrov = [{nombre:'idempresa',tipo:'String',requerido:1,visible:0,primero:0},
+
+   
+{nombre:'nombre',tipo:'String',requerido:1,visible:1,primero:1},
+{nombre:'talla',tipo:'Catalogo',requerido:1,visible:1,primero:0},
+{nombre:'color',tipo:'Catalogo',requerido:1,visible:1,primero:0},
+{nombre:'usuarionew',tipo:'String',requerido:0,visible:0,primero:0},
+{nombre:'usuarioup',tipo:'String',requerido:0,visible:0,primero:0}
+
+];
+
+
+const  rolv = [{nombre:'idempresa',tipo:'String',requerido:1,visible:0,primero:0},
+   
+{nombre:'nombre',tipo:'String',requerido:1,visible:1,primero:1},
+{nombre:'unidad',tipo:'Catalogo',requerido:1,grupo:1,visible:1,primero:0},
+
+{nombre:'estado',tipo:'Estado',requerido:1,visible:1,primero:0},
+{nombre:'usuarionew',tipo:'String',requerido:1,visible:0,primero:0},
+{nombre:'usuarioup',tipo:'String',requerido:1,visible:0,primero:0}
+
+];
+
+const  permisov = [{nombre:'idempresa',tipo:'String',requerido:1,visible:0,primero:0},
+   
+{nombre:'idmodulo',tipo:'Catalogo',requerido:1,visible:1,primero:1},
+{nombre:'ingreso',tipo:'Check',requerido:1,grupo:1,visible:1,primero:0},
+{nombre:'orden',tipo:'Number',requerido:1,visible:1,primero:0},
+{nombre:'consulta',tipo:'Check',requerido:0,grupo:1,visible:1,primero:0},
+{nombre:'eliminacion',tipo:'Check',requerido:0,grupo:1,visible:1,primero:0},
+{nombre:'creacion',tipo:'Check',requerido:0,grupo:1,visible:1,primero:0},
+{nombre:'actualizacion',tipo:'Check',requerido:0,grupo:1,visible:1,primero:0},
+{nombre:'filtro',tipo:'Check',requerido:0,grupo:1,visible:1,primero:0},
+{nombre:'reporte',tipo:'Check',requerido:0,grupo:1,visible:1,primero:0},
+
+{nombre:'potros1',tipo:'String',requerido:0,visible:0,primero:0},
+
+{nombre:'votros1',tipo:'String',requerido:0,visible:0,primero:0},
+
+{nombre:'usuarionew',tipo:'String',requerido:1,visible:0,primero:0},
+{nombre:'usuarioup',tipo:'String',requerido:1,visible:0,primero:0}
+
+];
+
+const  Userv = [{nombre:'idempresa',tipo:'String',requerido:1,visible:0,primero:0},
+{nombre:'idllave2',tipo:'String',requerido:0,visible:0,primero:0},
+   
+{nombre:'nombre',tipo:'String',requerido:1,visible:1,primero:1},
+{nombre:'correo',tipo:'String',requerido:1,visible:1,primero:0},
+{nombre:'role',tipo:'String',requerido:1,visible:1,primero:0},
+
+{nombre:'cui',tipo:'String',requerido:1,visible:1,primero:0},
+{nombre:'direccion',tipo:'String',requerido:1,visible:1,primero:0},
+{nombre:'telefono',tipo:'String',requerido:1,visible:1,primero:0},
+
+
+{nombre:'fechanac',tipo:'Fecha',requerido:0,visible:1,primero:0},
+
+{nombre:'foto',tipo:'Foto',requerido:0,visible:1,primero:0},
+{nombre:'estado',tipo:'Estado',requerido:1,visible:1,primero:0},
+
+{nombre:'lenguaje',tipo:'Catalogo',requerido:0,visible:1,primero:0},
+{nombre:'sexo',tipo:'Catalogo',requerido:0,visible:1,primero:0},
+
+{nombre:'codigopersonal',tipo:'String',requerido:1,visible:1,primero:0},
+
+
+
+{nombre:'estadoemail',tipo:'String',requerido:0,visible:0,primero:0},
+{nombre:'saldo',tipo:'String',requerido:0,visible:0,primero:0},
+
+{nombre:'accesoestado',tipo:'String',requerido:0,visible:0,primero:0},
+{nombre:'accesohora',tipo:'String',requerido:0,visible:0,primero:0},
+{nombre:'controlacceso',tipo:'String',requerido:0,visible:0,primero:0},
+
+{nombre:'usuarionew',tipo:'String',requerido:0,visible:0,primero:0},
+{nombre:'usuarioup',tipo:'String',requerido:0,visible:0,primero:0}
+
+];
+
+
+const  Frmmovilv = [{nombre:'idempresa',tipo:'String',requerido:1,visible:0,primero:0},
+   
+{nombre:'nombre',tipo:'String',requerido:1,visible:1,primero:1},
+{nombre:'categoria',tipo:'Catalogo',requerido:1,grupo:1,visible:1,primero:0},
+{nombre:'foto',tipo:'Foto',requerido:0,visible:1,primero:0},
+{nombre:'estado',tipo:'Estado',requerido:1,visible:1,primero:0},
+{nombre:'usuarionew',tipo:'String',requerido:1,visible:0,primero:0},
+{nombre:'usuarioup',tipo:'String',requerido:1,visible:0,primero:0}
+
+];
+
+const  frmmovildv = [{nombre:'idempresa',tipo:'String',requerido:1,visible:0,primero:0},
+   
+{nombre:'nombre',tipo:'String',requerido:1,visible:1,primero:1},
+{nombre:'type',tipo:'Catalogo',requerido:1,grupo:1,visible:1,primero:0},
+{nombre:'name',tipo:'String',requerido:1,visible:1,primero:0},
+{nombre:'title',tipo:'String',requerido:1,visible:1,primero:0},
+{nombre:'orden',tipo:'Number',requerido:1,visible:1,primero:0},
+{nombre:'estado',tipo:'Estado',requerido:1,visible:1,primero:0},
+
+
+{nombre:'required',tipo:'Check',requerido:0,visible:1,primero:0},
+{nombre:'placeholder',tipo:'String',requerido:0,visible:1,primero:0},
+{nombre:'display',tipo:'String',requerido:0,visible:1,primero:0},
+{nombre:'selected',tipo:'Check',requerido:0,visible:1,primero:0},
+{nombre:'disabled',tipo:'Check',requerido:0,visible:1,primero:0},
+{nombre:'hidden',tipo:'Check',requerido:0,visible:1,primero:0},
+{nombre:'position',tipo:'Catalogo',requerido:0,visible:1,primero:0},
+{nombre:'labelsizefondt',tipo:'Catalogo',requerido:0,visible:1,primero:0},
+{nombre:'categoria',tipo:'Catalogo',requerido:0,visible:1,primero:0},
+{nombre:'combofijo',tipo:'Check',requerido:0,visible:1,primero:0},
+{nombre:'blike',tipo:'Check',requerido:0,visible:1,primero:0},
+{nombre:'fondoetiqueta',tipo:'String',requerido:0,visible:1,primero:0},
+{nombre:'coloretiqueta',tipo:'String',requerido:0,visible:1,primero:0},
+
+
+
+{nombre:'rangomin',tipo:'Number',requerido:0,visible:1,primero:0},
+{nombre:'rangomax',tipo:'Number',requerido:0,visible:1,primero:0},
+{nombre:'rangostep',tipo:'Number',requerido:0,visible:1,primero:0},
+{nombre:'alfatypo',tipo:'Check',requerido:0,visible:1,primero:0},
+{nombre:'default',tipo:'String',requerido:0,visible:1,primero:0},
+{nombre:'respuesta',tipo:'String',requerido:0,visible:1,primero:0},
+{nombre:'valor',tipo:'Number',requerido:0,visible:1,primero:0},
+
+
+
+
+
+
+{nombre:'usuarionew',tipo:'String',requerido:1,visible:0,primero:0},
+{nombre:'usuarioup',tipo:'String',requerido:1,visible:0,primero:0}
+
+];
+
+
+const  Formulariousrv = [{nombre:'idempresa',tipo:'String',requerido:1,visible:0,primero:0},
+{nombre:'nombre',tipo:'String',requerido:1,visible:1,primero:1},
+{nombre:'usuario',tipo:'Catalogo',requerido:1,grupo:1,visible:1,primero:0},
+{nombre:'cui',tipo:'String',requerido:1,visible:1,primero:0},
+{nombre:'estado',tipo:'Estado',requerido:1,visible:1,primero:0},
+{nombre:'usuarionew',tipo:'String',requerido:0,visible:0,primero:0},
+{nombre:'usuarioup',tipo:'String',requerido:0,visible:0,primero:0}
+
+];
+const  Formulariousrdv = [{nombre:'idempresa',tipo:'String',requerido:1,visible:0,primero:0},
+{nombre:'nombre',tipo:'String',requerido:0,visible:0,primero:0},
+{nombre:'orden',tipo:'Number',requerido:1,visible:1,primero:1},
+{nombre:'formulario',tipo:'Catalogo',requerido:1,grupo:1,visible:1,primero:0},
+{nombre:'idformulario',tipo:'String',requerido:0,visible:0,primero:0},
+{nombre:'consulta',tipo:'Check',requerido:0,grupo:1,visible:1,primero:0},
+{nombre:'eliminacion',tipo:'Check',requerido:0,grupo:1,visible:1,primero:0},
+{nombre:'creacion',tipo:'Check',requerido:0,grupo:1,visible:1,primero:0},
+{nombre:'actualizacion',tipo:'Check',requerido:0,grupo:1,visible:1,primero:0},
+{nombre:'filtro',tipo:'Check',requerido:0,grupo:1,visible:1,primero:0},
+{nombre:'reporte',tipo:'Check',requerido:0,grupo:1,visible:1,primero:0},
+
+
+{nombre:'estado',tipo:'Estado',requerido:1,visible:1,primero:0},
+{nombre:'usuarionew',tipo:'String',requerido:0,visible:0,primero:0},
+{nombre:'usuarioup',tipo:'String',requerido:0,visible:0,primero:0}
+
+];
+
+const  Paginav = [{nombre:'idempresa',tipo:'String',requerido:1,visible:0,primero:0},
+{nombre:'nombre',tipo:'String',requerido:1,visible:0,primero:1},
+
+
+{nombre:'usuarionew',tipo:'String',requerido:0,visible:0,primero:0},
+{nombre:'usuarioup',tipo:'String',requerido:0,visible:0,primero:0}
+
+];
+
+
+const  Empresav = [{nombre:'idempresa',tipo:'String',requerido:1,visible:0,primero:0},
+{nombre:'idempresa0',tipo:'String',requerido:0,visible:0,primero:0},
+{nombre:'nombre',tipo:'String',requerido:1,visible:1,primero:1},
+{nombre:'nombrecorto',tipo:'String',requerido:1,visible:1,primero:0},
+{nombre:'direccion',tipo:'String',requerido:1,visible:1,primero:0},
+{nombre:'email',tipo:'String',requerido:1,visible:1,primero:0},
+
+
+{nombre:'telefonos',tipo:'String',requerido:1,visible:1,primero:0},
+
+{nombre:'horario',tipo:'String',requerido:1,visible:1,primero:0},
+{nombre:'moneda',tipo:'Catalogo',requerido:1,grupo:1,visible:1,primero:0},
+
+{nombre:'nit',tipo:'String',requerido:1,visible:1,primero:0},
+{nombre:'razon',tipo:'String',requerido:1,visible:1,primero:0},
+
+{nombre:'titulo0',tipo:'String',requerido:0,visible:1,primero:0},
+{nombre:'foto0',tipo:'Foto',requerido:0,visible:1,primero:0},
+{nombre:'foto1',tipo:'Foto',requerido:1,visible:1,primero:0},
+{nombre:'logo1',tipo:'Foto',requerido:1,visible:1,primero:0},
+{nombre:'logo2',tipo:'Foto',requerido:1,visible:1,primero:0},
+{nombre:'nombredominio',tipo:'String',requerido:1,grupo:0,visible:1,primero:0},
+{nombre:'color1',tipo:'String',requerido:1,grupo:0,visible:1,primero:0},
+{nombre:'color2',tipo:'String',requerido:1,grupo:0,visible:1,primero:0},
+
+{nombre:'redsocial1',tipo:'String',requerido:1,grupo:0,visible:1,primero:0},
+{nombre:'redsocial2',tipo:'String',requerido:1,grupo:0,visible:1,primero:0},
+{nombre:'redsocial3',tipo:'String',requerido:1,grupo:0,visible:1,primero:0},
+{nombre:'estado',tipo:'Estado',requerido:1,visible:1,primero:0}
+
+]
+
+
+const  zonaasociadov = [{nombre:'idempresa',tipo:'String',requerido:1,visible:0,primero:0},
+{nombre:'municipio',tipo:'Catalogo',requerido:1,visible:1,primero:0},
+{nombre:'departamento',tipo:'Catalogo',requerido:1,visible:1,primero:0},
+   
+{nombre:'nombre',tipo:'String',requerido:1,visible:1,primero:1},
+{nombre:'descripcion',tipo:'String',requerido:0,visible:1,primero:0},
+{nombre:'costo',tipo:'Number',requerido:0,visible:1,primero:0},
+{nombre:'estado',tipo:'Estado',requerido:1,visible:1,primero:0},
+{nombre:'usuarionew',tipo:'String',requerido:0,visible:0,primero:0},
+{nombre:'usuarioup',tipo:'String',requerido:0,visible:0,primero:0}
+
+];
+
+
+
+
+
+const  sucursalv = [{nombre:'idempresa',tipo:'String',requerido:1,visible:0,primero:0},
+
+{nombre:'nombre',tipo:'String',requerido:1,visible:1,primero:1},
+{nombre:'direccion',tipo:'String',requerido:1,visible:1,primero:0},
+{nombre:'ubicacion',tipo:'String',requerido:1,visible:1,primero:0},
+{nombre:'email',tipo:'String',requerido:1,visible:1,primero:0},
+{nombre:'telefonos',tipo:'String',requerido:1,visible:1,primero:0},
+{nombre:'horario',tipo:'String',requerido:1,visible:1,primero:0},
+{nombre:'nit',tipo:'String',requerido:1,visible:1,primero:0},
+{nombre:'razon',tipo:'String',requerido:1,visible:1,primero:0},
+{nombre:'foto0',tipo:'Foto',requerido:0,visible:1,primero:0},
+{nombre:'logo1',tipo:'Foto',requerido:1,visible:1,primero:0},
+{nombre:'estado',tipo:'Estado',requerido:1,visible:1,primero:0}
+
+]
+
+const frmactividad= [
+{nombre:'idempresa',tipo:'String',requerido:1,visible:0,primero:0},
+{nombre:'orden',tipo:'Number',requerido:1,visible:1,primero:0},
+{nombre:'actor',tipo:'Catalogo',requerido:1,grupo:1,visible:1,primero:0},
+{nombre:'clase',tipo:'Catalogo',requerido:1,grupo:1,visible:1,primero:0},
+{nombre:'nombre',tipo:'String',requerido:1,visible:1,primero:1},
+{nombre:'tipo',tipo:'Catalogo',requerido:1,grupo:1,visible:1,primero:0},
+{nombre:'etapa',tipo:'Catalogo',requerido:1,grupo:1,visible:1,primero:0},
+{nombre:'conector',tipo:'Catalogo',requerido:1,grupo:1,visible:1,primero:0},
+
+{nombre:'tiempomin',tipo:'String',requerido:1,visible:1,primero:0},
+{nombre:'tiempomax',tipo:'String',requerido:1,visible:1,primero:0},
+
+{nombre:'camposlectura',tipo:'String',requerido:1,visible:1,primero:0},
+{nombre:'camposmodificables',tipo:'String',requerido:1,visible:1,primero:0},
+{nombre:'camposimprime',tipo:'String',requerido:1,visible:1,primero:0},
+
+{nombre:'estado',tipo:'Estado',requerido:1,visible:1,primero:0}
+
+]
+
+const frmactor= [{nombre:'idempresa',tipo:'String',requerido:1,visible:0,primero:0},
+{nombre:'nombre',tipo:'String',requerido:1,visible:1,primero:1},
+{nombre:'actores',tipo:'String',requerido:1,visible:1,primero:0},
+{nombre:'estado',tipo:'Estado',requerido:1,visible:1,primero:0}
+
+]
+
+const frmactorgrupo= [{nombre:'idempresa',tipo:'String',requerido:1,visible:0,primero:0},
+{nombre:'nombre',tipo:'String',requerido:1,visible:1,primero:1},
+{nombre:'usuarios',tipo:'String',requerido:1,visible:1,primero:0},
+{nombre:'estado',tipo:'Estado',requerido:1,visible:1,primero:0}
+
+]
+
+
+const tarjetacredito= [{nombre:'idempresa',tipo:'String',requerido:1,visible:0,primero:0},
+{nombre:'tipo',tipo:'Catalogo',requerido:1,visible:1,primero:0},
+{nombre:'nombre',tipo:'String',requerido:1,visible:1,primero:1},
+{nombre:'n1',tipo:'Number',requerido:1,visible:1,primero:0},
+{nombre:'n1',tipo:'Number',requerido:1,visible:1,primero:0},
+{nombre:'n1',tipo:'Number',requerido:1,visible:1,primero:0},
+{nombre:'n1',tipo:'Number',requerido:1,visible:1,primero:0},
+{nombre:'mes',tipo:'Catalogo',requerido:1,visible:1,primero:0},
+{nombre:'ano',tipo:'Catalogo',requerido:1,visible:1,primero:0},
+{nombre:'cvc',tipo:'Number',requerido:1,visible:1,primero:0},
+{nombre:'estado',tipo:'Estado',requerido:1,visible:1,primero:0}
+
+]
+
+
+const  tarifav = [{nombre:'idempresa',tipo:'String',requerido:1,visible:0,primero:0},
+{nombre:'nombre',tipo:'String',requerido:1,visible:1,primero:1},
+{nombre:'estado',tipo:'Estado',requerido:1,visible:1,primero:0}
+
+];
+
+const  dtarifav = [{nombre:'idempresa',tipo:'String',requerido:1,visible:0,primero:0},
+{nombre:'nombre',tipo:'String',requerido:1,visible:1,primero:1},
+{nombre:'horaini',tipo:'Number',requerido:1,visible:1,primero:0},
+{nombre:'horafin',tipo:'Number',requerido:1,visible:1,primero:0},
+{nombre:'monto',tipo:'Number',requerido:1,visible:1,primero:0},
+{nombre:'estado',tipo:'Estado',requerido:1,visible:1,primero:0}
+
+
+];
+const  dispositivov = [{nombre:'idempresa',tipo:'String',requerido:1,visible:0,primero:0},
+{nombre:'idasociado',tipo:'String',requerido:0,visible:0,primero:0},
+{nombre:'nombre',tipo:'String',requerido:1,visible:1,primero:1},
+{nombre:'tipo',tipo:'categoria',requerido:1,visible:1,primero:0},
+{nombre:'codigo',tipo:'String',requerido:1,visible:1,primero:0},
+{nombre:'identificador',tipo:'String',requerido:1,visible:1,primero:0},
+{nombre:'idtarifa',tipo:'Catalogo',requerido:1,visible:1,primero:0},
+{nombre:'ruta',tipo:'Catalogo',requerido:1,visible:1,primero:0},
+{nombre:'estado',tipo:'Estado',requerido:1,visible:1,primero:0}
+
+
+];
+
+const  tokensv = [{nombre:'idempresa',tipo:'String',requerido:1,visible:0,primero:0},
+{nombre:'nombre',tipo:'String',requerido:1,visible:1,primero:1},
+{nombre:'trama',tipo:'String',requerido:0,visible:1,primero:0},
+{nombre:'tipo',tipo:'String',requerido:0,visible:1,primero:0},
+{nombre:'cobroservicio',tipo:'Number',requerido:0,visible:1,primero:0},
+{nombre:'estado',tipo:'Estado',requerido:1,visible:1,primero:0},
+{nombre:'usuarionew',tipo:'String',requerido:0,visible:0,primero:0},
+{nombre:'usuarioup',tipo:'String',requerido:0,visible:0,primero:0}
+
+];
+
+
+const frmacciones= [
+        {nombre:'idempresa',tipo:'String',requerido:1,visible:0,primero:0},
+        {nombre:'orden',tipo:'Number',requerido:1,visible:1,primero:0},
+        {nombre:'tipo',tipo:'Catalogo',requerido:1,grupo:1,visible:1,primero:0},
+        {nombre:'subtipo',tipo:'Catalogo',requerido:1,grupo:1,visible:1,primero:0},
+        {nombre:'nombre',tipo:'String',requerido:1,visible:1,primero:1},
+        {nombre:'estado',tipo:'String',requerido:1,visible:1,primero:0},
+        {nombre:'Actividad Siguiente',tipo:'Catalogo',requerido:1,grupo:1,visible:1,primero:0},
+        {nombre:'notificacionmsm',tipo:'String',requerido:1,visible:1,primero:0},
+        {nombre:'notificacionemail',tipo:'String',requerido:1,visible:1,primero:0}
+
+        ]
+
+
+        const frmtareasprogramadas= [
+                {nombre:'idempresa',tipo:'String',requerido:1,visible:0,primero:0},
+                {nombre:'orden',tipo:'Number',requerido:1,visible:1,primero:0},
+                {nombre:'nombre',tipo:'String',requerido:1,visible:1,primero:1},
+                {nombre:'estado',tipo:'String',requerido:1,visible:1,primero:0},
+            
+                ]
+
+        
+
+
+                const frmtareasprogramadasfotos= [
+                        {nombre:'idempresa',tipo:'String',requerido:1,visible:0,primero:0},
+                        {nombre:'tipo',tipo:'Catalogo',requerido:1,visible:1,primero:0},
+                        {nombre:'nombre',tipo:'String',requerido:1,visible:1,primero:1},
+                        {nombre:'descripcion',tipo:'String',requerido:1,visible:1,primero:0},
+                        {nombre:'foto',tipo:'Foto',requerido:1,visible:1,primero:0},
+                        {nombre:'estado',tipo:'Estado',requerido:1,visible:1,primero:0}
+                        ]
+        
+                        const frmtareasprogramadasservicios= [
+                                {nombre:'idempresa',tipo:'String',requerido:1,visible:0,primero:0},
+                        {nombre:'tipo',tipo:'Catalogo',requerido:1,visible:1,primero:0},
+                        {nombre:'nombre',tipo:'String',requerido:1,visible:1,primero:1},
+                        {nombre:'descripcion',tipo:'String',requerido:1,visible:1,primero:0},
+                        {nombre:'foto',tipo:'Foto',requerido:1,visible:1,primero:0},
+                        {nombre:'monto',tipo:'Number',requerido:1,visible:1,primero:0},
+                        {nombre:'estado',tipo:'Estado',requerido:1,visible:1,primero:0}
+                                ]
+
+
+
+                                
+                const formulariocomentarios= [
+                        {nombre:'idempresa',tipo:'String',requerido:1,visible:0,primero:0},
+                        {nombre:'nombre',tipo:'String',requerido:1,visible:1,primero:1},
+                      
+                        ]
+
+                        const formulariofotos= [
+                                {nombre:'idempresa',tipo:'String',requerido:1,visible:0,primero:0},
+                              
+                                {nombre:'nombre',tipo:'String',requerido:1,visible:1,primero:1},
+                            
+                                {nombre:'foto',tipo:'Foto',requerido:1,visible:1,primero:0},
+                             
+                                ]
+
+                                const formulariotareasdoc= [
+                                        {nombre:'idempresa',tipo:'String',requerido:1,visible:0,primero:0},
+                                        {nombre:'orden',tipo:'Number',requerido:1,visible:1,primero:0},
+                                        {nombre:'nombre',tipo:'String',requerido:1,visible:1,primero:1},
+                                        {nombre:'fecha',tipo:'Fecha',requerido:1,visible:1,primero:0},
+                                       
+                                        {nombre:'foto',tipo:'Foto',requerido:1,visible:1,primero:0},
+                                        {nombre:'estado',tipo:'Estado',requerido:1,visible:1,primero:0}
+                                     
+                                        ]
     var request = require('request');
 
     function capitalizeFirstLetter(string) {
@@ -119,9 +545,14 @@ fs.outputFile(nombre, contents, err => {
     function dacadenamodulo(vector,op) {
         var re=''
         for(var i = 0; i <vector.length; i++) {
-                
+                console.log(vector[i])
+                console.log(op)
+                var primero=''
+                if(vector[i].requerido==1){
+                primero='#inputId '
+                }
                 switch(vector[i].tipo)  {
-                        case 'Number':
+                        case 'Fecha':
                                 switch(op)  {
                                         case 'createcamposhtml':
                                                 if(vector[i].visible==1)
@@ -129,13 +560,15 @@ fs.outputFile(nombre, contents, err => {
                                                         if(vector[i].requerido==1)
                                                         {
                                                                 re= re+  '      <ion-item class="input-item">\n'
-                                                                re= re+  '              <ion-label  position="floating">'+ capitalizeFirstLetter(vector[i].nombre)+'</ion-label>\n'
+                                                                re= re+  '              <ion-label  position="floating">'+ capitalizeFirstLetter(vector[i].nombre)+'<ion-text color="danger">*</ion-text></ion-label>\n'
                                                                 if(vector[i].tipo=='Number')
                                                                 {
-                                                                        re= re+  '              <ion-input type="number"    inputMode="Number" clearInput="true" formControlName="' + vector[i].nombre +'" required></ion-input>\n'
+                                                                        re= re+  '            <ion-input style="text-align: right; " readonly formControlName="' + vector[i].nombre +'"  [liIonic4Datepicker]="datePickerObj"  ></ion-input>   \n'
                                                                  }
                                                                 else{
-                                                                        re= re+  '              <ion-input inputMode="text" clearInput="true" formControlName="' + vector[i].nombre +'" required></ion-input>\n'
+                                                                        re= re+  '            <ion-input style="text-align: right; " readonly formControlName="' + vector[i].nombre +'"  [liIonic4Datepicker]="datePickerObj"  ></ion-input>   \n'
+
+                                                                        
                                                                 }
                                                                 re= re+  '      </ion-item>\n'
                                                                 re= re+  '<div class="error-container">\n'
@@ -152,10 +585,174 @@ fs.outputFile(nombre, contents, err => {
                                                                 re= re+  '              <ion-label  position="floating">'+ capitalizeFirstLetter(vector[i].nombre)+'</ion-label>\n'
                                                                 if(vector[i].tipo=='Number')
                                                                 {
-                                                                        re= re+  '              <ion-input type="number"     inputMode="Number" clearInput="true" formControlName="' + vector[i].nombre +'" required></ion-input>\n'
+                                                                        re= re+  '            <ion-input style="text-align: right; " readonly formControlName="' + vector[i].nombre +'"  [liIonic4Datepicker]="datePickerObj"  ></ion-input>   \n'
                                                                  }
                                                                 else{
-                                                                        re= re+  '              <ion-input inputMode="text" clearInput="true" formControlName="' + vector[i].nombre +'" required></ion-input>\n'
+                                                                        re= re+  '            <ion-input style="text-align: right; " readonly formControlName="' + vector[i].nombre +'"  [liIonic4Datepicker]="datePickerObj"  ></ion-input>   \n'
+                                                                }
+                                                                re= re+  '      </ion-item>\n'
+                                                                re= re+  '\n'
+
+                                                        }
+                                       
+                                                }
+                                        break;
+                                        case 'createcamposjsv':
+                                                if(vector[i].visible==1)
+                                                {
+                                                        if(vector[i].requerido==1)
+                                                        {
+                                                        re= re+ "       '"+ vector[i].nombre + "': new FormControl('', Validators.required),\n"
+                                                        }
+                                                        else{
+                                                        re= re+ "       '"+ vector[i].nombre + "': new FormControl(''),\n"   
+                                                        }
+                                                }
+
+                                        break;
+                                        case 'createcamposjsv2':
+                                                if(vector[i].visible==1)
+                                                {
+                                                        re= re+ "       this.Form.controls['"+ vector[i].nombre +"'].setValue( this.authenticationService.dafecha(this.navParams.data.record."+ vector[i].nombre+",1));\n"   
+                                                }
+
+                                        break;
+                                        case 'createcamposjsv3':
+                                                if( vector[i].nombre!=='usuarioup' && vector[i].nombre!=='usuarionew')
+                                                {
+                                            
+                                                    
+                                                        if(vector[i].nombre=='idempresa')
+                                                        {
+                                                                re= re + "       idempresa: this.userinfo[0].idempresa._id,\n"
+                                                                re= re + "        idpapa: this.idllave,\n"
+
+                                                               
+                                                        }
+                                                        else
+                                                        {
+                                                                re= re+ "       "+vector[i].nombre + "  : this.authenticationService.dafecha(this.Form.controls['"+ vector[i].nombre  +"'].value,2),\n"   
+                                                        }
+                                                }   
+                                                
+
+                                        break;
+                                        case 'listcamposhtml1':
+                                                if(vector[i].visible==1)
+                                                {
+                                                        if(vector[i].nombre=='nombre')
+                                                        {
+
+                                                                
+                                                                re= re + "      <strong>"+capitalizeFirstLetter(vector[i].nombre)+":</strong> {{item."+vector[i].nombre+"}}   <br>  \n"
+                                                        }
+                                                        else
+                                                        {
+                                                                if(vector[i].nombre=='estado')
+                                                                {
+                                                                        re= re+  "      <ion-badge color='medium'>{{item."+vector[i].nombre+"}}</ion-badge> \n"   
+                                                                }
+                                                                else{
+                                                                        re= re+  "         <strong>"+capitalizeFirstLetter(vector[i].nombre)+":</strong> {{item."+vector[i].nombre+"}} <br>  \n"   
+                                                                }
+                                                             
+                                                        }
+                                                }
+                                        break;
+                                        case 'listcamposhtml2':
+                                                if(vector[i].visible==1)
+                                                {
+                                                        if(vector[i].nombre=='nombre')
+                                                        {
+
+                                                                
+                                                                re= re + "              <strong>"+capitalizeFirstLetter(vector[i].nombre)+":</strong> {{item."+vector[i].nombre+"}}  <br>  \n"
+                                                        }
+                                                        else
+                                                        {
+                                                                if(vector[i].nombre=='estado')
+                                                                {
+                                                                       // re= re+  " <ion-badge color='medium'>{{item."+vector[i].nombre+"}}</ion-badge> \n"   
+                                                                }
+                                                                else{
+                                                                re= re+  "              <strong> "+capitalizeFirstLetter(vector[i].nombre)+":</strong> {{item."+vector[i].nombre+"}} <br>\n"   
+                                                                }
+                                                             
+                                                        }
+                                                }
+                                                break;
+                                                case 'nodejs1':
+                                                        if(vector[i].requerido==1)
+                                                        {
+                                                                re= re +"  "+ vector[i].nombre +"		: { type : Date, required : true },  \n"
+                                                        }
+                                                        else{
+                                                                re= re +"  "+ vector[i].nombre +"		: { type : Date },  \n"
+                                                        }
+                                                        
+                                                break
+                                                case 'nodejs2':
+                                                    if(vector[i].nombre=='idempresa')
+                                                    {
+                                                        if( vector[i].nombre!=='usuarioup' && vector[i].nombre!=='usuarionew')
+                                                        {
+                                                        re= re +" todo."+ vector[i].nombre +"       	=	req.body."+ vector[i].nombre +"        	||	todo."+ vector[i].nombre +";   \n";
+                                                        re= re +" todo.idpapa       	=	req.body.idpapa        	||	todo.idpapa;   \n";
+                                                        }
+                                                    }
+                                                    else{
+                                                        if( vector[i].nombre!=='usuarioup' && vector[i].nombre!=='usuarionew')
+                                                        {
+                                                        re= re +" todo."+ vector[i].nombre +"       	=	req.body."+ vector[i].nombre +"        	||	todo."+ vector[i].nombre +";   \n";
+                                                        }
+                                                    }
+                                                        break
+                                                        case 'nodejs3':
+                                                                if( vector[i].nombre!=='usuarioup' && vector[i].nombre!=='usuarionew')
+                                                                {
+                                                                re= re +"  "+ vector[i].nombre +"     	: req.body."+ vector[i].nombre +"    	,\n";
+                                                        }
+                                                        break
+                                       
+                                }
+                               
+
+                        break;
+                        case 'Check':
+                                switch(op)  {
+                                        case 'createcamposhtml':
+                                                if(vector[i].visible==1)
+                                                {
+                                                        if(vector[i].requerido==1)
+                                                        {
+                                                                re= re+  '      <ion-item class="input-item">\n'
+                                                                re= re+  '              <ion-label  position="floating">'+ capitalizeFirstLetter(vector[i].nombre)+'<ion-text color="danger">*</ion-text></ion-label>\n'
+                                                                if(vector[i].tipo=='Number')
+                                                                {
+                                                                        re= re+  '              <ion-checkbox  '+primero+'   clearInput="true" formControlName="' + vector[i].nombre +'" required></ion-checkbox>\n'
+                                                                 }
+                                                                else{
+                                                                        re= re+  '              <ion-checkbox  '+primero+' clearInput="true" formControlName="' + vector[i].nombre +'" required></ion-checkbox>\n'
+                                                                }
+                                                                re= re+  '      </ion-item>\n'
+                                                                re= re+  '<div class="error-container">\n'
+                                                                re= re+  '<div class="error-message" *ngIf="Form.get(\''+ vector[i].nombre +'\').hasError(\''+ 'required' +'\') && (Form.get(\''+ vector[i].nombre +'\').dirty || Form.get(\''+ vector[i].nombre +'\').touched)">\n'
+                                                                re= re+  '  <ion-icon name="information-circle-outline"></ion-icon>\n'
+                                                                re= re+  '  <span>Ingrese un '+ vector[i].nombre +' valido</span>\n'
+                                                                re= re+  '</div>\n'
+                                                                re= re+  ' </div>\n'
+                                                                re= re+  '\n'
+                                                        }
+                                                        else
+                                                        {
+                                                                re= re+  '      <ion-item class="input-item">\n'
+                                                                re= re+  '              <ion-label  position="floating">'+ capitalizeFirstLetter(vector[i].nombre)+'</ion-label>\n'
+                                                                if(vector[i].tipo=='Number')
+                                                                {
+                                                                        re= re+  '              <ion-checkbox   '+primero+' clearInput="true" formControlName="' + vector[i].nombre +'" required></ion-checkbox>\n'
+                                                                 }
+                                                                else{
+                                                                        re= re+  '              <ion-checkbox '+primero+' clearInput="true" formControlName="' + vector[i].nombre +'" required></ion-checkbox>\n'
                                                                 }
                                                                 re= re+  '      </ion-item>\n'
                                                                 re= re+  '\n'
@@ -191,7 +788,7 @@ fs.outputFile(nombre, contents, err => {
                                                     
                                                         if(vector[i].nombre=='idempresa')
                                                         {
-                                                                re= re + "       idempresa: this.userinfo[0].idempresa,\n"
+                                                                re= re + "       idempresa: this.userinfo[0].idempresa._id,\n"
                                                                 re= re + "        idpapa: this.idllave,\n"
 
                                                                
@@ -211,7 +808,7 @@ fs.outputFile(nombre, contents, err => {
                                                         {
 
                                                                 
-                                                                re= re + "      <p><strong>"+capitalizeFirstLetter(vector[i].nombre)+":</strong> {{item."+vector[i].nombre+"}}  </p>  \n"
+                                                                re= re + "      <strong>"+capitalizeFirstLetter(vector[i].nombre)+":</strong> {{item."+vector[i].nombre+"}}   <br>  \n"
                                                         }
                                                         else
                                                         {
@@ -220,7 +817,7 @@ fs.outputFile(nombre, contents, err => {
                                                                         re= re+  "      <ion-badge color='medium'>{{item."+vector[i].nombre+"}}</ion-badge> \n"   
                                                                 }
                                                                 else{
-                                                                        re= re+  "        <p> "+capitalizeFirstLetter(vector[i].nombre)+": {{item."+vector[i].nombre+"}} </p>\n"   
+                                                                        re= re+  "         <strong>"+capitalizeFirstLetter(vector[i].nombre)+":</strong> {{item."+vector[i].nombre+"}} <br>  \n"   
                                                                 }
                                                              
                                                         }
@@ -233,7 +830,7 @@ fs.outputFile(nombre, contents, err => {
                                                         {
 
                                                                 
-                                                                re= re + "              <p><strong>"+capitalizeFirstLetter(vector[i].nombre)+":</strong> {{item."+vector[i].nombre+"}}  </p>  \n"
+                                                                re= re + "              <strong>"+capitalizeFirstLetter(vector[i].nombre)+":</strong> {{item."+vector[i].nombre+"}}  <br>  \n"
                                                         }
                                                         else
                                                         {
@@ -242,7 +839,335 @@ fs.outputFile(nombre, contents, err => {
                                                                        // re= re+  " <ion-badge color='medium'>{{item."+vector[i].nombre+"}}</ion-badge> \n"   
                                                                 }
                                                                 else{
-                                                                re= re+  "              <p> "+capitalizeFirstLetter(vector[i].nombre)+": {{item."+vector[i].nombre+"}} </p>\n"   
+                                                                re= re+  "              <strong> "+capitalizeFirstLetter(vector[i].nombre)+":</strong> {{item."+vector[i].nombre+"}} <br>\n"   
+                                                                }
+                                                             
+                                                        }
+                                                }
+                                                break;
+                                                case 'nodejs1':
+                                                        if(vector[i].requerido==1)
+                                                        {
+                                                                re= re +"  "+ vector[i].nombre +"		: { type : Number, required : true },  \n"
+                                                        }
+                                                        else{
+                                                                re= re +"  "+ vector[i].nombre +"		: { type : Number },  \n"
+                                                        }
+                                                        
+                                                break
+                                                case 'nodejs2':
+                                                    if(vector[i].nombre=='idempresa')
+                                                    {
+                                                        if( vector[i].nombre!=='usuarioup' && vector[i].nombre!=='usuarionew')
+                                                        {
+                                                        re= re +" todo."+ vector[i].nombre +"       	=	req.body."+ vector[i].nombre +"        	||	todo."+ vector[i].nombre +";   \n";
+                                                        re= re +" todo.idpapa       	=	req.body.idpapa        	||	todo.idpapa;   \n";
+                                                        }
+                                                    }
+                                                    else{
+                                                        if( vector[i].nombre!=='usuarioup' && vector[i].nombre!=='usuarionew')
+                                                        {
+                                                        re= re +" todo."+ vector[i].nombre +"       	=	req.body."+ vector[i].nombre +"        	||	todo."+ vector[i].nombre +";   \n";
+                                                        }
+                                                    }
+                                                        break
+                                                        case 'nodejs3':
+                                                                if( vector[i].nombre!=='usuarioup' && vector[i].nombre!=='usuarionew')
+                                                                {
+                                                                re= re +"  "+ vector[i].nombre +"     	: req.body."+ vector[i].nombre +"    	,\n";
+                                                        }
+                                                        break
+                                       
+                                }
+                               
+
+                        break;
+                        case 'Foto':
+                                switch(op)  {
+                                        case 'sifoto':
+                                                re='si';
+                                                break;
+                                        case 'deletenode':
+                                                re= re+  '      var arra = functool.getImagesruta (todo.'+ vector[i].nombre +');\n'
+          
+                                                re= re+  '    if(arra == ""  || arra=="5f146aa48caa41db981e6830")  { res.json(todo);    }      else       {\n    Image.findByIdAndRemove(arra, function(err, todo10) {      res.json(todo);    });\n }\n'
+
+                                                break;
+                                        case 'createcamposhtml':
+                                                if(vector[i].visible==1)
+                                                {
+                                                        if(vector[i].requerido==1)
+                                                        {
+                                                                re= re+  '              <ion-input [hidden]="true" '+primero+' inputMode="text" clearInput="true" formControlName="'+ vector[i].nombre+'"></ion-input>\n'
+                                                                re= re+  '              <input type="file" id="'+ vector[i].nombre +'a" style="visibility: hidden; height: 0px"  #'+ vector[i].nombre +'a accept="image/x-png,image/jpeg" (change)="uploadPWA(\''+ vector[i].nombre +'a\')">\n'
+                                                             
+                                                                re= re+  '      <ion-item class="input-item">\n'
+                                                                re= re+  '              <ion-label  >'+ capitalizeFirstLetter(vector[i].nombre)+'<ion-text color="danger">*</ion-text></ion-label>\n'
+                                                                re= re+  '       <ion-avatar slot="end"  *ngIf="'+ vector[i].nombre +'img !== undefined">   <ion-img  ionImgViewer  scheme="dark"  [src]="'+ vector[i].nombre +'img"></ion-img>   </ion-avatar>               \n'
+
+                                                                re= re+  '              <ion-buttons slot="end">\n'
+                                                                
+                                                           
+                                                                re= re+  '              <ion-button title="Adjuntar Imagen" (click)="fotodatos(\''+vector[i].nombre+'a\')">\n'
+                                                                re= re+  '              <ion-icon slot="icon-only" name="camera-outline"></ion-icon>\n'
+                                                                re= re+  '              </ion-button>\n'
+                                                                re= re+  '              </ion-buttons>\n'
+
+                                                             
+                                                                re= re+  '      </ion-item>\n'
+                                                                re= re+  '<div class="error-container">\n'
+                                                                re= re+  '<div class="error-message" *ngIf="Form.get(\''+ vector[i].nombre +'\').hasError(\''+ 'required' +'\') && (Form.get(\''+ vector[i].nombre +'\').dirty || Form.get(\''+ vector[i].nombre +'\').touched)">\n'
+                                                                re= re+  '  <ion-icon name="information-circle-outline"></ion-icon>\n'
+                                                                re= re+  '  <span>Ingrese un '+ vector[i].nombre +' valido</span>\n'
+                                                                re= re+  '</div>\n'
+                                                                re= re+  ' </div>\n'
+                                                                re= re+  '\n'
+                                                        }
+                                                        else
+                                                        {
+                                                                   re= re+  '              <ion-input [hidden]="true"  inputMode="text" clearInput="true" formControlName="'+ vector[i].nombre+'"></ion-input>\n'
+                                                                re= re+  '              <input type="file" id="'+ vector[i].nombre +'a" style="visibility: hidden; height: 0px"  #'+ vector[i].nombre +'a accept="image/x-png,image/jpeg" (change)="uploadPWA(\''+ vector[i].nombre +'a\')">\n'
+                                                             
+                                                                re= re+  '      <ion-item class="input-item">\n'
+                                                                re= re+  '              <ion-label  >'+ capitalizeFirstLetter(vector[i].nombre)+'</ion-label>\n'
+                                                                re= re+  '       <ion-avatar slot="end"  *ngIf="'+ vector[i].nombre +'img !== undefined">   <ion-img  ionImgViewer  scheme="dark"  [src]="'+ vector[i].nombre +'img"></ion-img>   </ion-avatar>               \n'
+
+                                                               
+                                                                re= re+  '              <ion-buttons slot="end">\n'
+                                                                re= re+  '              <ion-button title="Adjuntar Imagen" (click)="fotodatos(\''+vector[i].nombre+'a\')">\n'
+                                                                re= re+  '              <ion-icon slot="icon-only" name="camera-outline"></ion-icon>\n'
+                                                                re= re+  '              </ion-button>\n'
+                                                                re= re+  '              </ion-buttons>\n'
+
+
+                                                                re= re+  '      </ion-item>\n'
+                                                                re= re+  '\n'
+
+                                                        }
+                                               
+                                                }
+                                        break;
+                                        case 'createcamposjsv':
+                                                if(vector[i].visible==1)
+                                                {
+                                                        if(vector[i].requerido==1)
+                                                        {
+                                                        re= re+ "       '"+ vector[i].nombre + "': new FormControl('', Validators.required),\n"     
+                                                     
+                                                        }
+                                                        else{
+                                                        re= re+ "       '"+ vector[i].nombre + "': new FormControl(''),\n"   
+                                                        }
+                                                }
+
+                                        break;
+                                        case 'createcamposjsv2':
+                                                if(vector[i].visible==1)
+                                                {
+                                                        re= re+ "       this.authenticationService.convertToDataURLviaCanvas(this.authenticationService.getapifoto() +  this.navParams.data.record."+ vector[i].nombre+", 'image/jpeg').\n" 
+                                                        re= re+ "       then( base64 => this."+ vector[i].nombre+"img = base64);\n" 
+
+                                                      
+                                                        re= re+ "       this.Form.controls['"+ vector[i].nombre +"'].setValue(this.navParams.data.record."+ vector[i].nombre+");\n"   
+                                                        
+                                                }
+
+                                        break;
+                                        case 'createcamposjsv3':
+                                                if( vector[i].nombre!=='usuarioup' && vector[i].nombre!=='usuarionew')
+                                                {
+                                                       
+                                                                re= re+ "       "+vector[i].nombre + "  : this.Form.controls['"+ vector[i].nombre  +"'].value,\n"   
+                                                        
+                                                }
+                                                
+
+                                        break;
+                                        case 'listcamposhtml1':
+                                                if(vector[i].visible==1)
+                                                {
+                  
+                                                 re= re+  "      <ion-avatar slot='start'>   <ion-img-viewer      [title]='"+ vector[i].nombre +"'  scheme='dark' [src]='apifoto + item."+ vector[i].nombre +"' >  </ion-img-viewer>  </ion-avatar>\n"   
+                                                               
+                                                             
+                                                        
+                                                }
+                                        break;
+                                        case 'listcamposhtml2':
+                                                if(vector[i].visible==1)
+                                                {
+                                                        re= re+  "      <ion-avatar slot='start'>   <ion-img-viewer      [title]='"+ vector[i].nombre +"'  scheme='dark' [src]='apifoto + item."+ vector[i].nombre +"' >  </ion-img-viewer>  </ion-avatar>\n"   
+                                               
+                                             
+                                                }
+                                                break;
+                                                case 'nodejs1':
+                                                 
+                                                        if(vector[i].requerido==1)
+                                                        {
+                                                                re= re +"  "+ vector[i].nombre +"		: { type : String, required : true },  \n"
+                                                        }
+                                                        else{
+                                                                re= re +"  "+ vector[i].nombre +"		: { type : String },  \n"
+                                                        }
+
+                                                    
+                                                      
+                                                        
+                                                break
+                                                case 'nodejs2':
+                                                  
+                                                        if( vector[i].nombre!=='usuarioup' && vector[i].nombre!=='usuarionew')
+                                                        {
+                                                        re= re +" todo."+ vector[i].nombre +"       	=	req.body."+ vector[i].nombre +"        	||	todo."+ vector[i].nombre +";   \n";
+                                                        }
+                                                    
+                                                        break
+                                                        case 'nodejs3':
+                                                            
+                                                                if( vector[i].nombre!=='usuarioup' && vector[i].nombre!=='usuarionew')
+                                                                {
+                                                                re= re +"  "+ vector[i].nombre +"     	: req.body."+ vector[i].nombre +"    	,\n";
+                                                                 }
+                                                    
+                                                        break
+                                                        case 'createvariablesfield':
+                                                            
+                                                                if( vector[i].nombre!=='usuarioup' && vector[i].nombre!=='usuarionew')
+                                                                {
+                                                                re= re +" @ViewChild('"+ vector[i].nombre +"a', {static: true}) "+ vector[i].nombre +"a: ElementRef;\n";
+
+                                                                re= re +" "+ vector[i].nombre +"img: SafeResourceUrl;\n";
+                                                                 }
+                                                    
+                                                        break
+
+                                                        
+                                }
+
+                        break;
+                        case 'Number':
+                                switch(op)  {
+                                        case 'createcamposhtml':
+                                                if(vector[i].visible==1)
+                                                {
+                                                        if(vector[i].requerido==1)
+                                                        {
+                                                                re= re+  '      <ion-item class="input-item">\n'
+                                                                re= re+  '              <ion-label  position="floating">'+ capitalizeFirstLetter(vector[i].nombre)+'<ion-text color="danger">*</ion-text></ion-label>\n'
+                                                                if(vector[i].tipo=='Number')
+                                                                {
+                                                                        re= re+  '              <ion-input type="number" '+primero+'   inputMode="Number" clearInput="true" formControlName="' + vector[i].nombre +'" required></ion-input>\n'
+                                                                 }
+                                                                else{
+                                                                        re= re+  '              <ion-input inputMode="text" '+primero+' clearInput="true" formControlName="' + vector[i].nombre +'" required></ion-input>\n'
+                                                                }
+                                                                re= re+  '      </ion-item>\n'
+                                                                re= re+  '<div class="error-container">\n'
+                                                                re= re+  '<div class="error-message" *ngIf="Form.get(\''+ vector[i].nombre +'\').hasError(\''+ 'required' +'\') && (Form.get(\''+ vector[i].nombre +'\').dirty || Form.get(\''+ vector[i].nombre +'\').touched)">\n'
+                                                                re= re+  '  <ion-icon name="information-circle-outline"></ion-icon>\n'
+                                                                re= re+  '  <span>Ingrese un '+ vector[i].nombre +' valido</span>\n'
+                                                                re= re+  '</div>\n'
+                                                                re= re+  ' </div>\n'
+                                                                re= re+  '\n'
+                                                        }
+                                                        else
+                                                        {
+                                                                re= re+  '      <ion-item class="input-item">\n'
+                                                                re= re+  '              <ion-label  position="floating">'+ capitalizeFirstLetter(vector[i].nombre)+'</ion-label>\n'
+                                                                if(vector[i].tipo=='Number')
+                                                                {
+                                                                        re= re+  '              <ion-input type="number"  '+primero+'   inputMode="Number" clearInput="true" formControlName="' + vector[i].nombre +'" required></ion-input>\n'
+                                                                 }
+                                                                else{
+                                                                        re= re+  '              <ion-input inputMode="text" '+primero+' clearInput="true" formControlName="' + vector[i].nombre +'" required></ion-input>\n'
+                                                                }
+                                                                re= re+  '      </ion-item>\n'
+                                                                re= re+  '\n'
+
+                                                        }
+                                       
+                                                }
+                                        break;
+                                        case 'createcamposjsv':
+                                                if(vector[i].visible==1)
+                                                {
+                                                        if(vector[i].requerido==1)
+                                                        {
+                                                        re= re+ "       '"+ vector[i].nombre + "': new FormControl('', Validators.required),\n"
+                                                        }
+                                                        else{
+                                                        re= re+ "       '"+ vector[i].nombre + "': new FormControl(''),\n"   
+                                                        }
+                                                }
+
+                                        break;
+                                        case 'createcamposjsv2':
+                                                if(vector[i].visible==1)
+                                                {
+                                                        re= re+ "       this.Form.controls['"+ vector[i].nombre +"'].setValue(this.navParams.data.record."+ vector[i].nombre+");\n"   
+                                                }
+
+                                        break;
+                                        case 'createcamposjsv3':
+                                                if( vector[i].nombre!=='usuarioup' && vector[i].nombre!=='usuarionew')
+                                                {
+                                            
+                                                    
+                                                        if(vector[i].nombre=='idempresa')
+                                                        {
+                                                                re= re + "       idempresa: this.userinfo[0].idempresa._id,\n"
+                                                                re= re + "        idpapa: this.idllave,\n"
+
+                                                               
+                                                        }
+                                                        else
+                                                        {
+                                                                re= re+ "       "+vector[i].nombre + "  : this.Form.controls['"+ vector[i].nombre  +"'].value,\n"   
+                                                        }
+                                                }   
+                                                
+
+                                        break;
+                                        case 'listcamposhtml1':
+                                                if(vector[i].visible==1)
+                                                {
+                                                        if(vector[i].nombre=='nombre')
+                                                        {
+
+                                                                
+                                                                re= re + "      <strong>"+capitalizeFirstLetter(vector[i].nombre)+":</strong> {{item."+vector[i].nombre+"}}   <br>  \n"
+                                                        }
+                                                        else
+                                                        {
+                                                                if(vector[i].nombre=='estado')
+                                                                {
+                                                                        re= re+  "      <ion-badge color='medium'>{{item."+vector[i].nombre+"}}</ion-badge> \n"   
+                                                                }
+                                                                else{
+                                                                        re= re+  "         <strong>"+capitalizeFirstLetter(vector[i].nombre)+":</strong> {{item."+vector[i].nombre+"}} <br>  \n"   
+                                                                }
+                                                             
+                                                        }
+                                                }
+                                        break;
+                                        case 'listcamposhtml2':
+                                                if(vector[i].visible==1)
+                                                {
+                                                        if(vector[i].nombre=='nombre')
+                                                        {
+
+                                                                
+                                                                re= re + "              <strong>"+capitalizeFirstLetter(vector[i].nombre)+":</strong> {{item."+vector[i].nombre+"}}  <br>  \n"
+                                                        }
+                                                        else
+                                                        {
+                                                                if(vector[i].nombre=='estado')
+                                                                {
+                                                                       // re= re+  " <ion-badge color='medium'>{{item."+vector[i].nombre+"}}</ion-badge> \n"   
+                                                                }
+                                                                else{
+                                                                re= re+  "              <strong> "+capitalizeFirstLetter(vector[i].nombre)+":</strong> {{item."+vector[i].nombre+"}} <br>\n"   
                                                                 }
                                                              
                                                         }
@@ -288,18 +1213,20 @@ fs.outputFile(nombre, contents, err => {
                         case 'String':
                                 switch(op)  {
                                         case 'createcamposhtml':
+
+                                                console.log(vector[i])
                                                 if(vector[i].visible==1)
                                                 {
                                                         if(vector[i].requerido==1)
                                                         {
                                                                 re= re+  '      <ion-item class="input-item">\n'
-                                                                re= re+  '              <ion-label  position="floating">'+ capitalizeFirstLetter(vector[i].nombre)+'</ion-label>\n'
+                                                                re= re+  '              <ion-label  position="floating">'+ capitalizeFirstLetter(vector[i].nombre)+'<ion-text color="danger">*</ion-text></ion-label>\n'
                                                                 if(vector[i].tipo=='Number')
                                                                 {
-                                                                        re= re+  '              <ion-input type="number"    inputMode="Number" clearInput="true" formControlName="' + vector[i].nombre +'" required></ion-input>\n'
+                                                                        re= re+  '              <ion-input type="number"  '+primero+'  inputMode="Number" clearInput="true" formControlName="' + vector[i].nombre +'" required></ion-input>\n'
                                                                 }
                                                                 else{
-                                                                        re= re+  '              <ion-input inputMode="text" clearInput="true" formControlName="' + vector[i].nombre +'" required></ion-input>\n'
+                                                                        re= re+  '              <ion-input inputMode="text" '+primero+' clearInput="true" formControlName="' + vector[i].nombre +'" required></ion-input>\n'
                                                                 }
                                                                 re= re+  '      </ion-item>\n'
                                                                 re= re+  '<div class="error-container">\n'
@@ -309,6 +1236,7 @@ fs.outputFile(nombre, contents, err => {
                                                                 re= re+  '</div>\n'
                                                                 re= re+  ' </div>\n'
                                                                 re= re+  '\n'
+                                                                
                                                         }
                                                         else
                                                         {
@@ -316,10 +1244,10 @@ fs.outputFile(nombre, contents, err => {
                                                                 re= re+  '              <ion-label  position="floating">'+ capitalizeFirstLetter(vector[i].nombre)+'</ion-label>\n'
                                                                 if(vector[i].tipo=='Number')
                                                                 {
-                                                                        re= re+  '              <ion-input type="number"     inputMode="Number" clearInput="true" formControlName="' + vector[i].nombre +'" required></ion-input>\n'
+                                                                        re= re+  '              <ion-input type="number"   '+primero+'  inputMode="Number" clearInput="true" formControlName="' + vector[i].nombre +'" required></ion-input>\n'
                                                                 }
                                                                 else{
-                                                                        re= re+  '              <ion-input inputMode="text" clearInput="true" formControlName="' + vector[i].nombre +'" required></ion-input>\n'
+                                                                        re= re+  '              <ion-input inputMode="text" '+primero+' clearInput="true" formControlName="' + vector[i].nombre +'" required></ion-input>\n'
                                                                 }
                                                                 re= re+  '      </ion-item>\n'
                                                                 re= re+  '\n'
@@ -335,14 +1263,14 @@ fs.outputFile(nombre, contents, err => {
                                                         {
                                                         if(vector[i].nombre==='correo' || vector[i].nombre==='email')
                                                         {// Validators.compose([Validators.required,Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')])),\n"
-                                                                re= re+ "       '"+ vector[i].nombre + "': new FormControl('', Validators.required,Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')])),\n"
+                                                                re= re+ "       '"+ vector[i].nombre + "': new FormControl('', Validators.compose([Validators.required,Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')])),\n"
                                                         }
                                                         else
                                                         {
                                                                 if(vector[i].nombre==='nombre' )
                                                         {
                                                                 
-                                                                re= re+ "       '"+ vector[i].nombre + "': new FormControl('', Validators.compose([Validators.required,Validators.pattern('[a-zA-Z ]*')])),\n"
+                                                                re= re+ "       '"+ vector[i].nombre + "': new FormControl('', Validators.compose([Validators.required,Validators.pattern('[a-zA-Z0-9-_()áéíóúÁÉÍÓÚ#*$!? ñÑ&+-/.]*')])),\n"
                                                         }
                                                         else
                                                         {
@@ -369,7 +1297,7 @@ fs.outputFile(nombre, contents, err => {
                                                 {
                                                         if(vector[i].nombre=='idempresa')
                                                         {
-                                                                re= re + "       idempresa: this.userinfo[0].idempresa,\n"
+                                                                re= re + "       idempresa: this.userinfo[0].idempresa._id,\n"
                                                                 re= re + "        idpapa: this.idllave,\n"
                                                         }
                                                         else
@@ -387,7 +1315,7 @@ fs.outputFile(nombre, contents, err => {
                                                         {
 
                                                                 
-                                                                re= re + "        <p><strong>"+capitalizeFirstLetter(vector[i].nombre)+":</strong> {{item."+vector[i].nombre+"}}  </p>  \n"
+                                                                re= re + "        <strong>"+capitalizeFirstLetter(vector[i].nombre)+":</strong> {{item."+vector[i].nombre+"}} <br>    \n"
                                                         }
                                                         else
                                                         {
@@ -396,7 +1324,7 @@ fs.outputFile(nombre, contents, err => {
                                                                         re= re+  "         <ion-badge color='medium'>{{item."+vector[i].nombre+"}}</ion-badge> \n"   
                                                                 }
                                                                 else{
-                                                                        re= re+  "        <p> "+capitalizeFirstLetter(vector[i].nombre)+": {{item."+vector[i].nombre+"}} </p>\n"   
+                                                                        re= re+  "       <strong> "+capitalizeFirstLetter(vector[i].nombre)+":</strong> {{item."+vector[i].nombre+"}}<br>   \n"   
                                                                 }
                                                              
                                                         }
@@ -409,7 +1337,7 @@ fs.outputFile(nombre, contents, err => {
                                                         {
 
                                                                 
-                                                                re= re + "              <p><strong>"+capitalizeFirstLetter(vector[i].nombre)+":</strong> {{item."+vector[i].nombre+"}}  </p>  \n"
+                                                                re= re + "              <strong>"+capitalizeFirstLetter(vector[i].nombre)+":</strong> {{item."+vector[i].nombre+"}} <br>    \n"
                                                         }
                                                         else
                                                         {
@@ -418,7 +1346,7 @@ fs.outputFile(nombre, contents, err => {
                                                                        // re= re+  " <ion-badge color='medium'>{{item."+vector[i].nombre+"}}</ion-badge> \n"   
                                                                 }
                                                                 else{
-                                                                        re= re+  "              <p> "+capitalizeFirstLetter(vector[i].nombre)+": {{item."+vector[i].nombre+"}} </p>\n"   
+                                                                        re= re+  "              <strong>"+capitalizeFirstLetter(vector[i].nombre)+":</strong> {{item."+vector[i].nombre+"}} <br> \n"   
                                                                 }
                                                              
                                                         }
@@ -497,7 +1425,7 @@ fs.outputFile(nombre, contents, err => {
                                                         if(vector[i].requerido==1)
                                                         {
                                                                 re= re+  '      <ion-item class="input-item">\n'
-                                                                re= re+  '              <ion-label  position="floating">'+ capitalizeFirstLetter(vector[i].nombre)+'</ion-label>\n'
+                                                                re= re+  '              <ion-label  >'+ capitalizeFirstLetter(vector[i].nombre)+'<ion-text color="danger">*</ion-text></ion-label>\n'
                                                                 re= re+  '              <ion-select  placeholder="{{ \'SELECTVALORM\' | translate }}" formControlName="'+vector[i].nombre+'">\n'
                                                                 re= re+  '              <ion-select-option  text-wrap *ngFor="let item of v'+vector[i].nombre+'" value="{{item.id}}">{{item.nombre}}</ion-select-option>\n'
                                                                 re= re+  '              </ion-select>\n'
@@ -514,7 +1442,7 @@ fs.outputFile(nombre, contents, err => {
                                                         else
                                                         {
                                                                 re= re+  '      <ion-item class="input-item">\n'
-                                                                re= re+  '              <ion-label  position="floating">'+ capitalizeFirstLetter(vector[i].nombre)+'</ion-label>\n'
+                                                                re= re+  '              <ion-label  >'+ capitalizeFirstLetter(vector[i].nombre)+'</ion-label>\n'
                                                                 re= re+  '              <ion-select  placeholder="{{ \'SELECTVALORM\' | translate }}" formControlName="'+vector[i].nombre+'">\n'
                                                                 re= re+  '              <ion-select-option  text-wrap *ngFor="let item of v'+vector[i].nombre+'" value="{{item.id}}">{{item.nombre}}</ion-select-option>\n'
                                                                 re= re+  '              </ion-select>\n'
@@ -576,12 +1504,12 @@ fs.outputFile(nombre, contents, err => {
                                         case 'listcamposhtml1':
                                                 if(vector[i].visible==1)
                                                 {
-                                                        re= re+  "        <p> "+capitalizeFirstLetter(vector[i].nombre)+": {{item."+vector[i].nombre+"}} </p>\n"   
+                                                        re= re+  "        <strong> "+capitalizeFirstLetter(vector[i].nombre)+":</strong> {{item."+vector[i].nombre+"}} <br>   \n"   
                                                 }
                                         break;
                                         case 'listcamposhtml2':
                                                 if(vector[i].visible==1)
-                                                { re= re+  "              <p> "+capitalizeFirstLetter(vector[i].nombre)+": {{item."+vector[i].nombre+"}} </p>\n"   
+                                                { re= re+  "              <strong> "+capitalizeFirstLetter(vector[i].nombre)+":</strong> {{item."+vector[i].nombre+"}} <br>  \n"   
                                                 }
                                                 break;
                                                 case 'nodejs1':
@@ -642,6 +1570,167 @@ fs.outputFile(nombre, contents, err => {
                                                             }
                                                         }
                                                         break
+                                                        case 'createvariablesfield':
+                                                            
+                                                                if( vector[i].nombre!=='usuarioup' && vector[i].nombre!=='usuarionew')
+                                                                {
+                                                                re= re +"  public v"+ vector[i].nombre +": any = [];\n";
+
+                                                            
+                                                                 }
+                                                    
+                                                        break
+
+                                       
+                                }
+                        break;
+                        case 'Catalogo':
+                                switch(op)  {
+                                        case 'createcamposhtml':
+                                                if(vector[i].visible==1)
+                                                {
+                                                        if(vector[i].requerido==1)
+                                                        {
+                                                                re= re+  '      <ion-item class="input-item">\n'
+                                                                re= re+  '              <ion-label  >'+ capitalizeFirstLetter(vector[i].nombre)+'<ion-text color="danger">*</ion-text></ion-label>\n'
+                                                               
+                                                                re= re+  '                      <ion-input '+primero+' [readonly]="true" class="ion-text-end"  (click)="combodatos(1,\''+ vector[i].nombre +'-plantilla\',\'frmcats\',\''+ vector[i].nombre +'\',\''+ capitalizeFirstLetter(vector[i].nombre)+'\',\'sigraba\')" inputMode="text" clearInput="true" formControlName="'+ vector[i].nombre +'" required></ion-input>\n'
+                                                                re= re+  '                             <ion-buttons slot="end">\n'
+                                                                re= re+  '                              <ion-button title="Seleccione Información" (click)="combodatos(1,\''+ vector[i].nombre +'-plantilla\',\'frmcats\',\''+ vector[i].nombre +'\',\''+ capitalizeFirstLetter(vector[i].nombre)+'\',\'sigraba\')">\n'
+                                                                re= re+  '                                      <ion-icon slot="icon-only" name="search-outline"></ion-icon>\n'
+                                                                re= re+  '                              </ion-button>\n'
+                                                                re= re+  '                             </ion-buttons>\n'
+
+                                  
+                                                                 re= re+  '     </ion-item>\n'
+                                                                 re= re+  '<div class="error-container">\n'
+                                                                 re= re+  '<div class="error-message" *ngIf="Form.get(\''+ vector[i].nombre +'\').hasError(\''+ 'required' +'\') && (Form.get(\''+ vector[i].nombre +'\').dirty || Form.get(\''+ vector[i].nombre +'\').touched)">\n'
+                                                                 re= re+  '  <ion-icon name="information-circle-outline"></ion-icon>\n'
+                                                                 re= re+  '  <span>Ingrese un '+ vector[i].nombre +' valido</span>\n'
+                                                                 re= re+  '</div>\n'
+                                                                 re= re+  ' </div>\n'
+                                                                re= re+  '\n'
+                                                        }
+                                                        else
+                                                        {
+                                                                re= re+  '      <ion-item class="input-item">\n'
+                                                                re= re+  '              <ion-label  >'+ capitalizeFirstLetter(vector[i].nombre)+'</ion-label>\n'
+                                                                re= re+  '                      <ion-input '+primero+' [readonly]="true" class="ion-text-end"  (click)="combodatos(1,\''+ vector[i].nombre +'-plantilla\',\'frmcats\',\''+ vector[i].nombre +'\',\''+ capitalizeFirstLetter(vector[i].nombre)+'\',\'sigraba\')" inputMode="text" clearInput="true" formControlName="'+ vector[i].nombre +'" required></ion-input>\n'
+                                                                re= re+  '                             <ion-buttons slot="end">\n'
+                                                                re= re+  '                              <ion-button title="Seleccione Información" (click)="combodatos(1,\''+ vector[i].nombre +'-plantilla\',\'frmcats\',\''+ vector[i].nombre +'\',\''+ capitalizeFirstLetter(vector[i].nombre)+'\',\'sigraba\')">\n'
+                                                                re= re+  '                                      <ion-icon slot="icon-only" name="search-outline"></ion-icon>\n'
+                                                                re= re+  '                              </ion-button>\n'
+                                                                re= re+  '                             </ion-buttons>\n'
+
+                                                                 re= re+  '     </ion-item>\n'
+                                                                re= re+  '\n'
+
+                                                        }
+                                              
+                                                }
+                                        break;
+                                        case 'createcamposjsv':
+                                                if(vector[i].visible==1)
+                                                {
+                                                        if(vector[i].requerido==1)
+                                                        {
+                                                        re= re+ "       '"+ vector[i].nombre + "': new FormControl('', Validators.required),\n"
+                                                        }
+                                                        else{
+                                                        re= re+ "       '"+ vector[i].nombre + "': new FormControl(''),\n"   
+                                                        }
+                                                }
+
+                                        break;
+                                        case 'createcamposjsv2':
+                                                if(vector[i].visible==1)
+                                                {
+                                                        re= re+ "            this.Form.controls['"+ vector[i].nombre +"'].setValue(this.navParams.data.record."+ vector[i].nombre +");\n"   
+                                                  
+                                                }
+
+                                               
+                                        break;
+                                        case 'createcamposjsv21':
+                                                if(vector[i].visible==1)
+                                                {
+                                                        re= re+ "       this.Form.controls['"+ vector[i].nombre +"'].setValue(this.navParams.data.record."+ vector[i].nombre+");\n"   
+                                                }
+
+                                                
+
+                                        break;
+                                        case 'createcamposjsv3':
+                                                if( vector[i].nombre!=='usuarioup' && vector[i].nombre!=='usuarionew')
+                                                {
+                                            
+                                                    
+                                                       
+                                                                re= re+ "       "+vector[i].nombre + "  : this.Form.controls['"+ vector[i].nombre  +"'].value,\n"   
+                                                        
+                                                }   
+                                        break;
+                                        case 'listcamposhtml1':
+                                                if(vector[i].visible==1)
+                                                {
+                                                        re= re+  "        <strong> "+capitalizeFirstLetter(vector[i].nombre)+":</strong> {{item."+vector[i].nombre+"}} <br>   \n"   
+                                                }
+                                        break;
+                                        case 'listcamposhtml2':
+                                                if(vector[i].visible==1)
+                                                { re= re+  "              <strong> "+capitalizeFirstLetter(vector[i].nombre)+":</strong> {{item."+vector[i].nombre+"}} <br>   \n"   
+                                                }
+                                                break;
+                                                case 'nodejs1':
+                                              
+                                                        if(vector[i].requerido==1)
+                                                        {
+                                                                re= re +"  "+ vector[i].nombre +"		: { type : String, required : true },  \n"
+                                                        }
+                                                        else{
+                                                                re= re +"  "+ vector[i].nombre +"		: { type : String },  \n"
+                                                        }
+                                                    
+                                                        
+                                                break
+                                                case 'nodejs2':
+                                               
+                                                                if( vector[i].nombre!=='usuarioup' && vector[i].nombre!=='usuarionew')
+                                                                {
+                                                                        re= re +" todo."+ vector[i].nombre +"       	=	req.body."+ vector[i].nombre +"        	||	todo."+ vector[i].nombre +";   \n";
+                                          
+                                                                }
+                                                                break
+                                                                case 'nodejs3':
+                                                                        if(vector[i].nombre=='idempresa')
+                                                                        {
+                                                                            if( vector[i].nombre!=='usuarioup' && vector[i].nombre!=='usuarionew')
+                                                                            {
+                                                                            re= re +"  "+ vector[i].nombre +"     	: req.body."+ vector[i].nombre +"    	,\n";
+                                                                            re= re +" // idpapa     	: req.body.idpapa"+"    	,\n";
+                                                                            }
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            if( vector[i].nombre!=='usuarioup' && vector[i].nombre!=='usuarionew')
+                                                                            {
+                                                                            re= re +"  "+ vector[i].nombre +"     	: req.body."+ vector[i].nombre +"    	,\n";
+                                                                            }
+                                                                         }
+                                                                    break
+                                                                //createvariablesfield
+                                                                case 'createvariablesfield':
+                                                            
+                                                                        if( vector[i].nombre!=='usuarioup' && vector[i].nombre!=='usuarionew')
+                                                                        {
+                                                                        re= re +"  public v"+ vector[i].nombre +": any = [];\n";
+        
+                                                                    
+                                                                         }
+                                                            
+                                                                break
+        
+                                                        
                                        
                                 }
                         break;
@@ -653,11 +1742,11 @@ fs.outputFile(nombre, contents, err => {
                                                         if(vector[i].requerido==1)
                                                         {
                                                                 re= re+  '      <ion-item class="input-item">\n'
-                                                                re= re+  '              <ion-label  position="floating">'+ capitalizeFirstLetter(vector[i].nombre)+'</ion-label>\n'
+                                                                re= re+  '              <ion-label >'+ capitalizeFirstLetter(vector[i].nombre)+'<ion-text color="danger">*</ion-text></ion-label>\n'
                                                               
-                                                                re= re+  '              <ion-select placeholder="{{ \'SELECTVALORM\' | translate }}" formControlName="' + vector[i].nombre +'">\n'
-                                                                re= re+  '              <ion-select-option value="Activo">Activo</ion-select-option>\n'
-                                                                re= re+  '              <ion-select-option value="Inactivo">Inactivo</ion-select-option>\n'
+                                                                re= re+  '              <ion-select '+primero+' placeholder="{{ \'SELECTVALORM\' | translate }}" formControlName="' + vector[i].nombre +'">\n'
+                                                                re= re+  '              <ion-select-option text-wrap value="Activo">Activo</ion-select-option>\n'
+                                                                re= re+  '              <ion-select-option text-wrap value="Inactivo">Inactivo</ion-select-option>\n'
                                                                 re= re+  '              </ion-select>\n'
                                                               
                                                                 re= re+  '      </ion-item>\n'
@@ -673,11 +1762,11 @@ fs.outputFile(nombre, contents, err => {
                                                         {
 
                                                                 re= re+  '      <ion-item class="input-item">\n'
-                                                                re= re+  '              <ion-label  position="floating">'+ capitalizeFirstLetter(vector[i].nombre)+'</ion-label>\n'
+                                                                re= re+  '              <ion-label  >'+ capitalizeFirstLetter(vector[i].nombre)+'</ion-label>\n'
                                                               
-                                                                re= re+  '              <ion-select placeholder="{{ \'SELECTVALORM\' | translate }}" formControlName="' + vector[i].nombre +'">\n'
-                                                                re= re+  '              <ion-select-option value="Activo">Activo</ion-select-option>\n'
-                                                                re= re+  '              <ion-select-option value="Inactivo">Inactivo</ion-select-option>\n'
+                                                                re= re+  '              <ion-select '+primero+' placeholder="{{ \'SELECTVALORM\' | translate }}" formControlName="' + vector[i].nombre +'">\n'
+                                                                re= re+  '              <ion-select-option text-wrap value="Activo">Activo</ion-select-option>\n'
+                                                                re= re+  '              <ion-select-option text-wrap value="Inactivo">Inactivo</ion-select-option>\n'
                                                                 re= re+  '              </ion-select>\n'
                                                               
                                                                 re= re+  '      </ion-item>\n'
@@ -803,9 +1892,21 @@ function buscamodulo(op,op2) {
         var re=''
 
 switch(op)  {
-        case 'modulo': re=  dacadenamodulo(Modulovv,op2);      break;
-        case 'asociado': re=  dacadenamodulo(Asociadovv,op2);      break;
-        case 'producto': re=  dacadenamodulo(Productov,op2);      break;
+      
+        case 'dispositivo': re=  dacadenamodulo(dispositivov,op2);      break;
+        case 'tokens': re=  dacadenamodulo(tokensv,op2);      break;
+        case 'frmacciones': re=  dacadenamodulo(frmacciones,op2);      break;
+        case 'frmtareasprogramadas': re=  dacadenamodulo(frmtareasprogramadas,op2);      break;
+        case 'frmtareasprogramadasfotos': re=  dacadenamodulo(frmtareasprogramadasfotos,op2);      break;
+        case 'frmtareasprogramadasservicios': re=  dacadenamodulo(frmtareasprogramadasservicios,op2);      break;
+        
+    
+        case 'formulariocomentarios': re=  dacadenamodulo(formulariocomentarios,op2);      break;
+        case 'formulariofotos': re=  dacadenamodulo(formulariofotos,op2);      break;
+        case 'formulariotareas': re=  dacadenamodulo(formulariotareas,op2);      break;
+        case 'formulariotareasdoc': re=  dacadenamodulo(formulariotareasdoc,op2);      break;
+        
+        
 }
       
         
@@ -814,15 +1915,15 @@ switch(op)  {
         
     }
 
-//http://127.0.0.1:9090/api/generadors/generamod/modulo/Modulo
-    function buildHtml(op,op2) {
+//http://127.0.0.1:9090/api/generadors/generamod/rol/Rol
+    function buildHtml(op,op2,op3) {
         var header = 'a';
         var body = "";
         var body2 = "";
         body="";
         body=body + "\n\n\n"
         body = body + 'route api rest  ***************************************************\n';
-        body = body + op2+"Controller = require('./controllers/"+op+"'),\n";
+        body = body + op2+"Controller = require('./controllers/"+op3+"/"+op+"'),\n";
         body = body + op+"Routes = express.Router(),\n";
         
         body = body + " //-----------------------------------MODULO\n";
@@ -835,7 +1936,8 @@ switch(op)  {
         body = body + op+"Routes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  "+op2+"Controller.delete"+op2+");\n";
 
         body=body + "\n\n\n"
-        body = body + "{path: '"+op2+"ListPage', loadChildren:  './ASOCIADOINVENTARIO/"+op+"-list/"+op+"-list.module#"+op2+"ListPageModule'},\n"
+        
+        body = body + "{path: '"+op2+"ListPage',loadChildren: () => import('./DESARROLLO/ASOCIADOINVENTARIO/"+op+"-list/"+op+"-list.module').then(m => m."+op2+"ListPageModule) },\n"
 
      //   body2 = + 'model  '+op+'.js ***************************************************\n';
         body2=  " var mongoose =require(\"mongoose\");\n";
@@ -852,25 +1954,27 @@ switch(op)  {
         body=body + "\n\n\n"
      //   body = body + 'controlador  '+op+'.js ***************************************************\n';
 
-        body2 =  "var "+op2+" = require('../models/"+op+"');";
-        body2 = body2 + "var Bitacora = require('../models/bitacora');\n";
+        body2 =  "var "+op2+" = require('../../models/"+op3+"/"+op+"');\n";
+        body2 = body2 + "var Bitacora = require('../../models/bitacora');\n";
+        body2 = body2 + "var Image = require('../../models/image2');\n";
+        body2 = body2 + "var functool = require('../../controllers/funcionesnode');\n";
         
         body2 = body2 + "exports.get"+op2+" = function(req, res, next){\n";
-        body2 = body2 + "    if(req.params.id3)\n";
+        body2 = body2 + "    if(req.params.id4)\n";
         body2 = body2 + "    {   \n";
         
         
         body2 = body2 + "            if(req.params.id2=='todos')\n";
         body2 = body2 + "            { \n";
                       
-        body2 = body2 + "                "+op2+".find({idempresa:req.params.id3}).sort([['index', 1]]).exec(function(err, todos) {\n";
+        body2 = body2 + "                "+op2+".find({idempresa:req.params.id3,idpapa:req.params.id4}).sort({'_id': -1}).exec(function(err, todos) {\n";
         body2 = body2 + "                    if (err){  res.send(err);  }\n";
         body2 = body2 + "                     res.json(todos);\n";
         body2 = body2 + "                 });\n";
         body2 = body2 + "            }\n";
         body2 = body2 + "            else\n";
         body2 = body2 + "            {\n";
-        body2 = body2 + "                "+op2+".find({idempresa:req.params.id3,estado:req.params.id2}).sort([['index', 1]]).exec(function(err, todos) {\n";
+        body2 = body2 + "                "+op2+".find({idempresa:req.params.id3,estado:req.params.id2,idpapa:req.params.id4}).sort({'_id': -1}).exec(function(err, todos) {\n";
         body2 = body2 + "                    if (err){  res.send(err);  }\n";
         body2 = body2 + "                     res.json(todos);\n";
         body2 = body2 + "                 });\n";
@@ -896,7 +2000,20 @@ switch(op)  {
            
         body2 = body2 + "    Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina "+op2+" '});\n";
         body2 = body2 + "    "+op2+".findByIdAndRemove({ _id: req.params.recordID  }, function(err, todo) {\n";
-        body2 = body2 + "        res.json(todo);\n";
+        var cad=buscamodulo(op,'deletenode')
+        if(cad=='')
+        {
+                body2 = body2 +cad + "        res.json(todo);\n";
+        }
+        else
+        {
+                body2 = body2 + "        res.json(todo);\n";
+        }
+       
+
+
+       
+       
         body2 = body2 + "    });\n";
         body2 = body2 + "}\n";
         
@@ -969,9 +2086,10 @@ switch(op)  {
         body2=body2 + "import { RouterModule} from '@angular/router';\n"
         body2=body2 + "import { NgModule } from '@angular/core';\n"
         body2=body2 + "import { CommonModule } from '@angular/common';\n"
-        body2=body2 + "import { ComponentsModule } from '../../components/components.module';\n"
+        body2=body2 + "import { ComponentsModule } from '../../../components/components.module';\n"
         body2=body2 + "import { TranslateModule } from '@ngx-translate/core';\n"
         body2=body2 + "import { FormsModule, ReactiveFormsModule } from '@angular/forms';\n"
+        body2=body2 + "import { NgxIonicImageViewerModule } from 'ngx-ionic-image-viewer';\n"
         body2=body2 + "import { "+op2+"CreatePage } from './"+op+"-create/"+op+"-create.page';\n"
         body2=body2 + "import { "+op2+"ListPage } from './"+op+"-list.page';\n"
         body2=body2 + "@NgModule({\n"
@@ -979,7 +2097,7 @@ switch(op)  {
          body2=body2 + "    "+op2+"ListPage, "+op2+"CreatePage\n"
          body2=body2 + "  ],\n"
          body2=body2 + "  imports: [\n"
-         body2=body2 + "    CommonModule,IonicModule, ComponentsModule, FormsModule,  ReactiveFormsModule,\n"
+         body2=body2 + "    CommonModule,IonicModule, ComponentsModule, FormsModule,  ReactiveFormsModule, NgxIonicImageViewerModule,\n"
          body2=body2 + "    RouterModule.forChild([{ path: '', component: "+op2+"ListPage }]), TranslateModule.forChild(),\n"
          body2=body2 + "  ],\n"
          body2=body2 + "  entryComponents: [\n"
@@ -1108,30 +2226,53 @@ generafile(body2,"tmp/"+op+"-list/"+op+"-list.page.scss");
        
         body2 = body2 + ' <ion-list  *ngIf="(itemsList?.length > 0) && (viewType === \'list\')">\n';
         body2 = body2 + '   <ion-item  *ngFor="let item of itemsList;let i = index; " [routerLink]="">\n';
+
+        body2 = body2 + '<ion-grid>\n';
+        body2 = body2 + '<ion-row>\n';
+        body2 = body2 + '  <ion-col  (click)="updateRecord(item)" size="12">\n';
         body2 = body2 + '     <ion-icon name="server-outline" slot="start"></ion-icon>\n';
         body2 = body2 + '    <ion-label class="ion-text-wrap">\n';
-        body2 = body2 + '        <ion-note slot="end">No. {{i+1}}</ion-note> <br>\n';
+        body2 = body2 + '        <ion-note slot="end">No. {{i+1}}</ion-note> <br>\n<p>\n';
         body2 = body2 +buscamodulo(op,'listcamposhtml1')
-        body2 = body2 + '       <ion-badge color="medium">{{item.estado}}</ion-badge>\n';
+        body2 = body2 + '    \n</p>   <ion-badge color="medium">{{item.estado}}</ion-badge>\n';
         body2 = body2 + '     </ion-label>\n';
-        body2 = body2 + '     <ion-row no-padding slot="end">\n';
-        body2 = body2 + '       <ion-col>\n';
-        body2 = body2 + '         <button title= "{{ \'MENUM\' | translate }}"  (click)="otrasop(item)"  ion-button clear large icon-start>\n';
-        body2 = body2 + '           <ion-icon name="ellipsis-vertical-outline">\n';
-        body2 = body2 + '           </ion-icon>\n';
-        body2 = body2 + '           {{ \'MENUM\' | translate }}\n';
-        body2 = body2 + '         </button><br><br>\n';
-        body2 = body2 + '         <button title="{{ \'ELIMINARM\' | translate }}"  (click)="deleteRecord(item)" ion-button clear large icon-start>\n';
-        body2 = body2 + '           <ion-icon name="trash-outline"></ion-icon>\n';
-        body2 = body2 + '           {{ \'ELIMINARM\' | translate }}\n';
-        body2 = body2 + '         </button><br>\n';
-        body2 = body2 + '         <br>\n';
-        body2 = body2 + '         <button title="{{ \'ACTUALIZARM\' | translate }}"  (click)="updateRecord(item)" ion-button clear   icon-start>\n';
-        body2 = body2 + '           <ion-icon name="create-outline"></ion-icon>\n';
-        body2 = body2 + '           {{ \'ACTUALIZARM\' | translate }}\n';
-        body2 = body2 + '         </button>\n';
-        body2 = body2 + '       </ion-col>\n';
-        body2 = body2 + '     </ion-row>\n';
+     
+        body2 = body2 + '</ion-col>\n';
+        body2 = body2 + '</ion-row>\n';
+
+        body2 = body2 + '  <ion-row>\n';
+   
+        body2 = body2 + '<ion-col size="12">\n';
+    
+        body2 = body2 + '      <ion-toolbar  color="transparent">\n';
+        body2 = body2 + '        <ion-buttons slot="secondary">\n';
+        
+        body2 = body2 + '          <ion-button  title="{{ \'ELIMINARM\' | translate }}"  (click)="deleteRecord(item)" >\n';
+        body2 = body2 + '            <ion-icon slot="icon-only" name="trash-outline"></ion-icon>\n';
+        body2 = body2 + '          </ion-button>\n';
+        body2 = body2 + '        </ion-buttons>\n';
+      
+        body2 = body2 + '        <ion-buttons slot="primary">\n';
+        body2 = body2 + '          <ion-button title= "{{ \'MENUM\' | translate }}" (click)="otrasop(item)"   color="secondary">\n';
+        body2 = body2 + '            <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>\n';
+        body2 = body2 + '          </ion-button>\n';
+        body2 = body2 + '        </ion-buttons>\n';
+        body2 = body2 + '      </ion-toolbar>\n';
+       
+  
+
+        
+        body2 = body2 + '        </ion-col>\n';
+        body2 = body2 + '      </ion-row>\n';
+
+        body2 = body2 + '    </ion-grid>\n';
+
+
+
+   
+     
+     
+     
         body2 = body2 + '   </ion-item>\n';
         body2 = body2 + ' </ion-list>\n';
        
@@ -1148,30 +2289,32 @@ generafile(body2,"tmp/"+op+"-list/"+op+"-list.page.scss");
         body2 = body2 + '             <span class="user-stat-value">{{item.estado}} </span>\n';
         body2 = body2 + '           </ion-col>\n';
         body2 = body2 + '         </ion-row>\n';
-        body2 = body2 + '         <ion-item   (click)="updateRecord(item)"  [routerLink]="">\n';
+        body2 = body2 + '         <ion-item   [routerLink]="">\n';
         body2 = body2 + '           <ion-icon name="server-outline" slot="start"></ion-icon>\n';
-        body2 = body2 + '           <ion-label class="ion-text-wrap">\n';
+        body2 = body2 + '           <ion-label (click)="updateRecord(item)"   class="ion-text-wrap">\n <p> \n';
         body2 = body2 +buscamodulo(op,'listcamposhtml2')
        
-        body2 = body2 + '           </ion-label>\n';
+        body2 = body2 + '      \n </p>    </ion-label>\n';
         body2 = body2 + '         </ion-item>\n';
         body2 = body2 + '         <ion-card-content>\n';
         body2 = body2 + '         </ion-card-content>\n';
         body2 = body2 + '         <ion-row no-padding>\n';
-        body2 = body2 + '           <ion-col>\n';
-        body2 = body2 + '             <button title=" {{ \'ELIMINARM\' | translate }}"  (click)="deleteRecord(item,i)" ion-button clear small  icon-start>\n';
-        body2 = body2 + '               <ion-icon name="trash-outline"></ion-icon>\n';
-        body2 = body2 + '               {{ \'ELIMINARM\' | translate }}\n';
-        body2 = body2 + '             </button>\n';
-        body2 = body2 + '           </ion-col>\n';
-        body2 = body2 + '           <ion-col [hidden]="!showmenu">\n';
-        body2 = body2 + '            <button title= "{{ \'MENUM\' | translate }}"  (click)="otrasop(item)"  ion-button clear large icon-start>\n';
-        body2 = body2 + '                  <ion-icon name="ellipsis-vertical-outline">\n';
-        body2 = body2 + '                  </ion-icon>\n';
-        body2 = body2 + '                  {{ \'MENUM\' | translate }}\n';
-        body2 = body2 + '            </button>\n';
-    
-
+        body2 = body2 + '           <ion-col  size="12" >\n';
+        body2 = body2 + '      <ion-toolbar  color="transparent">\n';
+        body2 = body2 + '        <ion-buttons slot="secondary">\n';
+        
+        body2 = body2 + '          <ion-button  title="{{ \'ELIMINARM\' | translate }}"  (click)="deleteRecord(item)" >\n';
+        body2 = body2 + '            <ion-icon slot="icon-only" name="trash-outline"></ion-icon>\n';
+        body2 = body2 + '          </ion-button>\n';
+        body2 = body2 + '        </ion-buttons>\n';
+      
+        body2 = body2 + '        <ion-buttons slot="primary">\n';
+        body2 = body2 + '          <ion-button title= "{{ \'MENUM\' | translate }}" (click)="otrasop(item)"   color="secondary">\n';
+        body2 = body2 + '            <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>\n';
+        body2 = body2 + '          </ion-button>\n';
+        body2 = body2 + '        </ion-buttons>\n';
+        body2 = body2 + '      </ion-toolbar>\n';
+       
         body2 = body2 + '           </ion-col>\n'
         body2 = body2 + '         </ion-row>\n';
         body2 = body2 + '       </ion-card>\n';
@@ -1197,7 +2340,7 @@ generafile(body2,"tmp/"+op+"-list/"+op+"-list.page.scss");
  body2 =  "import { Component , OnInit , ViewChild } from '@angular/core';\n"
  body2 = body2 + "import {AlertController, ModalController ,  IonRouterOutlet} from '@ionic/angular';\n"
  body2 = body2 + "import { TranslateService } from '@ngx-translate/core';\n"
- body2 = body2 + "import {  Router } from '@angular/router';\n"
+ body2 = body2 + "import {  Router, NavigationExtras } from '@angular/router';\n"
  body2 = body2 + "import { AuthenticationService } from '../../services/Authentication.service';\n"
  body2 = body2 + "import { FormGroup, FormControl } from '@angular/forms';\n"
  body2 = body2 + "import { ReplaySubject} from 'rxjs';\n"
@@ -1223,13 +2366,13 @@ body2 = body2 + "export class "+op2+"ListPage implements OnInit {\n"
         body2 = body2 + "tituloxx = '';\n"
         body2 = body2 + "efecto = 0;\n"
         body2 = body2 + "seguro ='';\n"
-        body2 = body2 + "msg = '';\n"
+        body2 = body2 + "msg = '';\napifoto: String;\n"
         body2 = body2 + "itemsList: Array<any>;\n"
         body2 = body2 + "public currentSegment: string = \"Todos\";\n"
         body2 = body2 + "searchSubject: ReplaySubject<any> = new ReplaySubject<any>(1);\n"
         body2 = body2 + "constructor(  private routerOutlet: IonRouterOutlet , private router: Router, private authenticationService: AuthenticationService,\n"
  body2 = body2 + "   public alertController: AlertController,     public translateService: TranslateService    ,    private modalController: ModalController\n"
- body2 = body2 + "   ) {\n"
+ body2 = body2 + "   ) {  this.apifoto = this.authenticationService.getapifoto();\n"
         body2 = body2 + " }\n"
         body2 = body2 + "changeToList() { this.viewType = 'list'; }\n"
 
@@ -1239,7 +2382,7 @@ body2 = body2 + "export class "+op2+"ListPage implements OnInit {\n"
     body2 = body2 + "    this.variables = this.router.getCurrentNavigation().extras.state.variables;\n"
     body2 = body2 + "    this.idllave = this.router.getCurrentNavigation().extras.state.idllave;\n"
     body2 = body2 + "    this.userinfo = this.authenticationService.getcopiauser();\n"
-    body2 = body2 + "    this.tituloxx = this.router.getCurrentNavigation().extras.state.title ;\n"
+    body2 = body2 + "    this.tituloxx =this.variables.nombre ;\n"
     body2 = body2 + "    this.searchQuery = '';\n"
 
     body2 = body2 + "    this.translateService.get('SEGUROM').subscribe((value) => {   this.seguro = value  });\n"
@@ -1262,8 +2405,8 @@ body2 = body2 + "  pideregistros0() {\n"
         body2 = body2 + "  pideregistros(op) {\n"
  body2 = body2 + "       this.itemsList = [];\n"
  body2 = body2 + "       this.efecto = 0 ;\n"
- body2 = body2 + "      // this.authenticationService.getReg('todos/' + op + '/' + this.userinfo[0].idempresa + '/' + this.idllave, '"+op+"s', 0).then((data) => {\n"
- body2 = body2 + "       this.authenticationService.getReg('todos/' + op + '/' + this.userinfo[0].idempresa, '"+op+"s', 0).then((data) => {\n"
+ body2 = body2 + "      // this.authenticationService.getReg('todos/' + op + '/' + this.userinfo[0].idempresa._id + '/' + this.idllave, '"+op+"s', 0).then((data) => {\n"
+ body2 = body2 + "       this.authenticationService.getReg('todos/' + op + '/' + this.userinfo[0].idempresa._id, '"+op+"s', 0).then((data) => {\n"
  body2 = body2 + "       this.efecto=1;\n"
  body2 = body2 + "       this.items =  data;\n"
  body2 = body2 + "       this.itemsList = this.items;\n"
@@ -1294,8 +2437,9 @@ body2 = body2 + "         {\n"
 body2 = body2 + "           name: 'Productos',\n"
 body2 = body2 + "           type: 'radio',\n"
 body2 = body2 + "           label: 'Productos',\n"
-body2 = body2 + "           value: '/ProductoListPage°PRODUCTOS',\n"
-body2 = body2 + "           checked: true\n"
+body2 = body2 + "           checked: true,\n"
+body2 = body2 + "           value: '/ProductoListPage°Productos ->' + item.nombre,\n"
+
 body2 = body2 + "         }\n"
        
      
@@ -1341,7 +2485,7 @@ body2 = body2 + "        }, {\n"
 body2 = body2 + "           text: 'Si',\n"
 body2 = body2 + "           handler: () => {\n"
 body2 = body2 + "             const recordID: string		= item._id;\n"
-body2 = body2 + "             this.authenticationService.deleteReg(recordID + '/' + this.userinfo[0].email + '/' + this.userinfo[0].idempresa  + '/'\n"
+body2 = body2 + "             this.authenticationService.deleteReg(recordID + '/' + this.userinfo[0].email + '/' + this.userinfo[0].idempresa._id  + '/'\n"
 body2 = body2 + "             + 'na' , '"+op +"s').then((data) => {\n"
 body2 = body2 + "               this.pideregistros( this.currentSegment);\n"
 body2 = body2 + "               }, (err) => {\n"
@@ -1412,6 +2556,7 @@ generafile(body2,"tmp/"+op+"-list/"+op+"-list.page.ts");
                 body2=body2 + "  import { FormsModule } from '@angular/forms';\n"
                 body2=body2 + "  import { TranslateModule } from '@ngx-translate/core';\n"
                 body2=body2 + "   import { IonicModule } from '@ionic/angular';\n"
+                
                 body2=body2 + "   import { "+op2+"CreatePage } from './"+op+"-create.page';\n"
                 body2=body2 + "\n"
                 body2=body2 + "   @NgModule({"
@@ -1449,6 +2594,7 @@ generafile(body2,"tmp/"+op+"-list/"+op+"-list.page.ts");
                 body2 = body2 + '<ion-content class="create-form-content">\n';
                 body2 = body2 + '    <section class="user-details-fields fields-section">\n';
                 body2 = body2 + '    <ion-list class="inputs-list" lines="full">\n';
+                console.log(op)
                 body2 = body2 +buscamodulo(op,'createcamposhtml')
                 body2 = body2 + '     </ion-list>\n';
                 body2 = body2 + '  </section>\n';
@@ -1472,35 +2618,41 @@ generafile(body2,"tmp/"+op+"-list/"+op+"-list.page.ts");
             //    body = body + ' modulo-create.page.js  ***************************************************\n';
           
 
-                body2= "import { Component, OnInit , ViewChild} from '@angular/core';\n"
-                body2=body2 + "import { ModalController , NavParams} from '@ionic/angular';\n"
+                body2= "import { Component, OnInit , ViewChild ,  ElementRef} from '@angular/core';\n"
+                body2=body2 + "import { ModalController , NavParams , ActionSheetController, IonInput } from '@ionic/angular';\n"
                 body2=body2 + "import { FormGroup, FormControl, Validators, FormGroupDirective } from '@angular/forms';\n"
                 body2=body2 + "import { AuthenticationService } from '../../../services/Authentication.service';\n"
                 body2=body2 + "import { TranslateService } from '@ngx-translate/core';\n"
+                body2=body2 + "import { MyModalPage } from '../../../modals/my-modal/my-modal.page';\n"
+                body2=body2 + "import { MyModalComboPage } from './../../../modals/my-modal-combo/my-modal-combo.page';\n"
+                body2=body2 + "import {Plugins,  CameraResultType,  CameraSource} from '@capacitor/core';\n"
+                body2=body2 + "import { SafeResourceUrl } from '@angular/platform-browser';\n"
+                
                 body2=body2 + "@Component({\n"
                 body2=body2 + "  selector: 'app-"+op+"-create',\n"
                 body2=body2 + "  templateUrl: './"+op+"-create.page.html',\n"
                 body2=body2 + "  styleUrls: ['./"+op+"-create.page.scss'],\n"
                 body2=body2 + "})\n"
                 body2=body2 + "export class "+op2+"CreatePage implements OnInit {\n"
-                
+                body2=body2 + "@ViewChild('inputId', {  static: false })  inputElement: IonInput;\n @ViewChild('fotoa', {static: true}) fotoa: ElementRef;\n"
+                body2 = body2 +buscamodulo(op,'createvariablesfield')
                 body2=body2 + "  Form: FormGroup;\n"
-                body2=body2 + "  @ViewChild('createForm', { static: false }) createForm: FormGroupDirective;\n"
+                body2=body2 + " // @ViewChild('createForm', { static: false }) createForm: FormGroupDirective;\n"
                 body2=body2 + "  variables: any = [];\n"
                 body2=body2 + "  userinfo: any = [];\n"
                 body2=body2 + "  idllave: any ;\n"
                 body2=body2 + "  tituloxx = '';\n"
                 body2=body2 + "  vgrupo: any = [];\n"
                 body2=body2 + "  _ID: any;\n"
-                body2=body2 + "  lpermiso: any;\n"
+                body2=body2 + "  lpermiso: any;\n  apifoto: String ;\n  fotoimg: SafeResourceUrl;\n"
                 
                 
                 body2=body2 + "  constructor(\n"
                 body2=body2 + "    private modalController: ModalController,\n"
                 body2=body2 + "    public translateService: TranslateService    , private authenticationService: AuthenticationService,\n"
-                body2=body2 + "    private navParams: NavParams\n"
-                body2=body2 + "  ) { }\n"
-                
+                body2=body2 + "    private navParams: NavParams , public actionSheetController: ActionSheetController\n"
+                body2=body2 + "  ) { this.apifoto = this.authenticationService.getapifoto(); }\n"
+                body2=body2 + "  ngAfterViewInit() {    setTimeout(() => {       this.inputElement.setFocus();  }, 400);}\n"
                 body2=body2 + "  dismissModal() {     this.modalController.dismiss('close');      }\n"
                 body2=body2 + "  ionViewDidEnter(): void {               }\n"
                 body2=body2 + "  ngOnInit(): void {\n"
@@ -1519,7 +2671,7 @@ generafile(body2,"tmp/"+op+"-list/"+op+"-list.page.ts");
                 body2 = body2 +buscamodulo(op,'createcamposjsv21')
                 body2=body2 + "       this.translateService.get('NUEVOM').subscribe((value) => {   this.tituloxx = value +' '+ this.tituloxx;this.lpermiso = value; });\n"
               
-                body2=body2 + "       this.authenticationService.getReg('todos/orden/' + this.userinfo[0].idempresa, '"+op+"s', 0).then((data) => {\n"
+                body2=body2 + "       this.authenticationService.getReg('todos/orden/' + this.userinfo[0].idempresa._id, '"+op+"s', 0).then((data) => {\n"
                 body2=body2 + "        if (data) {\n"
                 body2=body2 + "         const aa: any = data;\n"
                 body2=body2 + "          this.Form.controls['index'].setValue(Number(aa.orden) + 10);\n"
@@ -1539,6 +2691,82 @@ generafile(body2,"tmp/"+op+"-list/"+op+"-list.page.ts");
                 
                 body2=body2 + "  //onSgrupoChange(selectedValue: any) {    this.sgrupo = selectedValue.detail.value ;(ionChange)='onSgrupoChange($event)'   }\n"
                 
+                if(buscamodulo(op,'sifoto')=='si')
+                {
+
+
+                        body2=body2 + "                        submitForm0() {\n"
+
+                        body2=body2 + "                                this.authenticationService.subefoto('',  'Image2s',  this.fotoimg, '' , '' , '', '' , 'create' ).then((result) => {\n"
+                        body2=body2 + "                                  let data: any = [];\n"
+                        body2=body2 + "                                  data = result;\n"
+                        body2=body2 + "                                  this.Form.controls['foto'].setValue(data.url);\n"
+
+                        body2=body2 + "                                      const   options: any	     = {\n"
+                          body2 = body2 +buscamodulo(op,'createcamposjsv3')
+                        body2=body2 + "                                        bitacora: { idempresa : this.userinfo[0].idempresa._id , idafiliado: '' ,\n"
+                        body2=body2 + "                                        email: this.userinfo[0].email , permiso : this.lpermiso, accion: this.tituloxx}\n"
+                        body2=body2 + "                                    };\n"
+
+                        body2=body2 + "                                      if (options) {\n"
+                        body2=body2 + "                                        this.authenticationService.createReg('', options, '"+op+"s').then((result) => {\n"
+                        body2=body2 + "                                          if (!this.Form.valid) { return; }\n"
+                        body2=body2 + "                                          this.modalController.dismiss('ok');\n"
+                        body2=body2 + "                                      }, (err) => {\n"
+                        body2=body2 + "                                        this.authenticationService.presentAlert(err.error , 'Precaución' , '');\n"
+                        body2=body2 + "                                      });\n"
+
+                        body2=body2 + "                                      }\n"
+
+                        body2=body2 + "                                }, (err) => {\n"
+                        body2=body2 + "                                  this.authenticationService.presentAlert(err.error , 'Precaución' , '');\n"
+                        body2=body2 + "                                });\n"
+                        body2=body2 + "                              }\n"
+
+                        body2=body2 + "                              submitForm1() {\n"
+
+
+                        body2=body2 + "                                this.authenticationService.subefoto('',  'Image2s', this.fotoimg, '' , '' , '', this.Form.controls['foto'].value,'update' ).then((result) => {\n"
+                        body2=body2 + "                                  let data: any = [];\n"
+                        body2=body2 + "                                  data = result;\n"
+                        body2=body2 + "                                  this.Form.controls['foto'].setValue(data.url);\n"
+
+                        body2=body2 + "                                      const   options: any	     = {\n"
+                        body2 = body2 +buscamodulo(op,'createcamposjsv3')
+                        body2=body2 + "                                        bitacora: { idempresa : this.userinfo[0].idempresa._id , idafiliado: '' ,\n"
+                        body2=body2 + "                                        email: this.userinfo[0].email , permiso : this.lpermiso, accion: this.tituloxx}\n"
+                        body2=body2 + "                                    };\n"
+
+                        body2=body2 + "                                      if (options) {\n"
+                        body2=body2 + "                                        this.authenticationService.createReg(this._ID, options, '"+op+"s').then((result) => {\n"
+                        body2=body2 + "                                          if (!this.Form.valid) { return; }\n"
+                        body2=body2 + "                                          this.modalController.dismiss('ok');\n"
+                        body2=body2 + "                                      }, (err) => {\n"
+                        body2=body2 + "                                        this.authenticationService.presentAlert(err.error , 'Precaución' , '');\n"
+                        body2=body2 + "                                      });\n"
+
+                        body2=body2 + "                                      }\n"
+
+                        body2=body2 + "                                }, (err) => {\n"
+                        body2=body2 + "                                  this.authenticationService.presentAlert(err.error , 'Precaución' , '');\n"
+                        body2=body2 + "                                });\n"
+                        body2=body2 + "                              }\n"
+
+                              
+                        body2=body2 + "                                submitForm() {\n"
+                        body2=body2 + "                                    if (this.navParams.get('record') == null) {\n"
+                        body2=body2 + "                                      this.submitForm0();\n"
+                        body2=body2 + "                                    } else {\n"
+                        body2=body2 + "                                      this.submitForm1();\n"
+                        body2=body2 + "                                    }\n"
+                        body2=body2 + "                                }\n"
+                                
+                                
+
+
+                }
+                else
+                {
                 body2=body2 + "  submitForm() {\n"
                 
                 body2=body2 + "    const   options: any	     = {\n"
@@ -1546,9 +2774,9 @@ generafile(body2,"tmp/"+op+"-list/"+op+"-list.page.ts");
          
 
 
-              //  body2=body2 + "       idempresa: this.userinfo[0].idempresa,\n"
+              //  body2=body2 + "       idempresa: this.userinfo[0].idempresa._id,\n"
                 body2 = body2 +buscamodulo(op,'createcamposjsv3')
-                body2=body2 + "       bitacora: { idempresa : this.userinfo[0].idempresa , idafiliado: '' ,\n"
+                body2=body2 + "       bitacora: { idempresa : this.userinfo[0].idempresa._id , idafiliado: '' ,\n"
                 body2=body2 + "       email: this.userinfo[0].email , permiso : this.lpermiso, accion: this.tituloxx}\n"
                 body2=body2 + "   };\n"
                 
@@ -1573,7 +2801,136 @@ generafile(body2,"tmp/"+op+"-list/"+op+"-list.page.ts");
 
                 body2=body2 + "  }\n"
                 
-                
+                }
+
+                body2=body2 + "  async dacomponente(op, op2) {\n"
+                body2=body2 + "        let uub = '';\n"
+                body2=body2 + "        if ( op === 'ubicacion') {uub = this.Form.controls['ubicacion'].value; }\n"
+                body2=body2 + "        const modal = await this.modalController.create({\n"
+                body2=body2 + "          component: MyModalPage,      swipeToClose: false,    backdropDismiss: false,     animated: true,\n"
+                body2=body2 + "          presentingElement: await this.modalController.getTop(),\n"
+                body2=body2 + "          componentProps:  { variables:  this.variables, record: null, userinfo: this.userinfo, uubx : uub}\n"
+                body2=body2 + "          // , cssClass: 'modal-fullscreen'\n"
+                body2=body2 + "        });\n"
+                body2=body2 + "        modal.onWillDismiss().then((data) => {\n"
+                body2=body2 + "             if ( data.data === 'close' ) {     }      else      {\n"
+
+                body2=body2 + "             if (op === 'direccion') {\n"
+                body2=body2 + "              this.Form.controls['direccion'].setValue(data.data.direccion);\n"
+                body2=body2 + "             } else {\n"
+                body2=body2 + "              this.Form.controls['ubicacion'].setValue(data.data.direccion + ' {' + data.data.la + '°' + data.data.lo + '}');\n"
+
+                body2=body2 + "             }\n"
+
+
+
+                body2=body2 + "            }\n"
+                body2=body2 + "        });\n"
+                body2=body2 + "return await modal.present();\n"
+
+                body2=body2 + "      }\n"
+body2=body2 + "  /*************************************************+++++FOTOS */\n"
+                body2=body2 + "  async takePicture(op) {\n"
+                body2=body2 + "  const image = await Plugins.Camera.getPhoto({\n"
+                body2=body2 + "  correctOrientation: true,\n"
+                body2=body2 + "            height: 200,\n"
+                body2=body2 + "            width: 200,\n"
+                body2=body2 + "                quality: 60,\n"
+                body2=body2 + "  allowEditing: true,\n"
+                body2=body2 + "            resultType: CameraResultType.DataUrl,\n"
+                body2=body2 + "            source: CameraSource.Camera\n"
+                body2=body2 + "          });\n"
+                body2=body2 + "          this.authenticationService.generateFromImage(image.dataUrl, 200, 200, 0.5, data => {\n"
+                body2=body2 + "            switch (op) {\n"
+                body2=body2 + "              case 'fotoa': this.fotoimg = data;   this.Form.controls['foto'].setValue( this.authenticationService.procesafoto(this.Form.controls['foto'].value)); break;\n"
+                body2=body2 + "                default:\n"
+                body2=body2 + "            }\n"
+                body2=body2 + "        });\n"
+                body2=body2 + "        }\n"
+                body2=body2 + "  uploadPWA2(op , controlx) {\n"
+                body2=body2 + "         const fileList: FileList = controlx;\n"
+                body2=body2 + "         if (fileList && fileList.length > 0) {\n"
+                body2=body2 + "                 this.firstFileToBase64(fileList[0]).then((result: string) => {\n"
+                body2=body2 + "                 this.authenticationService.generateFromImage(result, 200, 300, 0.5, data => {\n"
+                body2=body2 + "                 switch (op) {\n"
+                body2=body2 + "                         case 'fotoa':  this.fotoimg = data;    this.Form.controls['foto'].setValue( this.authenticationService.procesafoto(this.Form.controls['foto'].value)); break;\n"
+                body2=body2 + "                          default:\n"
+                body2=body2 + "                  }\n"
+                body2=body2 + "                 });\n"
+                body2=body2 + "                 }, (err: any) => {\n"
+                body2=body2 + "                 switch (op) {\n"
+                body2=body2 + "                 case 'fotoa':  this.fotoimg = null;  this.Form.controls['foto1'].setValue('');  break;\n"
+                body2=body2 + "                 default:\n"
+                body2=body2 + "                 }\n"
+                body2=body2 + "                 });\n"
+                body2=body2 + "  }}\n"
+           
+                body2=body2 + "  uploadPWA(op) {\n"
+                body2=body2 + "  switch (op) {\n"
+                body2=body2 + "  case 'fotoa':  if (this.fotoa == null ) { return;}\n"
+                body2=body2 + "  this.uploadPWA2(op , this.fotoa.nativeElement.files); break;\n"
+                body2=body2 + "  default:\n"
+                body2=body2 + "  }\n"
+                body2=body2 + "  }\n"
+                body2=body2 + "  private firstFileToBase64(fileImage: File): Promise<{}> {\n"
+                body2=body2 + "  return new Promise((resolve, reject) => {\n"
+                body2=body2 + "  const fileReader: FileReader = new FileReader();\n"
+                body2=body2 + "  if (fileReader && fileImage != null) {\n"
+                body2=body2 + "  fileReader.readAsDataURL(fileImage);\n"
+                body2=body2 + "  fileReader.onload = () => {\n"
+                body2=body2 + "  resolve(fileReader.result);\n"
+                body2=body2 + "  };\n"
+                body2=body2 + "  fileReader.onerror = (error) => {\n"
+                body2=body2 + "  reject(error);\n"
+                body2=body2 + "  };\n"
+                body2=body2 + "  } else {\n"
+                body2=body2 + "  reject(new Error('No file found'));\n"
+                body2=body2 + "  }\n"
+                body2=body2 + "  });\n"
+                body2=body2 + "  }\n"
+                body2=body2 + "        async takePicture2(op) {\n"
+                body2=body2 + "  if ( op === 'fotoa')  {     this.fotoa.nativeElement.click();  }\n"
+                body2=body2 + "        }\n"
+                body2=body2 + "        async fotodatos( op ) {\n"
+                body2=body2 + "          const actionSheet = await this.actionSheetController.create({\n"
+                body2=body2 + "            header: 'Foto',\n"
+                body2=body2 + "            cssClass: 'my-custom-class',\n"
+                body2=body2 + "            buttons: [{   text: 'Galeria',  role: 'destructive',  icon: 'image-outline',\n"
+                body2=body2 + "              handler: () => {\n"
+                body2=body2 + "                this.takePicture2(op);\n"
+                body2=body2 + "              }\n"
+                body2=body2 + "            }, {\n"
+                body2=body2 + "              text: 'Camara',\n"
+                body2=body2 + "              icon: 'camera-outline',\n"
+                body2=body2 + "              handler: () => {\n"
+                body2=body2 + "                this.takePicture(op);\n"
+                body2=body2 + "              }\n"
+                body2=body2 + "            }]\n"
+                body2=body2 + "          });\n"
+                body2=body2 + "          await actionSheet.present();\n"
+                body2=body2 + "        }\n"
+                body2=body2 + "      /****************************************COMBO DE DATOS */\n"
+                body2=body2 + "      async combodatos( op ,  catalogot, frmt, comp, labelx,sigraba) {\n"
+                body2=body2 + "          const modal = await this.modalController.create({\n"
+                body2=body2 + "            component: MyModalComboPage,   swipeToClose: false,     backdropDismiss: false,    animated: true,\n"
+                body2=body2 + "            presentingElement: await this.modalController.getTop(),\n"
+                body2=body2 + "            componentProps: {grabax: sigraba , variables:  this.variables, userinfo: this.userinfo\n"
+                body2=body2 + "              ,  record2 : null , op:  catalogot, frm: frmt, idllave : this.idllave, titlex: 'Buscar ' + labelx}\n"
+                body2=body2 + "            // , cssClass: 'modal-fullscreen'\n"
+                body2=body2 + "          });\n"
+                body2=body2 + "          modal.onWillDismiss().then((data) => {\n"
+                body2=body2 + "            let datax: any = [];\n"
+                body2=body2 + "            datax = data;\n"
+
+
+
+                body2=body2 + "    if (datax.data !==  'close')       {\n        if (datax.data) {this.Form.controls[comp].setValue(datax.data.nombre);\n"
+                body2=body2 + "            //  this.Form.controls[comp].id = datax.data._id\n"
+                body2=body2 + "            } else {        this.Form.controls[comp].setValue('');       }\n"
+                body2=body2 + "          }\n});\n"
+                body2=body2 + "          return await modal.present();\n"
+                body2=body2 + "        }\n"
+    
                 
                 body2=body2 + "}\n"
                 
@@ -1586,13 +2943,13 @@ generafile(body2,"tmp/"+op+"-list/"+op+"-list.page.ts");
 exports.getCombofijo = function(req, res, next){
        var sql='';
 
-       console.log(req.params)
+       
 
        switch(req.params.id) {
     
         case 'generamod':
                 res.writeHead(200, { 'Content-Type': 'text/plain; charset=UTF-8' });
-                res.write(buildHtml(req.params.id2,req.params.id3));
+                res.write(buildHtml(req.params.id2,req.params.id3,req.params.id4));
                 res.end();
          
                 break;
@@ -1737,6 +3094,7 @@ exports.getCombofijo = function(req, res, next){
                                                                                                                                                                 "sexo" : "Masculino", 
                                                                                                                                                                 "estado" : "Activo", 
                                                                                                                                                                 "nov" : "", 
+                                                                                                                                                                "idasociado" : "", 
                                                                                                                                                                 "unidad" : xcatuni2._id, 
                                                                                                                                                                 "codpersonal" : "123", 
                                                                                                                                                                 "interno" : "0", 

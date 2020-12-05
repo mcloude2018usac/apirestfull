@@ -5,7 +5,7 @@ var Asignapcb = require('../models/asignapcb');
 
 exports.getEstudiantepcb = function(req, res, next){
 
-    console.log(req.params)
+    
     if(req.params.id3)
     {
         console.log('entraaaaaaaaaaaaa')

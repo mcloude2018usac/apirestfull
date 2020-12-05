@@ -5,7 +5,7 @@ var Bitacora = require('../../models/bitacora');
 exports.getConveniocalusacd2 = function(req, res, next){
        if(req.params.id3)
         {  
-           console.log(req.params)
+           
             if(req.params.id3=='todos')
             {
                 Conveniocalusacd2.find({idempresa:req.params.id}).
@@ -77,7 +77,7 @@ if(req.params.recordID!=='crea')
     if(req.body.operacion=='ordenpago')
     {
     
-        console.log(req.body)
+        
         Conveniocalusacd2.findById({ _id: req.params.recordID }, function (err, todo)  {
             if (err) {  res.send(err);  }
             else

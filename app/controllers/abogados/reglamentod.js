@@ -4,8 +4,6 @@ var Reglamento = require('../../models/abogados/reglamneto');
 var Bitacora = require('../../models/bitacora');
 
 
-//db.getCollection('carnes').find({ correo: {  $ne: null }}).count()
-
 var datipo = function(str,vector) {
    var re='';
    for(var i = 0; i < vector.length;i++){

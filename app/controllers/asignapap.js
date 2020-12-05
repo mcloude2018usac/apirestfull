@@ -135,13 +135,7 @@ exports.getAsignapap = function(req, res, next){
 
         if(req.params.id=='noboleta')
         {
-           console.log({  $or : [
-            { $and : [ { noboleta: req.params.id2 }] },
-            { $and : [ {  cui : req.params.id2 }] },
-            { $and : [ { nov : req.params.id2 }] },
-            { $and : [ { correo : req.params.id2 }] },
-            { $and : [ { carne : req.params.id2 }]  }]
-        })
+        
             Asignapap.find({  $or : [
                 { $and : [ { noboleta: req.params.id2 }] },
                 { $and : [ {  cui : req.params.id2 }] },
@@ -305,7 +299,7 @@ exports.creaAsignapap2s = function(req, res, next){
  
     Bitacora.create(req.body.bitacora);
 
-    console.log(req.params.recordID);
+   
 if(req.body.operacion=='finaliza')
 { 
     Asignapap.findById({ _id: req.params.recordID }, function (err, todo)  {
@@ -428,7 +422,7 @@ else
             , function(err, todos) {
             if (err){ res.status(500).send(err.message)    }
 
-  console.log(todos)
+
  
                     if(todos.length==0)   {  
                         res.status(500).send('No existe Asignación en sistema'); 
@@ -459,10 +453,9 @@ else
 
               }
             
-              console.log(myData0)
+   
 
-              console.log({'idtipounidad.nombre'        	: 'PAP'      	,
-              'idunidadacademica.codigo'        	: '10'})
+          
 
 
             Facplan.find({'idtipounidad.nombre'        	: 'PAP'      	,
@@ -480,7 +473,7 @@ else
                 }
             
 
-                console.log(myData)
+             
                 var myData3 = [];
                 var myData3aa = [];
                 var myData0a =  myData0;
@@ -533,7 +526,7 @@ else
             
               }
             
-        console.log(myData3aa)
+    
 
             if(myData3aa.length>0)
             { 
@@ -560,7 +553,7 @@ else
             }
             else
             {
-                console.log('entra')
+               
                 getNextSequenceValue(myData3,myData3aa,req,res,todos);
                 res.json(todos);
             }

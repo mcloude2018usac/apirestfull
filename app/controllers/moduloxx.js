@@ -15,10 +15,24 @@ exports.getModuloxx = function(req, res, next){
              });
         }
         else{
-            Moduloxx.find({idempresa:req.params.id3}).sort([['index', -1]]).exec(function(err, todos) {
-                if (err){  res.send(err);  }
-                 res.json(todos);
-             });
+
+            if(req.params.id2=='todos')
+            { 
+                console.log({idempresa:req.params.id3})
+                Moduloxx.find({idempresa:req.params.id3}).sort([['index', 1]]).exec(function(err, todos) {
+                    if (err){  res.send(err);  }
+                     res.json(todos);
+                 });
+            }
+            else
+            {
+                Moduloxx.find({idempresa:req.params.id3,estado:req.params.id2}).sort([['index', 1]]).exec(function(err, todos) {
+                    if (err){  res.send(err);  }
+                     res.json(todos);
+                 });
+
+            }
+          
 
         }
       

@@ -75,7 +75,7 @@ exports.putImagessls = function(req, res, next){
 
         todo.save(function (err, todo){
         
-            /* If we encounter an error send the details as a HTTP response */
+            
             if (err)
         {
             res.status(500).send(err)

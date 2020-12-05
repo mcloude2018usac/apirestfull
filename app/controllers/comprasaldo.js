@@ -73,7 +73,7 @@ exports.getComprasaldo = function(req, res, next){
 
 
             }
-console.log(filtro)
+
             Personalhis.aggregate([
                 { $match: filtro},
             
@@ -173,7 +173,7 @@ console.log(filtro)
     if(req.params.id3)
     {   if(req.params.id3=='PAGO0')
     {
-console.log({'idsuscriptor.id':req.params.id,grupo1:req.params.id2})
+
         Personalhis.find({'idsuscriptor.id':req.params.id,grupo1:req.params.id2}).sort([['createdAt', -1]]).exec(function(err, todos) {
             if (err){ res.send(err); }
             var myData3 = [];
@@ -192,7 +192,7 @@ console.log({'idsuscriptor.id':req.params.id,grupo1:req.params.id2})
     else{
         if(req.params.id3=='PAGO')
         {
-console.log({'idsuscriptor.id':req.params.id,grupo1:req.params.id2})
+
             Personalhis.find({'idsuscriptor.id':req.params.id,grupo1:req.params.id2}).sort([['createdAt', -1]]).exec(function(err, todos) {
                 if (err){ res.send(err); }
                 var myData3 = [];
@@ -212,7 +212,7 @@ console.log({'idsuscriptor.id':req.params.id,grupo1:req.params.id2})
             if(req.params.id3=='TRANSFERENCIA')
             {
 
-                console.log({'idsuscriptor2.id':req.params.id,grupo2:req.params.id2})
+             
                 Personalhis.find({'idsuscriptor2.id':req.params.id,grupo2:req.params.id2}).sort([['createdAt', -1]]).exec(function(err, todos) {
                     if (err){ res.send(err); }
                     var myData3 = [];
@@ -231,7 +231,7 @@ console.log({'idsuscriptor.id':req.params.id,grupo1:req.params.id2})
             if(req.params.id3=='COBRO')
             {
 
-                console.log({'idsuscriptor2.id':req.params.id,grupo2:req.params.id2})
+              
                 Personalhis.find({'idsuscriptor2.id':req.params.id,grupo2:req.params.id2}).sort([['createdAt', -1]]).exec(function(err, todos) {
                     if (err){ res.send(err); }
                     var myData3 = [];
@@ -325,13 +325,13 @@ exports.creaComprasaldo2s = function(req, res, next){
     
             if(todos.length>0)   { 
           
-                console.log('pasa1')
+             
                        
                 Personalsaldo.findById({ _id:todos[0]._id }, function (err, todo)  {
             if (err) {  res.send(err);  }
             else
             { 
-                console.log('pasa2')
+               
                 
                 if(Number(todos[0].saldoactual)>=Number(req.body.monto))
                 {
@@ -424,13 +424,13 @@ exports.creaComprasaldo2s = function(req, res, next){
     
             if(todos.length>0)   { 
           
-                console.log('pasa1')
+              
                        
                 Personalsaldo.findById({ _id:todos[0]._id }, function (err, todo)  {
             if (err) {  res.send(err);  }
             else
             { 
-                console.log('pasa2')
+               
                 
                 if(Number(todos[0].saldoactual)>=Number(req.body.monto))
                 {
@@ -555,13 +555,13 @@ if(req.body.operacion=='pagaservicio')
 
         if(todos.length>0)   { 
       
-            console.log('pasa1')
+            
                    
             Personalsaldo.findById({ _id:todos[0]._id }, function (err, todo)  {
         if (err) {  res.send(err);  }
         else
         { 
-            console.log('pasa2')
+            
             
             if(Number(todos[0].saldoactual)>=Number(req.body.monto))
             {
@@ -669,14 +669,13 @@ if(req.params.recordID!=='crea')
 }
 else{
 
-console.log({'idsuscriptor.id':req.body.idsuscriptor.id,    idempresa        	: req.body.idempresa        	})
 
     Personalsaldo.find({'idsuscriptor.id':req.body.idsuscriptor.id,    idempresa        	: req.body.idempresa        	})
                 .populate('idsuscriptor.id').exec(function(err, todos) {
         if (err) {  res.send(err);  }
         else
         { 
-          console.log(todos)
+       
             Personalsaldo.findById({ _id:todos[0]._id }, function (err, todo3)  {
                 if (err) {  res.send(err);  }
                 else

@@ -69,7 +69,7 @@ exports.creaConveniocalusac2s = function(req, res, next){
     if(req.body.operacion=='ordenpago')
     {
     
-        console.log(req.body)
+        
         Conveniocalusac.findById({ _id: req.params.recordID }, function (err, todo)  {
             if (err) {  res.send(err);  }
             else

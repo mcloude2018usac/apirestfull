@@ -452,7 +452,7 @@ exports.getAsignaubicaciona = function(req, res, next){
     else{
     if(req.params.id3)
     { 
-        console.log(req.params)
+        
         switch(req.params.id3) {
             case 'todosautorizaxid':
                 Asignaubicaciona.find({userasignadoemail:req.params.id,"estadooperador" : req.params.id2}).populate('tipopago').exec(function(err, todos) {
@@ -1140,7 +1140,7 @@ exports.creaAsignaubicaciona2s = function(req, res, next){
    //  return;
 
   
-console.log(req.params)
+
 if(req.body.operacion=='actualizadatos')
 { 
 
@@ -1232,7 +1232,7 @@ console.log({ _id: req.params.recordID })
         else
         {
            
-             console.log(req.body);
+             ;
                 todo100.n1=req.body.n1,
                 todo100.n2= req.body.n2,
                 todo100.n3= req.body.n3,
@@ -1305,7 +1305,7 @@ if(req.params.recordID!=='crea')
     
 }
 else{
-    console.log(req.body)
+    
     Bitacora.create(req.body.bitacora);
         
             var filtro;

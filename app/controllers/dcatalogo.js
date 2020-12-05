@@ -35,7 +35,7 @@ console.log({tipo:req.params.id,idempresa:req.params.id2,nombre:req.params.id3})
     {
     if(req.params.id3)
     { 
-console.log(req.params)
+
         catalogo.find({tipo:req.params.id,idempresa:req.params.id2,estado:'Activo'},function(err, todos) {
             if (err){ res.send(err); }
            
@@ -57,7 +57,7 @@ console.log(req.params)
 
     }
     else{
-        console.log(req.params)
+        
 
      Dcatalogo.find({idcatalogo:req.params.id},function(err, todos) {
                if (err){  res.send(err);  }

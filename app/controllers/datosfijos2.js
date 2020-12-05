@@ -425,7 +425,7 @@ else
 {
 if(req.params.id3)
 {
-        console.log(req.params)
+        
         switch(req.params.id3) {
                 case 'diasfestivos':
                         res.json([{}]);

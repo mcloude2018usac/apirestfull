@@ -2,10 +2,10 @@ var Compratoken = require('../models/compratoken');
 var Bitacora = require('../models/bitacora');
 
 exports.getCompratoken = function(req, res, next){
-    console.log(req.params)
+   
     if(req.params.id4)
     {               if(req.params.id2=='0' )
-    { console.log({idempresa:req.params.id3,estado:req.params.id2,tipo:req.params.id4,usertrasferencia:req.params.id })
+    { 
         Compratoken.find({idempresa:req.params.id3,estado:req.params.id2,tipo:req.params.id4,usertrasferencia:req.params.id }).sort({'_id': -1}).exec(function(err, todos) {
                 if (err){  res.send(err);  }
                  res.json(todos);
@@ -14,7 +14,7 @@ exports.getCompratoken = function(req, res, next){
     else
     {
             if(req.params.id2=='1')
-            { console.log({idempresa:req.params.id3,estado:'20',tipo:req.params.id4,usertrasferencia:req.params.id })
+            {
                 Compratoken.find({idempresa:req.params.id3,estado:'20',tipo:req.params.id4,usertrasferencia:req.params.id }).sort({'_id': -1}).exec(function(err, todos) {
                         if (err){  res.send(err);  }
                          res.json(todos);
@@ -24,8 +24,6 @@ exports.getCompratoken = function(req, res, next){
             {
                 if(req.params.id2=='-1')
                 { 
-                    console.log('entre')
-                    console.log({idempresa:req.params.id3,estado:req.params.id2,tipo:req.params.id4,usertrasferencia:req.params.id })
                     Compratoken.find({idempresa:req.params.id3,estado:req.params.id2,tipo:req.params.id4,usertrasferencia:req.params.id }).sort({'_id': -1}).exec(function(err, todos) {
                             if (err){  res.send(err);  }
                              res.json(todos);
@@ -43,10 +41,10 @@ exports.getCompratoken = function(req, res, next){
     else
     {
     if(req.params.id2)
-    {console.log({_id:req.params.id})
+    {
         Compratoken.find({_id:req.params.id},function(err, todos) {
             if (err){ res.send(err); }
-console.log(todos)
+
             res.json(todos);
         
             
@@ -112,7 +110,7 @@ else{
               }
                 , function(err, todo) {
                 if (err){ 
-                    console.log(err);
+                  
                     res.status(500).send(err.message)  ;  }
             
                 res.json(todo);

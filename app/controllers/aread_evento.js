@@ -74,7 +74,6 @@ exports.deleteArea_evento = function(req, res, next){
 exports.creaArea_evento2s = function(req, res, next){
    
  
-console.log(req.params)
 
     if(req.params. recordID!=='crea')
     {  Bitacora.create(req.body.bitacora);
@@ -112,7 +111,7 @@ console.log(req.params)
     else{
 
 
-         console.log(req.body)
+      
 
         Bitacora.create(req.body.bitacora);
     Area_evento.create({  

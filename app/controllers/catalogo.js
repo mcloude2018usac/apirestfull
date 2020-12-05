@@ -2,15 +2,14 @@ var Catalogo = require('../models/catalogo');
 var Bitacora = require('../models/bitacora');
 
 exports.getCatalogo = function(req, res, next){
-    console.log(req.params)
+   
     if(req.params.id3)
     { //req.params.id=='UNIDADES' &&
-    console.log(req.params)
-
+  
     if(req.params.id=='GRUPOSEVENTOS')
     {
 
-        console.log({tipo:req.params.id,nombre:req.params.id2,idempresa:req.params.id3})
+     
         Catalogo.find({tipo:req.params.id,nombre:req.params.id2,idempresa:req.params.id3},function(err, todos) {
             if (err){ res.send(err); }
            
