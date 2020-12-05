@@ -76,7 +76,7 @@ if(req.params.recordID!=='crea')
  todo.filtro       	=	req.body.filtro        ;   
  todo.reporte       	=	req.body.reporte        ;   
 
- 
+ todo.generareporte		= req.body.generareporte	;   
  todo.imprimeorden		= req.body.imprimeorden	;   
  todo.finalizaorden  	= req.body.finalizaorden	;   
  todo.eliminaorden   	= req.body.eliminaorden	;   
@@ -127,7 +127,7 @@ else{
   reporte     	: req.body.reporte    	,
   estado     	: req.body.estado    	,
   verregistros	: req.body.verregistros	,
-
+  generareporte:req.body.generareporte	,
    
  imprimeorden	: req.body.imprimeorden	,
  finalizaorden  	: req.body.finalizaorden	,

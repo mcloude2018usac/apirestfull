@@ -86,7 +86,7 @@ exports.deleteEmpresa = function(req, res, next){
 exports.creaEmpresa2s = function(req, res, next){
    
  
-    Bitacora.create(req.body.bitacora);
+ //   Bitacora.create(req.body.bitacora);
 
 if(req.params.recordID!=='crea')
 { 
@@ -139,7 +139,7 @@ if(req.params.recordID!=='crea')
 else{
    
     Empresa.create({ 
-       _id:'5f503bededa4710798a79b84',
+   //    _id:'5f503bededa4710798a79b84',
          idempresa0     	: req.body.idempresa0    	,
          nombre     	: req.body.nombre    	,
          nombrecorto     	: req.body.nombrecorto    	,
@@ -259,7 +259,7 @@ else{
                     Formcat.create({      "idempresa" : idempresa,    "idunidad" : "1000-type-plantilla",    "nombre" : "Etiqueta",    "usuarionew" :  req.body.email,    "createdAt" : ("2020-08-09T14:31:19.253Z"),    "updatedAt" : ("2020-08-09T14:31:19.253Z"),    "__v" : 0,    "idunidad2" : ""});
                     Formcat.create({      "idempresa" : idempresa,    "idunidad" : "1000-type-plantilla",    "nombre" : "Hora",    "usuarionew" :  req.body.email,    "createdAt" : ("2020-08-09T14:31:28.048Z"),    "updatedAt" : ("2020-08-09T14:31:28.048Z"),    "__v" : 0,    "idunidad2" : ""});
                     Formcat.create({      "idempresa" : idempresa,    "idunidad" : "1000-type-plantilla",    "nombre" : "Formulario detalle",    "usuarionew" :  req.body.email,    "createdAt" : ("2020-08-09T14:31:43.397Z"),    "updatedAt" : ("2020-08-09T14:31:43.397Z"),    "__v" : 0,    "idunidad2" : ""});
-
+                    Formcat.create({      "idempresa" : idempresa,    "idunidad" : "1000-type-plantilla",    "nombre" : "Documento detalle",    "usuarionew" :  req.body.email,    "createdAt" : ("2020-08-09T14:31:43.397Z"),    "updatedAt" : ("2020-08-09T14:31:43.397Z"),    "__v" : 0,    "idunidad2" : ""});
 
                     Formcat.create({                    
                         "idempresa" : idempresa,

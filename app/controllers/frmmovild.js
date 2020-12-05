@@ -69,7 +69,7 @@ exports.getFrmmovild = function(req, res, next){
                 
             });
             case 'camposformulario':
-                console.log({idmovil:req.params.id})
+                
                 Frmmovild.find({idmovil:req.params.id}).sort([['order', 1]]).exec(function(err, todos) {
                   if (err){ res.send(err); }
               
@@ -130,6 +130,7 @@ exports.creaFrmmovild2s = function(req, res, next){
     Bitacora.create(req.body.bitacora);
 if(req.params.id!=='crea')
 { 
+
     Frmmovild.findById({ _id: req.params.id }, function (err, todo)  {
         if (err) {  res.send(err);  }
         else
@@ -148,6 +149,8 @@ if(req.params.id!=='crea')
             todo.display		=	    rr        	   	||	todo.display   	;
             todo.selected		=	req.body.selected           	;
             todo.default		=	req.body.default        	||	todo.default        	;
+            todo.default2		=	req.body.default2        	||	todo.default2        	;
+            todo.default3		=	req.body.default3        	||	todo.default3        	;
             todo.disabled		=	req.body.disabled        		;
             todo.hidden		=	    req.body.hidden             	;
             todo.position		=	req.body.position        	||	todo.position        	;
@@ -175,19 +178,20 @@ if(req.params.id!=='crea')
 
             todo.maxnumregistros=req.body.maxnumregistros        	||	todo.maxnumregistros        	;
             
-
+            todo.idcampofiltro =req.body.idcampofiltro        	       	;
+            todo.idcampofiltro2 =req.body.idcampofiltro2         	;
             todo.valor=req.body.valor        	||	todo.valor        	;
-            todo.idfrmconsultaorigen =req.body.idfrmconsultaorigen        	||	todo.idfrmconsultaorigen        	;
-            todo.idfrmconsulta2origen=req.body.idfrmconsulta2origen        	||	todo.idfrmconsulta2origen        	;
-            todo.nombreconsulta2origen=req.body.nombreconsulta2origen        	||	todo.nombreconsulta2origen        	;
-            todo.idcampofiltro=req.body.idcampofiltro        	||	todo.idcampofiltro        	;
-            todo.idcampofiltropapa=req.body.idcampofiltropapa        	||	todo.idcampofiltropapa        	;
-            todo.idcampofiltromanual=req.body.idcampofiltromanual        	||	todo.idcampofiltromanual        	;
-            todo.idfrmconsultaorigenpapa =req.body.idfrmconsultaorigenpapa        	||	todo.idfrmconsultaorigenpapa        	;
-            todo.idfrmconsulta=req.body.idfrmconsulta        	||	todo.idfrmconsulta        	;
+            todo.idfrmconsultaorigen =req.body.idfrmconsultaorigen              	;
+            todo.idfrmconsulta2origen=req.body.idfrmconsulta2origen           ;
+            todo.nombreconsulta2origen=req.body.nombreconsulta2origen        	        	;
+            todo.idcampofiltro=req.body.idcampofiltro        	      	;
+            todo.idcampofiltropapa=req.body.idcampofiltropapa         	;
+            todo.idcampofiltromanual=req.body.idcampofiltromanual        	      	;
+            todo.idfrmconsultaorigenpapa =req.body.idfrmconsultaorigenpapa        	     	;
+            todo.idfrmconsulta=req.body.idfrmconsulta              	;
           
-            todo.idfrmconsulta2=req.body.idfrmconsulta2        	||	todo.idfrmconsulta2        	;
-            todo.nombreconsulta2=req.body.nombreconsulta2        	||	todo.nombreconsulta2        	;
+            todo.idfrmconsulta2=req.body.idfrmconsulta2        	    	;
+            todo.nombreconsulta2=req.body.nombreconsulta2               	;
             
             todo.usuarioup=req.body.bitacora.email;
             
@@ -229,6 +233,8 @@ else{
                         title :req.body.title 	,
                         estado 	: req.body.estado 	,
                         default 	: '' 	,
+                        default2 	: '' 	,
+                        default3 	: '' 	,
                         
                         idfrmconsultaorigen:req.body.idfrmconsultaorigen,
                         idfrmconsulta2origen:req.body.idfrmconsulta2origen,
@@ -250,6 +256,7 @@ else{
                         coloretiqueta:  'cco104',
                         idformdetalle:'',
                         idcampofiltro:'',
+                        idcampofiltro2:'',
                         idcampofiltropapa:'',
                         idcampofiltromanual:'',
                         position : req.body.position 	,
@@ -288,7 +295,7 @@ exports.creaFrmmovild3s = function(req, res, next){
    
  
     Bitacora.create(req.body.bitacora);
-    console.log( req.params)
+  
 if(req.params.id!=='crea')
 { 
    

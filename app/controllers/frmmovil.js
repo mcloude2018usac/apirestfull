@@ -59,7 +59,7 @@ switch(value) {
    case 'Hora':   tt='Date';   break;
    case 'Check':   tt='String';   break;
    case 'Imagen':   tt='String';   break;
-   
+   case 'Documento':   tt='String';   break;
     default:
       // code block
   }
@@ -83,6 +83,7 @@ switch(value) {
        case 'Hora':   tt='hora';   break;
        case 'Check':   tt='check';   break;
        case 'Imagen':   tt='imagen';   break;
+       case 'Documento':   tt='documento';   break;
         default:
           // code block
       }
@@ -296,6 +297,18 @@ function dafiltrocad(todos,id2,id3) {
                    cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
                }
                 break;
+                case 'Documento': 
+                if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+                else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+                if(todos[i].required=='false')
+                {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+                }
+                else
+                {
+                   
+                    cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+                }
+                 break;
          case 'Alfanumerico': 
          if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
          else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
@@ -629,7 +642,7 @@ exports.getFrmmovil = function(req, res, next){
                                   {
                                     filtro='{' + arremp[1] + '°' + arremp[2] + '°' + arremp[3] + '}'
                                   }
-                                       
+                                       console.log(filtro)
                                    
                                         cad=cad3[0]
                                         cadxx='{'+ cad3[1] + '}'
@@ -657,7 +670,7 @@ exports.getFrmmovil = function(req, res, next){
                                               for(var i = 0; i < todos2.length;i++){
                                                 var nombret ='';
                                                 for(var j = 0; j < myDatavector.length;j++){
-                                                    nombret = nombret + myDatavector[j] + ': ' +  todos2[i][myDatavector[j]]  + '°'
+                                                    nombret = nombret + myDatavector[j].split('°')[1] + ': ' +  todos2[i][myDatavector[j].split('°')[0]]  + '°'
                                                 }
                                                 myData.push({_id:todos2[i]._id , nombre: nombret })
 
@@ -679,7 +692,7 @@ exports.getFrmmovil = function(req, res, next){
                                                for(var i = 0; i < todos2.length;i++){
                                                  var nombret ='';
                                                  for(var j = 0; j < myDatavector.length;j++){
-                                                     nombret = nombret + myDatavector[j] + ': ' +  todos2[i][myDatavector[j]]  + ' , '
+                                                     nombret = nombret + myDatavector[j].split('°')[1] + ': ' +  todos2[i][myDatavector[j]].split('°')[0]  + ' , '
                                                  }
                                                  myData.push({_id:todos2[i]._id , nombre: nombret })
  
@@ -871,6 +884,145 @@ console.log('unnnnnnnnn registro')
             }
             else
             {
+                if(req.params.id4=='registromovilxidpapa')
+                {
+        
+                    var namess=req.params.id
+                    var idbuscar=req.params.id2
+                    var arrt=req.params.id3.split('°')
+    console.log('unnnnnnnnn registro')
+        
+                    Frmmovild.find({idmovil:arrt[1], display : "true",idempresa:arrt[0]}).sort([['order', 1]]).exec(function(err, todos) {
+                        if (err){ res.send(err); }
+                      
+                 
+                                            if(todos.length>0)   {  
+                                           
+                                                var cad=''
+                                                var cadxx=''
+                                                var cad3=(dafiltrocad(todos,'','')).split('°')
+                                          
+                                                cad=cad3[0]
+                                              
+                                                cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                                cad='{' + cad + '}'
+                                               
+                                         
+                                                var jsonObject = stringToObject(cad);
+                                              
+                                                var mongoose = require("mongoose");
+                                                delete mongoose.connection.models[namess];
+                                                var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                                             //   console.log(tt)
+                                              //  console.log(namess)
+                                            
+                                                try {
+                                                    console.log(namess)
+                                                    console.log({_id:idbuscar})
+                                                    var  frmtt= mongoose.model(namess,tt);
+                                                    frmtt.find({idpapa:idbuscar} ,function(err, todos2) {
+                                                        if (err){  res.send(err); }
+                                                       
+        
+                                                        res.json(todos2);
+                                                      
+                                                    });
+                                                  } catch(e) {
+                                                    
+                                                    var  frmtt= mongoose.model(namess);
+                                          
+                                                    frmtt.find( {idpapa:idbuscar} ,function(err, todos2) {
+                                                         if (err){  res.send(err);
+                                                        }
+                                                 
+                                                      
+                                                        res.json(todos2);
+                                                     
+                                                     });
+                                                  }
+            
+            
+                                             
+                                
+                        }
+                    });
+            
+                    
+        
+        
+                }
+                else
+                {
+                    if(req.params.id4=='registromovilxperiodoyarray')
+                    {
+            
+                        var namess=req.params.id
+                        console.log(req.params.id2)
+                        var idbuscar=req.params.id2.split(';')
+                        var arrt=req.params.id3.split('°')
+        console.log('unnnnnnnnn registro')
+            
+                        Frmmovild.find({idmovil:arrt[1], display : "true",idempresa:arrt[0]}).sort([['order', 1]]).exec(function(err, todos) {
+                            if (err){ res.send(err); }
+                          
+                     
+                                                if(todos.length>0)   {  
+                                               
+                                                    var cad=''
+                                                    var cadxx=''
+                                                    var cad3=(dafiltrocad(todos,'','')).split('°')
+                                              
+                                                    cad=cad3[0]
+                                                  
+                                                    cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                                    cad='{' + cad + '}'
+                                                   
+                                             
+                                                    var jsonObject = stringToObject(cad);
+                                                  
+                                                    var mongoose = require("mongoose");
+                                                    delete mongoose.connection.models[namess];
+                                                    var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                                                 //   console.log(tt)
+                                                  //  console.log(namess)
+                                                
+                                                    try {
+                                                        console.log({idpapa:{$in:idbuscar}, periodopago:arrt[2]})
+                                                  
+                                                        var  frmtt= mongoose.model(namess,tt);
+                                                        frmtt.find({idpapa:{$in:idbuscar}, periodopago:arrt[2]} ,function(err, todos2) {
+                                                            if (err){  res.send(err); }
+                                                           
+            
+                                                            res.json(todos2);
+                                                          
+                                                        });
+                                                      } catch(e) {
+                                                        
+                                                        var  frmtt= mongoose.model(namess);
+                                              
+                                                        frmtt.find( {idpapa:{$in:idbuscar}, periodopago:arrt[2]} ,function(err, todos2) {
+                                                             if (err){  res.send(err);
+                                                            }
+                                                     
+                                                          
+                                                            res.json(todos2);
+                                                         
+                                                         });
+                                                      }
+                
+                
+                                                 
+                                    
+                            }
+                        });
+                
+                        
+            
+            
+                    }
+                    else
+                    {
             if(req.params.id4=='unregistromovil')
             {
     
@@ -948,6 +1100,7 @@ console.log('unnnnnnnnn registro')
             var campost=req.params.id2
           
             var myDatavector = campost.split(',');
+
 //,_id:{$in: myData}
 
             Frmmovild.find({idmovil:req.params.id, display : "true",idempresa:req.params.id3}).sort([['order', 1]]).exec(function(err, todos) {
@@ -984,7 +1137,7 @@ console.log('unnnnnnnnn registro')
                                               for(var i = 0; i < todos2.length;i++){
                                                 var nombret ='';
                                                 for(var j = 0; j < myDatavector.length;j++){
-                                                    nombret = nombret + myDatavector[j] + ': ' +  todos2[i][myDatavector[j]]  + '°'
+                                                    nombret = nombret + myDatavector[j].split('°')[1] + ': ' +  todos2[i][myDatavector[j].split('°')[0]]  + '°'
                                                 }
                                                 myData.push({_id:todos2[i]._id , nombre: nombret })
 
@@ -1006,7 +1159,7 @@ console.log('unnnnnnnnn registro')
                                                for(var i = 0; i < todos2.length;i++){
                                                  var nombret ='';
                                                  for(var j = 0; j < myDatavector.length;j++){
-                                                     nombret = nombret + myDatavector[j] + ': ' +  todos2[i][myDatavector[j]]  + ' ° '
+                                                     nombret = nombret + myDatavector[j].split('°')[1] + ': ' +  todos2[i][myDatavector[j].split('°')[0]]  + ' ° '
                                                  }
                                                  myData.push({_id:todos2[i]._id , nombre: nombret })
  
@@ -1071,9 +1224,15 @@ console.log('unnnnnnnnn registro')
             }
 
                   frmmovil.find({idempresa:arr[0], tipo:arr[2],publico:'Si'}).exec(function(err, todosa) {
+                   
+       
+                    
+
+                  
                      formulariousr.find(filtro1).exec(function(err, todosb) {
-                         console.log(todosb)
+                  
                               if (err){  res.send(err);  }
+                              if( todosb.length<=0 && todosa.length<=0)             {               res.json([]);              }   else{
                               if(todosb.length>0 && todosa.length<=0)
                               {
                                 formulariousrd.find({idpapa:todosb[0]._id,idempresa:arr[0], tipo:arr[2]}).
@@ -1090,6 +1249,7 @@ console.log('unnnnnnnnn registro')
                                         {
                                             myData.push({_id:todos[i].idformulario._id,categoria:todos[i].idformulario.categoria,nombre:todos[i].idformulario.nombre,foto:todos[i].idformulario.foto,estado:todos[i].idformulario.estado ,verregistros:todos[i].verregistros,geoposicion:todos[i].idformulario.geoposicion ,tipo2:todos[i].idformulario.tipo2,ejecuta:todos[i].idformulario.ejecuta  ,tipo:todos[i].idformulario.tipo,permisos:{
                                                 pactualizacion:todos[i].actualizacion,  pconsulta:todos[i].consulta, 
+                                                generareporte:todos[i].generareporte, 
                                                 activas:todos[i].activas,cerradas:todos[i].cerradas,ejecutadas:todos[i].ejecutadas,
                                                         filtrarorden:todos[i].filtrarorden,pcreacion:todos[i].creacion, peliminacion:todos[i].eliminacion,  pfiltro:todos[i].filtro, pingreso:'true', reporte:todos[i].preporte,  potros1:'', imprimeorden	:todos[i].imprimeorden,  finalizaorden :todos[i].finalizaorden,  eliminaorden  :todos[i].eliminaorden,  trayectoriaorden:todos[i].trayectoriaorden,  documentacionorden:todos[i].documentacionorden,  pausarorden  :todos[i].pausarorden,  anularorden  :todos[i].anularorden,  fotosorden:todos[i].fotosorden, comentariosorden:todos[i].comentariosorden,  documentosorden :todos[i].documentosorden,  tareasorden  :todos[i].tareasorden,acciones:todos[i].acciones,publico:todos[i].idformulario.publico}});
                                         }
@@ -1109,10 +1269,10 @@ console.log('unnnnnnnnn registro')
                                                 });
                               }
                               else
-                              {
+                              {console.log('entraaaaaaaaaaaaaa')
                               if(todosb.length<=0 && todosa.length>0)
                               {// no tiene formularios detalle
-                             
+                             console.log('entraaaaaaaaaaa3')
                                     var myData = [];
                                     for(var i = 0; i < todosa.length;i++){
                                         if(todosa[i].categoria==req.params.id)
@@ -1124,6 +1284,7 @@ console.log('unnnnnnnnn registro')
                                     var myData2 = [];
                                                   for(var i = 0; i < unique.length;i++){
                                                      myData2.push({_id:unique[i]._id,tipo:unique[i].tipo,ejecuta:unique[i].ejecuta,tipo2:unique[i].tipo2,geoposicion:unique[i].geoposicion ,categoria:unique[i].categoria,nombre:unique[i].nombre,foto:unique[i].foto,estado:unique[i].estado ,verregistros:unique[i].verregistros,permisos:{pactualizacion:'true',  pconsulta:'true', pcreacion:'true', peliminacion:'true',  pfiltro:'true', pingreso:'true', reporte:'true',  potros1:'',
+                                                     generareporte:'', 
                                                      activas:'true',cerradas:'true',ejecutadas:'false',
                                                      filtrarorden:'false',
                                                      imprimeorden	:'true',  finalizaorden :'false',  eliminaorden  :'false',  trayectoriaorden:'true',  documentacionorden:'true',  pausarorden  :'false',  anularorden  :'false',  fotosorden:'true', comentariosorden:'true',  documentosorden :'true',  tareasorden  :'false',acciones:'true',publico:unique[i].publico}});
@@ -1149,6 +1310,7 @@ console.log('unnnnnnnnn registro')
                                                         myData.push({_id:todos[i].idformulario._id,categoria:todos[i].idformulario.categoria,nombre:todos[i].idformulario.nombre,foto:todos[i].idformulario.foto,estado:todos[i].idformulario.estado ,verregistros:todos[i].verregistros,geoposicion:todos[i].idformulario.geoposicion ,tipo2:todos[i].idformulario.tipo2,ejecuta:todos[i].idformulario.ejecuta  ,tipo:todos[i].idformulario.tipo,
                                                             pactualizacion:todos[i].actualizacion,  pconsulta:todos[i].consulta, 
                                                             activas:unique[i].activas,cerradas:unique[i].cerradas,ejecutadas:unique[i].ejecutadas,
+                                                            generareporte:unique[i].generareporte, 
                                                                     filtrarorden:unique[i].filtrarorden,pcreacion:todos[i].creacion, peliminacion:todos[i].eliminacion,  pfiltro:todos[i].filtro, pingreso:'true', reporte:todos[i].preporte,  potros1:'', imprimeorden	:todos[i].imprimeorden,  finalizaorden :todos[i].finalizaorden,  eliminaorden  :todos[i].eliminaorden,  trayectoriaorden:todos[i].trayectoriaorden,  documentacionorden:todos[i].documentacionorden,  pausarorden  :todos[i].pausarorden,  anularorden  :todos[i].anularorden,  fotosorden:todos[i].fotosorden, comentariosorden:todos[i].comentariosorden,  documentosorden :todos[i].documentosorden,  tareasorden  :todos[i].tareasorden,acciones:todos[i].acciones,publico:todos[i].idformulario.publico});
                                                     }
                                                     
@@ -1171,6 +1333,7 @@ console.log('unnnnnnnnn registro')
                                                         {
                                                         myData.push({_id:todosa[i]._id,categoria:todosa[i].categoria,nombre:todosa[i].nombre,foto:todosa[i].foto,estado:todosa[i].estado ,verregistros:todosa[i].verregistros,geoposicion:todosa[i].geoposicion ,tipo2:todosa[i].tipo2,ejecuta:todosa[i].ejecuta  ,tipo:todosa[i].tipo,
                                                             pactualizacion:'true',  pconsulta:'true', pcreacion:'true', peliminacion:'true',  pfiltro:'true', pingreso:'true', reporte:'true',
+                                                            generareporte:'', 
                                                             activas:'true',cerradas:'true',ejecutadas:'false',
                                                             filtrarorden:'false',potros1:'' , imprimeorden	:'true',  finalizaorden :'false',  eliminaorden  :'false',  trayectoriaorden:'true',  documentacionorden:'true',  pausarorden  :'false',  anularorden  :'false',  fotosorden:'true', comentariosorden:'true',  documentosorden :'true',  tareasorden  :'false',acciones:'true',publico:todosa[i].publico});
                                                         }
@@ -1184,6 +1347,7 @@ console.log('unnnnnnnnn registro')
                                                             for(var i = 0; i < unique.length;i++){
                                                                 myData2.push({_id:unique[i]._id,tipo:unique[i].tipo,ejecuta:unique[i].ejecuta,tipo2:unique[i].tipo2,geoposicion:unique[i].geoposicion ,categoria:unique[i].categoria,nombre:unique[i].nombre,foto:unique[i].foto,estado:unique[i].estado ,verregistros:unique[i].verregistros,permisos:{pactualizacion:unique[i].pactualizacion, 
                                                                     activas:unique[i].activas,cerradas:unique[i].cerradas,ejecutadas:unique[i].ejecutadas,
+                                                                    generareporte:unique[i].generareporte, 
                                                                     filtrarorden:unique[i].filtrarorden, pconsulta:unique[i].pconsulta, pcreacion:unique[i].pcreacion, peliminacion:unique[i].peliminacion,  pfiltro:unique[i].filtro, pingreso:'true', preporte:unique[i].preporte,  potros1:'', imprimeorden	:unique[i].imprimeorden,  finalizaorden :unique[i].finalizaorden,  eliminaorden  :unique[i].eliminaorden,  trayectoriaorden:unique[i].trayectoriaorden,  documentacionorden:unique[i].documentacionorden,  pausarorden  :unique[i].pausarorden,  anularorden  :unique[i].anularorden, 
                                                                 publico:unique[i].publico, fotosorden:unique[i].fotosorden, comentariosorden:unique[i].comentariosorden,  documentosorden :unique[i].documentosorden,  tareasorden  :unique[i].tareasorden,acciones:unique[i].acciones}});
                                                             }
@@ -1195,8 +1359,14 @@ console.log('unnnnnnnnn registro')
 
 
 
-                              }}
+                              }}}
                             });
+                        
+                        
+                        
+                  
+                        
+                        
                         });
              
 
@@ -1288,7 +1458,7 @@ console.log(cadxx)
                     
             }
         });
-    }}}}}}}}}
+    }}}}}}}}}}}
 
     }
     else{
@@ -1950,6 +2120,7 @@ break;
                                                       idfrmconsulta2origen: todos[i].idfrmconsulta2origen,
                                                       nombreconsulta2origen		: todos[i].nombreconsulta2origen,
                                                       idcampofiltro: todos[i].idcampofiltro,
+                                                      idcampofiltro2: todos[i].idcampofiltro2,
                                                       idcampofiltromanual: todos[i].idcampofiltromanual,
 
                                                       idcampofiltropapa: todos[i].idcampofiltropapa,
@@ -2024,6 +2195,7 @@ case 'formulariodidxx':
                                                         idfrmconsulta2origen: todos[i].idfrmconsulta2origen,
                                                         nombreconsulta2origen		: todos[i].nombreconsulta2origen,
                                                         idcampofiltro: todos[i].idcampofiltro,
+                                                        idcampofiltro2: todos[i].idcampofiltro2,
                                                         idcampofiltromanual: todos[i].idcampofiltromanual,
   
                                                         idcampofiltropapa: todos[i].idcampofiltropapa,
@@ -2501,9 +2673,10 @@ console.log('crea formulario mnuevo')
      
         if (err){ res.send(err); }
                             if(todos.length>0)   {  
-console.log(namess)
+console.log({tipo:namess})
                                 Contador.findOneAndUpdate({tipo:namess}, { $inc: { sequence_value: 1 } }, function(err, seq){
                                     if(err) { throw(err); }
+                                    console.log(seq)
                                     var secuencia;
                                     secuencia=padLeadingZeros(seq.sequence_value,7)
                                     req.body.estructura['sequencia']= secuencia;
@@ -3117,6 +3290,11 @@ else{
                     if (err){ 
                     
                         res.status(500).send(err.message)    }
+
+                        Contador.create({
+                            "tipo" : todo._id,
+                            "sequence_value" : 1
+                        });
                 
                     res.json(todo);
 
