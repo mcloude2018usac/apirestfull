@@ -2,7 +2,7 @@ var mongoose =require("mongoose");
 
     var ContadorSchema 		=	new  mongoose.Schema({
       
-       
+        tipo   		: { type : String},
       
         sequence_value: { type : Number , default:1 }
        

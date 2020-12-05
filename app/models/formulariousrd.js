@@ -27,7 +27,7 @@
   documentosorden   : { type : String },  
   tareasorden    : { type : String },  
   acciones    : { type : String },  
-
+  generareporte: { type : String },  
   activas    : { type : String },  
   cerradas    : { type : String },  
   ejecutadas    : { type : String },  
