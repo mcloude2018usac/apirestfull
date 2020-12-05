@@ -776,7 +776,7 @@ entradasdpiRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth
 
 apiRoutes.use('/Entradascasas', entradascasaRoutes);
 entradascasaRoutes.get('/:id',requireAuth, EntradascasaController.getEntradacasa);
-entradascasaRoutes.get('/:id/:id2',requireAuth,  EntradascasaController.getEntradacasa);
+entradascasaRoutes.get('/:id/:id2',  EntradascasaController.getEntradacasa);
 entradascasaRoutes.get('/:id/:id2/:id3',  EntradascasaController.getEntradacasa);
 
 entradascasaRoutes.post('/:recordID',requireAuth,  EntradascasaController.creaEntradacasa2s);
