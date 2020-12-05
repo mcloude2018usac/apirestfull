@@ -4,9 +4,12 @@ var Image = require('../../models/image2');
 var functool = require('../../controllers/funcionesnode');
 var frmactoractividad = require('../../models/asociadoventa/frmactorgrupo');
 
+var frmaccion = require('../../models/asociadoventa/frmacciones');
+
 exports.getfrmactividad = function(req, res, next){
     if(req.params.id4)
-    {       if(req.params.id2=='actividadprocesosmias')
+    {     
+          if(req.params.id2=='actividadprocesosmias')
     { 
         var arr=req.params.id4.split('°')
    
@@ -58,8 +61,8 @@ exports.getfrmactividad = function(req, res, next){
         else
         {
         if(req.params.id2=='actividadsiguiente')
-    { 
-        frmactividad.find({idempresa:req.params.id3,idpapa:req.params.id,_id : { $nin: [req.params.id4]  } }).sort({'orden': 1}).exec(function(err, todos) {
+    { //,_id : { $nin: [req.params.id4]  }
+        frmactividad.find({idempresa:req.params.id3,idpapa:req.params.id }).sort({'orden': 1}).exec(function(err, todos) {
             if (err){  res.send(err);  }
 
             var dadat = [];
@@ -89,13 +92,54 @@ exports.getfrmactividad = function(req, res, next){
              });
         }
         else
-        {
+        {console.log('entra')
             if(req.params.id2=='todos')
             { 
+                frmaccion.find({idempresa:req.params.id3,idpapa0:req.params.id4}).sort({'_id': -1}).exec(function(err, todosaa) {
+                    if (err){  res.send(err);  }
                 frmactividad.find({idempresa:req.params.id3,idpapa:req.params.id4}).sort({'_id': 1}).exec(function(err, todos) {
                     if (err){  res.send(err);  }
-                     res.json(todos);
+                   
+
+    
+                    var duplicates = [];
+                    for(var i = 0; i < todos.length;i++){
+                        var cuantos=0;
+                        for(var ii = 0; ii < todosaa.length;ii++){
+                            if(String(todos[i]._id)===String(todosaa[ii].idpapa))
+                            {
+                                cuantos=cuantos+1
+                            }
+
+                        }
+                                    duplicates.push({ idempresa:todos[i].idempresa,
+                                        idpapa:todos[i].idpapa,
+                                        _id:todos[i]._id,
+                                        orden:	todos[i].orden,
+                                        actor:	todos[i].actor,
+                                        clase  :todos[i].clase,	
+                                        nombre	:todos[i].nombre,	
+                                        tipo	:todos[i].tipo,	
+                                        etapa	:todos[i].etapa,	
+                                        conector:todos[i].conector,	
+                                        tiempomin:todos[i].tiempomin,	
+                                        tiempomax	:todos[i].tiempomax,	
+                                        camposvisible:todos[i].camposvisible,	
+                                        camposmodificables:todos[i].camposmodificables,	
+                                        camposlectura	:todos[i].camposlectura,	
+                                        camposimprime	:todos[i].camposimprime,	
+                                        estado	:todos[i].estado,	
+                                        usuarionew:todos[i].usuarionew,	
+                                     
+                                    cuantos:cuantos});
+                    }
+                    
+                       
+                   
+                    res.json(duplicates);
+
                  });
+                });
             }
             else
             {
@@ -117,10 +161,52 @@ exports.getfrmactividad = function(req, res, next){
                 }
                 else
                 {
-                    frmactividad.find({idempresa:req.params.id3,estado:req.params.id2,idpapa:req.params.id4}).sort({'_id': -1}).exec(function(err, todos) {
+
+                    frmaccion.find({idempresa:req.params.id3,idpapa0:req.params.id4}).sort({'_id': -1}).exec(function(err, todosaa) {
                         if (err){  res.send(err);  }
-                         res.json(todos);
+                        frmactividad.find({idempresa:req.params.id3,estado:req.params.id2,idpapa:req.params.id4}).sort({'_id': -1}).exec(function(err, todos) {
+                            if (err){  res.send(err);  }
+                             
+                            var duplicates = [];
+                            for(var i = 0; i < todos.length;i++){
+                                var cuantos=0;
+                                for(var ii = 0; ii < todosaa.length;ii++){
+                                    if(String(todos[i]._id)===String(todosaa[ii].idpapa))
+                                    {
+                                        cuantos=cuantos+1
+                                    }
+
+                                }
+                                            duplicates.push({ idempresa:todos[i].idempresa,
+                                                _id:todos[i]._id,
+                                                idpapa:todos[i].idpapa,
+                                                orden:	todos[i].orden,
+                                                actor:	todos[i].actor,
+                                                clase  :todos[i].clase,	
+                                                nombre	:todos[i].nombre,	
+                                                tipo	:todos[i].tipo,	
+                                                etapa	:todos[i].etapa,	
+                                                conector:todos[i].conector,	
+                                                tiempomin:todos[i].tiempomin,	
+                                                tiempomax	:todos[i].tiempomax,	
+                                                camposvisible:todos[i].camposvisible,	
+                                                camposmodificables:todos[i].camposmodificables,	
+                                                camposlectura	:todos[i].camposlectura,	
+                                                camposimprime	:todos[i].camposimprime,	
+                                                estado	:todos[i].estado,	
+                                                usuarionew:todos[i].usuarionew,	
+                                            
+                                            cuantos:cuantos});
+                            }
+                            
+                               
+                         
+                            res.json(duplicates);
+                         });
                      });
+
+
+                   
                 }
             }
             }}
