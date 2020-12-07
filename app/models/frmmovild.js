@@ -19,6 +19,7 @@ var mongoose =require("mongoose");
         categoria: { type : String },
         combofijo: { type : String },
         blike:  { type : String },
+        frmapirest:  { type : String },
         geoposicion:  { type : String },
         fondoetiqueta:  { type : String },
         coloretiqueta:  { type : String },
