@@ -175,7 +175,7 @@ if(req.params.id!=='crea')
             todo.respuesta=req.body.respuesta        	||	todo.respuesta        	;
             todo.geoposicion=req.body.geoposicion        	       	;
             
-
+            todo.frmapirest=  req.body.frmapirest;
             todo.maxnumregistros=req.body.maxnumregistros        	||	todo.maxnumregistros        	;
             
             todo.idcampofiltro =req.body.idcampofiltro        	       	;
@@ -235,7 +235,7 @@ else{
                         default 	: '' 	,
                         default2 	: '' 	,
                         default3 	: '' 	,
-                        
+                        frmapirest: '',
                         idfrmconsultaorigen:req.body.idfrmconsultaorigen,
                         idfrmconsulta2origen:req.body.idfrmconsulta2origen,
                         nombreconsulta2origen:'',

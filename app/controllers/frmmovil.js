@@ -22,6 +22,187 @@ var frmactor = require('../models/asociadoventa/frmactor');
 var frmactorgrupo = require('../models/asociadoventa/frmactorgrupo');
 const frmmovil = require('../models/frmmovil');
 
+var async = require("async");
+
+   function daidform(namess,filtro)
+{
+    return new Promise(resolve => { 
+var re=''
+                                var cad=''
+                              
+                                cad=cad + ' "_id"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+
+                                cad='{' + cad + '}'
+                         
+                                var jsonObject = stringToObject(cad);
+                              
+                                var mongoose = require("mongoose");
+                                delete mongoose.connection.models[namess];
+                                var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+ 
+                            
+                                try {
+                                   
+                                    var  frmtt= mongoose.model(namess,tt);
+                                    frmtt.find(filtro ,function(err, todos2) {
+                                        if (err){  res.send(err); }
+                                       
+                                      
+                                      re=todos2[0]._id;
+                                    
+                                      resolve(re); 
+                                      
+                                    });
+                                  } catch(e) {
+                                    
+                                    var  frmtt= mongoose.model(namess);
+                          
+                                    frmtt.find( filtro ,function(err, todos2) {
+                                         if (err){  res.send(err);
+                                        }
+                                 
+                                     
+                                      
+                                        re=todos2[0]._id;
+                                      
+                                        
+                                      resolve(re); 
+                                     
+                                     });
+                                  }
+
+
+                             
+                
+        
+    
+
+                                });
+
+}
+
+function davalorvv(vec, valor)
+{var re=''
+    for(var i = 0; i < vec.length;i++){
+        var aa=vec[i].split('°')
+       if(aa[0]===valor)
+       { re=aa[1]
+        break;
+
+       }
+    }
+
+    return re;
+}
+
+
+async function getcombomanual(req, res, next)
+{
+  //  console.log(req.params)
+    switch(req.params.id4) {
+        case 'getcombopagocontratos':
+                    
+                var namess=req.params.id
+                var campost=req.params.id2
+          
+                var myDatavector = campost.split(',');
+                var myDatavector2 = req.params.id5.split(',');
+               
+               
+
+var contrato=davalorvv(myDatavector2,'contrato')
+
+var filtro={estado:'Activo',idpapa:contrato}
+
+const ans = await daidform('5f72a12587c9e33bd4ada7abs',filtro); 
+
+
+
+
+    
+    var arr=req.params.id3.split('°')
+               
+    Frmmovild.find({idmovil:req.params.id, display : "true",idempresa:arr[0]}).sort([['order', 1]]).exec(function(err, todos) {
+        if (err){ res.send(err); }
+    
+                            if(todos.length>0)   {  
+                        
+                                var cad=''
+                                var cadxx=''
+                                var cad3=(dafiltrocad(todos,'','')).split('°')
+                        
+                                cad=cad3[0]
+                                cadxx='{'+ cad3[1] + '}'
+                                cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                cad='{' + cad + '}'
+                                cadxx='{' + cadxx + '}'
+                            
+                                var jsonObject = stringToObject(cad);
+                            
+                                var mongoose = require("mongoose");
+                                delete mongoose.connection.models[namess];
+                                var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                            //  console.log(tt)
+                                
+                            
+                                try {
+                                    var  frmtt= mongoose.model(namess,tt);
+                                    frmtt.find({idpapa:ans,estado:'Activo'} ,function(err, todos2) {
+                                        if (err){  res.send(err); }
+                                    //  console.log(todos2)
+                                    var myData = [];
+                                    for(var i = 0; i < todos2.length;i++){
+                                      var nombret ='';
+                                      for(var j = 0; j < myDatavector.length;j++){
+                                          nombret = nombret + myDatavector[j].split('°')[1] + ': ' +  todos2[i][myDatavector[j].split('°')[0]]  + '°'
+                                      }
+                                      myData.push({_id:todos2[i]._id , nombre: nombret })
+
+                                       
+                                    }
+                                      res.json(myData);
+                                    
+                                    });
+                                } catch(e) {
+                                    
+                                    var  frmtt= mongoose.model(namess);
+                        
+                                    frmtt.find( {idpapa:ans,estado:'Activo'} ,function(err, todos2) {
+                                        if (err){  res.send(err);
+                                        }
+                                    // console.log(todos2)
+                                    var myData = [];
+                                    for(var i = 0; i < todos2.length;i++){
+                                      var nombret ='';
+                                      for(var j = 0; j < myDatavector.length;j++){
+                                          nombret = nombret + myDatavector[j].split('°')[1] + ': ' +  todos2[i][myDatavector[j].split('°')[0]]  + '°'
+                                      }
+                                      myData.push({_id:todos2[i]._id , nombre: nombret })
+
+                                       
+                                    }
+                                      res.json(myData);
+                                    
+                                    });
+                                }
+
+
+                            
+                
+        }
+    });
+
+
+
+
+
+            
+            break;
+
+    }
+
+}
+
 function padLeadingZeros(num, size) {
     var s = num+"";
     while (s.length < size) s = "0" + s;
@@ -416,11 +597,8 @@ var objectToArray = function(obj) {
 exports.getFrmmovil = function(req, res, next){
     if(req.params.id5)
     {
-        
         if(req.params.id4=='frmmovilp')
         {
-
-
             if(req.params.id2=='todos')
             { 
                 Frmmovil.find({idempresa:req.params.id3,tipo:req.params.id,categoria:req.params.id5}).sort({'_id': -1}).exec(function(err, todos) {
@@ -438,10 +616,15 @@ exports.getFrmmovil = function(req, res, next){
                  });
 
             }
-          
+        }
+        else
+        {
+
+            console.log('entraaaaaaaaaaaaa')
+            
+            getcombomanual(req, res, next);
 
         }
-
     }
     else
     {    
@@ -495,8 +678,7 @@ exports.getFrmmovil = function(req, res, next){
                                                 var nombret ='';
                                                 for(var j = 0; j < myDatavector.length;j++){
 
-                                                  
-                                                    nombret = nombret + myDatavector[j] + ': ' +  todos2[i][myDatavector[j]]  + '°'
+                                                    nombret = nombret + myDatavector[j].split('°')[1] + ': ' +  todos2[i][myDatavector[j].split('°')[0]]  + '°'
                                                 }
                                                 myData.push({_id:todos2[i]._id , nombre: nombret })
 
@@ -519,7 +701,7 @@ exports.getFrmmovil = function(req, res, next){
                                                for(var i = 0; i < todos2.length;i++){
                                                  var nombret ='';
                                                  for(var j = 0; j < myDatavector.length;j++){
-                                                     nombret = nombret + myDatavector[j] + ': ' +  todos2[i][myDatavector[j]].trim()  + '°'
+                                                    nombret = nombret + myDatavector[j].split('°')[1] + ': ' +  todos2[i][myDatavector[j].split('°')[0]]  + '°'
                                                  }
                                                  myData.push({_id:todos2[i]._id , nombre: nombret })
  
@@ -548,7 +730,7 @@ exports.getFrmmovil = function(req, res, next){
 
             var namess=req.params.id
 
-
+console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
             Frmmovild.find({idmovil:req.params.id, display : "true",idempresa:req.params.id3}).sort([['order', 1]]).exec(function(err, todos) {
                 if (err){ res.send(err); }
 
@@ -578,7 +760,7 @@ exports.getFrmmovil = function(req, res, next){
                                             var  frmtt= mongoose.model(namess,tt);
                                             frmtt.find(JSON.parse(filtro) ,function(err, todos2) {
                                                 if (err){  res.send(err); }
-                                             
+                                             console.log(todos2)
 
                                                 res.json(todos2);
                                               
@@ -1494,7 +1676,7 @@ console.log(cadxx)
           
         
 
-
+console.log(req.params)
 
         switch(req.params.id2) {
             case 'flujotrayectoriaorden':
@@ -1572,7 +1754,7 @@ console.log(cadxx)
                         
                     });
               break;
-              case 'categoriagruponombre':
+            case 'categoriagruponombre':
                 Frmmovil.aggregate(  [
                     { 
                         "$match" : { 
@@ -1600,7 +1782,7 @@ console.log(cadxx)
                     
                 });
           break;
-          case 'categoriagrupo':
+            case 'categoriagrupo':
             Frmmovil.aggregate(  [
                 { 
                     "$match" : { 
@@ -1628,7 +1810,7 @@ console.log(cadxx)
                 
             });
       break;
-          case 'categoriagrupo2':
+            case 'categoriagrupo2':
               var arr=(req.params.id3).split('°')
             Frmmovil.aggregate(  [
                 { 
@@ -1657,7 +1839,7 @@ console.log(cadxx)
                 
             });
       break;
-              case 'categoria':
+            case 'categoria':
                
               Frmmovil.find({categoria:req.params.id,idempresa:req.params.id3},function(err, todos) {
                   if (err){  res.send(err);  }
@@ -1665,23 +1847,23 @@ console.log(cadxx)
                   
               });
         break;
-        case 'formulariocamposver':
-        Frmmovild.find({idmovil:req.params.id, display : "true",idempresa:req.params.id3},function(err, todos) {
-            if (err){  res.send(err);  }
-            var data=[]
-            for(var i = 0; i < todos.length;i++){
-                
-                    data.push({name:todos[i].name,nombre:todos[i].title})
-                
-                
-            }
-            res.json(data);
-            
-        });
+            case 'formulariocamposver':
+                Frmmovild.find({idmovil:req.params.id, display : "true",idempresa:req.params.id3},function(err, todos) {
+                    if (err){  res.send(err);  }
+                    var data=[]
+                    for(var i = 0; i < todos.length;i++){
+                        
+                            data.push({name:todos[i].name,nombre:todos[i].title})
+                        
+                        
+                    }
+                    res.json(data);
+                    
+                });
 
         break;
-        case 'formulariocamposver2':
-        Frmmovild.find({idmovil:req.params.id, display : "true",idempresa:req.params.id3}).exec(function(err, todos) {
+            case 'formulariocamposver2':
+               Frmmovild.find({idmovil:req.params.id, display : "true",idempresa:req.params.id3}).exec(function(err, todos) {
           //  console.log(todos)
             if (err){  res.send(err);  }
             var data=[]
@@ -1708,7 +1890,7 @@ console.log(cadxx)
             
         });
         break;
-        case 'formulariocamposverid':
+            case 'formulariocamposverid':
             Frmmovild.find({idmovil:req.params.id, display : "true",idempresa:req.params.id3}).exec(function(err, todos) {
                 if (err){  res.send(err);  }
                 var data=[]
@@ -1746,7 +1928,7 @@ console.log(cadxx)
                     
                 });
                 break;
-        case 'formulario':
+            case 'formulario':
          
             var namess=req.params.id
             var arrtodos=req.params.id3.split('°')
@@ -1814,409 +1996,416 @@ console.log(cadxx)
             
            
   break;
-  case 'formularioproceso':
- 
-  
-    var arrtodos=req.params.id3.split('°')
-console.log(arrtodos)
-var usuarito=''
-usuarioup=arrtodos[4]
-    var actividadt=[]
-   
-
-        actividadt=req.params.id.split(',')
- 
-
-
-  
-    var namess=arrtodos[3]
-    var filtro
-    if(arrtodos[1]==='todos')
-    {
-        filtro={idempresa:arrtodos[0],estadoordenxxx:arrtodos[2]}
-    }
-    else
-    {
-        if(arrtodos[1]==='todosmios')
-        {
-            if(arrtodos[2]==='ejecutadas')
-            {
-                filtro={idempresa:arrtodos[0],pmodulo: {$in:[[usuarioup]]}}
-            }
-            else
-            {
-                filtro={idempresa:arrtodos[0],estadoordenxxx:arrtodos[2],
-                    idactividadxxx:{$in:actividadt}}
-            }
-           
-          
-           
-        }
-        else
-        {
-            if(actividadt[0]!=='123')
-            {
-
-                if(arrtodos[2]==='ejecutadas')
-                {
-                    filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1],pmodulo: {$in:[[usuarioup]]}}
-                }
-                else
-                {
-                    filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1],estadoordenxxx:arrtodos[2],
-                        idactividadxxx:{$in:actividadt}}
-                }
-                
-               
-            }
-            else
-            {
-                if(arrtodos[2]==='ejecutadas')
-                {
-                    filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1],pmodulo: {$in:[[usuarioup]]}}
-                }
-                else
-                {
-                    filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1],estadoordenxxx:arrtodos[2]}
-                }
-               
-
-            }
+            case 'formularioproceso':
+            
+            
+                var arrtodos=req.params.id3.split('°')
+            console.log(arrtodos)
+            var usuarito=''
+            usuarioup=arrtodos[4]
+                var actividadt=[]
             
 
-        }
-     
-    }
-
-console.log(filtro)
-        Frmmovild.find({idmovil:arrtodos[3], display : "true",idempresa:arrtodos[0]}).exec(function(err, todos) {
-            if (err){ res.send(err); }
-         
-        
-                                if(todos.length>0)   {  
-                               
-                                    var cad=''
-                                    var cadxx=''
-                                    var cad3=(dafiltrocad(todos,'','')).split('°')
-                              
-                                    cad=cad3[0]
-                                    cadxx='{'+ cad3[1] + '}'
-                                    cad=cad + '"geoposicion"	: { "type" : "String" },  "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
-                                    cad='{' + cad + '}'
-                                    cadxx='{' + cadxx + '}'
-                                 
-                                    var jsonObject = stringToObject(cad);
-                                  
-                                    var mongoose = require("mongoose");
-                                    delete mongoose.connection.models[namess];
-                                    var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
-                                  //  console.log(tt)
-                                    console.log(filtro)
-                                    console.log(namess)
-                                
-                                    try {
-                                        var  frmtt= mongoose.model(namess,tt);
-                                        frmtt.find(filtro ).sort([['_id', -1]]).exec(function(err, todos2) {
-                                            if (err){  res.send(err); }
-                                          //  console.log(todos2)
-                                            res.json(todos2);
-                                          
-                                        });
-                                      } catch(e) {
-                                        
-                                        var  frmtt= mongoose.model(namess);
-                              
-                                        frmtt.find( filtro ).sort([['_id', -1]]).exec(function(err, todos2) {
-                                             if (err){  res.send(err);
-                                            }
-                                           // console.log(todos2)
-                                             res.json(todos2);
-                                         
-                                         });
-                                      }
+                    actividadt=req.params.id.split(',')
+            
 
 
-                                 
-                    
-            }
-        });
-    
-   
-break;
-
-  case 'formulariodetalle':
-         
-    var namess=req.params.id
-    var arrtodos=req.params.id3.split('°')
-    var filtro
-    
-    if(arrtodos[1]==='todos')
-    {
-        filtro={idempresa:arrtodos[0],idpapa:arrtodos[2]}
-    }
-    else
-    {
-        filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1],idpapa:arrtodos[2]}
-    }
-  console.log(filtro)
-        Frmmovild.find({idmovil:req.params.id, display : "true",idempresa:arrtodos[0]}).sort([['order', 1]]).exec(function(err, todos) {
-            if (err){ res.send(err); }
-        
-                                if(todos.length>0)   {  
-                               
-                                    var cad=''
-                                    var cadxx=''
-                                    var cad3=(dafiltrocad(todos,'','')).split('°')
-                              
-                                    cad=cad3[0]
-                                    cadxx='{'+ cad3[1] + '}'
-                                    cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },      "idpapa"	: { "type" : "String" }'
-                                    cad='{' + cad + '}'
-                                    cadxx='{' + cadxx + '}'
-                                 
-                                    var jsonObject = stringToObject(cad);
-                                  
-                                    var mongoose = require("mongoose");
-                                    delete mongoose.connection.models[namess];
-                                    var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
-                                  //  console.log(tt)
-                                    
-                                
-                                    try {
-                                        var  frmtt= mongoose.model(namess,tt);
-                                        frmtt.find(filtro ,function(err, todos2) {
-                                            if (err){  res.send(err); }
-                                          //  console.log(todos2)
-                                            res.json(todos2);
-                                          
-                                        });
-                                      } catch(e) {
-                                        
-                                        var  frmtt= mongoose.model(namess);
-                              
-                                        frmtt.find( filtro ,function(err, todos2) {
-                                             if (err){  res.send(err);
-                                            }
-                                           // console.log(todos2)
-                                             res.json(todos2);
-                                         
-                                         });
-                                      }
-
-
-                                 
-                    
-            }
-        });
-    
-   
-break;
-
-  case 'formulariocombo':
-         
-    var namess=req.params.id
-        Frmmovild.find({idmovil:req.params.id, display : "true",idempresa:req.params.id3}).sort([['order', 1]]).exec(function(err, todos) {
-            if (err){ res.send(err); }
-        
-                                if(todos.length>0)   {  
-                               
-                                    var cad=''
-                                    var cadxx=''
-                                    var cad3=(dafiltrocad(todos,'','')).split('°')
-                              
-                                    cad=cad3[0]
-                                    cadxx='{'+ cad3[1] + '}'
-                                    cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
-                                    cad='{' + cad + '}'
-                                    cadxx='{' + cadxx + '}'
-                                 
-                                    var jsonObject = stringToObject(cad);
-                                  
-                                    var mongoose = require("mongoose");
-                                    delete mongoose.connection.models[namess];
-                                    var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
-                                  //  console.log(tt)
-                                    
-                                
-                                    try {
-                                        var  frmtt= mongoose.model(namess,tt);
-                                        frmtt.find({} ,function(err, todos2) {
-                                            if (err){  res.send(err); }
-                                          //  console.log(todos2)
-                                            res.json(todos2);
-                                          
-                                        });
-                                      } catch(e) {
-                                        
-                                        var  frmtt= mongoose.model(namess);
-                              
-                                        frmtt.find( {} ,function(err, todos2) {
-                                             if (err){  res.send(err);
-                                            }
-                                           // console.log(todos2)
-                                             res.json(todos2);
-                                         
-                                         });
-                                      }
-
-
-                                 
-                    
-            }
-        });
-    
-   
-break;
-  case 'formulariod':
-  var namess=req.params.id
- 
-  Formcat2.find({idformulario:req.params.id,idempresa:req.params.id3}).exec(function(err, todos1) {
-    if (err){ res.send(err); }
-                        if(todos1.length>0)   {   
+            
+                var namess=arrtodos[3]
+                var filtro
+                if(arrtodos[1]==='todos')
+                {
+                    filtro={idempresa:arrtodos[0],estadoordenxxx:arrtodos[2]}
+                }
+                else
+                {
+                    if(arrtodos[1]==='todosmios')
+                    {
+                        if(arrtodos[2]==='ejecutadas')
+                        {
+                            filtro={idempresa:arrtodos[0],pmodulo: {$in:[[usuarioup]]}}
                         }
+                        else
+                        {
+                            filtro={idempresa:arrtodos[0],estadoordenxxx:arrtodos[2],
+                                idactividadxxx:{$in:actividadt}}
+                        }
+                    
+                    
+                    
+                    }
+                    else
+                    {
+                        if(actividadt[0]!=='123')
+                        {
 
-                        Frmmovild.find({idmovil:req.params.id}).exec(function(err, todos) {
-                            if (err){ res.send(err); }
-                                                if(todos.length>0)   {   
-                                                  
-                                                  var data=[];
-                                                  for(var i = 0; i < todos.length;i++){
-
-                                               
-                                                      data.push({  
-                                                      _id :  todos[i]._id, 
-                                                      idmovil	:  todos[i].idmovil._id,
-                                                      type   		: datipo2(todos[i].type) ,
-                                                      name   		: todos[i].name,
-                                                      default:todos[i].default,
-                                                      nombre   		:  todos[i].nombre,
-                                                      order:	  todos[i].order,
-                                                      title:   todos[i].title,
-                                                      estado	:  todos[i].estado,
-                                                      required: 	 todos[i].required,
-                                                      placeholder:  todos[i].placeholder,
-                                                      display:  todos[i].display,
-                                                      selected:  todos[i].selected,
-                                                      disabled:  todos[i].disabled,
-                                                      hidden:   todos[i].hidden,
-                                                      position:  todos[i].position,
-                                                      labelsizefondt:  todos[i].labelsizefondt,
-                                                      categoria:  todos[i].categoria,
-                                                      combofijo:  todos[i].combofijo,
-                                                      options:daarreglo(todos1,todos[i]._id),
-                                                      fondoetiqueta: todos[i].fondoetiqueta,
-                                                      coloretiqueta: todos[i].coloretiqueta,
-                                                      blike: todos[i].blike,
-                                                      rangomin: todos[i].rangomin,
-                                                      rangomax: todos[i].rangomax,
-                                                      rangostep: todos[i].rangostep,
-                                                      alfatypo: todos[i].alfatypo,
-                                                      idfrmconsulta: todos[i].idfrmconsulta,
-                                                      idfrmconsulta2: todos[i].idfrmconsulta2,
-                                                      verregistros:todos[i].verregistros,
-
-                                                      usarunaves: todos[i].usarunaves,
-                                                      idfrmconsultaorigen: todos[i].idfrmconsultaorigen,
-                                                      idfrmconsulta2origen: todos[i].idfrmconsulta2origen,
-                                                      nombreconsulta2origen		: todos[i].nombreconsulta2origen,
-                                                      idcampofiltro: todos[i].idcampofiltro,
-                                                      idcampofiltro2: todos[i].idcampofiltro2,
-                                                      idcampofiltromanual: todos[i].idcampofiltromanual,
-
-                                                      idcampofiltropapa: todos[i].idcampofiltropapa,
-                                                      idfrmconsultaorigenpapa: todos[i].idfrmconsultaorigenpapa
-
-
-                                                      });
-                      
-                      
-                                                  }
-                                                  res.json(data); 
+                            if(arrtodos[2]==='ejecutadas')
+                            {
+                                filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1],pmodulo: {$in:[[usuarioup]]}}
                             }
-                        });
+                            else
+                            {
+                                filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1],estadoordenxxx:arrtodos[2],
+                                    idactividadxxx:{$in:actividadt}}
+                            }
+                            
+                        
+                        }
+                        else
+                        {
+                            if(arrtodos[2]==='ejecutadas')
+                            {
+                                filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1],pmodulo: {$in:[[usuarioup]]}}
+                            }
+                            else
+                            {
+                                filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1],estadoordenxxx:arrtodos[2]}
+                            }
+                        
 
+                        }
+                        
 
-    });
- 
+                    }
+                
+                }
 
-break;
-
-case 'formulariodidxx':
-    var namess=req.params.id.split('°')
-    console.log(namess)
-   
-    Formcat2.find({idformulario:namess[0],idempresa:req.params.id3}).exec(function(err, todos1) {
-      if (err){ res.send(err); }
-                          if(todos1.length>0)   {   
-                          }
-  
-                          Frmmovild.find({idmovil:namess[0],_id:namess[1]}).exec(function(err, todos) {
-                              if (err){ res.send(err); }
-                                                  if(todos.length>0)   {   
+            console.log(filtro)
+                    Frmmovild.find({idmovil:arrtodos[3], display : "true",idempresa:arrtodos[0]}).exec(function(err, todos) {
+                        if (err){ res.send(err); }
+                    
+                    
+                                            if(todos.length>0)   {  
+                                        
+                                                var cad=''
+                                                var cadxx=''
+                                                var cad3=(dafiltrocad(todos,'','')).split('°')
+                                        
+                                                cad=cad3[0]
+                                                cadxx='{'+ cad3[1] + '}'
+                                                cad=cad + '"geoposicion"	: { "type" : "String" },  "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                                cad='{' + cad + '}'
+                                                cadxx='{' + cadxx + '}'
+                                            
+                                                var jsonObject = stringToObject(cad);
+                                            
+                                                var mongoose = require("mongoose");
+                                                delete mongoose.connection.models[namess];
+                                                var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                                            //  console.log(tt)
+                                                console.log(filtro)
+                                                console.log(namess)
+                                            
+                                                try {
+                                                    var  frmtt= mongoose.model(namess,tt);
+                                                    frmtt.find(filtro ).sort([['_id', -1]]).exec(function(err, todos2) {
+                                                        if (err){  res.send(err); }
+                                                    //  console.log(todos2)
+                                                        res.json(todos2);
                                                     
-                                                    var data=[];
-                                                    for(var i = 0; i < todos.length;i++){
-  
-                                                 
-                                                        data.push({  
-                                                        _id :  todos[i]._id, 
-                                                        idmovil	:  todos[i].idmovil._id,
-                                                        type   		: datipo2(todos[i].type) ,
-                                                        name   		: todos[i].name,
-                                                        default:todos[i].default,
-                                                        nombre   		:  todos[i].nombre,
-                                                        order:	  todos[i].order,
-                                                        title:   todos[i].title,
-                                                        estado	:  todos[i].estado,
-                                                        required: 	 todos[i].required,
-                                                        placeholder:  todos[i].placeholder,
-                                                        display:  todos[i].display,
-                                                        selected:  todos[i].selected,
-                                                        disabled:  todos[i].disabled,
-                                                        hidden:   todos[i].hidden,
-                                                        position:  todos[i].position,
-                                                        labelsizefondt:  todos[i].labelsizefondt,
-                                                        categoria:  todos[i].categoria,
-                                                        combofijo:  todos[i].combofijo,
-                                                        options:daarreglo(todos1,todos[i]._id),
-                                                        fondoetiqueta: todos[i].fondoetiqueta,
-                                                        coloretiqueta: todos[i].coloretiqueta,
-                                                        blike: todos[i].blike,
-                                                        rangomin: todos[i].rangomin,
-                                                        rangomax: todos[i].rangomax,
-                                                        rangostep: todos[i].rangostep,
-                                                        alfatypo: todos[i].alfatypo,
-                                                        idfrmconsulta: todos[i].idfrmconsulta,
-                                                        idfrmconsulta2: todos[i].idfrmconsulta2,
-                                                        verregistros:todos[i].verregistros,
-  
-                                                        usarunaves: todos[i].usarunaves,
-                                                        idfrmconsultaorigen: todos[i].idfrmconsultaorigen,
-                                                        idfrmconsulta2origen: todos[i].idfrmconsulta2origen,
-                                                        nombreconsulta2origen		: todos[i].nombreconsulta2origen,
-                                                        idcampofiltro: todos[i].idcampofiltro,
-                                                        idcampofiltro2: todos[i].idcampofiltro2,
-                                                        idcampofiltromanual: todos[i].idcampofiltromanual,
-  
-                                                        idcampofiltropapa: todos[i].idcampofiltropapa,
-                                                        idfrmconsultaorigenpapa: todos[i].idfrmconsultaorigenpapa
-  
-  
-                                                        });
-                        
-                        
-                                                    }
-                                                    res.json(data); 
-                              }
-                          });
-  
-  
-      });
-   
-  
-  break;
+                                                    });
+                                                } catch(e) {
+                                                    
+                                                    var  frmtt= mongoose.model(namess);
+                                        
+                                                    frmtt.find( filtro ).sort([['_id', -1]]).exec(function(err, todos2) {
+                                                        if (err){  res.send(err);
+                                                        }
+                                                    // console.log(todos2)
+                                                        res.json(todos2);
+                                                    
+                                                    });
+                                                }
+
+
+                                            
+                                
+                        }
+                    });
+                
+            
+            break;
+
+            case 'formulariodetalle':
+                    
+                var namess=req.params.id
+                var arrtodos=req.params.id3.split('°')
+                var filtro
+                
+                if(arrtodos[1]==='todos')
+                {
+                    filtro={idempresa:arrtodos[0],idpapa:arrtodos[2]}
+                }
+                else
+                {
+                    filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1],idpapa:arrtodos[2]}
+                }
+            console.log(filtro)
+                    Frmmovild.find({idmovil:req.params.id, display : "true",idempresa:arrtodos[0]}).sort([['order', 1]]).exec(function(err, todos) {
+                        if (err){ res.send(err); }
+                    
+                                            if(todos.length>0)   {  
+                                        
+                                                var cad=''
+                                                var cadxx=''
+                                                var cad3=(dafiltrocad(todos,'','')).split('°')
+                                        
+                                                cad=cad3[0]
+                                                cadxx='{'+ cad3[1] + '}'
+                                                cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },      "idpapa"	: { "type" : "String" }'
+                                                cad='{' + cad + '}'
+                                                cadxx='{' + cadxx + '}'
+                                            
+                                                var jsonObject = stringToObject(cad);
+                                            
+                                                var mongoose = require("mongoose");
+                                                delete mongoose.connection.models[namess];
+                                                var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                                            //  console.log(tt)
+                                                
+                                            
+                                                try {
+                                                    var  frmtt= mongoose.model(namess,tt);
+                                                    frmtt.find(filtro ,function(err, todos2) {
+                                                        if (err){  res.send(err); }
+                                                    //  console.log(todos2)
+                                                        res.json(todos2);
+                                                    
+                                                    });
+                                                } catch(e) {
+                                                    
+                                                    var  frmtt= mongoose.model(namess);
+                                        
+                                                    frmtt.find( filtro ,function(err, todos2) {
+                                                        if (err){  res.send(err);
+                                                        }
+                                                    // console.log(todos2)
+                                                        res.json(todos2);
+                                                    
+                                                    });
+                                                }
+
+
+                                            
+                                
+                        }
+                    });
+                
+            
+            break;
+
+            case 'formulariocombo':
+                    
+                var namess=req.params.id
+                    Frmmovild.find({idmovil:req.params.id, display : "true",idempresa:req.params.id3}).sort([['order', 1]]).exec(function(err, todos) {
+                        if (err){ res.send(err); }
+                    
+                                            if(todos.length>0)   {  
+                                        
+                                                var cad=''
+                                                var cadxx=''
+                                                var cad3=(dafiltrocad(todos,'','')).split('°')
+                                        
+                                                cad=cad3[0]
+                                                cadxx='{'+ cad3[1] + '}'
+                                                cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                                cad='{' + cad + '}'
+                                                cadxx='{' + cadxx + '}'
+                                            
+                                                var jsonObject = stringToObject(cad);
+                                            
+                                                var mongoose = require("mongoose");
+                                                delete mongoose.connection.models[namess];
+                                                var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                                            //  console.log(tt)
+                                                
+                                            
+                                                try {
+                                                    var  frmtt= mongoose.model(namess,tt);
+                                                    frmtt.find({} ,function(err, todos2) {
+                                                        if (err){  res.send(err); }
+                                                    //  console.log(todos2)
+                                                        res.json(todos2);
+                                                    
+                                                    });
+                                                } catch(e) {
+                                                    
+                                                    var  frmtt= mongoose.model(namess);
+                                        
+                                                    frmtt.find( {} ,function(err, todos2) {
+                                                        if (err){  res.send(err);
+                                                        }
+                                                    // console.log(todos2)
+                                                        res.json(todos2);
+                                                    
+                                                    });
+                                                }
+
+
+                                            
+                                
+                        }
+                    });
+                
+            
+            break;
+            case 'formulariod':
+            var namess=req.params.id
+            
+            Formcat2.find({idformulario:req.params.id,idempresa:req.params.id3}).exec(function(err, todos1) {
+                if (err){ res.send(err); }
+                                    if(todos1.length>0)   {   
+                                    }
+
+                                    Frmmovild.find({idmovil:req.params.id}).exec(function(err, todos) {
+                                        if (err){ res.send(err); }
+                                                            if(todos.length>0)   {   
+                                                            
+                                                            var data=[];
+                                                            for(var i = 0; i < todos.length;i++){
+
+                                                        
+                                                                data.push({  
+                                                                _id :  todos[i]._id, 
+                                                                idmovil	:  todos[i].idmovil._id,
+                                                                type   		: datipo2(todos[i].type) ,
+                                                                name   		: todos[i].name,
+                                                                default:todos[i].default,
+                                                                default2:todos[i].default2,
+                                                                default3:todos[i].default3,
+                                                                frmapirest:todos[i].frmapirest,
+                                                                nombre   		:  todos[i].nombre,
+                                                                order:	  todos[i].order,
+                                                                title:   todos[i].title,
+                                                                estado	:  todos[i].estado,
+                                                                required: 	 todos[i].required,
+                                                                placeholder:  todos[i].placeholder,
+                                                                display:  todos[i].display,
+                                                                selected:  todos[i].selected,
+                                                                disabled:  todos[i].disabled,
+                                                                hidden:   todos[i].hidden,
+                                                                position:  todos[i].position,
+                                                                labelsizefondt:  todos[i].labelsizefondt,
+                                                                categoria:  todos[i].categoria,
+                                                                combofijo:  todos[i].combofijo,
+                                                                options:daarreglo(todos1,todos[i]._id),
+                                                                fondoetiqueta: todos[i].fondoetiqueta,
+                                                                coloretiqueta: todos[i].coloretiqueta,
+                                                                blike: todos[i].blike,
+                                                                rangomin: todos[i].rangomin,
+                                                                rangomax: todos[i].rangomax,
+                                                                rangostep: todos[i].rangostep,
+                                                                alfatypo: todos[i].alfatypo,
+                                                                idfrmconsulta: todos[i].idfrmconsulta,
+                                                                idfrmconsulta2: todos[i].idfrmconsulta2,
+                                                                verregistros:todos[i].verregistros,
+
+                                                                usarunaves: todos[i].usarunaves,
+                                                                idfrmconsultaorigen: todos[i].idfrmconsultaorigen,
+                                                                idfrmconsulta2origen: todos[i].idfrmconsulta2origen,
+                                                                nombreconsulta2origen		: todos[i].nombreconsulta2origen,
+                                                                idcampofiltro: todos[i].idcampofiltro,
+                                                                idcampofiltro2: todos[i].idcampofiltro2,
+                                                                idcampofiltromanual: todos[i].idcampofiltromanual,
+
+                                                                idcampofiltropapa: todos[i].idcampofiltropapa,
+                                                                idfrmconsultaorigenpapa: todos[i].idfrmconsultaorigenpapa
+
+
+                                                                });
+                                
+                                
+                                                            }
+                                                            res.json(data); 
+                                        }
+                                    });
+
+
+                });
+            
+
+            break;
+
+            case 'formulariodidxx':
+                var namess=req.params.id.split('°')
+                console.log(namess)
+            
+                Formcat2.find({idformulario:namess[0],idempresa:req.params.id3}).exec(function(err, todos1) {
+                if (err){ res.send(err); }
+                                    if(todos1.length>0)   {   
+                                    }
+            
+                                    Frmmovild.find({idmovil:namess[0],_id:namess[1]}).exec(function(err, todos) {
+                                        if (err){ res.send(err); }
+                                                            if(todos.length>0)   {   
+                                                                
+                                                                var data=[];
+                                                                for(var i = 0; i < todos.length;i++){
+            
+                                                            
+                                                                    data.push({  
+                                                                    _id :  todos[i]._id, 
+                                                                    idmovil	:  todos[i].idmovil._id,
+                                                                    type   		: datipo2(todos[i].type) ,
+                                                                    name   		: todos[i].name,
+                                                                    default:todos[i].default,
+                                                                    default2:todos[i].default2,
+                                                                    default3:todos[i].default3,
+                                                                    frmapirest:todos[i].frmapirest,
+                                                                    nombre   		:  todos[i].nombre,
+                                                                    order:	  todos[i].order,
+                                                                    title:   todos[i].title,
+                                                                    estado	:  todos[i].estado,
+                                                                    required: 	 todos[i].required,
+                                                                    placeholder:  todos[i].placeholder,
+                                                                    display:  todos[i].display,
+                                                                    selected:  todos[i].selected,
+                                                                    disabled:  todos[i].disabled,
+                                                                    hidden:   todos[i].hidden,
+                                                                    position:  todos[i].position,
+                                                                    labelsizefondt:  todos[i].labelsizefondt,
+                                                                    categoria:  todos[i].categoria,
+                                                                    combofijo:  todos[i].combofijo,
+                                                                    options:daarreglo(todos1,todos[i]._id),
+                                                                    fondoetiqueta: todos[i].fondoetiqueta,
+                                                                    coloretiqueta: todos[i].coloretiqueta,
+                                                                    blike: todos[i].blike,
+                                                                    rangomin: todos[i].rangomin,
+                                                                    rangomax: todos[i].rangomax,
+                                                                    rangostep: todos[i].rangostep,
+                                                                    alfatypo: todos[i].alfatypo,
+                                                                    idfrmconsulta: todos[i].idfrmconsulta,
+                                                                    idfrmconsulta2: todos[i].idfrmconsulta2,
+                                                                    verregistros:todos[i].verregistros,
+            
+                                                                    usarunaves: todos[i].usarunaves,
+                                                                    idfrmconsultaorigen: todos[i].idfrmconsultaorigen,
+                                                                    idfrmconsulta2origen: todos[i].idfrmconsulta2origen,
+                                                                    nombreconsulta2origen		: todos[i].nombreconsulta2origen,
+                                                                    idcampofiltro: todos[i].idcampofiltro,
+                                                                    idcampofiltro2: todos[i].idcampofiltro2,
+                                                                    idcampofiltromanual: todos[i].idcampofiltromanual,
+            
+                                                                    idcampofiltropapa: todos[i].idcampofiltropapa,
+                                                                    idfrmconsultaorigenpapa: todos[i].idfrmconsultaorigenpapa
+            
+            
+                                                                    });
+                                    
+                                    
+                                                                }
+                                                                res.json(data); 
+                                        }
+                                    });
+            
+            
+                });
+            
+            
+            break;
             default://busqueda de formulario
            
+                    
              
           }
         }
