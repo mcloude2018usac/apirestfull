@@ -2,6 +2,24 @@ var frmtareasprogramadasservicios = require('../../models/asociadoventa/frmtarea
 var Bitacora = require('../../models/bitacora');
 var Image = require('../../models/image2');
 var functool = require('../../controllers/funcionesnode');
+
+function datiempo(num) {
+    if(num<0)
+    {
+        num=num*-1
+    }
+    d = Math.floor(num / 1440); // 60*24
+  h = Math.floor((num - (d * 1440)) / 60);
+  m = Math.round(num % 60);
+
+  if (d > 0) {
+    return(d + ' dias, ' + h + ' horas, '+ m +' minutos');
+  } else {
+    return(h + ' horas, '+ m +' minutos');
+  }
+  }
+
+
 exports.getfrmtareasprogramadasservicios = function(req, res, next){
     if(req.params.id4)
     {   
@@ -41,6 +59,9 @@ exports.getfrmtareasprogramadasservicios = function(req, res, next){
                                 "foto" : todos[i].foto,
                                 "tipomulta" : todos[i].tipomulta,
                                 "tiempo" : todos[i].tiempo,
+                                "tiempo2" : datiempo(todos[i].tiempo),
+                                "minutos2":datiempo(diffminutos),
+                                "faltante2":datiempo((Number(todos[i].tiempo) - Number(diffminutos))),
                                 "idmulta" : todos[i].idmulta,
                                 "correotipo" : todos[i].correotipo,
                                 "empresatxt" : todos[i].empresatxt,
@@ -89,6 +110,9 @@ exports.getfrmtareasprogramadasservicios = function(req, res, next){
                                 "tipomulta" : todos[i].tipomulta,
                                 "idcontrato" : todos[i].idcontrato,
                                 "tiempo" : todos[i].tiempo,
+                                "tiempo2" : datiempo(todos[i].tiempo),
+                                "minutos2":datiempo(diffminutos),
+                                "faltante2":datiempo((Number(todos[i].tiempo) - Number(diffminutos))),
                                 "idmulta" : todos[i].idmulta,
                                 "fechamulta" : todos[i].fechamulta,
                                 "periodomulta" : todos[i].periodomulta,
@@ -141,6 +165,9 @@ console.log({idempresa:req.params.id3,estado:req.params.id2,idinspector:req.para
                                         "tipomulta" : todos[i].tipomulta,
                                         "idcontrato" : todos[i].idcontrato,
                                         "tiempo" : todos[i].tiempo,
+                                        "tiempo2" : datiempo(todos[i].tiempo),
+                                        "minutos2":datiempo(diffminutos),
+                                        "faltante2":datiempo((Number(todos[i].tiempo) - Number(diffminutos))),
                                         "idmulta" : todos[i].idmulta,
                                         "fechamulta" : todos[i].fechamulta,
                                         "periodomulta" : todos[i].periodomulta,
@@ -169,21 +196,86 @@ console.log({idempresa:req.params.id3,estado:req.params.id2,idinspector:req.para
                             if(req.params.id==='todosmultassupervisor')
                             {
 
-                                frmtareasprogramadasservicios.find({idempresa:req.params.id3,estado:req.params.id2,idsupervisor:req.params.id4}).sort({'_id': -1}).exec(function(err, todos) {
-                                    if (err){  res.send(err);  }
-                
+                                var arr=req.params.id3.split('°')
+console.log(arr)
+                                if(arr[1]==='2')
+                                {
+                                    frmtareasprogramadasservicios.find({idempresa:arr[0],estado:req.params.id2,idsupervisor:req.params.id4}).sort({'_id': -1}).exec(function(err, todos) {
+                                        if (err){  res.send(err);  }
+                    
+                                    
+                                        var  mydata=[]
+                                        for(var i = 0; i <todos.length; i++) {
+                                            var ff3=new Date()
+                                            var ff4=todos[i].createdAt 
+                                            console.log( ff3 + '     ' +   ff4)
                                 
-                                    var  mydata=[]
-                                    for(var i = 0; i <todos.length; i++) {
-                                        var ff3=new Date()
-                                        var ff4=todos[i].createdAt 
-                                        console.log( ff3 + '     ' +   ff4)
-                            
-                                        var diffDays = parseInt((ff3 - ff4) / (1000 * 60 * 60 * 24)); //gives day difference
-                                        var diffhoras = parseInt((ff3 - ff4) / (1000 * 60 * 60 )); //gives day difference
-                                        var diffminutos = parseInt((ff3 - ff4) / (1000 * 60 )); //gives day difference
-                                        var diffseg = parseInt((ff3 - ff4) / (1000  )); //gives day difference
-                                    mydata.push(    {
+                                            var diffDays = parseInt((ff3 - ff4) / (1000 * 60 * 60 * 24)); //gives day difference
+                                            var diffhoras = parseInt((ff3 - ff4) / (1000 * 60 * 60 )); //gives day difference
+                                            var diffminutos = parseInt((ff3 - ff4) / (1000 * 60 )); //gives day difference
+                                            var diffseg = parseInt((ff3 - ff4) / (1000  )); //gives day difference
+    
+                                     
+                                                mydata.push(    {
+                                                    "_id" : todos[i]._id,
+                                                    "idempresa" : todos[i].idempresa,
+                                                    "idpapa" : todos[i].idpapa,
+                                                    "tipo" : todos[i].tipo,
+                                                    "nombre" : todos[i].nombre,
+                                                    "descripcion" : todos[i].descripcion,
+                                                    "foto" : todos[i].foto,
+                                                    "tipomulta" : todos[i].tipomulta,
+                                                    "idcontrato" : todos[i].idcontrato,
+                                                    "tiempo" : todos[i].tiempo,
+                                                    "tiempo2" : datiempo(todos[i].tiempo),
+                                                    "minutos2":datiempo(diffminutos),
+                                                    "faltante2":datiempo((Number(todos[i].tiempo) - Number(diffminutos))),
+                                                    "idmulta" : todos[i].idmulta,
+                                                    "fechamulta" : todos[i].fechamulta,
+                                                    "periodomulta" : todos[i].periodomulta,
+                                                    "monto" : todos[i].monto,
+                                                    "proyectotxt" : todos[i].proyectotxt,
+                                                    "empresatxt" : todos[i].empresatxt,
+                                                    "correos" : todos[i].correos,
+                                                    "correotipo" : todos[i].correotipo,
+                                                    "geoposicion" : todos[i].geoposicion,
+                                                    "estado" : todos[i].estado,
+                                                    "createdAt" : todos[i].createdAt,
+                                                    "updatedAt" : todos[i].updatedAt,
+                                                    dias:diffDays,horas: diffhoras,minutos:diffminutos,segundos:diffseg,
+                                                    faltante:(Number(todos[i].tiempo) - Number(diffminutos))
+                                                });
+    
+                                            
+                                       
+                                 
+                                        }
+    
+                                        
+                    
+                                         res.json(mydata);
+                                     });
+                                }
+                                else
+                                {
+                                    frmtareasprogramadasservicios.find({estado:'Activo',idempresa:arr[0],idsupervisor:req.params.id4}).sort({'_id': -1}).exec(function(err, todos) {
+                                        if (err){  res.send(err);  }
+                    
+                                    
+                                        var  mydata=[]
+                                        for(var i = 0; i <todos.length; i++) {
+                                            var ff3=new Date()
+                                            var ff4=todos[i].createdAt 
+                                            console.log( ff3 + '     ' +   ff4)
+                                
+                                            var diffDays = parseInt((ff3 - ff4) / (1000 * 60 * 60 * 24)); //gives day difference
+                                            var diffhoras = parseInt((ff3 - ff4) / (1000 * 60 * 60 )); //gives day difference
+                                            var diffminutos = parseInt((ff3 - ff4) / (1000 * 60 )); //gives day difference
+                                            var diffseg = parseInt((ff3 - ff4) / (1000  )); //gives day difference
+                                    
+                                     if((Number(todos[i].tiempo) - Number(diffminutos))<0)
+                                     {
+                                        mydata.push(    {
                                             "_id" : todos[i]._id,
                                             "idempresa" : todos[i].idempresa,
                                             "idpapa" : todos[i].idpapa,
@@ -194,6 +286,9 @@ console.log({idempresa:req.params.id3,estado:req.params.id2,idinspector:req.para
                                             "tipomulta" : todos[i].tipomulta,
                                             "idcontrato" : todos[i].idcontrato,
                                             "tiempo" : todos[i].tiempo,
+                                            "tiempo2" : datiempo(todos[i].tiempo),
+                                            "minutos2":datiempo(diffminutos),
+                                            "faltante2":datiempo((Number(todos[i].tiempo) - Number(diffminutos))),
                                             "idmulta" : todos[i].idmulta,
                                             "fechamulta" : todos[i].fechamulta,
                                             "periodomulta" : todos[i].periodomulta,
@@ -209,11 +304,23 @@ console.log({idempresa:req.params.id3,estado:req.params.id2,idinspector:req.para
                                             dias:diffDays,horas: diffhoras,minutos:diffminutos,segundos:diffseg,
                                             faltante:(Number(todos[i].tiempo) - Number(diffminutos))
                                         });
-                                    }
-                                    
-                
-                                     res.json(mydata);
-                                 });
+
+                                     }
+                                      
+    
+                                            
+                                       
+                                 
+                                        }
+    
+                                        
+                    
+                                         res.json(mydata);
+                                     });
+
+                                }
+                                
+                           
 
 
                             }
