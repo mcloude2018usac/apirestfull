@@ -6,6 +6,8 @@
   orden		: { type : Number, required : true },  
   tipo		: { type : String, required : true },  
   subtipo		: { type : String, required : true },  
+  ejecuta		: { type : String },  
+  ejecutainicio		: { type : String },  
   nombre		: { type : String, required : true },  
   estado		: { type : String, required : true },  
   actividadsiguiente		:  { id	: { type : String },   nombre	: { type : String }   },

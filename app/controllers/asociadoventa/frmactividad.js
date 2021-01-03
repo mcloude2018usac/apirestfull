@@ -95,9 +95,9 @@ exports.getfrmactividad = function(req, res, next){
         {console.log('entra')
             if(req.params.id2=='todos')
             { 
-                frmaccion.find({idempresa:req.params.id3,idpapa0:req.params.id4}).sort({'_id': -1}).exec(function(err, todosaa) {
+                frmaccion.find({idempresa:req.params.id3,idpapa0:req.params.id4}).sort({'orden': 1}).exec(function(err, todosaa) {
                     if (err){  res.send(err);  }
-                frmactividad.find({idempresa:req.params.id3,idpapa:req.params.id4}).sort({'_id': 1}).exec(function(err, todos) {
+                frmactividad.find({idempresa:req.params.id3,idpapa:req.params.id4}).sort({'orden': 1}).exec(function(err, todos) {
                     if (err){  res.send(err);  }
                    
 
@@ -105,13 +105,21 @@ exports.getfrmactividad = function(req, res, next){
                     var duplicates = [];
                     for(var i = 0; i < todos.length;i++){
                         var cuantos=0;
+                        var cadhtm='<ul>';
+                        
                         for(var ii = 0; ii < todosaa.length;ii++){
+
+                            
                             if(String(todos[i]._id)===String(todosaa[ii].idpapa))
                             {
                                 cuantos=cuantos+1
+                               cadhtm=cadhtm +  '<li>' +  todosaa[ii].nombre + '</li>'
+                              //  cadhtm=cadhtm + cuantos + '.' +  todosaa[ii].nombre + '<br>'
                             }
+                           
 
                         }
+                        cadhtm=cadhtm + '</ul>'
                                     duplicates.push({ idempresa:todos[i].idempresa,
                                         idpapa:todos[i].idpapa,
                                         _id:todos[i]._id,
@@ -130,6 +138,7 @@ exports.getfrmactividad = function(req, res, next){
                                         camposimprime	:todos[i].camposimprime,	
                                         estado	:todos[i].estado,	
                                         usuarionew:todos[i].usuarionew,	
+                                        acciones:cadhtm,
                                      
                                     cuantos:cuantos});
                     }
@@ -145,7 +154,7 @@ exports.getfrmactividad = function(req, res, next){
             {
                 if(req.params.id2==='orden')
                 {
-                    frmactividad.find({idempresa:req.params.id3,idpapa:req.params.id4}).sort({'_id': -1}).exec(function(err, todos) {
+                    frmactividad.find({idempresa:req.params.id3,idpapa:req.params.id4}).sort({'orden': -1}).exec(function(err, todos) {
                         if (err){  res.send(err);  }
                         if(todos.length>0)
                         { res.json({orden:todos[0].orden +10});
@@ -162,7 +171,7 @@ exports.getfrmactividad = function(req, res, next){
                 else
                 {
 
-                    frmaccion.find({idempresa:req.params.id3,idpapa0:req.params.id4}).sort({'_id': -1}).exec(function(err, todosaa) {
+                    frmaccion.find({idempresa:req.params.id3,idpapa0:req.params.id4}).sort({'orden': 1}).exec(function(err, todosaa) {
                         if (err){  res.send(err);  }
                         frmactividad.find({idempresa:req.params.id3,estado:req.params.id2,idpapa:req.params.id4}).sort({'_id': -1}).exec(function(err, todos) {
                             if (err){  res.send(err);  }
@@ -170,11 +179,15 @@ exports.getfrmactividad = function(req, res, next){
                             var duplicates = [];
                             for(var i = 0; i < todos.length;i++){
                                 var cuantos=0;
+                                var cadhtm='';
                                 for(var ii = 0; ii < todosaa.length;ii++){
+                                     cadhtm='<ul>'
                                     if(String(todos[i]._id)===String(todosaa[ii].idpapa))
                                     {
                                         cuantos=cuantos+1
+                                        cadhtm=cadhtm +  '<li>' +  todosaa[ii].nombre + '</li>'
                                     }
+                                    cadhtm='</ul>'
 
                                 }
                                             duplicates.push({ idempresa:todos[i].idempresa,
@@ -195,6 +208,7 @@ exports.getfrmactividad = function(req, res, next){
                                                 camposimprime	:todos[i].camposimprime,	
                                                 estado	:todos[i].estado,	
                                                 usuarionew:todos[i].usuarionew,	
+                                                acciones:cadhtm,
                                             
                                             cuantos:cuantos});
                             }
@@ -262,7 +276,7 @@ if(req.params.recordID!=='crea')
     });
 }
 else{
-    frmactividad.find({nombre        	: req.body.nombre  , idpapa     	: req.body.idpapa   },function(err, todos) {
+    frmactividad.find({orden        	: req.body.orden  , nombre        	: req.body.nombre  , idpapa     	: req.body.idpapa   },function(err, todos) {
         if (err){ res.send(err); }
         if(todos.length>0)   {    res.status(500).send('Ya existe un actividad con este nombre en la plataforma'); }
         else

@@ -4,7 +4,21 @@ var Bitacora = require('../models/bitacora');
 
 exports.getFrmmovild = function(req, res, next){
     if(req.params.id4)
-    {   
+    {   if(req.params.id2=='frmcamposdetalle')
+    { //,"Check list detalle"
+        Frmmovild.find({idempresa:req.params.id3,idmovil:req.params.id,  "type" : {$in :  ["Formulario detalle"]}}).sort({'order': 1}).exec(function(err, todos) {
+            if (err){  res.send(err);  }
+
+           
+                  var myData = [];
+                  for(var i = 0; i < todos.length;i++){
+                    myData.push({_id:todos[i].idformdetalle.id ,nombre:todos[i].idformdetalle.nombre  })
+                  }
+
+                 res.json(myData);   
+         });
+    }
+    else{
         if(req.params.id2=='camposdetalle')
         { //,"Check list detalle"
             Frmmovild.find({idempresa:req.params.id3,idmovil:req.params.id,  "type" : {$in :  ["Formulario detalle","Check List Detalle"]}}).sort({'order': 1}).exec(function(err, todos) {
@@ -45,7 +59,7 @@ exports.getFrmmovild = function(req, res, next){
                     if (err){  res.send(err);  }
                      res.json(todos);
                  });
-            }}}
+            }}}}
     }
     else
     {
@@ -156,8 +170,8 @@ if(req.params.id!=='crea')
             todo.position		=	req.body.position        	||	todo.position        	;
             todo.labelsizefondt		=	req.body.labelsizefondt        	||	todo.labelsizefondt        	;
             todo.blike=req.body.blike                	;
-            todo.fondoetiqueta= req.body.fondoetiqueta        	||	todo.fondoetiqueta        ,
-            todo.coloretiqueta=  req.body.coloretiqueta        	||	todo.coloretiqueta       ,
+            todo.fondoetiqueta= req.body.fondoetiqueta            ,
+            todo.coloretiqueta=  req.body.coloretiqueta        ,
 
             todo.categoria   			=	req.body.categoria        	||	todo.categoria        	;
            
@@ -175,7 +189,7 @@ if(req.params.id!=='crea')
             todo.respuesta=req.body.respuesta        	||	todo.respuesta        	;
             todo.geoposicion=req.body.geoposicion        	       	;
             
-
+            todo.frmapirest=  req.body.frmapirest;
             todo.maxnumregistros=req.body.maxnumregistros        	||	todo.maxnumregistros        	;
             
             todo.idcampofiltro =req.body.idcampofiltro        	       	;
@@ -235,7 +249,7 @@ else{
                         default 	: '' 	,
                         default2 	: '' 	,
                         default3 	: '' 	,
-                        
+                        frmapirest: '',
                         idfrmconsultaorigen:req.body.idfrmconsultaorigen,
                         idfrmconsulta2origen:req.body.idfrmconsulta2origen,
                         nombreconsulta2origen:'',

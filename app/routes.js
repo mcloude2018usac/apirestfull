@@ -28,6 +28,7 @@ var AuthenticationController = require('./controllers/authentication'),
     UbicacionentregaController = require('./controllers/asociadoventa/ubicacionentrega'),
     ImagesslController = require('./controllers/imagessl'),
     frmactividadController = require('./controllers/asociadoventa/frmactividad'),
+    frmactividadcamposdController = require('./controllers/asociadoventa/frmactividadcamposd'),
     frmactorController = require('./controllers/asociadoventa/frmactor'),
     frmactorgrupoController = require('./controllers/asociadoventa/frmactorgrupo'),
     GeneradorController = require('./controllers/generafrm/generador'),
@@ -237,6 +238,7 @@ module.exports = function(app){
         area_eventoRoutes = express.Router(),
         ubicacionentregaRoutes = express.Router(),
         frmactividadRoutes = express.Router(),
+        frmactividadcamposdRoutes = express.Router(),
         dtarifaRoutes = express.Router(),
         userpostRoutes = express.Router(),
         nuevosalonRoutes = express.Router(),
@@ -468,6 +470,14 @@ frmactividadRoutes.get('/:id',requireAuth,  frmactividadController.getfrmactivid
 frmactividadRoutes.post('/:recordID',requireAuth,  frmactividadController.creafrmactividad2s);
 frmactividadRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  frmactividadController.deletefrmactividad);
 
+apiRoutes.use('/frmactividadcamposds', frmactividadcamposdRoutes);
+frmactividadcamposdRoutes.get('/', requireAuth,frmactividadcamposdController.getfrmactividadcamposd);
+frmactividadcamposdRoutes.get('/:id/:id2/:id3',requireAuth,  frmactividadcamposdController.getfrmactividadcamposd);
+frmactividadcamposdRoutes.get('/:id/:id2/:id3/:id4',requireAuth,  frmactividadcamposdController.getfrmactividadcamposd);
+frmactividadcamposdRoutes.get('/:id',requireAuth,  frmactividadcamposdController.getfrmactividadcamposd);
+frmactividadcamposdRoutes.post('/:recordID',requireAuth,  frmactividadcamposdController.creafrmactividadcamposd2s);
+frmactividadcamposdRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  frmactividadcamposdController.deletefrmactividadcamposd);
+
 apiRoutes.use('/dispositivos', dispositivoRoutes);
 dispositivoRoutes.get('/', requireAuth,dispositivoController.getdispositivo);
 dispositivoRoutes.get('/:id/:id2/:id3',requireAuth,  dispositivoController.getdispositivo);
@@ -480,7 +490,7 @@ dispositivoRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth
 apiRoutes.use('/frmtareasprogramadass', frmtareasprogramadasRoutes);
 frmtareasprogramadasRoutes.get('/', requireAuth,frmtareasprogramadasController.getfrmtareasprogramadas);
 frmtareasprogramadasRoutes.get('/:id/:id2/:id3',requireAuth,  frmtareasprogramadasController.getfrmtareasprogramadas);
-frmtareasprogramadasRoutes.get('/:id/:id2/:id3/:id4/:id5',requireAuth,  frmtareasprogramadasController.getfrmtareasprogramadas);
+frmtareasprogramadasRoutes.get('/:id/:id2/:id3/:id4/:id5', frmtareasprogramadasController.getfrmtareasprogramadas);
 frmtareasprogramadasRoutes.get('/:id',requireAuth,  frmtareasprogramadasController.getfrmtareasprogramadas);
 frmtareasprogramadasRoutes.post('/:recordID',requireAuth,  frmtareasprogramadasController.creafrmtareasprogramadas2s);
 frmtareasprogramadasRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  frmtareasprogramadasController.deletefrmtareasprogramadas);
