@@ -10,6 +10,7 @@ var mongoose =require("mongoose");
         publico	: { type : String},
         geoposicion:  { type : String },
         ejecuta:  { type : String },
+        ejecutainicio:  { type : String },
       //  idformdetalle:  	{    id	: { type : String },   nombre	: { type : String }        },
         usuarionew	: { type : String },      usuarioup	: { type : String }}, {
         timestamps: true
