@@ -57,6 +57,8 @@ exports.getfrmtareasprogramadasservicios = function(req, res, next){
                                 "descripcion" : todos[i].descripcion,
                                 "idcontrato" : todos[i].idcontrato,
                                 "foto" : todos[i].foto,
+                                "fotoempresa":todos[i].fotoempresa,
+                                "gpsempresa":todos[i].gpsempresa,
                                 "tipomulta" : todos[i].tipomulta,
                                 "tiempo" : todos[i].tiempo,
                                 "tiempo2" : datiempo(todos[i].tiempo),
@@ -85,54 +87,176 @@ exports.getfrmtareasprogramadasservicios = function(req, res, next){
                 {
                     if(req.params.id==='todosmultas')
                     {
-                    frmtareasprogramadasservicios.find({idempresa:req.params.id3,estado:req.params.id2,idempresita:req.params.id4}).sort({'_id': -1}).exec(function(err, todos) {
-                        if (err){  res.send(err);  }
-    
-                     
-                        var  mydata=[]
-                        for(var i = 0; i <todos.length; i++) {
-                            var ff3=new Date()
-                            var ff4=todos[i].createdAt 
-                            console.log( ff3 + '     ' +   ff4)
+
+                        console.log(req.params)
+                        var arr=req.params.id3.split('°')
+                        console.log(arr)
                 
-                            var diffDays = parseInt((ff3 - ff4) / (1000 * 60 * 60 * 24)); //gives day difference
-                            var diffhoras = parseInt((ff3 - ff4) / (1000 * 60 * 60 )); //gives day difference
-                            var diffminutos = parseInt((ff3 - ff4) / (1000 * 60 )); //gives day difference
-                            var diffseg = parseInt((ff3 - ff4) / (1000  )); //gives day difference
-                        mydata.push(    {
-                                "_id" : todos[i]._id,
-                                "idempresa" : todos[i].idempresa,
-                                "idpapa" : todos[i].idpapa,
-                                "tipo" : todos[i].tipo,
-                                "nombre" : todos[i].nombre,
-                                "descripcion" : todos[i].descripcion,
-                                "foto" : todos[i].foto,
-                                "tipomulta" : todos[i].tipomulta,
-                                "idcontrato" : todos[i].idcontrato,
-                                "tiempo" : todos[i].tiempo,
-                                "tiempo2" : datiempo(todos[i].tiempo),
-                                "minutos2":datiempo(diffminutos),
-                                "faltante2":datiempo((Number(todos[i].tiempo) - Number(diffminutos))),
-                                "idmulta" : todos[i].idmulta,
-                                "fechamulta" : todos[i].fechamulta,
-                                "periodomulta" : todos[i].periodomulta,
-                                "monto" : todos[i].monto,
-                                "proyectotxt" : todos[i].proyectotxt,
-                                "empresatxt" : todos[i].empresatxt,
-                                "correos" : todos[i].correos,
-                                "correotipo" : todos[i].correotipo,
-                                "geoposicion" : todos[i].geoposicion,
-                                "estado" : todos[i].estado,
-                                "createdAt" : todos[i].createdAt,
-                                "updatedAt" : todos[i].updatedAt,
-                                dias:diffDays,horas: diffhoras,minutos:diffminutos,segundos:diffseg,
-                                faltante:(Number(todos[i].tiempo) - Number(diffminutos))
-                            });
-                        }
-                        
+                        if(req.params.id2!=='Activo' &&  req.params.id2!=='No solucionadas')
+                        {
     
-                         res.json(mydata);
-                     });
+                            frmtareasprogramadasservicios.find({idempresa:arr[0],estado:req.params.id2,idempresita:req.params.id4}).sort({'_id': -1}).exec(function(err, todos) {
+                                if (err){  res.send(err);  }
+            
+                             
+                                var  mydata=[]
+                                for(var i = 0; i <todos.length; i++) {
+                                    var ff3=new Date()
+                                    var ff4=todos[i].createdAt 
+                                    console.log( ff3 + '     ' +   ff4)
+                        
+                                    var diffDays = parseInt((ff3 - ff4) / (1000 * 60 * 60 * 24)); //gives day difference
+                                    var diffhoras = parseInt((ff3 - ff4) / (1000 * 60 * 60 )); //gives day difference
+                                    var diffminutos = parseInt((ff3 - ff4) / (1000 * 60 )); //gives day difference
+                                    var diffseg = parseInt((ff3 - ff4) / (1000  )); //gives day difference
+
+
+                                mydata.push(    {
+                                        "_id" : todos[i]._id,
+                                        "idempresa" : todos[i].idempresa,
+                                        "idpapa" : todos[i].idpapa,
+                                        "tipo" : todos[i].tipo,
+                                        "nombre" : todos[i].nombre,
+                                        "descripcion" : todos[i].descripcion,
+                                        "foto" : todos[i].foto,
+                                        "tipomulta" : todos[i].tipomulta,
+                                        "idcontrato" : todos[i].idcontrato,
+                                        "tiempo" : todos[i].tiempo,
+                                        "tiempo2" : datiempo(todos[i].tiempo),
+                                        "fotoempresa":todos[i].fotoempresa,
+                                        "gpsempresa":todos[i].gpsempresa,
+                                        "minutos2":datiempo(diffminutos),
+                                        "faltante2":datiempo((Number(todos[i].tiempo) - Number(diffminutos))),
+                                        "idmulta" : todos[i].idmulta,
+                                        "fechamulta" : todos[i].fechamulta,
+                                        "periodomulta" : todos[i].periodomulta,
+                                        "monto" : todos[i].monto,
+                                        "proyectotxt" : todos[i].proyectotxt,
+                                        "empresatxt" : todos[i].empresatxt,
+                                        "correos" : todos[i].correos,
+                                        "correotipo" : todos[i].correotipo,
+                                        "geoposicion" : todos[i].geoposicion,
+                                        "estado" : todos[i].estado,
+                                        "createdAt" : todos[i].createdAt,
+                                        "updatedAt" : todos[i].updatedAt,
+                                        dias:diffDays,horas: diffhoras,minutos:diffminutos,segundos:diffseg,
+                                        faltante:(Number(todos[i].tiempo) - Number(diffminutos))
+                                    });
+                                }
+                                
+            
+                                 res.json(mydata);
+                             });
+                           
+                              
+                            
+                        }  
+                        else
+                        {
+                          
+                            frmtareasprogramadasservicios.find({idempresa:arr[0],estado:'Activo',idempresita:req.params.id4}).sort({'_id': -1}).exec(function(err, todos) {
+                                if (err){  res.send(err);  }
+            
+                             
+                                var  mydata=[]
+                                for(var i = 0; i <todos.length; i++) {
+                                    var ff3=new Date()
+                                    var ff4=todos[i].createdAt 
+                                    console.log( ff3 + '     ' +   ff4)
+                        
+                                    var diffDays = parseInt((ff3 - ff4) / (1000 * 60 * 60 * 24)); //gives day difference
+                                    var diffhoras = parseInt((ff3 - ff4) / (1000 * 60 * 60 )); //gives day difference
+                                    var diffminutos = parseInt((ff3 - ff4) / (1000 * 60 )); //gives day difference
+                                    var diffseg = parseInt((ff3 - ff4) / (1000  )); //gives day difference
+                                    console.log(req.params.id2 + ' ' +arr[1])    
+                                    if(arr[1]==='2')
+                                    {
+
+                                        if((Number(todos[i].tiempo) - Number(diffminutos))>=0)
+                                        {
+                                            mydata.push(    {
+                                                "_id" : todos[i]._id,
+                                                "idempresa" : todos[i].idempresa,
+                                                "idpapa" : todos[i].idpapa,
+                                                "tipo" : todos[i].tipo,
+                                                "nombre" : todos[i].nombre,
+                                                "descripcion" : todos[i].descripcion,
+                                                "foto" : todos[i].foto,
+                                                "tipomulta" : todos[i].tipomulta,
+                                                "idcontrato" : todos[i].idcontrato,
+                                                "tiempo" : todos[i].tiempo,
+                                                "tiempo2" : datiempo(todos[i].tiempo),
+                                                "minutos2":datiempo(diffminutos),
+                                                "faltante2":datiempo((Number(todos[i].tiempo) - Number(diffminutos))),
+                                                "idmulta" : todos[i].idmulta,
+                                                "fechamulta" : todos[i].fechamulta,
+                                                "periodomulta" : todos[i].periodomulta,
+                                                "monto" : todos[i].monto,
+                                                "fotoempresa":todos[i].fotoempresa,
+                                                "gpsempresa":todos[i].gpsempresa,
+                                                "proyectotxt" : todos[i].proyectotxt,
+                                                "empresatxt" : todos[i].empresatxt,
+                                                "correos" : todos[i].correos,
+                                                "correotipo" : todos[i].correotipo,
+                                                "geoposicion" : todos[i].geoposicion,
+                                                "estado" : todos[i].estado,
+                                                "createdAt" : todos[i].createdAt,
+                                                "updatedAt" : todos[i].updatedAt,
+                                                dias:diffDays,horas: diffhoras,minutos:diffminutos,segundos:diffseg,
+                                                faltante:(Number(todos[i].tiempo) - Number(diffminutos))
+                                            });
+                                        }
+                                    }
+                                    else
+                                    {
+
+                                        if((Number(todos[i].tiempo) - Number(diffminutos))<0)
+                                        {
+                                            mydata.push(    {
+                                                "_id" : todos[i]._id,
+                                                "idempresa" : todos[i].idempresa,
+                                                "idpapa" : todos[i].idpapa,
+                                                "tipo" : todos[i].tipo,
+                                                "nombre" : todos[i].nombre,
+                                                "descripcion" : todos[i].descripcion,
+                                                "foto" : todos[i].foto,
+                                                "tipomulta" : todos[i].tipomulta,
+                                                "idcontrato" : todos[i].idcontrato,
+                                                "tiempo" : todos[i].tiempo,
+                                                "fotoempresa":todos[i].fotoempresa,
+                                                "gpsempresa":todos[i].gpsempresa,
+                                                "tiempo2" : datiempo(todos[i].tiempo),
+                                                "minutos2":datiempo(diffminutos),
+                                                "faltante2":datiempo((Number(todos[i].tiempo) - Number(diffminutos))),
+                                                "idmulta" : todos[i].idmulta,
+                                                "fechamulta" : todos[i].fechamulta,
+                                                "periodomulta" : todos[i].periodomulta,
+                                                "monto" : todos[i].monto,
+                                                "proyectotxt" : todos[i].proyectotxt,
+                                                "empresatxt" : todos[i].empresatxt,
+                                                "correos" : todos[i].correos,
+                                                "correotipo" : todos[i].correotipo,
+                                                "geoposicion" : todos[i].geoposicion,
+                                                "estado" : todos[i].estado,
+                                                "createdAt" : todos[i].createdAt,
+                                                "updatedAt" : todos[i].updatedAt,
+                                                dias:diffDays,horas: diffhoras,minutos:diffminutos,segundos:diffseg,
+                                                faltante:(Number(todos[i].tiempo) - Number(diffminutos))
+                                            });
+                                        }
+                                  
+                                        }
+
+                                    }
+                                
+            
+                                 res.json(mydata);
+                             });
+                           
+                           
+                        }
+
+                   
                     }
                     else
                     {
@@ -170,6 +294,8 @@ console.log({idempresa:req.params.id3,estado:req.params.id2,idinspector:req.para
                                         "faltante2":datiempo((Number(todos[i].tiempo) - Number(diffminutos))),
                                         "idmulta" : todos[i].idmulta,
                                         "fechamulta" : todos[i].fechamulta,
+                                        "fotoempresa":todos[i].fotoempresa,
+                                        "gpsempresa":todos[i].gpsempresa,
                                         "periodomulta" : todos[i].periodomulta,
                                         "monto" : todos[i].monto,
                                         "proyectotxt" : todos[i].proyectotxt,
@@ -240,6 +366,8 @@ console.log(arr)
                                                     "correotipo" : todos[i].correotipo,
                                                     "geoposicion" : todos[i].geoposicion,
                                                     "estado" : todos[i].estado,
+                                                    "fotoempresa":todos[i].fotoempresa,
+                                                    "gpsempresa":todos[i].gpsempresa,
                                                     "createdAt" : todos[i].createdAt,
                                                     "updatedAt" : todos[i].updatedAt,
                                                     dias:diffDays,horas: diffhoras,minutos:diffminutos,segundos:diffseg,
@@ -297,6 +425,8 @@ console.log(arr)
                                             "empresatxt" : todos[i].empresatxt,
                                             "correos" : todos[i].correos,
                                             "correotipo" : todos[i].correotipo,
+                                            "fotoempresa":todos[i].fotoempresa,
+                                            "gpsempresa":todos[i].gpsempresa,
                                             "geoposicion" : todos[i].geoposicion,
                                             "estado" : todos[i].estado,
                                             "createdAt" : todos[i].createdAt,
@@ -394,6 +524,11 @@ exports.creafrmtareasprogramadasservicios2s = function(req, res, next){
 
      todo.empresatxt	=	req.body.empresatxt        	||	todo.empresatxt;  
      todo.correotipo=req.body.correotipo        	||	todo.correotipo;  
+
+     todo.gpsempresa=req.body.gpsempresa        	||	todo.gpsempresa;  
+     
+
+     todo.fotoempresa=req.body.fotoempresa        	||	todo.fotoempresa;  
      todo.empresatxttiempo	=	req.body.empresatxttiempo        	||	todo.empresatxttiempo;  
      todo.estado       	=	req.body.estado        	||	todo.estado   
                 todo.usuarioup=req.body.bitacora.email;
@@ -453,11 +588,7 @@ if(req.params.recordID!=='crea')
     });
 }
 else{
-    frmtareasprogramadasservicios.find({nombre        	: req.body.nombre  },function(err, todos) {
-        if (err){ res.send(err); }
-        if(todos.length>0)   {    res.status(500).send('Ya existe un frmtareasprogramadasservicios en plataforma'); }
-        else
-        {   
+  
             frmtareasprogramadasservicios.create({ 
   idempresa     	: req.body.idempresa    	,
   idpapa     	: req.body.idpapa    	,
@@ -474,7 +605,8 @@ else{
   idinspector2     	: req.body.idinspector2   	,
   idsupervisor     	: req.body.idsupervisor   	,
   correotipo	: req.body.correotipo ,
-
+  fotoempresa:'',
+  gpsempresa:'',
   tipomulta     	: req.body.tipomulta    	,
   tiempo	: req.body.tiempo    	,
   idempresita:req.body.idempresita,
@@ -492,7 +624,6 @@ else{
                     res.status(500).send(err.message)    }
                 res.json(todo);
             });
-             }
-    });
+             
 }}}
 }
