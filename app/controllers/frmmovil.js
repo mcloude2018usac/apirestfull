@@ -8,6 +8,7 @@ var Image = require('../models/image2');
 var formulariousrd = require('../models/formulariousrd');
 var formulariousr = require('../models/formulariousr');
 var frmejecuta= require('../controllers/frmmovilejecuta');
+
 var functool = require('../controllers/funcionesnode');
 var Contador = require('../models/contador');
 var formulariotrayectoria = require('../models/asociadoventa/formulariotrayectoria');
@@ -22,8 +23,45 @@ var frmactor = require('../models/asociadoventa/frmactor');
 var frmactorgrupo = require('../models/asociadoventa/frmactorgrupo');
 const frmmovil = require('../models/frmmovil');
 
-var async = require("async");
 
+
+
+
+
+//var async = require("async");
+function daformxid(namess,filtro, cadxx)
+{
+    return new Promise(resolve => { 
+var re=''
+                                var cad=''
+                              
+                                cad=cadxx + '     "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+
+                                cad='{' + cad + '}'
+                         
+                                var jsonObject = stringToObject(cad);
+                              
+                                var mongoose = require("mongoose");
+                                delete mongoose.connection.models[namess];
+                                var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                                var  frmtt= mongoose.model(namess,tt);
+                                
+                                    frmtt.find(filtro ,function(err, todos2) {
+                                        if (err){  res.send(err); }
+                                      
+                                    
+                                      resolve(todos2); 
+                                      
+                                    });
+                            
+                             
+                
+        
+    
+
+                                });
+
+}
    function daidform(namess,filtro)
 {
     return new Promise(resolve => { 
@@ -95,6 +133,72 @@ function davalorvv(vec, valor)
     return re;
 }
 
+function dadatosformulariocombo(namess,filtro,idempresa, myDatavector)
+{
+    
+    return new Promise(resolve => { 
+        Frmmovild.find({idmovil:namess, display : "true",idempresa:idempresa}).sort([['order', 1]]).exec(function(err, todos) {
+            if (err){ res.send(err); }
+          
+ 
+                                if(todos.length>0)   {  
+                               
+                                    var cad=''
+                                    var cadxx=''
+                                    var cad3=(dafiltrocad(todos,'','')).split('°')
+                                  
+                              
+                                 
+                                    cad=cad3[0]
+                                    cadxx='{'+ cad3[1] + '}'
+                                    cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                    cad='{' + cad + '}'
+                                    cadxx='{' + cadxx + '}'
+
+                               //  console.log(cad)
+                                    var jsonObject = stringToObject(cad);
+                                  
+                                    var mongoose = require("mongoose");
+                                    var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                                    delete mongoose.connection.models[namess];
+                                    var  frmtt= mongoose.model(namess,tt);
+
+                                    frmtt.find(filtro).exec(function(err, todos2) {
+                                        if (err){  res.send(err); }
+                                        
+                                        var myData = [];
+                                        for(var i = 0; i < todos2.length;i++){
+                                          var nombret ='';
+                                          for(var j = 0; j < myDatavector.length;j++){
+                                              nombret = nombret + myDatavector[j].split('°')[1] + ': ' +  todos2[i][myDatavector[j].split('°')[0]]  + '°'
+                                          }
+                                          myData.push({_id:todos2[i]._id , nombre: nombret })
+    
+                                           
+                                        }
+                                         
+
+
+                                        resolve(myData); 
+                                       // res.json(todos2);
+
+                                    });
+                                }
+
+
+    });
+        
+                                    
+                                   
+                             
+                
+        
+    
+
+                                });
+
+}
+
 
 async function getcombomanual(req, res, next)
 {
@@ -104,96 +208,51 @@ async function getcombomanual(req, res, next)
                     
                 var namess=req.params.id
                 var campost=req.params.id2
-          
                 var myDatavector = campost.split(',');
+             
                 var myDatavector2 = req.params.id5.split(',');
-               
-               
+                var contrato=davalorvv(myDatavector2,'contrato')
+                var filtro={estado:'Activo',idpapa:contrato}
+                const ans = await daidform('5f72a12587c9e33bd4ada7abs',filtro); 
+                 var arr=req.params.id3.split('°')
+                planificaciones = await dadatosformulariocombo('5f595df92521cd38c8fe3126',{idpapa:ans,estado:'Activo'},arr[0],myDatavector); 
+                res.json(planificaciones);
+        break;
 
-var contrato=davalorvv(myDatavector2,'contrato')
-
-var filtro={estado:'Activo',idpapa:contrato}
-
-const ans = await daidform('5f72a12587c9e33bd4ada7abs',filtro); 
-
-
-
-
-    
-    var arr=req.params.id3.split('°')
-               
-    Frmmovild.find({idmovil:req.params.id, display : "true",idempresa:arr[0]}).sort([['order', 1]]).exec(function(err, todos) {
-        if (err){ res.send(err); }
-    
-                            if(todos.length>0)   {  
-                        
-                                var cad=''
-                                var cadxx=''
-                                var cad3=(dafiltrocad(todos,'','')).split('°')
-                        
-                                cad=cad3[0]
-                                cadxx='{'+ cad3[1] + '}'
-                                cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
-                                cad='{' + cad + '}'
-                                cadxx='{' + cadxx + '}'
-                            
-                                var jsonObject = stringToObject(cad);
-                            
-                                var mongoose = require("mongoose");
-                                delete mongoose.connection.models[namess];
-                                var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
-                            //  console.log(tt)
-                                
-                            
-                                try {
-                                    var  frmtt= mongoose.model(namess,tt);
-                                    frmtt.find({idpapa:ans,estado:'Activo'} ,function(err, todos2) {
-                                        if (err){  res.send(err); }
-                                    //  console.log(todos2)
-                                    var myData = [];
-                                    for(var i = 0; i < todos2.length;i++){
-                                      var nombret ='';
-                                      for(var j = 0; j < myDatavector.length;j++){
-                                          nombret = nombret + myDatavector[j].split('°')[1] + ': ' +  todos2[i][myDatavector[j].split('°')[0]]  + '°'
-                                      }
-                                      myData.push({_id:todos2[i]._id , nombre: nombret })
-
-                                       
-                                    }
-                                      res.json(myData);
-                                    
-                                    });
-                                } catch(e) {
-                                    
-                                    var  frmtt= mongoose.model(namess);
-                        
-                                    frmtt.find( {idpapa:ans,estado:'Activo'} ,function(err, todos2) {
-                                        if (err){  res.send(err);
-                                        }
-                                    // console.log(todos2)
-                                    var myData = [];
-                                    for(var i = 0; i < todos2.length;i++){
-                                      var nombret ='';
-                                      for(var j = 0; j < myDatavector.length;j++){
-                                          nombret = nombret + myDatavector[j].split('°')[1] + ': ' +  todos2[i][myDatavector[j].split('°')[0]]  + '°'
-                                      }
-                                      myData.push({_id:todos2[i]._id , nombre: nombret })
-
-                                       
-                                    }
-                                      res.json(myData);
-                                    
-                                    });
-                                }
-
-
-                            
-                
-        }
-    });
+                case 'getcombosancioenmienda':
+                    
+                    var namess=req.params.id
+                    var campost=req.params.id2
+                    var arr=req.params.id3.split('°')
+                   
+                    var myDatavector = campost.split(',');
+                    
+                    var myDatavector2 = req.params.id5.split(',');
+                    
+                    var enmienda=davalorvv(myDatavector2,'enmienda')
+                  
+                    //en las enmiendas vos a traer que plantilla de multas uso
+                    var enmiendacampos=[]
+                    
+                    enmiendacampos = await daformxid('5f72a12587c9e33bd4ada7abs',{_id:  '' +enmienda +''},'"multasporperiodo"	: { "type" : "String" }, '); 
 
 
 
+                    
+                    var campossst=[]
+                    campossst.push('multa°Multa')
+                    planificaciones = await dadatosformulariocombo('5fc55f9894568f50c4cdcb4c',{idpapa:enmiendacampos[0].multasporperiodo.split('¬')[1]},arr[0],campossst); 
+                    res.json(planificaciones);
+
+
+
+                    /*
+                    var filtro={estado:'Activo',idpapa:contrato}
+                    const ans = await daidform('5f72a12587c9e33bd4ada7abs',filtro); 
+                     var arr=req.params.id3.split('°')
+                    planificaciones = await dadatosformulariocombo('5fc55f9894568f50c4cdcb4cs',{idpapa:ans,estado:'Activo'},arr[0],myDatavector); 
+                    res.json(planificaciones);
+*/
 
 
             
@@ -352,7 +411,7 @@ function  existeregistrosfrom(idformulario,todos,cadxx,idpapa)
                                
                                 try {
                                     var  frmtt= mongoose.model(namess,tt);
-                                    console.log('entraaaaaaaaaaaaa1')
+                                    
                                   
                                     
                                     frmtt.find({"contrato":"descripcion: descripción del contrato , nocontrato: a1 ,        °5f7648b37e8d091240017cc3"} ,function(err, todos2) {
@@ -382,12 +441,12 @@ function  existeregistrosfrom(idformulario,todos,cadxx,idpapa)
                                          if(todos2.length>0)
                                          {
                                             return 'si'
-                                            console.log('si')
+                                          
                                            
                                           } else
                                             {
                                                 return 'no'
-                                                console.log('no')
+                                            
                                             }
                                      
                                      });
@@ -595,6 +654,7 @@ var objectToArray = function(obj) {
 }
  
 exports.getFrmmovil = function(req, res, next){
+    console.log(req.params)
     if(req.params.id5)
     {
         if(req.params.id4=='frmmovilp')
@@ -620,7 +680,7 @@ exports.getFrmmovil = function(req, res, next){
         else
         {
 
-            console.log('entraaaaaaaaaaaaa')
+          
             
             getcombomanual(req, res, next);
 
@@ -659,13 +719,13 @@ exports.getFrmmovil = function(req, res, next){
                                         cad='{' + cad + '}'
                                         cadxx='{' + cadxx + '}'
 
-                                   //  console.log(cad)
+
                                         var jsonObject = stringToObject(cad);
                                       
                                         var mongoose = require("mongoose");
                                         delete mongoose.connection.models[namess];
                                         var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
-                                      //  console.log(tt)
+                                    
                                      
                                         try {
                                             var  frmtt= mongoose.model(namess,tt);
@@ -747,20 +807,19 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                         cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
                                         cad='{' + cad + '}'
                                         cadxx='{' + cadxx + '}'
-                                     console.log(namess)   
-                                     console.log(filtro)
+                                     
                                         var jsonObject = stringToObject(cad);
                                       
                                         var mongoose = require("mongoose");
                                         delete mongoose.connection.models[namess];
                                         var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
-                                      //  console.log(tt)
+                                    
                                      
                                         try {
                                             var  frmtt= mongoose.model(namess,tt);
                                             frmtt.find(JSON.parse(filtro) ,function(err, todos2) {
                                                 if (err){  res.send(err); }
-                                             console.log(todos2)
+                                           
 
                                                 res.json(todos2);
                                               
@@ -802,7 +861,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
 
         
             var arremp=req.params.id3.split('°')
-            console.log(arremp)
+   
 //,_id:{$in: myData}
 
 
@@ -824,7 +883,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                   {
                                     filtro='{' + arremp[1] + '°' + arremp[2] + '°' + arremp[3] + '}'
                                   }
-                                       console.log(filtro)
+                                       
                                    
                                         cad=cad3[0]
                                         cadxx='{'+ cad3[1] + '}'
@@ -842,8 +901,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                      
                                         try {
                                             var  frmtt= mongoose.model(namess,tt);
-                                            console.log('formulario:'+namess)
-                                            console.log(filtro)
+                                            
                                             frmtt.find(JSON.parse(filtro) ,function(err, todos2) {
                                                 if (err){  res.send(err); }
                                              
@@ -902,7 +960,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
             var namess=req.params.id
             var idbuscar=padLeadingZeros(req.params.id2,7)
             var arrt=req.params.id3.split('°')
-console.log('unnnnnnnnn registro')
+
 
             Frmmovild.find({idmovil:arrt[1], display : "true",idempresa:arrt[0]}).sort([['order', 1]]).exec(function(err, todos) {
                 if (err){ res.send(err); }
@@ -925,12 +983,9 @@ console.log('unnnnnnnnn registro')
                                         var mongoose = require("mongoose");
                                         delete mongoose.connection.models[namess];
                                         var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
-                                     //   console.log(tt)
-                                      //  console.log(namess)
                                     
                                         try {
-                                            console.log(namess)
-                                            console.log({sequencia:idbuscar})
+                                        
                                             var  frmtt= mongoose.model(namess,tt);
                                             frmtt.find({sequencia:idbuscar} ,function(err, todos2) {
                                                 if (err){  res.send(err); }
@@ -978,8 +1033,7 @@ console.log('unnnnnnnnn registro')
                     var uno=idbuscar[i].split('°')[0]
                     arratodo.push(uno)
                 }
-                console.log(req.params)
-                console.log(arratodo)
+                
  
               
            
@@ -1026,8 +1080,7 @@ console.log('unnnnnnnnn registro')
                                             var mongoose = require("mongoose");
                                             delete mongoose.connection.models[namess];
                                             var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
-                                         //   console.log(tt)
-                                          //  console.log(namess)
+                                         
                                         
                                             try {
                                                 var  frmtt= mongoose.model(namess,tt);
@@ -1072,7 +1125,7 @@ console.log('unnnnnnnnn registro')
                     var namess=req.params.id
                     var idbuscar=req.params.id2
                     var arrt=req.params.id3.split('°')
-    console.log('unnnnnnnnn registro')
+    
         
                     Frmmovild.find({idmovil:arrt[1], display : "true",idempresa:arrt[0]}).sort([['order', 1]]).exec(function(err, todos) {
                         if (err){ res.send(err); }
@@ -1095,12 +1148,10 @@ console.log('unnnnnnnnn registro')
                                                 var mongoose = require("mongoose");
                                                 delete mongoose.connection.models[namess];
                                                 var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
-                                             //   console.log(tt)
-                                              //  console.log(namess)
+                                             
                                             
                                                 try {
-                                                    console.log(namess)
-                                                    console.log({_id:idbuscar})
+                                                    
                                                     var  frmtt= mongoose.model(namess,tt);
                                                     frmtt.find({idpapa:idbuscar} ,function(err, todos2) {
                                                         if (err){  res.send(err); }
@@ -1139,10 +1190,10 @@ console.log('unnnnnnnnn registro')
                     {
             
                         var namess=req.params.id
-                        console.log(req.params.id2)
+                        
                         var idbuscar=req.params.id2.split(';')
                         var arrt=req.params.id3.split('°')
-        console.log('unnnnnnnnn registro')
+        
             
                         Frmmovild.find({idmovil:arrt[1], display : "true",idempresa:arrt[0]}).sort([['order', 1]]).exec(function(err, todos) {
                             if (err){ res.send(err); }
@@ -1165,8 +1216,7 @@ console.log('unnnnnnnnn registro')
                                                     var mongoose = require("mongoose");
                                                     delete mongoose.connection.models[namess];
                                                     var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
-                                                 //   console.log(tt)
-                                                  //  console.log(namess)
+                                                 
                                                 
                                                     try {
                                                         console.log({idpapa:{$in:idbuscar}, periodopago:arrt[2]})
@@ -1205,13 +1255,13 @@ console.log('unnnnnnnnn registro')
                     }
                     else
                     {
-            if(req.params.id4=='unregistromovil')
+                        if(req.params.id4=='unregistromovilusercreate')
             {
     
                 var namess=req.params.id
                 var idbuscar=req.params.id2
                 var arrt=req.params.id3.split('°')
-console.log('unnnnnnnnn registro')
+
     
                 Frmmovild.find({idmovil:arrt[1], display : "true",idempresa:arrt[0]}).sort([['order', 1]]).exec(function(err, todos) {
                     if (err){ res.send(err); }
@@ -1234,12 +1284,77 @@ console.log('unnnnnnnnn registro')
                                             var mongoose = require("mongoose");
                                             delete mongoose.connection.models[namess];
                                             var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
-                                         //   console.log(tt)
-                                          //  console.log(namess)
+                                         
                                         
                                             try {
-                                                console.log(namess)
-                                                console.log({_id:idbuscar})
+                                              
+                                                var  frmtt= mongoose.model(namess,tt);
+                                                frmtt.find({usuarionew:idbuscar} ,function(err, todos2) {
+                                                    if (err){  res.send(err); }
+                                                   
+    
+                                                    res.json(todos2);
+                                                  
+                                                });
+                                              } catch(e) {
+                                                
+                                                var  frmtt= mongoose.model(namess);
+                                      
+                                                frmtt.find( {usuarionew:idbuscar} ,function(err, todos2) {
+                                                     if (err){  res.send(err);
+                                                    }
+                                             
+                                                  
+                                                    res.json(todos2);
+                                                 
+                                                 });
+                                              }
+        
+        
+                                         
+                            
+                    }
+                });
+        
+                
+    
+    
+            }
+            else
+            {
+            if(req.params.id4=='unregistromovil')
+            {
+    
+                var namess=req.params.id
+                var idbuscar=req.params.id2
+                var arrt=req.params.id3.split('°')
+
+    
+                Frmmovild.find({idmovil:arrt[1], display : "true",idempresa:arrt[0]}).sort([['order', 1]]).exec(function(err, todos) {
+                    if (err){ res.send(err); }
+                  
+             
+                                        if(todos.length>0)   {  
+                                       
+                                            var cad=''
+                                            var cadxx=''
+                                            var cad3=(dafiltrocad(todos,'','')).split('°')
+                                      
+                                            cad=cad3[0]
+                                          
+                                            cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                            cad='{' + cad + '}'
+                                           
+                                     
+                                            var jsonObject = stringToObject(cad);
+                                          
+                                            var mongoose = require("mongoose");
+                                            delete mongoose.connection.models[namess];
+                                            var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                                         
+                                        
+                                            try {
+                                                
                                                 var  frmtt= mongoose.model(namess,tt);
                                                 frmtt.findById({_id:idbuscar} ,function(err, todos2) {
                                                     if (err){  res.send(err); }
@@ -1277,7 +1392,7 @@ console.log('unnnnnnnnn registro')
         if(req.params.id4=='formulariocombo')
         {
 
-            console.log(req.params)
+            
             var namess=req.params.id
             var campost=req.params.id2
           
@@ -1288,7 +1403,7 @@ console.log('unnnnnnnnn registro')
             Frmmovild.find({idmovil:req.params.id, display : "true",idempresa:req.params.id3}).sort([['order', 1]]).exec(function(err, todos) {
                 if (err){ res.send(err); }
               
-         //   console.log(todos)
+         
                                     if(todos.length>0)   {  
                                    
                                         var cad=''
@@ -1300,14 +1415,14 @@ console.log('unnnnnnnnn registro')
                                         cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
                                         cad='{' + cad + '}'
                                         cadxx='{' + cadxx + '}'
-                                   //  console.log(cad)
+                                   
                                         var jsonObject = stringToObject(cad);
                                       
                                         var mongoose = require("mongoose");
                                         delete mongoose.connection.models[namess];
                                         var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
-                                      //  console.log(tt)
-                                        console.log(namess)
+                                      
+                                        
                                     
                                         try {
                                             var  frmtt= mongoose.model(namess,tt);
@@ -1404,6 +1519,7 @@ console.log('unnnnnnnnn registro')
             {
                 filtro1={idempresa:arr[0], estado:arr[1],idusuario:req.params.id2}
             }
+            console.log({idempresa:arr[0], tipo:arr[2],publico:'Si'})
 
                   frmmovil.find({idempresa:arr[0], tipo:arr[2],publico:'Si'}).exec(function(err, todosa) {
                    
@@ -1429,7 +1545,8 @@ console.log('unnnnnnnnn registro')
                                     
                                         if(todos[i].idformulario.categoria==req.params.id)
                                         {
-                                            myData.push({_id:todos[i].idformulario._id,categoria:todos[i].idformulario.categoria,nombre:todos[i].idformulario.nombre,foto:todos[i].idformulario.foto,estado:todos[i].idformulario.estado ,verregistros:todos[i].verregistros,geoposicion:todos[i].idformulario.geoposicion ,tipo2:todos[i].idformulario.tipo2,ejecuta:todos[i].idformulario.ejecuta  ,tipo:todos[i].idformulario.tipo,permisos:{
+                                            myData.push({_id:todos[i].idformulario._id,categoria:todos[i].idformulario.categoria,nombre:todos[i].idformulario.nombre,foto:todos[i].idformulario.foto,estado:todos[i].idformulario.estado ,verregistros:todos[i].verregistros,geoposicion:todos[i].idformulario.geoposicion ,tipo2:todos[i].idformulario.tipo2,ejecuta:todos[i].idformulario.ejecuta  ,
+                                                ejecutainicio:todos[i].idformulario.ejecutainicio  ,tipo:todos[i].idformulario.tipo,permisos:{
                                                 pactualizacion:todos[i].actualizacion,  pconsulta:todos[i].consulta, 
                                                 generareporte:todos[i].generareporte, 
                                                 activas:todos[i].activas,cerradas:todos[i].cerradas,ejecutadas:todos[i].ejecutadas,
@@ -1451,10 +1568,10 @@ console.log('unnnnnnnnn registro')
                                                 });
                               }
                               else
-                              {console.log('entraaaaaaaaaaaaaa')
+                              {
                               if(todosb.length<=0 && todosa.length>0)
                               {// no tiene formularios detalle
-                             console.log('entraaaaaaaaaaa3')
+                             console.log('si es publicvo entra acqui')
                                     var myData = [];
                                     for(var i = 0; i < todosa.length;i++){
                                         if(todosa[i].categoria==req.params.id)
@@ -1471,6 +1588,7 @@ console.log('unnnnnnnnn registro')
                                                      filtrarorden:'false',
                                                      imprimeorden	:'true',  finalizaorden :'false',  eliminaorden  :'false',  trayectoriaorden:'true',  documentacionorden:'true',  pausarorden  :'false',  anularorden  :'false',  fotosorden:'true', comentariosorden:'true',  documentosorden :'true',  tareasorden  :'false',acciones:'true',publico:unique[i].publico}});
                                                  }
+                                                 
                                                   res.json(myData2);
                                 
                               }
@@ -1488,12 +1606,12 @@ console.log('unnnnnnnnn registro')
                                                 for(var i = 0; i < todos.length;i++){
                                                 
                                                     if(todos[i].idformulario.categoria==req.params.id)
-                                                    {
-                                                        myData.push({_id:todos[i].idformulario._id,categoria:todos[i].idformulario.categoria,nombre:todos[i].idformulario.nombre,foto:todos[i].idformulario.foto,estado:todos[i].idformulario.estado ,verregistros:todos[i].verregistros,geoposicion:todos[i].idformulario.geoposicion ,tipo2:todos[i].idformulario.tipo2,ejecuta:todos[i].idformulario.ejecuta  ,tipo:todos[i].idformulario.tipo,
+                                                    { 
+                                                        myData.push({_id:todos[i].idformulario._id,categoria:todos[i].idformulario.categoria,nombre:todos[i].idformulario.nombre,foto:todos[i].idformulario.foto,estado:todos[i].idformulario.estado ,verregistros:todos[i].verregistros,geoposicion:todos[i].idformulario.geoposicion ,tipo2:todos[i].idformulario.tipo2,ejecuta:todos[i].idformulario.ejecuta  ,ejecutainicio:todos[i].idformulario.ejecutainicio  ,tipo:todos[i].idformulario.tipo,
                                                             pactualizacion:todos[i].actualizacion,  pconsulta:todos[i].consulta, 
-                                                            activas:unique[i].activas,cerradas:unique[i].cerradas,ejecutadas:unique[i].ejecutadas,
-                                                            generareporte:unique[i].generareporte, 
-                                                                    filtrarorden:unique[i].filtrarorden,pcreacion:todos[i].creacion, peliminacion:todos[i].eliminacion,  pfiltro:todos[i].filtro, pingreso:'true', reporte:todos[i].preporte,  potros1:'', imprimeorden	:todos[i].imprimeorden,  finalizaorden :todos[i].finalizaorden,  eliminaorden  :todos[i].eliminaorden,  trayectoriaorden:todos[i].trayectoriaorden,  documentacionorden:todos[i].documentacionorden,  pausarorden  :todos[i].pausarorden,  anularorden  :todos[i].anularorden,  fotosorden:todos[i].fotosorden, comentariosorden:todos[i].comentariosorden,  documentosorden :todos[i].documentosorden,  tareasorden  :todos[i].tareasorden,acciones:todos[i].acciones,publico:todos[i].idformulario.publico});
+                                                            activas:todos[i].activas,cerradas:todos[i].cerradas,ejecutadas:todos[i].ejecutadas,
+                                                            generareporte:todos[i].generareporte, 
+                                                                    filtrarorden:todos[i].filtrarorden,pcreacion:todos[i].creacion, peliminacion:todos[i].eliminacion,  pfiltro:todos[i].filtro, pingreso:'true', reporte:todos[i].preporte,  potros1:'', imprimeorden	:todos[i].imprimeorden,  finalizaorden :todos[i].finalizaorden,  eliminaorden  :todos[i].eliminaorden,  trayectoriaorden:todos[i].trayectoriaorden,  documentacionorden:todos[i].documentacionorden,  pausarorden  :todos[i].pausarorden,  anularorden  :todos[i].anularorden,  fotosorden:todos[i].fotosorden, comentariosorden:todos[i].comentariosorden,  documentosorden :todos[i].documentosorden,  tareasorden  :todos[i].tareasorden,acciones:todos[i].acciones,publico:todos[i].idformulario.publico});
                                                     }
                                                     
                                                 }
@@ -1513,7 +1631,7 @@ console.log('unnnnnnnnn registro')
                                                         }
                                                         if(encuentra==0)
                                                         {
-                                                        myData.push({_id:todosa[i]._id,categoria:todosa[i].categoria,nombre:todosa[i].nombre,foto:todosa[i].foto,estado:todosa[i].estado ,verregistros:todosa[i].verregistros,geoposicion:todosa[i].geoposicion ,tipo2:todosa[i].tipo2,ejecuta:todosa[i].ejecuta  ,tipo:todosa[i].tipo,
+                                                        myData.push({_id:todosa[i]._id,categoria:todosa[i].categoria,nombre:todosa[i].nombre,foto:todosa[i].foto,estado:todosa[i].estado ,verregistros:todosa[i].verregistros,geoposicion:todosa[i].geoposicion ,tipo2:todosa[i].tipo2,ejecuta:todosa[i].ejecuta  ,ejecutainicio:todosa[i].ejecutainicio  ,tipo:todosa[i].tipo,
                                                             pactualizacion:'true',  pconsulta:'true', pcreacion:'true', peliminacion:'true',  pfiltro:'true', pingreso:'true', reporte:'true',
                                                             generareporte:'', 
                                                             activas:'true',cerradas:'true',ejecutadas:'false',
@@ -1527,7 +1645,7 @@ console.log('unnnnnnnnn registro')
                                             
                                                 var myData2 = [];
                                                             for(var i = 0; i < unique.length;i++){
-                                                                myData2.push({_id:unique[i]._id,tipo:unique[i].tipo,ejecuta:unique[i].ejecuta,tipo2:unique[i].tipo2,geoposicion:unique[i].geoposicion ,categoria:unique[i].categoria,nombre:unique[i].nombre,foto:unique[i].foto,estado:unique[i].estado ,verregistros:unique[i].verregistros,permisos:{pactualizacion:unique[i].pactualizacion, 
+                                                                myData2.push({_id:unique[i]._id,tipo:unique[i].tipo,ejecuta:unique[i].ejecuta,ejecutainicio:unique[i].ejecutainicio  ,tipo2:unique[i].tipo2,geoposicion:unique[i].geoposicion ,categoria:unique[i].categoria,nombre:unique[i].nombre,foto:unique[i].foto,estado:unique[i].estado ,verregistros:unique[i].verregistros,permisos:{pactualizacion:unique[i].pactualizacion, 
                                                                     activas:unique[i].activas,cerradas:unique[i].cerradas,ejecutadas:unique[i].ejecutadas,
                                                                     generareporte:unique[i].generareporte, 
                                                                     filtrarorden:unique[i].filtrarorden, pconsulta:unique[i].pconsulta, pcreacion:unique[i].pcreacion, peliminacion:unique[i].peliminacion,  pfiltro:unique[i].filtro, pingreso:'true', preporte:unique[i].preporte,  potros1:'', imprimeorden	:unique[i].imprimeorden,  finalizaorden :unique[i].finalizaorden,  eliminaorden  :unique[i].eliminaorden,  trayectoriaorden:unique[i].trayectoriaorden,  documentacionorden:unique[i].documentacionorden,  pausarorden  :unique[i].pausarorden,  anularorden  :unique[i].anularorden, 
@@ -1561,7 +1679,7 @@ console.log('unnnnnnnnn registro')
        
         var namess=req.params.id //formulario
         //req.params.id2   campo   req.params.id3   informacion
-        console.log('entraaaaaaaaaaaaaaaaaaaaaaaaaa')
+        
         var filtro
        
        var arrtodos=     req.params.id4.split('°')
@@ -1573,7 +1691,7 @@ console.log('unnnnnnnnn registro')
                                
                                     var cad=''
                                     var cadxx=''
-                                    var cad3=(dafiltrocad(todos,req.params.id2,req.params.id3)).split('°')
+                                    var cad3=(dafiltrocad(todos,req.params.id2,req.params.id3.replace('¬','/'))).split('°')
                                     cad=cad3[0]
 
                                     if(arrtodos[1] ==='todosdetalle')
@@ -1603,7 +1721,7 @@ console.log('unnnnnnnnn registro')
                                         }
                                     }
                              
-console.log(cadxx)
+
 
                                    
 
@@ -1640,7 +1758,7 @@ console.log(cadxx)
                     
             }
         });
-    }}}}}}}}}}}
+    }}}}}}}}}}}}
 
     }
     else{
@@ -1676,13 +1794,13 @@ console.log(cadxx)
           
         
 
-console.log(req.params)
+
 
         switch(req.params.id2) {
             case 'flujotrayectoriaorden':
-                console.log(req.params)
+                
                 var arr=req.params.id3.split('°')
-                console.log(arr)
+                
                 Frmmovil.findById({_id:arr[1]}).sort({'order': 1}).exec(function(err, todos10a) {
 
                 Frmmovild.find({idempresa:arr[0],idmovil:arr[1]}).sort({'order': 1}).exec(function(err, todos10) {
@@ -1864,7 +1982,7 @@ console.log(req.params)
         break;
             case 'formulariocamposver2':
                Frmmovild.find({idmovil:req.params.id, display : "true",idempresa:req.params.id3}).exec(function(err, todos) {
-          //  console.log(todos)
+          
             if (err){  res.send(err);  }
             var data=[]
           
@@ -1896,7 +2014,7 @@ console.log(req.params)
                 var data=[]
               
                 for(var i = 0; i < todos.length;i++){
-                    if(todos[i].type!='Imagen' && todos[i].type!='Formulario detalle')
+                    if( todos[i].type!='Formulario detalle')
                     {
                         data.push({_id:todos[i]._id,nombre:todos[i].title,name:todos[i].name})
     
@@ -1964,14 +2082,14 @@ console.log(req.params)
                                             var mongoose = require("mongoose");
                                             delete mongoose.connection.models[namess];
                                             var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
-                                          //  console.log(tt)
-                                            console.log(filtro)
+                                          
+                                            
                                         
                                             try {
                                                 var  frmtt= mongoose.model(namess,tt);
                                                 frmtt.find(filtro ,function(err, todos2) {
                                                     if (err){  res.send(err); }
-                                                  //  console.log(todos2)
+                                                  
                                                     res.json(todos2);
                                                   
                                                 });
@@ -1982,7 +2100,7 @@ console.log(req.params)
                                                 frmtt.find( filtro ,function(err, todos2) {
                                                      if (err){  res.send(err);
                                                     }
-                                                   // console.log(todos2)
+                                                   
                                                      res.json(todos2);
                                                  
                                                  });
@@ -1999,16 +2117,18 @@ console.log(req.params)
             case 'formularioproceso':
             
             
+            
                 var arrtodos=req.params.id3.split('°')
-            console.log(arrtodos)
+             
+           
             var usuarito=''
+            var tieneactividadasignacion=arrtodos[5]
             usuarioup=arrtodos[4]
                 var actividadt=[]
             
-
+                
                     actividadt=req.params.id.split(',')
-            
-
+                   
 
             
                 var namess=arrtodos[3]
@@ -2021,15 +2141,48 @@ console.log(req.params)
                 {
                     if(arrtodos[1]==='todosmios')
                     {
-                        if(arrtodos[2]==='ejecutadas')
+                      
+                        if(tieneactividadasignacion==='0')
                         {
-                            filtro={idempresa:arrtodos[0],pmodulo: {$in:[[usuarioup]]}}
+                            if(arrtodos[2]==='ejecutadas')
+                            {
+                                filtro={idempresa:arrtodos[0],pmodulo: {$in:[[usuarioup]]}}
+                            }
+                            else
+                            {
+                                filtro={idempresa:arrtodos[0],estadoordenxxx:arrtodos[2],
+                                    idactividadxxx:{$in:actividadt}}
+                            }
                         }
                         else
-                        {
-                            filtro={idempresa:arrtodos[0],estadoordenxxx:arrtodos[2],
-                                idactividadxxx:{$in:actividadt}}
+                        {// si  esta involucrado en alguna actividad de tipo asignacion pueda ser que la reciba
+                         
+                            if(arrtodos[2]==='ejecutadas')
+                            {
+                                filtro={idempresa:arrtodos[0],pmodulo: {$in:[[usuarioup]]}}
+                            }
+                            else
+                            {
+                                if(actividadt[0]!=='123')
+                                {console.log('tiene actividades')
+                                    filtro={idempresa:arrtodos[0],estadoordenxxx:arrtodos[2],
+                                        idactividadxxx:{$in:actividadt}
+                                      //  $or: [       {idactividadxxx : {$in:actividadt}},
+                                        //    {idusuariosasigna: {$in:arrtodos[4]}}       ]
+                                        }
+                                }
+                                else
+                                { console.log('no tiene actividades')
+                                    filtro={idempresa:arrtodos[0],estadoordenxxx:arrtodos[2],
+                                        idusuariosasigna: {$in:[[arrtodos[4]]]}
+                                        }
+                                    
+                                }
+                               
+                            }
+
                         }
+                  
                     
                     
                     
@@ -2070,7 +2223,7 @@ console.log(req.params)
                 
                 }
 
-            console.log(filtro)
+console.log(filtro)
                     Frmmovild.find({idmovil:arrtodos[3], display : "true",idempresa:arrtodos[0]}).exec(function(err, todos) {
                         if (err){ res.send(err); }
                     
@@ -2092,15 +2245,14 @@ console.log(req.params)
                                                 var mongoose = require("mongoose");
                                                 delete mongoose.connection.models[namess];
                                                 var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
-                                            //  console.log(tt)
-                                                console.log(filtro)
-                                                console.log(namess)
+                                            
+                                                
                                             
                                                 try {
                                                     var  frmtt= mongoose.model(namess,tt);
                                                     frmtt.find(filtro ).sort([['_id', -1]]).exec(function(err, todos2) {
                                                         if (err){  res.send(err); }
-                                                    //  console.log(todos2)
+                                                    
                                                         res.json(todos2);
                                                     
                                                     });
@@ -2111,7 +2263,7 @@ console.log(req.params)
                                                     frmtt.find( filtro ).sort([['_id', -1]]).exec(function(err, todos2) {
                                                         if (err){  res.send(err);
                                                         }
-                                                    // console.log(todos2)
+                                                    
                                                         res.json(todos2);
                                                     
                                                     });
@@ -2140,7 +2292,7 @@ console.log(req.params)
                 {
                     filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1],idpapa:arrtodos[2]}
                 }
-            console.log(filtro)
+            
                     Frmmovild.find({idmovil:req.params.id, display : "true",idempresa:arrtodos[0]}).sort([['order', 1]]).exec(function(err, todos) {
                         if (err){ res.send(err); }
                     
@@ -2161,14 +2313,14 @@ console.log(req.params)
                                                 var mongoose = require("mongoose");
                                                 delete mongoose.connection.models[namess];
                                                 var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
-                                            //  console.log(tt)
+                                            
                                                 
                                             
                                                 try {
                                                     var  frmtt= mongoose.model(namess,tt);
                                                     frmtt.find(filtro ,function(err, todos2) {
                                                         if (err){  res.send(err); }
-                                                    //  console.log(todos2)
+                                                    
                                                         res.json(todos2);
                                                     
                                                     });
@@ -2179,7 +2331,7 @@ console.log(req.params)
                                                     frmtt.find( filtro ,function(err, todos2) {
                                                         if (err){  res.send(err);
                                                         }
-                                                    // console.log(todos2)
+                                                    
                                                         res.json(todos2);
                                                     
                                                     });
@@ -2217,14 +2369,14 @@ console.log(req.params)
                                                 var mongoose = require("mongoose");
                                                 delete mongoose.connection.models[namess];
                                                 var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
-                                            //  console.log(tt)
+                                            
                                                 
                                             
                                                 try {
                                                     var  frmtt= mongoose.model(namess,tt);
                                                     frmtt.find({} ,function(err, todos2) {
                                                         if (err){  res.send(err); }
-                                                    //  console.log(todos2)
+                                                    
                                                         res.json(todos2);
                                                     
                                                     });
@@ -2235,7 +2387,7 @@ console.log(req.params)
                                                     frmtt.find( {} ,function(err, todos2) {
                                                         if (err){  res.send(err);
                                                         }
-                                                    // console.log(todos2)
+                                                    
                                                         res.json(todos2);
                                                     
                                                     });
@@ -2328,7 +2480,7 @@ console.log(req.params)
 
             case 'formulariodidxx':
                 var namess=req.params.id.split('°')
-                console.log(namess)
+                
             
                 Formcat2.find({idformulario:namess[0],idempresa:req.params.id3}).exec(function(err, todos1) {
                 if (err){ res.send(err); }
@@ -2462,7 +2614,7 @@ exports.deleteFrmmovil = function(req, res, next){
                         for(var i = 0; i < todo100a.length;i++){
                                         duplicates.push(todo100a[i]._id);
                         }
-                        console.log(duplicates)
+                        
                 frmactor.deleteMany({idpapa:req.params.recordID  }, function(err, todo100) { 
                     
                    
@@ -2492,8 +2644,29 @@ exports.deleteFrmmovil = function(req, res, next){
 }
 
 
-exports.deleteFrmmovil2 = function(req, res, next){
-   
+exports.deleteFrmmovil2 = async function(req, res, next){
+   //5f503bededa4710798a79b84°Formulario°1_actualizainventarioaj°'
+    console.log(req.params)
+    var arrtt=req.params.idempresa.split('°')
+    if(arrtt[1]==='Formulario'){
+        if(arrtt[2]!=='' && arrtt[2]!==undefined)
+        {
+    
+            respuesta = await frmejecuta.formularioinicialdel(req, res, next,[]);
+            console.log(respuesta)
+            if(respuesta.estado!=='exito')
+            {
+                res.status(500).send(respuesta.estado) 
+                return;
+            }   
+            
+    
+        }
+        
+       
+    }
+
+
     Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina formulario movil '});
     var namess=req.params.recordID2
 
@@ -2521,7 +2694,7 @@ exports.deleteFrmmovil2 = function(req, res, next){
                                     var  frmtt= mongoose.model(namess,tt);
                                   
                         
-console.log(req.params)
+
 
 
                                     frmtt.findByIdAndRemove({ _id: req.params.recordID }, function(err, todo) {
@@ -2529,16 +2702,15 @@ console.log(req.params)
                                         if(req.params.recordID3==='proceso')
                                         {
                                         formulariocomentarios.deleteMany({idpapa:req.params.recordID}, function(err, todo10) {  
-                                            console.log('comentatios')
+                                            
                                             formulariofotos.deleteMany({idpapa:req.params.recordID}, function(err, todo100) {  
                                                 formulariofotos2.deleteMany({idpapa:req.params.recordID}, function(err, todo100) {  
 
                                                formulariotareas.deleteMany({idpapa:req.params.recordID}, function(err, todo10) {  
-                                            console.log('tareas')
+                                            
                                                     formulariotrayectoria.deleteMany({idmobil:req.params.recordID}, function(err, todo10) {  
-                                            console.log('traye')
-                                            Image.deleteMany({idpapa0:req.params.recordID}, function(err, todo10) {  
-                                            console.log('fotos')
+                                                Image.deleteMany({idpapa0:req.params.recordID}, function(err, todo10) {  
+                                            
                                                         res.json(todo);
                                                     
                                                     });
@@ -2572,16 +2744,16 @@ console.log(req.params)
                                         {
                                
                                             formulariocomentarios.deleteMany({idpapa:req.params.recordID}, function(err, todo10) {  
-                                                console.log('comentatios')
+                                                
                                                 formulariofotos.deleteMany({idpapa:req.params.recordID}, function(err, todo100) {  
                                                     formulariofotos2.deleteMany({idpapa:req.params.recordID}, function(err, todo100) {  
     
                                                    formulariotareas.deleteMany({idpapa:req.params.recordID}, function(err, todo10) {  
-                                                console.log('tareas')
+                                                
                                                         formulariotrayectoria.deleteMany({idmobil:req.params.recordID}, function(err, todo10) {  
-                                                console.log('traye')
+                                                
                                                 Image.deleteMany({idpapa0:req.params.recordID}, function(err, todo10) {  
-                                                console.log('fotos')
+                                                
                                                             res.json(todo);
                                                         
                                                         });  });
@@ -2628,8 +2800,8 @@ subtipoaccion: "GRUPO"
 tipoaccion: "EJECUCIÓN"
 
 */
-exports.creaFrmmovil3s = function(req, res, next){
-
+exports.creaFrmmovil3s = async function(req, res, next){
+    console.log(req.params)
     if(req.body.operacion==='actualizaordentrayectoria')
     {
 
@@ -2637,7 +2809,7 @@ exports.creaFrmmovil3s = function(req, res, next){
             if (err) {  res.send(err);  }
             var ff3=new Date(req.body.fechaactual)
             var ff4=todo.createdAt 
-            console.log( ff3 + '     ' +   ff4)
+            
 
             var diffDays = parseInt((ff3 - ff4) / (1000 * 60 * 60 * 24)); //gives day difference
             var diffhoras = parseInt((ff3 - ff4) / (1000 * 60 * 60 )); //gives day difference
@@ -2687,8 +2859,47 @@ exports.creaFrmmovil3s = function(req, res, next){
     }
     else
     {
+        console.log('entraaaaaaaaaaaaaaaaaaaaaaa crearrrrrrrrr registro')
+        
 if(req.params.recordID!=='crea')
-{   Bitacora.create(req.body.bitacora);
+{ 
+    console.log(req.body)
+  
+    //ejecuta en el proceso la antes de actualizar segun accion
+    
+    
+    if(req.body.tipo2==='Formulario'){
+        if(req.body.ejecutainicio!=='' && req.body.ejecutainicio!==undefined)
+        {
+    
+            respuesta = await frmejecuta.formularioinicialact(req, res, next,[]);
+            console.log(respuesta)
+            if(respuesta.estado!=='exito')
+            {
+                res.status(500).send(respuesta.estado) 
+                return;
+            }   
+            
+    
+        }
+        
+      
+    }
+    else
+    {
+        if(req.body.estructura.ejecutainicio!=='' && req.body.estructura.ejecutainicio!==undefined)
+        {
+            console.log('entraaaejecutainicio')
+            
+            respuesta = await frmejecuta.procesoinicialact(req, res, next,[]);
+            console.log(respuesta)
+            
+        }
+
+    }
+
+   
+    Bitacora.create(req.body.bitacora);
     var namess=req.body.idform
     console.log('actualiza formulario+++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
     Frmmovild.find({idmovil:req.body.idform}).exec(function(err, todos) {
@@ -2702,7 +2913,7 @@ if(req.params.recordID!=='crea')
                                {
                                    if(req.body.tipo==='proceso')
                                    {
-                                    cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},  "pmodulo": { "type" :"Array"}'
+                                    cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"}, "geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},  "pmodulo": { "type" :"Array"}'
                                    }
                                    else
                                    {
@@ -2715,7 +2926,7 @@ if(req.params.recordID!=='crea')
 
                                     if(req.body.tipo==='proceso')
                                     {
-                                        cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},  "pmodulo": { "type" :"Array"}'
+                                        cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"},"geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},  "pmodulo": { "type" :"Array"}'
                                       
                                     }
                                     else
@@ -2734,7 +2945,7 @@ if(req.params.recordID!=='crea')
                                 delete mongoose.connection.models[namess];
                                 var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
                          
-                                try {
+                             //   try {
                                     var  frmtt= mongoose.model(namess,tt);
                                
                                     frmtt.update({ _id: req.params.recordID }, req.body.estructura, function(err, todo3) {
@@ -2789,7 +3000,7 @@ if(req.params.recordID!=='crea')
                                         });
 
 
-                                  
+                                  /*//
                                   } catch(e) {
                                     
                                     var  frmtt= mongoose.model(namess);
@@ -2843,6 +3054,7 @@ if(req.params.recordID!=='crea')
                                         });
 
                                   }
+                                  */
 
 
                   
@@ -2856,13 +3068,36 @@ if(req.params.recordID!=='crea')
 else{
 
 console.log('crea formulario mnuevo')
+console.log('entraaaaaaaaaaaaaaaaaaaaaaa crearrrrrrrrr registro')
+
+//ejecuta en formulario antes de grabar
+if(req.body.tipo2==='Formulario'){
+    if(req.body.ejecutainicio!=='' && req.body.ejecutainicio!==undefined)
+    {
+
+        respuesta = await frmejecuta.formularioinicialcrea(req, res, next,[]);
+        console.log(respuesta)
+        if(respuesta.estado!=='exito')
+        {
+            res.status(500).send(respuesta.estado) 
+            return;
+        }   
+        
+
+    }
+    
+   
+}
+
+
+        console.log(req.params)
     var namess=req.body.idform
     Bitacora.create(req.body.bitacora);
     Frmmovild.find({idmovil:req.body.idform}).exec(function(err, todos) {
      
         if (err){ res.send(err); }
-                            if(todos.length>0)   {  
-console.log({tipo:namess})
+                if(todos.length>0)   {  
+                                console.log({tipo:namess})
                                 Contador.findOneAndUpdate({tipo:namess}, { $inc: { sequence_value: 1 } }, function(err, seq){
                                     if(err) { throw(err); }
                                     console.log(seq)
@@ -2899,176 +3134,217 @@ console.log({tipo:namess})
                                if(filtrovalida ==='')
                                {
 
-                                var cad=''
-                                var cad3=(dafiltrocad(todos,'','')).split('°')
-                                cad=cad3[0]
-                              
-                                if(req.body.idpapa)
-                                {
-                                    if(req.body.tipo==='proceso')
-                                    {
-                                     cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},"sequencia":{"type":"String"},  "pmodulo": { "type" :"Array"}'
-                                    }
-                                    else
-                                    {
-                                     cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"sequencia":{"type":"String"}'
-                                    }
-                                 
-                                }
-                                else
-                                {
- 
-                                     if(req.body.tipo==='proceso')
-                                     {
-                                         cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},"sequencia":{"type":"String"},  "pmodulo": { "type" :"Array"}'
-                                       
-                                     }
-                                     else
-                                     {
-                                         cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"sequencia":{"type":"String"}'
-                                     }
-                                 
- 
-                                }
-                                
-                           
-                               
-                                
-                              
-                               cad='{' + cad + '}'
-                               var jsonObject = stringToObject(cad);
-                         
-                               var mongoose = require("mongoose");
-                               delete mongoose.connection.models[namess];
-                               var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
-                             
-                                //GRABA TODO BIEN------------------------------------------------------------------------------
-try {
-   
-    var  frmtt=  mongoose.model(namess ,tt);
-   
-    console.log('sigueeeeeeeeeeeeeeeeeeeeeeeeeeeeeee0000000000000000000000000000000')
- 
-    frmtt.create(req.body.estructura
-        , function(err, todo3) {
-        if (err){  console.log(err.message);    res.status(500).send(err.message)    }
+                                            var cad=''
+                                            var cad3=(dafiltrocad(todos,'','')).split('°')
+                                            cad=cad3[0]
+                                            if(req.body.idpapa)
+                                            {
+                                                if(req.body.tipo==='proceso')
+                                                {
+                                                cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"},"geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},"sequencia":{"type":"String"},  "pmodulo": { "type" :"Array"}'
+                                                }
+                                                else
+                                                {
+                                                cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"sequencia":{"type":"String"}'
+                                                }
+                                            
+                                            }
+                                            else
+                                            {
             
-        if(req.body.tipo==='proceso')
-        {//crea trayectoria
-         formulariotrayectoria.create({
-             idempresa		:  req.body.trayectoria.idempresa,
-             idorden	: todo3._id,
-             sequencia:todo3.sequencia,
-             usuariocreador		: req.body.trayectoria.usuariocreador,
-               email:req.body.trayectoria.email,
-               minutos		:0,
-               dias:0,
-               horas:0,
-               segundos:0,
-             tipocreacionorden		:req.body.trayectoria.tipocreacionorden,
-             nombre		:req.body.trayectoria.nombre,
-             idform		: req.body.trayectoria.idform,
-             tipoform	:req.body.trayectoria.tipoform,
-             tipo2form	:req.body.trayectoria.tipo2form,
-             ejecuta: req.body.trayectoria.ejecuta,
-             estadoorden: req.body.trayectoria.estadoorden,
-             salioorden:req.body.trayectoria.salioorden,
-             categoriaform	: req.body.trayectoria.categoriaform,
-             idactividad		: req.body.trayectoria.idactividad,
-             actoractividad		:req.body.trayectoria.actoractividad,
-             claseactividad		: req.body.trayectoria.claseactividad,
-             nombreactividad		: req.body.trayectoria.nombreactividad,
-             tipoactividad		: req.body.trayectoria.tipoactividad,
-             etapaactividad		:req.body.trayectoria.etapaactividad,
-             idaccion		: req.body.trayectoria.idaccion,
-             tipoaccion		: req.body.trayectoria.tipoaccion,
-             subtipoaccion		: req.body.trayectoria.subtipoaccion,
-             nombreaccion		: req.body.trayectoria.nombreaccion,
-             estadoaccion		: req.body.trayectoria.estadoaccion,
-             actividadsiguienteaccion		:  req.body.trayectoria.actividadsiguienteaccion
-       }  , function(err, todo330) {
-        if (err){  console.log(err.message);    res.status(500).send(err.message)    }
-        res.json(todo330);
-       });
+                                                if(req.body.tipo==='proceso')
+                                                {
+                                                    cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"},"geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},"sequencia":{"type":"String"},  "pmodulo": { "type" :"Array"}'
+                                                
+                                                }
+                                                else
+                                                {
+                                                    cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"sequencia":{"type":"String"}'
+                                                }
+                                            
+            
+                                            }
+                                        cad='{' + cad + '}'
+                                        var jsonObject = stringToObject(cad);
+                                    
+                                        var mongoose = require("mongoose");
+                                        delete mongoose.connection.models[namess];
+                                        var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                             
+                                    //GRABA TODO BIEN------------------------------------------------------------------------------
+                     //   try {
+                                
+                                            var  frmtt=  mongoose.model(namess ,tt);
+                                        
+                                            console.log('sigueeeeeeeeeeeeeeeeeeeeeeeeeeeeeee0000000000000000000000000000000')
+                                        
+                                            frmtt.create(req.body.estructura
+                                                , function(err, todo3) {
+                                                if (err){  console.log(err.message);    res.status(500).send(err.message)    }
+                                                    
+                                                if(req.body.tipo==='proceso')
+                                                {//crea trayectoria
+                                                formulariotrayectoria.create({
+                                                    idempresa		:  req.body.trayectoria.idempresa,
+                                                    idorden	: todo3._id,
+                                                    sequencia:todo3.sequencia,
+                                                    usuariocreador		: req.body.trayectoria.usuariocreador,
+                                                    email:req.body.trayectoria.email,
+                                                    minutos		:0,
+                                                    dias:0,
+                                                    horas:0,
+                                                    segundos:0,
+                                                    tipocreacionorden		:req.body.trayectoria.tipocreacionorden,
+                                                    nombre		:req.body.trayectoria.nombre,
+                                                    idform		: req.body.trayectoria.idform,
+                                                    tipoform	:req.body.trayectoria.tipoform,
+                                                    tipo2form	:req.body.trayectoria.tipo2form,
+                                                    ejecuta: req.body.trayectoria.ejecuta,
+                                                    estadoorden: req.body.trayectoria.estadoorden,
+                                                    salioorden:req.body.trayectoria.salioorden,
+                                                    categoriaform	: req.body.trayectoria.categoriaform,
+                                                    idactividad		: req.body.trayectoria.idactividad,
+                                                    actoractividad		:req.body.trayectoria.actoractividad,
+                                                    claseactividad		: req.body.trayectoria.claseactividad,
+                                                    nombreactividad		: req.body.trayectoria.nombreactividad,
+                                                    tipoactividad		: req.body.trayectoria.tipoactividad,
+                                                    etapaactividad		:req.body.trayectoria.etapaactividad,
+                                                    idaccion		: req.body.trayectoria.idaccion,
+                                                    tipoaccion		: req.body.trayectoria.tipoaccion,
+                                                    subtipoaccion		: req.body.trayectoria.subtipoaccion,
+                                                    nombreaccion		: req.body.trayectoria.nombreaccion,
+                                                    estadoaccion		: req.body.trayectoria.estadoaccion,
+                                                    actividadsiguienteaccion		:  req.body.trayectoria.actividadsiguienteaccion
+                                            }  , function(err, todo330) {
+                                                if (err){  console.log(err.message);    res.status(500).send(err.message)    }
+
+                                                
+                                                        if(req.body.ejecuta!=='' && req.body.ejecuta!==undefined)
+                                                        {
+                                                            console.log('entraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa22222222222222222222222222222222222222')
+                                                            frmejecuta.formulariomovil(req, res, next,todo330);  
+
+                                                            
+                                                        }
+                                                        else
+                                                        {
+                                                        
+                                                
+                                                        if(req.body.ejecutafinal!=='' && req.body.ejecutafinal!==undefined)
+                                                        {
+                                                            console.log('entraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa222222222222222222222222222222222222223333333333333333333333333')
+                                                            frmejecuta.formulariomovilprocesofinal(req, res, next,todo330);  
+
+                                                            
+                                                        }
+                                                        else
+                                                        {
+                                                            res.json(todo330);
+                                                        }
+                                                        }
+                                                
+                                            });
+                                                
+
+                                                
+                                                }
+                                                else
+                                                {
+                                                            if(req.body.ejecuta!=='' && req.body.ejecuta!==undefined)
+                                                            {
+                                                                console.log('entraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1111111111111111111111')
+                                                                frmejecuta.formulariomovil(req, res, next,todo3);  
+                                                            }
+                                                            else
+                                                            {
+                                                                if(req.body.ejecutafinal!=='' && req.body.ejecutafinal!==undefined)
+                                                                {
+                                                                    console.log('entraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa222222222222222222222222222222222222223333333333333333333333333')
+                                                                    frmejecuta.formulariomovilprocesofinal(req, res, next,todo3);  
+                                                
+                                                                    
+                                                                }
+                                                                else
+                                                                {
+                                                                    res.json(todo3);
+                                                                }
+                                                            }
+                                                            
 
 
-        
-        }
-        else
-        {
-         res.json(todo3);
-        }
-        console.log('finallllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll0000000000000000000000')
-     
-      
-    
-        });
-  
-  } catch(e) {
-    
-    console.log(e)
-    //ya no le pongo esquema eso dice la solucion// pero no graba lo nuevo campo
-    //aqui tendria que se un sabe
-    console.log('sigueeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
-  
-    var  frmtt= mongoose.model(namess);
-  
- 
-    frmtt.create(req.body.estructura
-        , function(err, todo3) {
-        if (err){       res.status(500).send(err.message)    }
-   
-        if(req.body.tipo==='proceso')
-                                       {//crea trayectoria
-                                        formulariotrayectoria.create({
-                                            idempresa		:  req.body.trayectoria.idempresa,
-                                            idorden	: todo3._id,
-                                            sequencia:todo3.sequencia,
-                                            usuariocreador		: req.body.trayectoria.usuariocreador,
-                                              email:req.body.trayectoria.email,
-                                              minutos		:0,
-                                             dias:0,
-                                             horas:0,
-                                             segundos:0,
-                                            tipocreacionorden		:req.body.trayectoria.tipocreacionorden,
-                                            nombre		:req.body.trayectoria.nombre,
-                                            idform		: req.body.trayectoria.idform,
-                                            tipoform	:req.body.trayectoria.tipoform,
-                                            tipo2form	:req.body.trayectoria.tipo2form,
-                                            estadoorden: req.body.trayectoria.estadoorden,
-                                            ejecuta: req.body.trayectoria.ejecuta,
-                                            salioorden:req.body.trayectoria.salioorden,
-                                            categoriaform	: req.body.trayectoria.categoriaform,
-                                            idactividad		: req.body.trayectoria.idactividad,
-                                            actoractividad		:req.body.trayectoria.actoractividad,
-                                            claseactividad		: req.body.trayectoria.claseactividad,
-                                            nombreactividad		: req.body.trayectoria.nombreactividad,
-                                            tipoactividad		: req.body.trayectoria.tipoactividad,
-                                            etapaactividad		:req.body.trayectoria.etapaactividad,
-                                            idaccion		: req.body.trayectoria.idaccion,
-                                            tipoaccion		: req.body.trayectoria.tipoaccion,
-                                            subtipoaccion		: req.body.trayectoria.subtipoaccion,
-                                            nombreaccion		: req.body.trayectoria.nombreaccion,
-                                            estadoaccion		: req.body.trayectoria.estadoaccion,
-                                            actividadsiguienteaccion		:  req.body.trayectoria.actividadsiguienteaccion
-                                        }  , function(err, todo330) {
-                                            if (err){  console.log(err.message);    res.status(500).send(err.message)    }
-                                            res.json(todo330);
-                                           });
-                                       }
-                                       else
-                                       {
-                                        res.json(todo3);
-                                       }
-        console.log('finallllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll')
-      
-    
-        });
-  }
+                                                
+                                                }
+                                                console.log('finallllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll0000000000000000000000')
+                                            
+                                            
+                                            
+                                                });
+                        /*
+                        } catch(e) {
+                            
+                            console.log(e)
+                            //ya no le pongo esquema eso dice la solucion// pero no graba lo nuevo campo
+                            //aqui tendria que se un sabe
+                            console.log('sigueeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
+                        
+                            var  frmtt= mongoose.model(namess);
+                        
+                        
+                            frmtt.create(req.body.estructura
+                                , function(err, todo3) {
+                                if (err){       res.status(500).send(err.message)    }
+                        
+                                if(req.body.tipo==='proceso')
+                                                            {//crea trayectoria
+                                                                formulariotrayectoria.create({
+                                                                    idempresa		:  req.body.trayectoria.idempresa,
+                                                                    idorden	: todo3._id,
+                                                                    sequencia:todo3.sequencia,
+                                                                    usuariocreador		: req.body.trayectoria.usuariocreador,
+                                                                    email:req.body.trayectoria.email,
+                                                                    minutos		:0,
+                                                                    dias:0,
+                                                                    horas:0,
+                                                                    segundos:0,
+                                                                    tipocreacionorden		:req.body.trayectoria.tipocreacionorden,
+                                                                    nombre		:req.body.trayectoria.nombre,
+                                                                    idform		: req.body.trayectoria.idform,
+                                                                    tipoform	:req.body.trayectoria.tipoform,
+                                                                    tipo2form	:req.body.trayectoria.tipo2form,
+                                                                    estadoorden: req.body.trayectoria.estadoorden,
+                                                                    ejecuta: req.body.trayectoria.ejecuta,
+                                                                    salioorden:req.body.trayectoria.salioorden,
+                                                                    categoriaform	: req.body.trayectoria.categoriaform,
+                                                                    idactividad		: req.body.trayectoria.idactividad,
+                                                                    actoractividad		:req.body.trayectoria.actoractividad,
+                                                                    claseactividad		: req.body.trayectoria.claseactividad,
+                                                                    nombreactividad		: req.body.trayectoria.nombreactividad,
+                                                                    tipoactividad		: req.body.trayectoria.tipoactividad,
+                                                                    etapaactividad		:req.body.trayectoria.etapaactividad,
+                                                                    idaccion		: req.body.trayectoria.idaccion,
+                                                                    tipoaccion		: req.body.trayectoria.tipoaccion,
+                                                                    subtipoaccion		: req.body.trayectoria.subtipoaccion,
+                                                                    nombreaccion		: req.body.trayectoria.nombreaccion,
+                                                                    estadoaccion		: req.body.trayectoria.estadoaccion,
+                                                                    actividadsiguienteaccion		:  req.body.trayectoria.actividadsiguienteaccion
+                                                                }  , function(err, todo330) {
+                                                                    if (err){  console.log(err.message);    res.status(500).send(err.message)    }
+                                                                    res.json(todo330);
+                                                                });
+                                                            }
+                                                            else
+                                                            {
+                                                                res.json(todo3);
+                                                            }
+                                console.log('finallllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll')
+                            
+                            
+                                });
+                        }*/
  //FIN GRABA TODO BIENNNNNNNNN--------------------------------------------------
                                }
                                else
-                               {
+                               {//HAY QUE VALIDAR ALGUN FILTRO PRIMERO
                                 filtrovalida='{' +filtrovalida + '}'
                                 console.log(filtrovalida)
                         
@@ -3080,7 +3356,7 @@ try {
                                 {
                                     if(req.body.tipo==='proceso')
                                     {
-                                     cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},"sequencia":{"type":"String"},  "pmodulo": { "type" :"Array"}'
+                                     cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"},"geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},"sequencia":{"type":"String"},  "pmodulo": { "type" :"Array"}'
                                      
                                     }
                                     else
@@ -3094,7 +3370,7 @@ try {
  
                                      if(req.body.tipo==='proceso')
                                      {
-                                         cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},"sequencia":{"type":"String"},  "pmodulo": { "type" :"Array"}'
+                                         cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"},"geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},"sequencia":{"type":"String"},  "pmodulo": { "type" :"Array"}'
                                      }
                                      else
                                      {
@@ -3114,7 +3390,7 @@ try {
 
 
                                //BUSCAR UNO EXISTENTE-----------------------------------------------------------------------------------
-                               try {
+                             //  try {
                                    var  frmbusca= mongoose.model(namess,tt);
                                 //{"contrato":"descripcion: descripción del contrato , nocontrato: a1 ,        °5f7648b37e8d091240017cc3"}
                                    frmbusca.find(JSON.parse(filtrovalida) ,function(err, todos2a) {
@@ -3129,58 +3405,58 @@ try {
                                        else
                                        {
                                        //GRABA TODO BIEN------------------------------------------------------------------------------
-                               try {
-                                   var  frmtt=  mongoose.model(namess,tt);
-                                
-                                   frmtt.create(req.body.estructura
-                                       , function(err, todo3) {
-                                       if (err){  console.log(err.message);    res.status(500).send(err.message)    }
-                                           
-                                       if(req.body.tipo==='proceso')
-                                       {//crea trayectoria
-                                        formulariotrayectoria.create({
-                                            idempresa		:  req.body.trayectoria.idempresa,
-                                            idorden	: todo3._id,
-                                            sequencia:todo3.sequencia,
-                                            usuariocreador		: req.body.trayectoria.usuariocreador,
-                                              email:req.body.trayectoria.email,
-                                              minutos		:0,
-                                              dias:0,
-                                              horas:0,
-                                              segundos:0,
-                                            tipocreacionorden		:req.body.trayectoria.tipocreacionorden,
-                                            nombre		:req.body.trayectoria.nombre,
-                                            estadoorden: req.body.trayectoria.estadoorden,
-                                            idform		: req.body.trayectoria.idform,
-                                            salioorden:req.body.trayectoria.salioorden,
-                                            tipoform	:req.body.trayectoria.tipoform,
-                                            tipo2form	:req.body.trayectoria.tipo2form,
-                                            ejecuta: req.body.trayectoria.ejecuta,
-                                            categoriaform	: req.body.trayectoria.categoriaform,
-                                            idactividad		: req.body.trayectoria.idactividad,
-                                            actoractividad		:req.body.trayectoria.actoractividad,
-                                            claseactividad		: req.body.trayectoria.claseactividad,
-                                            nombreactividad		: req.body.trayectoria.nombreactividad,
-                                            tipoactividad		: req.body.trayectoria.tipoactividad,
-                                            etapaactividad		:req.body.trayectoria.etapaactividad,
-                                            idaccion		: req.body.trayectoria.idaccion,
-                                            tipoaccion		: req.body.trayectoria.tipoaccion,
-                                            subtipoaccion		: req.body.trayectoria.subtipoaccion,
-                                            nombreaccion		: req.body.trayectoria.nombreaccion,
-                                            estadoaccion		: req.body.trayectoria.estadoaccion,
-                                            actividadsiguienteaccion		:  req.body.trayectoria.actividadsiguienteaccion
-                                        }  , function(err, todo330) {
-                                            if (err){  console.log(err.message);    res.status(500).send(err.message)    }
-                                            res.json(todo330);
-                                           });
-                                       }
-                                       else
-                                       {
-                                        res.json(todo3);
-                                       }
-                                   
-                                       });
-                                 
+                            //   try {
+                                            var  frmtt=  mongoose.model(namess,tt);
+                                            
+                                            frmtt.create(req.body.estructura
+                                                , function(err, todo3) {
+                                                if (err){  console.log(err.message);    res.status(500).send(err.message)    }
+                                                    
+                                                if(req.body.tipo==='proceso')
+                                                {//crea trayectoria
+                                                    formulariotrayectoria.create({
+                                                        idempresa		:  req.body.trayectoria.idempresa,
+                                                        idorden	: todo3._id,
+                                                        sequencia:todo3.sequencia,
+                                                        usuariocreador		: req.body.trayectoria.usuariocreador,
+                                                        email:req.body.trayectoria.email,
+                                                        minutos		:0,
+                                                        dias:0,
+                                                        horas:0,
+                                                        segundos:0,
+                                                        tipocreacionorden		:req.body.trayectoria.tipocreacionorden,
+                                                        nombre		:req.body.trayectoria.nombre,
+                                                        estadoorden: req.body.trayectoria.estadoorden,
+                                                        idform		: req.body.trayectoria.idform,
+                                                        salioorden:req.body.trayectoria.salioorden,
+                                                        tipoform	:req.body.trayectoria.tipoform,
+                                                        tipo2form	:req.body.trayectoria.tipo2form,
+                                                        ejecuta: req.body.trayectoria.ejecuta,
+                                                        categoriaform	: req.body.trayectoria.categoriaform,
+                                                        idactividad		: req.body.trayectoria.idactividad,
+                                                        actoractividad		:req.body.trayectoria.actoractividad,
+                                                        claseactividad		: req.body.trayectoria.claseactividad,
+                                                        nombreactividad		: req.body.trayectoria.nombreactividad,
+                                                        tipoactividad		: req.body.trayectoria.tipoactividad,
+                                                        etapaactividad		:req.body.trayectoria.etapaactividad,
+                                                        idaccion		: req.body.trayectoria.idaccion,
+                                                        tipoaccion		: req.body.trayectoria.tipoaccion,
+                                                        subtipoaccion		: req.body.trayectoria.subtipoaccion,
+                                                        nombreaccion		: req.body.trayectoria.nombreaccion,
+                                                        estadoaccion		: req.body.trayectoria.estadoaccion,
+                                                        actividadsiguienteaccion		:  req.body.trayectoria.actividadsiguienteaccion
+                                                    }  , function(err, todo330) {
+                                                        if (err){  console.log(err.message);    res.status(500).send(err.message)    }
+                                                        res.json(todo330);
+                                                    });
+                                                }
+                                                else
+                                                {
+                                                    res.json(todo3);
+                                                }
+                                            
+                                                });
+                                 /*
                                  } catch(e) {
                                    
                                    console.log(e)
@@ -3238,6 +3514,7 @@ try {
                                    
                                        });
                                  }
+                                 */
 //FIN GRABA TODO BIENNNNNNNNN--------------------------------------------------
    
                                           
@@ -3245,7 +3522,7 @@ try {
                                      
                                      
                                    });
-                                 } catch(e) {
+                               /*  } catch(e) {
                                     
                                    var  frmbusca= mongoose.model(namess);
                                   
@@ -3377,7 +3654,7 @@ try {
                                     
                                     });
                                  }
-
+*/
                                }
                          
 
@@ -3427,6 +3704,7 @@ if(req.params.recordID!=='crea')
             todo.publico    	=	req.body.publico    	||	todo.publico    	;
             todo.tipo2    	=	req.body.tipo2    	||	todo.tipo2    	;
             todo.ejecuta    	=	req.body.ejecuta    	||	todo.ejecuta    	;
+            todo.ejecutainicio    	=	req.body.ejecutainicio    	||	todo.ejecutainicio    	;
             todo.foto    	=	req.body.foto    	||	todo.foto    	;
             todo.geoposicion    	=	req.body.geoposicion      	;
            
@@ -3467,6 +3745,7 @@ else{
                     publico        	: req.body.publico        	,
                     idpapa        	: req.body.idpapa        	,
                     ejecuta        	: req.body.ejecuta        	,
+                    ejecutainicio: req.body.ejecutainicio,
                     categoria        	: req.body.categoria        	,
                     nombre        	: req.body.nombre        	,
                     foto    	: req.body.foto    	,
@@ -3503,6 +3782,7 @@ else{
                     nombre        	: req.body.nombre        	,
                     publico        	: req.body.publico        	,
                     ejecuta        	: req.body.ejecuta        	,
+                    ejecutainicio: req.body.ejecutainicio,
                     foto    	: req.body.foto    	,
               //      idformdetalle:   req.body.idformdetalle,
                     geoposicion :   req.body.geoposicion,

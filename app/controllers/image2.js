@@ -21,7 +21,7 @@ exports.getImage2s = function(req, res, next){
                 res.sendStatus(402);
                 return;
             }
-            console.log(image2)
+            console.log(image2  )
                      res.setHeader('content-type', image2.contentType);
                         res.send(image2.img);
         
