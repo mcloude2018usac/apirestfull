@@ -1,9 +1,6 @@
 var frmactividadcamposd = require('../../models/asociadoventa/frmactividadcamposd');
 var Bitacora = require('../../models/bitacora');
 
-
-
-
 exports.getfrmactividadcamposd = function(req, res, next){
     if(req.params.id2=='orden')
     {

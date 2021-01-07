@@ -21,7 +21,8 @@ var frmactividad = require('../models/asociadoventa/frmactividad');
 var frmacciones = require('../models/asociadoventa/frmacciones');
 var frmactor = require('../models/asociadoventa/frmactor');
 var frmactorgrupo = require('../models/asociadoventa/frmactorgrupo');
-const frmmovil = require('../models/frmmovil');
+
+
 
 
 
@@ -1400,9 +1401,28 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
 
 //,_id:{$in: myData}
 
-            Frmmovild.find({idmovil:req.params.id, display : "true",idempresa:req.params.id3}).sort([['order', 1]]).exec(function(err, todos) {
+            Frmmovild.find({idmovil:req.params.id,idempresa:req.params.id3}).sort([['order', 1]]).exec(function(err, todos) {
                 if (err){ res.send(err); }
               
+         
+
+                
+                   
+                var objetox = {};
+                
+                for(var i = 0; i < todos.length;i++){
+                    for(var j = 0; j < myDatavector.length;j++){
+                    if(myDatavector[j].split('°')[0]===todos[i].name)
+                    {
+                        objetox[todos[i].name] =todos[i].title + '°' + todos[i].type + '°'+ todos[i].display;
+                    }
+                }
+                   
+                    
+                }
+
+           
+
          
                                     if(todos.length>0)   {  
                                    
@@ -1429,18 +1449,9 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                             frmtt.find({} ,function(err, todos2) {
                                                 if (err){  res.send(err); }
                                                
-
-                                              var myData = [];
-                                              for(var i = 0; i < todos2.length;i++){
-                                                var nombret ='';
-                                                for(var j = 0; j < myDatavector.length;j++){
-                                                    nombret = nombret + myDatavector[j].split('°')[1] + ': ' +  todos2[i][myDatavector[j].split('°')[0]]  + '°'
-                                                }
-                                                myData.push({_id:todos2[i]._id , nombre: nombret })
-
-                                                 
-                                              }
-                                                res.json(myData);
+                                                var datafinal = functool.procesahtmlrecord(objetox,todos2,'si')
+                                                  
+                                                   res.json(datafinal);
                                               
                                             });
                                           } catch(e) {
@@ -1521,7 +1532,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
             }
             console.log({idempresa:arr[0], tipo:arr[2],publico:'Si'})
 
-                  frmmovil.find({idempresa:arr[0], tipo:arr[2],publico:'Si'}).exec(function(err, todosa) {
+                  Frmmovil.find({idempresa:arr[0], tipo:arr[2],publico:'Si'}).exec(function(err, todosa) {
                    
        
                     
@@ -1966,7 +1977,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
               });
         break;
             case 'formulariocamposver':
-                Frmmovild.find({idmovil:req.params.id, display : "true",idempresa:req.params.id3},function(err, todos) {
+                Frmmovild.find({idmovil:req.params.id, idempresa:req.params.id3},function(err, todos) {
                     if (err){  res.send(err);  }
                     var data=[]
                     for(var i = 0; i < todos.length;i++){
@@ -1981,7 +1992,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
 
         break;
             case 'formulariocamposver2':
-               Frmmovild.find({idmovil:req.params.id, display : "true",idempresa:req.params.id3}).exec(function(err, todos) {
+               Frmmovild.find({idmovil:req.params.id,idempresa:req.params.id3}).exec(function(err, todos) {
           
             if (err){  res.send(err);  }
             var data=[]
@@ -2009,7 +2020,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
         });
         break;
             case 'formulariocamposverid':
-            Frmmovild.find({idmovil:req.params.id, display : "true",idempresa:req.params.id3}).exec(function(err, todos) {
+            Frmmovild.find({idmovil:req.params.id,idempresa:req.params.id3}).exec(function(err, todos) {
                 if (err){  res.send(err);  }
                 var data=[]
               
@@ -2028,7 +2039,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
             });
             break;
             case 'formulariocamposveridcampo':
-                Frmmovild.find({idmovil:req.params.id, display : "true",idempresa:req.params.id3}).exec(function(err, todos) {
+                Frmmovild.find({idmovil:req.params.id,idempresa:req.params.id3}).exec(function(err, todos) {
                     if (err){  res.send(err);  }
                     var data=[]
                   
@@ -2064,7 +2075,13 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                 Frmmovild.find({idmovil:req.params.id, display : "true",idempresa:arrtodos[0]}).sort([['order', 1]]).exec(function(err, todos) {
                     if (err){ res.send(err); }
                  
-                
+                  
+                    var objetox = {};
+                    for(var i = 0; i < todos.length;i++){
+                        objetox[todos[i].name] =todos[i].title + '°' + todos[i].type + '°'+ todos[i].display;
+                    }
+          
+               
                                         if(todos.length>0)   {  
                                        
                                             var cad=''
@@ -2089,8 +2106,18 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                                 var  frmtt= mongoose.model(namess,tt);
                                                 frmtt.find(filtro ,function(err, todos2) {
                                                     if (err){  res.send(err); }
-                                                  
-                                                    res.json(todos2);
+                                                 console.log(todos2)
+                                                 if(todos2.length>0)
+                                                 {
+                                                    var datafinal = functool.procesahtmlrecord(objetox,todos2,'no')
+                                                   
+                                                    res.json(datafinal);
+                                                
+                                                 }
+                                                 else
+                                                 {
+                                                    res.json([]);
+                                                 }
                                                   
                                                 });
                                               } catch(e) {
@@ -2295,6 +2322,14 @@ console.log(filtro)
             
                     Frmmovild.find({idmovil:req.params.id, display : "true",idempresa:arrtodos[0]}).sort([['order', 1]]).exec(function(err, todos) {
                         if (err){ res.send(err); }
+                            
+                    var objetox = {};
+                 
+                    for(var i = 0; i < todos.length;i++){
+                       
+                        objetox[todos[i].name] =todos[i].title + '°' + todos[i].type + '°'+ todos[i].display;
+                    }
+          
                     
                                             if(todos.length>0)   {  
                                         
@@ -2321,7 +2356,8 @@ console.log(filtro)
                                                     frmtt.find(filtro ,function(err, todos2) {
                                                         if (err){  res.send(err); }
                                                     
-                                                        res.json(todos2);
+                                                        var datafinal = functool.procesahtmlrecord(objetox,todos2,'no')
+                                                    res.json(datafinal);
                                                     
                                                     });
                                                 } catch(e) {
@@ -2351,7 +2387,19 @@ console.log(filtro)
                 var namess=req.params.id
                     Frmmovild.find({idmovil:req.params.id, display : "true",idempresa:req.params.id3}).sort([['order', 1]]).exec(function(err, todos) {
                         if (err){ res.send(err); }
-                    
+
+                            var myDatavector=req.params.id2.split('°')
+                   
+                        var objetox = {};
+                 
+                        for(var i = 0; i < todos.length;i++){
+                            if(myDatavector[j].split('°')[0]===todos[i].name)
+                            {
+                                objetox[todos[i].name] =todos[i].title + '°' + todos[i].type + '°'+ todos[i].display;
+                            }
+                           
+                            
+                        }
                                             if(todos.length>0)   {  
                                         
                                                 var cad=''
@@ -2377,13 +2425,14 @@ console.log(filtro)
                                                     frmtt.find({} ,function(err, todos2) {
                                                         if (err){  res.send(err); }
                                                     
-                                                        res.json(todos2);
+                                                          //console.log(todos2)
+                                                          var datafinal = functool.procesahtmlrecord(objetox,todos2,'si')
+                                                    res.json(datafinal);
                                                     
                                                     });
                                                 } catch(e) {
                                                     
                                                     var  frmtt= mongoose.model(namess);
-                                        
                                                     frmtt.find( {} ,function(err, todos2) {
                                                         if (err){  res.send(err);
                                                         }
@@ -2647,24 +2696,9 @@ exports.deleteFrmmovil = function(req, res, next){
 exports.deleteFrmmovil2 = async function(req, res, next){
    //5f503bededa4710798a79b84°Formulario°1_actualizainventarioaj°'
     console.log(req.params)
+    console.log(req.body)
     var arrtt=req.params.idempresa.split('°')
-    if(arrtt[1]==='Formulario'){
-        if(arrtt[2]!=='' && arrtt[2]!==undefined)
-        {
-    
-            respuesta = await frmejecuta.formularioinicialdel(req, res, next,[]);
-            console.log(respuesta)
-            if(respuesta.estado!=='exito')
-            {
-                res.status(500).send(respuesta.estado) 
-                return;
-            }   
-            
-    
-        }
-        
-       
-    }
+  
 
 
     Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina formulario movil '});
@@ -2725,7 +2759,32 @@ exports.deleteFrmmovil2 = async function(req, res, next){
                                     }
                                     else
                                     {
-                                        res.json(todo);
+                                        if(req.body.tipo2==='Formulario'){
+                                            if(req.body.ejecuta!=='' && req.body.ejecuta!==undefined)
+                                            {
+                                                (async () => {  
+                                                respuesta = await frmejecuta.formulariofinaldel(req, res, next,[]);
+                                                console.log(respuesta)
+                                                if(respuesta.estado!=='exito')
+                                                {
+                                                    res.status(500).send(respuesta.estado) 
+                                                    return;
+                                                } 
+                                            
+                                                    res.json(todo);
+                                                })();
+                                                
+                                        
+                                            }
+                                            
+                                           
+                                        }
+                                        else
+                                        {
+                                            res.json(todo);
+                                        }
+                                    
+                                       
                                     }
 
                                            
@@ -3218,30 +3277,30 @@ if(req.body.tipo2==='Formulario'){
                                             }  , function(err, todo330) {
                                                 if (err){  console.log(err.message);    res.status(500).send(err.message)    }
 
-                                                
-                                                        if(req.body.ejecuta!=='' && req.body.ejecuta!==undefined)
-                                                        {
-                                                            console.log('entraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa22222222222222222222222222222222222222')
-                                                            frmejecuta.formulariomovil(req, res, next,todo330);  
+                                                if(req.body.ejecuta!=='' && req.body.ejecuta!==undefined)
+                                                {
+                                                    (async () => {    
+                                                respuesta = await frmejecuta.procesofinalcrea(req, res, next,todo3);
+                                                console.log(respuesta)
+                                                if(respuesta.estado!=='exito')
+                                                {
+                                                    res.status(500).send(respuesta.estado) 
+                                                    return;
+                                                }   
+                                                res.json(todo3);
+                                            })();
+                                                }
+                                                else
+                                                {
+                                                    res.json(todo3);
+                                                }
+                                              
+                                           
 
-                                                            
-                                                        }
-                                                        else
-                                                        {
-                                                        
-                                                
-                                                        if(req.body.ejecutafinal!=='' && req.body.ejecutafinal!==undefined)
-                                                        {
-                                                            console.log('entraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa222222222222222222222222222222222222223333333333333333333333333')
-                                                            frmejecuta.formulariomovilprocesofinal(req, res, next,todo330);  
 
-                                                            
-                                                        }
-                                                        else
-                                                        {
-                                                            res.json(todo330);
-                                                        }
-                                                        }
+                                           
+                                               
+
                                                 
                                             });
                                                 
@@ -3250,27 +3309,30 @@ if(req.body.tipo2==='Formulario'){
                                                 }
                                                 else
                                                 {
-                                                            if(req.body.ejecuta!=='' && req.body.ejecuta!==undefined)
-                                                            {
-                                                                console.log('entraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1111111111111111111111')
-                                                                frmejecuta.formulariomovil(req, res, next,todo3);  
-                                                            }
-                                                            else
-                                                            {
-                                                                if(req.body.ejecutafinal!=='' && req.body.ejecutafinal!==undefined)
-                                                                {
-                                                                    console.log('entraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa222222222222222222222222222222222222223333333333333333333333333')
-                                                                    frmejecuta.formulariomovilprocesofinal(req, res, next,todo3);  
-                                                
-                                                                    
-                                                                }
-                                                                else
-                                                                {
-                                                                    res.json(todo3);
-                                                                }
-                                                            }
+                                                          
                                                             
-
+                                                    if(req.body.tipo2==='Formulario'){
+                                                        if(req.body.ejecuta!=='' && req.body.ejecuta!==undefined)
+                                                        {
+                                                            (async () => {    
+                                                            respuesta = await frmejecuta.formulariofinalcrea(req, res, next,todo3);
+                                                            console.log(respuesta)
+                                                            if(respuesta.estado!=='exito')
+                                                            {
+                                                                res.status(500).send(respuesta.estado) 
+                                                                return;
+                                                            }   
+                                                            res.json(todo3);
+                                                        })();
+                                                    
+                                                        }
+                                                        else
+                                                        {
+                                                            res.json(todo3);
+                                                        }
+                                                        
+                                                       
+                                                    }
 
                                                 
                                                 }

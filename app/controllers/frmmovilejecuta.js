@@ -6,9 +6,176 @@ var Catusuario = require('../models/catusuario');
 var Formcat2 = require('../models/frmcat2');
 var formulariousrd = require('../models/formulariousrd');
 var formulariousr = require('../models/formulariousr');
+var functool = require('../controllers/funcionesnode');
+var kardex = require('../models/asociadoventa/kardexcorreos');
+var kardexproducto = require('../models/asociadoventa/kardexcorreosproducto');
                             
 function onlyUnique(value, index, self) { 
     return self.indexOf(value) === index;
+}
+
+    
+function dadatosformulariofinal  (namess,filtro,idempresa,namess2)
+{
+    return new Promise(resolve => { 
+
+        Frmmovild.find({idmovil:namess, display : "true",idempresa:idempresa}).sort([['order', 1]]).exec(function(err, todos) {
+            if (err){ res.send(err); }
+          
+     //   console.log(todos)
+                                if(todos.length>0)   {  
+                               
+                                    var cad=''
+                                    var cadxx=''
+                                    var cad3=(dafiltrocad(todos,'','')).split('°')
+                                  
+                              
+                                 
+                                    cad=cad3[0]
+                                    cadxx='{'+ cad3[1] + '}'
+                                    cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                    cad='{' + cad + '}'
+                                    cadxx='{' + cadxx + '}'
+
+                               //  console.log(cad)
+                                    var jsonObject = stringToObject(cad);
+                                  
+                                    var mongoose = require("mongoose");
+                                    var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                                    delete mongoose.connection.models[namess2];
+                                    var  frmtt= mongoose.model(namess2,tt);
+
+
+                                    frmtt.find(filtro).exec(function(err, todos2) {
+                                        if (err){  res.send(err); }
+
+                                        resolve(todos2); 
+                                       // res.json(todos2);
+
+                                    });
+                                }
+
+
+    });
+        
+                                    
+                                   
+                             
+                
+        
+    
+
+                                });
+
+}
+
+
+function dadatosformularioidfinal  (namess,filtro,idempresa,namess2)
+{
+    return new Promise(resolve => { 
+
+        Frmmovild.find({idmovil:namess, idempresa:idempresa}).sort([['order', 1]]).exec(function(err, todos) {
+            if (err){ res.send(err); }
+          
+     //   console.log(todos)
+                                if(todos.length>0)   {  
+                               
+                                    var cad=''
+                                    var cadxx=''
+                                    var cad3=(dafiltrocad(todos,'','')).split('°')
+                                  
+                              
+                                 
+                                    cad=cad3[0]
+                                    cadxx='{'+ cad3[1] + '}'
+                                    cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                    cad='{' + cad + '}'
+                                    cadxx='{' + cadxx + '}'
+
+                               //  console.log(cad)
+                                    var jsonObject = stringToObject(cad);
+                                  
+                                    var mongoose = require("mongoose");
+                                    var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                                    delete mongoose.connection.models[namess2];
+                                    var  frmtt= mongoose.model(namess2,tt);
+
+
+                                    frmtt.findById(filtro).exec(function(err, todos2) {
+                                        if (err){  res.send(err); }
+
+                                        resolve(todos2); 
+                                       // res.json(todos2);
+
+                                    });
+                                }
+
+
+    });
+        
+                                    
+                                   
+                             
+                
+        
+    
+
+                                });
+
+}
+
+function actualizaformularioidfinal  (namess,filtro,idempresa,namess2,est)
+{
+    return new Promise(resolve => { 
+
+        Frmmovild.find({idmovil:namess, idempresa:idempresa}).sort([['order', 1]]).exec(function(err, todos) {
+            if (err){ res.send(err); }
+          
+     //   console.log(todos)
+                                if(todos.length>0)   {  
+                               
+                                    var cad=''
+                                    var cadxx=''
+                                    var cad3=(dafiltrocad(todos,'','')).split('°')
+                                  
+                              
+                                 
+                                    cad=cad3[0]
+                                    cadxx='{'+ cad3[1] + '}'
+                                    cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                    cad='{' + cad + '}'
+                                    cadxx='{' + cadxx + '}'
+
+                               //  console.log(cad)
+                                    var jsonObject = stringToObject(cad);
+                                  
+                                    var mongoose = require("mongoose");
+                                    var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                                    delete mongoose.connection.models[namess2];
+                                    var  frmtt= mongoose.model(namess2,tt);
+
+                                    frmtt.update(filtro, est, function(err, todos2) {
+                                   
+                                        if (err){  res.send(err); }
+
+                                        resolve(todos2); 
+                                       // res.json(todos2);
+
+                                    });
+                                }
+
+
+    });
+        
+                                    
+                                   
+                             
+                
+        
+    
+
+                                });
+
 }
 
 function dadatosformulario(namess,filtro,idempresa)
@@ -811,125 +978,9 @@ Frmmovild.find({idmovil:'5f7f5f7b85f18458404125fd', display : "true"}).sort([['o
   
 }
 
-var formulariomovil= async function(req, res, next,dataanterior){
-
-  /*
-console.log(req.body)
-    {
-        idcat: 'GESTION DE CONTRATOS',
-        idform: '5fd674d19b20472b483433c5',
-        estructura: {
-          empresa: 'NIT: 25879995°Nombre empresa: empresa prueba N1°¬5fa352c465b7e93c488fd03a',
-          contrato: 'Descripción: contrato de prueba°No contrato: 001°¬5fa36e12c4579d2250e855a6',
-          enmienda: 'Descripción: Prueba de recurso enmienda°Fecha Inicial: Thu Nov 05 2020 12:46:38 GMT-0600 (hora estándar central)°Fecha Finalización: Sat Dec 05 2020 12:46:38 GMT-0600 (hora estándar central)°Estado: Activo°Tipo de enmienda: Enmienda Tiempo y monto°¬5fa448beaab0ea1f5c2282ba',
-          tiposancion: 'Multa: Categoria: Administrativas°Descripcion: Barrido de  vías urbanas AREA TIPO A°Monto: 3000°Estado: Activo°Plazo en minutos para resolver: 120°¬5fa36ac7c4579d2250e8558a°¬5fc5605c94568f50c4cdcb5e',
-          usuarionew: 'inspectormuni@gmail.com',
-          usuarioup: 'inspectormuni@gmail.com',
-          idempresa: '5f503bededa4710798a79b84',
-          geoposicion: '',
-          sequencia: '0000005'
-        },
-        tipo: 'formulario',
-        tipo2: 'Formulario',
-        ejecuta: 'Crearmultasegunsancion',
-        bitacora: {
-          idempresa: '5f503bededa4710798a79b84',
-          idafiliado: '',
-          email: 'inspectormuni@gmail.com',
-          permiso: 'Crea',
-          accion: 'Crea en formulario movil'
-        }
-      }
-*/
-    switch(req.body.ejecuta) {
-        case 'Crearmultasegunsancion': 
-        var contrato=req.body.estructura.contrato.split('¬')[1]
-        var enmienda=req.body.estructura.enmienda.split('¬')[1]
-        
-        var f1 =new Date( dataanterior.createdAt).toISOString().substr(0,10);   
-                             
-        fecha = ''+dataanterior.createdAt + ''
-
-        let periodo =f1.split('-');
-        let tipo = req.body.estructura.tiposancion.split('°');
 
 
-        var idpagot=''
-
-        pagos = await dadatosformulario('5f595df92521cd38c8fe3126',{ periodopago: periodo[1] + '-' + periodo[0] ,idempresa:req.body.estructura.idempresa,idpapa:enmienda.trim()},req.body.estructura.idempresa); 
-           
-        
-        idpagot=pagos[0]._id
-    var   options	     = {
-        idcat: 'GESTION DE CONTRATOS',
-        idform: '5f74c0fff22ed14ea01c1cbe',
-        idpapa: idpagot,
-        estructura: {
-          // descripcion: Barrido de  vías urbanas AREA TIPO A°monto: 3000°plazoenminutospararesolver: 120°"
-          'tiposancion' : tipo[0] + '°' + tipo[1] + '°', // "descripcion: Barrido de  vías urbanas AREA TIPO A°monto: 3000°       ¬5fa36ac7c4579d2250e8558a",
-          'fechasancion' : dataanterior.createdAt ,
-          'monto' : tipo[2].split(':')[1].trim(),
-          'imposicion' : 'imposición',
-          'observaciones' : 'Multa generada manualmente (sanciones automaticas), ' + req.body.estructura.tiposancion,
-          'estado' : 'Activo',
-          'usuarionew' : req.body.estructura.usuarionew,
-          'usuarioup' : req.body.estructura.usuarionew,
-          'idempresa' : req.body.estructura.idempresa,
-          'idpapa' :  '' + idpagot + '',
-  
-      },
-        tipo: 'detalle',
-        tipo2: 'Formulario',
-        ejecuta: 'this.ejecuta',
-        bitacora: { idempresa : req.body.estructura.idempresa , idafiliado: '' ,
-     email: req.body.estructura.usuarionew , permiso : 'Crea', accion: 'Crea en formulario movil'}
-       };
-
-       
-       console.log(options)
-       creafrmregistro(req, res, next,'5f74c0fff22ed14ea01c1cbes','5f74c0fff22ed14ea01c1cbe',{
-        // descripcion: Barrido de  vías urbanas AREA TIPO A°monto: 3000°plazoenminutospararesolver: 120°"
-        'tiposancion' : tipo[0] + '°' + tipo[1] + '°', // "descripcion: Barrido de  vías urbanas AREA TIPO A°monto: 3000°       ¬5fa36ac7c4579d2250e8558a",
-        'fechasancion' : dataanterior.createdAt ,
-        'monto' : tipo[2].split(':')[1].trim(),
-        'imposicion' : 'imposición',
-        'observaciones' : 'Multa generada manualmente (sanciones automaticas), ' + req.body.estructura.tiposancion,
-        'estado' : 'Activo',
-        'usuarionew' : req.body.estructura.usuarionew,
-        'usuarioup' : req.body.estructura.usuarionew,
-        'idempresa' : req.body.estructura.idempresa,
-        'idpapa' :  idpagot,
-
-    },'siresponde',dataanterior,idpagot,'Formulario')
-        //periodomulta     : periodo[1] + '-' + periodo[0],
-        
-       // res.json(dataanterior);
-        break;
-
-        default:
-          // code block
-          res.json(dataanterior);
-      }
-
-      
-  
-
-    
-                                   
-    
-                                
-    
-                                      
- 
-          
-    
-    
-    
-      
-    }
-
-
-    var procesoinicialcrea=  function(req, res, next,dataanterior){
+    var procesoinicialcrea= async function(req, res, next,dataanterior){
         return new Promise(resolve => {
             switch(req.body.ejecutainicio) {
               
@@ -943,7 +994,7 @@ console.log(req.body)
         });
     }
 
-    var procesoinicialact=  function(req, res, next,dataanterior){
+    var procesoinicialact= async function(req, res, next,dataanterior){
         return new Promise(resolve => {
             switch(req.body.ejecutainicio) {
                
@@ -957,7 +1008,7 @@ console.log(req.body)
         });
     }
 
-    var procesoinicialdel=  function(req, res, next,dataanterior){
+    var procesoinicialdel= async function(req, res, next,dataanterior){
         return new Promise(resolve => {
             switch(req.body.ejecutainicio) {
               
@@ -971,12 +1022,73 @@ console.log(req.body)
         });
 
     }
-        var procesofinalcrea=  function(req, res, next,dataanterior){
+        var procesofinalcrea= async function(req, res, next,dataanterior){
           return new Promise(resolve => {
-              switch(req.body.ejecutainicio) {
+              switch(req.body.ejecuta) {
                 
-                  case '1_actualizainventarioaj': 
-                  resolve({estado:'Existencia no valida'}); 
+                case 'Crearmultasegunsancion': 
+                (async () => {
+                var contrato=req.body.estructura.contrato.split('¬')[1]
+                var enmienda=req.body.estructura.enmienda.split('¬')[1]
+                
+                var f1 =new Date( dataanterior.createdAt).toISOString().substr(0,10);   
+                                     
+                fecha = ''+dataanterior.createdAt + ''
+        
+                let periodo =f1.split('-');
+                let tipo = req.body.estructura.tiposancion.split('°');
+        
+        
+                var idpagot=''
+        
+                pagos = await dadatosformulario('5f595df92521cd38c8fe3126',{ periodopago: periodo[1] + '-' + periodo[0] ,idempresa:req.body.estructura.idempresa,idpapa:enmienda.trim()},req.body.estructura.idempresa); 
+                   
+                
+                idpagot=pagos[0]._id
+            var   options	     = {
+                idcat: 'GESTION DE CONTRATOS',
+                idform: '5f74c0fff22ed14ea01c1cbe',
+                idpapa: idpagot,
+                estructura: {
+                  // descripcion: Barrido de  vías urbanas AREA TIPO A°monto: 3000°plazoenminutospararesolver: 120°"
+                  'tiposancion' : tipo[0] + '°' + tipo[1] + '°', // "descripcion: Barrido de  vías urbanas AREA TIPO A°monto: 3000°       ¬5fa36ac7c4579d2250e8558a",
+                  'fechasancion' : dataanterior.createdAt ,
+                  'monto' : tipo[2].split(':')[1].trim(),
+                  'imposicion' : 'imposición',
+                  'observaciones' : 'Multa generada manualmente (sanciones automaticas), ' + req.body.estructura.tiposancion,
+                  'estado' : 'Activo',
+                  'usuarionew' : req.body.estructura.usuarionew,
+                  'usuarioup' : req.body.estructura.usuarionew,
+                  'idempresa' : req.body.estructura.idempresa,
+                  'idpapa' :  '' + idpagot + '',
+          
+              },
+                tipo: 'detalle',
+                tipo2: 'Formulario',
+                ejecuta: 'this.ejecuta',
+                bitacora: { idempresa : req.body.estructura.idempresa , idafiliado: '' ,
+             email: req.body.estructura.usuarionew , permiso : 'Crea', accion: 'Crea en formulario movil'}
+               };
+        
+               
+               console.log(options)
+               creafrmregistro(req, res, next,'5f74c0fff22ed14ea01c1cbes','5f74c0fff22ed14ea01c1cbe',{
+                // descripcion: Barrido de  vías urbanas AREA TIPO A°monto: 3000°plazoenminutospararesolver: 120°"
+                'tiposancion' : tipo[0] + '°' + tipo[1] + '°', // "descripcion: Barrido de  vías urbanas AREA TIPO A°monto: 3000°       ¬5fa36ac7c4579d2250e8558a",
+                'fechasancion' : dataanterior.createdAt ,
+                'monto' : tipo[2].split(':')[1].trim(),
+                'imposicion' : 'imposición',
+                'observaciones' : 'Multa generada manualmente (sanciones automaticas), ' + req.body.estructura.tiposancion,
+                'estado' : 'Activo',
+                'usuarionew' : req.body.estructura.usuarionew,
+                'usuarioup' : req.body.estructura.usuarionew,
+                'idempresa' : req.body.estructura.idempresa,
+                'idpapa' :  idpagot,
+        
+            },'siresponde',dataanterior,idpagot,'Formulario')
+                 
+            resolve({estado:'exito'}); 
+        })();
                   break;
                   default:
                     // code block
@@ -985,9 +1097,9 @@ console.log(req.body)
           });
       }
 
-      var procesofinalact=  function(req, res, next,dataanterior){
+      var procesofinalact= async function(req, res, next,dataanterior){
           return new Promise(resolve => {
-              switch(req.body.ejecutainicio) {
+              switch(req.body.ejecuta) {
                  
                   case '1_actualizainventarioaj': 
                   resolve({estado:'Existencia no valida'}); 
@@ -999,9 +1111,9 @@ console.log(req.body)
           });
       }
 
-      var procesofinaldel=  function(req, res, next,dataanterior){
+      var procesofinaldel= async function(req, res, next,dataanterior){
           return new Promise(resolve => {
-              switch(req.body.ejecutainicio) {
+              switch(req.body.ejecuta) {
                 
                   case '1_actualizainventarioaj': 
                   resolve({estado:'Existencia no valida'}); 
@@ -1014,20 +1126,93 @@ console.log(req.body)
       }
     
 
-
-
-
 //para los formularios ---------------------------------------------------------------------------
 //para los formularios ---------------------------------------------------------------------------
 //para los formularios ---------------------------------------------------------------------------
 //para los formularios ---------------------------------------------------------------------------
         
-        var formularioinicialcrea=  function(req, res, next,dataanterior){
+        var formularioinicialcrea= async function(req, res, next,dataanterior){
           return new Promise(resolve => {
+              console.log('ejecuta al inicio crea:' + req.body.ejecutainicio)
+             
               switch(req.body.ejecutainicio) {
                 
                   case '1_actualizainventarioaj': 
+
+                  (async () => {
+                    var ingreso=0
+                    var salida=0
+                    var saldoactual=0
+                    var total=0
+                    var existenciaactual=0
+                    var cantidadingreso=0
+                    var idproducto=req.body.estructura.producto.split('¬')[1]
+
+                   
+
+                    producto = await dadatosformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579'); 
+                
+                    if(producto.existenciaactual)
+                    {existenciaactual=Number(producto.existenciaactual)}
+                    else{existenciaactual=0}
+
+                    if(req.body.estructura.cantidad)
+                    {
+                        cantidadingreso=Number(req.body.estructura.cantidad)
+                    }
+                    else
+                    {
+                        cantidadingreso=0;
+                    }
+
+
+                  if(req.body.estructura.tipoajuste==='Salida')
+                  {
+                      salida=cantidadingreso
+                      saldoactual=existenciaactual-salida
+                  }
+                  else
+                  {
+                    ingreso=cantidadingreso
+                    saldoactual=existenciaactual+ingreso
+                  }
+
+                  total=saldoactual*Number(producto.precioporunidad)
+                  kardex.create({
+                    idempresa		: req.body.estructura.idempresa,  
+                    fecha		: req.body.estructura.fecha,  
+                    tipo		: req.body.estructura.tipoajuste,  
+                    accion		: 'Ajuste de inventario',  
+                    proveedor		: '',  
+                    nodoc		: '123',  
+                    iddocumento		: '123',  
+                    categoria		:producto.categoria,
+                    producto		: producto.codigoarticulo,  
+                    idproducto:producto._id,
+                    producton		: producto.descripciondelarticulo,
+                    saldoanterior		: existenciaactual,
+                    ingreso		: ingreso,
+                    egreso		: salida,
+                    saldoactual		: saldoactual,
+                    precio		: Number(producto.precioporunidad),
+                    total		: total,
+                  });
+                  var estructura={
+                    "precioporunidad" : producto.precioporunidad.toString(),
+                    "existenciaactual" : saldoactual.toString(),
+                    "total" :( saldoactual*Number(producto.precioporunidad)).toString()
+                   
+                }
+                  producto = await actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579',estructura); 
                   resolve({estado:'exito'}); 
+               })();
+
+
+                  
+/*
+                
+                  */
+                 
                   break;
                   default:
                     // code block
@@ -1036,8 +1221,9 @@ console.log(req.body)
           });
       }
 
-      var formularioinicialact=  function(req, res, next,dataanterior){
+      var formularioinicialact= async function(req, res, next,dataanterior){
           return new Promise(resolve => {
+            console.log('ejecuta al inicio actualiza:' + req.body.ejecutainicio)
               switch(req.body.ejecutainicio) {
                  
                   case '1_actualizainventarioaj': 
@@ -1056,7 +1242,7 @@ console.log(req.body)
 //req.params.recordID
             var arrtt=req.params.idempresa.split('°')
 
-            
+            console.log('ejecuta al inicio elimina:' + arrtt[2])
               switch(arrtt[2]) {
                 
                   case '1_actualizainventarioaj': 
@@ -1069,12 +1255,145 @@ console.log(req.body)
           });
         }
 
-          var formulariofinalcrea=  function(req, res, next,dataanterior){
+          var formulariofinalcrea= async function(req, res, next,dataanterior){
+              console.log('entrafinalllllllll  crea');
+   console.log(req.body)
             return new Promise(resolve => {
-                switch(req.body.ejecutainicio) {
+                switch(req.body.ejecuta) {
+                  case '1_actualizainvrequisicion':
+                    (async () => {
+                        var ingreso=0
+                        var salida=0
+                        var saldoactual=0
+                        var total=0
+                        var existenciaactual=0
+                        var cantidadingreso=0
+                        var idproducto=req.body.estructura.articulo.split('¬')[1]
+    
+         
+                        producto = await dadatosformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579'); 
+                    
+                        if(producto.existenciaactual)
+                        {existenciaactual=Number(producto.existenciaactual)}
+                        else{existenciaactual=0}
+    
+                        if(req.body.estructura.cantidaddespachada)
+                        {
+                            cantidadingreso=Number(req.body.estructura.cantidaddespachada)
+                        }
+                        else
+                        {
+                            cantidadingreso=0;
+                        }
+    
+                
+                          ingreso=0
+                      
+                        salida=cantidadingreso
+                        saldoactual=existenciaactual-salida
+                     
+                      total=saldoactual*Number(producto.precioporunidad)
+                      kardex.create({
+                        idempresa		: req.body.estructura.idempresa,  
+                        fecha		: req.body.papaitem.fecha,  
+                        tipo		: 'Salida',  
+                        accion		: 'Salida requisición',  
+                        proveedor		: req.body.papaitem.departamento,  
+                        nodoc		: req.body.papaitem.nodocumento.toString(),  
+                        iddocumento		: dataanterior._id.toString(),  
+                        categoria		:producto.categoria,
+                        producto		: producto.codigoarticulo,  
+                        idproducto:producto._id,
+                        producton		: producto.descripciondelarticulo,
+                        saldoanterior		: existenciaactual,
+                        ingreso		: ingreso,
+                        egreso		: salida,
+                        saldoactual		: saldoactual,
+                        precio		: Number(producto.precioporunidad),
+                        total		: total,
+                      });
+                      var estructura={
+                        "precioporunidad" : producto.precioporunidad.toString(),
+                        "existenciaactual" : saldoactual.toString(),
+                        "total" :( saldoactual*Number(producto.precioporunidad)).toString()
+                      
+                    }
+                      producto = await actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579',estructura); 
+                      resolve({estado:'exito'}); 
+                   })();
+    
+    
                   
-                    case '1_actualizainventarioaj': 
-                    resolve({estado:'Existencia no valida'}); 
+                   
+                 
+                    break;
+                    case '1_formulario1hpone': 
+                    (async () => {
+                        var ingreso=0
+                        var salida=0
+                        var saldoactual=0
+                        var total=0
+                        var existenciaactual=0
+                        var cantidadingreso=0
+                        var idproducto=req.body.estructura.articulo.split('¬')[1]
+    
+         
+                        producto = await dadatosformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579'); 
+                    
+                        if(producto.existenciaactual)
+                        {existenciaactual=Number(producto.existenciaactual)}
+                        else{existenciaactual=0}
+    
+                        if(req.body.estructura.cantidad)
+                        {
+                            cantidadingreso=Number(req.body.estructura.cantidad)
+                        }
+                        else
+                        {
+                            cantidadingreso=0;
+                        }
+    
+                
+                          salida=0
+                      
+                        ingreso=cantidadingreso
+                        saldoactual=existenciaactual+ingreso
+                      
+    
+                      total=saldoactual*Number(producto.precioporunidad)
+                      kardex.create({
+                        idempresa		: req.body.estructura.idempresa,  
+                        fecha		: req.body.papaitem.fecha,  
+                        tipo		: 'Entrada',  
+                        accion		: 'Ingreso formulario 1-H',  
+                        proveedor		: req.body.papaitem.proveedor,  
+                        nodoc		: req.body.papaitem.codigo.toString(),  
+                        iddocumento		: dataanterior._id.toString(),  
+                        categoria		:producto.categoria,
+                        producto		: producto.codigoarticulo,  
+                        idproducto:producto._id,
+                        producton		: producto.descripciondelarticulo,
+                        saldoanterior		: existenciaactual,
+                        ingreso		: ingreso,
+                        egreso		: salida,
+                        saldoactual		: saldoactual,
+                        precio		: Number(producto.precioporunidad),
+                        total		: total,
+                      });
+                      var estructura={
+                        "precioporunidad" : producto.precioporunidad.toString(),
+                        "existenciaactual" : saldoactual.toString(),
+                        "total" :( saldoactual*Number(producto.precioporunidad)).toString()
+                      
+                    }
+                      producto = await actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579',estructura); 
+                      resolve({estado:'exito'}); 
+                   })();
+    
+    
+                  
+                   
+                 
                     break;
                     default:
                       // code block
@@ -1083,9 +1402,9 @@ console.log(req.body)
             });
         }
   
-        var formulariofinalact=  function(req, res, next,dataanterior){
+        var formulariofinalact= async function(req, res, next,dataanterior){
             return new Promise(resolve => {
-                switch(req.body.ejecutainicio) {
+                switch(req.body.ejecuta) {
                    
                     case '1_actualizainventarioaj': 
                     resolve({estado:'Existencia no valida'}); 
@@ -1097,16 +1416,149 @@ console.log(req.body)
             });
         }
   
-        var formulariofinaldel=  function(req, res, next,dataanterior){
+        var formulariofinaldel= async function(req, res, next,dataanterior){
             return new Promise(resolve => {
-                switch(req.body.ejecutainicio) {
+                switch(req.body.ejecuta) {
+                    case '1_actualizainvrequisicion':
+                        (async () => {
+                            var ingreso=0
+                            var salida=0
+                            var saldoactual=0
+                            var total=0
+                            var existenciaactual=0
+                            var cantidadingreso=0
+                            var idproducto=req.body.estructura.articulo.split('¬')[1]
+        
+             
+                            producto = await dadatosformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579'); 
+                        
+                            if(producto.existenciaactual)
+                            {existenciaactual=Number(producto.existenciaactual)}
+                            else{existenciaactual=0}
+        
+                            if(req.body.estructura.cantidaddespachada)
+                            {
+                                cantidadingreso=Number(req.body.estructura.cantidaddespachada)
+                            }
+                            else
+                            {
+                                cantidadingreso=0;
+                            }
+        
+                    
+                              salida=0
+                          
+                            ingreso=cantidadingreso
+                            saldoactual=existenciaactual+ingreso
+
+                        
+                          total=saldoactual*Number(producto.precioporunidad)
+                          kardex.create({
+                            idempresa		: req.body.estructura.idempresa,  
+                            fecha		: req.body.papaitem.fecha,  
+                            tipo		: 'Entrada',  
+                            accion		: 'Elimina Salida requisición',  
+                            proveedor		: req.body.papaitem.departamento,  
+                            nodoc		: req.body.papaitem.nodocumento.toString(),  
+                            iddocumento		: req.body.estructura._id.toString(),  
+                            categoria		:producto.categoria,
+                            producto		: producto.codigoarticulo,  
+                            idproducto:producto._id,
+                            producton		: producto.descripciondelarticulo,
+                            saldoanterior		: existenciaactual,
+                            ingreso		: ingreso,
+                            egreso		: salida,
+                            saldoactual		: saldoactual,
+                            precio		: Number(producto.precioporunidad),
+                            total		: total,
+                          });
+                          var estructura={
+                            "precioporunidad" : producto.precioporunidad.toString(),
+                            "existenciaactual" : saldoactual.toString(),
+                            "total" :( saldoactual*Number(producto.precioporunidad)).toString()
+                          
+                        }
+                          producto = await actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579',estructura); 
+                          resolve({estado:'exito'}); 
+                       })();
+        
+        
+                      
+                       
+                     
+                        break;
+                        case '1_formulario1hpone': 
+                        (async () => {
+                            var ingreso=0
+                            var salida=0
+                            var saldoactual=0
+                            var total=0
+                            var existenciaactual=0
+                            var cantidadingreso=0
+                            var idproducto=req.body.estructura.articulo.split('¬')[1]
+        
+             
+                            producto = await dadatosformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579'); 
+                        
+                            if(producto.existenciaactual)
+                            {existenciaactual=Number(producto.existenciaactual)}
+                            else{existenciaactual=0}
+        
+                            if(req.body.estructura.cantidad)
+                            {
+                                cantidadingreso=Number(req.body.estructura.cantidad)
+                            }
+                            else
+                            {
+                                cantidadingreso=0;
+                            }
+        
+                    
+                              entrada=0
+                          
+                            salida=cantidadingreso
+                            saldoactual=existenciaactual-salida
+                          
+        
+                          total=saldoactual*Number(producto.precioporunidad)
+                          kardex.create({
+                            idempresa		: req.body.estructura.idempresa,  
+                            fecha		: req.body.papaitem.fecha,  
+                            tipo		: 'Salida',  
+                            accion		: 'Elimina Ingreso formulario 1-H',  
+                            proveedor		: req.body.papaitem.proveedor,  
+                            nodoc		: req.body.papaitem.codigo.toString(),  
+                            iddocumento		: req.body.estructura._id.toString(),  
+                            categoria		:producto.categoria,
+                            producto		: producto.codigoarticulo,  
+                            idproducto:producto._id,
+                            producton		: producto.descripciondelarticulo,
+                            saldoanterior		: existenciaactual,
+                            ingreso		: ingreso,
+                            egreso		: salida,
+                            saldoactual		: saldoactual,
+                            precio		: Number(producto.precioporunidad),
+                            total		: total,
+                          });
+                          var estructura={
+                            "precioporunidad" : producto.precioporunidad.toString(),
+                            "existenciaactual" : saldoactual.toString(),
+                            "total" :( saldoactual*Number(producto.precioporunidad)).toString()
+                          
+                        }
+                          producto = await actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579',estructura); 
+                          resolve({estado:'exito'}); 
+                       })();
+        
+        
+                      
+                       
+                     
+                        break;
+                        default:
+                          // code block
+                          resolve({estado:'exito'}); 
                   
-                    case '1_actualizainventarioaj': 
-                    resolve({estado:'Existencia no valida'}); 
-                    break;
-                    default:
-                      // code block
-                      resolve({estado:'exito'}); 
                   }
             });
         }
@@ -1114,7 +1566,7 @@ console.log(req.body)
 
 module.exports = {
     visitas_programadas: visitas_programadas,
-    formulariomovil: formulariomovil,
+ 
   
 
     procesoinicialcrea: procesoinicialcrea,
