@@ -578,7 +578,7 @@ exports.getfrmtareasprogramadas = async  function(req, res, next){
             }
      
 
-            
+            console.log(contratosv)
             res.json(contratosv);
 
         }

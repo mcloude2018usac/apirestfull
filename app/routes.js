@@ -6,6 +6,7 @@ var AuthenticationController = require('./controllers/authentication'),
     tarjetacreditoController = require('./controllers/asociadoventa/tarjetacredito'),
     Image2frmController = require('./controllers/image2frm'),
     Imagessl2Controller = require('./controllers/imagessl2'),
+    CorreosController = require('./controllers/correos/correos'),
     tarifaController = require('./controllers/asociadoventa/tarifa'),
     dispositivoController = require('./controllers/asociadoventa/dispositivo'),
     frmaccionesController = require('./controllers/asociadoventa/frmacciones'),
@@ -210,6 +211,7 @@ module.exports = function(app){
         formulariocomentariosRoutes = express.Router(),
         formulariofotosRoutes = express.Router(),
         formulariofotos2Routes = express.Router(),
+        correosRoutes = express.Router(),
 
         formulariotareasRoutes = express.Router(),
         formulariotareasdocRoutes = express.Router(),
@@ -380,6 +382,11 @@ SINNNNNNNNNNNNNN AUTORIZACION
   imageRoutes.get('/:id',  ImageController.getImages);
   imageRoutes.post('/:recordID',requireAuth,  ImageController.createImage);
   imageRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  ImageController.deleteImage);
+
+
+  apiRoutes.use('/correoss', correosRoutes);
+  correosRoutes.get('/:id/:id2/:id3',requireAuth,  CorreosController.getCorreos);
+
 
   apiRoutes.use('/Image2s', image2Routes);
   image2Routes.get('/:id',  Image2Controller.getImage2s);

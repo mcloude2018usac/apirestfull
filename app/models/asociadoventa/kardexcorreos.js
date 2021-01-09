@@ -13,6 +13,7 @@ var KardexcorreosSchema 		=	new  mongoose.Schema({
  producto		: { type : String },  
  idproducto		: { type : String },  
  producton		: { type : String },  
+ obs		: { type : String },  
 
 
 

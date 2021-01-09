@@ -60,9 +60,9 @@ exports.getsiif = function(req, res, next){
         switch(req.params.id7)  {
             case 'debitatarjeta':
                 //req.params.id  codigo tarjeta
-         //http://127.0.0.1:9090/api/siifs/4000000000000410/2401/123/4/5/5f57d0b407c8795ae8729761/debitatarjeta
-         //http://127.0.0.1:9090/api/siifs/4000000000005944/2401/123/4/5/5f57d0b407c8795ae8729761/debitatarjeta
-         //http://127.0.0.1:9090/api/siifs/2223000010025549/2401/123/4/5/5f57d0b407c8795ae8729761/debitatarjeta
+         //http://127.0.0.1:9090/api/siifs/4000000000000410/2401/123/100/5/5f57d0b407c8795ae8729761/debitatarjeta
+         //http://127.0.0.1:9090/api/siifs/4000000000005944/2401/123/100/5/5f57d0b407c8795ae8729761/debitatarjeta
+         //http://127.0.0.1:9090/api/siifs/2223000010025549/2401/123/100/5/5f57d0b407c8795ae8729761/debitatarjeta
                   //  var asigno=getNextSequenceValue("tajetacredito");
 
 
@@ -87,7 +87,7 @@ exports.getsiif = function(req, res, next){
                                 'headers': {
                                   'Content-Type': 'application/soap+xml;'
                                 },
-                                body: "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<soap12:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap12=\"http://www.w3.org/2003/05/soap-envelope\">\r\n  <soap12:Body>\r\n    <AuthorizationRequest xmlns=\"http://general_computing.com/paymentgw/types\">\r\n      <AuthorizationRequest>\r\n        <posEntryMode>012</posEntryMode>\r\n                <pan>"+ req.params.id +" </pan>\r\n                <expdate>" + req.params.id2 +"</expdate>\r\n                <amount>"+req.params.id3+"</amount>\r\n                <track2Data></track2Data>\r\n                <cvv2>"+ req.params.id4 +"</cvv2>\r\n                <paymentgwIP>190.149.69.135</paymentgwIP>\r\n                <shopperIP>190.149.168.54</shopperIP>\r\n                <merchantServerIP>67.205.167.98</merchantServerIP>\r\n                <merchantUser>76B925EF7BEC821780B4B21479CE6482EA415896CF43006050B1DAD101669921</merchantUser>\r\n                <merchantPasswd>DD1791DB5B28DDE6FBC2B9951DFED4D97B82EFD622B411F1FC16B88B052232C7</merchantPasswd>\r\n                <terminalId>77788881</terminalId>\r\n                <merchant>00575123</merchant>\r\n                <messageType>0200</messageType>\r\n                <auditNumber>"+secuencia+"</auditNumber>\r\n                <additionalData></additionalData>\r\n        <response>\r\n          <auditNumber>string</auditNumber>\r\n          <referenceNumber>string</referenceNumber>\r\n          <authorizationNumber>string</authorizationNumber>\r\n          <responseCode>string</responseCode>\r\n          <messageType>string</messageType>\r\n          <signature>string</signature>\r\n        </response>\r\n      </AuthorizationRequest>\r\n    </AuthorizationRequest>\r\n  </soap12:Body>\r\n</soap12:Envelope>"
+                                body: "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<soap12:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap12=\"http://www.w3.org/2003/05/soap-envelope\">\r\n  <soap12:Body>\r\n    <AuthorizationRequest xmlns=\"http://general_computing.com/paymentgw/types\">\r\n      <AuthorizationRequest>\r\n        <posEntryMode>012</posEntryMode>\r\n                <pan>"+ req.params.id +" </pan>\r\n                <expdate>" + req.params.id2 +"</expdate>\r\n                <amount>"+req.params.id4+"</amount>\r\n                <track2Data></track2Data>\r\n                <cvv2>"+ req.params.id3 +"</cvv2>\r\n                <paymentgwIP>190.149.69.135</paymentgwIP>\r\n                <shopperIP>190.149.168.54</shopperIP>\r\n                <merchantServerIP>67.205.167.98</merchantServerIP>\r\n                <merchantUser>76B925EF7BEC821780B4B21479CE6482EA415896CF43006050B1DAD101669921</merchantUser>\r\n                <merchantPasswd>DD1791DB5B28DDE6FBC2B9951DFED4D97B82EFD622B411F1FC16B88B052232C7</merchantPasswd>\r\n                <terminalId>77788881</terminalId>\r\n                <merchant>00575123</merchant>\r\n                <messageType>0200</messageType>\r\n                <auditNumber>"+secuencia+"</auditNumber>\r\n                <additionalData></additionalData>\r\n        <response>\r\n          <auditNumber>string</auditNumber>\r\n          <referenceNumber>string</referenceNumber>\r\n          <authorizationNumber>string</authorizationNumber>\r\n          <responseCode>string</responseCode>\r\n          <messageType>string</messageType>\r\n          <signature>string</signature>\r\n        </response>\r\n      </AuthorizationRequest>\r\n    </AuthorizationRequest>\r\n  </soap12:Body>\r\n</soap12:Envelope>"
                               
                               };
                               request(options, function (error, response) {
@@ -107,7 +107,7 @@ exports.getsiif = function(req, res, next){
                             'headers': {
                               'Content-Type': 'application/soap+xml;'
                             },
-                            body: "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<soap12:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap12=\"http://www.w3.org/2003/05/soap-envelope\">\r\n  <soap12:Body>\r\n    <AuthorizationRequest xmlns=\"http://general_computing.com/paymentgw/types\">\r\n      <AuthorizationRequest>\r\n        <posEntryMode>012</posEntryMode>\r\n                <pan>"+ req.params.id +" </pan>\r\n                <expdate>" + req.params.id2 +"</expdate>\r\n                <amount>"+req.params.id3+"</amount>\r\n                <track2Data></track2Data>\r\n                <cvv2>"+ req.params.id4 +"</cvv2>\r\n                <paymentgwIP>190.149.69.135</paymentgwIP>\r\n                <shopperIP>190.149.168.54</shopperIP>\r\n                <merchantServerIP>67.205.167.98</merchantServerIP>\r\n                <merchantUser>76B925EF7BEC821780B4B21479CE6482EA415896CF43006050B1DAD101669921</merchantUser>\r\n                <merchantPasswd>DD1791DB5B28DDE6FBC2B9951DFED4D97B82EFD622B411F1FC16B88B052232C7</merchantPasswd>\r\n                <terminalId>77788881</terminalId>\r\n                <merchant>00575123</merchant>\r\n                <messageType>0200</messageType>\r\n                <auditNumber>"+secuencia+"</auditNumber>\r\n                <additionalData></additionalData>\r\n        <response>\r\n          <auditNumber>string</auditNumber>\r\n          <referenceNumber>string</referenceNumber>\r\n          <authorizationNumber>string</authorizationNumber>\r\n          <responseCode>string</responseCode>\r\n          <messageType>string</messageType>\r\n          <signature>string</signature>\r\n        </response>\r\n      </AuthorizationRequest>\r\n    </AuthorizationRequest>\r\n  </soap12:Body>\r\n</soap12:Envelope>"
+                            body: "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<soap12:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap12=\"http://www.w3.org/2003/05/soap-envelope\">\r\n  <soap12:Body>\r\n    <AuthorizationRequest xmlns=\"http://general_computing.com/paymentgw/types\">\r\n      <AuthorizationRequest>\r\n        <posEntryMode>012</posEntryMode>\r\n                <pan>"+ req.params.id +" </pan>\r\n                <expdate>" + req.params.id2 +"</expdate>\r\n                <amount>"+req.params.id4+"</amount>\r\n                <track2Data></track2Data>\r\n                <cvv2>"+ req.params.id3 +"</cvv2>\r\n                <paymentgwIP>190.149.69.135</paymentgwIP>\r\n                <shopperIP>190.149.168.54</shopperIP>\r\n                <merchantServerIP>67.205.167.98</merchantServerIP>\r\n                <merchantUser>76B925EF7BEC821780B4B21479CE6482EA415896CF43006050B1DAD101669921</merchantUser>\r\n                <merchantPasswd>DD1791DB5B28DDE6FBC2B9951DFED4D97B82EFD622B411F1FC16B88B052232C7</merchantPasswd>\r\n                <terminalId>77788881</terminalId>\r\n                <merchant>00575123</merchant>\r\n                <messageType>0200</messageType>\r\n                <auditNumber>"+secuencia+"</auditNumber>\r\n                <additionalData></additionalData>\r\n        <response>\r\n          <auditNumber>string</auditNumber>\r\n          <referenceNumber>string</referenceNumber>\r\n          <authorizationNumber>string</authorizationNumber>\r\n          <responseCode>string</responseCode>\r\n          <messageType>string</messageType>\r\n          <signature>string</signature>\r\n        </response>\r\n      </AuthorizationRequest>\r\n    </AuthorizationRequest>\r\n  </soap12:Body>\r\n</soap12:Envelope>"
                           
                           };
                           request(options, function (error, response) {
@@ -140,7 +140,89 @@ exports.getsiif = function(req, res, next){
                 */
 
                 break;
-
+                case 'anulatarjeta':
+                    //req.params.id  codigo tarjeta
+             //http://127.0.0.1:9090/api/siifs/4000000000000410/2401/123/100/5/5f57d0b407c8795ae8729761/anulatarjeta
+             //http://127.0.0.1:9090/api/siifs/4000000000005944/2401/123/100/5/5f57d0b407c8795ae8729761/anulatarjeta
+             //http://127.0.0.1:9090/api/siifs/2223000010025549/2401/123/100/5/5f57d0b407c8795ae8729761/anulatarjeta
+                      //  var asigno=getNextSequenceValue("tajetacredito");
+    
+    
+                      Contador.findByIdAndUpdate('5f9edf9ad02fcfd4c96c74d1', { $inc: { sequence_value: 1 } }, function(err, seq){
+                        if(err) { throw(err); }
+                        var secuencia;
+                        secuencia=padLeadingZeros(seq.sequence_value,6)
+                      
+                        var vv=''
+                        vv=seq.sequence_value
+                        if(vv=='999999')
+                        {///volver a reiniciar contador
+    
+                            console.log('entrasecuencia')
+    
+                            Contador.findByIdAndUpdate('5f9edf9ad02fcfd4c96c74d1', {   sequence_value: 1  }, function(err, seq){
+                                if(err) { throw(err); }
+    
+                                var options = {
+                                    'method': 'POST',
+                                    'url': 'https://epaytestvisanet.com.gt/paymentcommerce.asmx',
+                                    'headers': {
+                                      'Content-Type': 'application/soap+xml;'
+                                    },
+                                    body: "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<soap12:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap12=\"http://www.w3.org/2003/05/soap-envelope\">\r\n  <soap12:Body>\r\n    <AuthorizationRequest xmlns=\"http://general_computing.com/paymentgw/types\">\r\n      <AuthorizationRequest>\r\n        <posEntryMode>012</posEntryMode>\r\n                <pan>"+ req.params.id +" </pan>\r\n                <expdate>" + req.params.id2 +"</expdate>\r\n                <amount>"+req.params.id4+"</amount>\r\n                <track2Data></track2Data>\r\n                <cvv2>"+ req.params.id3 +"</cvv2>\r\n                <paymentgwIP>190.149.69.135</paymentgwIP>\r\n                <shopperIP>190.149.168.54</shopperIP>\r\n                <merchantServerIP>67.205.167.98</merchantServerIP>\r\n                <merchantUser>76B925EF7BEC821780B4B21479CE6482EA415896CF43006050B1DAD101669921</merchantUser>\r\n                <merchantPasswd>DD1791DB5B28DDE6FBC2B9951DFED4D97B82EFD622B411F1FC16B88B052232C7</merchantPasswd>\r\n                <terminalId>77788881</terminalId>\r\n                <merchant>00575123</merchant>\r\n                <messageType>0202</messageType>\r\n                <auditNumber>"+secuencia+"</auditNumber>\r\n                <additionalData></additionalData>\r\n        <response>\r\n          <auditNumber>string</auditNumber>\r\n          <referenceNumber>string</referenceNumber>\r\n          <authorizationNumber>string</authorizationNumber>\r\n          <responseCode>string</responseCode>\r\n          <messageType>string</messageType>\r\n          <signature>string</signature>\r\n        </response>\r\n      </AuthorizationRequest>\r\n    </AuthorizationRequest>\r\n  </soap12:Body>\r\n</soap12:Envelope>"
+                                  
+                                  };
+                                  request(options, function (error, response) {
+                                    if (error) throw new Error(error);
+                                    console.log(response.body);
+                                    res.json({estado:response.body});
+                                  });
+    
+                            });
+            
+                        }
+                        else
+                        {
+                            var options = {
+                                'method': 'POST',
+                                'url': 'https://epaytestvisanet.com.gt/paymentcommerce.asmx',
+                                'headers': {
+                                  'Content-Type': 'application/soap+xml;'
+                                },
+                                body: "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<soap12:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap12=\"http://www.w3.org/2003/05/soap-envelope\">\r\n  <soap12:Body>\r\n    <AuthorizationRequest xmlns=\"http://general_computing.com/paymentgw/types\">\r\n      <AuthorizationRequest>\r\n        <posEntryMode>012</posEntryMode>\r\n                <pan>"+ req.params.id +" </pan>\r\n                <expdate>" + req.params.id2 +"</expdate>\r\n                <amount>"+req.params.id4+"</amount>\r\n                <track2Data></track2Data>\r\n                <cvv2>"+ req.params.id3 +"</cvv2>\r\n                <paymentgwIP>190.149.69.135</paymentgwIP>\r\n                <shopperIP>190.149.168.54</shopperIP>\r\n                <merchantServerIP>67.205.167.98</merchantServerIP>\r\n                <merchantUser>76B925EF7BEC821780B4B21479CE6482EA415896CF43006050B1DAD101669921</merchantUser>\r\n                <merchantPasswd>DD1791DB5B28DDE6FBC2B9951DFED4D97B82EFD622B411F1FC16B88B052232C7</merchantPasswd>\r\n                <terminalId>77788881</terminalId>\r\n                <merchant>00575123</merchant>\r\n                <messageType>0202</messageType>\r\n                <auditNumber>"+secuencia+"</auditNumber>\r\n                <additionalData></additionalData>\r\n        <response>\r\n          <auditNumber>string</auditNumber>\r\n          <referenceNumber>string</referenceNumber>\r\n          <authorizationNumber>string</authorizationNumber>\r\n          <responseCode>string</responseCode>\r\n          <messageType>string</messageType>\r\n          <signature>string</signature>\r\n        </response>\r\n      </AuthorizationRequest>\r\n    </AuthorizationRequest>\r\n  </soap12:Body>\r\n</soap12:Envelope>"
+                              
+                              };
+                              request(options, function (error, response) {
+                                if (error) throw new Error(error);
+                                console.log(response.body);
+                                res.json({estado:response.body});
+                              });
+                        }
+                        
+                      
+                      });
+    
+    
+            /*
+    
+                    var options = {
+                        'method': 'POST',
+                        'url': 'https://epaytestvisanet.com.gt/paymentcommerce.asmx',
+                        'headers': {
+                          'Content-Type': 'application/soap+xml;'
+                        },
+                        body: "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<soap12:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap12=\"http://www.w3.org/2003/05/soap-envelope\">\r\n  <soap12:Body>\r\n    <AuthorizationRequest xmlns=\"http://general_computing.com/paymentgw/types\">\r\n      <AuthorizationRequest>\r\n        <posEntryMode>012</posEntryMode>\r\n                <pan>"+ req.params.id +" </pan>\r\n                <expdate>" + req.params.id2 +"</expdate>\r\n                <amount>"+req.params.id3+"</amount>\r\n                <track2Data></track2Data>\r\n                <cvv2>"+ req.params.id4 +"</cvv2>\r\n                <paymentgwIP>190.149.69.135</paymentgwIP>\r\n                <shopperIP>190.149.168.54</shopperIP>\r\n                <merchantServerIP>67.205.167.98</merchantServerIP>\r\n                <merchantUser>76B925EF7BEC821780B4B21479CE6482EA415896CF43006050B1DAD101669921</merchantUser>\r\n                <merchantPasswd>DD1791DB5B28DDE6FBC2B9951DFED4D97B82EFD622B411F1FC16B88B052232C7</merchantPasswd>\r\n                <terminalId>77788881</terminalId>\r\n                <merchant>00575123</merchant>\r\n                <messageType>0200</messageType>\r\n                <auditNumber>000001</auditNumber>\r\n                <additionalData></additionalData>\r\n        <response>\r\n          <auditNumber>string</auditNumber>\r\n          <referenceNumber>string</referenceNumber>\r\n          <authorizationNumber>string</authorizationNumber>\r\n          <responseCode>string</responseCode>\r\n          <messageType>string</messageType>\r\n          <signature>string</signature>\r\n        </response>\r\n      </AuthorizationRequest>\r\n    </AuthorizationRequest>\r\n  </soap12:Body>\r\n</soap12:Envelope>"
+                      
+                      };
+                      request(options, function (error, response) {
+                        if (error) throw new Error(error);
+                        console.log(response.body);
+                        res.json({estado:response.body});
+                      });
+                    */
+    
+                    break;
+    
             case 'calusacmoodle2a':
                 var options = {
                     'method': 'POST',

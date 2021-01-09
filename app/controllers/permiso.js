@@ -3,6 +3,7 @@ var Permiso = require('../models/permiso');
 var Bitacora = require('../models/bitacora');
 
 exports.getPermiso = function(req, res, next){
+    console.log(req.params)
     if(req.params.id3)
     { 
         
@@ -11,6 +12,7 @@ exports.getPermiso = function(req, res, next){
             Permiso.find({idrol:req.params.id,idempresa:req.params.id2}).sort([['orden', 1]]).populate('nombre')
             .exec(function(err, todos) {
                    if (err){  res.send(err);  }
+                  
                    var myData = [];
                    for(var i = 0; i < todos.length;i++){
                     myData.push({_id:todos[i]._id,idrol:todos[i].idrol,ingreso:todos[i].ingreso
@@ -52,7 +54,7 @@ exports.getPermiso = function(req, res, next){
                 { 
                     Permiso.find({idrol:req.params.id,idempresa:req.params.id3}).sort({'orden': -1}).populate('nombre').exec(function(err, todos) {
                         if (err){  res.send(err);  }
-                        if (err){  res.send(err);  }
+                        console.log(todos)
                    var myData = [];
                    for(var i = 0; i < todos.length;i++){
                     myData.push({_id:todos[i]._id,idrol:todos[i].idrol,ingreso:todos[i].ingreso
