@@ -660,6 +660,7 @@ exports.getFrmmovil = function(req, res, next){
     {
         if(req.params.id4=='frmmovilp')
         {
+         
             if(req.params.id2=='todos')
             { 
                 Frmmovil.find({idempresa:req.params.id3,tipo:req.params.id,categoria:req.params.id5}).sort({'_id': -1}).exec(function(err, todos) {
@@ -670,13 +671,14 @@ exports.getFrmmovil = function(req, res, next){
             }
             else
             {  
-                Frmmovil.find({idempresa:req.params.id3,estado:req.params.id2,tipo:req.params.id,categoria:req.params.id5}).sort({'_id': -1}).exec(function(err, todos) {
+                Frmmovil.find({idempresa:req.params.id3,estado:req.params.id2,tipo:'detalle',categoria:req.params.id5}).sort({'_id': -1}).exec(function(err, todos) {
                     if (err){  res.send(err);  }
                   
                      res.json(todos);
                  });
 
             }
+        
         }
         else
         {
@@ -1493,6 +1495,35 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
         if(req.params.id4=='frmmovilp')
         {
 
+            if(req.params.id2=='detallemaster')
+            { //aqui tenemos que jalar primero el idpapa todos los campos detalle de ese formulario  req.params.id5
+
+                Frmmovild.find({idmovil:req.params.id,idempresa:req.params.id3}).exec(function(err, todos) {
+                    if (err){  res.send(err);  }
+                    var data=[]
+                  
+                    for(var i = 0; i < todos.length;i++){
+                        if(todos[i].type==='Formulario detalle')
+                        {
+                                data.push('' + todos[i].idformdetalle.id + '')
+                        }
+                    }
+
+                    console.log(data)
+
+                    Frmmovil.find({_id:{$in:data}}).sort({'_id': -1}).exec(function(err, todos) {
+                        if (err){  res.send(err);  }
+                      console.log(todos)
+                         res.json(todos);
+                     });
+
+                    });
+
+
+               
+            }
+            else
+            {
 
             if(req.params.id2=='todos')
             { 
@@ -1511,7 +1542,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                  });
 
             }
-          
+        }
 
         }
         else

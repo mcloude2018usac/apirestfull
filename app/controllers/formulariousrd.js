@@ -5,6 +5,16 @@ var functool = require('../controllers/funcionesnode');
 exports.getformulariousrd = function(req, res, next){
     if(req.params.id5)
     {   
+        if(req.params.id2=='permisos')
+        { 
+            console.log({idempresa:req.params.id3,idformulario:req.params.id4,idusuario:req.params.id5})
+            formulariousrd.find({idempresa:req.params.id3,idformulario:req.params.id4,idusuario:req.params.id5}).sort({'_id': -1}).exec(function(err, todos) {
+                if (err){  res.send(err);  }
+                 res.json(todos);
+             });
+        }
+        else
+        {
         if(req.params.id2=='orden')
         { 
 
@@ -35,7 +45,7 @@ exports.getformulariousrd = function(req, res, next){
                     if (err){  res.send(err);  }
                      res.json(todos);
                  });
-            }}
+            }}}
     }
     else
     {
