@@ -1184,6 +1184,9 @@ Frmmovild.find({idmovil:'5f7f5f7b85f18458404125fd', display : "true"}).sort([['o
                     tipo		: req.body.estructura.tipoajuste,  
                     accion		: 'Ajuste de inventario',  
                     proveedor		: '',  
+                    
+                    nodockardex		: '',  
+                    estadoprint:'',
                     nodoc		: '123',  
                     iddocumento		: '123',  
                     categoria		:producto.categoria,
@@ -1299,6 +1302,9 @@ Frmmovild.find({idmovil:'5f7f5f7b85f18458404125fd', display : "true"}).sort([['o
                         fecha		: req.body.papaitem.fecha,  
                         tipo		: 'Salida',  
                         accion		: 'Salida requisición',  
+                        
+                    nodockardex		: '',  
+                    estadoprint:'',
                         proveedor		: req.body.papaitem.departamento,  
                         nodoc		: req.body.papaitem.nodocumento.toString(),  
                         iddocumento		: dataanterior._id.toString(),  
@@ -1372,6 +1378,9 @@ Frmmovild.find({idmovil:'5f7f5f7b85f18458404125fd', display : "true"}).sort([['o
                         nodoc		: req.body.papaitem.codigo.toString(),  
                         iddocumento		: dataanterior._id.toString(),  
                         categoria		:producto.categoria,
+                        
+                    nodockardex		: '',  
+                    estadoprint:'',
                         producto		: producto.codigoarticulo,  
                         idproducto:producto._id,
                         producton		: producto.descripciondelarticulo,
@@ -1466,6 +1475,9 @@ Frmmovild.find({idmovil:'5f7f5f7b85f18458404125fd', display : "true"}).sort([['o
                             iddocumento		: req.body.estructura._id.toString(),  
                             categoria		:producto.categoria,
                             producto		: producto.codigoarticulo,  
+                            
+                    nodockardex		: '',  
+                    estadoprint:'',
                             idproducto:producto._id,
                             producton		: producto.descripciondelarticulo,
                             saldoanterior		: existenciaactual,
@@ -1535,6 +1547,9 @@ Frmmovild.find({idmovil:'5f7f5f7b85f18458404125fd', display : "true"}).sort([['o
                             iddocumento		: req.body.estructura._id.toString(),  
                             categoria		:producto.categoria,
                             producto		: producto.codigoarticulo,  
+                            
+                    nodockardex		: '',  
+                    estadoprint:'',
                             idproducto:producto._id,
                             producton		: producto.descripciondelarticulo,
                             saldoanterior		: existenciaactual,

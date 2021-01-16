@@ -15,6 +15,8 @@ var KardexcorreosSchema 		=	new  mongoose.Schema({
  producton		: { type : String },  
  obs		: { type : String },  
 
+ nodockardex		: { type : String},  
+ estadoprint		: { type : String},  
 
 
  saldoanterior		: { type : Number},

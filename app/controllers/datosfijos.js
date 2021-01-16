@@ -314,6 +314,8 @@ var defaultDiacriticsRemovalMap = [
     }
 
     var request = require('request');
+const asignapap = require('../models/asignapap');
+const asignaestudiantepap = require('../models/asignaestudiantepap');
     function getNext(myData3,myData3aa,req,res,necesito){
         request({
                 url: "https://rest2019externo.herokuapp.com/api/estudiantepcb/" + nov +"/resultado" ,
@@ -1190,6 +1192,37 @@ console.log('TERMINA')
                            
                     });
                 break;
+                case 'papgeneralaspirante':
+                asignapap.aggregate( [
+                      
+                        {    
+                          
+                        
+                            "$group" : { 
+                              
+                                "_id": { "estado" : "$estado"
+                                
+                             },
+                            "cantidad" : { 
+                                                       "$sum" :(1)
+                                                   }
+                            }
+                        }, 
+                        { 
+                            "$project" : { 
+                                "estado" : "$_id.estado", 
+                                "cantidad" : "$cantidad", 
+                            
+                                "_id" : (0)
+                            }
+                        }
+                    ]).exec(function(err, todos2) {
+                        if (err){  res.send(err);  }
+                                       
+                                                res.json(todos2);   
+                           
+                    });
+                break;
                 case 'sungeneralmateria':
                         Asignaestudiante.aggregate( [
                       
@@ -1234,6 +1267,50 @@ console.log('TERMINA')
                             
                         
         break;
+        case 'papgeneralmateria':
+                asignaestudiantepap.aggregate( [
+              
+                        {    
+                          
+                        
+                            "$group" : { 
+                              
+                                "_id": { "tipounidad" : "$idtipounidad.nombre",
+                                "unidad" : "$idunidadacademica.nombre",
+                                "periodo" : "$idperiodo.nombre",
+                                "edificio" : "$idedificio.nombre",
+                                "salon" : "$idsalon.nombre",
+                                "materia":"$idmateria",
+                                "horario" : "$idhorario",
+                             },
+                            "cantidad" : { 
+                                                       "$sum" :(1)
+                                                   }
+                            }
+                        }, 
+                        { 
+                            "$project" : { 
+                                "tipounidad" : "$_id.tipounidad", 
+                                "unidad": "$_id.unidad", 
+                                "periodo": "$_id.periodo", 
+                                "edificio": "$_id.edificio", 
+                                "salon": "$_id.salon", 
+                                "materia": "$_id.materia", 
+                                "horario": "$_id.horario", 
+                                "cantidad" : "$cantidad", 
+                            
+                                "_id" : (0)
+                            }
+                        }
+                    ]).exec(function(err, todos2) {
+                        if (err){  res.send(err);  }
+                                       
+                                                res.json(todos2);   
+                           
+                    });
+                    
+                
+break;
         case 'comprasgeneral':
 
                 usuarios.find({ "idempresa" : "5f8471ef1fcbb219a08e9c82"}).sort({_id : -1}).exec(function(err, todos100) {

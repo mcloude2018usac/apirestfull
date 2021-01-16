@@ -88,6 +88,7 @@ if(req.params.recordID!=='crea')
 
  todo.generareporte		= req.body.generareporte	;   
  todo.imprimeorden		= req.body.imprimeorden	;   
+ todo.imprimeorden2		= req.body.imprimeorden2	;   
  todo.finalizaorden  	= req.body.finalizaorden	;   
  todo.eliminaorden   	= req.body.eliminaorden	;   
  todo.trayectoriaorden 	= req.body.trayectoriaorden	;   
@@ -140,6 +141,7 @@ else{
   generareporte:req.body.generareporte	,
    
  imprimeorden	: req.body.imprimeorden	,
+ imprimeorden2	: req.body.imprimeorden2	,
  finalizaorden  	: req.body.finalizaorden	,
  eliminaorden   	: req.body.eliminaorden	,
  trayectoriaorden 	: req.body.trayectoriaorden	,

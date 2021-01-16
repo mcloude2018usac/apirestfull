@@ -16,6 +16,7 @@
   reporte		: { type : String },  
 
   imprimeorden		: { type : String },  
+  imprimeorden2		: { type : String },  
   finalizaorden   : { type : String },  
   eliminaorden    : { type : String },  
   trayectoriaorden    : { type : String },  
