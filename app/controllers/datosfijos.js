@@ -1275,8 +1275,7 @@ console.log('TERMINA')
                         
                             "$group" : { 
                               
-                                "_id": { "tipounidad" : "$idtipounidad.nombre",
-                                "unidad" : "$idunidadacademica.nombre",
+                                "_id": { 
                                 "periodo" : "$idperiodo.nombre",
                                 "edificio" : "$idedificio.nombre",
                                 "salon" : "$idsalon.nombre",
@@ -1290,8 +1289,7 @@ console.log('TERMINA')
                         }, 
                         { 
                             "$project" : { 
-                                "tipounidad" : "$_id.tipounidad", 
-                                "unidad": "$_id.unidad", 
+                             
                                 "periodo": "$_id.periodo", 
                                 "edificio": "$_id.edificio", 
                                 "salon": "$_id.salon", 
