@@ -26,7 +26,60 @@ var frmactorgrupo = require('../models/asociadoventa/frmactorgrupo');
 
 
 
+function actualizaformularioidfinal  (namess,filtro,idempresa,namess2,est)
+{
+    return new Promise(resolve => { 
 
+        Frmmovild.find({idmovil:namess, idempresa:idempresa}).sort([['order', 1]]).exec(function(err, todos) {
+            if (err){ res.send(err); }
+          
+     //   console.log(todos)
+                                if(todos.length>0)   {  
+                               
+                                    var cad=''
+                                    var cadxx=''
+                                    var cad3=(dafiltrocad(todos,'','')).split('°')
+                                  
+                              
+                                 
+                                    cad=cad3[0]
+                                    cadxx='{'+ cad3[1] + '}'
+                                    cad=cad + ' "estadointerno"	: { "type" : "String" },"usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                    cad='{' + cad + '}'
+                                    cadxx='{' + cadxx + '}'
+
+                               //  console.log(cad)
+                                    var jsonObject = stringToObject(cad);
+                                  
+                                    var mongoose = require("mongoose");
+                                    var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                                    delete mongoose.connection.models[namess2];
+                                    var  frmtt= mongoose.model(namess2,tt);
+                                    console.log(filtro)
+                                    console.log(est)
+                                    frmtt.updateMany(filtro, est, function(err, todos2) {
+                                   
+                                        if (err){  res.send(err); }
+console.log(todos2)
+                                        resolve(todos2); 
+                                       // res.json(todos2);
+
+                                    });
+                                }
+
+
+    });
+        
+                                    
+                                   
+                             
+                
+        
+    
+
+                                });
+
+}
 
 
 //var async = require("async");
@@ -2123,7 +2176,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                       
                                             cad=cad3[0]
                                             cadxx='{'+ cad3[1] + '}'
-                                            cad=cad + '"geoposicion"	: { "type" : "String" },  "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                            cad=cad + '"estadointerno"	: { "type" : "String" },  "geoposicion"	: { "type" : "String" },  "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
                                             cad='{' + cad + '}'
                                             cadxx='{' + cadxx + '}'
                                          
@@ -2372,7 +2425,7 @@ console.log(filtro)
                                         
                                                 cad=cad3[0]
                                                 cadxx='{'+ cad3[1] + '}'
-                                                cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },      "idpapa"	: { "type" : "String" }'
+                                                cad=cad + '"estadointerno"	: { "type" : "String" },   "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },      "idpapa"	: { "type" : "String" }'
                                                 cad='{' + cad + '}'
                                                 cadxx='{' + cadxx + '}'
                                             
@@ -2894,6 +2947,18 @@ tipoaccion: "EJECUCIÓN"
 */
 exports.creaFrmmovil3s = async function(req, res, next){
     console.log(req.params)
+    console.log(req.body)
+    if(req.body.operacion==='actualizafrmdirecto')
+    {
+      
+        Bitacora.create(req.body.bitacora);
+
+        producto = await actualizaformularioidfinal(req.body.formulario,{ _id:req.body.idform},req.body.bitacora.idempresa,req.body.formulario,req.body.update); 
+       
+        res.json({estado:'ok'});
+
+    }
+    else{
     if(req.body.operacion==='actualizaordentrayectoria')
     {
 
@@ -3774,7 +3839,7 @@ try {
 
 
 
-}}}
+}}}}
 }
 
 

@@ -397,13 +397,14 @@ var dahora= function(data) {
 data[aa].replace('¬', ',') + '" target="_blank">https://www.google.com/maps/search/?api=1&query=' + data[aa].replace('¬', ',')
 + '</a> ' ;  break;
                */
+            
               if(sicampovalida==='si')
               {
                 datafinal.push({_id:todos2[i]._id,nombre2:'tico',nombre:cad,item:todos2[i],usuario:''})
                cad='';
               }
               else{
-                datafinal.push({_id:todos2[i]._id,nombre2:'tico',nombre:cad+ '<div style="font-size: 8px;text-transform: capitalize;">Crea: [' + dafechastring(todos2[i]['createdAt'])+',' + todos2[i]['usuarionew'] + ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +   todos2[i]['usuarioup']+ ']</div>',item:todos2[i],usuario:''})
+                datafinal.push({_id:todos2[i]._id,nombre2:'tico',nombre:cad+ '<div style="font-size: 8px;text-transform: capitalize;">Crea: [' + dafechastring(todos2[i]['createdAt'])+',' + todos2[i]['usuarionew'] + ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +   todos2[i]['usuarioup']+ '] <br> Estado interno: '+ todos2[i].estadointerno +'</div>',item:todos2[i],usuario:''})
                cad='';
 
               }
