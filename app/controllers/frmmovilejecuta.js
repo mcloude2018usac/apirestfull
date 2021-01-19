@@ -1186,6 +1186,7 @@ Frmmovild.find({idmovil:'5f7f5f7b85f18458404125fd', display : "true"}).sort([['o
                     proveedor		: '',  
                     
                     nodockardex		: '',  
+                    tarjetasanuladas: '',
                     estadoprint:'No impreso',
                     anulacion:'',
                     nodoc		: '123',  
@@ -1199,6 +1200,7 @@ Frmmovild.find({idmovil:'5f7f5f7b85f18458404125fd', display : "true"}).sort([['o
                     egreso		: salida,
                     saldoactual		: saldoactual,
                     obs:req.body.estructura.observaciones,
+                    precioanterior:Number(producto.precioporunidad),
                     precio		: Number(producto.precioporunidad),
                     total		: total,
                   });
@@ -1305,6 +1307,7 @@ Frmmovild.find({idmovil:'5f7f5f7b85f18458404125fd', display : "true"}).sort([['o
                         accion		: 'Salida requisición',  
                         
                     nodockardex		: '',  
+                    tarjetasanuladas: '',
                     estadoprint:'No impreso',
                     anulacion:'',
                         proveedor		: req.body.papaitem.departamento,  
@@ -1319,6 +1322,7 @@ Frmmovild.find({idmovil:'5f7f5f7b85f18458404125fd', display : "true"}).sort([['o
                         obs:'',
                         egreso		: salida,
                         saldoactual		: saldoactual,
+                        precioanterior:Number(producto.precioporunidad),
                         precio		: Number(producto.precioporunidad),
                         total		: total,
                       });
@@ -1345,8 +1349,11 @@ Frmmovild.find({idmovil:'5f7f5f7b85f18458404125fd', display : "true"}).sort([['o
                         var total=0
                         var existenciaactual=0
                         var cantidadingreso=0
+                        var precioingreso=0
+                        var preciomedio=0
                         var idproducto=req.body.estructura.articulo.split('¬')[1]
     
+                        precioingreso=Number(req.body.estructura.preciounitario)
          
                         producto = await dadatosformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579'); 
                     
@@ -1368,9 +1375,9 @@ Frmmovild.find({idmovil:'5f7f5f7b85f18458404125fd', display : "true"}).sort([['o
                       
                         ingreso=cantidadingreso
                         saldoactual=existenciaactual+ingreso
-                      
+                        preciomedio=(precioingreso+Number(producto.precioporunidad))/2
     
-                      total=saldoactual*Number(producto.precioporunidad)
+                      total=saldoactual*Number(preciomedio)
                       kardex.create({
                         idempresa		: req.body.estructura.idempresa,  
                         fecha		: req.body.papaitem.fecha,  
@@ -1382,6 +1389,7 @@ Frmmovild.find({idmovil:'5f7f5f7b85f18458404125fd', display : "true"}).sort([['o
                         categoria		:producto.categoria,
                         
                     nodockardex		: '',  
+                    tarjetasanuladas: '',
                     estadoprint:'No impreso',
                     anulacion:'',
                         producto		: producto.codigoarticulo,  
@@ -1392,13 +1400,14 @@ Frmmovild.find({idmovil:'5f7f5f7b85f18458404125fd', display : "true"}).sort([['o
                         obs:'',
                         egreso		: salida,
                         saldoactual		: saldoactual,
-                        precio		: Number(producto.precioporunidad),
+                        precioanterior:producto.precioporunidad,
+                        precio		: preciomedio,
                         total		: total,
                       });
                       var estructura={
-                        "precioporunidad" : producto.precioporunidad.toString(),
+                        "precioporunidad" : preciomedio.toString(),
                         "existenciaactual" : saldoactual.toString(),
-                        "total" :( saldoactual*Number(producto.precioporunidad)).toString()
+                        "total" :( saldoactual*Number(preciomedio)).toString()
                       
                     }
                       producto = await actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579',estructura); 
@@ -1480,6 +1489,7 @@ Frmmovild.find({idmovil:'5f7f5f7b85f18458404125fd', display : "true"}).sort([['o
                             producto		: producto.codigoarticulo,  
                             
                     nodockardex		: '',  
+                    tarjetasanuladas: '',
                     estadoprint:'No impreso',
                     anulacion:'',
                             idproducto:producto._id,
@@ -1489,6 +1499,7 @@ Frmmovild.find({idmovil:'5f7f5f7b85f18458404125fd', display : "true"}).sort([['o
                             obs:'',
                             egreso		: salida,
                             saldoactual		: saldoactual,
+                            precioanterior:Number(producto.precioporunidad),
                             precio		: Number(producto.precioporunidad),
                             total		: total,
                           });
@@ -1553,6 +1564,7 @@ Frmmovild.find({idmovil:'5f7f5f7b85f18458404125fd', display : "true"}).sort([['o
                             producto		: producto.codigoarticulo,  
                             
                     nodockardex		: '',  
+                    tarjetasanuladas: '',
                     estadoprint:'No impreso',
                     anulacion:'',
                             idproducto:producto._id,
@@ -1562,6 +1574,7 @@ Frmmovild.find({idmovil:'5f7f5f7b85f18458404125fd', display : "true"}).sort([['o
                             obs:'',
                             egreso		: salida,
                             saldoactual		: saldoactual,
+                            precioanterior:Number(producto.precioporunidad),
                             precio		: Number(producto.precioporunidad),
                             total		: total,
                           });

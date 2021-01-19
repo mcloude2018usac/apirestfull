@@ -1275,8 +1275,7 @@ console.log('TERMINA')
                         
                             "$group" : { 
                               
-                                "_id": { "tipounidad" : "$idtipounidad.nombre",
-                                "unidad" : "$idunidadacademica.nombre",
+                                "_id": { 
                                 "periodo" : "$idperiodo.nombre",
                                 "edificio" : "$idedificio.nombre",
                                 "salon" : "$idsalon.nombre",
@@ -1290,8 +1289,7 @@ console.log('TERMINA')
                         }, 
                         { 
                             "$project" : { 
-                                "tipounidad" : "$_id.tipounidad", 
-                                "unidad": "$_id.unidad", 
+                             
                                 "periodo": "$_id.periodo", 
                                 "edificio": "$_id.edificio", 
                                 "salon": "$_id.salon", 
@@ -2762,7 +2760,7 @@ var filename   = "Fichapap.csv";
                                                                 var tsalon2=tsalon.split('-')
 
                                                                 d =new Date(todos[i].updatedAt).toISOString().substr(0,10);   
-if(todos[i].idasigna.idperiodo==req.params.id2)     {         
+//if(todos[i].idasigna.idperiodo==req.params.id2)     {         
 myData2.push({
         fecha:d,
         cui:"_" +todos[i].idasigna.cui +" ",
@@ -2784,7 +2782,7 @@ myData2.push({
         monto:todos[i].idasigna.montodeuda
 
 });
-}
+//}
                                                             
                                                         }
   

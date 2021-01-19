@@ -67,7 +67,7 @@ exports.getUnidadplan4 = function(req, res, next){
                 $project : {
                 
                   idtipounidad:1,
-                 
+                  ididioma:1,
                     idperiodo:1,
                   iddia:1,
                
@@ -85,9 +85,11 @@ exports.getUnidadplan4 = function(req, res, next){
             var match = {
                 $match : {
                     filterThisDoc : 1,
-                    'idtipounidad.id' :req.params.id,'idperiodo.id':req.params.id3
+                    'idtipounidad.id' :req.params.id,'idperiodo.id':req.params.id3, ididioma:req.params.id2
                 }
             }
+
+            console.log( {'idtipounidad.id' :req.params.id,'idperiodo.id':req.params.id3,ididioma:req.params.id2})
             Facplan4.aggregate([ projectDataForMatch, match]  ).exec(function(err, todos10) {
                 if (err){ res.send(err); }
                
@@ -105,7 +107,7 @@ exports.getUnidadplan4 = function(req, res, next){
                     $project : {
                     
                       idtipounidad:1,
-                     
+                     ididioma:1,
                         idperiodo:1,
                         idhora:1,
                       iddia:1,
@@ -124,7 +126,8 @@ exports.getUnidadplan4 = function(req, res, next){
                 var match = {
                     $match : {
                         filterThisDoc : 1,iddia: {"$eq": new Date(req.params.id2)},
-                        'idtipounidad.id' :req.params.id,'idperiodo.id':req.params.id3
+                        'idtipounidad.id' :req.params.id,'idperiodo.id':req.params.id3,
+                        ididioma:req.params.id4
                     }
                 }
                 console.log(match)

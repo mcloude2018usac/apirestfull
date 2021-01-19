@@ -14,6 +14,7 @@ var KardexcorreosSchema 		=	new  mongoose.Schema({
  idproducto		: { type : String },  
  producton		: { type : String },  
  obs		: { type : String },  
+ tarjetasanuladas		: { type : String },  
 
  nodockardex		: { type : String},  
  estadoprint		: { type : String},  
@@ -25,6 +26,7 @@ var KardexcorreosSchema 		=	new  mongoose.Schema({
  egreso		: { type : Number},
  saldoactual		: { type : Number},
  precio		: { type : Number},
+ precioanterior	: { type : Number},
  total		: { type : Number},
 
    }, {
