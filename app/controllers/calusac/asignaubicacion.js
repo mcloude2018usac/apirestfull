@@ -935,7 +935,7 @@ case 'tipoidioma':
         
         }
        
-        Unidadidioma3.find({ _id:duplicates,idtipounidad :req.params.id,idunidadacademica:req.params.id2}).exec(function(err, todos) {
+        Unidadidioma3.find({ _id:duplicates,idtipounidad :req.params.id,idunidadacademica:req.params.id2}).sort({nombre:-1}).exec(function(err, todos) {
                if (err){  res.send(err);  }
 
                if(todos.length>0)   {    res.json(todos);   }
@@ -1549,7 +1549,11 @@ if(req.params.recordID!=='crea')
                     }
                 }
 
-         
+         console.log( {'idtipounidad.id' : todo.idtipounidad.id    ,'idperiodo.id':todo.idperiodo.id 
+         ,ididioma:todo.ididioma,
+             idtipo:todo.idtipo                  
+             ,iddia: {"$eq": new Date(req.body.iddia)},
+             idhora:req.body.idhora})
                 var duplicates = [];
                 var asigno=0;
             
