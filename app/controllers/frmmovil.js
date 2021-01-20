@@ -8,6 +8,7 @@ var Image = require('../models/image2');
 var formulariousrd = require('../models/formulariousrd');
 var formulariousr = require('../models/formulariousr');
 var frmejecuta= require('../controllers/frmmovilejecuta');
+var frmejecutareporte= require('../controllers/frmmovilejecutareporte');
 
 var functool = require('../controllers/funcionesnode');
 var Contador = require('../models/contador');
@@ -21,6 +22,7 @@ var frmactividad = require('../models/asociadoventa/frmactividad');
 var frmacciones = require('../models/asociadoventa/frmacciones');
 var frmactor = require('../models/asociadoventa/frmactor');
 var frmactorgrupo = require('../models/asociadoventa/frmactorgrupo');
+const frmmovilejecutareporte = require('../controllers/frmmovilejecutareporte');
 
 
 
@@ -711,6 +713,20 @@ exports.getFrmmovil = function(req, res, next){
     console.log(req.params)
     if(req.params.id5)
     {
+        
+        if(req.params.id4=='frmmovilpreporte')
+        {
+
+            (async () => {  
+                respuesta = await frmmovilejecutareporte.dareporte(req, res, next,[]);
+               
+                    res.json(respuesta);
+                })();
+
+
+        }
+        else
+        {
         if(req.params.id4=='frmmovilp')
         {
          
@@ -740,7 +756,7 @@ exports.getFrmmovil = function(req, res, next){
             
             getcombomanual(req, res, next);
 
-        }
+        }}
     }
     else
     {    
@@ -2192,7 +2208,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                                 var  frmtt= mongoose.model(namess,tt);
                                                 frmtt.find(filtro).sort({_id:-1}).exec(function(err, todos2) {
                                                     if (err){  res.send(err); }
-                                                 console.log(todos2)
+                                               
                                                  if(todos2.length>0)
                                                  {
                                                     var datafinal = functool.procesahtmlrecord(objetox,todos2,'no')
