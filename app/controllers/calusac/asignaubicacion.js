@@ -1549,11 +1549,7 @@ if(req.params.recordID!=='crea')
                     }
                 }
 
-         console.log( {'idtipounidad.id' : todo.idtipounidad.id    ,'idperiodo.id':todo.idperiodo.id 
-         ,ididioma:todo.ididioma,
-             idtipo:todo.idtipo                  
-             ,iddia: {"$eq": new Date(req.body.iddia)},
-             idhora:req.body.idhora})
+    
                 var duplicates = [];
                 var asigno=0;
             

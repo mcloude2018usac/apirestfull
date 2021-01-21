@@ -1377,7 +1377,7 @@ Frmmovild.find({idmovil:'5f7f5f7b85f18458404125fd', display : "true"}).sort([['o
                         saldoactual=existenciaactual+ingreso
                         preciomedio=(precioingreso+Number(producto.precioporunidad))/2
     
-                      total=saldoactual*Number(preciomedio)
+                      total=saldoactual*Number(precioingreso)
                       kardex.create({
                         idempresa		: req.body.estructura.idempresa,  
                         fecha		: req.body.papaitem.fecha,  
@@ -1401,13 +1401,14 @@ Frmmovild.find({idmovil:'5f7f5f7b85f18458404125fd', display : "true"}).sort([['o
                         egreso		: salida,
                         saldoactual		: saldoactual,
                         precioanterior:producto.precioporunidad,
-                        precio		: preciomedio,
+                        precio		: precioingreso,//preciomedio,
                         total		: total,
                       });
                       var estructura={
-                        "precioporunidad" : preciomedio.toString(),
+                        "precioporunidad" : producto.precioporunidad.toString(),// preciomedio.toString(),
                         "existenciaactual" : saldoactual.toString(),
-                        "total" :( saldoactual*Number(preciomedio)).toString()
+                        "total" :( saldoactual*Number(producto.precioporunidad)).toString()
+
                       
                     }
                       producto = await actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579',estructura); 
