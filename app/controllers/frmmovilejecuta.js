@@ -1186,6 +1186,7 @@ Frmmovild.find({idmovil:'5f7f5f7b85f18458404125fd', display : "true"}).sort([['o
                     proveedor		: '',  
                     
                     nodockardex		: '',  
+                    nodockardexlinea		: '',  
                     tarjetasanuladas: '',
                     estadoprint:'No impreso',
                     anulacion:'',
@@ -1307,6 +1308,7 @@ Frmmovild.find({idmovil:'5f7f5f7b85f18458404125fd', display : "true"}).sort([['o
                         accion		: 'Salida requisición',  
                         
                     nodockardex		: '',  
+                    nodockardexlinea		: '',  
                     tarjetasanuladas: '',
                     estadoprint:'No impreso',
                     anulacion:'',
@@ -1389,6 +1391,7 @@ Frmmovild.find({idmovil:'5f7f5f7b85f18458404125fd', display : "true"}).sort([['o
                         categoria		:producto.categoria,
                         
                     nodockardex		: '',  
+                    nodockardexlinea		: '',  
                     tarjetasanuladas: '',
                     estadoprint:'No impreso',
                     anulacion:'',
@@ -1490,6 +1493,7 @@ Frmmovild.find({idmovil:'5f7f5f7b85f18458404125fd', display : "true"}).sort([['o
                             producto		: producto.codigoarticulo,  
                             
                     nodockardex		: '',  
+                    nodockardexlinea		: '',  
                     tarjetasanuladas: '',
                     estadoprint:'No impreso',
                     anulacion:'',
@@ -1565,6 +1569,7 @@ Frmmovild.find({idmovil:'5f7f5f7b85f18458404125fd', display : "true"}).sort([['o
                             producto		: producto.codigoarticulo,  
                             
                     nodockardex		: '',  
+                    nodockardexlinea		: '',  
                     tarjetasanuladas: '',
                     estadoprint:'No impreso',
                     anulacion:'',

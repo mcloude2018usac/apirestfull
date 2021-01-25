@@ -471,8 +471,9 @@ exports.getAsignaubicacion = function(req, res, next){
             {
         if(req.params.id=='todos')
         {
-            
-            Asignaubicacion.find({ "estadopago" : "Asignación exitosa",ididioma:req.params.id2
+          
+            Asignaubicacion.find({ "estadopago" : "Asignación exitosa",ididioma:req.params.id2,
+            idprofesor:req.params.id3
             ,'idedificio.id': req.params.id4,'idsalon.id':req.params.id5,iddia:req.params.id6
             ,idhora:req.params.id7
         }).populate('ididioma').populate('idtipo').exec(function(err, todos10) {
@@ -1652,6 +1653,7 @@ else{
                 
                 filtro= {'idtipounidad.id'        	: req.body.tipounidad.id        	,
                 idperiodo        	: req.body.periodo        	,
+                ididioma 	: req.body.ididioma,
                 idinterno 	: req.body.idinterno  	  }  ;
 
          

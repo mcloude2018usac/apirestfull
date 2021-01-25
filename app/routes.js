@@ -385,6 +385,7 @@ SINNNNNNNNNNNNNN AUTORIZACION
 
 
   apiRoutes.use('/correoss', correosRoutes);
+  correosRoutes.post('/:recordID',requireAuth,  CorreosController.creacorreos2s);
   correosRoutes.get('/:id/:id2/:id3',requireAuth,  CorreosController.getCorreos);
 
 

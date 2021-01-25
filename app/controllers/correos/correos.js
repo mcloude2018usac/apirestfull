@@ -279,12 +279,19 @@ exports.getCorreos = async function(req, res, next){
             producto = await dadatosformulariofinal('5fc01bbba8d0a14888774579',{ },req.params.id3,'5fc01bbba8d0a14888774579',{fechadevencimiento:1}); 
             var datat= []
             for(var i = 0; i < producto.length;i++){
-                var exi=0
-                var actu=Number(producto[i].existenciaactual)
+                
+                var actual=Number(producto[i].existenciaactual)
                 var min=Number(producto[i].existenciaminima)
-                exi=actual-min
 
-                if(exi>10)
+                if(req.params.id==='0')
+                {}
+                else
+                {
+                    min=Number(req.params.id)
+                }
+              
+          
+                if(actual<=min)
                 {
                     var ff3=new Date(producto[i].fechadevencimiento)
                     var ff4=new Date()
@@ -324,9 +331,24 @@ exports.getCorreos = async function(req, res, next){
 
                 var ff3=new Date(producto[i].fechadevencimiento)
                 var ff4=new Date()
+console.log(req.params.id)
+                if(req.params.id==='' || req.params.id===undefined)
+                {
+                   
+                }
+                else
+                {
+                    ff4=new Date(req.params.id)
+                 
+                }
                 
+
     
                 var diffDays = parseInt((ff3 - ff4) / (1000 * 60 * 60 * 24)); //gives day difference
+
+                if(diffDays<0)
+                {
+                
                     datat.push({categoria:producto[i].categoria,
                         codigo:producto[i].codigoarticulo,
                         nombre:producto[i].descripciondelarticulo,
@@ -334,11 +356,13 @@ exports.getCorreos = async function(req, res, next){
                         actual:producto[i].existenciaactual,
                         minima:producto[i].existenciaminima,
                         estado:producto[i].estado,
+                        fechaactual:ff4,
                         vencimiento:producto[i].fechadevencimiento,
-                        diasvencimiento:diffDays,
+                        diasvencimiento:(diffDays*-1),
                         totalminima:Number(producto[i].existenciaactual)-Number(producto[i].existenciaminima)
                     
                     })
+                }
                 
              
             }
@@ -360,12 +384,13 @@ exports.getCorreos = async function(req, res, next){
         }
         else
         {
+            console.log({nodockardex:req.params.id,idempresa :req.params.id3})
             kardex.find({nodockardex:req.params.id,idempresa :req.params.id3}).sort({_id:-1}).exec(function(err, todos) {
                 if (err){ res.send(err); }
                
                 if(todos.length>0)   {    res.json(todos);   }
                 else
-                {  res.status(500).send('NO EXISTE REGISTRO');      }
+                {  res.status(500).send('NO EXISTE REGISTRO1');      }
                 
             });
 
@@ -373,4 +398,63 @@ exports.getCorreos = async function(req, res, next){
       
     }
    
+}
+
+exports.creacorreos2s = function(req, res, next){
+
+    if(req.body.operacion==='actualizalineakardex')
+    { 
+        kardex.findById({ _id: req.params.recordID }, function (err, todo)  {
+            if (err) {  res.send(err);  }
+            else
+            {   todo.nodockardex        	=	req.body.nodockardex        	||	todo.nodockardex        	;
+                todo.estadoprint        	=	req.body.estadoprint        	     	;
+                todo.nodockardexlinea        	=	req.body.nodockardexlinea        	    	;
+                
+               
+    
+                todo.save(function (err, todo){
+                    if (err)     {  res.status(500).send(err.message)   }
+                    res.json(todo);
+                });
+            }
+        });
+    
+    }
+    else{
+
+        if(req.body.operacion==='actualizalineakardexanula')
+        { 
+            kardex.findById({ _id: req.params.recordID }, function (err, todo)  {
+                if (err) {  res.send(err);  }
+                else
+                {   
+                    todo.tarjetasanuladas		=todo.tarjetasanuladas + ' ,' + todo.nodockardex
+                    todo.nodockardex        	=	req.body.nodockardex        	||	todo.nodockardex        	;
+                    todo.estadoprint        	=	req.body.estadoprint        	      	;
+                    todo.nodockardexlinea        	=	req.body.nodockardexlinea        	       	;
+ 
+
+                    todo.anulacion        	=	todo.anulacion + ' <br>'+ req.body.anulacion ;       	;
+                    
+                    
+                   
+        
+                    todo.save(function (err, todo){
+                        if (err)     {  res.status(500).send(err.message)   }
+                        res.json(todo);
+                    });
+                }
+            });
+        
+        }
+        else{
+    
+           
+         
+        }
+       
+     
+    }
+
 }

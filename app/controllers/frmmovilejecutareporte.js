@@ -523,6 +523,13 @@ switch(value) {
       return jsonString;
   }
 
+  var dafecha = function(ff) {
+      var fecha= new Date(ff).toISOString().substr(0,10);   
+      var  ffa=fecha.split('-')
+    
+    return ffa[2] + '-' + ffa[1] + '-' + ffa[0];
+};
+
   var getDaysArray = function(start, end) {
     for(var arr=[],dt=new Date(start); dt<=end; dt.setDate(dt.getDate()+1)){
       var fecha=new Date(dt)
@@ -847,7 +854,7 @@ try {
 
 
 
-    var dareporte= async function(req, res, next,dataanterior){
+    var dareporteexcel= async function(req, res, next,dataanterior){
         console.log(req.params)
         return new Promise(resolve => {
             var reportefrm=req.params.id.split('°')
@@ -1041,12 +1048,564 @@ try {
         });
     }
 
+    var dareportepdf= async function(req, res, next,dataanterior){
+        console.log(req.params)
+        return new Promise(resolve => {
+            var reportefrm=req.params.id.split('°')
+            switch(reportefrm[1]) {
+                case '5ff67ee82977bb360c526f8a': //REQUISICION
+
+            (async () => {
+
+
+                var markup =  '';
+                let jsonx= [];
+
+                master = await dadatosformularioidfinal(reportefrm[1],{ _id:req.params.id2},req.params.id3,reportefrm[1]); 
+     
+             
+                if(master)
+                {
+                    
+                    jsonx.push( [
+                        { 
+                            columns: [
+                              {
+                                // auto-sized columns have their widths based on their content
+                                width: 300,
+                                bold: true,
+                                text:  master.departamento ,
+                               
+                              },
+                              {
+                                // star-sized columns fill the remaining space
+                                // if there's more than one star-column, available width is divided equally
+                                width: 75,
+                                bold: true,
+                                text: master.nombrejefesolicitante,
+                               
+                              },
+                             
+                            ],
+                            // optional space between columns
+                            columnGap: 1,
+                            margin: [ 45, 2, 10, 1 ] ,
+                            bold: true,
+                           
+                            fontSize: 10
+                          }
+                        
+                    ]);
+
+                    jsonx.push( [
+                        { 
+                            columns: [
+                              {
+                                // auto-sized columns have their widths based on their content
+                                width: 300,
+                                bold: true,
+                                text:  master.cargodelsolicitante ,
+                               
+                              },
+                              {
+                                // star-sized columns fill the remaining space
+                                // if there's more than one star-column, available width is divided equally
+                                width: 75,
+                                bold: true,
+                                text: master.nombresolicitante ,
+                               
+                              },
+                             
+                            ],
+                            // optional space between columns
+                            columnGap: 1,
+                            margin: [ 45, 2, 10, 1 ] ,
+                            bold: true,
+                           
+                            fontSize: 10
+                          }
+                        
+                    ]);
+
+                    jsonx.push( [
+                        { 
+                            columns: [
+                              {
+                                // auto-sized columns have their widths based on their content
+                                width: 300,
+                                bold: true,
+                                text: dafecha( master.fecha) ,
+                               
+                              },
+                              {
+                                // star-sized columns fill the remaining space
+                                // if there's more than one star-column, available width is divided equally
+                                width: 75,
+                                bold: true,
+                                text: master.personaquerecibe ,
+                               
+                              },
+                             
+                            ],
+                            // optional space between columns
+                            columnGap: 1,
+                            margin: [ 45, 2, 10, 1 ] ,
+                            bold: true,
+                           
+                            fontSize: 10
+                          }
+                        
+                    ]);
+
+
+                 
+
+                    detalle = await dadatosformulariofinal('5fc03c79ab0f6448b877eb5c',{idpapa:'' + master._id},req.params.id3,'5fc03c79ab0f6448b877eb5cs'); 
+
+                    markup=markup+''
+
+                for(var i = 0; i < detalle.length;i++){
+                    var articulon=detalle[i].articulo.split('<br>')
+
+                    jsonx.push( [
+                        { 
+                            columns: [
+                              {
+                                // auto-sized columns have their widths based on their content
+                                width: 50,
+                                bold: true,
+                                text:  detalle[i].cantidadsolicitada ,
+                               
+                              },
+                            
+                              {
+                                // auto-sized columns have their widths based on their content
+                                width: 50,
+                                bold: true,
+                                text:  detalle[i].cantidaddespachada,
+                               
+                              },
+                              {
+                                // auto-sized columns have their widths based on their content
+                                width: 100,
+                                bold: true,
+                                text: articulon[3].split(':')[0].split('</strong>')[0].split('<strong>')[1],
+                               
+                              },
+
+                              {
+                                // auto-sized columns have their widths based on their content
+                                width: 250,
+                                bold: true,
+                                text:  articulon[2].split(':')[1].trim(),
+                               
+                              },
+
+                           
+                             
+                            ],
+                            // optional space between columns
+                            columnGap: 1,
+                            margin: [ 45, 2, 10, 1 ] ,
+                            bold: true,
+                           
+                            fontSize: 10
+                          }
+                        
+                    ]);
+              
+
+                  
+                    
+                
+                }
+
+              
+
+                }
+                
+
+              
+                resolve({estado:jsonx}); 
+
+                
+            })();
+                break;
+                case '5fc02f572fc3552d1014792f': //FORMULARIO 1-H
+
+                (async () => {
+    
+    
+                    var markup =  '';
+    
+                    master = await dadatosformularioidfinal(reportefrm[1],{ _id:req.params.id2},req.params.id3,reportefrm[1]); 
+         
+                    let jsonx= [];
+
+        
+                    
+                    if(master)
+                    {//border: [true, true, false, false],  width: 100,
+                        /*
+	{
+			style: 'tableExample',
+			table: {
+				heights: [20, 50, 70],
+				body: [
+					['row 1 with height 20', 'column B'],
+					['row 2 with height 50', 'column B'],
+					['row 3 with height 70', 'column B']
+				]
+			}
+        },
+        
+        margin: [left, top, right, bottom]
+                        */
+
+                        var fechat=''
+                        fechat=master.fecha
+
+                        jsonx.push( [
+                            {     text: '',   fontSize: 9,  colSpan: 1       }, 
+                            {     text: '',   fontSize: 9,  colSpan: 1       }, 
+                            { margin: [ 45, 1, 10, 1 ] ,
+                                text: master.dependencia,
+                                bold: true,
+                                colSpan: 5,
+                                fontSize: 10
+                              
+                            }
+                            
+                        ]);
+
+                    
+
+
+                        jsonx.push( [
+                            { 
+                                columns: [
+                                  {
+                                    // auto-sized columns have their widths based on their content
+                                    width: 300,
+                                    bold: true,
+                                    text: master.programa,
+                                   
+                                  },
+                                  {
+                                    // star-sized columns fill the remaining space
+                                    // if there's more than one star-column, available width is divided equally
+                                    width: 75,
+                                    bold: true,
+                                    text:dafecha(fechat),
+                                   
+                                  },
+                                 
+                                ],
+                                // optional space between columns
+                                columnGap: 1,
+                                margin: [ 45, 2, 10, 1 ] ,
+                                bold: true,
+                               
+                                fontSize: 10
+                              }
+                            
+                        ]);
+
+                        jsonx.push( [
+                            { 
+                                columns: [
+                                  {
+                                    // auto-sized columns have their widths based on their content
+                                    width: 300,
+                                    bold: true,
+                                    text:  master.proveedor.split('<br>')[1].split(':')[1].trim(),
+                                   
+                                  },
+                                
+                                 
+                                ],
+                                // optional space between columns
+                                columnGap: 1,
+                                margin: [ 45, 2, 10, 1 ] ,
+                                bold: true,
+                               
+                                fontSize: 10
+                              }
+                            
+                        ]);
+                 
+    
+
+    
+                        detalle = await dadatosformulariofinal('5fc0308c2fc3552d10147947',{idpapa:'' + master._id},req.params.id3,'5fc0308c2fc3552d10147947'); 
+
+                        markup=markup+''
+
+                        var grantotal=0
+    
+                    for(var i = 0; i < detalle.length;i++){
+                        var articulon=detalle[i].articulo.split('<br>')
+                        var preciou=0
+                       
+                        if(detalle[i].preciounitario===undefined)
+                        {
+                            preciou=0
+                        }
+                        else
+                        {
+                             preciou=detalle[i].preciounitario
+                        }
+                        
+
+                        var tottal=0
+                        total=preciou*detalle[i].cantidad
+                        jsonx.push( [
+                            { 
+                                columns: [
+                                  {
+                                    // auto-sized columns have their widths based on their content
+                                    width: 50,
+                                    bold: true,
+                                    text:  detalle[i].cantidad,
+                                   
+                                  },
+                                
+                                  {
+                                    // auto-sized columns have their widths based on their content
+                                    width: 250,
+                                    bold: true,
+                                    text:  detalle[i].descripciondelarticulaenfactura,
+                                   
+                                  },
+                                  {
+                                    // auto-sized columns have their widths based on their content
+                                    width: 50,
+                                    bold: true,
+                                    text: detalle[i].codigogastoreglon,
+                                   
+                                  },
+
+                                  {
+                                    // auto-sized columns have their widths based on their content
+                                    width: 50,
+                                    bold: true,
+                                    text:   master.foliolibroalmacen,
+                                   
+                                  },
+
+                                  {
+                                    // auto-sized columns have their widths based on their content
+                                    width: 50,
+                                    bold: true,
+                                    text: 'Q'+ preciou,
+                                   
+                                  },
+                                  {
+                                    // auto-sized columns have their widths based on their content
+                                    width: 50,
+                                    bold: true,
+                                    text: 'Q.' +total ,
+                                   
+                                  }
+                                 
+                                ],
+                                // optional space between columns
+                                columnGap: 1,
+                                margin: [ 45, 2, 10, 1 ] ,
+                                bold: true,
+                               
+                                fontSize: 10
+                              }
+                            
+                        ]);
+                 
+
+
+    
+                
+                    
+                      
+                        grantotal=grantotal+total
+    
+                        
+                    
+                    }
+    
+
+                    jsonx.push( [
+                        { 
+                            columns: [
+                              {
+                                // auto-sized columns have their widths based on their content
+                                width: 50,
+                                bold: true,
+                                text: ''
+                               
+                              },
+                              {
+                                // auto-sized columns have their widths based on their content
+                                width: 250,
+                                bold: true,
+                                text: 'TOTAL'
+                               
+                              }, {
+                                // auto-sized columns have their widths based on their content
+                                width: 50,
+                                bold: true,
+                                text: ''
+                               
+                              }, {
+                                // auto-sized columns have their widths based on their content
+                                width: 50,
+                                bold: true,
+                                text: ''
+                               
+                              }, {
+                                // auto-sized columns have their widths based on their content
+                                width: 50,
+                                bold: true,
+                                text: ''
+                               
+                              }, {
+                                // auto-sized columns have their widths based on their content
+                                width: 50,
+                                bold: true,
+                                text: 'Q' + grantotal
+                               
+                              },
+                             
+                            ],
+                            // optional space between columns
+                            columnGap: 1,
+                            margin: [ 45, 2, 10, 1 ] ,
+                            bold: true,
+                           
+                            fontSize: 10
+                          }
+                        
+                    ]);
+             
+
+                   
+                    jsonx.push( [
+                        { 
+                            columns: [
+                              {
+                                // auto-sized columns have their widths based on their content
+                                width: 300,
+                                bold: true,
+                                text:  'FACTURA ELECTRONICA',
+                               
+                              },
+                            
+                             
+                            ],
+                            // optional space between columns
+                            columnGap: 1,
+                            margin: [ 45, 2, 10, 1 ] ,
+                            bold: true,
+                           
+                            fontSize: 10
+                          }
+                        
+                    ]);
+
+
+
+                    jsonx.push( [
+                        { 
+                            columns: [
+                              {
+                                // auto-sized columns have their widths based on their content
+                                width: 300,
+                                bold: true,
+                                text:  'SERIE:'+ master.seriefactura,
+                               
+                              },
+                            
+                             
+                            ],
+                            // optional space between columns
+                            columnGap: 1,
+                            margin: [ 45, 2, 10, 1 ] ,
+                            bold: true,
+                           
+                            fontSize: 10
+                          }
+                        
+                    ]);
+
+                    jsonx.push( [
+                        { 
+                            columns: [
+                              {
+                                // auto-sized columns have their widths based on their content
+                                width: 300,
+                                bold: true,
+                                text:  'No.'+master.nofactura,
+                               
+                              },
+                            
+                             
+                            ],
+                            // optional space between columns
+                            columnGap: 1,
+                            margin: [ 45, 2, 10, 1 ] ,
+                            bold: true,
+                           
+                            fontSize: 10
+                          }
+                        
+                    ]);
+
+                    jsonx.push( [
+                        { 
+                            columns: [
+                              {
+                                // auto-sized columns have their widths based on their content
+                                width: 300,
+                                bold: true,
+                                text: ' NIT:'+ master.proveedor.split('<br>')[2].split(':')[1].trim() +' FECHA:'+ dafecha(master.fechafactura),
+                               
+                              },
+                            
+                             
+                            ],
+                            // optional space between columns
+                            columnGap: 1,
+                            margin: [ 45, 2, 10, 1 ] ,
+                            bold: true,
+                           
+                            fontSize: 10
+                          }
+                        
+                    ]);
+
+
+                 
+    
+                    }
+                    
+    
+                  
+                    resolve({estado:jsonx}); 
+    
+                    
+                })();
+                    break;
+                default:
+                  // code block
+                  resolve({estado:'exito'}); 
+              }
+        });
+    }
   
 
 module.exports = {
 
   
 
-    dareporte: dareporte
+    dareporteexcel: dareporteexcel,
+    dareportepdf: dareportepdf
    
       }

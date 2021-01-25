@@ -713,12 +713,25 @@ exports.getFrmmovil = function(req, res, next){
     console.log(req.params)
     if(req.params.id5)
     {
-        
-        if(req.params.id4=='frmmovilpreporte')
+        if(req.params.id4=='frmmovilpreportepdf')
         {
 
             (async () => {  
-                respuesta = await frmmovilejecutareporte.dareporte(req, res, next,[]);
+                respuesta = await frmmovilejecutareporte.dareportepdf(req, res, next,[]);
+               
+                    res.json(respuesta);
+                })();
+
+
+        }
+        else
+        {
+        
+        if(req.params.id4=='frmmovilpreporteexcel')
+        {
+
+            (async () => {  
+                respuesta = await frmmovilejecutareporte.dareporteexcel(req, res, next,[]);
                
                     res.json(respuesta);
                 })();
@@ -756,7 +769,7 @@ exports.getFrmmovil = function(req, res, next){
             
             getcombomanual(req, res, next);
 
-        }}
+        }}}
     }
     else
     {    
