@@ -471,7 +471,11 @@ exports.getAsignaubicacion = function(req, res, next){
             {
         if(req.params.id=='todos')
         {
-          
+          console.log({ "estadopago" : "Asignación exitosa",ididioma:req.params.id2,
+          idprofesor:req.params.id3
+          ,'idedificio.id': req.params.id4,'idsalon.id':req.params.id5,iddia:req.params.id6
+          ,idhora:req.params.id7
+      })
             Asignaubicacion.find({ "estadopago" : "Asignación exitosa",ididioma:req.params.id2,
             idprofesor:req.params.id3
             ,'idedificio.id': req.params.id4,'idsalon.id':req.params.id5,iddia:req.params.id6
@@ -609,7 +613,12 @@ exports.getAsignaubicacion = function(req, res, next){
               
             var  aa=(req.params.id2).split('°')
 
-
+console.log({
+    "estadopago" : "Asignación exitosa",
+    "idprofesor" : req.params.id, 
+    "ididioma" : aa[0],
+    "estadoacta":aa[1]
+})
                 Asignaubicacion.aggregate(   [
                     { 
                         "$match" : {
@@ -649,6 +658,7 @@ exports.getAsignaubicacion = function(req, res, next){
                 ]).exec(function(err, todos10) {
                     if (err){ res.send(err); }
   
+                    console.log(todos10)
                      var result = [];
                      for (const item of todos10) {
 

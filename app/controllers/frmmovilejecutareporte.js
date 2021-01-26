@@ -1072,16 +1072,16 @@ try {
                             columns: [
                               {
                                 // auto-sized columns have their widths based on their content
-                                width: 300,
-                                bold: true,
+                                width: 360,
+                               
                                 text:  master.departamento ,
                                
                               },
                               {
                                 // star-sized columns fill the remaining space
                                 // if there's more than one star-column, available width is divided equally
-                                width: 75,
-                                bold: true,
+                                width: 150,
+                               
                                 text: master.nombrejefesolicitante,
                                
                               },
@@ -1089,10 +1089,10 @@ try {
                             ],
                             // optional space between columns
                             columnGap: 1,
-                            margin: [ 45, 2, 10, 1 ] ,
-                            bold: true,
+                            margin: [ 45, 40, 10, 1 ] ,
+                          
                            
-                            fontSize: 10
+                            fontSize: 8
                           }
                         
                     ]);
@@ -1102,16 +1102,16 @@ try {
                             columns: [
                               {
                                 // auto-sized columns have their widths based on their content
-                                width: 300,
-                                bold: true,
+                                width: 360,
+                               
                                 text:  master.cargodelsolicitante ,
                                
                               },
                               {
                                 // star-sized columns fill the remaining space
                                 // if there's more than one star-column, available width is divided equally
-                                width: 75,
-                                bold: true,
+                                width: 150,
+                               
                                 text: master.nombresolicitante ,
                                
                               },
@@ -1119,10 +1119,10 @@ try {
                             ],
                             // optional space between columns
                             columnGap: 1,
-                            margin: [ 45, 2, 10, 1 ] ,
-                            bold: true,
+                            margin: [ 45, 40, 10, 1 ] ,
                            
-                            fontSize: 10
+                           
+                            fontSize: 8
                           }
                         
                     ]);
@@ -1132,16 +1132,16 @@ try {
                             columns: [
                               {
                                 // auto-sized columns have their widths based on their content
-                                width: 300,
-                                bold: true,
+                                width: 360,
+                               
                                 text: dafecha( master.fecha) ,
                                
                               },
                               {
                                 // star-sized columns fill the remaining space
                                 // if there's more than one star-column, available width is divided equally
-                                width: 75,
-                                bold: true,
+                                width: 150,
+                             
                                 text: master.personaquerecibe ,
                                
                               },
@@ -1149,14 +1149,36 @@ try {
                             ],
                             // optional space between columns
                             columnGap: 1,
-                            margin: [ 45, 2, 10, 1 ] ,
-                            bold: true,
+                            margin: [ 45, 40, 10, 1 ] ,
+                            
                            
-                            fontSize: 10
+                            fontSize: 8
                           }
                         
                     ]);
 
+                    jsonx.push( [
+                      { 
+                          columns: [
+                            {
+                              // auto-sized columns have their widths based on their content
+                              width: 360,
+                             
+                              text: '' ,
+                             
+                            }
+                           
+                           
+                          ],
+                          // optional space between columns
+                          columnGap: 1,
+                          margin: [ 45, 100, 10, 1 ] ,
+                          
+                         
+                          fontSize: 8
+                        }
+                      
+                  ]);
 
                  
 
@@ -1172,23 +1194,23 @@ try {
                             columns: [
                               {
                                 // auto-sized columns have their widths based on their content
-                                width: 50,
-                                bold: true,
+                                width: 75,
+                              
                                 text:  detalle[i].cantidadsolicitada ,
                                
                               },
                             
                               {
                                 // auto-sized columns have their widths based on their content
-                                width: 50,
-                                bold: true,
+                                width: 40,
+                               
                                 text:  detalle[i].cantidaddespachada,
                                
                               },
                               {
                                 // auto-sized columns have their widths based on their content
-                                width: 100,
-                                bold: true,
+                                width: 80,
+                               
                                 text: articulon[3].split(':')[0].split('</strong>')[0].split('<strong>')[1],
                                
                               },
@@ -1196,7 +1218,7 @@ try {
                               {
                                 // auto-sized columns have their widths based on their content
                                 width: 250,
-                                bold: true,
+                               
                                 text:  articulon[2].split(':')[1].trim(),
                                
                               },
@@ -1206,10 +1228,10 @@ try {
                             ],
                             // optional space between columns
                             columnGap: 1,
-                            margin: [ 45, 2, 10, 1 ] ,
-                            bold: true,
+                            margin: [ 45, 8, 10, 1 ] ,
                            
-                            fontSize: 10
+                           
+                            fontSize: 8
                           }
                         
                     ]);
@@ -1268,7 +1290,7 @@ try {
                         jsonx.push( [
                             {     text: '',   fontSize: 9,  colSpan: 1       }, 
                             {     text: '',   fontSize: 9,  colSpan: 1       }, 
-                            { margin: [ 45, 1, 10, 1 ] ,
+                            { margin: [ 53, 17, 10, 1 ] ,
                                 text: master.dependencia,
                                 bold: true,
                                 colSpan: 5,
@@ -1294,16 +1316,17 @@ try {
                                   {
                                     // star-sized columns fill the remaining space
                                     // if there's more than one star-column, available width is divided equally
-                                    width: 75,
+                                    width: 150,
                                     bold: true,
                                     text:dafecha(fechat),
+                                    margin: [ 90, 0, 0, 0 ] ,
                                    
                                   },
                                  
                                 ],
                                 // optional space between columns
                                 columnGap: 1,
-                                margin: [ 45, 2, 10, 1 ] ,
+                                margin: [ 55, 5, 10, 1 ] ,
                                 bold: true,
                                
                                 fontSize: 10
@@ -1326,7 +1349,7 @@ try {
                                 ],
                                 // optional space between columns
                                 columnGap: 1,
-                                margin: [ 45, 2, 10, 1 ] ,
+                                margin: [ 55, 5, 10, 1 ] ,
                                 bold: true,
                                
                                 fontSize: 10
@@ -1365,22 +1388,22 @@ try {
                                   {
                                     // auto-sized columns have their widths based on their content
                                     width: 50,
-                                    bold: true,
+                                 
                                     text:  detalle[i].cantidad,
                                    
                                   },
                                 
                                   {
                                     // auto-sized columns have their widths based on their content
-                                    width: 250,
-                                    bold: true,
+                                    width: 185,
+                                  
                                     text:  detalle[i].descripciondelarticulaenfactura,
                                    
                                   },
                                   {
                                     // auto-sized columns have their widths based on their content
                                     width: 50,
-                                    bold: true,
+                                  
                                     text: detalle[i].codigogastoreglon,
                                    
                                   },
@@ -1388,7 +1411,7 @@ try {
                                   {
                                     // auto-sized columns have their widths based on their content
                                     width: 50,
-                                    bold: true,
+                                  
                                     text:   master.foliolibroalmacen,
                                    
                                   },
@@ -1396,25 +1419,25 @@ try {
                                   {
                                     // auto-sized columns have their widths based on their content
                                     width: 50,
-                                    bold: true,
+                                   
                                     text: 'Q'+ preciou,
                                    
                                   },
                                   {
                                     // auto-sized columns have their widths based on their content
                                     width: 50,
-                                    bold: true,
-                                    text: 'Q.' +total ,
+                                  
+                                    text: 'Q.' +parseFloat(total).toFixed(2) ,
                                    
                                   }
                                  
                                 ],
                                 // optional space between columns
                                 columnGap: 1,
-                                margin: [ 45, 2, 10, 1 ] ,
-                                bold: true,
+                                margin: [ 5, 40, 10, 1 ] ,
                                
-                                fontSize: 10
+                               
+                                fontSize: 8
                               }
                             
                         ]);
@@ -1438,49 +1461,49 @@ try {
                               {
                                 // auto-sized columns have their widths based on their content
                                 width: 50,
-                                bold: true,
+                              
                                 text: ''
                                
                               },
                               {
                                 // auto-sized columns have their widths based on their content
-                                width: 250,
-                                bold: true,
+                                width: 185,
+                              
                                 text: 'TOTAL'
                                
                               }, {
                                 // auto-sized columns have their widths based on their content
                                 width: 50,
-                                bold: true,
+                               
                                 text: ''
                                
                               }, {
                                 // auto-sized columns have their widths based on their content
                                 width: 50,
-                                bold: true,
+                               
                                 text: ''
                                
                               }, {
                                 // auto-sized columns have their widths based on their content
                                 width: 50,
-                                bold: true,
+                               
                                 text: ''
                                
                               }, {
                                 // auto-sized columns have their widths based on their content
                                 width: 50,
-                                bold: true,
-                                text: 'Q' + grantotal
+                               
+                                text: 'Q' + parseFloat(grantotal).toFixed(2)
                                
                               },
                              
                             ],
                             // optional space between columns
                             columnGap: 1,
-                            margin: [ 45, 2, 10, 1 ] ,
-                            bold: true,
+                            margin: [ 4, 0, 10, 1 ] ,
+                          
                            
-                            fontSize: 10
+                            fontSize: 8
                           }
                         
                     ]);
@@ -1493,7 +1516,7 @@ try {
                               {
                                 // auto-sized columns have their widths based on their content
                                 width: 300,
-                                bold: true,
+                               
                                 text:  'FACTURA ELECTRONICA',
                                
                               },
@@ -1502,8 +1525,8 @@ try {
                             ],
                             // optional space between columns
                             columnGap: 1,
-                            margin: [ 45, 2, 10, 1 ] ,
-                            bold: true,
+                            margin: [ 45, 30, 10, 1 ] ,
+                          
                            
                             fontSize: 10
                           }
@@ -1518,7 +1541,7 @@ try {
                               {
                                 // auto-sized columns have their widths based on their content
                                 width: 300,
-                                bold: true,
+                              
                                 text:  'SERIE:'+ master.seriefactura,
                                
                               },
@@ -1528,7 +1551,7 @@ try {
                             // optional space between columns
                             columnGap: 1,
                             margin: [ 45, 2, 10, 1 ] ,
-                            bold: true,
+                         
                            
                             fontSize: 10
                           }
@@ -1541,7 +1564,7 @@ try {
                               {
                                 // auto-sized columns have their widths based on their content
                                 width: 300,
-                                bold: true,
+                               
                                 text:  'No.'+master.nofactura,
                                
                               },
@@ -1551,7 +1574,7 @@ try {
                             // optional space between columns
                             columnGap: 1,
                             margin: [ 45, 2, 10, 1 ] ,
-                            bold: true,
+                           
                            
                             fontSize: 10
                           }
@@ -1564,7 +1587,7 @@ try {
                               {
                                 // auto-sized columns have their widths based on their content
                                 width: 300,
-                                bold: true,
+                               
                                 text: ' NIT:'+ master.proveedor.split('<br>')[2].split(':')[1].trim() +' FECHA:'+ dafecha(master.fechafactura),
                                
                               },
@@ -1574,7 +1597,7 @@ try {
                             // optional space between columns
                             columnGap: 1,
                             margin: [ 45, 2, 10, 1 ] ,
-                            bold: true,
+                           
                            
                             fontSize: 10
                           }
