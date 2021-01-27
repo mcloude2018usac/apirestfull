@@ -308,6 +308,9 @@ var dahora= function(data) {
                  
            for (let ii = 0; ii < keys.length; ii++) {
                var arreglo=(objetox[keys[ii]] ).split('°')
+
+              
+               
                var valorxx=todos2[i][keys[ii]]
                var validacampo=arreglo[2]
                if(sicampovalida==='si')

@@ -1211,7 +1211,7 @@ try {
                                 // auto-sized columns have their widths based on their content
                                 width: 80,
                                
-                                text: articulon[3].split(':')[0].split('</strong>')[0].split('<strong>')[1],
+                                text: articulon[3].split(':')[1].trim(),
                                
                               },
 

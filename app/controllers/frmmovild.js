@@ -258,7 +258,7 @@ else{
                         idfrmconsulta2:req.body.idfrmconsulta2,
                         nombreconsulta2:'',
                         required :rr	,
-                        placeholder :'Ingrese un '+ req.body.title+'  Valido'	,
+                        placeholder :'Ingrese '+ req.body.title+''	,
                         display :rr,
                         selected :true 	,
                         disabled :'false' 	,
@@ -367,7 +367,7 @@ else{
                         default 	: '' 	,
 
                         required :rr	,
-                        placeholder :'Ingrese un '+ req.body.title+'  Valido'	,
+                        placeholder :'Ingrese '+ req.body.title+''	,
                         display :rr,
                         selected :true 	,
                         disabled :'false' 	,
