@@ -1089,7 +1089,7 @@ try {
                             ],
                             // optional space between columns
                             columnGap: 1,
-                            margin: [ 45, 40, 10, 1 ] ,
+                            margin: [ 45, 80, 10, 1 ] ,
                           
                            
                             fontSize: 8
@@ -1172,7 +1172,7 @@ try {
                           ],
                           // optional space between columns
                           columnGap: 1,
-                          margin: [ 45, 100, 10, 1 ] ,
+                          margin: [ 45, 83, 10, 1 ] ,
                           
                          
                           fontSize: 8
@@ -1228,7 +1228,7 @@ try {
                             ],
                             // optional space between columns
                             columnGap: 1,
-                            margin: [ 45, 8, 10, 1 ] ,
+                            margin: [ 45, 0, 10, 6 ] ,
                            
                            
                             fontSize: 8
@@ -1290,7 +1290,7 @@ try {
                         jsonx.push( [
                             {     text: '',   fontSize: 9,  colSpan: 1       }, 
                             {     text: '',   fontSize: 9,  colSpan: 1       }, 
-                            { margin: [ 53, 17, 10, 1 ] ,
+                            { margin: [ 58, 45, 10, 1 ] ,
                                 text: master.dependencia,
                                 bold: true,
                                 colSpan: 5,
@@ -1326,7 +1326,7 @@ try {
                                 ],
                                 // optional space between columns
                                 columnGap: 1,
-                                margin: [ 55, 5, 10, 1 ] ,
+                                margin: [ 58, 5, 10, 1 ] ,
                                 bold: true,
                                
                                 fontSize: 10
@@ -1349,7 +1349,7 @@ try {
                                 ],
                                 // optional space between columns
                                 columnGap: 1,
-                                margin: [ 55, 5, 10, 1 ] ,
+                                margin: [ 58, 5, 10, 1 ] ,
                                 bold: true,
                                
                                 fontSize: 10
