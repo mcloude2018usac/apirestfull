@@ -438,7 +438,7 @@ else
                         
               
               //MATERIA QUE TENGO QUE LLEVAR   
-              var tt=1;  
+              var tt=2;  
               if(todos.lenguaje==true){ tt=0;myData0.push({idmateria:'Lenguaje', idjornada:req.body.idjornada,idhorario:req.body.idhorario});      }
               if(todos.matematica==true){tt=0; myData0.push({idmateria:'Matematica', idjornada:req.body.idjornada2,idhorario:req.body.idhorario2});      }
               if(todos.fisica==true){tt=0; myData0.push({idmateria:'Fisica', idjornada:req.body.idjornada3,idhorario:req.body.idhorario3});      }
