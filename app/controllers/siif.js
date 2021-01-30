@@ -11,7 +11,7 @@ var mongoose =require("mongoose");
 
 
 var Conveniocalusac = require('../models/calusac/conveniocalusac');
-
+var anio='2021'
 
 function sequenceGenerator(id){
 
@@ -594,7 +594,106 @@ Asignacalusac.find({ correo:  req.params.id }, function (err, todo100aaa)  {
         });
     
                 break
-            default:
+           
+            case 'calusacnuevo':
+               
+            var arr= req.params.id6.split('°')
+              Asignacalusac.find({ anio: req.params.id5,cui:req.params.id }, function (err, todo100aaa)  {
+                if (err) {  res.send(err);  }
+                else
+                { 
+
+                  if(todo100aaa.length===0)
+                  {
+                    var montototal=0
+                    montototal= Number( req.params.id3)+ 50
+
+                    myXMLText=remove_accents("\n<Envelope xmlns=\"http://schemas.xmlsoap.org/soap/envelope/\"><Body><getData xmlns=\"urn:miserviciowsdl\"><carnet>"+ req.params.id +"</carnet><unidad>"+req.params.id4+"</unidad><extension>00</extension><carrera>00</carrera><nombre>" +req.params.id2+ "</nombre><monto>" +montototal + "</monto><anio>"+ req.params.id5 +"</anio><rubro>156</rubro><variante_rubro>1</variante_rubro><subtotal>50</subtotal><rubro2>"+ arr[0] +"</rubro2><variante_rubro2>"+ arr[1]+"</variante_rubro2><subtotal2>"+ req.params.id3 +"</subtotal2></getData></Body></Envelope>")
+
+
+            
+             
+
+                    console.log('asignacion + inscripcion')
+                    console.log(myXMLText)
+                    console.log(myXMLText.length)
+  
+                    let strLengthInBytes = Buffer.byteLength(myXMLText); 
+                    console.log(strLengthInBytes)
+  
+                    var options = {
+                        'method': 'POST',
+                        gzip: true,
+                        'url': 'http://calusacvirtual.usac.edu.gt/app/api/order_new.php',
+                        'headers': {
+                        'Content-Type': 'text/xml;charset=UTF-8',
+                        'User-Agent': 'PostmanRuntime/7.22.0',
+                        'Accept': '*/*',
+                        'Cache-Control': 'no-cache',
+                        'Postman-Token': '40c97521-3534-4293-a411-6d48339c8328',
+                        'Host': 'calusacvirtual.usac.edu.gt',
+                        'Accept-Encoding': 'gzip, deflate, br',
+                        'Content-Length': myXMLText.length,
+                        'Connection': 'keep-alive',
+                        'cache-control': 'no-cache'
+                        },
+                        body: myXMLText
+                    
+                    };
+                    request(options, function (error, response) { 
+                        if (error) throw new Error(error);
+                    //  console.log(response.body);
+                        res.send({cadena:response.body,estado:'1',rubro2:'156',monto2:'50',itemp2:'Calusac - Inscripción ' + req.params.id5+ ' Pago Único De Inscripción '});
+                    //  res.send('error');
+                    
+                    });
+
+                  }
+                  else
+                  {
+
+                    myXMLText=remove_accents("\n<Envelope xmlns=\"http://schemas.xmlsoap.org/soap/envelope/\"><Body><getData xmlns=\"urn:miserviciowsdl\"><carnet>"+ req.params.id +"</carnet><unidad>"+req.params.id4+"</unidad><extension>00</extension><carrera>00</carrera><nombre>" +req.params.id2+ "</nombre><monto>" + req.params.id3 + "</monto><anio>"+ req.params.id5 +"</anio><rubro>"+ req.params.id6 +"</rubro><variante_rubro>"+ req.params.id7 +"</variante_rubro><subtotal>"+ req.params.id3 +"</subtotal></getData></Body></Envelope>")
+
+                    console.log(myXMLText)
+                    console.log(myXMLText.length)
+  
+                    let strLengthInBytes = Buffer.byteLength(myXMLText); 
+                    console.log(strLengthInBytes)
+  
+                    var options = {
+                        'method': 'POST',
+                        gzip: true,
+                        'url': 'http://calusacvirtual.usac.edu.gt/app/api/order.php',
+                        'headers': {
+                        'Content-Type': 'text/xml;charset=UTF-8',
+                        'User-Agent': 'PostmanRuntime/7.22.0',
+                        'Accept': '*/*',
+                        'Cache-Control': 'no-cache',
+                        'Postman-Token': '40c97521-3534-4293-a411-6d48339c8328',
+                        'Host': 'calusacvirtual.usac.edu.gt',
+                        'Accept-Encoding': 'gzip, deflate, br',
+                        'Content-Length': myXMLText.length,
+                        'Connection': 'keep-alive',
+                        'cache-control': 'no-cache'
+                        },
+                        body: myXMLText
+                    
+                    };
+                    request(options, function (error, response) { 
+                        if (error) throw new Error(error);
+                    //  console.log(response.body);
+                        res.send({cadena:response.body,estado:'0',rubro2:'0',monto2:'0',itemp2:''});
+                    //  res.send('error');
+                    
+                    });
+                  }
+
+                }});
+                
+
+                  break;
+               
+                default:
 //' + remove_accents(req.params.id2) + '
 //this.cui+ '/'+this.nombre+'/' +this.monto +".00" + '/00/2020/22/1'
 

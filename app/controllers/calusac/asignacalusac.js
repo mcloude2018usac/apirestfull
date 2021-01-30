@@ -1728,6 +1728,14 @@ console.log(filtro)
                                     rubrot       	: req.body.rubrot        	,
                                     fechasiif       	: req.body.fechasiif        	,
                                     monto       	: req.body.monto        	,
+
+                                    monto2: req.body.monto2        	,
+                                    itemp2: req.body.itemp2        	,
+                                    rubro2: req.body.rubro2        	,
+                                    imprime: req.body.imprime        	,
+   
+                                    
+
                                 rubro      	: req.body.rubro        	,
                                 nivel      	: req.body.nivel        	,
                                 ano      	: req.body.ano        	,
@@ -1839,6 +1847,12 @@ console.log(filtro)
                                             cml       	: req.body.cml        	,
                                             monto       	: req.body.monto        	,
                                         rubro      	: req.body.rubro        	,
+                                        monto2: req.body.monto2        	,
+                                        itemp2: req.body.itemp2        	,
+                                        rubro2: req.body.rubro2        	,
+                                        imprime: req.body.imprime        	,
+       
+                                        
                                         nivel      	: req.body.nivel        	,
                                         ano      	: req.body.ano        	,
                                         llave      	: req.body.llave        	,

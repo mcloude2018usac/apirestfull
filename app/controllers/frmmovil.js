@@ -700,6 +700,209 @@ function dafiltrocad(todos,id2,id3) {
      return cad +'°'+cadxx
 }
 
+
+function dafiltrocadvalida(todos,id2,id3,req) {
+    var cad=''
+   
+   
+    for(var i = 0; i <todos.length; i++) {
+        if(todos[i].usarunaves==='true')
+        {
+        if(filtrovalida==='')
+        {
+         filtrovalida=  '"' +todos[i].name + '":"' + req.body.estructura[todos[i].name] + '"' 
+        }
+        else
+        {
+         filtrovalida= filtrovalida + ',"' +todos[i].name + '":"' + req.body.estructura[todos[i].name]  + '"' 
+        }
+         
+              
+        }
+
+    }
+
+    for(var i = 0; i < todos.length;i++){
+              if(todos[i].usarunaves==='true')
+        {                          
+     
+        switch(todos[i].type) {
+            case 'Rango':  
+            if(todos[i].name==id2){cadxx='"' +id2 + '":' +id3 + ''  }
+            if(todos[i].required=='false')
+            {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+            }
+            else
+            {
+                cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+            }
+            break;
+             case 'Fecha': //ISODate("2018-08-08T15:00:56.875Z"),
+             if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+             else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+             if(todos[i].required=='false')
+             {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+             }
+             else
+             {
+                
+                 cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+             }
+              break;
+              case 'Hora': //ISODate("2018-08-08T15:00:56.875Z"),
+              if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+              else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+              if(todos[i].required=='false')
+              {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+              }
+              else
+              {
+                 
+                  cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+              }
+               break;
+              case 'Fecha y Hora': //ISODate("2018-08-08T15:00:56.875Z"),
+              if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+              else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+              if(todos[i].required=='false')
+              {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+              }
+              else
+              {
+                 
+                  cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+              }
+               break;
+              case 'Check': 
+              if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+              else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+              if(todos[i].required=='false')
+              {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+              }
+              else
+              {
+                 
+                  cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+              }
+               break;
+               case 'Imagen': 
+               if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+               else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+               if(todos[i].required=='false')
+               {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+               }
+               else
+               {
+                  
+                   cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+               }
+                break;
+                case 'Documento': 
+                if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+                else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+                if(todos[i].required=='false')
+                {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+                }
+                else
+                {
+                   
+                    cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+                }
+                 break;
+         case 'Alfanumerico': 
+         if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+         else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+         if(todos[i].required=='false')
+         {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+         }
+         else
+         {
+            
+             cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+         }
+          break;
+        case 'Numerico':  
+        if(todos[i].name==id2){cadxx='"' +id2 + '":' +id3 + ''  }
+        if(todos[i].required=='false')
+        {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+        }
+        else
+        {
+            cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+        }
+        break;
+        case 'Moneda':  
+        if(todos[i].name==id2){cadxx='"' +id2 + '":' +id3 + ''  }
+        if(todos[i].required=='false')
+        {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+        }
+        else
+        {
+            cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+        }
+        break;
+        case 'TextArea':  
+        if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+        else{cadxx='"' +id2 + '": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+//        if(todos[i].name==id2){cadxx='"' +id2 + '":"' +id3 + '"'  }
+   
+        if(todos[i].required=='false')
+        {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+        }
+        else
+        {
+            cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+        }
+          break;
+        case 'Etiqueta':   
+         break;
+        case 'Lista de valores': 
+        if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '.label":"' +id3 + '"' }
+         else{cadxx='"' +id2 + '.label": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+        if(todos[i].required=='false')
+             {cad=cad+'"'+todos[i].name+'":{"type" : "String"},';
+                 //cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String"},   "label"	: { "type" : "String" }},';
+             }
+             else
+             {cad=cad+'"'+todos[i].name+'":{"type" : "String", "required" : "true"},';
+                //     cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
+             }
+
+          break;
+          case 'Check List': 
+          if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '.label":"' +id3 + '"' }
+           else{cadxx='"' +id2 + '.label": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+          if(todos[i].required=='false')
+               {cad=cad+'"'+todos[i].name+'":{"type" : "String"},';
+                   //cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String"},   "label"	: { "type" : "String" }},';
+               }
+               else
+               {cad=cad+'"'+todos[i].name+'":{"type" : "String", "required" : "true"},';
+                  //     cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
+               }
+  
+            break;
+            case 'Check List Detalle': 
+            if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '.label":"' +id3 + '"' }
+             else{cadxx='"' +id2 + '.label": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+            if(todos[i].required=='false')
+                 {cad=cad+'"'+todos[i].name+'":{"type" : "String"},';
+                     //cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String"},   "label"	: { "type" : "String" }},';
+                 }
+                 else
+                 {cad=cad+'"'+todos[i].name+'":{"type" : "String", "required" : "true"},';
+                    //     cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
+                 }
+    
+              break;
+         default:
+           // code block
+       }
+    }
+     
+     }
+     return cad 
+}
 var objectToArray = function(obj) {
     var _arr = [];
 
@@ -3296,22 +3499,9 @@ if(req.body.tipo2==='Formulario'){
                                 var filtrovalida=''
                                 console.log(todos.length)
                               
-                               for(var i = 0; i <todos.length; i++) {
-                                   if(todos[i].usarunaves==='true')
-                                   {
-                                   if(i===0)
-                                   {
-                                    filtrovalida=  '"' +todos[i].name + '":"' + req.body.estructura[todos[i].name] + '"' 
-                                   }
-                                   else
-                                   {
-                                    filtrovalida= filtrovalida + ',"' +todos[i].name + '":"' + req.body.estructura[todos[i].name]  + '"' 
-                                   }
-                                    
-                                         
-                                   }
+                       
 
-                               }
+                               filtrovalida=dafiltrocadvalida(todos,'','',req)
                             
                             //   filtrovalida=filtrovalida.substring(0,filtrovalida.length-1)
                                console.log('filtroooooooooo ::::::::::::::::: '+filtrovalida + ' ::::::::')
