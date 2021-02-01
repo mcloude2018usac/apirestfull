@@ -1755,7 +1755,7 @@ datosfijosRoutes.get('/:id', DatosfijosController.getCombofijo);
 datosfijosRoutes.get('/:id/:id2', DatosfijosController.getCombofijo);
 datosfijosRoutes.get('/:id/:id2/:id3',  DatosfijosController.getCombofijo);
 datosfijosRoutes.get('/:id/:id2/:id3/:id4',  DatosfijosController.getCombofijo);
-//datosfijosRoutes.get('/:id/:id2/:id3/:id4/:id5',  DatosfijosController.getCombofijo);
+datosfijosRoutes.get('/:id/:id2/:id3/:id4/:id5',  DatosfijosController.getCombofijo);
 datosfijosRoutes.get('/:id/:id2/:id3/:id4/:id5/:id6',  DatosfijosController.getCombofijo);
 
 

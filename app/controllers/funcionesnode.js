@@ -1,6 +1,7 @@
 
 var Frmmovil = require('../models/frmmovil');
 var Frmmovild = require('../models/frmmovild');
+const { getGaleriaimg } = require('./galeriaimg');
 function datipo(value) {
   var tt='';
   switch(value) {
@@ -418,6 +419,339 @@ data[aa].replace('¬', ',') + '" target="_blank">https://www.google.com/maps/sea
        return datafinal;
     }
 
+    
+    var procesaexcelrecord = function(objetox,todos2,sicampovalida)
+    {
+        var keys = Object.keys(objetox);
+        var datafinal=[]
+        var cad=''
+        var cad2=''
+        var cad3=''
+            for(var i = 0; i < todos2.length;i++){
+            //console.log(todos2[i])
+              
+                 
+           for (let ii = 0; ii < keys.length; ii++) {
+               var arreglo=(objetox[keys[ii]] ).split('°')
+
+              
+               
+               var valorxx=todos2[i][keys[ii]]
+               var validacampo=arreglo[2]
+               if(sicampovalida==='si')
+               {
+                validacampo='true'
+               }
+
+               if(valorxx===undefined)
+               {
+                   valorxx=''
+               }
+             if(validacampo==='true')
+             {
+               if(arreglo[1]==='Fecha')
+               {
+                   cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + dafechastring(valorxx) + '<br>'
+               }
+               else
+               {
+                   if(arreglo[1]==='Fecha y Hora')
+                   {
+                       cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + dafechacompleta(valorxx) + '<br>'
+                   }
+                   else
+                   {
+                       if(arreglo[1]==='Hora')
+                   {
+                       cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + dahora(valorxx) + '<br>'
+                   }
+                   else
+                   {
+                   if(arreglo[1]==='Lista de valores')
+                   {
+                       if (valorxx.indexOf('°') > 0) {
+                           cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + getKeyssrthtml(valorxx) + ''
+                       }
+                       else
+                       {
+                           if (valorxx.indexOf('¬') > 0) {
+
+                             
+                               cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + valorxx.split('¬')[0]  + '<br>'
+                           }
+                           else
+                           {
+                               cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + valorxx + '<br>'
+                           }
+
+                       }
+
+                      
+                   }
+                   else
+                   {
+                       if(arreglo[1]==='Moneda')
+                       {
+                           cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + valorxx + '<br>'
+                       }
+                       else
+                       {
+                           if(arreglo[1]==='Imagen')
+                           {
+                               /*
+                               keyst.push('<strong>' +  this.getKeys3(this.cmpver, aa,0)  + '</strong> :  <img src="' + this.apifoto +  this.getKeys2(data[aa]) + '"   class="circle-pic"  height="50 px" width="50 px"> '  );
+                               */
+                             //  cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + //functool.daimagen(todos2[i][keys[ii]]) + '<br>'
+
+                           }
+                           else
+                           {
+                               cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + valorxx + '<br>'
+                           }
+                           
+                       }
+                       
+                   }}}
+               }
+           } 
+                  
+                               
+                       
+                   
+               }
+
+               /*
+                cadurs3 = cadurs3 + ' <a href="https://www.google.com/maps/search/?api=1&query=' +
+data[aa].replace('¬', ',') + '" target="_blank">https://www.google.com/maps/search/?api=1&query=' + data[aa].replace('¬', ',')
++ '</a> ' ;  break;
+               */
+            
+              if(sicampovalida==='si')
+              {
+                datafinal.push({_id:todos2[i]._id,nombre2:'tico',nombre:cad,item:todos2[i],usuario:''})
+               cad='';
+              }
+              else{
+                datafinal.push({_id:todos2[i]._id,nombre2:'tico',nombre:cad+ '<div style="font-size: 8px;text-transform: capitalize;">Crea: [' + dafechastring(todos2[i]['createdAt'])+',' + todos2[i]['usuarionew'] + ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +   todos2[i]['usuarioup']+ '] <br> Estado interno: '+ todos2[i].estadointerno +'</div>',item:todos2[i],usuario:''})
+               cad='';
+
+              }
+
+
+                 
+           }
+       return datafinal;
+    }
+    var procesacsvrecord = function(objetox,todos2,sicampovalida)
+    {
+        var keys = Object.keys(objetox);
+        var datafinal=[]
+        var cad=''
+        var cad2=''
+        var cad3=''
+            for(var i = 0; i < todos2.length;i++){
+            //console.log(todos2[i])
+              
+            var regt={}; 
+           for (let ii = 0; ii < keys.length; ii++) {
+               var arreglo=(objetox[keys[ii]] ).split('°')
+
+              
+               
+               var valorxx=todos2[i][keys[ii]]
+               var validacampo=arreglo[2]
+               if(sicampovalida==='si')
+               {
+                validacampo='true'
+               }
+
+               if(valorxx===undefined)
+               {
+                   valorxx=''
+               }
+          
+               if(arreglo[1]==='Fecha')
+               {
+                regt[arreglo[0]]=  dafechastring(valorxx);
+                  
+               }
+               else
+               {
+                   if(arreglo[1]==='Fecha y Hora')
+                   {
+                      
+                       regt[arreglo[0]]=  dafechacompleta(valorxx) 
+                   }
+                   else
+                   {
+                       if(arreglo[1]==='Hora')
+                   {
+                      
+                       regt[arreglo[0]]=   dahora(valorxx) 
+                   }
+                   else
+                   {
+                   if(arreglo[1]==='Lista de valores')
+                   {
+                       if (valorxx.indexOf('°') > 0) {
+                        regt[arreglo[0]]= getKeyssrthtml(valorxx) 
+                          
+                       }
+                       else
+                       {
+                           if (valorxx.indexOf('¬') > 0) {
+
+                            regt[arreglo[0]]= valorxx.split('¬')[0] 
+                              
+                           }
+                           else
+                           {
+                            regt[arreglo[0]]=valorxx
+                              
+                           }
+
+                       }
+
+                      
+                   }
+                   else
+                   {
+
+                    regt[arreglo[0]]= valorxx;
+                       
+                       
+                   }}}
+               }
+           
+                  
+                               
+                       
+                   
+               }
+
+               /*
+                cadurs3 = cadurs3 + ' <a href="https://www.google.com/maps/search/?api=1&query=' +
+data[aa].replace('¬', ',') + '" target="_blank">https://www.google.com/maps/search/?api=1&query=' + data[aa].replace('¬', ',')
++ '</a> ' ;  break;
+               */
+
+              datafinal.push(regt)
+           
+
+
+                 
+           }
+       return datafinal;
+    }
+
+    var procesatablauirecord = function(objetox,todos2,sicampovalida)
+    {
+        var keys = Object.keys(objetox);
+        var datafinal=[]
+        var cad=''
+        var cad2=''
+        var cad3=''
+            for(var i = 0; i < todos2.length;i++){
+            //console.log(todos2[i])
+            var regt0=[];   
+            var regt=[]; 
+           for (let ii = 0; ii < keys.length; ii++) {
+               var arreglo=(objetox[keys[ii]] ).split('°')
+
+              
+               
+               var valorxx=todos2[i][keys[ii]]
+               var validacampo=arreglo[2]
+               if(sicampovalida==='si')
+               {
+                validacampo='true'
+               }
+
+               if(valorxx===undefined)
+               {
+                   valorxx=''
+               }
+          
+               if(arreglo[1]==='Fecha')
+               {
+                regt.push(dafechastring(valorxx));
+                if(i===0){ regt0.push(arreglo[0])}
+                  
+               }
+               else
+               {
+                   if(arreglo[1]==='Fecha y Hora')
+                   {
+                      
+                    regt.push( dafechacompleta(valorxx) )
+                    if(i===0){ regt0.push(arreglo[0])}
+                   }
+                   else
+                   {
+                       if(arreglo[1]==='Hora')
+                   {
+                      
+                    regt.push( dahora(valorxx) )
+                    if(i===0){ regt0.push(arreglo[0])}
+                   }
+                   else
+                   {
+                   if(arreglo[1]==='Lista de valores')
+                   {
+                       if (valorxx.indexOf('°') > 0) {
+                        regt.push(getKeyssrthtml(valorxx) )
+                        if(i===0){ regt0.push(arreglo[0])}
+                          
+                       }
+                       else
+                       {
+                           if (valorxx.indexOf('¬') > 0) {
+
+                            regt.push( valorxx.split('¬')[0] )
+                            if(i===0){ regt0.push(arreglo[0])}
+                              
+                           }
+                           else
+                           {
+                            regt.push(valorxx)
+                            if(i===0){ regt0.push(arreglo[0])}
+                              
+                           }
+
+                       }
+
+                      
+                   }
+                   else
+                   {
+
+                    regt.push(valorxx);
+                    if(i===0){ regt0.push(arreglo[0])}
+                       
+                       
+                   }}}
+               }
+           
+                  
+                               
+                       
+                   
+               }
+
+               /*
+                cadurs3 = cadurs3 + ' <a href="https://www.google.com/maps/search/?api=1&query=' +
+data[aa].replace('¬', ',') + '" target="_blank">https://www.google.com/maps/search/?api=1&query=' + data[aa].replace('¬', ',')
++ '</a> ' ;  break;
+               */
+              if(i===0){datafinal.push(regt0)}
+              datafinal.push(regt)
+           
+
+
+                 
+           }
+       return datafinal;
+    }
 
     var getKeyssrthtml = function(data) {
         var keys=[]
@@ -583,6 +917,9 @@ module.exports = {
     daimagen:daimagen,
     getKeyssrthtml:getKeyssrthtml,
     procesahtmlrecord:procesahtmlrecord,
+    procesatablauirecord:procesatablauirecord,
+    procesaexcelrecord:procesaexcelrecord,
+    procesacsvrecord:procesacsvrecord,
     dadatosformulariofinal:dadatosformulariofinal,
     dadatosformularioidfinal: dadatosformularioidfinal
    

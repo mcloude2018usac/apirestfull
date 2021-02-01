@@ -1186,6 +1186,8 @@ try {
 
                     markup=markup+''
 
+                    var cuantosreg=detalle.length;
+
                 for(var i = 0; i < detalle.length;i++){
                     var articulon=detalle[i].articulo.split('<br>')
 
@@ -1242,7 +1244,113 @@ try {
                 
                 }
 
+                if(cuantosreg<14)
+                {
+
+                  
+                for(var i = cuantosreg; i < 15;i++){
+                
+
+                  jsonx.push( [
+                      { 
+                          columns: [
+                            {
+                              // auto-sized columns have their widths based on their content
+                              width: 75,
+                            
+                              text:  '',
+                             
+                            },
+                          
+                            {
+                              // auto-sized columns have their widths based on their content
+                              width: 40,
+                             
+                              text:  '',
+                             
+                            },
+                            {
+                              // auto-sized columns have their widths based on their content
+                              width: 80,
+                             
+                              text:i,
+                             
+                            },
+
+                            {
+                              // auto-sized columns have their widths based on their content
+                              width: 250,
+                             
+                              text:  i,
+                             
+                            },
+
+                         
+                           
+                          ],
+                          // optional space between columns
+                          columnGap: 1,
+                          margin: [ 45, 0, 10, 6 ] ,
+                         
+                         
+                          fontSize: 8
+                        }
+                      
+                  ]);
+            
+
+                
+                  
               
+              }
+
+                }
+
+
+                jsonx.push( [
+                  { 
+                      columns: [
+                        {
+                          // auto-sized columns have their widths based on their content
+                          width: 350,
+                         
+                          text:  master.justificaciondeuso ,
+                         
+                        },
+                      
+                      ],
+                      // optional space between columns
+                      columnGap: 1,
+                      margin: [ 120, 10, 10, 6 ] ,
+                      
+                     
+                      fontSize: 8
+                    }
+                  
+              ]);
+
+              
+              jsonx.push( [
+                { 
+                    columns: [
+                      {
+                        // auto-sized columns have their widths based on their content
+                        width: 400,
+                       
+                        text:  master.observaciones ,
+                       
+                      },
+                    
+                    ],
+                    // optional space between columns
+                    columnGap: 1,
+                    margin: [ 45, 10, 10, 6 ] ,
+                    
+                   
+                    fontSize: 8
+                  }
+                
+            ]);
 
                 }
                 

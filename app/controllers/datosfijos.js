@@ -4,9 +4,12 @@ var Moduloxx = require('../models/moduloxx');
 var Permiso = require('../models/permiso');
 var Area_evento = require('../models/aread_evento');
 var Participa2 = require('../models/participa2');
+var Frmmovil = require('../models/frmmovil');
+var Frmmovild = require('../models/frmmovild');
 var Permison2 = require('../models/permison2');
 var Area_evento = require('../models/aread_evento');
 var Aread_evento = require('../models/aread_evento');
+var functool = require('../controllers/funcionesnode');
 var csv      = require('csv-express');
 var Evento = require('../models/eventos');
 var Pagopap = require('../models/pagospap');
@@ -62,6 +65,217 @@ var request = require('request');
 
 var Asignaest = require('../models/asignaestudiante');
 
+function dafiltrocad(todos,id2,id3) {
+        var cad=''
+        var cadxx=''
+       
+        for(var i = 0; i < todos.length;i++){
+                                          
+         
+            switch(todos[i].type) {
+                case 'Rango':  
+                if(todos[i].name==id2){cadxx='"' +id2 + '":' +id3 + ''  }
+                if(todos[i].required=='false')
+                {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+                }
+                else
+                {
+                    cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+                }
+                break;
+                 case 'Fecha': //ISODate("2018-08-08T15:00:56.875Z"),
+                 if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+                 else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+                 if(todos[i].required=='false')
+                 {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+                 }
+                 else
+                 {
+                    
+                     cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+                 }
+                  break;
+                  case 'Hora': //ISODate("2018-08-08T15:00:56.875Z"),
+                  if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+                  else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+                  if(todos[i].required=='false')
+                  {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+                  }
+                  else
+                  {
+                     
+                      cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+                  }
+                   break;
+                  case 'Fecha y Hora': //ISODate("2018-08-08T15:00:56.875Z"),
+                  if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+                  else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+                  if(todos[i].required=='false')
+                  {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+                  }
+                  else
+                  {
+                     
+                      cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+                  }
+                   break;
+                  case 'Check': 
+                  if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+                  else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+                  if(todos[i].required=='false')
+                  {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+                  }
+                  else
+                  {
+                     
+                      cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+                  }
+                   break;
+                   case 'Imagen': 
+                   if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+                   else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+                   if(todos[i].required=='false')
+                   {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+                   }
+                   else
+                   {
+                      
+                       cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+                   }
+                    break;
+                    case 'Documento': 
+                    if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+                    else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+                    if(todos[i].required=='false')
+                    {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+                    }
+                    else
+                    {
+                       
+                        cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+                    }
+                     break;
+             case 'Alfanumerico': 
+             if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+             else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+             if(todos[i].required=='false')
+             {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+             }
+             else
+             {
+                
+                 cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+             }
+              break;
+            case 'Numerico':  
+            if(todos[i].name==id2){cadxx='"' +id2 + '":' +id3 + ''  }
+            if(todos[i].required=='false')
+            {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+            }
+            else
+            {
+                cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+            }
+            break;
+            case 'Moneda':  
+            if(todos[i].name==id2){cadxx='"' +id2 + '":' +id3 + ''  }
+            if(todos[i].required=='false')
+            {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+            }
+            else
+            {
+                cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+            }
+            break;
+            case 'TextArea':  
+            if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+            else{cadxx='"' +id2 + '": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+    //        if(todos[i].name==id2){cadxx='"' +id2 + '":"' +id3 + '"'  }
+       
+            if(todos[i].required=='false')
+            {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+            }
+            else
+            {
+                cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+            }
+              break;
+            case 'Etiqueta':   
+             break;
+            case 'Lista de valores': 
+            if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '.label":"' +id3 + '"' }
+             else{cadxx='"' +id2 + '.label": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+            if(todos[i].required=='false')
+                 {cad=cad+'"'+todos[i].name+'":{"type" : "String"},';
+                     //cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String"},   "label"	: { "type" : "String" }},';
+                 }
+                 else
+                 {cad=cad+'"'+todos[i].name+'":{"type" : "String", "required" : "true"},';
+                    //     cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
+                 }
+    
+              break;
+              case 'Check List': 
+              if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '.label":"' +id3 + '"' }
+               else{cadxx='"' +id2 + '.label": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+              if(todos[i].required=='false')
+                   {cad=cad+'"'+todos[i].name+'":{"type" : "String"},';
+                       //cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String"},   "label"	: { "type" : "String" }},';
+                   }
+                   else
+                   {cad=cad+'"'+todos[i].name+'":{"type" : "String", "required" : "true"},';
+                      //     cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
+                   }
+      
+                break;
+                case 'Check List Detalle': 
+                if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '.label":"' +id3 + '"' }
+                 else{cadxx='"' +id2 + '.label": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+                if(todos[i].required=='false')
+                     {cad=cad+'"'+todos[i].name+'":{"type" : "String"},';
+                         //cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String"},   "label"	: { "type" : "String" }},';
+                     }
+                     else
+                     {cad=cad+'"'+todos[i].name+'":{"type" : "String", "required" : "true"},';
+                        //     cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
+                     }
+        
+                  break;
+             default:
+               // code block
+           }
+    
+         
+         }
+         return cad +'°'+cadxx
+    }
+
+    function stringToObject(JSONString) {
+        var jsonObject = JSON.parse(JSONString);
+        return jsonObject;
+    }
+
+    
+function datipo(value) {
+        var tt='';
+        switch(value) {
+            case 'Alfanumerico':  tt='String';   break;
+           case 'Numerico':  tt='Number';   break;
+           case 'Moneda':  tt='Number';   break;
+           case 'TextArea':   tt='String';   break;
+           case 'Etiqueta':   tt='String';   break;
+           case 'Rango':   tt='Number';   break;
+           case 'Fecha':   tt='Date';   break;
+           case 'Fecha y Hora':   tt='Date';   break;
+           case 'Hora':   tt='Date';   break;
+           case 'Check':   tt='String';   break;
+           case 'Imagen':   tt='String';   break;
+           case 'Documento':   tt='String';   break;
+            default:
+              // code block
+          }
+            return tt;
+          }
 var cleanName = function(str) {
         if (str == '') return str; // jQuery
       
@@ -2166,7 +2380,117 @@ else
 
 
         break;
+        case 'reportecsv':
+                var filename   =req.params.id5 +  ".csv";
 
+                var namess=req.params.id2
+                var arrtodos=req.params.id4.split('°')
+                var filtro
+                if(arrtodos[1]==='todos')
+                {
+                    filtro={idempresa:arrtodos[0]}
+                }
+                else
+                {
+                    filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1]}
+                }
+      
+      
+                    Frmmovild.find({idmovil:req.params.id2,idempresa:arrtodos[0]}).sort([['order', 1]]).exec(function(err, todos) {
+                        if (err){ res.send(err); }
+                     
+                      
+                 
+                        
+                
+                   
+                        var objetox = {};
+                        for(var i = 0; i < todos.length;i++){
+                            objetox[todos[i].name] =todos[i].title + '°' + todos[i].type + '°'+ todos[i].display;
+                        }
+              
+              
+                   
+                                            if(todos.length>0)   {  
+                                           
+                                                var cad=''
+                                                var cadxx=''
+                                                var cad3=(dafiltrocad(todos,'','')).split('°')
+                                          
+                                                cad=cad3[0]
+                                                cadxx='{'+ cad3[1] + '}'
+                                                cad=cad + '"estadointerno"	: { "type" : "String" },  "geoposicion"	: { "type" : "String" },  "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                                cad='{' + cad + '}'
+                                                cadxx='{' + cadxx + '}'
+                                             
+                                                var jsonObject = stringToObject(cad);
+                                              
+                                                var mongoose = require("mongoose");
+                                                delete mongoose.connection.models[namess];
+                                                var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                                              
+                                                
+                                            
+                                                try {
+                                                    var  frmtt= mongoose.model(namess,tt);
+                                                    frmtt.find(filtro).sort({_id:-1}).exec(function(err, todos2) {
+                                                        if (err){  res.send(err); }
+                                          
+
+                                                  var myData = functool.procesacsvrecord(objetox,todos2,'si')
+                                                  
+                                               
+                                              
+                                                 //var myData = json2csv.convert(todos2);
+
+                                                     if(todos2.length>0)
+                                                     {
+                                                        res.statusCode = 200;
+                                                        res.set('Content-Type', 'text/csv; charset=utf-8');
+                                                        res.set('Content-Disposition', 'inline');
+                                                        res.setHeader('Content-Type', 'data:text/csv; charset=utf-16le; header=present;');
+                                                        res.setHeader("Content-Disposition", 'attachment; filename='+filename);
+                                                        res.csv(myData, true);
+                                                    
+                                                     }
+                                                     else
+                                                     {
+                                                        res.statusCode = 200;
+                                                        res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+                                                        res.setHeader("Content-Disposition", 'attachment; filename='+filename);
+                                                        res.csv([], true);
+                                                     }
+                                                      
+                                                    });
+                                                  } catch(e) {
+                                                    
+                                                    var  frmtt= mongoose.model(namess);
+                                          
+                                                    frmtt.find( filtro).sort({_id:-1}).exec(function(err, todos2) {
+                                                         if (err){  res.send(err);
+                                                        }
+                                                       
+                                                        res.statusCode = 200;
+                                                        res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+                                                        res.setHeader("Content-Disposition", 'attachment; filename='+filename);
+                                                        res.csv(todos2, true);
+                                                     
+                                                     });
+                                                  }
+        
+        
+                                             
+                                
+                        }
+                    });
+
+
+
+
+              
+
+
+break;
         case 'excel-calusaccursos':
                 console.log('entyra excel-calusaccursos')
 
