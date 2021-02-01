@@ -1206,7 +1206,7 @@ function numberWithCommas(x) {
 
                 for(var i = 0; i < detalle.length;i++){
                     var articulon=detalle[i].articulo.split('<br>')
-
+console.log(articulon)
                     jsonx.push( [
                         { 
                             columns: [
@@ -1229,7 +1229,7 @@ function numberWithCommas(x) {
                                 // auto-sized columns have their widths based on their content
                                 width: 80,
                                
-                                text: articulon[3].split(':')[1].trim(),
+                                text: articulon[4].split(':')[1].trim(),
                                
                               },
 
