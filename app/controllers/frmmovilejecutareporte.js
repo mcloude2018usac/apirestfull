@@ -851,7 +851,23 @@ try {
 
 }
 
+function currencyFormatDE(num) {
+  return (
+    num
+      .toFixed(2) // always two decimal digits
+      .replace('.', ',') // replace decimal point character with ,
+      .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') + ' Q.'
+  ) // use . as a separator
+}
+function formatNumber(num) {
+  return 'Q.' + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+}
 
+function numberWithCommas(x) {
+
+
+  return formatNumber(Number(x))
+}
 
 
     var dareporteexcel= async function(req, res, next,dataanterior){
@@ -1447,7 +1463,7 @@ try {
                                 columns: [
                                   {
                                     // auto-sized columns have their widths based on their content
-                                    width: 300,
+                                    width: 350,
                                     bold: true,
                                     text:  master.proveedor.split('<br>')[1].split(':')[1].trim(),
                                    
@@ -1465,7 +1481,30 @@ try {
                             
                         ]);
                  
-    
+                        jsonx.push( [
+                          { 
+                              columns: [
+                                {
+                                  // auto-sized columns have their widths based on their content
+                                  width: 350,
+                                  bold: true,
+                                  text:  '',
+                                 
+                                },
+                              
+                               
+                              ],
+                              // optional space between columns
+                              columnGap: 1,
+                              margin: [ 80, 40, 10, 1 ] ,
+                              bold: true,
+                             
+                              fontSize: 10
+                            }
+                          
+                      ]);
+               
+  
 
     
                         detalle = await dadatosformulariofinal('5fc0308c2fc3552d10147947',{idpapa:'' + master._id},req.params.id3,'5fc0308c2fc3552d10147947'); 
@@ -1495,7 +1534,7 @@ try {
                                 columns: [
                                   {
                                     // auto-sized columns have their widths based on their content
-                                    width: 50,
+                                    width: 53,
                                  
                                     text:  detalle[i].cantidad,
                                    
@@ -1528,21 +1567,21 @@ try {
                                     // auto-sized columns have their widths based on their content
                                     width: 50,
                                    
-                                    text: 'Q'+ preciou,
+                                    text: 'Q.'+ parseFloat(preciou).toFixed(2) ,
                                    
                                   },
                                   {
                                     // auto-sized columns have their widths based on their content
                                     width: 50,
                                   
-                                    text: 'Q.' +parseFloat(total).toFixed(2) ,
+                                    text: numberWithCommas(total) ,
                                    
                                   }
                                  
                                 ],
                                 // optional space between columns
                                 columnGap: 1,
-                                margin: [ 5, 40, 10, 1 ] ,
+                                margin: [ 5, 0, 10, 1 ] ,
                                
                                
                                 fontSize: 8
@@ -1600,8 +1639,10 @@ try {
                               }, {
                                 // auto-sized columns have their widths based on their content
                                 width: 50,
+                                decoration:'overline',
                                
-                                text: 'Q' + parseFloat(grantotal).toFixed(2)
+                                bold:true,
+                                text: numberWithCommas(grantotal)
                                
                               },
                              
@@ -1616,7 +1657,7 @@ try {
                         
                     ]);
              
-
+            
                    
                     jsonx.push( [
                         { 
