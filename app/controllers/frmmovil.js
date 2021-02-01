@@ -3001,7 +3001,7 @@ exports.deleteFrmmovil2 = async function(req, res, next){
                                             {
                                                 (async () => {  
                                                 respuesta = await frmejecuta.formulariofinaldel(req, res, next,[]);
-                                                console.log(respuesta)
+                                                
                                                 if(respuesta.estado!=='exito')
                                                 {
                                                     res.status(500).send(respuesta.estado) 
@@ -3099,6 +3099,25 @@ tipoaccion: "EJECUCIÓN"
 exports.creaFrmmovil3s = async function(req, res, next){
     console.log(req.params)
     console.log(req.body)
+    if(req.body.operacion==='anulaorden')
+    {
+
+            (async () => {  
+            respuesta = await frmejecuta.formularioanula(req, res, next,[]);
+            
+            if(respuesta.estado!=='exito')
+            {
+                res.status(500).send(respuesta.estado) 
+                return;
+            } 
+        
+                res.json({estado:'ok'});
+            })();
+            
+    
+        
+    }
+    else{
     if(req.body.operacion==='actualizafrmdirecto')
     {
       
@@ -3977,7 +3996,7 @@ try {
 
 
 
-}}}}
+}}}}}
 }
 
 

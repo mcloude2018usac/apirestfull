@@ -153,10 +153,10 @@ function actualizaformularioidfinal  (namess,filtro,idempresa,namess2,est)
                                     var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
                                     delete mongoose.connection.models[namess2];
                                     var  frmtt= mongoose.model(namess2,tt);
-
-                                    frmtt.update(filtro, est, function(err, todos2) {
-                                   
-                                        if (err){  res.send(err); }
+                                    console.log(est)
+                                    frmtt.updateMany(filtro, est, function(err, todos2) {
+                                  
+                                        if (err){   console.log(err) }
 
                                         resolve(todos2); 
                                        // res.json(todos2);
@@ -1275,9 +1275,10 @@ Frmmovild.find({idmovil:'5f7f5f7b85f18458404125fd', display : "true"}).sort([['o
                         var saldoactual=0
                         var total=0
                         var existenciaactual=0
+                        var precioproducto=0
                         var cantidadingreso=0
                         var idproducto=req.body.estructura.articulo.split('¬')[1]
-    
+                        console.log(req.body.estructura)
          
                         producto = await dadatosformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579'); 
                     
@@ -1301,6 +1302,7 @@ Frmmovild.find({idmovil:'5f7f5f7b85f18458404125fd', display : "true"}).sort([['o
                         saldoactual=existenciaactual-salida
                      
                       total=saldoactual*Number(producto.precioporunidad)
+                      precioproducto=Number(producto.precioporunidad)
                       kardex.create({
                         idempresa		: req.body.estructura.idempresa,  
                         fecha		: req.body.papaitem.fecha,  
@@ -1335,6 +1337,15 @@ Frmmovild.find({idmovil:'5f7f5f7b85f18458404125fd', display : "true"}).sort([['o
                       
                     }
                       producto = await actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579',estructura); 
+
+                      var estructura={
+                        "subtotal" : ( Number(  Number(req.body.estructura.cantidaddespachada)*precioproducto).toFixed(2)).toString(),
+                     
+                    }
+
+                      detalle = await actualizaformularioidfinal('5fc03c79ab0f6448b877eb5c',{ _id:dataanterior._id.toString()},req.body.estructura.idempresa,'5fc03c79ab0f6448b877eb5cs',estructura); 
+                      
+
                       resolve({estado:'exito'}); 
                    })();
     
@@ -1351,6 +1362,7 @@ Frmmovild.find({idmovil:'5f7f5f7b85f18458404125fd', display : "true"}).sort([['o
                         var total=0
                         var existenciaactual=0
                         var cantidadingreso=0
+                        var precioproducto=0
                         var precioingreso=0
                         var preciomedio=0
                         var idproducto=req.body.estructura.articulo.split('¬')[1]
@@ -1358,9 +1370,10 @@ Frmmovild.find({idmovil:'5f7f5f7b85f18458404125fd', display : "true"}).sort([['o
                         precioingreso=Number(req.body.estructura.preciounitario)
          
                         producto = await dadatosformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579'); 
-                    
+                        
                         if(producto.existenciaactual)
                         {existenciaactual=Number(producto.existenciaactual)}
+                        
                         else{existenciaactual=0}
     
                         if(req.body.estructura.cantidad)
@@ -1378,6 +1391,8 @@ Frmmovild.find({idmovil:'5f7f5f7b85f18458404125fd', display : "true"}).sort([['o
                         ingreso=cantidadingreso
                         saldoactual=existenciaactual+ingreso
                         preciomedio=(precioingreso+Number(producto.precioporunidad))/2
+
+                        precioproducto=Number(producto.precioporunidad)
     
                       total=saldoactual*Number(precioingreso)
                       kardex.create({
@@ -1415,6 +1430,12 @@ Frmmovild.find({idmovil:'5f7f5f7b85f18458404125fd', display : "true"}).sort([['o
                       
                     }
                       producto = await actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579',estructura); 
+                      var estructura={
+                        "subtotal" : ( Number(  Number(req.body.estructura.cantidad)*precioproducto).toFixed(2)).toString(),
+                     
+                    }
+
+                      detalle = await actualizaformularioidfinal('5fc0308c2fc3552d10147947',{ _id:dataanterior._id.toString()},req.body.estructura.idempresa,'5fc0308c2fc3552d10147947',estructura); 
                       resolve({estado:'exito'}); 
                    })();
     
@@ -1607,7 +1628,187 @@ Frmmovild.find({idmovil:'5f7f5f7b85f18458404125fd', display : "true"}).sort([['o
             });
         }
       
+        var formularioanula= async function(req, res, next,dataanterior){
+            console.log(req.body)
+            return new Promise(resolve => {
+                switch(req.body.idformulario) {//REQUISICION
+                    case '5ff67ee82977bb360c526f8a':
+                        (async () => {
 
+                            
+                            detalle = await dadatosformulario('5fc03c79ab0f6448b877eb5c',{ idpapa:req.body.idform},req.body.idempresa); 
+                            (async () => {
+                            for(var i = 0; i < detalle.length;i++){
+
+                            //    (async () => {
+                            var ingreso=0
+                            var salida=0
+                            var saldoactual=0
+                            var total=0
+                            var existenciaactual=0
+                            var cantidadingreso=0
+                            var idproducto=detalle[i].articulo.split('¬')[1]
+        
+             
+                            producto = await dadatosformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},detalle[i].idempresa,'5fc01bbba8d0a14888774579'); 
+                        
+                            if(producto.existenciaactual)
+                            {existenciaactual=Number(producto.existenciaactual)}
+                            else{existenciaactual=0}
+        
+                            if(detalle[i].cantidaddespachada)
+                            {
+                                cantidadingreso=Number(detalle[i].cantidaddespachada)
+                            }
+                            else
+                            {
+                                cantidadingreso=0;
+                            }
+        
+                    
+                              salida=0
+                          
+                            ingreso=cantidadingreso
+                            saldoactual=existenciaactual+ingreso
+
+                        
+                          total=saldoactual*Number(producto.precioporunidad)
+                          kardex.create({
+                            idempresa		: detalle[i].idempresa,  
+                            fecha		: req.body.papaitem.fecha,  
+                            tipo		: 'Entrada',  
+                            accion		: 'Anula Salida requisición',  
+                            proveedor		: req.body.papaitem.departamento,  
+                            nodoc		: req.body.papaitem.nodocumento.toString(),  
+                            iddocumento		: detalle[i]._id.toString(),  
+                            categoria		:producto.categoria,
+                            producto		: producto.codigoarticulo,  
+                                    
+                            nodockardex		: '',  
+                            nodockardexlinea		: '',  
+                            tarjetasanuladas: '',
+                            estadoprint:'No impreso',
+                            anulacion:'',
+                            idproducto:producto._id,
+                            producton		: producto.descripciondelarticulo,
+                            saldoanterior		: existenciaactual,
+                            ingreso		: ingreso,
+                            obs:'',
+                            egreso		: salida,
+                            saldoactual		: saldoactual,
+                            precioanterior:Number(producto.precioporunidad),
+                            precio		: Number(producto.precioporunidad),
+                            total		: total,
+                          });
+                          var estructura={
+                            "precioporunidad" : producto.precioporunidad.toString(),
+                            "existenciaactual" : saldoactual.toString(),
+                            "total" :( saldoactual*Number(producto.precioporunidad)).toString()
+                          
+                        }
+                          producto = await actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},detalle[i].idempresa,'5fc01bbba8d0a14888774579',estructura); 
+                    //})();
+
+                    }
+                })();
+                          resolve({estado:'exito'}); 
+                       })();
+        
+        
+                      
+                       
+                     
+                        break;//H-1
+                        case '5fc02f572fc3552d1014792f': 
+                        (async () => {
+
+                            detalle = await dadatosformulario('5fc0308c2fc3552d10147947',{ idpapa:req.body.idform},req.body.idempresa); 
+                            (async () => {
+                            for(var i = 0; i < detalle.length;i++){
+
+                            var ingreso=0
+                            var salida=0
+                            var saldoactual=0
+                            var total=0
+                            var existenciaactual=0
+                            var cantidadingreso=0
+                            var idproducto=detalle[i].articulo.split('¬')[1]
+        
+             
+                            producto = await dadatosformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},detalle[i].idempresa,'5fc01bbba8d0a14888774579'); 
+                        
+                            if(producto.existenciaactual)
+                            {existenciaactual=Number(producto.existenciaactual)}
+                            else{existenciaactual=0}
+        
+                            if(detalle[i].cantidad)
+                            {
+                                cantidadingreso=Number(detalle[i].cantidad)
+                            }
+                            else
+                            {
+                                cantidadingreso=0;
+                            }
+        
+                    
+                              entrada=0
+                          
+                            salida=cantidadingreso
+                            saldoactual=existenciaactual-salida
+                          
+        
+                          total=saldoactual*Number(producto.precioporunidad)
+                          kardex.create({
+                            idempresa		: detalle[i].idempresa,  
+                            fecha		: req.body.papaitem.fecha,  
+                            tipo		: 'Salida',  
+                            accion		: 'Anula Ingreso formulario 1-H',  
+                            proveedor		: req.body.papaitem.proveedor,  
+                            nodoc		: req.body.papaitem.codigo.toString(),  
+                            iddocumento		: detalle[i]._id.toString(),  
+                            categoria		:producto.categoria,
+                            producto		: producto.codigoarticulo,  
+                            
+                    nodockardex		: '',  
+                    nodockardexlinea		: '',  
+                    tarjetasanuladas: '',
+                    estadoprint:'No impreso',
+                    anulacion:'',
+                            idproducto:producto._id,
+                            producton		: producto.descripciondelarticulo,
+                            saldoanterior		: existenciaactual,
+                            ingreso		: ingreso,
+                            obs:'',
+                            egreso		: salida,
+                            saldoactual		: saldoactual,
+                            precioanterior:Number(producto.precioporunidad),
+                            precio		: Number(producto.precioporunidad),
+                            total		: total,
+                          });
+                          var estructura={
+                            "precioporunidad" : producto.precioporunidad.toString(),
+                            "existenciaactual" : saldoactual.toString(),
+                            "total" :( saldoactual*Number(producto.precioporunidad)).toString()
+                          
+                        }
+                          producto = await actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},detalle[i].idempresa,'5fc01bbba8d0a14888774579',estructura); 
+                        }
+                    })();
+                          resolve({estado:'exito'}); 
+                       })();
+        
+        
+                      
+                       
+                     
+                        break;
+                        default:
+                          // code block
+                          resolve({estado:'exito'}); 
+                  
+                  }
+            });
+        }
 module.exports = {
     visitas_programadas: visitas_programadas,
  
@@ -1631,5 +1832,6 @@ module.exports = {
 
     formulariofinalcrea: formulariofinalcrea,
     formulariofinalact: formulariofinalact,
-    formulariofinaldel: formulariofinaldel
+    formulariofinaldel: formulariofinaldel,
+    formularioanula: formularioanula
       }
