@@ -1212,7 +1212,7 @@ function numberWithCommas(x) {
                             columns: [
                               {
                                 // auto-sized columns have their widths based on their content
-                                width: 75,
+                                width: 55,
                               
                                 text:  detalle[i].cantidadsolicitada ,
                                
@@ -1227,7 +1227,7 @@ function numberWithCommas(x) {
                               },
                               {
                                 // auto-sized columns have their widths based on their content
-                                width: 80,
+                                width: 60,
                                
                                 text: articulon[4].split(':')[1].trim(),
                                
@@ -1235,7 +1235,7 @@ function numberWithCommas(x) {
 
                               {
                                 // auto-sized columns have their widths based on their content
-                                width: 200,
+                                width: 240,
                                
                                 text:  articulon[2].split(':')[1].trim(),
                                
