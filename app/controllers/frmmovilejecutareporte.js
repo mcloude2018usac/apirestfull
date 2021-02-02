@@ -1165,7 +1165,7 @@ function numberWithCommas(x) {
                             ],
                             // optional space between columns
                             columnGap: 1,
-                            margin: [ 45, 40, 10, 1 ] ,
+                            margin: [ 45, 45, 10, 1 ] ,
                             
                            
                             fontSize: 8
@@ -1188,7 +1188,7 @@ function numberWithCommas(x) {
                           ],
                           // optional space between columns
                           columnGap: 1,
-                          margin: [ 45, 83, 10, 1 ] ,
+                          margin: [ 45, 78, 10, 1 ] ,
                           
                          
                           fontSize: 8
@@ -1212,7 +1212,7 @@ function numberWithCommas(x) {
                             columns: [
                               {
                                 // auto-sized columns have their widths based on their content
-                                width: 40,
+                                width: 70,
                               
                                 text:  detalle[i].cantidadsolicitada ,
                                
@@ -1220,7 +1220,7 @@ function numberWithCommas(x) {
                             
                               {
                                 // auto-sized columns have their widths based on their content
-                                width: 70,
+                                width: 50,
                                
                                 text:  detalle[i].cantidaddespachada,
                                
@@ -1235,7 +1235,7 @@ function numberWithCommas(x) {
 
                               {
                                 // auto-sized columns have their widths based on their content
-                                width: 280,
+                                width: 255,
                                
                                 text:  articulon[2].split(':')[1].trim(),
                                
