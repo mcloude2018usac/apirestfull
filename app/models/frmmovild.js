@@ -29,6 +29,7 @@ var mongoose =require("mongoose");
         rangostep:	 { type : Number },
         alfatypo: { type : String },
         default: { type : String },
+        copiarencampo: { type : String },
         default2: { type : String },
         default3: { type : String },
         respuesta: { type : String },

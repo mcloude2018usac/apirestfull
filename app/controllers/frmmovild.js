@@ -159,7 +159,7 @@ if(req.params.id!=='crea')
 
           
             todo.required		=	rr2         	    	;
-            todo.placeholder		=	req.body.placeholder        	||	todo.placeholder        	;
+            todo.placeholder		=	  'Ingrese '+ req.body.title+''     	;
             todo.display		=	    rr        	   	||	todo.display   	;
             todo.selected		=	req.body.selected           	;
             todo.default		=	req.body.default        	||	todo.default        	;
@@ -180,6 +180,7 @@ if(req.params.id!=='crea')
             todo.usarunaves   			=	req.body.usarunaves             	;
             
             todo.verregistros   			=	req.body.verregistros      	||	todo.verregistros       	;
+            todo.copiarencampo=req.body.copiarencampo        	||	todo.copiarencampo        	;
             
             todo.combofijo   			=	req.body.combofijo        	   	;
             todo.rangomin=req.body.rangomin        	||	todo.rangomin        	;
@@ -248,6 +249,7 @@ else{
                         estado 	: req.body.estado 	,
                         default 	: '' 	,
                         default2 	: '' 	,
+                        copiarencampo:'',
                         default3 	: '' 	,
                         frmapirest: '',
                         idfrmconsultaorigen:req.body.idfrmconsultaorigen,
@@ -320,7 +322,7 @@ if(req.params.id!=='crea')
         
             todo.name       	=	req.body.name        	||	todo.name;    
             todo.nombre       	=	req.body.name + ' '+  req.body.title   + ' '+req.body.type;    
-            
+            todo.placeholder ='Ingrese '+ req.body.title+''	;
             todo.order       	=	req.body.order        	||	todo.order;    
             todo.title       	=	req.body.title        	||	todo.title;    
             todo.estado       	=	req.body.estado        	||	todo.estado;    
@@ -365,7 +367,7 @@ else{
                         title :req.body.title 	,
                         estado 	: req.body.estado 	,
                         default 	: '' 	,
-
+                        copiarencampo:'',
                         required :rr	,
                         placeholder :'Ingrese '+ req.body.title+''	,
                         display :rr,

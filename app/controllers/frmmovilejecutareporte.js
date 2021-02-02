@@ -1220,7 +1220,7 @@ function numberWithCommas(x) {
                             
                               {
                                 // auto-sized columns have their widths based on their content
-                                width: 55,
+                                width: 70,
                                
                                 text:  detalle[i].cantidaddespachada,
                                
@@ -1235,7 +1235,7 @@ function numberWithCommas(x) {
 
                               {
                                 // auto-sized columns have their widths based on their content
-                                width: 265,
+                                width: 280,
                                
                                 text:  articulon[2].split(':')[1].trim(),
                                
@@ -1253,7 +1253,7 @@ function numberWithCommas(x) {
                             ],
                             // optional space between columns
                             columnGap: 1,
-                            margin: [ 45, 0, 10, 6 ] ,
+                            margin: [ 30, 0, 10, 6 ] ,
                            
                            
                             fontSize: 8
@@ -1419,6 +1419,7 @@ function numberWithCommas(x) {
                         fechat=master.fecha
 
                         jsonx.push( [
+                          {     text: '   ',   fontSize: 9,  colSpan: 1       }, 
                             {     text: '',   fontSize: 9,  colSpan: 1       }, 
                             {     text: '',   fontSize: 9,  colSpan: 1       }, 
                             { margin: [ 58, 45, 10, 1 ] ,
@@ -1503,7 +1504,7 @@ function numberWithCommas(x) {
                               ],
                               // optional space between columns
                               columnGap: 1,
-                              margin: [ 80, 40, 10, 1 ] ,
+                              margin: [ 80, 30, 10, 1 ] ,
                               bold: true,
                              
                               fontSize: 10
@@ -1541,7 +1542,7 @@ function numberWithCommas(x) {
                                 columns: [
                                   {
                                     // auto-sized columns have their widths based on their content
-                                    width: 53,
+                                    width: 44,
                                  
                                     text:  detalle[i].cantidad,
                                    
@@ -1588,7 +1589,7 @@ function numberWithCommas(x) {
                                 ],
                                 // optional space between columns
                                 columnGap: 1,
-                                margin: [ 5, 0, 10, 1 ] ,
+                                margin: [ 0, 0, 10, 1 ] ,
                                
                                
                                 fontSize: 8
@@ -1614,7 +1615,7 @@ function numberWithCommas(x) {
                             columns: [
                               {
                                 // auto-sized columns have their widths based on their content
-                                width: 50,
+                                width: 44,
                               
                                 text: ''
                                
@@ -1656,7 +1657,7 @@ function numberWithCommas(x) {
                             ],
                             // optional space between columns
                             columnGap: 1,
-                            margin: [ 4, 0, 10, 1 ] ,
+                            margin: [ 0, 0, 10, 1 ] ,
                           
                            
                             fontSize: 8
@@ -1665,6 +1666,61 @@ function numberWithCommas(x) {
                     ]);
              
             
+                    jsonx.push( [
+                      { 
+                          columns: [
+                            {
+                              // auto-sized columns have their widths based on their content
+                              width: 44,
+                            
+                              text: '      '
+                             
+                            },
+                            {
+                              // auto-sized columns have their widths based on their content
+                              width: 185,
+                            
+                              text: '        '
+                             
+                            }, {
+                              // auto-sized columns have their widths based on their content
+                              width: 50,
+                             
+                              text: ''
+                             
+                            }, {
+                              // auto-sized columns have their widths based on their content
+                              width: 50,
+                             
+                              text: ''
+                             
+                            }, {
+                              // auto-sized columns have their widths based on their content
+                              width: 100,
+                             
+                              text: '  '
+                             
+                            }, {
+                              // auto-sized columns have their widths based on their content
+                              width: 50,
+                              decoration:'overline',
+                              decorationStyle:'double',
+                              bold:true,
+                              text: '                            '
+                             
+                            },
+                           
+                          ],
+                          // optional space between columns
+                          columnGap: 1,
+                          margin: [ 0, 0, 10, 1 ] ,
+                        
+                         
+                          fontSize: 8
+                        }
+                      
+                  ]);
+           
                    
                     jsonx.push( [
                         { 
