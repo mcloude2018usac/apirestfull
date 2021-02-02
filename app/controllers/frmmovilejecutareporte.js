@@ -1419,10 +1419,10 @@ function numberWithCommas(x) {
                         fechat=master.fecha
 
                         jsonx.push( [
-                          {     text: '   ',   fontSize: 9,  colSpan: 1       }, 
+                          {     text: '   ',   fontSize: 8,  colSpan: 1       }, 
                             {     text: '',   fontSize: 9,  colSpan: 1       }, 
                             {     text: '',   fontSize: 9,  colSpan: 1       }, 
-                            { margin: [ 58, 45, 10, 1 ] ,
+                            { margin: [ 58, 40, 10, 1 ] ,
                                 text: master.dependencia,
                                 bold: true,
                                 colSpan: 5,
@@ -1589,7 +1589,7 @@ function numberWithCommas(x) {
                                 ],
                                 // optional space between columns
                                 columnGap: 1,
-                                margin: [ 0, 0, 10, 1 ] ,
+                                margin: [ -10, 0, 1, 1 ] ,
                                
                                
                                 fontSize: 8
@@ -1657,7 +1657,7 @@ function numberWithCommas(x) {
                             ],
                             // optional space between columns
                             columnGap: 1,
-                            margin: [ 0, 0, 10, 1 ] ,
+                            margin: [ -10, 0, 1, 1 ] ,
                           
                            
                             fontSize: 8
@@ -1713,7 +1713,7 @@ function numberWithCommas(x) {
                           ],
                           // optional space between columns
                           columnGap: 1,
-                          margin: [ 0, 0, 10, 1 ] ,
+                          margin: [ -10, 0, 1, 1 ] ,
                         
                          
                           fontSize: 8
@@ -1737,7 +1737,7 @@ function numberWithCommas(x) {
                             ],
                             // optional space between columns
                             columnGap: 1,
-                            margin: [ 45, 30, 10, 1 ] ,
+                            margin: [ 35, 30, 10, 1 ] ,
                           
                            
                             fontSize: 10
@@ -1762,7 +1762,7 @@ function numberWithCommas(x) {
                             ],
                             // optional space between columns
                             columnGap: 1,
-                            margin: [ 45, 2, 10, 1 ] ,
+                            margin: [ 35, 2, 10, 1 ] ,
                          
                            
                             fontSize: 10
@@ -1785,7 +1785,7 @@ function numberWithCommas(x) {
                             ],
                             // optional space between columns
                             columnGap: 1,
-                            margin: [ 45, 2, 10, 1 ] ,
+                            margin: [ 35, 2, 10, 1 ] ,
                            
                            
                             fontSize: 10
@@ -1808,7 +1808,7 @@ function numberWithCommas(x) {
                             ],
                             // optional space between columns
                             columnGap: 1,
-                            margin: [ 45, 2, 10, 1 ] ,
+                            margin: [ 35, 2, 10, 1 ] ,
                            
                            
                             fontSize: 10
