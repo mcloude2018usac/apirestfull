@@ -278,8 +278,22 @@ exports.getCorreos = async function(req, res, next){
             (async () => {
             producto = await dadatosformulariofinal('5fc01bbba8d0a14888774579',{ },req.params.id3,'5fc01bbba8d0a14888774579',{fechadevencimiento:1}); 
             var datat= []
+            var regt0=[];   
+           
+            var datafinal=[]
+
+            regt0.push('CATEGORIA')
+            regt0.push('CODIGO PRODUCTO')
+            regt0.push('NOMBRE PRODUCTO')
+            regt0.push('UNIDAD DE MEDIDA')
+            regt0.push('EXISTENCIA ACTUAL')
+            regt0.push('EXISTENCIA MINIMA')
+            regt0.push('ESTADO')
+            regt0.push('DEFERENCIA EXISTENCIA MINIMA')
+            datafinal.push(regt0)
+            
             for(var i = 0; i < producto.length;i++){
-                
+                var regt=[]; 
                 var actual=Number(producto[i].existenciaactual)
                 var min=Number(producto[i].existenciaminima)
 
@@ -310,10 +324,23 @@ exports.getCorreos = async function(req, res, next){
                         totalminima:Number(producto[i].existenciaactual)-Number(producto[i].existenciaminima)
                     
                     })
+
+                    regt.push(producto[i].categoria)
+            regt.push(producto[i].codigoarticulo)
+            regt.push(producto[i].descripciondelarticulo)
+            regt.push(producto[i].unidaddemedida)
+            regt.push(producto[i].existenciaactual)
+            regt.push(producto[i].existenciaminima)
+            regt.push(producto[i].estado)
+            regt.push(Number(producto[i].existenciaactual)-Number(producto[i].existenciaminima))
+            datafinal.push(regt)
+
+
                 }
              
             }
-            res.json(datat);   
+     
+            res.json({d1:datat,d2:datafinal});   
         })();
 
 
@@ -327,11 +354,28 @@ exports.getCorreos = async function(req, res, next){
             producto = await dadatosformulariofinal('5fc01bbba8d0a14888774579',{ },req.params.id3,'5fc01bbba8d0a14888774579',{fechadevencimiento:1}); 
 
             var datat= []
-            for(var i = 0; i < producto.length;i++){
+            var regt0=[];   
+            var datafinal=[]
+        
 
+            regt0.push('CATEGORIA')
+            regt0.push('CODIGO PRODUCTO')
+            regt0.push('NOMBRE PRODUCTO')
+            regt0.push('UNIDAD DE MEDIDA')
+            regt0.push('EXISTENCIA ACTUAL')
+            regt0.push('EXISTENCIA MINIMA')
+            regt0.push('ESTADO')
+            regt0.push('FECHA CADUCIDAD')
+            regt0.push('FECHA VENCIMIENTO')
+            datafinal.push(regt0)
+            
+            regt0.push('DIAS VENCIMIENTO')
+
+            for(var i = 0; i < producto.length;i++){
+                var regt=[]; 
                 var ff3=new Date(producto[i].fechadevencimiento)
                 var ff4=new Date()
-console.log(req.params.id)
+
                 if(req.params.id==='' || req.params.id===undefined)
                 {
                    
@@ -362,11 +406,28 @@ console.log(req.params.id)
                         totalminima:Number(producto[i].existenciaactual)-Number(producto[i].existenciaminima)
                     
                     })
+
+                    regt.push(producto[i].categoria)
+                    regt.push(producto[i].codigoarticulo)
+                    regt.push(producto[i].descripciondelarticulo)
+                    regt.push(producto[i].unidaddemedida)
+                    regt.push(producto[i].existenciaactual)
+                    regt.push(producto[i].existenciaminima)
+                    regt.push(producto[i].estado)
+                    regt.push(ff4)
+                    regt.push(producto[i].fechadevencimiento)
+                    regt.push((diffDays*-1))
+                    datafinal.push(regt)
+
+
+
                 }
                 
              
             }
-            res.json(datat);   
+          
+            res.json({d1:datat,d2:datafinal});  
+            
         })();
         }
         else

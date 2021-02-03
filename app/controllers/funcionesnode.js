@@ -408,7 +408,17 @@ data[aa].replace('¬', ',') + '" target="_blank">https://www.google.com/maps/sea
                cad='';
               }
               else{
-                datafinal.push({_id:todos2[i]._id,nombre2:'tico',nombre:cad+ '<div style="font-size: 8px;text-transform: capitalize;">Crea: [' + dafechastring(todos2[i]['createdAt'])+',' + todos2[i]['usuarionew'] + ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +   todos2[i]['usuarioup']+ '] <br> Estado interno: '+ todos2[i].estadointerno +'</div>',item:todos2[i],usuario:''})
+                  var comt1=''
+                  var comt2=''
+                if(todos2[i].comentariocerrado!=='' && todos2[i].comentariocerrado!==undefined)
+                {
+                    comt='<br> Comentario cerrado: ' + todos2[i].comentariocerrado
+                }
+                if(todos2[i].comentarioanulado!=='' && todos2[i].comentarioanulado!==undefined)
+                {
+                    comt2='<br> Comentario anulado: ' + todos2[i].comentarioanulado
+                }
+                datafinal.push({_id:todos2[i]._id,nombre2:'tico',nombre:cad+ '<div style="font-size: 8px;text-transform: capitalize;">Crea: [' + dafechastring(todos2[i]['createdAt'])+',' + todos2[i]['usuarionew'] + ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +   todos2[i]['usuarioup']+ '] <br> Estado interno: '+ todos2[i].estadointerno + comt + comt2 +'</div>',item:todos2[i],usuario:''})
                cad='';
 
               }
