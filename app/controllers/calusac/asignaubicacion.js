@@ -1341,9 +1341,8 @@ break;
 exports.deleteAsignaubicacion = function(req, res, next){
    
     Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina Asignaubicacion '});
-/*
 
-    Asignaest.remove({idasigna: req.params.recordID  }, function(err, todo) {
+
 
         Asignaubicacion.findByIdAndRemove({ _id: req.params.recordID  }, function(err, todo) {
 
@@ -1352,9 +1351,9 @@ exports.deleteAsignaubicacion = function(req, res, next){
      
              res.json(todo);
          });
-    });
+    
 
-*/
+
   
 }
 
