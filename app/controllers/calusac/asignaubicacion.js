@@ -326,7 +326,7 @@ exports.getAsignaubicacion = function(req, res, next){
         if(req.params.id=='todos100')
         {
             Asignaubicacion.find({ "estadopago" : "Asignación exitosa",ididioma:req.params.id2
-            ,'idedificio.id': req.params.id4,'idsalon.id':req.params.id5,iddia:req.params.id6,idhora:req.params.id7
+            ,'idedificio.id': req.params.id4,'idsalon.id':req.params.id5,iddia:req.params.id6,idhora:req.params.id7, idprofesor:req.params.id3
         }).populate('ididioma').exec(function(err, todos10) {
                 if (err){ res.send(err); }
     
@@ -471,11 +471,7 @@ exports.getAsignaubicacion = function(req, res, next){
             {
         if(req.params.id=='todos')
         {
-          console.log({ "estadopago" : "Asignación exitosa",ididioma:req.params.id2,
-          idprofesor:req.params.id3
-          ,'idedificio.id': req.params.id4,'idsalon.id':req.params.id5,iddia:req.params.id6
-          ,idhora:req.params.id7
-      })
+        
             Asignaubicacion.find({ "estadopago" : "Asignación exitosa",ididioma:req.params.id2,
             idprofesor:req.params.id3
             ,'idedificio.id': req.params.id4,'idsalon.id':req.params.id5,iddia:req.params.id6
@@ -1663,6 +1659,7 @@ else{
                 filtro= {'idtipounidad.id'        	: req.body.tipounidad.id        	,
                 idperiodo        	: req.body.periodo        	,
                 ididioma 	: req.body.ididioma,
+                identificador      	: req.body.identificador      ,
                 idinterno 	: req.body.idinterno  	  }  ;
 
          
