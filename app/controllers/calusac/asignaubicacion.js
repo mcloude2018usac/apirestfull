@@ -327,12 +327,16 @@ exports.getAsignaubicacion = function(req, res, next){
         {
             var aa=(req.params.id7).split('°')
 
+            console.log({ "estadopago" : "Asignación exitosa",ididioma:req.params.id2
+            ,'idedificio.id': req.params.id4,'idsalon.id':req.params.id5,iddia:req.params.id6,idhora:aa[0], idprofesor:req.params.id3
+        })
+
             Asignaubicacion.find({ "estadopago" : "Asignación exitosa",ididioma:req.params.id2
             ,'idedificio.id': req.params.id4,'idsalon.id':req.params.id5,iddia:req.params.id6,idhora:aa[0], idprofesor:req.params.id3
         }).populate('ididioma').exec(function(err, todos10) {
                 if (err){ res.send(err); }
     
-              
+              console.log(todos10.length)
                 var duplicates ='';
                 for(var i = 0; i < todos10.length;i++){
                     duplicates=todos10[i]._id;
@@ -342,7 +346,7 @@ exports.getAsignaubicacion = function(req, res, next){
              
 
                 var conditions = {ididioma:req.params.id2
-                    ,'idedificio.id': req.params.id4,'idsalon.id':req.params.id5,iddia:req.params.id6,idhora:aa[0]
+                    ,'idedificio.id': req.params.id4,'idsalon.id':req.params.id5,iddia:req.params.id6,idhora:aa[0], idprofesor:req.params.id3
                 }
                 , update = { estadoacta: aa[1] }
                 , options = { multi: true };
