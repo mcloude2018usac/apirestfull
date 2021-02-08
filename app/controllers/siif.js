@@ -598,11 +598,12 @@ Asignacalusac.find({ correo:  req.params.id }, function (err, todo100aaa)  {
             case 'calusacnuevo':
                
             var arr= req.params.id6.split('°')
-              Asignacalusac.find({ anio: req.params.id5,cui:req.params.id.trim() }, function (err, todo100aaa)  {
+            console.log({ anio: req.params.id5,cui:req.params.id.trim() })
+              Asignacalusac.find({ ano: req.params.id5,cui:req.params.id.trim() }, function (err, todo100aaa)  {
                 if (err) {  res.send(err);  }
                 else
                 { 
-
+console.log(todo100aaa.length)
                   if(todo100aaa.length===0)
                   {
                     var montototal=0
