@@ -309,12 +309,16 @@ exports.getAsignaubicaciona = function(req, res, next){
         {
         if(req.params.id=='todos100')
         {
+<<<<<<< HEAD
 
             console.log('looo')
             var aa=(req.params.id7).split('°')
 
             console.log({ididioma:req.params.id2
                 ,'idedificio.id': req.params.id4,'idsalon.id':req.params.id5,iddia:req.params.id6,idhora:aa[0], idprofesor: req.params.id3})
+=======
+            var aa=(req.params.id7).split('°')
+>>>>>>> 3a36b635396f6a9a971d41abcd4d9e22dd860063
             Asignaubicaciona.find({ididioma:req.params.id2
             ,'idedificio.id': req.params.id4,'idsalon.id':req.params.id5,iddia:req.params.id6,idhora:aa[0], idprofesor: req.params.id3
         }).populate('ididioma').exec(function(err, todos10) {

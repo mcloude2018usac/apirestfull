@@ -1739,7 +1739,11 @@ console.log(filtro)
                                 rubro      	: req.body.rubro        	,
                                 nivel      	: req.body.nivel        	,
                                 ano      	: req.body.ano        	,
+<<<<<<< HEAD
                                 anio      	: req.body.ano        	,
+=======
+                                anio      	: ''        	,
+>>>>>>> 3a36b635396f6a9a971d41abcd4d9e22dd860063
                                 llave      	: req.body.llave        	,
                                 codigocurso:req.body.codigocurso,
                                 ididioma      	: req.body.ididioma        	,
@@ -1856,7 +1860,11 @@ console.log(filtro)
                                         
                                         nivel      	: req.body.nivel        	,
                                         ano      	: req.body.ano        	,
+<<<<<<< HEAD
                                         anio      	: req.body.ano        	,
+=======
+                                        anio      	: ''       	,
+>>>>>>> 3a36b635396f6a9a971d41abcd4d9e22dd860063
                                         llave      	: req.body.llave        	,
                                         
                                         ididioma      	: req.body.ididioma        	,
