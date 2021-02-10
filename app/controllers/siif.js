@@ -598,11 +598,12 @@ Asignacalusac.find({ correo:  req.params.id }, function (err, todo100aaa)  {
             case 'calusacnuevo':
                
             var arr= req.params.id6.split('°')
-              Asignacalusac.find({ anio: req.params.id5,cui:req.params.id }, function (err, todo100aaa)  {
+           
+              Asignacalusac.find({ anio: req.params.id5,cui:req.params.id.trim() ,estadopago:'Asignación exitosa'}, function (err, todo100aaa)  {
                 if (err) {  res.send(err);  }
                 else
                 { 
-
+console.log(todo100aaa.length)
                   if(todo100aaa.length===0)
                   {
                     var montototal=0
@@ -652,7 +653,7 @@ Asignacalusac.find({ correo:  req.params.id }, function (err, todo100aaa)  {
                   else
                   {
 
-                    myXMLText=remove_accents("\n<Envelope xmlns=\"http://schemas.xmlsoap.org/soap/envelope/\"><Body><getData xmlns=\"urn:miserviciowsdl\"><carnet>"+ req.params.id +"</carnet><unidad>"+req.params.id4+"</unidad><extension>00</extension><carrera>00</carrera><nombre>" +req.params.id2+ "</nombre><monto>" + req.params.id3 + "</monto><anio>"+ req.params.id5 +"</anio><rubro>"+ req.params.id6 +"</rubro><variante_rubro>"+ req.params.id7 +"</variante_rubro><subtotal>"+ req.params.id3 +"</subtotal></getData></Body></Envelope>")
+                    myXMLText=remove_accents("\n<Envelope xmlns=\"http://schemas.xmlsoap.org/soap/envelope/\"><Body><getData xmlns=\"urn:miserviciowsdl\"><carnet>"+ req.params.id +"</carnet><unidad>"+req.params.id4+"</unidad><extension>00</extension><carrera>00</carrera><nombre>" +req.params.id2+ "</nombre><monto>" + req.params.id3 + "</monto><anio>"+ req.params.id5 +"</anio><rubro>"+ req.params.id6.split('°')[0] +"</rubro><variante_rubro>"+ req.params.id6.split('°')[1] +"</variante_rubro><subtotal>"+ req.params.id3 +"</subtotal></getData></Body></Envelope>")
 
                     console.log(myXMLText)
                     console.log(myXMLText.length)

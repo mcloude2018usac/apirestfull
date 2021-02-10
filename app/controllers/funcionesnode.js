@@ -410,6 +410,7 @@ data[aa].replace('¬', ',') + '" target="_blank">https://www.google.com/maps/sea
               else{
                   var comt1=''
                   var comt2=''
+                  var comt=''
                 if(todos2[i].comentariocerrado!=='' && todos2[i].comentariocerrado!==undefined)
                 {
                     comt='<br> Comentario cerrado: ' + todos2[i].comentariocerrado

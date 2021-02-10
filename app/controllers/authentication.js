@@ -77,11 +77,22 @@ exports.register = function(req, res, next){
 
 
 //email: email
+console.log({idempresa:empresa,  $and : [
+    { $and : [ { email : req.body.email }] },
+    { $and : [ {cui : req.body.cui } ] }]
+})
 
+var cuiiii=req.body.cui 
+if(cuiiii==='' || cuiiii===undefined)
+{
+    cuiiii='na'
+}
+console.log(req.body.cui)
+console.log(req.body.email)
 
     User.findOne({idempresa:empresa,  $or : [
         { $and : [ { email : req.body.email }] },
-        { $and : [ {cui : req.body.cui } ] }]
+        { $and : [ {cui : cuiiii } ] }]
 }, function(err, existingUser){
  
  

@@ -4063,6 +4063,7 @@ else{
                     idempresa      	: req.body.idempresa     	,
                     tipo        	: req.body.tipo        	,
                     tipo2        	: req.body.tipo2        	,
+                    iniciocorrelativo: req.body.iniciocorrelativo,
                     publico        	: req.body.publico        	,
                     idpapa        	: req.body.idpapa        	,
                     ejecuta        	: req.body.ejecuta        	,
@@ -4082,7 +4083,7 @@ else{
 
                         Contador.create({
                             "tipo" : todo._id,
-                            "sequence_value" : 1
+                            "sequence_value" : req.body.iniciocorrelativo
                         });
                 
                     res.json(todo);
@@ -4100,6 +4101,7 @@ else{
                     tipo        	: req.body.tipo        	,
                     tipo2        	: req.body.tipo2        	,
                     categoria        	: req.body.categoria        	,
+                    iniciocorrelativo: req.body.iniciocorrelativo,
                     nombre        	: req.body.nombre        	,
                     publico        	: req.body.publico        	,
                     ejecuta        	: req.body.ejecuta        	,
@@ -4119,7 +4121,7 @@ else{
 
                     Contador.create({
                         "tipo" : todo._id,
-                        "sequence_value" : 1
+                        "sequence_value" : req.body.iniciocorrelativo
                     });
 
                     res.json(todo);
