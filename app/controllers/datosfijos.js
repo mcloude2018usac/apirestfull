@@ -1596,9 +1596,7 @@ break;
                 { 
                     "$match" : { 
                         "estadopago" : "Asignación exitosa",
-"ididioma":{ $in:[
-                        '5d703a8b519f33001effd61d','5d703a93519f33001effd61f','5d703a9b519f33001effd621',
-'5f8f01c4fd66d6001eb720b5']}
+
                      }
                 }, 
                 {    
@@ -1610,6 +1608,7 @@ break;
                             "tipoa" : "$tipoa",
                             "unidad" : "$idtipounidad.nombre",
                             "sexo" : "$sexo",
+                            "ano" : "$ano",
                             "curso" : "$idunidadacademica.nombre",
                             "periodo" : "$idperiodo.nombre",
                             "mes": { $substr: [ "$fechasiif", 0, 8 ] },
@@ -1636,6 +1635,7 @@ break;
                         "tipoa" : "$_id.tipoa", 
                         "unidad": "$_id.unidad", 
                         "sexo": "$_id.sexo", 
+                        "ano": "$_id.ano", 
                         "curso": "$_id.curso", 
                         "periodo": "$_id.periodo", 
                         "mes": "$_id.mes", 
