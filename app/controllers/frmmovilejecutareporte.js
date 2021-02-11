@@ -1666,7 +1666,7 @@ function numberWithCommas(x) {
                                 columns: [
                                   {
                                     // auto-sized columns have their widths based on their content
-                                    width: 40,
+                                    width: 35,
                                  
                                     text:  detalle[i].cantidad,
                                    
@@ -1674,14 +1674,14 @@ function numberWithCommas(x) {
                                 
                                   {
                                     // auto-sized columns have their widths based on their content
-                                    width: 182,
+                                    width: 175,
                                   
                                     text:  detalle[i].descripciondelarticulaenfactura,
                                    
                                   },
                                   {
                                     // auto-sized columns have their widths based on their content
-                                    width: 50,
+                                    width: 58,
                                   
                                     text: detalle[i].codigogastoreglon,
                                    
@@ -1697,7 +1697,7 @@ function numberWithCommas(x) {
 
                                   {
                                     // auto-sized columns have their widths based on their content
-                                    width: 50,
+                                    width: 60,
                                    
                                     text: 'Q.'+ parseFloat(preciou).toFixed(2) ,
                                    
@@ -1739,20 +1739,20 @@ function numberWithCommas(x) {
                             columns: [
                               {
                                 // auto-sized columns have their widths based on their content
-                                width: 40,
+                                width: 35,
                               
                                 text: ''
                                
                               },
                               {
                                 // auto-sized columns have their widths based on their content
-                                width: 182,
+                                width: 175,
                               
                                 text: 'TOTAL'
                                
                               }, {
                                 // auto-sized columns have their widths based on their content
-                                width: 50,
+                                width: 58,
                                
                                 text: ''
                                
@@ -1764,7 +1764,7 @@ function numberWithCommas(x) {
                                
                               }, {
                                 // auto-sized columns have their widths based on their content
-                                width: 50,
+                                width: 60,
                                
                                 text: ''
                                
@@ -1795,26 +1795,26 @@ function numberWithCommas(x) {
                           columns: [
                             {
                               // auto-sized columns have their widths based on their content
-                              width: 44,
+                              width: 35,
                             
                               text: '      '
                              
                             },
                             {
                               // auto-sized columns have their widths based on their content
-                              width: 185,
+                              width: 175,
                             
                               text: '        '
                              
                             }, {
                               // auto-sized columns have their widths based on their content
-                              width: 50,
+                              width: 58,
                              
                               text: ''
                              
                             }, {
                               // auto-sized columns have their widths based on their content
-                              width: 50,
+                              width: 60,
                              
                               text: ''
                              
