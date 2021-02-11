@@ -1428,7 +1428,7 @@ function numberWithCommas(x) {
                               // auto-sized columns have their widths based on their content
                               width: 250,
                              
-                              text:  '',
+                              text:  '  ',
                              
                             },
 
@@ -1628,7 +1628,7 @@ function numberWithCommas(x) {
                               ],
                               // optional space between columns
                               columnGap: 1,
-                              margin: [ 80, 30, 10, 1 ] ,
+                              margin: [ 80, 32, 10, 1 ] ,
                               bold: true,
                              
                               fontSize: 10
