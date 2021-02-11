@@ -1607,19 +1607,19 @@ break;
                         "_id" : { 
                             "tipoa" : "$tipoa",
                             "unidad" : "$idtipounidad.nombre",
-                            "sexo" : "$sexo",
+                           // "sexo" : "$sexo",
                             "ano" : "$ano",
-                            "curso" : "$idunidadacademica.nombre",
+                           // "curso" : "$idunidadacademica.nombre",
                             "periodo" : "$idperiodo.nombre",
                             "mes": { $substr: [ "$fechasiif", 0, 8 ] },
                             "monto":"$monto",
-                            "operador":"$userasignadoemail",
-                            "estadooperador":"$estadooperador",
-                            "edad":{$round: [ {  
-                 $divide: [{$subtract: [ new Date(), "$fechanac" ] },(365 * 24*60*60*1000)]
-                         
-                            }  ,0  ]
-                        }
+                         //   "operador":"$userasignadoemail",
+                         //   "estadooperador":"$estadooperador",
+                    //        "edad":{$round: [ {  
+                // $divide: [{$subtract: [ new Date(), "$fechanac" ] },(365 * 24*60*60*1000)]
+                  //       
+                    //        }  ,0  ]
+                      //  }
 
                         }, 
                         "COUNT(*)" : { 
@@ -1634,14 +1634,14 @@ break;
                     "$project" : { 
                         "tipoa" : "$_id.tipoa", 
                         "unidad": "$_id.unidad", 
-                        "sexo": "$_id.sexo", 
+                       // "sexo": "$_id.sexo", 
                         "ano": "$_id.ano", 
-                        "curso": "$_id.curso", 
+                     //   "curso": "$_id.curso", 
                         "periodo": "$_id.periodo", 
                         "mes": "$_id.mes", 
-                        "edad": "$_id.edad", 
-                        "operador":"$_id.operador",
-                        "estadooperador":"$_id.estadooperador",
+                      //  "edad": "$_id.edad", 
+                       // "operador":"$_id.operador",
+                       // "estadooperador":"$_id.estadooperador",
                         "cantidad" : "$COUNT(*)", 
                         "monto" : "$SUM(monto)", 
                         "_id" : (0)
