@@ -1206,8 +1206,127 @@ function numberWithCommas(x) {
 
                 for(var i = 0; i < detalle.length;i++){
                     var articulon=detalle[i].articulo.split('<br>')
-
+                  if(articulon[2].split(':')[1].trim()==='VIENEN DE LA')
+                  {
                     jsonx.push( [
+                      { 
+                          columns: [
+                            {
+                              // auto-sized columns have their widths based on their content
+                              width: 70,
+                            
+                              text:  '',
+                             
+                            },
+                          
+                            {
+                              // auto-sized columns have their widths based on their content
+                              width: 50,
+                             
+                              text:  '',
+                             
+                            },
+                            {
+                              // auto-sized columns have their widths based on their content
+                              width: 60,
+                             
+                              text: '',
+                             
+                            },
+
+                            {
+                              // auto-sized columns have their widths based on their content
+                              width: 255,
+                             
+                              text:  articulon[2].split(':')[1].trim() + ' ' + detalle[i].notarjeta,
+                             
+                            },
+                            {
+                              // auto-sized columns have their widths based on their content
+                              width: 50,
+                             
+                              text:  '',
+                             
+                            },
+
+                         
+                           
+                          ],
+                          // optional space between columns
+                          columnGap: 1,
+                          margin: [ 30, 0, 10, 6 ] ,
+                         
+                         
+                          fontSize: 8
+                        }
+                      
+                  ]);
+            
+
+                  }
+                  else
+                  {
+                    if(articulon[2].split(':')[1].trim()==='ULTIMA LINEA')
+                    {
+
+                      jsonx.push( [
+                        { 
+                            columns: [
+                              {
+                                // auto-sized columns have their widths based on their content
+                                width: 70,
+                              
+                                text:  '',
+                               
+                              },
+                            
+                              {
+                                // auto-sized columns have their widths based on their content
+                                width: 50,
+                               
+                                text:  '',
+                               
+                              },
+                              {
+                                // auto-sized columns have their widths based on their content
+                                width: 60,
+                               
+                                text: '',
+                               
+                              },
+
+                              {
+                                // auto-sized columns have their widths based on their content
+                                width: 255,
+                               
+                                text:  articulon[2].split(':')[1].trim(),
+                               
+                              },
+                              {
+                                // auto-sized columns have their widths based on their content
+                                width: 50,
+                               
+                                text:  '',
+                               
+                              },
+
+                           
+                             
+                            ],
+                            // optional space between columns
+                            columnGap: 1,
+                            margin: [ 30, 0, 10, 6 ] ,
+                           
+                           
+                            fontSize: 8
+                          }
+                        
+                    ]);
+              
+                    }
+                    else
+                    {
+                      jsonx.push( [
                         { 
                             columns: [
                               {
@@ -1261,6 +1380,11 @@ function numberWithCommas(x) {
                         
                     ]);
               
+                      
+                    }
+
+                  }
+                    
 
                   
                     
@@ -1296,7 +1420,7 @@ function numberWithCommas(x) {
                               // auto-sized columns have their widths based on their content
                               width: 80,
                              
-                              text:i,
+                              text:'',
                              
                             },
 
@@ -1304,7 +1428,7 @@ function numberWithCommas(x) {
                               // auto-sized columns have their widths based on their content
                               width: 250,
                              
-                              text:  i,
+                              text:  '',
                              
                             },
 
