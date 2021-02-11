@@ -1596,7 +1596,7 @@ break;
                 { 
                     "$match" : { 
                         "estadopago" : "Asignación exitosa",
-
+"ano":'2021'
                      }
                 }, 
                 {    
