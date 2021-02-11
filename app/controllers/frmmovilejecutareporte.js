@@ -1666,7 +1666,7 @@ function numberWithCommas(x) {
                                 columns: [
                                   {
                                     // auto-sized columns have their widths based on their content
-                                    width: 44,
+                                    width: 40,
                                  
                                     text:  detalle[i].cantidad,
                                    
@@ -1674,7 +1674,7 @@ function numberWithCommas(x) {
                                 
                                   {
                                     // auto-sized columns have their widths based on their content
-                                    width: 185,
+                                    width: 182,
                                   
                                     text:  detalle[i].descripciondelarticulaenfactura,
                                    
@@ -1739,14 +1739,14 @@ function numberWithCommas(x) {
                             columns: [
                               {
                                 // auto-sized columns have their widths based on their content
-                                width: 44,
+                                width: 40,
                               
                                 text: ''
                                
                               },
                               {
                                 // auto-sized columns have their widths based on their content
-                                width: 185,
+                                width: 182,
                               
                                 text: 'TOTAL'
                                

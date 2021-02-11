@@ -1596,9 +1596,7 @@ break;
                 { 
                     "$match" : { 
                         "estadopago" : "Asignación exitosa",
-"ididioma":{ $in:[
-                        '5d703a8b519f33001effd61d','5d703a93519f33001effd61f','5d703a9b519f33001effd621',
-'5f8f01c4fd66d6001eb720b5']}
+"ano":'2021'
                      }
                 }, 
                 {    
@@ -1609,18 +1607,19 @@ break;
                         "_id" : { 
                             "tipoa" : "$tipoa",
                             "unidad" : "$idtipounidad.nombre",
-                            "sexo" : "$sexo",
-                            "curso" : "$idunidadacademica.nombre",
+                           // "sexo" : "$sexo",
+                          //  "ano" : "$ano",
+                           // "curso" : "$idunidadacademica.nombre",
                             "periodo" : "$idperiodo.nombre",
-                            "mes": { $substr: [ "$fechasiif", 0, 8 ] },
+                        //    "mes": { $substr: [ "$fechasiif", 0, 8 ] },
                             "monto":"$monto",
-                            "operador":"$userasignadoemail",
-                            "estadooperador":"$estadooperador",
-                            "edad":{$round: [ {  
-                 $divide: [{$subtract: [ new Date(), "$fechanac" ] },(365 * 24*60*60*1000)]
-                         
-                            }  ,0  ]
-                        }
+                         //   "operador":"$userasignadoemail",
+                         //   "estadooperador":"$estadooperador",
+                    //        "edad":{$round: [ {  
+                // $divide: [{$subtract: [ new Date(), "$fechanac" ] },(365 * 24*60*60*1000)]
+                  //       
+                    //        }  ,0  ]
+                      //  }
 
                         }, 
                         "COUNT(*)" : { 
@@ -1635,13 +1634,14 @@ break;
                     "$project" : { 
                         "tipoa" : "$_id.tipoa", 
                         "unidad": "$_id.unidad", 
-                        "sexo": "$_id.sexo", 
-                        "curso": "$_id.curso", 
+                       // "sexo": "$_id.sexo", 
+                      //  "ano": "$_id.ano", 
+                     //   "curso": "$_id.curso", 
                         "periodo": "$_id.periodo", 
-                        "mes": "$_id.mes", 
-                        "edad": "$_id.edad", 
-                        "operador":"$_id.operador",
-                        "estadooperador":"$_id.estadooperador",
+                      //  "mes": "$_id.mes", 
+                      //  "edad": "$_id.edad", 
+                       // "operador":"$_id.operador",
+                       // "estadooperador":"$_id.estadooperador",
                         "cantidad" : "$COUNT(*)", 
                         "monto" : "$SUM(monto)", 
                         "_id" : (0)
