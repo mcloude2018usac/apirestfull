@@ -1151,6 +1151,9 @@ Frmmovild.find({idmovil:'5f7f5f7b85f18458404125fd', display : "true"}).sort([['o
                    
 
                     producto = await dadatosformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579'); 
+
+              
+
                 
                     if(producto.existenciaactual)
                     {existenciaactual=Number(producto.existenciaactual)}
@@ -1282,7 +1285,12 @@ Frmmovild.find({idmovil:'5f7f5f7b85f18458404125fd', display : "true"}).sort([['o
                         console.log(req.body.estructura)
          
                         producto = await dadatosformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579'); 
-                    
+                        if(producto.descripciondelarticulo==='VIENEN DE LA' || producto.descripciondelarticulo==='ULTIMA LINEA')
+                        { resolve({estado:'exito'}); }
+                        else
+                        {
+    
+                        
                         if(producto.existenciaactual)
                         {existenciaactual=Number(producto.existenciaactual)}
                         else{existenciaactual=0}
@@ -1349,6 +1357,7 @@ Frmmovild.find({idmovil:'5f7f5f7b85f18458404125fd', display : "true"}).sort([['o
                       
 
                       resolve({estado:'exito'}); 
+                  }
                    })();
     
     
@@ -1373,6 +1382,13 @@ Frmmovild.find({idmovil:'5f7f5f7b85f18458404125fd', display : "true"}).sort([['o
          
                         producto = await dadatosformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579'); 
                         
+                        if(producto.descripciondelarticulo==='VIENEN DE LA' || producto.descripciondelarticulo==='ULTIMA LINEA')
+                        { resolve({estado:'exito'}); }
+                        else
+                        {
+    
+                        
+
                         if(producto.existenciaactual)
                         {existenciaactual=Number(producto.existenciaactual)}
                         
@@ -1440,6 +1456,7 @@ Frmmovild.find({idmovil:'5f7f5f7b85f18458404125fd', display : "true"}).sort([['o
 
                       detalle = await actualizaformularioidfinal('5fc0308c2fc3552d10147947',{ _id:dataanterior._id.toString()},req.body.estructura.idempresa,'5fc0308c2fc3552d10147947',estructura); 
                       resolve({estado:'exito'}); 
+                  }
                    })();
     
     
