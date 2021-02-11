@@ -1739,7 +1739,7 @@ console.log(filtro)
                                 rubro      	: req.body.rubro        	,
                                 nivel      	: req.body.nivel        	,
                                 ano      	: req.body.ano        	,
-                                anio      	: req.body.ano        	,
+                                anio      	: req.body.ano,
                                 llave      	: req.body.llave        	,
                                 codigocurso:req.body.codigocurso,
                                 ididioma      	: req.body.ididioma        	,

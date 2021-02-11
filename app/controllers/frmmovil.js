@@ -2226,15 +2226,49 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
           
                         Frmmovild.find({idmovil:req.params.id, idempresa:arrtodos[0]}).sort([['order', 1]]).exec(function(err, todos) {
                             if (err){ res.send(err); }
+                            var todospp=[]
+                            var todosxx=('categoria°codigoarticulo°descripciondelarticulo°unidaddemedida°existenciaactual°precioporunidad°total°codigogastoreglon°foliolibroinventario°nomenclaturadecuentas').split('°')
+
+                            var sortObject = {};
+                            var stype = '_id';
+                            var sdir = '-1';
+                          
+
+
+                            if(req.params.id==='5fc01bbba8d0a14888774579')
+                            {
+                                stype = 'categoria';
+                                sdir = '1';
+                                for(var i = 0; i < todosxx.length;i++){
+                                    for(var ii = 0; ii < todos.length;ii++){
+                                       if(todos[ii].name===todosxx[i])
+                                       {
+                                           todospp.push(todos[ii])
+                                       }
+
+                                    }
+
+                                }
+
+                            }
+                            else
+                            {
+                            stype = '_id';
+                        sdir = '-1';
+                              
+                                todospp=todos
+                            }
                          
                           
                             var objetox = {};
-                            for(var i = 0; i < todos.length;i++){
-                                objetox[todos[i].name] =todos[i].title + '°' + todos[i].type + '°'+ todos[i].display;
+                            for(var i = 0; i < todospp.length;i++){
+                                objetox[todospp[i].name] =todospp[i].title + '°' + todospp[i].type + '°'+ todospp[i].display;
                             }
-                  
+
+
+     
                        
-                                                if(todos.length>0)   {  
+                                                if(todospp.length>0)   {  
                                                
                                                     var cad=''
                                                     var cadxx=''
@@ -2251,12 +2285,12 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                                     var mongoose = require("mongoose");
                                                     delete mongoose.connection.models[namess];
                                                     var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
-                                                  
+                                                    sortObject[stype] = sdir;
                                                     
                                                 
                                                     try {
                                                         var  frmtt= mongoose.model(namess,tt);
-                                                        frmtt.find(filtro).sort({_id:-1}).exec(function(err, todos2) {
+                                                        frmtt.find(filtro).sort(sortObject).exec(function(err, todos2) {
                                                             if (err){  res.send(err); }
                                                        
                                                          if(todos2.length>0)
@@ -2276,7 +2310,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                                         
                                                         var  frmtt= mongoose.model(namess);
                                               
-                                                        frmtt.find( filtro).sort({_id:-1}).exec(function(err, todos2) {
+                                                        frmtt.find( filtro).sort(sortObject).exec(function(err, todos2) {
                                                              if (err){  res.send(err);
                                                             }
                                                            
