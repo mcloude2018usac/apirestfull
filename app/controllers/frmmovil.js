@@ -702,14 +702,32 @@ function dafiltrocad(todos,id2,id3) {
 
 
 var registrorep=''
+function aplicacampo(cad,campo) {
+    var re=0
+    var cad2=cad.split('°')
 
+    for(var i = 0; i < cad2.length;i++){
+        if(cad2[i]===campo)
+        {
+            re=1;
+            break;
+        }
+    }
+
+
+    return re;
+}
 function dafiltrocadvalida(todos,id2,id3,req) {
     var cad=''
     registrorep=''
 
     for(var i = 0; i < todos.length;i++){
+        if(aplicacampo(req.body.nocambio,todos[i].name)===0)
+        {
               if(todos[i].usarunaves==='true')
-        {                          
+        {
+            
+            
             registrorep=registrorep + todos[i].name + '  '
         switch(todos[i].type) {
            
@@ -733,6 +751,7 @@ function dafiltrocadvalida(todos,id2,id3,req) {
              
        }
     }
+}
      
      }
      return cad 

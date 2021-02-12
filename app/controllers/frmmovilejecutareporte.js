@@ -1088,7 +1088,7 @@ function numberWithCommas(x) {
                             columns: [
                               {
                                 // auto-sized columns have their widths based on their content
-                                width: 360,
+                                width: 380,
                                
                                 text:  master.departamento ,
                                
@@ -1105,7 +1105,7 @@ function numberWithCommas(x) {
                             ],
                             // optional space between columns
                             columnGap: 1,
-                            margin: [ 45, 80, 10, 1 ] ,
+                            margin: [ 25, 80, 10, 1 ] ,
                           
                            
                             fontSize: 8
