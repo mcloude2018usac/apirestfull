@@ -789,13 +789,33 @@ if((cinicial+ cretiro)>0)
            }
 
            enmiendasvv= []
+           var ffenmienda=[]
                 enmiendasv = await dadatosformulario('5f72a12587c9e33bd4ada7ab',
                 {estado:'Activo',idpapa: {$in:ffcontrato},idempresa:req.params.id3},req.params.id3,'5f72a12587c9e33bd4ada7abs'); 
-                pagosvv= []
 
+
+
+              
+                for(var i = 0; i < enmiendasv.length;i++){
+                    ffenmienda.push(enmiendasv[i]._id)
+                   }
+
+
+                   var ffpagos=[]
+                   pagosvv= []
 
                 pagosv = await dadatosformulario('5f595df92521cd38c8fe3126',
-                {estado:'Cancelado',idpapa:  '' +enmiendasv[i2]._id + '',idempresa:req.params.id3},req.params.id3,'5f595df92521cd38c8fe3126'); 
+                {estado:'Cancelado',idpapa:  {$in:ffenmienda},idempresa:req.params.id3},req.params.id3,'5f595df92521cd38c8fe3126'); 
+
+                  
+                for(var i = 0; i < pagosv.length;i++){
+                    ffpagos.push(pagosv[i]._id)
+                   }
+
+
+                sancionesvv= []
+                sancionesv = await dadatosformulario('5f74c0fff22ed14ea01c1cbe',
+                {estado:'Activo',idpapa:   {$in:ffpagos},idempresa:req.params.id3},req.params.id3,'5f74c0fff22ed14ea01c1cbes'); 
           
             var datajson=[]
             for(var i0 = 0; i0 < empresav.length;i0++){
@@ -824,13 +844,15 @@ if((cinicial+ cretiro)>0)
                     var montosancion0=0    
                     for(var i3 = 0; i3 < pagosv.length;i3++){
 
+                        if(pagosv[i3].idpapa===enmiendasv[i2]._id)
+                        {
 
-                        sancionesvv= []
-                        sancionesv = await dadatosformulario('5f74c0fff22ed14ea01c1cbe',
-                        {estado:'Activo',idpapa:  '' +pagosv[i2]._id + '',idempresa:req.params.id3},req.params.id3,'5f74c0fff22ed14ea01c1cbes'); 
+                       
                       
                         var montosancion=0
                         for(var i4 = 0; i4 < sancionesv.length;i4++){
+                            if(sancionesv[i4].idpapa===pagosv[i3]._id)
+                            {
                             sancionesvv.push(
                                 {
                                     "_id" : sancionesv[i4]._id,
@@ -848,7 +870,7 @@ if((cinicial+ cretiro)>0)
                             )
                             montosancion=montosancion + sancionesv[i4].monto
                             montoenmiendaejecutadosancion=montoenmiendaejecutadosancion+ sancionesv[i4].monto
-
+                            }
                         }
 
                 
@@ -881,7 +903,7 @@ if((cinicial+ cretiro)>0)
                         montoenmiendaejecutado=montoenmiendaejecutado+pagosv[i3].montopago
                         montosancion0=montosancion0+montosancion
                         montossaldo0=montossaldo0+pagosv[i3].montopago 
-
+                    }
                     }
 
                 

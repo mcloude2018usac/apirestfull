@@ -599,7 +599,7 @@ Asignacalusac.find({ correo:  req.params.id }, function (err, todo100aaa)  {
                
             var arr= req.params.id6.split('°')
            
-              Asignacalusac.find({ anio: req.params.id5,cui:req.params.id.trim() ,estadopago:'Asignación exitosa'}, function (err, todo100aaa)  {
+              Asignacalusac.find({ ano: req.params.id5,cui:req.params.id.trim() ,estadopago:'Asignación exitosa'}, function (err, todo100aaa)  {
                 if (err) {  res.send(err);  }
                 else
                 { 
