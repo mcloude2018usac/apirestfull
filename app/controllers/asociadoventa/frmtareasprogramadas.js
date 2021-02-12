@@ -585,7 +585,7 @@ exports.getfrmtareasprogramadas = async  function(req, res, next){
         else{
             if(req.params.id2=='dashboard2')
         { 
-            console.log('entra dashboardd  2')
+            
             var entradas= []
             var entradasvv= []
             var empresav= []
@@ -750,60 +750,74 @@ if((cinicial+ cretiro)>0)
 
             }
 
-          
-            var datajson=[]
-            for(var i0 = 0; i0 < empresav.length;i0++){
 
+            var ffempresa=[]
+            for(var i0 = 0; i0 < empresav.length;i0++){
+                ffempresa.push('NIT: '+empresav[i0].nit+'°Nombre empresa: ' + empresav[i0].nombreempresa+
+                '°¬'+empresav[i0]._id)
+            }
             var filtro;
             
             if(req.params.id4==='Periodo')
             {
-                filtro= {estado:'Activo',periodo:req.params.id,empresa:'NIT: '+empresav[i0].nit+'°Nombre empresa: ' + empresav[i0].nombreempresa+
-                '°¬'+empresav[i0]._id,idempresa:req.params.id3}
+                filtro= {estado:'Activo',periodo:req.params.id,empresa:{$in:ffempresa},idempresa:req.params.id3}
             }
           
             if(req.params.id4==='Grupo')
             {
-                filtro= {estado:'Activo',grupo:req.params.id,empresa:'NIT: '+empresav[i0].nit+'°Nombre empresa: ' + empresav[i0].nombreempresa+
-                '°¬'+empresav[i0]._id,idempresa:req.params.id3}
+                filtro= {estado:'Activo',grupo:req.params.id,empresa:{$in:ffempresa},idempresa:req.params.id3}
             }
 
             if(req.params.id4==='Empresa')
             {
-                filtro= {estado:'Activo',empresa:'NIT: '+empresav[i0].nit+'°Nombre empresa: ' + empresav[i0].nombreempresa+
-                '°¬'+empresav[i0]._id,idempresa:req.params.id3}
+                filtro= {estado:'Activo',empresa:{$in:ffempresa},idempresa:req.params.id3}
             }
 
             if(req.params.id4==='Proyecto')
             {
-                filtro= {estado:'Activo',proyecto:req.params.id,empresa:'NIT: '+empresav[i0].nit+'°Nombre empresa: ' + empresav[i0].nombreempresa+
-                '°¬'+empresav[i0]._id,idempresa:req.params.id3}
+                filtro= {estado:'Activo',proyecto:req.params.id,empresa:{$in:ffempresa},idempresa:req.params.id3}
             }
 
             console.log(filtro)
-
+            var contratosvv=[]
+            var ffcontrato=[]
             contratosv = await dadatosformulario('5f729c2487c9e33bd4ada798',
            filtro,req.params.id3,'5f729c2487c9e33bd4ada798'); 
 
+           for(var i = 0; i < contratosv.length;i++){
+            ffcontrato.push(contratosv[i]._id)
+           }
 
-           var contratosvv=[]
+           enmiendasvv= []
+                enmiendasv = await dadatosformulario('5f72a12587c9e33bd4ada7ab',
+                {estado:'Activo',idpapa: {$in:ffcontrato},idempresa:req.params.id3},req.params.id3,'5f72a12587c9e33bd4ada7abs'); 
+                pagosvv= []
+
+
+                pagosv = await dadatosformulario('5f595df92521cd38c8fe3126',
+                {estado:'Cancelado',idpapa:  '' +enmiendasv[i2]._id + '',idempresa:req.params.id3},req.params.id3,'5f595df92521cd38c8fe3126'); 
+          
+            var datajson=[]
+            for(var i0 = 0; i0 < empresav.length;i0++){
+
            var montoenmienda0=0
            var montoenmiendaejecutado0=0
            var montoenmiendaejecutadosancion0=0
            var montosaldo0=0
             for(var i = 0; i < contratosv.length;i++){
-                enmiendasvv= []
-                enmiendasv = await dadatosformulario('5f72a12587c9e33bd4ada7ab',
-                {estado:'Activo',idpapa:  '' +contratosv[i]._id + '',idempresa:req.params.id3},req.params.id3,'5f72a12587c9e33bd4ada7abs'); 
+
+              if('NIT: '+empresav[i0].nit+'°Nombre empresa: ' + empresav[i0].nombreempresa+
+              '°¬'+empresav[i0]._id===contratosv[i].empresa)  
+              {
+                
                 
                 var montoenmienda=0
                 var montoenmiendaejecutado=0
                 var montoenmiendaejecutadosancion=0
                 for(var i2 = 0; i2 < enmiendasv.length;i2++){
-
-                    pagosvv= []
-                    pagosv = await dadatosformulario('5f595df92521cd38c8fe3126',
-                    {estado:'Cancelado',idpapa:  '' +enmiendasv[i2]._id + '',idempresa:req.params.id3},req.params.id3,'5f595df92521cd38c8fe3126'); 
+                    if(enmiendasv[i2].idpapa===contratosv[i]._id)
+                    {
+              
 
                     var montopago=0    
                     var montossaldo0=0    
@@ -897,7 +911,7 @@ if((cinicial+ cretiro)>0)
                 )
                  montoenmienda=montoenmienda+enmiendasv[i2].montototalenmienda
                  
-
+                    }
 
                 }
 
@@ -935,7 +949,7 @@ if((cinicial+ cretiro)>0)
                   montoenmiendaejecutadosancion0=montoenmiendaejecutadosancion0+montoenmiendaejecutadosancion;
                   montosaldo0=montosaldo0+montoenmienda - montoenmiendaejecutado 
                 
-             
+                }
             }
             if(montoenmienda0+montoenmiendaejecutado0+montoenmiendaejecutadosancion0+montosaldo0 >0  )
             {

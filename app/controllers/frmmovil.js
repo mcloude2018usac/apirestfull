@@ -703,7 +703,15 @@ function dafiltrocad(todos,id2,id3) {
 
 var registrorep=''
 function aplicacampo(cad,campo) {
+ 
     var re=0
+
+    if(cad===undefined || cad==='')
+    {
+        var re=0
+    }
+    else
+    {
     var cad2=cad.split('°')
 
     for(var i = 0; i < cad2.length;i++){
@@ -713,7 +721,7 @@ function aplicacampo(cad,campo) {
             break;
         }
     }
-
+    }
 
     return re;
 }
