@@ -1876,7 +1876,7 @@ function numberWithCommas(x) {
                                 // auto-sized columns have their widths based on their content
                                 width: 300,
                                
-                                text:  'FACTURA ELECTRONICA',
+                                text:   master.tipodefactura,
                                
                               },
                             
