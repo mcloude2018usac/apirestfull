@@ -3270,160 +3270,231 @@ if(req.params.recordID!=='crea')
     Frmmovild.find({idmovil:req.body.idform}).exec(function(err, todos) {
         if (err){ res.send(err); }
                             if(todos.length>0)   {     
-                                 var cad=''
-                              
-                               var cad3=(dafiltrocad(todos,'','')).split('°')
-                               cad=cad3[0]
-                               if(req.body.idpapa)
-                               {
-                                   if(req.body.tipo==='proceso')
-                                   {
-                                    cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"}, "geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"estadointerno":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},  "pmodulo": { "type" :"Array"}'
-                                   }
-                                   else
-                                   {
-                                    cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"estadointerno":{"type":"String"}'
-                                   }
-                                
-                               }
-                               else
-                               {
 
-                                    if(req.body.tipo==='proceso')
+
+                                var filtrovalida=''
+                  
+                                filtrovalida=dafiltrocadvalida(todos,'','',req)
+               
+                                if(filtrovalida ==='')
+                                {
+                                    var cad=''
+                              
+                                    var cad3=(dafiltrocad(todos,'','')).split('°')
+                                    cad=cad3[0]
+                                    if(req.body.idpapa)
                                     {
-                                        cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"},"geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"estadointerno":{"type":"String"},"idactividadxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},  "pmodulo": { "type" :"Array"}'
-                                      
+                                        if(req.body.tipo==='proceso')
+                                        {
+                                         cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"}, "geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"estadointerno":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},  "pmodulo": { "type" :"Array"}'
+                                        }
+                                        else
+                                        {
+                                         cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"estadointerno":{"type":"String"}'
+                                        }
+                                     
                                     }
                                     else
                                     {
-                                        cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"estadointerno":{"type":"String"}'
-                                    }
-                                
-
-                               }
-                               
-                                cad='{' + cad + '}'
-                                var jsonObject = stringToObject(cad);
-                               
-                          
-                                var mongoose = require("mongoose");
-                                delete mongoose.connection.models[namess];
-                                var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
-                         
-                             //   try {
-                                    var  frmtt= mongoose.model(namess,tt);
-                               
-                                    frmtt.update({ _id: req.params.recordID }, req.body.estructura, function(err, todo3) {
-                                        if (err){       res.status(500).send(err.message)    }
-                                        if(req.body.tipo==='proceso')
-                                        {//crea trayectoria
-                                         formulariotrayectoria.create({
-                                             idempresa		:  req.body.trayectoria.idempresa,
-                                             idorden	: req.params.recordID,
-                                             sequencia:todo3.sequencia,
-                                             usuariocreador		: req.body.trayectoria.usuariocreador,
-                                               email:req.body.trayectoria.email,
-                                             minutos		:0,
-                                             dias:0,
-                                             horas:0,
-                                             segundos:0,
-                                             tipocreacionorden		:req.body.trayectoria.tipocreacionorden,
-                                             nombre		:req.body.trayectoria.nombre,
-                                             idform		: req.body.trayectoria.idform,
-                                             tipoform	:req.body.trayectoria.tipoform,
-                                             tipo2form	:req.body.trayectoria.tipo2form,
-                                             ejecuta: req.body.trayectoria.ejecuta,
-                                             estadoorden: req.body.trayectoria.estadoorden,
-                                             salioorden:req.body.trayectoria.salioorden,
-                                             categoriaform	: req.body.trayectoria.categoriaform,
-                                             idactividad		: req.body.trayectoria.idactividad,
-                                             actoractividad		:req.body.trayectoria.actoractividad,
-                                             claseactividad		: req.body.trayectoria.claseactividad,
-                                             nombreactividad		: req.body.trayectoria.nombreactividad,
-                                             tipoactividad		: req.body.trayectoria.tipoactividad,
-                                             etapaactividad		:req.body.trayectoria.etapaactividad,
-                                             idaccion		: req.body.trayectoria.idaccion,
-                                             tipoaccion		: req.body.trayectoria.tipoaccion,
-                                             subtipoaccion		: req.body.trayectoria.subtipoaccion,
-                                             nombreaccion		: req.body.trayectoria.nombreaccion,
-                                             estadoaccion		: req.body.trayectoria.estadoaccion,
-                                             actividadsiguienteaccion		:  req.body.trayectoria.actividadsiguienteaccion
-                                       }  , function(err, todo330) {
-                                        if (err){  console.log(err.message);    res.status(500).send(err.message)    }
-                                        res.json(todo330);
-                                       });
-                                
-                                
-                                        
-                                        }
-                                        else
-                                        {
-                                         res.json(todo3);
-                                        }
-
+     
+                                         if(req.body.tipo==='proceso')
+                                         {
+                                             cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"},"geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"estadointerno":{"type":"String"},"idactividadxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},  "pmodulo": { "type" :"Array"}'
+                                           
+                                         }
+                                         else
+                                         {
+                                             cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"estadointerno":{"type":"String"}'
+                                         }
                                      
-                                        });
-
-
-                                  /*//
-                                  } catch(e) {
+     
+                                    }
                                     
-                                    var  frmtt= mongoose.model(namess);
-                                    frmtt.update({ _id: req.params.recordID }, req.body.estructura, function(err, todo3) {
-                                        if (err){       res.status(500).send(err.message)    }
+                                     cad='{' + cad + '}'
+                                     var jsonObject = stringToObject(cad);
+                                    
+                               
+                                     var mongoose = require("mongoose");
+                                     delete mongoose.connection.models[namess];
+                                     var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                              
+                                  //   try {
+                                         var  frmtt= mongoose.model(namess,tt);
+                                    
+                                         frmtt.update({ _id: req.params.recordID }, req.body.estructura, function(err, todo3) {
+                                             if (err){       res.status(500).send(err.message)    }
+                                             if(req.body.tipo==='proceso')
+                                             {//crea trayectoria
+                                              formulariotrayectoria.create({
+                                                  idempresa		:  req.body.trayectoria.idempresa,
+                                                  idorden	: req.params.recordID,
+                                                  sequencia:todo3.sequencia,
+                                                  usuariocreador		: req.body.trayectoria.usuariocreador,
+                                                    email:req.body.trayectoria.email,
+                                                  minutos		:0,
+                                                  dias:0,
+                                                  horas:0,
+                                                  segundos:0,
+                                                  tipocreacionorden		:req.body.trayectoria.tipocreacionorden,
+                                                  nombre		:req.body.trayectoria.nombre,
+                                                  idform		: req.body.trayectoria.idform,
+                                                  tipoform	:req.body.trayectoria.tipoform,
+                                                  tipo2form	:req.body.trayectoria.tipo2form,
+                                                  ejecuta: req.body.trayectoria.ejecuta,
+                                                  estadoorden: req.body.trayectoria.estadoorden,
+                                                  salioorden:req.body.trayectoria.salioorden,
+                                                  categoriaform	: req.body.trayectoria.categoriaform,
+                                                  idactividad		: req.body.trayectoria.idactividad,
+                                                  actoractividad		:req.body.trayectoria.actoractividad,
+                                                  claseactividad		: req.body.trayectoria.claseactividad,
+                                                  nombreactividad		: req.body.trayectoria.nombreactividad,
+                                                  tipoactividad		: req.body.trayectoria.tipoactividad,
+                                                  etapaactividad		:req.body.trayectoria.etapaactividad,
+                                                  idaccion		: req.body.trayectoria.idaccion,
+                                                  tipoaccion		: req.body.trayectoria.tipoaccion,
+                                                  subtipoaccion		: req.body.trayectoria.subtipoaccion,
+                                                  nombreaccion		: req.body.trayectoria.nombreaccion,
+                                                  estadoaccion		: req.body.trayectoria.estadoaccion,
+                                                  actividadsiguienteaccion		:  req.body.trayectoria.actividadsiguienteaccion
+                                            }  , function(err, todo330) {
+                                             if (err){  console.log(err.message);    res.status(500).send(err.message)    }
+                                             res.json(todo330);
+                                            });
+                                     
+                                     
+                                             
+                                             }
+                                             else
+                                             {
+                                              res.json(todo3);
+                                             }
+     
+                                          
+                                             });
+
+                                }
+                                else
+                                {
+
+                                    filtrovalida='{' +filtrovalida + '}'
+                                    console.log(filtrovalida)
+                            
+    
+                                    var cad=''
+                                    var cad3=(dafiltrocad(todos,'','')).split('°')
+                                    cad=cad3[0]
+                                    if(req.body.idpapa)
+                                    {
                                         if(req.body.tipo==='proceso')
-                                        {//crea trayectoria
-                                         formulariotrayectoria.create({
-                                             idempresa		:  req.body.trayectoria.idempresa,
-                                             idorden	: req.params.recordID,
-                                             sequencia:todo3.sequencia,
-                                             usuariocreador		: req.body.trayectoria.usuariocreador,
-                                               email:req.body.trayectoria.email,
-                                               minutos		:0,
-                                             dias:0,
-                                             horas:0,
-                                             segundos:0,
-                                             tipocreacionorden		:req.body.trayectoria.tipocreacionorden,
-                                             nombre		:req.body.trayectoria.nombre,
-                                             idform		: req.body.trayectoria.idform,
-                                             tipoform	:req.body.trayectoria.tipoform,
-                                             tipo2form	:req.body.trayectoria.tipo2form,
-                                             ejecuta: req.body.trayectoria.ejecuta,
-                                             estadoorden: req.body.trayectoria.estadoorden,
-                                             salioorden:req.body.trayectoria.salioorden,
-                                             categoriaform	: req.body.trayectoria.categoriaform,
-                                             idactividad		: req.body.trayectoria.idactividad,
-                                             actoractividad		:req.body.trayectoria.actoractividad,
-                                             claseactividad		: req.body.trayectoria.claseactividad,
-                                             nombreactividad		: req.body.trayectoria.nombreactividad,
-                                             tipoactividad		: req.body.trayectoria.tipoactividad,
-                                             etapaactividad		:req.body.trayectoria.etapaactividad,
-                                             idaccion		: req.body.trayectoria.idaccion,
-                                             tipoaccion		: req.body.trayectoria.tipoaccion,
-                                             subtipoaccion		: req.body.trayectoria.subtipoaccion,
-                                             nombreaccion		: req.body.trayectoria.nombreaccion,
-                                             estadoaccion		: req.body.trayectoria.estadoaccion,
-                                             actividadsiguienteaccion		:  req.body.trayectoria.actividadsiguienteaccion
-                                       }  , function(err, todo330) {
-                                        if (err){  console.log(err.message);    res.status(500).send(err.message)    }
-                                        res.json(todo330);
-                                       });
-                                
-                                
-                                        
+                                        {
+                                         cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"},"geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"estadointerno":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},"sequencia":{"type":"String"},  "pmodulo": { "type" :"Array"}'
+                                         
                                         }
                                         else
                                         {
-                                         res.json(todo3);
+                                         cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"estadointerno":{"type":"String"},"sequencia":{"type":"String"}'
                                         }
-                                        });
+                                     
+                                    }
+                                    else
+                                    {
+     
+                                         if(req.body.tipo==='proceso')
+                                         {
+                                             cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"},"geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"estadointerno":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},"sequencia":{"type":"String"},  "pmodulo": { "type" :"Array"}'
+                                         }
+                                         else
+                                         {
+                                             cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"estadointerno":{"type":"String"},"sequencia":{"type":"String"}'
+                                         }
+                                     
+     
+                                    }
+                                    
+                                   
+                                   cad='{' + cad + '}'
+                                   var jsonObject = stringToObject(cad);
+                                 
+                                   var mongoose = require("mongoose");
+                                   delete mongoose.connection.models[namess];
+                                   var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+    
+                                       var  frmbusca= mongoose.model(namess,tt);
+               
+                                       frmbusca.find(JSON.parse(filtrovalida) ,function(err, todos2a) {
+                                           if (err){  res.send(err);  }
+                                   
+                                           if(todos2a.length>0)
+                                           {
+                                              
+                                               res.status(500).send('Registro ya existe en base de datos, este formulario tiene llaves unicas: ' + registrorep) 
+                                            
+                                           }
+                                           else
+                                           {
+                           
+                                                var  frmtt=  mongoose.model(namess,tt);
+                                                
+                                                frmtt.update({ _id: req.params.recordID }, req.body.estructura, function(err, todo3) {
+                                                    if (err){       res.status(500).send(err.message)    }
+                                                    if(req.body.tipo==='proceso')
+                                                    {//crea trayectoria
+                                                     formulariotrayectoria.create({
+                                                         idempresa		:  req.body.trayectoria.idempresa,
+                                                         idorden	: req.params.recordID,
+                                                         sequencia:todo3.sequencia,
+                                                         usuariocreador		: req.body.trayectoria.usuariocreador,
+                                                           email:req.body.trayectoria.email,
+                                                         minutos		:0,
+                                                         dias:0,
+                                                         horas:0,
+                                                         segundos:0,
+                                                         tipocreacionorden		:req.body.trayectoria.tipocreacionorden,
+                                                         nombre		:req.body.trayectoria.nombre,
+                                                         idform		: req.body.trayectoria.idform,
+                                                         tipoform	:req.body.trayectoria.tipoform,
+                                                         tipo2form	:req.body.trayectoria.tipo2form,
+                                                         ejecuta: req.body.trayectoria.ejecuta,
+                                                         estadoorden: req.body.trayectoria.estadoorden,
+                                                         salioorden:req.body.trayectoria.salioorden,
+                                                         categoriaform	: req.body.trayectoria.categoriaform,
+                                                         idactividad		: req.body.trayectoria.idactividad,
+                                                         actoractividad		:req.body.trayectoria.actoractividad,
+                                                         claseactividad		: req.body.trayectoria.claseactividad,
+                                                         nombreactividad		: req.body.trayectoria.nombreactividad,
+                                                         tipoactividad		: req.body.trayectoria.tipoactividad,
+                                                         etapaactividad		:req.body.trayectoria.etapaactividad,
+                                                         idaccion		: req.body.trayectoria.idaccion,
+                                                         tipoaccion		: req.body.trayectoria.tipoaccion,
+                                                         subtipoaccion		: req.body.trayectoria.subtipoaccion,
+                                                         nombreaccion		: req.body.trayectoria.nombreaccion,
+                                                         estadoaccion		: req.body.trayectoria.estadoaccion,
+                                                         actividadsiguienteaccion		:  req.body.trayectoria.actividadsiguienteaccion
+                                                   }  , function(err, todo330) {
+                                                    if (err){  console.log(err.message);    res.status(500).send(err.message)    }
+                                                    res.json(todo330);
+                                                   });
+                                            
+                                            
+                                                    
+                                                    }
+                                                    else
+                                                    {
+                                                     res.json(todo3);
+                                                    }
+            
+                                                 
+                                                    });
+    
+                                           }
+                                         
+                                         
+                                       });
 
-                                  }
-                                  */
+                                }
 
 
-                  
-
+                     
         }
     });
 
@@ -3455,7 +3526,7 @@ if(req.body.tipo2==='Formulario'){
 }
 
 
-        console.log(req.params)
+       
     var namess=req.body.idform
     Bitacora.create(req.body.bitacora);
     Frmmovild.find({idmovil:req.body.idform}).exec(function(err, todos) {
@@ -3471,18 +3542,11 @@ if(req.body.tipo2==='Formulario'){
                                     req.body.estructura['sequencia']= secuencia;
                                    console.log( req.body.estructura)
                                //validar si ya existe algunos de los que son llave 
-                                var validarcampos =[];
+                          
                                 var filtrovalida=''
-                                console.log(todos.length)
-                              
-                       
-
+                  
                                filtrovalida=dafiltrocadvalida(todos,'','',req)
-                            
-                            //   filtrovalida=filtrovalida.substring(0,filtrovalida.length-1)
-                               console.log('filtroooooooooo ::::::::::::::::: '+filtrovalida + ' ::::::::')
-                               
-
+              
                                if(filtrovalida ==='')
                                {
 
@@ -3634,68 +3698,7 @@ if(req.body.tipo2==='Formulario'){
                                             
                                             
                                                 });
-                        /*
-                        } catch(e) {
-                            
-                            console.log(e)
-                            //ya no le pongo esquema eso dice la solucion// pero no graba lo nuevo campo
-                            //aqui tendria que se un sabe
-                            console.log('sigueeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
-                        
-                            var  frmtt= mongoose.model(namess);
-                        
-                        
-                            frmtt.create(req.body.estructura
-                                , function(err, todo3) {
-                                if (err){       res.status(500).send(err.message)    }
-                        
-                                if(req.body.tipo==='proceso')
-                                                            {//crea trayectoria
-                                                                formulariotrayectoria.create({
-                                                                    idempresa		:  req.body.trayectoria.idempresa,
-                                                                    idorden	: todo3._id,
-                                                                    sequencia:todo3.sequencia,
-                                                                    usuariocreador		: req.body.trayectoria.usuariocreador,
-                                                                    email:req.body.trayectoria.email,
-                                                                    minutos		:0,
-                                                                    dias:0,
-                                                                    horas:0,
-                                                                    segundos:0,
-                                                                    tipocreacionorden		:req.body.trayectoria.tipocreacionorden,
-                                                                    nombre		:req.body.trayectoria.nombre,
-                                                                    idform		: req.body.trayectoria.idform,
-                                                                    tipoform	:req.body.trayectoria.tipoform,
-                                                                    tipo2form	:req.body.trayectoria.tipo2form,
-                                                                    estadoorden: req.body.trayectoria.estadoorden,
-                                                                    ejecuta: req.body.trayectoria.ejecuta,
-                                                                    salioorden:req.body.trayectoria.salioorden,
-                                                                    categoriaform	: req.body.trayectoria.categoriaform,
-                                                                    idactividad		: req.body.trayectoria.idactividad,
-                                                                    actoractividad		:req.body.trayectoria.actoractividad,
-                                                                    claseactividad		: req.body.trayectoria.claseactividad,
-                                                                    nombreactividad		: req.body.trayectoria.nombreactividad,
-                                                                    tipoactividad		: req.body.trayectoria.tipoactividad,
-                                                                    etapaactividad		:req.body.trayectoria.etapaactividad,
-                                                                    idaccion		: req.body.trayectoria.idaccion,
-                                                                    tipoaccion		: req.body.trayectoria.tipoaccion,
-                                                                    subtipoaccion		: req.body.trayectoria.subtipoaccion,
-                                                                    nombreaccion		: req.body.trayectoria.nombreaccion,
-                                                                    estadoaccion		: req.body.trayectoria.estadoaccion,
-                                                                    actividadsiguienteaccion		:  req.body.trayectoria.actividadsiguienteaccion
-                                                                }  , function(err, todo330) {
-                                                                    if (err){  console.log(err.message);    res.status(500).send(err.message)    }
-                                                                    res.json(todo330);
-                                                                });
-                                                            }
-                                                            else
-                                                            {
-                                                                res.json(todo3);
-                                                            }
-                                console.log('finallllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll')
-                            
-                            
-                                });
-                        }*/
+                     
  //FIN GRABA TODO BIENNNNNNNNN--------------------------------------------------
                                }
                                else
@@ -3743,11 +3746,8 @@ if(req.body.tipo2==='Formulario'){
                                delete mongoose.connection.models[namess];
                                var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
 
-
-                               //BUSCAR UNO EXISTENTE-----------------------------------------------------------------------------------
-                             //  try {
                                    var  frmbusca= mongoose.model(namess,tt);
-                                //{"contrato":"descripcion: descripción del contrato , nocontrato: a1 ,        °5f7648b37e8d091240017cc3"}
+           
                                    frmbusca.find(JSON.parse(filtrovalida) ,function(err, todos2a) {
                                        if (err){  res.send(err);  }
                                
@@ -3759,8 +3759,7 @@ if(req.body.tipo2==='Formulario'){
                                        }
                                        else
                                        {
-                                       //GRABA TODO BIEN------------------------------------------------------------------------------
-                            //   try {
+                       
                                             var  frmtt=  mongoose.model(namess,tt);
                                             
                                             frmtt.create(req.body.estructura
@@ -3811,219 +3810,13 @@ if(req.body.tipo2==='Formulario'){
                                                 }
                                             
                                                 });
-                                 /*
-                                 } catch(e) {
-                                   
-                                   console.log(e)
-                                   //ya no le pongo esquema eso dice la solucion// pero no graba lo nuevo campo
-                                   //aqui tendria que se un sabe
-                                   var  frmtt= mongoose.model(namess);
-                                  
-                                   frmtt.create(req.body.estructura
-                                       , function(err, todo3) {
-                                       if (err){       res.status(500).send(err.message)    }
-                                  
-                                       if(req.body.tipo==='proceso')
-                                       {//crea trayectoria
-                                        formulariotrayectoria.create({
-                                            idempresa		:  req.body.trayectoria.idempresa,
-                                            idorden	: todo3._id,
-                                            sequencia:todo3.sequencia,
-                                            usuariocreador		: req.body.trayectoria.usuariocreador,
-                                              email:req.body.trayectoria.email,
-                                              minutos		:0,
-                                              dias:0,
-                                              horas:0,
-                                              segundos:0,
-                                            tipocreacionorden		:req.body.trayectoria.tipocreacionorden,
-                                            nombre		:req.body.trayectoria.nombre,
-                                            idform		: req.body.trayectoria.idform,
-                                            tipoform	:req.body.trayectoria.tipoform,
-                                            tipo2form	:req.body.trayectoria.tipo2form,
-                                            salioorden:req.body.trayectoria.salioorden,
-                                            estadoorden: req.body.trayectoria.estadoorden,
-                                            ejecuta: req.body.trayectoria.ejecuta,
-                                            categoriaform	: req.body.trayectoria.categoriaform,
-                                            idactividad		: req.body.trayectoria.idactividad,
-                                            actoractividad		:req.body.trayectoria.actoractividad,
-                                            claseactividad		: req.body.trayectoria.claseactividad,
-                                            nombreactividad		: req.body.trayectoria.nombreactividad,
-                                            tipoactividad		: req.body.trayectoria.tipoactividad,
-                                            etapaactividad		:req.body.trayectoria.etapaactividad,
-                                            idaccion		: req.body.trayectoria.idaccion,
-                                            tipoaccion		: req.body.trayectoria.tipoaccion,
-                                            subtipoaccion		: req.body.trayectoria.subtipoaccion,
-                                            nombreaccion		: req.body.trayectoria.nombreaccion,
-                                            estadoaccion		: req.body.trayectoria.estadoaccion,
-                                            actividadsiguienteaccion		:  req.body.trayectoria.actividadsiguienteaccion
-                                        }  , function(err, todo330) {
-                                            if (err){  console.log(err.message);    res.status(500).send(err.message)    }
-                                            res.json(todo330);
-                                           });
-                                       }
-                                       else
-                                       {
-                                        res.json(todo3);
-                                       }
-                                      
-                                   
-                                       });
-                                 }
-                                 */
-//FIN GRABA TODO BIENNNNNNNNN--------------------------------------------------
-   
-                                          
+
                                        }
                                      
                                      
                                    });
-                               /*  } catch(e) {
-                                    
-                                   var  frmbusca= mongoose.model(namess);
-                                  
-                                   frmbusca.find(JSON.parse(filtrovalida),function(err, todos2a) {
-                                        if (err){  res.send(err);  }
-                                     
-                                        if(todos2a.length>0)
-                                        {
-                                           res.status(500).send('Este registro Ya existe en base de datos, no pueden haber repetidos') 
-                                        
-                                          
-                                         } else
-                                           {
-
-//GRABA TODO BIEN------------------------------------------------------------------------------
-try {
-   var  frmtt=  mongoose.model(namess,tt);
-
-   frmtt.create(req.body.estructura
-       , function(err, todo3) {
-       if (err){  console.log(err.message);    res.status(500).send(err.message)    }
-           
-       if(req.body.tipo==='proceso')
-                                       {//crea trayectoria
-                                        formulariotrayectoria.create({
-                                            idempresa		:  req.body.trayectoria.idempresa,
-                                            idorden	: todo3._id,
-                                            sequencia:todo3.sequencia,
-                                            usuariocreador		: req.body.trayectoria.usuariocreador,
-                                              email:req.body.trayectoria.email,
-                                              minutos		:0,
-                                              dias:0,
-                                              horas:0,
-                                              segundos:0,
-                                            tipocreacionorden		:req.body.trayectoria.tipocreacionorden,
-                                            nombre		:req.body.trayectoria.nombre,
-                                            idform		: req.body.trayectoria.idform,
-                                            tipoform	:req.body.trayectoria.tipoform,
-                                            tipo2form	:req.body.trayectoria.tipo2form,
-                                            ejecuta: req.body.trayectoria.ejecuta,
-                                            salioorden:req.body.trayectoria.salioorden,
-                                            estadoorden: req.body.trayectoria.estadoorden,
-                                            categoriaform	: req.body.trayectoria.categoriaform,
-                                            idactividad		: req.body.trayectoria.idactividad,
-                                            actoractividad		:req.body.trayectoria.actoractividad,
-                                            claseactividad		: req.body.trayectoria.claseactividad,
-                                            nombreactividad		: req.body.trayectoria.nombreactividad,
-                                            tipoactividad		: req.body.trayectoria.tipoactividad,
-                                            etapaactividad		:req.body.trayectoria.etapaactividad,
-                                            idaccion		: req.body.trayectoria.idaccion,
-                                            tipoaccion		: req.body.trayectoria.tipoaccion,
-                                            subtipoaccion		: req.body.trayectoria.subtipoaccion,
-                                            nombreaccion		: req.body.trayectoria.nombreaccion,
-                                            estadoaccion		: req.body.trayectoria.estadoaccion,
-                                            actividadsiguienteaccion		:  req.body.trayectoria.actividadsiguienteaccion
-                                        }  , function(err, todo330) {
-                                            if (err){  console.log(err.message);    res.status(500).send(err.message)    }
-                                            res.json(todo330);
-                                           });
-                                       }
-                                       else
-                                       {
-                                        res.json(todo3);
-                                       }
-   
-       });
- 
- } catch(e) {
-   
-   console.log(e)
-   //ya no le pongo esquema eso dice la solucion// pero no graba lo nuevo campo
-   //aqui tendria que se un sabe
-   var  frmtt= mongoose.model(namess);
-  
-   frmtt.create(req.body.estructura
-       , function(err, todo3) {
-       if (err){       res.status(500).send(err.message)    }
-  
-       if(req.body.tipo==='proceso')
-       {//crea trayectoria
-
-        formulariotrayectoria.create({
-              idempresa		:  req.body.trayectoria.idempresa,
-              idorden	: todo3._id,
-              sequencia:todo3.sequencia,
-              usuariocreador		: req.body.trayectoria.usuariocreador,
-                email:req.body.trayectoria.email,
-                minutos		:0,
-                dias:0,
-                horas:0,
-                segundos:0,
-              tipocreacionorden		:req.body.trayectoria.tipocreacionorden,
-              nombre		:req.body.trayectoria.nombre,
-              idform		: req.body.trayectoria.idform,
-              tipoform	:req.body.trayectoria.tipoform,
-              tipo2form	:req.body.trayectoria.tipo2form,
-              ejecuta: req.body.trayectoria.ejecuta,
-              categoriaform	: req.body.trayectoria.categoriaform,
-              salioorden:req.body.trayectoria.salioorden,
-              idactividad		: req.body.trayectoria.idactividad,
-              estadoorden: req.body.trayectoria.estadoorden,
-              actoractividad		:req.body.trayectoria.actoractividad,
-              claseactividad		: req.body.trayectoria.claseactividad,
-              nombreactividad		: req.body.trayectoria.nombreactividad,
-              tipoactividad		: req.body.trayectoria.tipoactividad,
-              etapaactividad		:req.body.trayectoria.etapaactividad,
-              idaccion		: req.body.trayectoria.idaccion,
-              tipoaccion		: req.body.trayectoria.tipoaccion,
-              subtipoaccion		: req.body.trayectoria.subtipoaccion,
-              nombreaccion		: req.body.trayectoria.nombreaccion,
-              estadoaccion		: req.body.trayectoria.estadoaccion,
-              actividadsiguienteaccion		:  req.body.trayectoria.actividadsiguienteaccion
-            }  , function(err, todo330) {
-                if (err){  console.log(err.message);    res.status(500).send(err.message)    }
-                res.json(todo330);
-               });
-       }
-       else
-       {
-        res.json(todo3);
-       }
-   
-       });
- }
-//FIN GRABA TODO BIENNNNNNNNN--------------------------------------------------
-
-
-                                           }
-                                    
-                                    });
-                                 }
-*/
+                          
                                }
-                         
-
-
-
-
-
-
-
-
-
-
-
-
 
                             });
                                 

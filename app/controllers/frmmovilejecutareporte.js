@@ -1706,7 +1706,7 @@ function numberWithCommas(x) {
                                     // auto-sized columns have their widths based on their content
                                     width: 60,
                                    
-                                    text: 'Q.'+ parseFloat(preciou).toFixed(2) ,
+                                    text:  numberWithCommas(preciou) ,
                                    
                                   },
                                   {
