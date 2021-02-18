@@ -285,7 +285,7 @@ if(req.params.recordID!=='crea')
     
         if(todos1.length>0)   {  
             
-            console.log(todos1)
+            
             Entradacasa.findById({ _id: todos1[0]._id }, function (err, todo)  {
                 if (err) {  res.send(err);  }
                 else

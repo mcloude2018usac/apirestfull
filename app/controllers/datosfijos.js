@@ -1834,7 +1834,7 @@ break;
    
         break;
         case 'areas-evento':
-    console.log({'idtipoevento.codigo':req.params.id2})
+    
         Area_evento.find({'idtipoevento.codigo':req.params.id2},function(err, todos) {
                 if (err){  res.send(err); console.log(err)  }
                 console.log(todos)

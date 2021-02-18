@@ -924,16 +924,34 @@ console.log(todos4)
 
                         if(req.params.email)
                         {
-                            Personal.find({email:req.params.email,idempresa:req.params.id3}).populate('idempresa')
-                            .then(todos => {
-                       
-                                res.json(todos);  
-                                
-                            })
-                            .catch(err => {
-                                console.log('entra cath' + err.message)
-                                res.status(422).send(err.message);  
-                            })
+
+                            if(String(req.params.email).indexOf('@')>=0) 
+                            {
+                                Personal.find({email:req.params.email,idempresa:req.params.id3}).populate('idempresa')
+                                .then(todos => {
+                           
+                                    res.json(todos);  
+                                    
+                                })
+                                .catch(err => {
+                                    console.log('entra cath' + err.message)
+                                    res.status(422).send(err.message);  
+                                })
+                            }
+                            else
+                            {
+                                Personal.find({nombrealias:req.params.email,idempresa:req.params.id3}).populate('idempresa')
+                                .then(todos => {
+                           
+                                    res.json(todos);  
+                                    
+                                })
+                                .catch(err => {
+                                    console.log('entra cath' + err.message)
+                                    res.status(422).send(err.message);  
+                                })
+                            }   
+                        
 
                         }
                         else
@@ -1260,6 +1278,7 @@ if(req.params.recordID)
              todo.email        	=	req.body.email        	||	todo.email        	;
             todo.role        	=	req.body.role       	||	todo.role        	;
             todo.nombre        	=	req.body.nombre        	||	todo.nombre        	;
+            todo.nombrealias        	=	req.body.nombrealias        	||	todo.nombrealias        	;
             todo.cui 	=	req.body.cui 	||	todo.cui 	;
             todo.direccion   	=	req.body.direccion   	||	todo.direccion   	;
             todo.telefono    	=	req.body.telefono    	||	todo.telefono    	;

@@ -4,7 +4,7 @@ var Bitacora = require('../models/bitacora');
 
 exports.getFormcat = function(req, res, next){
     if(req.params.id4)
-    {  console.log({idunidad:req.params.id2,idempresa:req.params.id3,idunidad2:req.params.id4})
+    { 
         Formcat.find({idunidad:req.params.id2,idempresa:req.params.id3,idunidad2:req.params.id4},function(err, todos) {
             if (err){ res.send(err); }
            
@@ -126,7 +126,7 @@ exports.deleteFormcat = function(req, res, next){
    
     Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina categoria de formulario '});
 
-    console.log({ _id: req.params.recordID })
+    
     Formcat.findByIdAndRemove({ _id: req.params.recordID }, function(err, todo) {
         res.json({_id:todo._id,nombre:todo.nombre});
     });

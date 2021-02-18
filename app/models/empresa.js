@@ -24,6 +24,7 @@ var mongoose =require("mongoose");
         color4:	 { type : String },
         horario	: { type : String },
         inicio	: { type : String },
+        siregister: { type : String },
         redsocial1	: { type : String },
         redsocial2	: { type : String },
         redsocial3	: { type : String },

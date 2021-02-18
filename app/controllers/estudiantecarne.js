@@ -33,7 +33,7 @@ exports.getEstudiantecarne = function(req, res, next){
     {
     if(req.params.codigo)
     { 
-        console.log({carnet:req.params.codigo})
+        
         Estudiantecarne.find({carne:req.params.codigo},function(err, todos) {
             if (err){ res.send(err); }
         

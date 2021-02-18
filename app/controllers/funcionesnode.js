@@ -787,7 +787,7 @@ data[aa].replace('¬', ',') + '" target="_blank">https://www.google.com/maps/sea
               
         
              
-                if (this.cuantasVecesAparece(aa[1], '/') >= 3) {
+                if (cuantasVecesAparece(aa[1], '/') >= 3) {
                   re = re + '<strong>' +  aa[0]  + '</strong> : ' + '<img src="' + this.servertnube +  String(aa[1]).trim() + '"   class="circle-pic"  height="50 px" width="50 px"> ' + '<br>'; // &nbsp;
     
                 } else {

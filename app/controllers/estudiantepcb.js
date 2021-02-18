@@ -65,11 +65,10 @@ exports.getEstudiantepcb2 = function(req, res, next){
     {
       
         Asignapcb.findById({_id:req.params.codigo}).then(todos => {
-            console.log(todos)
-            console.log({ORIENTACION:todos.no_orientacion})
+     
             Estudiantepcb.find({ORIENTACION:todos.no_orientacion}).then(todos2 => {
                    
-       console.log(todos2)
+       
                 res.json(todos2);  
             
             

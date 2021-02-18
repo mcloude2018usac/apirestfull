@@ -57,12 +57,11 @@ function actualizaformularioidfinal  (namess,filtro,idempresa,namess2,est)
                                     var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
                                     delete mongoose.connection.models[namess2];
                                     var  frmtt= mongoose.model(namess2,tt);
-                                    console.log(filtro)
-                                    console.log(est)
+                                   
                                     frmtt.updateMany(filtro, est, function(err, todos2) {
                                    
                                         if (err){  res.send(err); }
-console.log(todos2)
+
                                         resolve(todos2); 
                                        // res.json(todos2);
 
@@ -743,19 +742,19 @@ function dafiltrocadvalida(todos,id2,id3,req) {
      
         case 'Numerico':  
         if(cad===''){  cad=  '"' +todos[i].name + '":' + req.body.estructura[todos[i].name] + ''  }
-        else { cad= filtrovalida + ',"' +todos[i].name + '":' + req.body.estructura[todos[i].name]  + '' }
+        else { cad= cad + ',"' +todos[i].name + '":' + req.body.estructura[todos[i].name]  + '' }
          
         break;
         case 'Moneda':  
         if(cad===''){  cad=  '"' +todos[i].name + '":' + req.body.estructura[todos[i].name] + ''  }
-        else { cad= filtrovalida + ',"' +todos[i].name + '":' + req.body.estructura[todos[i].name]  + '' }
+        else { cad= cad + ',"' +todos[i].name + '":' + req.body.estructura[todos[i].name]  + '' }
          
         break;
       
           
          default:
             if(cad===''){  cad=  '"' +todos[i].name + '":"' + req.body.estructura[todos[i].name] + '"'  }
-            else { cad= filtrovalida + ',"' +todos[i].name + '":"' + req.body.estructura[todos[i].name]  + '"' }
+            else { cad= cad + ',"' +todos[i].name + '":"' + req.body.estructura[todos[i].name]  + '"' }
              
        }
     }
@@ -774,7 +773,7 @@ var objectToArray = function(obj) {
 }
  
 exports.getFrmmovil = function(req, res, next){
-    console.log(req.params)
+    
     if(req.params.id5)
     {
         if(req.params.id4=='frmmovilpreportepdf')
@@ -1234,7 +1233,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                             try {
                                                 var  frmtt= mongoose.model(namess,tt);
                                                 
-                                              console.log({_id:{$in :objectIdArray},idempresa:arrt[0]} )
+                                            
                                                 frmtt.find({_id:{$in :objectIdArray},idempresa:arrt[0]} ,function(err, todos2) {
                                                     if (err){  res.send(err); }
                                                    
@@ -1368,7 +1367,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                                  
                                                 
                                                     try {
-                                                        console.log({idpapa:{$in:idbuscar}, periodopago:arrt[2]})
+                                                       
                                                   
                                                         var  frmtt= mongoose.model(namess,tt);
                                                         frmtt.find({idpapa:{$in:idbuscar}, periodopago:arrt[2]} ,function(err, todos2) {
@@ -1655,11 +1654,11 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                         }
                     }
 
-                    console.log(data)
+                    
 
                     Frmmovil.find({_id:{$in:data}}).sort({'_id': -1}).exec(function(err, todos) {
                         if (err){  res.send(err);  }
-                      console.log(todos)
+                      
                          res.json(todos);
                      });
 
@@ -1707,7 +1706,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
             {
                 filtro1={idempresa:arr[0], estado:arr[1],idusuario:req.params.id2}
             }
-            console.log({idempresa:arr[0], tipo:arr[2],publico:'Si'})
+            
 
                   Frmmovil.find({idempresa:arr[0], tipo:arr[2],publico:'Si'}).exec(function(err, todosa) {
                    
@@ -1759,7 +1758,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                               {
                               if(todosb.length<=0 && todosa.length>0)
                               {// no tiene formularios detalle
-                             console.log('si es publicvo entra acqui')
+                             
                                     var myData = [];
                                     for(var i = 0; i < todosa.length;i++){
                                         if(todosa[i].categoria==req.params.id)
@@ -2548,7 +2547,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                 
                 }
 
-console.log(filtro)
+
                     Frmmovild.find({idmovil:arrtodos[3], display : "true",idempresa:arrtodos[0]}).exec(function(err, todos) {
                         if (err){ res.send(err); }
                     
@@ -2995,8 +2994,7 @@ exports.deleteFrmmovil = function(req, res, next){
 
 exports.deleteFrmmovil2 = async function(req, res, next){
    //5f503bededa4710798a79b84°Formulario°1_actualizainventarioaj°'
-    console.log(req.params)
-    console.log(req.body)
+
     var arrtt=req.params.idempresa.split('°')
   
 
@@ -3058,7 +3056,7 @@ exports.deleteFrmmovil2 = async function(req, res, next){
                                         });
                                     }
                                     else
-                                    {
+                                    {console.log('ddddddddddddddddddddddddddddd')
                                         if(req.body.tipo2==='Formulario'){
                                             if(req.body.ejecuta!=='' && req.body.ejecuta!==undefined)
                                             {
@@ -3075,6 +3073,10 @@ exports.deleteFrmmovil2 = async function(req, res, next){
                                                 })();
                                                 
                                         
+                                            }
+                                            else
+                                            {
+                                                res.json(todo);
                                             }
                                             
                                            
@@ -3128,7 +3130,35 @@ exports.deleteFrmmovil2 = async function(req, res, next){
                                     }
                                     else
                                     {
-                                        res.json(todo);
+                                        if(req.body.tipo2==='Formulario'){
+                                            if(req.body.ejecuta!=='' && req.body.ejecuta!==undefined)
+                                            {
+                                                (async () => {  
+                                                respuesta = await frmejecuta.formulariofinaldel(req, res, next,[]);
+                                                
+                                                if(respuesta.estado!=='exito')
+                                                {
+                                                    res.status(500).send(respuesta.estado) 
+                                                    return;
+                                                } 
+                                            
+                                                    res.json(todo);
+                                                })();
+                                                
+                                        
+                                            }
+                                            else
+                                            {
+                                                res.json(todo);
+                                            }
+                                            
+                                            
+                                           
+                                        }
+                                        else
+                                        {
+                                            res.json(todo);
+                                        }
                                     }
 
                                            
@@ -3160,8 +3190,7 @@ tipoaccion: "EJECUCIÓN"
 
 */
 exports.creaFrmmovil3s = async function(req, res, next){
-    console.log(req.params)
-    console.log(req.body)
+
     if(req.body.operacion==='anulaorden')
     {
 
@@ -3186,7 +3215,7 @@ exports.creaFrmmovil3s = async function(req, res, next){
       
         Bitacora.create(req.body.bitacora);
 
-        console.log(req.body.update)
+     
 
         producto = await actualizaformularioidfinal(req.body.formulario,{ _id:req.body.idform},req.body.bitacora.idempresa,req.body.formulario,req.body.update); 
        
@@ -3243,7 +3272,22 @@ exports.creaFrmmovil3s = async function(req, res, next){
     {
         console.log('entraaaaaaaaaaaaaaaaaaaaaaaaa  EJECUTA OPERACION '+ req.body.ejecuta)
         switch(req.body.ejecuta) {
-            case 'visitas_programadas':  frmejecuta.visitas_programadas(req, res, next);  
+            case 'visitas_programadas':
+
+                (async () => {    
+                    respuesta = await frmejecuta.visitas_programadas(req, res, next);
+                    
+                    if(respuesta.estado!=='exito')
+                    {
+                        res.status(500).send(respuesta.estado) 
+                        return;
+                    }   
+                    res.json({estado:'ok'});
+                })();
+
+
+            ;
+           
             break;
             default:
               // code block
@@ -3255,7 +3299,7 @@ exports.creaFrmmovil3s = async function(req, res, next){
         
 if(req.params.recordID!=='crea')
 { 
-    console.log(req.body)
+    
   
     //ejecuta en el proceso la antes de actualizar segun accion
     
@@ -3567,7 +3611,7 @@ if(req.body.tipo2==='Formulario'){
                                     var secuencia;
                                     secuencia=padLeadingZeros(seq.sequence_value,7)
                                     req.body.estructura['sequencia']= secuencia;
-                                   console.log( req.body.estructura)
+                                   
                                //validar si ya existe algunos de los que son llave 
                           
                                 var filtrovalida=''
@@ -3665,7 +3709,7 @@ if(req.body.tipo2==='Formulario'){
                                                 {
                                                     (async () => {    
                                                 respuesta = await frmejecuta.procesofinalcrea(req, res, next,todo3);
-                                                console.log(respuesta)
+                                                
                                                 if(respuesta.estado!=='exito')
                                                 {
                                                     res.status(500).send(respuesta.estado) 

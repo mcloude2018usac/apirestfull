@@ -153,7 +153,7 @@ function actualizaformularioidfinal  (namess,filtro,idempresa,namess2,est)
                                     var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
                                     delete mongoose.connection.models[namess2];
                                     var  frmtt= mongoose.model(namess2,tt);
-                                    console.log(est)
+                                    
                                     frmtt.updateMany(filtro, est, function(err, todos2) {
                                   
                                         if (err){   console.log(err) }
@@ -844,138 +844,49 @@ try {
 
 }
 
-var visitas_programadas= function(req, res, next){
+var visitas_programadas=async  function(req, res, next){
+
+  return new Promise(resolve => {
+    var aa='Crearmultasegunsancion'
+    switch(aa) {
+      
+      case 'Crearmultasegunsancion': 
+      (async () => {
+
+        var   acum=req.body.acumulados;
+        var periodot;
+        var supervidort;
+        var inspectort;
+        var planificat;
+        for(var i = 0; i < acum.length;i++){
+            switch(acum[i].tabla) {
+                case 'Planificación':  periodot=  acum[i].item;break;
+                case 'Planificación supervisores':  supervidort=  acum[i].item;break;
+                case 'Planificación inspectores':  inspectort=  acum[i].item;break;
+                case 'Planificar':  planificat=  acum[i].item;break;
+                default:
+               }}
 
 
 
-var   acum=req.body.acumulados;
-var periodot;
-var supervidort;
-var inspectort;
-var planificat;
 
 
-for(var i = 0; i < acum.length;i++){
-    switch(acum[i].tabla) {
-        case 'Planificación':  periodot=  acum[i].item;break;
-        case 'Planificación supervisores':  supervidort=  acum[i].item;break;
-        case 'Planificación inspectores':  inspectort=  acum[i].item;break;
-        case 'Planificar':  planificat=  acum[i].item;break;
+      var frmmovil='5f7f5f7b85f18458404125fds'
+      var todos = await dadatosformulariofinal('5f7f5f7b85f18458404125fd',{ idmovil:'5f7f5f7b85f18458404125fd'},req.body.idempresa,'5f7f5f7b85f18458404125fds'); 
+      
+    console.log(todos)
+  resolve({estado:'exito'}); 
+})();
+        break;
         default:
-       }}
-
-
-
-       
-var frmmovil='5f7f5f7b85f18458404125fds'
-Frmmovild.find({idmovil:'5f7f5f7b85f18458404125fd', display : "true"}).sort([['order', 1]]).exec(function(err, todos) {
-    if (err){ res.send(err); }
-                        if(todos.length>0)   {  
-                            var cad= ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
-                            cad='{' + cad + '}'
-                            var jsonObject = stringToObject(cad);
-                            var mongoose = require("mongoose");
-                            var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
-                                var  frmtt= mongoose.model(frmmovil,tt);
-                                frmtt.find({idpapa:inspectort._id} ,function(err, todos20) {
-                                    if (err){  res.send(err); }
-                                 
-                           
-                                  var todos2=JSON.parse(JSON.stringify(todos20))
-                             
-                               
-                                  var f1 =new Date( planificat.fechainicio);   
-                                  var f2 =new Date( planificat.fechafinalizacion);//.toISOString().substr(0,10);   
-                                  var visitas = planificat.novisitasdiarias
-
-                                 var fechas=getDaysArray(f1,f2)
-
-                                 console.log('fechass ---' + fechas.length)
-                                 console.log('visitas ---' + visitas)
-                                 console.log('proyectos ---' + todos2.length)
-                                
-                             
-                                 for(var j = 0; j < fechas.length;j++){ // todas las fechas
-                                  for(var k = 0; k < visitas;k++){//no visitas
-                                    for(var i = 0; i < todos2.length;i++){ // todos los proyectpos
-                                   
-                          
-                                        var aarr=todos2[i].proyecto.split('¬')
-                                        console.log(aarr)
-                                            var names='5f81d95fc07d6532900465a4'
-                                            var estructura= {
-                                              "novisita" :k+1,
-                                              "idperiodo" : periodot._id,
-                                              "periodo" : periodot.nombre,
-                                              "idsupervisor" : supervidort.usuario.split('¬')[1],
-                                              "supervisor" : supervidort.usuario.split('¬')[0],
-                                              "idinspector" : inspectort.usuario.split('¬')[1],
-                                              "inspector" : inspectort.usuario.split('¬')[0],
-                                              "idplanifica" : planificat._id,
-                                              "idinspector0" : inspectort._id,
-                                              "idsupervisor0" : supervidort._id,
-                                              "idproyecto0" : todos2[i]._id,
-                                              "idproyecto" :  aarr[1].split('°')[0],
-                                              "idempresa0" : aarr[2].split('°')[0],
-                                              "idcontrato" : aarr[3].split('°')[0],
-                                              "fechaasignada" :""+ fechas[j] + "",
-                                              "verificapersonal":'',
-                                              "verificavehiculos":'',
-                                              "verificaherramienta":'',
-                                              "comentariopersonal":'',
-                                              "geoposicion":'',
-                                              "comentariovehiculos":'',
-                                              "comentarioherramienta":'',
-                                              "proyecto" :todos2[i].proyecto,
-                                              "usuarionew" :req.body.bitacora.email,
-                                              "usuarioup" : req.body.bitacora.email,
-                                              "idpapa" : req.body.idpapa,
-                                              "estado" : 'activa',
-                                              "idempresa" : req.body.idempresa,
-                                              "nombre":  "  <strong>No contrato:</strong> "+aarr[0].split('°')[0].trim().split(':')[1]+ " <br> "+
-                                              "<strong>Empresa:</strong>"+aarr[0].split('°')[2].split(':')[1]+ " <br> "+
-                                              "<strong>Nit Empresa:</strong>"+aarr[0].split('°')[1].split(':')[2]+ " <br> "+
-                                              "<strong>Codigo proyecto:</strong>"+ aarr[1].split('°')[1].split(':')[2] + " <br> "+
-                                              "<strong>Nombre proyecto:</strong>"+  aarr[1].split('°')[2].split(':')[1] +" <br> "+
-                                              " <strong>Supervisor:</strong> "+ supervidort.usuario.split('¬')[0] +" <br>"+
-                                              " <strong>Inspector:</strong> " + inspectort.usuario.split('¬')[0] +" <br>"
-                                              
-                                          }
-                                          
-/*
-                                          "proyecto" : "nocontrato: a225 , empresa: nit: 848484848 , nombreempresa: empresa3 ,        
-                                          5f763d91691ddf2820befd00 , proyecto: codigoproyecto: proyecto 2 , nombreproyecto: proyecto2     
-                                          5f80849ff1a48444185b9c3d ,        
-                                          5f78b74bf2cc332b6c4b8328",
-*/
-
-                                          creafrmregistro(req, res, next,names,req.body.idform,estructura,'noresponde',[],req.body.idpapa,req.body.idtipo)
-
-
-                                              
-                                          }
-
-                                        }
-                                      
-                                   
-                                  
-                                }
-                                res.json({exito:'ok'});
-
-                            
-
-                                  
-                                });
-    }
+          // code block
+          resolve({estado:'exito'}); 
+      }
 });
 
 
 
-      
 
-
-
-  
 }
 
 

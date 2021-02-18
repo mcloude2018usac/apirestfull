@@ -27,7 +27,7 @@ function getNextSequenceValuenota(req,res,cant,codf){
                 else
                 { 
 
-                    console.log(todo)
+                   
                   
                      todo.estadoacta=	'Final'   	;
                     

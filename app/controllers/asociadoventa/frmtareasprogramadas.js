@@ -411,7 +411,7 @@ function dadatosformulario(namess,filtro,idempresa,namess2)
                                  
                                     cad=cad3[0]
                                     cadxx='{'+ cad3[1] + '}'
-                                    cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                    cad=cad + ' "idpapa"	: { "type" : "String" }, "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
                                     cad='{' + cad + '}'
                                     cadxx='{' + cadxx + '}'
 
@@ -425,6 +425,60 @@ function dadatosformulario(namess,filtro,idempresa,namess2)
 
 
                                     frmtt.find(filtro).exec(function(err, todos2) {
+                                        if (err){  res.send(err); }
+
+                                        resolve(todos2); 
+                                       // res.json(todos2);
+
+                                    });
+                                }
+
+
+    });
+        
+                                    
+                                   
+                             
+                
+        
+    
+
+                                });
+
+}
+
+function dadatosformulariosort(namess,filtro,idempresa,namess2,ss)
+{
+    return new Promise(resolve => { 
+
+        Frmmovild.find({idmovil:namess, display : "true",idempresa:idempresa}).sort([['order', 1]]).exec(function(err, todos) {
+            if (err){ res.send(err); }
+          
+     //   console.log(todos)
+                                if(todos.length>0)   {  
+                               
+                                    var cad=''
+                                    var cadxx=''
+                                    var cad3=(dafiltrocad(todos,'','')).split('°')
+                                  
+                              
+                                 
+                                    cad=cad3[0]
+                                    cadxx='{'+ cad3[1] + '}'
+                                    cad=cad + ' "idpapa"	: { "type" : "String" }, "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                    cad='{' + cad + '}'
+                                    cadxx='{' + cadxx + '}'
+
+                               //  console.log(cad)
+                                    var jsonObject = stringToObject(cad);
+                                  
+                                    var mongoose = require("mongoose");
+                                    var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                                    delete mongoose.connection.models[namess2];
+                                    var  frmtt= mongoose.model(namess2,tt);
+
+
+                                    frmtt.find(filtro).sort(ss).exec(function(err, todos2) {
                                         if (err){  res.send(err); }
 
                                         resolve(todos2); 
@@ -778,52 +832,59 @@ if((cinicial+ cretiro)>0)
                 filtro= {estado:'Activo',proyecto:req.params.id,empresa:{$in:ffempresa},idempresa:req.params.id3}
             }
 
+           
             console.log(filtro)
-            var contratosvv=[]
             var ffcontrato=[]
-            contratosv = await dadatosformulario('5f729c2487c9e33bd4ada798',
-           filtro,req.params.id3,'5f729c2487c9e33bd4ada798'); 
+            contratosv = await dadatosformulariosort('5f729c2487c9e33bd4ada798',
+           filtro,req.params.id3,'5f729c2487c9e33bd4ada798',{_id:1}); 
 
            for(var i = 0; i < contratosv.length;i++){
-            ffcontrato.push(contratosv[i]._id)
+               console.log(contratosv[i].empresa)
+            ffcontrato.push('' + contratosv[i]._id)
            }
 
            enmiendasvv= []
            var ffenmienda=[]
-                enmiendasv = await dadatosformulario('5f72a12587c9e33bd4ada7ab',
-                {estado:'Activo',idpapa: {$in:ffcontrato},idempresa:req.params.id3},req.params.id3,'5f72a12587c9e33bd4ada7abs'); 
+                enmiendasv = await dadatosformulariosort('5f72a12587c9e33bd4ada7ab',
+                {estado:'Activo',idpapa: {$in:ffcontrato},idempresa:req.params.id3},req.params.id3,'5f72a12587c9e33bd4ada7abs',{idpapa:1}); 
 
 
-
-              
                 for(var i = 0; i < enmiendasv.length;i++){
-                    ffenmienda.push(enmiendasv[i]._id)
+                    ffenmienda.push('' +enmiendasv[i]._id)
                    }
 
 
                    var ffpagos=[]
-                   pagosvv= []
+                   
 
-                pagosv = await dadatosformulario('5f595df92521cd38c8fe3126',
-                {estado:'Cancelado',idpapa:  {$in:ffenmienda},idempresa:req.params.id3},req.params.id3,'5f595df92521cd38c8fe3126'); 
+                pagosv = await dadatosformulariosort('5f595df92521cd38c8fe3126',
+                {estado:'Cancelado',idpapa:  {$in:ffenmienda},idempresa:req.params.id3},req.params.id3,'5f595df92521cd38c8fe3126',{idpapa:1}); 
 
                   
                 for(var i = 0; i < pagosv.length;i++){
-                    ffpagos.push(pagosv[i]._id)
+                    ffpagos.push('' +pagosv[i]._id)
                    }
 
 
-                sancionesvv= []
+                
                 sancionesv = await dadatosformulario('5f74c0fff22ed14ea01c1cbe',
                 {estado:'Activo',idpapa:   {$in:ffpagos},idempresa:req.params.id3},req.params.id3,'5f74c0fff22ed14ea01c1cbes'); 
           
             var datajson=[]
+     
+           
+
             for(var i0 = 0; i0 < empresav.length;i0++){
+                if(i0!==20){
 
            var montoenmienda0=0
            var montoenmiendaejecutado0=0
            var montoenmiendaejecutadosancion0=0
            var montosaldo0=0
+           contratosvv=[]
+           sancionesvv= []
+  
+        
             for(var i = 0; i < contratosv.length;i++){
 
               if('NIT: '+empresav[i0].nit+'°Nombre empresa: ' + empresav[i0].nombreempresa+
@@ -834,28 +895,37 @@ if((cinicial+ cretiro)>0)
                 var montoenmienda=0
                 var montoenmiendaejecutado=0
                 var montoenmiendaejecutadosancion=0
+              
+                enmiendasvv=[]
                 for(var i2 = 0; i2 < enmiendasv.length;i2++){
-                    if(enmiendasv[i2].idpapa===contratosv[i]._id)
+                    var llav1='' +contratosv[i]._id
+                    var llav1a=enmiendasv[i2].idpapa
+                  
+                    if(llav1a===llav1)
                     {
               
 
                     var montopago=0    
                     var montossaldo0=0    
                     var montosancion0=0    
+                   
+                    pagosvv= []
                     for(var i3 = 0; i3 < pagosv.length;i3++){
-
-                        if(pagosv[i3].idpapa===enmiendasv[i2]._id)
+                        var llav2=''+ enmiendasv[i2]._id
+                        if(pagosv[i3].idpapa===llav2)
                         {
 
                        
                       
                         var montosancion=0
+                        sancionesvv= []
                         for(var i4 = 0; i4 < sancionesv.length;i4++){
-                            if(sancionesv[i4].idpapa===pagosv[i3]._id)
+                            var llav3=''+ pagosv[i3]._id
+                            if(sancionesv[i4].idpapa=== llav3)
                             {
                             sancionesvv.push(
                                 {
-                                    "_id" : sancionesv[i4]._id,
+                                    "_id" : ''+sancionesv[i4]._id,
                                     "idtiposancion" :  sancionesv[i4].tiposancion.split('°')[0].split(':')[1].trim(), 
                                     
                                     "tiposancion" :  sancionesv[i4].tiposancion.split('¬')[1],
@@ -876,7 +946,7 @@ if((cinicial+ cretiro)>0)
                 
 
                         pagosvv.push(
-                            { "_id" : pagosv[i3]._id,
+                            { "_id" : ''+pagosv[i3]._id,
                             "tipodeaporte" : pagosv[i3].tipodeaporte,
                             "fechapago" : pagosv[i3].fechapago,
                             "nofactura" : pagosv[i3].nofactura,
@@ -939,7 +1009,7 @@ if((cinicial+ cretiro)>0)
 
           
                 contratosvv.push({
-                    _id:contratosv[i]._id,
+                    _id:''+contratosv[i]._id,
                     "nocontrato" : contratosv[i].nocontrato,
                     "descripcion" : contratosv[i].descripcion,
                     "imagenareageografica" : contratosv[i].imagenareageografica,
@@ -975,7 +1045,7 @@ if((cinicial+ cretiro)>0)
             }
             if(montoenmienda0+montoenmiendaejecutado0+montoenmiendaejecutadosancion0+montosaldo0 >0  )
             {
-            datajson.push({_id:empresav[i0]._id,empresa:empresav[i0].nombreempresa,
+            datajson.push({_id:''+ empresav[i0]._id,empresa:empresav[i0].nombreempresa,
                 montototal:montoenmienda0,
                 montototalejecutado:montoenmiendaejecutado0,
                 montoenmiendaejecutadosancion:montoenmiendaejecutadosancion0,
@@ -983,13 +1053,14 @@ if((cinicial+ cretiro)>0)
                 contratos:contratosvv
             
             })
+            
         }
-
+    }
         }
             // 127.0.0.1:9090/api/frmtareasprogramadass/1/dashboard1/5f503bededa4710798a79b84/1/role
-           
+            console.log(datajson)
             res.json(datajson);
-
+          
         }
         else{
         if(req.params.id2=='todos0')

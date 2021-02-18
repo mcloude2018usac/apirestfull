@@ -17,6 +17,7 @@ function setUserInfo(request){
         return {
             _id: request._id,
             email: request.email,
+            nombrealias: request.nombrealias,
             role: request.role,
             password:request.password,
             estadoemail:request.estadoemail,
@@ -76,19 +77,14 @@ exports.register = function(req, res, next){
     Bitacora.create(bitacora);
 
 
-//email: email
-console.log({idempresa:empresa,  $and : [
-    { $and : [ { email : req.body.email }] },
-    { $and : [ {cui : req.body.cui } ] }]
-})
+
 
 var cuiiii=req.body.cui 
 if(cuiiii==='' || cuiiii===undefined)
 {
     cuiiii='na'
 }
-console.log(req.body.cui)
-console.log(req.body.email)
+
 
     User.findOne({idempresa:empresa,  $or : [
         { $and : [ { email : req.body.email }] },
@@ -116,6 +112,8 @@ console.log(req.body.email)
             iddispositivo2:req.body.iddispositivo2,
             idsucursal:req.body.idsucursal,
             nombre        	: req.body.nombre        	,
+            nombrealias        	: req.body.nombrealias        	,
+            nombrealias        	: req.body.nombrealias        	,
             cui 	: '-',
             foto 	: req.body.foto 	,
             direccion   	: req.body.direccion   	,
@@ -189,7 +187,7 @@ exports.registera = function(req, res, next){
 
     User.findOne({idempresa:empresa,  $or : [
         { $and : [ { email : req.body.email }] },
-        { $and : [ {cui : req.body.cui } ] }]
+        { $and : [ {nombrealias : req.body.nombrealias } ] }]
 }, function(err, existingUser){
  
         if(err){
@@ -197,7 +195,7 @@ exports.registera = function(req, res, next){
         }
  
         if(existingUser){
-            return res.status(500).send('Esta direccion de correo electronico o Identificador ya esta en uso');
+            return res.status(500).send('Esta cuenta de usuario, ya esta en uso (correo ó usuario alias)');
         }
  
         var password3='' + password2+'@'
@@ -212,6 +210,7 @@ exports.registera = function(req, res, next){
             iddispositivo2:req.body.iddispositivo2,
             idsucursal:req.body.idsucursal,
             nombre        	: req.body.nombre        	,
+            nombrealias        	: req.body.nombrealias        	,
             cui 	: req.body.cui 	,
             foto 	: req.body.foto 	,
             direccion   	: req.body.direccion   	,
