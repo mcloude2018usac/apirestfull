@@ -21,6 +21,7 @@ function datiempo(num) {
 
 
 exports.getfrmtareasprogramadasservicios = function(req, res, next){
+    console.log(req.params)
     if(req.params.id4)
     {   
             if(req.params.id2=='todos')

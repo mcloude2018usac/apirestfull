@@ -13,12 +13,33 @@ var localOptions = {
  
 var localLogin = new LocalStrategy(localOptions, function(req,email, password, done){
 
- var aa=req.body.idempresa;
 
-    User.findOne({
-        email: email,idempresa:aa
+
+ var aa=req.body.idempresa;
+ var correot='';
+ var filtro;
+ correot=req.body.email;
+ if(correot.indexOf('@')>=0)
+ {
+filtro={
+    email: email,
+   idempresa:aa
+    
+}
+ }
+ else
+ {
+    filtro={
+        nombrealias: email,
+       idempresa:aa
         
-    }, function(err, user){
+    }
+
+ }
+
+ console.log(filtro)
+
+    User.findOne(filtro, function(err, user){
  
         if(err){
           
@@ -83,7 +104,7 @@ var jwtOptions = {
 };
  
 var jwtLogin = new JwtStrategy(jwtOptions, function(payload, done){
- 
+
     if(mongoose.Types.ObjectId.isValid(payload._id))
     {
     User.findById(payload._id, function(err, user){

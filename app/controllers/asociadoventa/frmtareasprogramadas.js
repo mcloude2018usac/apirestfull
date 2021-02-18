@@ -260,6 +260,59 @@ function eliminaformulario(namess,recordID,idempresa)
 }
 
 
+function dadatosformularioidfinal  (namess,filtro,idempresa,namess2)
+{
+    return new Promise(resolve => { 
+
+        Frmmovild.find({idmovil:namess, idempresa:idempresa}).sort([['order', 1]]).exec(function(err, todos) {
+            if (err){ res.send(err); }
+          
+     //   console.log(todos)
+                                if(todos.length>0)   {  
+                               
+                                    var cad=''
+                                    var cadxx=''
+                                    var cad3=(dafiltrocad(todos,'','')).split('°')
+                                  
+                              
+                                 
+                                    cad=cad3[0]
+                                    cadxx='{'+ cad3[1] + '}'
+                                    cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                    cad='{' + cad + '}'
+                                    cadxx='{' + cadxx + '}'
+
+                               //  console.log(cad)
+                                    var jsonObject = stringToObject(cad);
+                                  
+                                    var mongoose = require("mongoose");
+                                    var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                                    delete mongoose.connection.models[namess2];
+                                    var  frmtt= mongoose.model(namess2,tt);
+
+
+                                    frmtt.findById(filtro).exec(function(err, todos2) {
+                                        if (err){  res.send(err); }
+
+                                        resolve(todos2); 
+                                       // res.json(todos2);
+
+                                    });
+                                }
+
+
+    });
+        
+                                    
+                                   
+                             
+                
+        
+    
+
+                                });
+
+}
 function dadatosformulariogruposuma(namess,filtro,idempresa,namess2,filtrogrupo,filtrosuma)
 {
     return new Promise(resolve => { 
@@ -614,6 +667,7 @@ function dadatosformularioispapaarray(namess,idpapa,idempresa)
 }
 
 exports.getfrmtareasprogramadas = async  function(req, res, next){
+    console.log(req.params)
     if(req.params.id5)
     {   
         if(req.params.id2=='dashboard1periodo')
@@ -1123,6 +1177,11 @@ if((cinicial+ cretiro)>0)
                                         {
 
                                             var aarr=Proyectos[i4].proyecto.split('¬')
+
+                                                    
+            contrato = await dadatosformularioidfinal('5f729c2487c9e33bd4ada798',{ _id:aarr[1]},req.params.id3,'5f729c2487c9e33bd4ada798'); 
+
+
                                                 datat.push({idplanificar:planificaciones[i]._id,
                                                     planificar:planificaciones[i].nombre,
                                                 idsupervisor:(Supervisores[i2].usuario).split('¬')[1],
@@ -1131,8 +1190,8 @@ if((cinicial+ cretiro)>0)
                                                 inspector:(Inspectores[i3].usuario).split('¬')[0],
                                                 idproyecto0:Proyectos[i4]._id,
                                                 
-                                                "idempresa" :  aarr[1].split('°')[0],
-                                                "idproyecto" : aarr[2].split('°')[0],
+                                                "idempresa" : contrato.empresa.split('¬')[1],
+                                                "idproyecto" : contrato.proyecto.split('¬')[1],
                                                 proyecto: Proyectos[i4].proyecto
                                                 
                                                 
@@ -1183,6 +1242,10 @@ if((cinicial+ cretiro)>0)
                                             {
     
                                                 var aarr=Proyectos[i4].proyecto.split('¬')
+                                                
+                                                    
+            contrato = await dadatosformularioidfinal('5f729c2487c9e33bd4ada798',{ _id:aarr[1]},req.params.id3,'5f729c2487c9e33bd4ada798'); 
+
                                                     datat.push({idplanificar:planificaciones[i]._id,
                                                         planificar:planificaciones[i].nombre,
                                                     idsupervisor:(Supervisores[i2].usuario).split('¬')[1],
@@ -1192,8 +1255,8 @@ if((cinicial+ cretiro)>0)
                                                     idproyecto0:'' + Proyectos[i4]._id + '',
                                                     idinspector0:'' + Inspectores[i3]._id + '',
                                                     idsupervisor0:'' + Supervisores[i2]._id + '',
-                                                    "idempresa" :  aarr[1].split('°')[0],
-                                                    "idproyecto" : aarr[2].split('°')[0],
+                                                    "idempresa" :  contrato.empresa.split('¬')[1],
+                                                    "idproyecto" : contrato.proyecto.split('¬')[1],
                                                     proyecto: Proyectos[i4].proyecto,
                                                     idpapa: Proyectos[i4]._id 
                                                     

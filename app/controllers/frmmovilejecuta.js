@@ -872,10 +872,95 @@ var visitas_programadas=async  function(req, res, next){
 
 
       var frmmovil='5f7f5f7b85f18458404125fds'
-      var todos = await dadatosformulariofinal('5f7f5f7b85f18458404125fd',{ idmovil:'5f7f5f7b85f18458404125fd'},req.body.idempresa,'5f7f5f7b85f18458404125fds'); 
+      var todos20 = await dadatosformulariofinal('5f7f5f7b85f18458404125fd',{ idpapa:inspectort._id},req.body.idempresa,'5f7f5f7b85f18458404125fds'); 
+      var todos2=JSON.parse(JSON.stringify(todos20))
+      var f1 =new Date( planificat.fechainicio);   
+      var f2 =new Date( planificat.fechafinalizacion);//.toISOString().substr(0,10);   
+      var visitas = planificat.novisitasdiarias
+
+     var fechas=getDaysArray(f1,f2)
+
+     console.log('fechass ---' + fechas.length)
+     console.log('visitas ---' + visitas)
+     console.log('proyectos ---' + todos2.length)
+     for(var j = 0; j < fechas.length;j++){ // todas las fechas
+      for(var k = 0; k < visitas;k++){//no visitas
+        for(var i = 0; i < todos2.length;i++){ // todos los proyectpos
+       
+
+          
+            
+            
+         
+        
+              var aarr=todos2[i].proyecto.split('¬')
+              console.log(aarr)
+
+             
+            contrato = await dadatosformularioidfinal('5f729c2487c9e33bd4ada798',{ _id:aarr[1].split('°')[0]},req.body.idempresa,'5f729c2487c9e33bd4ada798'); 
+              console.log(contrato)
+         
+            var proyectot=contrato.proyecto.split('¬')[1]
+            var empresat=contrato.empresa.split('¬')[1]
+
+            
+                var names='5f81d95fc07d6532900465a4'
+                var estructura= {
+                  "novisita" :k+1,
+                  "idperiodo" : periodot._id,
+                  "periodo" : periodot.nombre,
+                  "idsupervisor" : supervidort.usuario.split('¬')[1],
+                  "supervisor" : supervidort.usuario.split('¬')[0],
+                  "idinspector" : inspectort.usuario.split('¬')[1],
+                  "inspector" : inspectort.usuario.split('¬')[0],
+                  "idplanifica" : planificat._id,
+                  "idinspector0" : inspectort._id,
+                  "idsupervisor0" : supervidort._id,
+                  "idproyecto0" : todos2[i]._id,
+                  "idproyecto" :  proyectot,
+                  "idempresa0" : empresat,
+                  "idcontrato" : aarr[1].split('°')[0],
+                  "fechaasignada" :""+ fechas[j] + "",
+                  "verificapersonal":'',
+                  "verificavehiculos":'',
+                  "verificaherramienta":'',
+                  "comentariopersonal":'',
+                  "geoposicion":'',
+                  "comentariovehiculos":'',
+                  "comentarioherramienta":'',
+                  "proyecto" :todos2[i].proyecto,
+                  "usuarionew" :req.body.bitacora.email,
+                  "usuarioup" : req.body.bitacora.email,
+                  "idpapa" : req.body.idpapa,
+                  "estado" : 'activa',
+                  "idempresa" : req.body.idempresa,
+                  "nombre":  "  <strong>No contrato:</strong> "+aarr[0].split('°')[0].trim().split(':')[1]+ " <br> "+
+                  "<strong>Empresa:</strong>"+contrato.empresa.split('°')[2].split(':')[1]+ " <br> "+
+                  "<strong>Nit Empresa:</strong>"+contrato.empresa.split('°')[1].split(':')[2]+ " <br> "+
+                  "<strong>Codigo proyecto:</strong>"+ contrato.proyecto.split('°')[1].split(':')[2] + " <br> "+
+                  "<strong>Nombre proyecto:</strong>"+  contrato.proyecto.split('°')[2].split(':')[1] +" <br> "+
+                  " <strong>Supervisor:</strong> "+ supervidort.usuario.split('¬')[0] +" <br>"+
+                  " <strong>Inspector:</strong> " + inspectort.usuario.split('¬')[0] +" <br>"
+                  
+              }
+
+
+              creafrmregistro(req, res, next,names,req.body.idform,estructura,'noresponde',[],req.body.idpapa,req.body.idtipo)
+
+        
+          
+         
+                  
+              }
+
+            }
+          
+       
       
-    console.log(todos)
-  resolve({estado:'exito'}); 
+    }
+
+    
+    resolve({estado:'exito'}); 
 })();
         break;
         default:
