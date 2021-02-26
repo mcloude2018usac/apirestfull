@@ -582,7 +582,7 @@ if(req.params.recordID!=='crea')
 }
 else{
 
-var aa=2;
+var aa=1;
 if(aa==1) 
 {
     res.status(404).send('Las fechas de inscripción PCB han finalizado.');
