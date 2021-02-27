@@ -531,7 +531,30 @@ switch(value) {
     return arr;
 };
   
- 
+ function dafechapago1(mes,ano)//'2018-08'
+ {re=''
+ if(mes<10)
+ {
+   re=ano + '-0' + mes
+ }
+ else
+ {
+  re=ano + '-' + mes
+ }
+return re;
+ }
+ function dafechapago2(mes,ano)//08-2018
+ {re=''
+ if(mes<10)
+ {
+   re='0' + mes + '-' + ano
+ }
+ else
+ {
+  re=mes + '-' + ano
+ }
+return re;
+ }
   function daarreglo(data,op) {
   
     var val=[]
@@ -847,10 +870,117 @@ try {
 var visitas_programadas=async  function(req, res, next){
 
   return new Promise(resolve => {
-    var aa='Crearmultasegunsancion'
+    var aa=req.body.ejecuta
+  
     switch(aa) {
+      case '1_generapagos': 
+      (async () => {
+
+        var   acum=req.body.acumulados;
+        var enmiendatt;
+        for(var i = 0; i < acum.length;i++){
+          switch(acum[i].idtabla) {
+              case '5f72a12587c9e33bd4ada7ab':  enmiendatt=  acum[i].item;break;
+              default:
+             }}
+
+             console.log(enmiendatt)
+             var nopagos= enmiendatt.nopagos
+             var mesinicio= enmiendatt.periodoinicialdepago
+             var montototal=enmiendatt.montototalenmienda
+
+             if(nopagos===undefined  )
+             {
+              resolve({estado:'Ingrese en enmienda el no pagos'}); 
+             }
+             else
+             {
+              
+              if( mesinicio===undefined )
+              {
+                resolve({estado:'Ingrese en periodo inicial del pago en enmiendas'}); 
+              }
+              else
+              {
+                
+                if( montototal===undefined)
+                {
+                 resolve({estado:'Ingrese monto total de la enmienda'}); 
+                }
+                else
+                {
+                var aarr=[]
+                var montito= montototal / Number(nopagos)
+                var mesini=mesinicio.split('-')
+                console.log(montito)
+                console.log(mesini[0] + '    ' + mesini[1])
+                var periodopagon=Number(mesini[0])
+                var periodopago2n=Number(mesini[1])
+
+                for(var j = 0; j < nopagos;j++){
+
+                  var  fechapago1=dafechapago1(periodopagon,periodopago2n) // '2018-08'
+                  var  fechapago2=dafechapago2(periodopagon,periodopago2n)//'07-2018'
+
+
+                  var names='5f595df92521cd38c8fe3126'
+                  var estructura= {
+
+                      "tipodeaporte" : "Tipo aporte",
+                      "nopago" : '' + (j+1),
+                      "fechainicial" : fechapago1+ "-01T00:19:17.765Z",
+                      "fechapago" : fechapago1 + "-01T00:19:17.765Z",
+                      "periodopago" : fechapago2,
+                      "nofactura" : " ",
+                      "descripcionpago" : "Pago "+'' + (j+1)+" - De " + fechapago2,
+                      "montopago" : '' + montito,
+                      "montosanciones" : "0",
+                      "montoemergencia" : "0",
+                      "montoapagar" : montito,
+                      "bancotransferencia" : " ",
+                      "nocuenta" : " ",
+                      "observaciones" : "",
+                      "usuarionew" :req.body.bitacora.email,
+                      "usuarioup" : req.body.bitacora.email,
+                      "idpapa" : req.body.idpapa,
+                      "estado" : 'Pendiente',
+                      "idempresa" : req.body.idempresa,
+            
+                      "sequencia" : "3",
+                    
+                      "comentarioanulado" : "",
+                      "comentariocerrado" : "",
+                      "estadointerno" : "activo"
+
+                   
+                  
+                    
+                }
+  
+  console.log(names + ' ' + req.body.idform + ' '+ req.body.idpapa + ' ' +req.body.idtipo)
+                creafrmregistro(req, res, next,names,req.body.idform,estructura,'noresponde',[],req.body.idpapa,req.body.idtipo)
+
+                 periodopagon=periodopagon+1
+                 if(periodopagon===13)
+                 {periodopagon=1
+                  periodopago2n=periodopago2n+1
+                 }
+                 
+
+
+                }
+
+                
+                resolve({estado:'exito'}); 
+
+             }}}
+        
+      })();
+      break;
+   
+
       
-      case 'Crearmultasegunsancion': 
+      case '2': 
       (async () => {
 
         var   acum=req.body.acumulados;
@@ -866,11 +996,6 @@ var visitas_programadas=async  function(req, res, next){
                 case 'Planificar':  planificat=  acum[i].item;break;
                 default:
                }}
-
-
-
-
-
       var frmmovil='5f7f5f7b85f18458404125fds'
       var todos20 = await dadatosformulariofinal('5f7f5f7b85f18458404125fd',{ idpapa:inspectort._id},req.body.idempresa,'5f7f5f7b85f18458404125fds'); 
       var todos2=JSON.parse(JSON.stringify(todos20))

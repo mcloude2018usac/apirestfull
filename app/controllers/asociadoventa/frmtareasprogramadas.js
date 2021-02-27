@@ -610,7 +610,10 @@ function dadatosformularioproceso(namess,filtro,idempresa,namess2)
 
 }
 
-
+ 
+function replaceAll(str, find, replace) {
+    return str.replace(new RegExp(find, 'g'), replace);
+  }
 
 function dadatosformularioispapaarray(namess,idpapa,idempresa)
 {
@@ -669,24 +672,34 @@ function dadatosformularioispapaarray(namess,idpapa,idempresa)
 exports.getfrmtareasprogramadas = async  function(req, res, next){
     console.log(req.params)
     if(req.params.id5)
-    {   
+    {
         if(req.params.id2=='dashboard1periodo')
-        { 
-            
+        {
             var contratosv= []
+
+
             if(req.params.id4=='1')
-            { 
+            {
+
+                if(req.params.id=='periodo')
+                {
+                    contratosv = await dadatosformulario('5fc55f5994568f50c4cdcb47',
+                    {idempresa:req.params.id3},req.params.id3,'5fc55f5994568f50c4cdcb47'); 
+                }
+                else
+                {
                 contratosv = await dadatosformulariogrupo('5f729c2487c9e33bd4ada798',
                 {estado:'Activo',idempresa:req.params.id3},req.params.id3,'5f729c2487c9e33bd4ada798','$' + req.params.id); 
+                }
             }
             else
             {
+                
                 contratosv = await dadatosformulariogrupo('5f729c2487c9e33bd4ada798',
                 {estado:'Activo',empresa:req.params.id4,idempresa:req.params.id3},req.params.id3,'5f729c2487c9e33bd4ada798','$' + req.params.id); 
             }
-     
 
-            console.log(contratosv)
+        
             res.json(contratosv);
 
         }
@@ -707,7 +720,7 @@ exports.getfrmtareasprogramadas = async  function(req, res, next){
             if(req.params.id4==='Empresa')
             {
                 empresav = await dadatosformulario('5f58197323db5a1bdc6591ca',
-                {estado:'Activo',_id:req.params.id.split('¬')[1],idempresa:req.params.id3},req.params.id3,'5f58197323db5a1bdc6591cas'); 
+                {estado:'Activo',_id:replaceAll( req.params.id ,'ë','/').split('¬')[1],idempresa:req.params.id3},req.params.id3,'5f58197323db5a1bdc6591cas'); 
             }
             else
             {
@@ -724,20 +737,20 @@ exports.getfrmtareasprogramadas = async  function(req, res, next){
         
             if(req.params.id4==='Periodo')
             {
-                filtro= {idempresa:req.params.id3,empresa:'NIT: '+empresav[i0].nit+'°Nombre empresa: ' + empresav[i0].nombreempresa+
-                '°¬'+empresav[i0]._id,idempresa:req.params.id3,actividadclasexxx:'FINAL'}
+                filtro= {idempresa:req.params.id3,empresa:'<strong>NIT</strong>: '+empresav[i0].nit+'<br><strong>Nombre empresa</strong>: ' + empresav[i0].nombreempresa+
+                '<br>¬'+empresav[i0]._id,idempresa:req.params.id3,actividadclasexxx:'FINAL'}
             }
      
             if(req.params.id4==='Empresa')
             {
-                filtro= {estado:'Activo',empresa:'NIT: '+empresav[i0].nit+'°Nombre empresa: ' + empresav[i0].nombreempresa+
-                '°¬'+empresav[i0]._id,idempresa:req.params.id3}
+                filtro= {estado:'Activo',empresa:'<strong>NIT</strong>: '+empresav[i0].nit+'<br><strong>Nombre empresa</strong>: ' + empresav[i0].nombreempresa+
+                '<br>¬'+empresav[i0]._id,idempresa:req.params.id3}
             }
 
             if(req.params.id4==='Proyecto')
             {
-                filtro= {estado:'Activo',proyecto:req.params.id,empresa:'NIT: '+empresav[i0].nit+'°Nombre empresa: ' + empresav[i0].nombreempresa+
-                '°¬'+empresav[i0]._id,idempresa:req.params.id3}
+                filtro= {estado:'Activo',proyecto:req.params.id,empresa:'<strong>NIT</strong>: '+empresav[i0].nit+'<br><strong>Nombre empresa</strong>: ' + empresav[i0].nombreempresa+
+                '<br>¬'+empresav[i0]._id,idempresa:req.params.id3}
             }
 
             console.log(filtro)
@@ -801,7 +814,8 @@ exports.getfrmtareasprogramadas = async  function(req, res, next){
 
 
                 }
-                proyectosvv.push({proyecto:entradas[i].nombre.split('°')[2].split(':')[1],cinicial:cinicial2,cretiro:cretiro2,csaldo:cinicial2-cretiro2})
+                console.log(entradas[i].nombre.split('</strong>'))
+                proyectosvv.push({proyecto:entradas[i].nombre.split('</strong>')[4].split('<br>')[0],cinicial:cinicial2,cretiro:cretiro2,csaldo:cinicial2-cretiro2})
                 cinicial2=0
                 cretiro2=0
                 
@@ -848,8 +862,10 @@ if((cinicial+ cretiro)>0)
 
             if(req.params.id4==='Empresa')
             {
+                var idt=replaceAll( req.params.id ,'ë','/');
+                idt='' + idt.split('¬')[1]
                 empresav = await dadatosformulario('5f58197323db5a1bdc6591ca',
-                {estado:'Activo',_id:req.params.id.split('¬')[1],idempresa:req.params.id3},req.params.id3,'5f58197323db5a1bdc6591cas'); 
+                {estado:'Activo',_id:{$in:[idt]},idempresa:req.params.id3},req.params.id3,'5f58197323db5a1bdc6591cas'); 
             }
             else
             {
@@ -861,14 +877,19 @@ if((cinicial+ cretiro)>0)
 
             var ffempresa=[]
             for(var i0 = 0; i0 < empresav.length;i0++){
-                ffempresa.push('NIT: '+empresav[i0].nit+'°Nombre empresa: ' + empresav[i0].nombreempresa+
-                '°¬'+empresav[i0]._id)
+                ffempresa.push('<strong>NIT</strong>: '+empresav[i0].nit+'<br><strong>Nombre empresa</strong>: ' + empresav[i0].nombreempresa+
+                '<br>¬'+empresav[i0]._id)
             }
             var filtro;
             
             if(req.params.id4==='Periodo')
             {
-                filtro= {estado:'Activo',periodo:req.params.id,empresa:{$in:ffempresa},idempresa:req.params.id3}
+                filtro= {estado:'Activo',multasporperiodo:'<strong>Periodo</strong>: '+req.params.id.split('°')[0]+'<br>¬'+req.params.id.split('°')[1],idempresa:req.params.id3}
+
+             
+ 
+               
+
             }
           
             if(req.params.id4==='Grupo')
@@ -883,14 +904,43 @@ if((cinicial+ cretiro)>0)
 
             if(req.params.id4==='Proyecto')
             {
-                filtro= {estado:'Activo',proyecto:req.params.id,empresa:{$in:ffempresa},idempresa:req.params.id3}
+                var idt2=replaceAll( req.params.id ,'ë','/');
+                filtro= {estado:'Activo',proyecto:idt2,empresa:{$in:ffempresa},idempresa:req.params.id3}
             }
+
+
+           
 
            
             console.log(filtro)
             var ffcontrato=[]
+
+            if(req.params.id4==='Periodo')
+            {
+                var ffenmiendaperido=[]
+                enmiendaperiodov = await dadatosformulariosort('5f72a12587c9e33bd4ada7ab',
+               filtro,req.params.id3,'5f72a12587c9e33bd4ada7abs',{_id:1}); 
+               for(var i = 0; i < enmiendaperiodov.length;i++){
+               
+                ffenmiendaperido.push('' + enmiendaperiodov[i].idpapa)
+            }
+
+            filtro= {estado:'Activo',_id:{$in:ffenmiendaperido},idempresa:req.params.id3}
+
+             
+
             contratosv = await dadatosformulariosort('5f729c2487c9e33bd4ada798',
-           filtro,req.params.id3,'5f729c2487c9e33bd4ada798',{_id:1}); 
+                filtro,req.params.id3,'5f729c2487c9e33bd4ada798',{_id:1}); 
+
+
+
+     
+            }
+            else
+            {
+                contratosv = await dadatosformulariosort('5f729c2487c9e33bd4ada798',
+                filtro,req.params.id3,'5f729c2487c9e33bd4ada798',{_id:1}); 
+            }
 
            for(var i = 0; i < contratosv.length;i++){
                console.log(contratosv[i].empresa)
@@ -940,9 +990,11 @@ if((cinicial+ cretiro)>0)
   
         
             for(var i = 0; i < contratosv.length;i++){
+          
+                var empresita='<strong>NIT</strong>: '+empresav[i0].nit+'<br><strong>Nombre empresa</strong>: ' + empresav[i0].nombreempresa+
+                '<br>¬'+empresav[i0]._id
 
-              if('NIT: '+empresav[i0].nit+'°Nombre empresa: ' + empresav[i0].nombreempresa+
-              '°¬'+empresav[i0]._id===contratosv[i].empresa)  
+              if(empresita===contratosv[i].empresa)  
               {
                 
                 
@@ -1046,8 +1098,8 @@ if((cinicial+ cretiro)>0)
                         createdAt: enmiendasv[i2].createdAt,
                         tipo: enmiendasv[i2].tipo,
                         montototalenmienda: enmiendasv[i2].montototalenmienda,
-                        multasporperiodo: enmiendasv[i2].multasporperiodo.split('°')[0].split(':')[1].trim() ,
-                        idmultasporperiodo:enmiendasv[i2].multasporperiodo.split('°')[1].split('¬')[1],
+                        multasporperiodo: enmiendasv[i2].multasporperiodo.split('¬')[0].split(':')[1].split('<br>')[0] ,
+                        idmultasporperiodo:enmiendasv[i2].multasporperiodo.split('¬')[1],
                         montopagos:montopago,
                         montosancion:montosancion0,
                         montosaldo: enmiendasv[i2].montototalenmienda - montopago ,
@@ -1068,11 +1120,11 @@ if((cinicial+ cretiro)>0)
                     "descripcion" : contratosv[i].descripcion,
                     "imagenareageografica" : contratosv[i].imagenareageografica,
                     
-                    "empresa" : contratosv[i].empresa.split('°')[1].split(':')[1].trim(),
+                    "empresa" : contratosv[i].empresa.split(':')[2].split('<br>')[0],
                      
-                    "idempresa" : contratosv[i].empresa.split('°')[2].split('¬')[1],
-                    "proyecto" : contratosv[i].proyecto.split('°')[1].split(':')[1].trim(),
-                    "idproyecto" : contratosv[i].proyecto.split('°')[2].split('¬')[1],
+                    "idempresa" : contratosv[i].empresa.split('¬')[1],
+                    "proyecto" : contratosv[i].proyecto.split(':')[2].split('<br>')[0],
+                    "idproyecto" : contratosv[i].proyecto.split('¬')[1],
                     "estado" : contratosv[i].estado,
                     "idempresa" :contratosv[i].idempresa,
                     "fechafinalizacioncontrato" : contratosv[i].fechafinalizacion,
@@ -1189,7 +1241,7 @@ if((cinicial+ cretiro)>0)
                                                 idinspector:(Inspectores[i3].usuario).split('¬')[1],
                                                 inspector:(Inspectores[i3].usuario).split('¬')[0],
                                                 idproyecto0:Proyectos[i4]._id,
-                                                
+                                                idcontrato:''+ contrato._id,
                                                 "idempresa" : contrato.empresa.split('¬')[1],
                                                 "idproyecto" : contrato.proyecto.split('¬')[1],
                                                 proyecto: Proyectos[i4].proyecto
@@ -1257,6 +1309,7 @@ if((cinicial+ cretiro)>0)
                                                     idsupervisor0:'' + Supervisores[i2]._id + '',
                                                     "idempresa" :  contrato.empresa.split('¬')[1],
                                                     "idproyecto" : contrato.proyecto.split('¬')[1],
+                                                    idcontrato:'' + contrato._id,
                                                     proyecto: Proyectos[i4].proyecto,
                                                     idpapa: Proyectos[i4]._id 
                                                     

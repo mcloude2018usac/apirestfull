@@ -1118,9 +1118,16 @@ function numberWithCommas(x) {
                             columns: [
                               {
                                 // auto-sized columns have their widths based on their content
-                                width: 360,
+                                width: 160,
                                
                                 text:  master.cargodelsolicitante ,
+                               
+                              },
+                              {
+                                // auto-sized columns have their widths based on their content
+                                width: 240,
+                               
+                                text:  ' ' ,
                                
                               },
                               {
@@ -1135,7 +1142,7 @@ function numberWithCommas(x) {
                             ],
                             // optional space between columns
                             columnGap: 1,
-                            margin: [ 45, 40, 10, 1 ] ,
+                            margin: [ 5, 40, 10, 1 ] ,
                            
                            
                             fontSize: 8

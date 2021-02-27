@@ -196,6 +196,19 @@ function dadatosformulariocombo(namess,filtro,idempresa, myDatavector)
             if (err){ res.send(err); }
           
  
+            var objetox = {};
+                
+          
+                for(var j = 0; j < myDatavector.length;j++){
+                    for(var i = 0; i < todos.length;i++){
+                if(myDatavector[j].split('°')[0]===todos[i].name)
+                {
+                    objetox[todos[i].name] =todos[i].title + '°' + todos[i].type + '°'+ todos[i].display;
+                }
+            }
+               
+                
+            }
                                 if(todos.length>0)   {  
                                
                                     var cad=''
@@ -221,6 +234,13 @@ function dadatosformulariocombo(namess,filtro,idempresa, myDatavector)
                                     frmtt.find(filtro).exec(function(err, todos2) {
                                         if (err){  res.send(err); }
                                         
+                                        
+
+ var datafinal = functool.procesahtmlrecord(objetox,todos2,'si')
+                                                  
+ //res.json(datafinal);
+ resolve(datafinal); 
+ /*
                                         var myData = [];
                                         for(var i = 0; i < todos2.length;i++){
                                           var nombret ='';
@@ -235,6 +255,7 @@ function dadatosformulariocombo(namess,filtro,idempresa, myDatavector)
 
 
                                         resolve(myData); 
+                                        */
                                        // res.json(todos2);
 
                                     });
@@ -288,7 +309,7 @@ async function getcombomanual(req, res, next)
                   
                     //en las enmiendas vos a traer que plantilla de multas uso
                     var enmiendacampos=[]
-                    
+
                     enmiendacampos = await daformxid('5f72a12587c9e33bd4ada7abs',{_id:  '' +enmienda +''},'"multasporperiodo"	: { "type" : "String" }, '); 
 
 
@@ -772,6 +793,10 @@ var objectToArray = function(obj) {
     return _arr;
 }
  
+function replaceAll(str, find, replace) {
+    return str.replace(new RegExp(find, 'g'), replace);
+  }
+
 exports.getFrmmovil = function(req, res, next){
     
     if(req.params.id5)
@@ -859,8 +884,9 @@ exports.getFrmmovil = function(req, res, next){
                                         var cadxx=''
                                         var cad3=(dafiltrocad(todos,'','')).split('°')
                                         var filtro=''
+                                        filtro='{' +replaceAll( arremp[1] ,'ë','/')+ '}'
                                   
-                                        filtro='{' + arremp[1] + '}'
+                                        
                                         cad=cad3[0]
                                         cadxx='{'+ cad3[1] + '}'
                                         cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
@@ -948,8 +974,9 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                         var cadxx=''
                                         var cad3=(dafiltrocad(todos,'','')).split('°')
                                         var filtro=''
-                                  
-                                        filtro='{' +req.params.id2+ '}'
+                                        console.log(req.params.id2)
+                                        filtro='{' +replaceAll(req.params.id2,'ë','/')+ '}'
+                                        console.log(filtro)
                                         cad=cad3[0]
                                         cadxx='{'+ cad3[1] + '}'
                                         cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
@@ -1016,7 +1043,22 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
             Frmmovild.find({idmovil:req.params.id, display : "true",idempresa:arremp[0]}).sort([['order', 1]]).exec(function(err, todos) {
                 if (err){ res.send(err); }
               
-     
+      
+                   
+                var objetox = {};
+                
+               
+                    for(var j = 0; j < myDatavector.length;j++){
+                        for(var i = 0; i < todos.length;i++){
+                    if(myDatavector[j].split('°')[0]===todos[i].name)
+                    {
+                        objetox[todos[i].name] =todos[i].title + '°' + todos[i].type + '°'+ todos[i].display;
+                    }
+                }
+                   
+                    
+                }
+
                                     if(todos.length>0)   {  
                                        
                                         var cad=''
@@ -1025,11 +1067,16 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                         var filtro=''
                                   if(arremp[2] ===undefined && arremp[3]===undefined )
                                   {
-                                    filtro='{' + arremp[1] +'}'
+
+                                    filtro='{' +replaceAll( arremp[1] ,'ë','/')+ '}'
+                                  
+
+
+                                   
                                   }
                                   else
                                   {
-                                    filtro='{' + arremp[1] + '°' + arremp[2] + '°' + arremp[3] + '}'
+                                    filtro='{' +replaceAll( arremp[1] ,'ë','/')+ '°' + +replaceAll( arremp[2] ,'ë','/')+ + '°' + +replaceAll( arremp[3] ,'ë','/')+ + '}'
                                   }
                                        
                                    
@@ -1049,11 +1096,16 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                      
                                         try {
                                             var  frmtt= mongoose.model(namess,tt);
+                                                console.log(namess)
+                                            console.log(filtro)
                                             
                                             frmtt.find(JSON.parse(filtro) ,function(err, todos2) {
                                                 if (err){  res.send(err); }
                                              
-
+                                                var datafinal = functool.procesahtmlrecord(objetox,todos2,'si')
+                                                  
+                                                res.json(datafinal);
+                                                /*
                                               var myData = [];
                                               for(var i = 0; i < todos2.length;i++){
                                                 var nombret ='';
@@ -1065,6 +1117,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                                  
                                               }
                                                 res.json(myData);
+                                                */
                                               
                                             });
                                           } catch(e) {
@@ -1075,18 +1128,9 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                                  if (err){  res.send(err);
                                                 }
                                            
-                                              
-                                               var myData = [];
-                                               for(var i = 0; i < todos2.length;i++){
-                                                 var nombret ='';
-                                                 for(var j = 0; j < myDatavector.length;j++){
-                                                     nombret = nombret + myDatavector[j].split('°')[1] + ': ' +  todos2[i][myDatavector[j]].split('°')[0]  + ' , '
-                                                 }
-                                                 myData.push({_id:todos2[i]._id , nombre: nombret })
- 
+                                                var datafinal = functool.procesahtmlrecord(objetox,todos2,'si')
                                                   
-                                               }
-                                                 res.json(myData);
+                                                res.json(datafinal);
                                              
                                              });
                                           }
@@ -1179,7 +1223,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                 var arratodo = [];
                 for(var i = 0; i < idbuscar.length;i++){
                     var uno=idbuscar[i].split('°')[0]
-                    arratodo.push(uno)
+                    arratodo.push( uno)
                 }
                 
  
@@ -1232,7 +1276,8 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                         
                                             try {
                                                 var  frmtt= mongoose.model(namess,tt);
-                                                
+                                                console.log(namess)
+                                                console.log({_id:{$in :objectIdArray},idempresa:arrt[0]})
                                             
                                                 frmtt.find({_id:{$in :objectIdArray},idempresa:arrt[0]} ,function(err, todos2) {
                                                     if (err){  res.send(err); }
@@ -1244,6 +1289,9 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                               } catch(e) {
                                                 
                                                 var  frmtt= mongoose.model(namess);
+                                                console.log(namess)
+                                                console.log({_id:{$in :objectIdArray},idempresa:arrt[0]})
+                                            
                                       
                                                 frmtt.find( {_id:{$in :objectIdArray},idempresa:arrt[0]} ,function(err, todos2) {
                                                      if (err){  res.send(err);
@@ -1271,8 +1319,11 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                 {
         
                     var namess=req.params.id
+
                     var idbuscar=req.params.id2
+                    console.log(req.params)
                     var arrt=req.params.id3.split('°')
+                    console.log(arrt)
     
         
                     Frmmovild.find({idmovil:arrt[1], display : "true",idempresa:arrt[0]}).sort([['order', 1]]).exec(function(err, todos) {
@@ -1557,8 +1608,9 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                    
                 var objetox = {};
                 
-                for(var i = 0; i < todos.length;i++){
+              
                     for(var j = 0; j < myDatavector.length;j++){
+                        for(var i = 0; i < todos.length;i++){
                     if(myDatavector[j].split('°')[0]===todos[i].name)
                     {
                         objetox[todos[i].name] =todos[i].title + '°' + todos[i].type + '°'+ todos[i].display;
@@ -1608,7 +1660,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                             frmtt.find( {} ,function(err, todos2) {
                                                  if (err){  res.send(err);
                                                 }
-                                         
+                                         /*
                                               
                                                var myData = [];
                                                for(var i = 0; i < todos2.length;i++){
@@ -1620,7 +1672,11 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
  
                                                   
                                                }
-                                                 res.json(myData);
+                                               */
+                                              var datafinal = functool.procesahtmlrecord(objetox,todos2,'si')
+                                                  
+                                                   res.json(datafinal);
+                                                 
                                              
                                              });
                                           }
@@ -1733,7 +1789,8 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                         if(todos[i].idformulario.categoria==req.params.id)
                                         {
                                             myData.push({_id:todos[i].idformulario._id,categoria:todos[i].idformulario.categoria,nombre:todos[i].idformulario.nombre,foto:todos[i].idformulario.foto,estado:todos[i].idformulario.estado ,verregistros:todos[i].verregistros,geoposicion:todos[i].idformulario.geoposicion ,tipo2:todos[i].idformulario.tipo2,ejecuta:todos[i].idformulario.ejecuta  ,
-                                                ejecutainicio:todos[i].idformulario.ejecutainicio  ,tipo:todos[i].idformulario.tipo,permisos:{
+                                                ejecutainicio:todos[i].idformulario.ejecutainicio,
+                                                ejecutaope:todos[i].idformulario.ejecutaope  ,tipo:todos[i].idformulario.tipo,permisos:{
                                                 pactualizacion:todos[i].actualizacion,  pconsulta:todos[i].consulta, 
                                                 generareporte:todos[i].generareporte, 
                                                 activas:todos[i].activas,cerradas:todos[i].cerradas,ejecutadas:todos[i].ejecutadas,
@@ -1794,7 +1851,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                                 
                                                     if(todos[i].idformulario.categoria==req.params.id)
                                                     { 
-                                                        myData.push({_id:todos[i].idformulario._id,categoria:todos[i].idformulario.categoria,nombre:todos[i].idformulario.nombre,foto:todos[i].idformulario.foto,estado:todos[i].idformulario.estado ,verregistros:todos[i].verregistros,geoposicion:todos[i].idformulario.geoposicion ,tipo2:todos[i].idformulario.tipo2,ejecuta:todos[i].idformulario.ejecuta  ,ejecutainicio:todos[i].idformulario.ejecutainicio  ,tipo:todos[i].idformulario.tipo,
+                                                        myData.push({_id:todos[i].idformulario._id,categoria:todos[i].idformulario.categoria,nombre:todos[i].idformulario.nombre,foto:todos[i].idformulario.foto,estado:todos[i].idformulario.estado ,verregistros:todos[i].verregistros,geoposicion:todos[i].idformulario.geoposicion ,tipo2:todos[i].idformulario.tipo2,ejecuta:todos[i].idformulario.ejecuta  ,ejecutainicio:todos[i].idformulario.ejecutainicio ,ejecutaope:todos[i].idformulario.ejecutaope ,tipo:todos[i].idformulario.tipo,
                                                             pactualizacion:todos[i].actualizacion,  pconsulta:todos[i].consulta, 
                                                             activas:todos[i].activas,cerradas:todos[i].cerradas,ejecutadas:todos[i].ejecutadas,
                                                             generareporte:todos[i].generareporte, 
@@ -1819,7 +1876,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                                         }
                                                         if(encuentra==0)
                                                         {
-                                                        myData.push({_id:todosa[i]._id,categoria:todosa[i].categoria,nombre:todosa[i].nombre,foto:todosa[i].foto,estado:todosa[i].estado ,verregistros:todosa[i].verregistros,geoposicion:todosa[i].geoposicion ,tipo2:todosa[i].tipo2,ejecuta:todosa[i].ejecuta  ,ejecutainicio:todosa[i].ejecutainicio  ,tipo:todosa[i].tipo,
+                                                        myData.push({_id:todosa[i]._id,categoria:todosa[i].categoria,nombre:todosa[i].nombre,foto:todosa[i].foto,estado:todosa[i].estado ,verregistros:todosa[i].verregistros,geoposicion:todosa[i].geoposicion ,tipo2:todosa[i].tipo2,ejecuta:todosa[i].ejecuta  ,ejecutainicio:todosa[i].ejecutainicio,ejecutaope:todosa[i].ejecutaope  ,tipo:todosa[i].tipo,
                                                             pactualizacion:'true',  pconsulta:'true', pcreacion:'true', peliminacion:'true',  pfiltro:'true', pingreso:'true', reporte:'true',
                                                             generareporte:'', 
                                                             activas:'true',cerradas:'true',ejecutadas:'false',
@@ -1833,7 +1890,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                             
                                                 var myData2 = [];
                                                             for(var i = 0; i < unique.length;i++){
-                                                                myData2.push({_id:unique[i]._id,tipo:unique[i].tipo,ejecuta:unique[i].ejecuta,ejecutainicio:unique[i].ejecutainicio  ,tipo2:unique[i].tipo2,geoposicion:unique[i].geoposicion ,categoria:unique[i].categoria,nombre:unique[i].nombre,foto:unique[i].foto,estado:unique[i].estado ,verregistros:unique[i].verregistros,permisos:{pactualizacion:unique[i].pactualizacion, 
+                                                                myData2.push({_id:unique[i]._id,tipo:unique[i].tipo,ejecuta:unique[i].ejecuta,ejecutainicio:unique[i].ejecutainicio ,ejecutaope:unique[i].ejecutaope  ,tipo2:unique[i].tipo2,geoposicion:unique[i].geoposicion ,categoria:unique[i].categoria,nombre:unique[i].nombre,foto:unique[i].foto,estado:unique[i].estado ,verregistros:unique[i].verregistros,permisos:{pactualizacion:unique[i].pactualizacion, 
                                                                     activas:unique[i].activas,cerradas:unique[i].cerradas,ejecutadas:unique[i].ejecutadas,
                                                                     generareporte:unique[i].generareporte, 
                                                                     filtrarorden:unique[i].filtrarorden, pconsulta:unique[i].pconsulta, pcreacion:unique[i].pcreacion, peliminacion:unique[i].peliminacion,  pfiltro:unique[i].filtro, pingreso:'true', preporte:unique[i].preporte,  potros1:'', imprimeorden	:unique[i].imprimeorden,  
@@ -2686,7 +2743,22 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                         if (err){ res.send(err); }
 
                             var myDatavector=req.params.id2.split('°')
-                   
+
+                            var objetox = {};
+                
+              
+                            for(var j = 0; j < myDatavector.length;j++){
+                                for(var i = 0; i < todos.length;i++){
+                            if(myDatavector[j].split('°')[0]===todos[i].name)
+                            {
+                                objetox[todos[i].name] =todos[i].title + '°' + todos[i].type + '°'+ todos[i].display;
+                            }
+                        }
+                           
+                            
+                        }
+
+                   /*
                         var objetox = {};
                  
                         for(var i = 0; i < todos.length;i++){
@@ -2696,7 +2768,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                             }
                            
                             
-                        }
+                        }*/
                                             if(todos.length>0)   {  
                                         
                                                 var cad=''
@@ -2828,12 +2900,12 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
             case 'formulariodidxx':
                 var namess=req.params.id.split('°')
                 
-            
+            console.log({idformulario:namess[0],idempresa:req.params.id3})
                 Formcat2.find({idformulario:namess[0],idempresa:req.params.id3}).exec(function(err, todos1) {
                 if (err){ res.send(err); }
                                     if(todos1.length>0)   {   
                                     }
-            
+            console.log({idmovil:namess[0],_id:namess[1]})
                                     Frmmovild.find({idmovil:namess[0],_id:namess[1]}).exec(function(err, todos) {
                                         if (err){ res.send(err); }
                                                             if(todos.length>0)   {   
@@ -3271,8 +3343,10 @@ exports.creaFrmmovil3s = async function(req, res, next){
     if(req.body.operacion==='ejecutaoperacion')
     {
         console.log('entraaaaaaaaaaaaaaaaaaaaaaaaa  EJECUTA OPERACION '+ req.body.ejecuta)
-        switch(req.body.ejecuta) {
-            case 'visitas_programadas':
+
+        var a='1'
+        switch(a) {
+            case '1':
 
                 (async () => {    
                     respuesta = await frmejecuta.visitas_programadas(req, res, next);
@@ -3290,7 +3364,7 @@ exports.creaFrmmovil3s = async function(req, res, next){
            
             break;
             default:
-              // code block
+                res.json({estado:'ok'});
           }
     }
     else
@@ -3922,8 +3996,9 @@ if(req.params.recordID!=='crea')
             todo.tipo    	=	req.body.tipo    	||	todo.tipo    	;
             todo.publico    	=	req.body.publico    	||	todo.publico    	;
             todo.tipo2    	=	req.body.tipo2    	||	todo.tipo2    	;
-            todo.ejecuta    	=	req.body.ejecuta    	||	todo.ejecuta    	;
-            todo.ejecutainicio    	=	req.body.ejecutainicio    	||	todo.ejecutainicio    	;
+            todo.ejecuta    	=	req.body.ejecuta    	 	;
+            todo.ejecutainicio    	=	req.body.ejecutainicio    	   	;
+            todo.ejecutaope    	=	req.body.ejecutaope    	||	todo.ejecutaope    	;
             todo.foto    	=	req.body.foto    	||	todo.foto    	;
             todo.geoposicion    	=	req.body.geoposicion      	;
            
@@ -3966,6 +4041,7 @@ else{
                     idpapa        	: req.body.idpapa        	,
                     ejecuta        	: req.body.ejecuta        	,
                     ejecutainicio: req.body.ejecutainicio,
+                    ejecutaope: req.body.ejecutaope,
                     categoria        	: req.body.categoria        	,
                     nombre        	: req.body.nombre        	,
                     foto    	: req.body.foto    	,
@@ -4004,6 +4080,7 @@ else{
                     publico        	: req.body.publico        	,
                     ejecuta        	: req.body.ejecuta        	,
                     ejecutainicio: req.body.ejecutainicio,
+                    ejecutaope: req.body.ejecutaope,
                     foto    	: req.body.foto    	,
               //      idformdetalle:   req.body.idformdetalle,
                     geoposicion :   req.body.geoposicion,

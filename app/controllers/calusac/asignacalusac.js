@@ -325,8 +325,9 @@ break;
 case 'calusac3':
     //, foto1:1, foto2:1, foto3:1, foto4:1, foto5:1
     console.log('entra3333')
-    Asignacalusac.find({   "estadopago" : "Asignación exitosa",   "carnecalusac" : null}).select({_id:1 })
+    Asignacalusac.find({   "estadopago" : "Asignación exitosa",   "carnecalusac" :'0'}).select({_id:1 })
     .limit(1).exec(function(err, todos) {
+        console.log(todos)
         if (err){ res.send(err); console.log(err) }
         console.log(todos)
                      getUNA2(todos[0]._id);    
