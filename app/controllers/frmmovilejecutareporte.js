@@ -1213,7 +1213,7 @@ function numberWithCommas(x) {
 
                 for(var i = 0; i < detalle.length;i++){
                     var articulon=detalle[i].articulo.split('<br>')
-                  if(articulon[2].split(':')[1].trim()==='VIENEN DE LA')
+                  if(articulon[1].split(':')[1].trim()==='VIENEN DE LA')
                   {
                     jsonx.push( [
                       { 
@@ -1245,7 +1245,7 @@ function numberWithCommas(x) {
                               // auto-sized columns have their widths based on their content
                               width: 255,
                              
-                              text:  articulon[2].split(':')[1].trim() + ' ' + detalle[i].notarjeta,
+                              text:  articulon[1].split(':')[1].trim() + ' ' + detalle[i].notarjeta,
                              
                             },
                             {
@@ -1273,7 +1273,7 @@ function numberWithCommas(x) {
                   }
                   else
                   {
-                    if(articulon[2].split(':')[1].trim()==='ULTIMA LINEA')
+                    if(articulon[1].split(':')[1].trim()==='ULTIMA LINEA')
                     {
 
                       jsonx.push( [
@@ -1306,7 +1306,7 @@ function numberWithCommas(x) {
                                 // auto-sized columns have their widths based on their content
                                 width: 255,
                                
-                                text:  articulon[2].split(':')[1].trim(),
+                                text:  articulon[1].split(':')[1].trim(),
                                
                               },
                               {
@@ -1355,7 +1355,7 @@ function numberWithCommas(x) {
                                 // auto-sized columns have their widths based on their content
                                 width: 60,
                                
-                                text: articulon[4].split(':')[1].trim(),
+                                text: articulon[3].split(':')[1].trim(),
                                
                               },
 
@@ -1363,7 +1363,7 @@ function numberWithCommas(x) {
                                 // auto-sized columns have their widths based on their content
                                 width: 255,
                                
-                                text:  articulon[2].split(':')[1].trim(),
+                                text:  articulon[1].split(':')[1].trim(),
                                
                               },
                               {

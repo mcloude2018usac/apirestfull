@@ -885,8 +885,8 @@ var visitas_programadas=async  function(req, res, next){
              }}
 
              console.log(enmiendatt)
-             var nopagos= enmiendatt.nopagos
-             var mesinicio= enmiendatt.periodoinicialdepago
+             var nopagos= enmiendatt.cantidaddemesesparagenerarpagos
+             var mesinicio= enmiendatt.periodoinicialparagenerarpagos
              var montototal=enmiendatt.montototalenmienda
 
              if(nopagos===undefined  )
@@ -1146,7 +1146,32 @@ var visitas_programadas=async  function(req, res, next){
         var procesofinalcrea= async function(req, res, next,dataanterior){
           return new Promise(resolve => {
               switch(req.body.ejecuta) {
-                
+                case '1_actualizapagocontrato':
+                  (async () => {
+                  var pagoid=req.body.estructura.pagosintermedios.split('¬')[1]
+                  var nofactura=req.body.estructura.nofactura
+
+                  var banco=req.body.estructura.bancotransferencia
+                  var cuenta=req.body.estructura.nocuenta
+                  var memo=req.body.estructura.memo
+
+
+                  var estructura={
+                    "nofactura" : nofactura,
+                    "banco" : banco,
+                    "cuenta" :cuenta,
+                    "memo":memo,
+                    "estado":'Cancelado'
+                   
+                }
+                  producto = await actualizaformularioidfinal('5f595df92521cd38c8fe3126',{ _id:pagoid},req.body.estructura.idempresa,'5f595df92521cd38c8fe3126',estructura); 
+
+
+
+                 
+                  resolve({estado:'exito'}); 
+                })();
+                  break;
                 case 'Crearmultasegunsancion': 
                 (async () => {
                 var contrato=req.body.estructura.contrato.split('¬')[1]

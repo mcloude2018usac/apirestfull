@@ -1,5 +1,6 @@
 
 var nodemailer = require('nodemailer');
+var smtpTransport = require('nodemailer-smtp-transport');
 //var ses = require('nodemailer-ses-transport');
 const REGION = 'us-east-1'
 const PROFILE = 'ses'
@@ -19,6 +20,7 @@ const credentials = new AWS.SharedIniFileCredentials({filename: CREDENTIALS_FILE
 AWS.config.update({region: REGION})
 AWS.config.credentials = credentials
 const ses = new AWS.SES()
+
 
    
 exports.getMail2 = function(req1, res){
@@ -55,7 +57,33 @@ exports.getMail2 = function(req1, res){
 
 }   
 
+exports.getMailgoogle = function(req, res, next){
+
+  let transporter = nodemailer.createTransport(smtpTransport({
+    service: 'gmail',
+    host: 'smtp.gmail.com',
+    auth: {
+        user: req.body.origencorreo,
+        pass: req.body.clavecorreo
+    }
+  }));
   
+  const mailOptions = {
+    from: req.body.origencorreo,
+    to: req.body.destino,
+    subject: req.body.subjet,
+    html:  req.body.html
+};
+
+transporter.sendMail(mailOptions, function(error, info){
+  if (error) {
+      console.log(error);
+  } else {
+    res.json(info);
+  }
+});
+
+}  
 //user: 'usacenlinea1.0@usacenlinea.net',
 exports.getMail = function(req, res, next){
 

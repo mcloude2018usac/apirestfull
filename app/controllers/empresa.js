@@ -108,6 +108,17 @@ if(req.params.recordID!=='crea')
             todo.horario       	=	req.body.horario        	||	todo.horario;  
             todo.pmodulo       	=	req.body.pmodulo        	||	todo.pmodulo;   
              todo.moneda     	= req.body.moneda    	;
+
+
+             todo.tipocorreo	= req.body.tipocorreo    	;
+             todo.segurocorreo= req.body.segurocorreo    	;
+             todo.tlscorreo= req.body.tlscorreo    	;
+             todo.origencorreo= req.body.origencorreo    	;
+             todo.clavecorreo= req.body.clavecorreo    	;
+             todo.puertocorreo= req.body.puertocorreo    	;
+             todo.tipofirma= req.body.tipofirma    	;
+
+
             todo.nit       	=	req.body.nit        	||	todo.nit;   
             todo.razon       	=	req.body.razon        	||	todo.razon;   
             todo.titulo0       	=	req.body.titulo0        	||	todo.titulo0;   
@@ -169,6 +180,14 @@ else{
          redsocial1     	: req.body.redsocial1    	,
          redsocial2     	: req.body.redsocial2    	,
          redsocial3     	: req.body.redsocial3    	,
+         tipocorreo	: req.body.tipocorreo    	,
+         segurocorreo: req.body.segurocorreo    	,
+         tlscorreo: req.body.tlscorreo    	,
+         origencorreo: req.body.origencorreo    	,
+         clavecorreo: req.body.clavecorreo    	,
+         puertocorreo: req.body.puertocorreo    	,
+         tipofirma: req.body.tipofirma    	,
+
          estado     	: req.body.estado    	,
 
 

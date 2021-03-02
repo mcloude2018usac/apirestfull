@@ -28,6 +28,13 @@ var mongoose =require("mongoose");
         redsocial1	: { type : String },
         redsocial2	: { type : String },
         redsocial3	: { type : String },
+        tipocorreo	: { type : String },
+        segurocorreo	: { type : String },
+        tlscorreo	: { type : String },
+        origencorreo	: { type : String },
+        clavecorreo	: { type : String },
+        puertocorreo	: { type : String },
+        tipofirma	: { type : String },
         nombredominio	: { type : String },
         usuarionew	: { type : String },      usuarioup	: { type : String }
        
