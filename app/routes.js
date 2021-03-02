@@ -740,9 +740,9 @@ participa2Routes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  Part
 apiRoutes.use('/bibliotecas', bibliotecaRoutes);
 bibliotecaRoutes.get('/:id',requireAuth,  BibliotecaController.getBiblioteca);
 
-//-----------------------------------MAIL
 apiRoutes.use('/mails', mailRoutes);
 mailRoutes.post('/:id',  MailController.getMail);
+mailRoutes.post('/:id/:id2/:id3',  MailController.getMailgoogle);
 mailRoutes.post('/:id/:id2',  MailController.getMailarray);
 //mailRoutes.post('/:id',  MailController.getMail2);
 
