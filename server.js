@@ -58,9 +58,10 @@ app.use(express.static('public'));
 app.use(express.static('www'));
 
 
+
 app.use(fileUpload({  createParentPath: true}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: false })); // Parses urlencoded bodies
-app.use(bodyParser.json({limit: '50mb'})); // Send JSON responses
+app.use(bodyParser.json({limit: '150mb'})); // Send JSON responses
 app.use(methodOverride());
 app.use(logErrors);
 app.use(clientErrorHandler);
