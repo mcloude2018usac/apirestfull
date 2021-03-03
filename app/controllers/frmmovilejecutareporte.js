@@ -1105,7 +1105,7 @@ function numberWithCommas(x) {
                             ],
                             // optional space between columns
                             columnGap: 1,
-                            margin: [ 25, 80, 10, 1 ] ,
+                            margin: [ 25, 75, 10, 1 ] ,
                           
                            
                             fontSize: 8
@@ -1118,14 +1118,14 @@ function numberWithCommas(x) {
                             columns: [
                               {
                                 // auto-sized columns have their widths based on their content
-                                width: 160,
+                                width: 100,
                                
                                 text:  master.cargodelsolicitante ,
                                
                               },
                               {
                                 // auto-sized columns have their widths based on their content
-                                width: 240,
+                                width: 280,
                                
                                 text:  ' ' ,
                                
@@ -1142,7 +1142,7 @@ function numberWithCommas(x) {
                             ],
                             // optional space between columns
                             columnGap: 1,
-                            margin: [ 5, 40, 10, 1 ] ,
+                            margin: [ 25, 60, 10, 1 ] ,
                            
                            
                             fontSize: 8
@@ -1195,7 +1195,7 @@ function numberWithCommas(x) {
                           ],
                           // optional space between columns
                           columnGap: 1,
-                          margin: [ 45, 78, 10, 1 ] ,
+                          margin: [ 45, 83, 10, 1 ] ,
                           
                          
                           fontSize: 8
