@@ -1142,7 +1142,7 @@ function numberWithCommas(x) {
                             ],
                             // optional space between columns
                             columnGap: 1,
-                            margin: [ 25, 60, 10, 1 ] ,
+                            margin: [ 25, 40, 10, 1 ] ,
                            
                            
                             fontSize: 8
@@ -1195,7 +1195,7 @@ function numberWithCommas(x) {
                           ],
                           // optional space between columns
                           columnGap: 1,
-                          margin: [ 45, 70, 10, 1 ] ,
+                          margin: [ 45, 90, 10, 1 ] ,
                           
                          
                           fontSize: 8
