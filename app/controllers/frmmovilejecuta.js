@@ -1148,28 +1148,32 @@ var visitas_programadas=async  function(req, res, next){
               switch(req.body.ejecuta) {
                 case '1_actualizapagocontrato':
                   (async () => {
-                  var pagoid=req.body.estructura.pagosintermedios.split('¬')[1]
-                  var nofactura=req.body.estructura.nofactura
-
-                  var banco=req.body.estructura.bancotransferencia
-                  var cuenta=req.body.estructura.nocuenta
-                  var memo=req.body.estructura.memo
-
-
-                  var estructura={
-                    "nofactura" : nofactura,
-                    "banco" : banco,
-                    "cuenta" :cuenta,
-                    "memo":memo,
-                    "estado":'Cancelado'
-                   
-                }
-                  producto = await actualizaformularioidfinal('5f595df92521cd38c8fe3126',{ _id:pagoid},req.body.estructura.idempresa,'5f595df92521cd38c8fe3126',estructura); 
-
-
-
+                    var pagoid=req.body.estructura.pagosintermedios.split('¬')[1]
+                    var nofactura=req.body.estructura.nofactura
+  
+                    var banco=req.body.estructura.bancotransferencia
+                    var cuenta=req.body.estructura.nocuenta
+                    var memo=req.body.estructura.memo
+  
+  
                  
-                  resolve({estado:'exito'}); 
+  
+                    var estructura={
+                      "nofactura" : nofactura,
+                      "bancotransferencia" : banco,
+                      "nocuenta" :cuenta,
+                      "observaciones":memo,
+                      "estado":'Cancelado'
+                     
+                  }
+                    producto = await actualizaformularioidfinal('5f595df92521cd38c8fe3126',{ _id:pagoid}
+                    ,req.body.estructura.idempresa,'5f595df92521cd38c8fe3126',estructura); 
+  
+  
+  
+                   
+                    resolve({estado:'exito'}); 
+
                 })();
                   break;
                 case 'Crearmultasegunsancion': 

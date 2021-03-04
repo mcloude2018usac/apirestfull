@@ -137,7 +137,7 @@ var re=''
                                 try {
                                    
                                     var  frmtt= mongoose.model(namess,tt);
-                                    frmtt.find(filtro ,function(err, todos2) {
+                                    frmtt.find(filtro).sort({_id:-1}).exec(function(err, todos2) {
                                         if (err){  res.send(err); }
                                        
                                       
@@ -150,7 +150,7 @@ var re=''
                                     
                                     var  frmtt= mongoose.model(namess);
                           
-                                    frmtt.find( filtro ,function(err, todos2) {
+                                    frmtt.find( filtro).sort({_id:-1}).exec(function(err, todos2) {
                                          if (err){  res.send(err);
                                         }
                                  
@@ -171,6 +171,64 @@ var re=''
     
 
                                 });
+
+}
+
+function daidformreg(namess,filtro,orden,idempresa,tabla)
+{
+
+     
+    return new Promise(resolve => { 
+        Frmmovild.find({idmovil:tabla, idempresa:idempresa}).sort([['order', 1]]).exec(function(err, todos) {
+            if (err){ res.send(err); }
+          
+ 
+                                if(todos.length>0)   {  
+                               
+                                    var cad=''
+                                    var cadxx=''
+                                    var cad3=(dafiltrocad(todos,'','')).split('°')
+                                  
+                              
+                                 
+                                    cad=cad3[0]
+                                    cadxx='{'+ cad3[1] + '}'
+                                    cad=cad + ' "idpapa"	: { "type" : "String" },"usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                    cad='{' + cad + '}'
+                                    cadxx='{' + cadxx + '}'
+
+                               //  console.log(cad)
+                                    var jsonObject = stringToObject(cad);
+                                  
+                                    var mongoose = require("mongoose");
+                                    var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                                    delete mongoose.connection.models[namess];
+                                    var  frmtt= mongoose.model(namess,tt);
+
+                                    frmtt.find(filtro).sort(orden).exec(function(err, todos2) {
+                                        if (err){  res.send(err); }
+                                        
+                                        
+
+ resolve(todos2); 
+
+
+                                    });
+                                }
+
+
+    });
+        
+                                    
+                                   
+                             
+                
+        
+    
+
+                                });
+
+
 
 }
 
@@ -285,14 +343,102 @@ async function getcombomanual(req, res, next)
                 var namess=req.params.id
                 var campost=req.params.id2
                 var myDatavector = campost.split(',');
-             
+                var idempresa=req.params.id3.split('°')[0]
                 var myDatavector2 = req.params.id5.split(',');
                 var contrato=davalorvv(myDatavector2,'contrato')
                 var filtro={estado:'Activo',idpapa:contrato}
-                const ans = await daidform('5f72a12587c9e33bd4ada7abs',filtro); 
+                //enmiendas
+                const ans = await daidformreg('5f72a12587c9e33bd4ada7abs',filtro,{_id:-1},idempresa,'5f72a12587c9e33bd4ada7ab'); 
+
+var papasx=[]
+for(var i = 0; i <ans.length; i++) {
+    papasx.push('' + ans[i]._id)
+}
+
                  var arr=req.params.id3.split('°')
-                planificaciones = await dadatosformulariocombo('5f595df92521cd38c8fe3126',{idpapa:ans,estado:'Activo'},arr[0],myDatavector); 
-                res.json(planificaciones);
+                 const pagosf = await daidformreg('5f595df92521cd38c8fe3126',{
+                    idpapa:{$in:papasx}
+                    ,estado:'Pendiente'},{_id:1},idempresa,'5f595df92521cd38c8fe3126'); 
+
+
+
+                    var enmiendax=[]
+for(var i = 0; i <pagosf.length; i++) {
+    enmiendax.push('' + pagosf[i]._id)
+}
+
+const multas = await daidformreg('5f74c0fff22ed14ea01c1cbes',{
+    idpapa:{$in:enmiendax}
+    ,estado:'Activo'},{_id:1},idempresa,'5f74c0fff22ed14ea01c1cbe'); 
+
+    const emergencias = await daidformreg('603715b7a59cf50610072759',{
+        idpapa:{$in:enmiendax},estado:'No atendida'
+        },{_id:1},idempresa,'603715b7a59cf50610072759'); 
+
+var pagosxx=[]
+//String(Supervisores[i2]._id)
+        for(var i = 0; i <pagosf.length; i++) {
+            var totalmulta=0
+            var totalemergencias=0
+            var totalpago=pagosf[i].montopago;
+            var idpago=String(pagosf[i]._id);
+           
+            for(var i2 = 0; i2 <multas.length; i2++) {
+                if(idpago===multas[i2].idpapa)
+                {
+                    totalmulta=totalmulta+ multas[i2].monto
+
+                }
+           
+            }
+
+
+            for(var i3 = 0; i3 <emergencias.length; i3++) {
+
+                if(idpago===emergencias[i3].idpapa)
+                {
+                    totalemergencias=totalemergencias+ emergencias[i3].monto
+
+                }
+           
+            }
+            
+            var montoapagar=totalpago-totalmulta-totalemergencias
+            pagosxx.push({_id:pagosf[i]._id,nopago:Number(pagosf[i].nopago),item:pagosf[i],nombre:'<strong>No pago</strong>: '+ pagosf[i].nopago+'<br><strong>Perido pago</strong>: '+ pagosf[i].periodopago+'<br><strong>Monto Pago</strong>: '+totalpago+'<br><strong>Multas</strong>: '+ totalmulta+'<br><strong>Emergencias</strong>: '+ totalemergencias+'<br><strong>Monto a pagar</strong>: ' + montoapagar +'<br>'})
+           
+        }
+
+
+        pagosxx.sort(function(a, b) {
+            return parseFloat(a.nopago) - parseFloat(b.nopago);
+        });
+
+
+      
+
+        //nombre:'<strong>Monto Pago</strong>: 307201.83<br><strong>No pago</strong>: 25<br><strong>Monto a pagar</strong>: 307201.83<br>'
+
+
+
+          /*      planificaciones = await dadatosformulariocombo('5f595df92521cd38c8fe3126',{
+                    idpapa:{$in:papasx}
+                    ,estado:'Cancelado'},arr[0],myDatavector); 
+                    */
+
+                    var pagos2=[]
+
+                if(pagosxx.length===0)
+                {
+                    res.json(pagosxx);
+                }
+                else
+                {
+                    pagos2.push({_id:pagosxx[0]._id,nopago:pagosxx[0].nopago,item:pagosxx[0].item,nombre:pagosxx[0].nombre});
+
+                    res.json(pagos2)
+                }
+
+                
         break;
 
                 case 'getcombosancioenmienda':
@@ -535,17 +681,23 @@ function  existeregistrosfrom(idformulario,todos,cadxx,idpapa)
     
 }
 
-function dafiltrocad(todos,id2,id3) {
+function dafiltrocad(todos,id2,id3,norequerido) {
     var cad=''
     var cadxx=''
-   
+    var norequerido2=norequerido;
+    if(norequerido2===undefined)
+    {
+        norequerido2=''
+    }
+
+
     for(var i = 0; i < todos.length;i++){
                                       
      
         switch(todos[i].type) {
             case 'Rango':  
             if(todos[i].name==id2){cadxx='"' +id2 + '":' +id3 + ''  }
-            if(todos[i].required=='false')
+            if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
             {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
             }
             else
@@ -556,7 +708,7 @@ function dafiltrocad(todos,id2,id3) {
              case 'Fecha': //ISODate("2018-08-08T15:00:56.875Z"),
              if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
              else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-             if(todos[i].required=='false')
+             if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
              {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
              }
              else
@@ -568,7 +720,7 @@ function dafiltrocad(todos,id2,id3) {
               case 'Hora': //ISODate("2018-08-08T15:00:56.875Z"),
               if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
               else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-              if(todos[i].required=='false')
+              if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
               {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
               }
               else
@@ -580,7 +732,7 @@ function dafiltrocad(todos,id2,id3) {
               case 'Fecha y Hora': //ISODate("2018-08-08T15:00:56.875Z"),
               if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
               else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-              if(todos[i].required=='false')
+              if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
               {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
               }
               else
@@ -592,7 +744,7 @@ function dafiltrocad(todos,id2,id3) {
               case 'Check': 
               if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
               else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-              if(todos[i].required=='false')
+              if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
               {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
               }
               else
@@ -604,7 +756,7 @@ function dafiltrocad(todos,id2,id3) {
                case 'Imagen': 
                if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
                else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-               if(todos[i].required=='false')
+               if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
                {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
                }
                else
@@ -616,7 +768,7 @@ function dafiltrocad(todos,id2,id3) {
                 case 'Documento': 
                 if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
                 else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-                if(todos[i].required=='false')
+                if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
                 {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
                 }
                 else
@@ -628,7 +780,7 @@ function dafiltrocad(todos,id2,id3) {
          case 'Alfanumerico': 
          if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
          else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-         if(todos[i].required=='false')
+         if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
          {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
          }
          else
@@ -639,7 +791,7 @@ function dafiltrocad(todos,id2,id3) {
           break;
         case 'Numerico':  
         if(todos[i].name==id2){cadxx='"' +id2 + '":' +id3 + ''  }
-        if(todos[i].required=='false')
+        if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
         {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
         }
         else
@@ -649,7 +801,7 @@ function dafiltrocad(todos,id2,id3) {
         break;
         case 'Moneda':  
         if(todos[i].name==id2){cadxx='"' +id2 + '":' +id3 + ''  }
-        if(todos[i].required=='false')
+        if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
         {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
         }
         else
@@ -662,7 +814,7 @@ function dafiltrocad(todos,id2,id3) {
         else{cadxx='"' +id2 + '": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
 //        if(todos[i].name==id2){cadxx='"' +id2 + '":"' +id3 + '"'  }
    
-        if(todos[i].required=='false')
+        if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
         {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
         }
         else
@@ -675,7 +827,7 @@ function dafiltrocad(todos,id2,id3) {
         case 'Lista de valores': 
         if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '.label":"' +id3 + '"' }
          else{cadxx='"' +id2 + '.label": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-        if(todos[i].required=='false')
+        if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
              {cad=cad+'"'+todos[i].name+'":{"type" : "String"},';
                  //cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String"},   "label"	: { "type" : "String" }},';
              }
@@ -688,7 +840,7 @@ function dafiltrocad(todos,id2,id3) {
           case 'Check List': 
           if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '.label":"' +id3 + '"' }
            else{cadxx='"' +id2 + '.label": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-          if(todos[i].required=='false')
+          if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
                {cad=cad+'"'+todos[i].name+'":{"type" : "String"},';
                    //cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String"},   "label"	: { "type" : "String" }},';
                }
@@ -701,7 +853,7 @@ function dafiltrocad(todos,id2,id3) {
             case 'Check List Detalle': 
             if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '.label":"' +id3 + '"' }
              else{cadxx='"' +id2 + '.label": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-            if(todos[i].required=='false')
+            if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
                  {cad=cad+'"'+todos[i].name+'":{"type" : "String"},';
                      //cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String"},   "label"	: { "type" : "String" }},';
                  }
@@ -882,7 +1034,7 @@ exports.getFrmmovil = function(req, res, next){
                                    
                                         var cad=''
                                         var cadxx=''
-                                        var cad3=(dafiltrocad(todos,'','')).split('°')
+                                        var cad3=(dafiltrocad(todos,'','','')).split('°')
                                         var filtro=''
                                         filtro='{' +replaceAll( arremp[1] ,'ë','/')+ '}'
                                   
@@ -972,7 +1124,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                    
                                         var cad=''
                                         var cadxx=''
-                                        var cad3=(dafiltrocad(todos,'','')).split('°')
+                                        var cad3=(dafiltrocad(todos,'','','')).split('°')
                                         var filtro=''
                                         console.log(req.params.id2)
                                         filtro='{' +replaceAll(req.params.id2,'ë','/')+ '}'
@@ -1063,7 +1215,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                        
                                         var cad=''
                                         var cadxx=''
-                                        var cad3=(dafiltrocad(todos,'','')).split('°')
+                                        var cad3=(dafiltrocad(todos,'','','')).split('°')
                                         var filtro=''
                                   if(arremp[2] ===undefined && arremp[3]===undefined )
                                   {
@@ -1162,7 +1314,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                    
                                         var cad=''
                                         var cadxx=''
-                                        var cad3=(dafiltrocad(todos,'','')).split('°')
+                                        var cad3=(dafiltrocad(todos,'','','')).split('°')
                                   
                                         cad=cad3[0]
                                       
@@ -1259,7 +1411,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                        
                                             var cad=''
                                             var cadxx=''
-                                            var cad3=(dafiltrocad(todos,'','')).split('°')
+                                            var cad3=(dafiltrocad(todos,'','','')).split('°')
                                       
                                             cad=cad3[0]
                                           
@@ -1334,7 +1486,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                            
                                                 var cad=''
                                                 var cadxx=''
-                                                var cad3=(dafiltrocad(todos,'','')).split('°')
+                                                var cad3=(dafiltrocad(todos,'','','')).split('°')
                                           
                                                 cad=cad3[0]
                                               
@@ -1402,7 +1554,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                                
                                                     var cad=''
                                                     var cadxx=''
-                                                    var cad3=(dafiltrocad(todos,'','')).split('°')
+                                                    var cad3=(dafiltrocad(todos,'','','')).split('°')
                                               
                                                     cad=cad3[0]
                                                   
@@ -1470,7 +1622,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                        
                                             var cad=''
                                             var cadxx=''
-                                            var cad3=(dafiltrocad(todos,'','')).split('°')
+                                            var cad3=(dafiltrocad(todos,'','','')).split('°')
                                       
                                             cad=cad3[0]
                                           
@@ -1537,7 +1689,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                        
                                             var cad=''
                                             var cadxx=''
-                                            var cad3=(dafiltrocad(todos,'','')).split('°')
+                                            var cad3=(dafiltrocad(todos,'','','')).split('°')
                                       
                                             cad=cad3[0]
                                           
@@ -1627,7 +1779,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                    
                                         var cad=''
                                         var cadxx=''
-                                        var cad3=(dafiltrocad(todos,'','')).split('°')
+                                        var cad3=(dafiltrocad(todos,'','','')).split('°')
                                   
                                         cad=cad3[0]
                                         cadxx='{'+ cad3[1] + '}'
@@ -1937,7 +2089,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                
                                     var cad=''
                                     var cadxx=''
-                                    var cad3=(dafiltrocad(todos,req.params.id2,req.params.id3.replace('¬','/'))).split('°')
+                                    var cad3=(dafiltrocad(todos,req.params.id2,req.params.id3.replace('¬','/'),'')).split('°')
                                     cad=cad3[0]
 
                                     if(arrtodos[1] ==='todosdetalle')
@@ -2355,7 +2507,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                                
                                                     var cad=''
                                                     var cadxx=''
-                                                    var cad3=(dafiltrocad(todos,'','')).split('°')
+                                                    var cad3=(dafiltrocad(todos,'','','')).split('°')
                                               
                                                     cad=cad3[0]
                                                     cadxx='{'+ cad3[1] + '}'
@@ -2440,7 +2592,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                        
                                             var cad=''
                                             var cadxx=''
-                                            var cad3=(dafiltrocad(todos,'','')).split('°')
+                                            var cad3=(dafiltrocad(todos,'','','')).split('°')
                                       
                                             cad=cad3[0]
                                             cadxx='{'+ cad3[1] + '}'
@@ -2613,7 +2765,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                         
                                                 var cad=''
                                                 var cadxx=''
-                                                var cad3=(dafiltrocad(todos,'','')).split('°')
+                                                var cad3=(dafiltrocad(todos,'','','')).split('°')
                                         
                                                 cad=cad3[0]
                                                 cadxx='{'+ cad3[1] + '}'
@@ -2689,7 +2841,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                         
                                                 var cad=''
                                                 var cadxx=''
-                                                var cad3=(dafiltrocad(todos,'','')).split('°')
+                                                var cad3=(dafiltrocad(todos,'','','')).split('°')
                                         
                                                 cad=cad3[0]
                                                 cadxx='{'+ cad3[1] + '}'
@@ -2773,7 +2925,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                         
                                                 var cad=''
                                                 var cadxx=''
-                                                var cad3=(dafiltrocad(todos,'','')).split('°')
+                                                var cad3=(dafiltrocad(todos,'','','')).split('°')
                                         
                                                 cad=cad3[0]
                                                 cadxx='{'+ cad3[1] + '}'
@@ -3081,7 +3233,7 @@ exports.deleteFrmmovil2 = async function(req, res, next){
 
 
                                 
-                                var cad3=(dafiltrocad(todos,'','')).split('°')
+                                var cad3=(dafiltrocad(todos,'','','')).split('°')
                                 cad=cad3[0]
                                // cadxx='{'+ cad3[1] + '}'
                                 cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" }'
@@ -3425,7 +3577,7 @@ if(req.params.recordID!=='crea')
                                 {
                                     var cad=''
                               
-                                    var cad3=(dafiltrocad(todos,'','')).split('°')
+                                    var cad3=(dafiltrocad(todos,'','','',req.body.norequeridospp)).split('°')
                                     cad=cad3[0]
                                     if(req.body.idpapa)
                                     {
@@ -3526,7 +3678,7 @@ if(req.params.recordID!=='crea')
                             
     
                                     var cad=''
-                                    var cad3=(dafiltrocad(todos,'','')).split('°')
+                                    var cad3=(dafiltrocad(todos,'','','',req.body.norequeridospp)).split('°')
                                     cad=cad3[0]
                                     if(req.body.idpapa)
                                     {
@@ -3696,7 +3848,7 @@ if(req.body.tipo2==='Formulario'){
                                {
 
                                             var cad=''
-                                            var cad3=(dafiltrocad(todos,'','')).split('°')
+                                            var cad3=(dafiltrocad(todos,'','',req.body.norequeridospp)).split('°')
                                             cad=cad3[0]
                                             if(req.body.idpapa)
                                             {
@@ -3853,7 +4005,7 @@ if(req.body.tipo2==='Formulario'){
                         
 
                                 var cad=''
-                                var cad3=(dafiltrocad(todos,'','')).split('°')
+                                var cad3=(dafiltrocad(todos,'','',req.body.norequeridospp)).split('°')
                                 cad=cad3[0]
                                 if(req.body.idpapa)
                                 {
