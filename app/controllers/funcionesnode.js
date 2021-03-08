@@ -295,6 +295,15 @@ var dahora= function(data) {
         return indices.length;
       }
     
+      function formatNumber(num) {
+        return 'Q.' + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+      }
+      
+      function numberWithCommas(x) {
+      
+      
+        return formatNumber(Number(x))
+      }
 
     var procesahtmlrecord = function(objetox,todos2,sicampovalida)
     {
@@ -368,7 +377,7 @@ var dahora= function(data) {
                    {
                        if(arreglo[1]==='Moneda')
                        {
-                           cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + valorxx + '<br>'
+                           cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + numberWithCommas(valorxx) + '<br>'
                        }
                        else
                        {

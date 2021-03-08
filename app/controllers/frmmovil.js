@@ -2648,24 +2648,14 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
            
   break;
             case 'formularioproceso':
-            
-            
-            
-                var arrtodos=req.params.id3.split('°')
-             
-           
+            var arrtodos=req.params.id3.split('°')
             var usuarito=''
             var tieneactividadasignacion=arrtodos[5]
             usuarioup=arrtodos[4]
-                var actividadt=[]
-            
-                
-                    actividadt=req.params.id.split(',')
-                   
-
-            
-                var namess=arrtodos[3]
-                var filtro
+            var actividadt=[]
+            actividadt=req.params.id.split(',')
+            var namess=arrtodos[3]
+            var filtro
                 if(arrtodos[1]==='todos')
                 {
                     filtro={idempresa:arrtodos[0],estadoordenxxx:arrtodos[2]}
@@ -2760,8 +2750,12 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                     Frmmovild.find({idmovil:arrtodos[3], display : "true",idempresa:arrtodos[0]}).exec(function(err, todos) {
                         if (err){ res.send(err); }
                     
-                    
-                                            if(todos.length>0)   {  
+                        var objetox = {};
+                    for(var i = 0; i < todos.length;i++){
+                        objetox[todos[i].name] =todos[i].title + '°' + todos[i].type + '°'+ todos[i].display;
+                    }
+          
+                                        //    if(todos.length>0)   {  
                                         
                                                 var cad=''
                                                 var cadxx=''
@@ -2786,7 +2780,11 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                                     frmtt.find(filtro ).sort([['_id', -1]]).exec(function(err, todos2) {
                                                         if (err){  res.send(err); }
                                                     
-                                                        res.json(todos2);
+                                                        var datafinal = functool.procesahtmlrecordproceso(objetox,todos2,'no')
+                                                   
+                                                        res.json(datafinal);
+                                                    
+                                                       // res.json(todos2);
                                                     
                                                     });
                                                 } catch(e) {
@@ -2796,8 +2794,10 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                                     frmtt.find( filtro ).sort([['_id', -1]]).exec(function(err, todos2) {
                                                         if (err){  res.send(err);
                                                         }
-                                                    
-                                                        res.json(todos2);
+                                                        var datafinal = functool.procesahtmlrecordproceso(objetox,todos2,'no')
+                                                   
+                                                        res.json(datafinal);
+                                                      //  res.json(todos2);
                                                     
                                                     });
                                                 }
@@ -2805,7 +2805,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
 
                                             
                                 
-                        }
+                       // }
                     });
                 
             
@@ -3434,6 +3434,19 @@ exports.creaFrmmovil3s = async function(req, res, next){
         
     }
     else{
+        if(req.body.operacion==='actualizasimple')
+        {
+          
+            Bitacora.create(req.body.bitacora);
+    
+         
+    
+            producto = await actualizaformularioidfinal(req.body.formulario,{ _id:req.body.idform},req.body.bitacora.idempresa,req.body.formulario,req.body.estructura); 
+           
+            res.json({estado:'ok'});
+    
+        }
+        else{
     if(req.body.operacion==='actualizafrmdirecto')
     {
       
@@ -4124,7 +4137,7 @@ if(req.body.tipo2==='Formulario'){
 
 
 
-}}}}}
+}}}}}}
 }
 
 
