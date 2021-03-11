@@ -522,6 +522,7 @@ switch(value) {
    case 'Check':   tt='String';   break;
    case 'Imagen':   tt='String';   break;
    case 'Documento':   tt='String';   break;
+   case 'Componente':   tt='String';   break;
     default:
       // code block
   }
@@ -546,6 +547,7 @@ switch(value) {
        case 'Check':   tt='check';   break;
        case 'Imagen':   tt='imagen';   break;
        case 'Documento':   tt='documento';   break;
+       case 'Componente':   tt='componente';   break;
         default:
           // code block
       }

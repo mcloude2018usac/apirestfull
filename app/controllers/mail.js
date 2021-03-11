@@ -57,11 +57,14 @@ exports.getMail2 = function(req1, res){
 
 }   
 
-exports.getMailgoogle = function(req, res, next){
+
+exports.getMailofice356 = function(req, res, next){
 
   let transporter = nodemailer.createTransport(smtpTransport({
-    service: 'gmail',
-    host: 'smtp.gmail.com',
+  
+    host: 'smtp.office365.com',
+    secureConnection: false,
+    tls: { ciphers: 'SSLv3' },
     auth: {
         user: req.body.origencorreo,
         pass: req.body.clavecorreo
@@ -75,6 +78,7 @@ exports.getMailgoogle = function(req, res, next){
     html:  req.body.html
 };
 
+
 transporter.sendMail(mailOptions, function(error, info){
   if (error) {
       console.log(error);
@@ -82,6 +86,69 @@ transporter.sendMail(mailOptions, function(error, info){
     res.json(info);
   }
 });
+
+} 
+
+exports.getMailgoogle = function(req, res, next){
+
+  if(req.params.id3==='GMAIL')
+  {
+    let transporter = nodemailer.createTransport(smtpTransport({
+      service: 'gmail',
+      host: 'smtp.gmail.com',
+      auth: {
+          user: req.body.origencorreo,
+          pass: req.body.clavecorreo
+      }
+    }));
+    
+    const mailOptions = {
+      from: req.body.origencorreo,
+      to: req.body.destino,
+      subject: req.body.subjet,
+      html:  req.body.html
+  };
+  
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+        console.log(error);
+    } else {
+      res.json(info);
+    }
+  });
+  }
+
+
+  if(req.params.id3==='OFFICE365')
+  {
+    let transporter = nodemailer.createTransport(smtpTransport({
+  
+      host: 'smtp.office365.com',
+      secureConnection: false,
+      tls: { ciphers: 'SSLv3' },
+      auth: {
+          user: req.body.origencorreo,
+          pass: req.body.clavecorreo
+      }
+    }));
+    
+    const mailOptions = {
+      from: req.body.origencorreo,
+      to: req.body.destino,
+      subject: req.body.subjet,
+      html:  req.body.html
+  };
+  
+  
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+        console.log(error);
+    } else {
+      res.json(info);
+    }
+  });
+  }
+
 
 }  
 //user: 'usacenlinea1.0@usacenlinea.net',
