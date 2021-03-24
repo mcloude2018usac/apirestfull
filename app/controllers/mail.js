@@ -112,6 +112,7 @@ exports.getMailgoogle = function(req, res, next){
   transporter.sendMail(mailOptions, function(error, info){
     if (error) {
         console.log(error);
+        res.status(500).send('error al enviar correo');
     } else {
       res.json(info);
     }
@@ -121,9 +122,11 @@ exports.getMailgoogle = function(req, res, next){
 
   if(req.params.id3==='OFFICE365')
   {
+  
     let transporter = nodemailer.createTransport(smtpTransport({
   
       host: 'smtp.office365.com',
+      port:  Number(req.body.puertocorreo),
       secureConnection: false,
       tls: { ciphers: 'SSLv3' },
       auth: {
@@ -142,7 +145,8 @@ exports.getMailgoogle = function(req, res, next){
   
   transporter.sendMail(mailOptions, function(error, info){
     if (error) {
-        console.log(error);
+        console.log(error);  res.status(500).send('error al enviar correo');
+        
     } else {
       res.json(info);
     }

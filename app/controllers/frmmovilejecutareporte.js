@@ -992,17 +992,17 @@ function numberWithCommas(x) {
                         var articulon=detalle[i].articulo.split('<br>')
                         var preciou=0
                        
-                        if(detalle[i].preciounitario===undefined)
+                        if(detalle[i].precioporunidadsegunfactura===undefined)
                         {
                             preciou=0
                         }
                         else
                         {
-                             preciou=detalle[i].preciounitario
+                             preciou=detalle[i].precioporunidadsegunfactura
                         }
                         
     
-                        markup=markup+'<tr><td contenteditable="true" colspan="1">'+  detalle[i].cantidad +'</td> '
+                        markup=markup+'<tr><td contenteditable="true" colspan="1">'+  detalle[i].unidadessegunfactura +'</td> '
     
                         markup=markup+'<td contenteditable="true" colspan="3">'+ detalle[i].descripciondelarticulaenfactura +'</td> '
     
@@ -1013,7 +1013,7 @@ function numberWithCommas(x) {
                         markup=markup+'<td contenteditable="true" colspan="1">'+  preciou +'</td> '
                     
                         var tottal=0
-                        total=preciou*detalle[i].cantidad
+                        total=preciou*detalle[i].unidadessegunfactura
                         markup=markup+'<td contenteditable="true" colspan="1">Q.'+ total +'</td></tr>'
                         grantotal=grantotal+total
     
@@ -1658,18 +1658,18 @@ function numberWithCommas(x) {
                         var articulon=detalle[i].articulo.split('<br>')
                         var preciou=0
                        
-                        if(detalle[i].preciounitario===undefined)
+                        if(detalle[i].precioporunidadsegunfactura===undefined)
                         {
                             preciou=0
                         }
                         else
                         {
-                             preciou=detalle[i].preciounitario
+                             preciou=detalle[i].precioporunidadsegunfactura
                         }
                         
 
                         var tottal=0
-                        total=preciou*detalle[i].cantidad
+                        total=preciou*detalle[i].unidadessegunfactura
                         jsonx.push( [
                             { 
                                 columns: [
@@ -1677,7 +1677,7 @@ function numberWithCommas(x) {
                                     // auto-sized columns have their widths based on their content
                                     width: 35,
                                  
-                                    text:  detalle[i].cantidad,
+                                    text:  detalle[i].unidadessegunfactura,
                                    
                                   },
                                 

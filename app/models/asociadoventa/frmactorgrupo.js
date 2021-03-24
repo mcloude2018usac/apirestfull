@@ -15,6 +15,7 @@
   correousuarios		: { type : String, required : true },  
   nombreusuarios		: { type : String, required : true },  
   usuarionew		: { type : String },  
+  idclona     	: { type : String },  
   usuarioup		: { type : String },  
   estado		: { type : String, required : true },  
     }, {

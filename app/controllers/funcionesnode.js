@@ -428,7 +428,18 @@ var dahora= function(data) {
                   {
                       comt2='<br> Comentario anulado: ' + todos2[i].comentarioanulado
                   }
-                  datafinal.push({item:todos2[i],_id:todos2[i]._id,nombre2:'tico',nombre:cad+ '<div style="font-size: 8px;text-transform: capitalize;">Crea: [' + dafechastring(todos2[i]['createdAt'])+',' + todos2[i]['usuarionew'] + ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +   todos2[i]['usuarioup']+ '] <br> Estado interno: '+ todos2[i].estadointerno + comt + comt2 +'</div>',item:todos2[i],usuario:''})
+   
+
+
+                  
+                if(todos2[i].estadointerno ==='activo')
+                {
+                    datafinal.push({item:todos2[i],_id:todos2[i]._id,nombre2:'tico',nombre:cad+ '<div style="font-size: 10px;text-transform: capitalize;">Crea: [' + dafechastring(todos2[i]['createdAt'])+',' + todos2[i]['usuarionew'] + ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +   todos2[i]['usuarioup']+ '] <br> Estado interno: '+ todos2[i].estadointerno + comt + comt2 +'</div>',item:todos2[i],usuario:''})
+                }
+                else
+                {
+                    datafinal.push({item:todos2[i],_id:todos2[i]._id,nombre2:'tico',nombre:cad+ '<div style="font-size: 10px;text-transform: capitalize;">Crea: [' + dafechastring(todos2[i]['createdAt'])+',' + todos2[i]['usuarionew'] + ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +   todos2[i]['usuarioup']+ '] <br> </div><div style="font-size: 14px;text-transform: capitalize;color:red;">Estado interno: '+ todos2[i].estadointerno + comt + comt2 +'</div>',item:todos2[i],usuario:''}) 
+                }
                  cad='';
   
                 }
@@ -562,7 +573,21 @@ data[aa].replace('¬', ',') + '" target="_blank">https://www.google.com/maps/sea
                 {
                     comt2='<br> Comentario anulado: ' + todos2[i].comentarioanulado
                 }
-                datafinal.push({_id:todos2[i]._id,nombre2:'tico',nombre:cad+ '<div style="font-size: 8px;text-transform: capitalize;">Crea: [' + dafechastring(todos2[i]['createdAt'])+',' + todos2[i]['usuarionew'] + ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +   todos2[i]['usuarioup']+ '] <br> Estado interno: '+ todos2[i].estadointerno + comt + comt2 +'</div>',item:todos2[i],usuario:''})
+  
+
+                if(todos2[i].estadointerno ==='activo')
+                {
+                    datafinal.push({_id:todos2[i]._id,nombre2:'tico',nombre:cad+ '<div style="font-size: 10px;text-transform: capitalize;">Crea: [' + dafechastring(todos2[i]['createdAt'])+',' + todos2[i]['usuarionew'] + ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +   todos2[i]['usuarioup']+ '] <br> Estado interno: '+ todos2[i].estadointerno + comt + comt2 +'</div>',item:todos2[i],usuario:''})
+
+                }
+                else
+                {
+                    datafinal.push({_id:todos2[i]._id,nombre2:'tico',nombre:cad+ '<div style="font-size: 10px;text-transform: capitalize;">Crea: [' + dafechastring(todos2[i]['createdAt'])+',' + todos2[i]['usuarionew'] + ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +   todos2[i]['usuarioup']+ '] <br></div><div style="font-size: 14px;text-transform: capitalize;color:red;"> Estado interno: '+ todos2[i].estadointerno + comt + comt2 +'</div>',item:todos2[i],usuario:''})
+
+                }
+
+
+
                cad='';
 
               }
@@ -686,7 +711,15 @@ data[aa].replace('¬', ',') + '" target="_blank">https://www.google.com/maps/sea
                cad='';
               }
               else{
-                datafinal.push({_id:todos2[i]._id,nombre2:'tico',nombre:cad+ '<div style="font-size: 8px;text-transform: capitalize;">Crea: [' + dafechastring(todos2[i]['createdAt'])+',' + todos2[i]['usuarionew'] + ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +   todos2[i]['usuarioup']+ '] <br> Estado interno: '+ todos2[i].estadointerno +'</div>',item:todos2[i],usuario:''})
+                  if(todos2[i].estadointerno ==='activo')
+                  {
+                    datafinal.push({_id:todos2[i]._id,nombre2:'tico',nombre:cad+ '<div style="font-size: 10px;text-transform: capitalize;">Crea: [' + dafechastring(todos2[i]['createdAt'])+',' + todos2[i]['usuarionew'] + ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +   todos2[i]['usuarioup']+ '] <br> Estado interno: '+ todos2[i].estadointerno +'</div>',item:todos2[i],usuario:''})
+                  }
+                  else
+                  {
+                    datafinal.push({_id:todos2[i]._id,nombre2:'tico',nombre:cad+ '<div style="font-size: 10px;text-transform: capitalize;">Crea: [' + dafechastring(todos2[i]['createdAt'])+',' + todos2[i]['usuarionew'] + ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +   todos2[i]['usuarioup']+ '] <br></div> <div style="font-size: 14px;text-transform: capitalize;color:red;">Estado interno: '+ todos2[i].estadointerno +'</div>',item:todos2[i],usuario:''})
+                  }
+              
                cad='';
 
               }

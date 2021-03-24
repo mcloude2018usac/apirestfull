@@ -86,6 +86,16 @@ if(req.params.recordID!=='crea')
  todo.filtro       	=	req.body.filtro        ;   
  todo.reporte       	=	req.body.reporte        ;   
 
+ todo.comandos       	=	req.body.comandos        	;  
+ todo.correocomandos	=	req.body.correocomandos; 
+ todo.nombrecomandos	=	req.body.nombrecomandos;  
+
+
+ todo.cancelarorden	= req.body.cancelarorden	;   
+ todo.reasignarorden	= req.body.reasignarorden	;   
+ todo.bitacoraorden	= req.body.bitacoraorden	;   
+ todo.papaorden	= req.body.papaorden	;   
+
  todo.generareporte		= req.body.generareporte	;   
  todo.imprimeorden		= req.body.imprimeorden	;   
  todo.imprimeorden2		= req.body.imprimeorden2	;   
@@ -139,7 +149,19 @@ else{
   estado     	: req.body.estado    	,
   verregistros	: req.body.verregistros	,
   generareporte:req.body.generareporte	,
+
+  cancelarorden:req.body.cancelarorden	,
+  reasignarorden:req.body.reasignarorden	,
+  bitacoraorden:req.body.bitacoraorden	,
+  papaorden:req.body.papaorden	,
    
+
+  comandos     	: req.body.comandos    	,
+  nombrecomandos	: req.body.nombrecomandos	,
+  correocomandos	: req.body.correocomandos	,
+ 
+
+
  imprimeorden	: req.body.imprimeorden	,
  imprimeorden2	: req.body.imprimeorden2	,
  finalizaorden  	: req.body.finalizaorden	,

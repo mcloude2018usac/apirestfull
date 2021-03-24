@@ -22,6 +22,25 @@
   trayectoriaorden    : { type : String },  
   documentacionorden    : { type : String },  
   pausarorden  : { type : String },  
+
+  cancelarorden: { type : String },  
+  reasignarorden : { type : String },  
+  bitacoraorden  : { type : String },  
+  papaorden : { type : String },  
+    
+  comandos:[{
+    email	: { type : String, required : true },
+    nombre		: { type : String, required : true },
+    correo	: { type : String},
+   
+
+ }],
+  
+  nombrecomandos	: { type : String },  
+  correocomandos	:  { type : String },  
+ 
+
+
   anularorden   : { type : String },  
   fotosorden: { type : String },  
   comentariosorden   : { type : String },  

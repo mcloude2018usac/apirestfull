@@ -33,7 +33,7 @@ function dadatosformulariofinal  (namess,filtro,idempresa,namess2)
                                  
                                     cad=cad3[0]
                                     cadxx='{'+ cad3[1] + '}'
-                                    cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                    cad=cad + ' "idpapa"	: { "type" : "String" }, "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
                                     cad='{' + cad + '}'
                                     cadxx='{' + cadxx + '}'
 
@@ -871,8 +871,113 @@ var visitas_programadas=async  function(req, res, next){
 
   return new Promise(resolve => {
     var aa=req.body.ejecuta
-  
+  console.log('ejecuta operacion ' +  aa)
     switch(aa) {
+
+      case '2_generaemergencias': 
+      (async () => {
+
+        var   acum=req.body.acumulados;
+        var enmiendatt;
+        for(var i = 0; i < acum.length;i++){
+          switch(acum[i].idtabla) {
+              case '5f72a12587c9e33bd4ada7ab':  enmiendatt=  acum[i].item;break;
+              default:
+             }}
+
+             console.log(enmiendatt)
+             var nopagos= enmiendatt.montodeemergencias
+            
+             
+             var todos20 = await dadatosformulariofinal(req.body.idform,{ idpapa:req.body.idpapa},req.body.idempresa,req.body.idform); 
+             if(todos20.length===0)
+             {
+               resolve({estado:'No existen pagos generados , ejecute la opción 1'}); 
+             }
+
+
+             if(nopagos===undefined  )
+             {
+              resolve({estado:'Ingrese en enmienda el monto de emergencias a aplicar'}); 
+             }
+             else
+             {
+            
+              var pagosid=[]
+
+              for(var j2 = 0; j2 < todos20.length;j2++){
+                pagosid.push('' + todos20[j2]._id)
+              }
+              
+
+                var todos20a = await dadatosformulariofinal('603715b7a59cf50610072759',{ idpapa:{$in:pagosid}},
+                req.body.idempresa,'603715b7a59cf50610072759'); 
+                if(todos20a.length>0)
+                {
+                  resolve({estado:'Ya existen emergencias procesadas'}); 
+                }
+                else
+                {
+                  for(var j = 0; j < todos20.length;j++){
+                    var encuentra=0;
+                    for(var jj = 0; jj < todos20a.length;jj++){
+                      if(String(todos20[j]._id)===todos20a[jj].idpapa)
+                      {
+
+                        encuentra=1;
+                        break;
+                      }
+                    }
+               
+                    if(encuentra==0)
+                    {
+                              var names='603715b7a59cf50610072759'
+                              var estructura= {
+
+                                "descripciondelaemergencia" : "sss",
+                                "monto" : nopagos,
+                                "estado" : "No atendida",
+                                  "usuarionew" :req.body.bitacora.email,
+                                  "usuarioup" : req.body.bitacora.email,
+                                  "idpapa" : todos20[j]._id,
+                                
+                                  "idempresa" : req.body.idempresa,
+
+                                  "sequencia" : "3",
+                                
+                                  "comentarioanulado" : "",
+                                  "comentariocerrado" : "",
+                                  "estadointerno" : "activo"
+
+                              
+                              
+                                
+                            }
+
+                            console.log(names + ' ' + req.body.idform + ' '+ req.body.idpapa + ' ' +req.body.idtipo)
+                            creafrmregistro(req, res, next,names,'603715b7a59cf50610072759',estructura,'noresponde',[],todos20[j]._id
+                            ,req.body.tipo)
+
+                    }
+                                
+  
+                 
+                   
+  
+  
+                  }
+  
+                  
+                  resolve({estado:'exito'}); 
+                }
+
+
+           
+
+             }
+        
+      })();
+      break;
       case '1_generapagos': 
       (async () => {
 
@@ -917,6 +1022,13 @@ var visitas_programadas=async  function(req, res, next){
                 var periodopagon=Number(mesini[0])
                 var periodopago2n=Number(mesini[1])
 
+                var todos20 = await dadatosformulariofinal(req.body.idform,{ idpapa:req.body.idpapa},req.body.idempresa,req.body.idform); 
+                if(todos20.length>0)
+                {
+                  resolve({estado:'Ya existen pagos procesados'}); 
+                }
+
+
                 for(var j = 0; j < nopagos;j++){
 
                   var  fechapago1=dafechapago1(periodopagon,periodopago2n) // '2018-08'
@@ -957,8 +1069,8 @@ var visitas_programadas=async  function(req, res, next){
                     
                 }
   
-  console.log(names + ' ' + req.body.idform + ' '+ req.body.idpapa + ' ' +req.body.idtipo)
-                creafrmregistro(req, res, next,names,req.body.idform,estructura,'noresponde',[],req.body.idpapa,req.body.idtipo)
+  console.log(names + ' ' + req.body.idform + ' '+ req.body.idpapa + ' ' +req.body.tipo)
+                creafrmregistro(req, res, next,names,req.body.idform,estructura,'noresponde',[],req.body.idpapa,req.body.tipo)
 
                  periodopagon=periodopagon+1
                  if(periodopagon===13)

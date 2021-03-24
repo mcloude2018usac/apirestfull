@@ -31,6 +31,7 @@ var AuthenticationController = require('./controllers/authentication'),
     frmactividadController = require('./controllers/asociadoventa/frmactividad'),
     frmactividadcamposdController = require('./controllers/asociadoventa/frmactividadcamposd'),
     frmactorController = require('./controllers/asociadoventa/frmactor'),
+    frmcomandoController = require('./controllers/asociadoventa/frmcomando'),
     frmactorgrupoController = require('./controllers/asociadoventa/frmactorgrupo'),
     GeneradorController = require('./controllers/generafrm/generador'),
    SiifController = require('./controllers/siif'),
@@ -49,7 +50,7 @@ var AuthenticationController = require('./controllers/authentication'),
    Unidadhorario3Controller = require('./controllers/calusac/unidadhorario3'),
    Unidadpago3Controller = require('./controllers/calusac/unidadpago3'),
    Unidaddia3Controller = require('./controllers/calusac/unidaddia3'),
-   BibliotecaController = require('./controllers/biblioteca/biblioteca'),
+  // BibliotecaController = require('./controllers/biblioteca/biblioteca'),
     Datosfijo2sController = require('./controllers/datosfijos2'),
     UserperfilController = require('./controllers/userperfil'),
     ParticipaController = require('./controllers/participa'),
@@ -219,6 +220,7 @@ module.exports = function(app){
         imageRoutes = express.Router(),
         image2Routes = express.Router(),
         frmactorRoutes = express.Router(),
+        frmcomandoRoutes = express.Router(),
         image2frmRoutes = express.Router(),
         frmactorgrupoRoutes = express.Router(),
         frmtareasprogramadasfotosRoutes = express.Router(),
@@ -235,7 +237,7 @@ module.exports = function(app){
         catalogoRoutes = express.Router(),
         catalogodiplomaRoutes = express.Router(),
         compratokenRoutes = express.Router(),
-        bibliotecaRoutes = express.Router(),
+      //  bibliotecaRoutes = express.Router(),
         tiposuscriptorRoutes = express.Router(),
         area_eventoRoutes = express.Router(),
         ubicacionentregaRoutes = express.Router(),
@@ -402,6 +404,15 @@ frmactorRoutes.get('/:id/:id2/:id3/:id4',requireAuth,  frmactorController.getfrm
 frmactorRoutes.get('/:id',requireAuth,  frmactorController.getfrmactor);
 frmactorRoutes.post('/:recordID',requireAuth,  frmactorController.creafrmactor2s);
 frmactorRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  frmactorController.deletefrmactor);
+
+
+apiRoutes.use('/frmcomandos', frmcomandoRoutes);
+frmcomandoRoutes.get('/', requireAuth,frmcomandoController.getfrmcomando);
+frmcomandoRoutes.get('/:id/:id2/:id3',requireAuth,  frmcomandoController.getfrmcomando);
+frmcomandoRoutes.get('/:id/:id2/:id3/:id4',requireAuth,  frmcomandoController.getfrmcomando);
+frmcomandoRoutes.get('/:id',requireAuth,  frmcomandoController.getfrmcomando);
+frmcomandoRoutes.post('/:recordID',requireAuth,  frmcomandoController.creafrmcomando2s);
+frmcomandoRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  frmcomandoController.deletefrmcomando);
 
 
 apiRoutes.use('/frmtareasprogramadasservicioss', frmtareasprogramadasserviciosRoutes);
@@ -737,8 +748,8 @@ participa2Routes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  Part
 
 
 //-----------------------------------BIBLIOTECA
-apiRoutes.use('/bibliotecas', bibliotecaRoutes);
-bibliotecaRoutes.get('/:id',requireAuth,  BibliotecaController.getBiblioteca);
+//apiRoutes.use('/bibliotecas', bibliotecaRoutes);
+//bibliotecaRoutes.get('/:id',requireAuth,  BibliotecaController.getBiblioteca);
 
 apiRoutes.use('/mails', mailRoutes);
 mailRoutes.post('/:id',  MailController.getMail);
