@@ -15,6 +15,7 @@ exports.getPermison3 = function(req, res, next){
                    if (err){  res.send(err);  }
                    var myData = [];
                    for(var i = 0; i < todos.length;i++){
+                    if(todos[i].nombre!==null)    {
                     myData.push({_id:todos[i]._id,idpermiso:todos[i].idpermiso,
                         idrol:todos[i].idrol,ingreso:todos[i].ingreso
                         ,nombre:todos[i].nombre.nombre
@@ -29,6 +30,7 @@ exports.getPermison3 = function(req, res, next){
                         ,estado:todos[i].estado
                         ,potros1:todos[i].potros1
                         });
+                    }
                    }
                     res.json(myData);
                 });
@@ -61,6 +63,7 @@ exports.getPermison3 = function(req, res, next){
                         if (err){  res.send(err);  }
                    var myData = [];
                    for(var i = 0; i < todos.length;i++){
+                    if(todos[i].nombre!==null)    {
                     myData.push({_id:todos[i]._id,idpermiso:todos[i].idpermiso,
                         idrol:todos[i].idrol,ingreso:todos[i].ingreso
                         ,nombre:todos[i].nombre.nombre
@@ -75,6 +78,7 @@ exports.getPermison3 = function(req, res, next){
                         ,estado:todos[i].estado
                         ,potros1:todos[i].potros1
                         });
+                    }
                    }
                     res.json(myData);
                      });
@@ -86,6 +90,7 @@ exports.getPermison3 = function(req, res, next){
                         if (err){  res.send(err);  }
                         var myData = [];
                         for(var i = 0; i < todos.length;i++){
+                            if(todos[i].nombre!==null)    {
                             myData.push({_id:todos[i]._id,idpermiso:todos[i].idpermiso,
                                 idrol:todos[i].idrol,ingreso:todos[i].ingreso
                                 ,nombre:todos[i].nombre.nombre
@@ -100,6 +105,7 @@ exports.getPermison3 = function(req, res, next){
                                 ,estado:todos[i].estado
                                 ,potros1:todos[i].potros1
                                 });
+                            }
                         }
                          res.json(myData);
                      });

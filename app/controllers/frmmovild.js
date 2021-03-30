@@ -160,7 +160,7 @@ if(req.params.id!=='crea')
           
             todo.required		=	rr2         	    	;
             todo.placeholder		=	  'Ingrese '+ req.body.title+''     	;
-            todo.display		=	    rr        	   	||	todo.display   	;
+            todo.display		=	    rr        	    	;
             todo.selected		=	req.body.selected           	;
             todo.default		=	req.body.default        	||	todo.default        	;
             todo.default2		=	req.body.default2        	||	todo.default2        	;
@@ -261,7 +261,7 @@ else{
                         nombreconsulta2:'',
                         required :rr	,
                         placeholder :'Ingrese '+ req.body.title+''	,
-                        display :rr,
+                        display :'false',
                         selected :true 	,
                         disabled :'false' 	,
                         hidden :'false' 	,
@@ -370,7 +370,7 @@ else{
                         copiarencampo:'',
                         required :rr	,
                         placeholder :'Ingrese '+ req.body.title+''	,
-                        display :rr,
+                        display :'false',
                         selected :true 	,
                         disabled :'false' 	,
                         hidden :'false' 	,

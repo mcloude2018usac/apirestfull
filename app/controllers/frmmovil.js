@@ -194,7 +194,7 @@ function daidformreg(namess,filtro,orden,idempresa,tabla)
                                  
                                     cad=cad3[0]
                                     cadxx='{'+ cad3[1] + '}'
-                                    cad=cad + ' "idpapa"	: { "type" : "String" },"usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                    cad=cad + ' "ordenhijas": { "type" : "String" },"idpapa"	: { "type" : "String" },"usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
                                     cad='{' + cad + '}'
                                     cadxx='{' + cadxx + '}'
 
@@ -278,7 +278,7 @@ function dadatosformulariocombo(namess,filtro,idempresa, myDatavector)
                                  
                                     cad=cad3[0]
                                     cadxx='{'+ cad3[1] + '}'
-                                    cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                    cad=cad + ' "estadointerno"	: { "type" : "String" },  "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
                                     cad='{' + cad + '}'
                                     cadxx='{' + cadxx + '}'
 
@@ -975,7 +975,7 @@ function replaceAll(str, find, replace) {
     return str.replace(new RegExp(find, 'g'), replace);
   }
 
-exports.getFrmmovil = function(req, res, next){
+exports.getFrmmovil = async function(req, res, next){
     
     if(req.params.id5)
     {
@@ -1269,7 +1269,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                    
                                         cad=cad3[0]
                                         cadxx='{'+ cad3[1] + '}'
-                                        cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                        cad=cad + ' "estadointerno"	: { "type" : "String" },"usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
                                         cad='{' + cad + '}'
                                         cadxx='{' + cadxx + '}'
 
@@ -1818,7 +1818,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                   
                                         cad=cad3[0]
                                         cadxx='{'+ cad3[1] + '}'
-                                        cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                        cad=cad + '"estadointerno"	: { "type" : "String" }, "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
                                         cad='{' + cad + '}'
                                         cadxx='{' + cadxx + '}'
                                    
@@ -2116,6 +2116,20 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
         }
         else
         {
+            if(req.params.id4=='ordenhijas')
+            {
+
+
+                var filtro={ordenhijas: { $regex: '.*' + req.params.id + '.*' },idempresa:req.params.id3}
+                //enmiendas
+                const ans = await daidformreg(req.params.id2,filtro,{_id:-1},req.params.id3,req.params.id2); 
+                res.json(ans);
+            }
+            else
+            {
+       
+
+         
 
        
         var namess=req.params.id //formulario
@@ -2199,7 +2213,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                     
             }
         });
-    }}}}}}}}}}}}
+    }}}}}}}}}}}}}
 
     }
     else{
@@ -2306,6 +2320,44 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                         
                     });
               break;
+          
+          break;
+              case 'trayectoriaordencomentario':
+                formulariotrayectoria.find({idorden:req.params.id,idempresa:req.params.id3},function(err, todos) {
+                    if (err){  res.send(err);  }
+
+
+                    formulariocomentarios.find({idpapa:req.params.id,idempresa:req.params.id3},function(err, todos10) {
+                        if (err){  res.send(err);  }
+    
+    
+                        var trayecto=[]
+
+                        for(var k = 0; k < todos.length;k++){
+                              
+                         
+                                trayecto.push({fechaingreso:todos[k].createdAt,fechasalida:todos[k].updatedAt,usuario:todos[k].usuarioejecutor.nombre
+                                    ,usuariocorreo:todos[k].usuarioejecutor.correo,actividad:todos[k].nombreactividad,comentario:''})
+                            
+                        }
+
+                        for(var k = 0; k < todos10.length;k++){
+                              
+                         
+                            trayecto.push({fechaingreso:todos10[k].createdAt,fechasalida:todos10[k].updatedAt,usuario:todos10[k].usuarionew
+                                ,usuariocorreo:todos10[k].usuarionew,actividad:todos10[k].actividad,comentario:todos10[k].nombre})
+                        
+                    }
+
+                        res.json(trayecto);
+                        
+                    });
+
+
+                    
+                    
+                });
+          break;
             case 'estado':
                     Frmmovil.find({estado:req.params.id,idempresa:req.params.id3},function(err, todos) {
                         if (err){  res.send(err);  }
@@ -2806,7 +2858,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                         
                                                 cad=cad3[0]
                                                 cadxx='{'+ cad3[1] + '}'
-                                                cad=cad + '"geoposicion"	: { "type" : "String" },  "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                                cad=cad + '"estadointerno"	: { "type" : "String" },"geoposicion"	: { "type" : "String" },  "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
                                                 cad='{' + cad + '}'
                                                 cadxx='{' + cadxx + '}'
                                             
@@ -2972,7 +3024,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                         
                                                 cad=cad3[0]
                                                 cadxx='{'+ cad3[1] + '}'
-                                                cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                                cad=cad + ' "estadointerno"	: { "type" : "String" },"usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
                                                 cad='{' + cad + '}'
                                                 cadxx='{' + cadxx + '}'
                                             

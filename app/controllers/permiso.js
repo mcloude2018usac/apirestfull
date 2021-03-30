@@ -57,7 +57,8 @@ exports.getPermiso = function(req, res, next){
                         console.log(todos)
                    var myData = [];
                    for(var i = 0; i < todos.length;i++){
-                    myData.push({_id:todos[i]._id,idrol:todos[i].idrol,ingreso:todos[i].ingreso
+                       if(todos[i].nombre)
+                       {  myData.push({_id:todos[i]._id,idrol:todos[i].idrol,ingreso:todos[i].ingreso
                         ,nombre:todos[i].nombre.nombre
                         ,idmodulo:{_id:todos[i].nombre._id,nombre:todos[i].nombre.nombre}
                         ,consulta:todos[i].consulta
@@ -69,7 +70,9 @@ exports.getPermiso = function(req, res, next){
                         ,reporte:todos[i].reporte
                         ,orden:todos[i].orden
                         ,estado:todos[i].estado
-                        });
+                        });}
+
+                  
                    }
                     res.json(myData);
                      });
@@ -81,19 +84,22 @@ exports.getPermiso = function(req, res, next){
                         if (err){  res.send(err);  }
                         var myData = [];
                         for(var i = 0; i < todos.length;i++){
-                         myData.push({_id:todos[i]._id,idrol:todos[i].idrol,ingreso:todos[i].ingreso
-                             ,nombre:todos[i].nombre.nombre
-                             ,idmodulo:{_id:todos[i].nombre._id,nombre:todos[i].nombre.nombre}
-                             ,consulta:todos[i].consulta
-                             ,eliminacion:todos[i].eliminacion
-                             ,creacion:todos[i].creacion
-                             ,actualizacion:todos[i].actualizacion
-                             ,filtro:todos[i].filtro
-                             ,estado:todos[i].estado
-                             ,reporte:todos[i].reporte
-                             ,orden:todos[i].orden
-                             });
-                        }
+                            if(todos[i].nombre!==null)    {
+                                myData.push({_id:todos[i]._id,idrol:todos[i].idrol,ingreso:todos[i].ingreso
+                                    ,nombre:todos[i].nombre.nombre
+                                    ,idmodulo:{_id:todos[i].nombre._id,nombre:todos[i].nombre.nombre}
+                                    ,consulta:todos[i].consulta
+                                    ,eliminacion:todos[i].eliminacion
+                                    ,creacion:todos[i].creacion
+                                    ,actualizacion:todos[i].actualizacion
+                                    ,filtro:todos[i].filtro
+                                    ,estado:todos[i].estado
+                                    ,reporte:todos[i].reporte
+                                    ,orden:todos[i].orden
+                                    });
+                               }
+                            }
+                    
                          res.json(myData);
                      });
                 }

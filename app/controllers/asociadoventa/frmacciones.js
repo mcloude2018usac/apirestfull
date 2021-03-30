@@ -114,6 +114,7 @@ if(req.params.recordID!=='crea')
   
  todo.orden       	=	req.body.orden        	||	todo.orden;   
  todo.tipo       	=	req.body.tipo        	||	todo.tipo;
+ todo.mandacorreo	=	req.body.mandacorreo  ;
  todo.ejecuta       	=	req.body.ejecuta        ;   
  todo.ejecutainicio       	=	req.body.ejecutainicio      ;   
  todo.subtipo       	=	req.body.subtipo        	||	todo.subtipo;   
@@ -142,6 +143,7 @@ else{
   idpapa0     	: req.body.idpapa0    	,
   orden     	: req.body.orden    	,
   tipo     	: req.body.tipo    	,
+  mandacorreo	: req.body.mandacorreo	,
   ejecuta     	: req.body.ejecuta    	,
   ejecutainicio     	: req.body.ejecutainicio    	,
   subtipo     	: req.body.subtipo    	,

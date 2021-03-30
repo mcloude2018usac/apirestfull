@@ -10,7 +10,8 @@
   idusuario		: { type : String, required : true },  
   avance		: { type : Number},  
 horas:{lower:{ type : Number},upper:{ type : Number}} ,
-  estado		: { type : String, required : true },  
+  estado		: { type : String, required : true }
+  ,usuarionew	: { type : String },      usuarioup	: { type : String },      actividad	: { type : String }
     }, {
     timestamps: true
     }); 

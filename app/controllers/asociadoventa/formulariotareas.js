@@ -108,6 +108,7 @@ if(req.params.recordID!=='crea')
  todo.cantidadhoras       	=	req.body.cantidadhoras        	||	todo.cantidadhoras;   
  todo.usuario       	=	req.body.usuario        	||	todo.usuario;   
  todo.idusuario       	=	req.body.idusuario        	||	todo.idusuario;  
+ todo.actividad=req.body.actividad;
  todo.avance	=	req.body.avance        	||	todo.avance;   
 
  todo.horas	=	req.body.horas      	||	todo.horas;   
@@ -134,7 +135,7 @@ else{
   nombre     	: req.body.nombre    	,
   fechainicio     	: req.body.fechainicio    	,
   fechafinal     	: req.body.fechafinal    	,
-
+  actividad	: req.body.actividad    	,
   horas: req.body.horas,
   avance: req.body.avance,
   cantidadhoras     	: req.body.cantidadhoras    	,

@@ -8,6 +8,7 @@
   subtipo		: { type : String, required : true },  
   ejecuta		: { type : String },  
   ejecutainicio		: { type : String },  
+  mandacorreo	: { type : String },  
   nombre		: { type : String, required : true },  
   estado		: { type : String, required : true },  
   actividadsiguiente		:  { id	: { type : String },   nombre	: { type : String }   },

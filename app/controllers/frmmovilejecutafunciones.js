@@ -12,7 +12,7 @@ var kardex = require('../models/asociadoventa/kardexcorreos');
 var kardexproducto = require('../models/asociadoventa/kardexcorreosproducto');
 
 
-//const odbc = require('odbc');
+const odbc = require('odbc');
 var sql = require("mssql");
 
 // config for your database  DRIVER={Microsoft Access Driver (*.mdb)}; DBQ=C:\BD_DUA\declaraciones_dua.d; Uid=admin; Pwd=$3rt084r202523;
@@ -936,7 +936,22 @@ function numberWithCommas(x) {
                       
                       
           
-               
+                        const connection = odbc.connect(connectionConfig, (error, connection) => {
+                            connection.query("select * from declaraciones where agente_pol=701884; ", (error, result) => {
+                                if (error) { console.error(error) }
+                                console.log(result);
+
+    
+                                var datafinal=[]
+                                datafinal.push({_id:'1223',nombre:'111111111111'})
+                            
+                  
+                                
+                                  resolve({estado:'exito',datat:datafinal}); 
+
+
+                            });
+                        });
                       
 
                 

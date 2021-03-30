@@ -47,6 +47,7 @@ if(req.params.recordID!=='crea')
  
  todo.nombre       	=	req.body.nombre        	||	todo.nombre;   
             todo.usuarioup=req.body.bitacora.email;
+            todo.actividad=req.body.actividad;
             todo.save(function (err, todo){
                 if (err)     {  res.status(500).send(err.message)   }
                 res.json(todo);
@@ -63,7 +64,9 @@ else{
             formulariocomentarios.create({ 
   idempresa     	: req.body.idempresa    	,
   idpapa     	: req.body.idpapa    	,
+  actividad	: req.body.actividad    	,
   nombre     	: req.body.nombre    	,
+  
                 usuarionew:req.body.bitacora.email,
               }
                 , function(err, todo) {
