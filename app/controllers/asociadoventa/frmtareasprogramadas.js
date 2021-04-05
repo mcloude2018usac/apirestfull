@@ -118,6 +118,32 @@ function dafiltrocad(todos,id2,id3) {
              cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
          }
           break;
+          case 'Componente': 
+          if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+          else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+          if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+          {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+          }
+          else
+          {
+             
+              cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+          }
+           break;
+
+           
+           case 'Visualizar query': 
+           if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+           else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+           if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+           {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+           }
+           else
+           {
+              
+               cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+           }
+            break;
         case 'Numerico':  
         if(todos[i].name==id2){cadxx='"' +id2 + '":' +id3 + ''  }
         if(todos[i].required=='false')
@@ -669,6 +695,20 @@ function dadatosformularioispapaarray(namess,idpapa,idempresa)
 
 }
 
+
+function poneiva(monto, iva,op)
+{
+
+    if(op==='iva')
+    {
+        return monto;
+    }
+    else
+    {
+        return monto- (monto*iva)
+    }
+}
+
 exports.getfrmtareasprogramadas = async  function(req, res, next){
     console.log(req.params)
     if(req.params.id5)
@@ -694,10 +734,16 @@ exports.getfrmtareasprogramadas = async  function(req, res, next){
             }
             else
             {
-                
+                if(req.params.id=='periodo')
+                {
+                    contratosv = await dadatosformulario('5fc55f5994568f50c4cdcb47',
+                    {idempresa:req.params.id3},req.params.id3,'5fc55f5994568f50c4cdcb47'); 
+                }
+                else
+                {
                 contratosv = await dadatosformulariogrupo('5f729c2487c9e33bd4ada798',
-                {estado:'Activo',empresa:req.params.id4,idempresa:req.params.id3},req.params.id3,'5f729c2487c9e33bd4ada798','$' + req.params.id); 
-            }
+                {estado:'Activo',empresa:replaceAll( req.params.id4 ,'ë','/'),idempresa:req.params.id3},req.params.id3,'5f729c2487c9e33bd4ada798','$' + req.params.id); 
+             } }
 
         
             res.json(contratosv);
@@ -859,6 +905,7 @@ if((cinicial+ cretiro)>0)
 
             var sancionesv= []
             var sancionesvv= []
+            var iva=0.12
 
             if(req.params.id4==='Empresa')
             {
@@ -1036,7 +1083,7 @@ if((cinicial+ cretiro)>0)
                                     
                                     "tiposancion" :  sancionesv[i4].tiposancion.split('¬')[1],
                                     "fechasancion" : sancionesv[i4].fechasancion,
-                                    "monto" :  sancionesv[i4].monto,
+                                    "monto" :  poneiva(sancionesv[i4].monto,iva,req.params.id5),
                                     "imposicion" :  sancionesv[i4].imposicion,
                                     "observaciones" : sancionesv[i4].observaciones,
                                     "estado" :  sancionesv[i4].estado,
@@ -1044,8 +1091,8 @@ if((cinicial+ cretiro)>0)
 
                                 }
                             )
-                            montosancion=montosancion + sancionesv[i4].monto
-                            montoenmiendaejecutadosancion=montoenmiendaejecutadosancion+ sancionesv[i4].monto
+                            montosancion=montosancion +poneiva(sancionesv[i4].monto,iva,req.params.id5)
+                            montoenmiendaejecutadosancion=montoenmiendaejecutadosancion+ poneiva(sancionesv[i4].monto,iva,req.params.id5)
                             }
                         }
 
@@ -1057,10 +1104,10 @@ if((cinicial+ cretiro)>0)
                             "fechapago" : pagosv[i3].fechapago,
                             "nofactura" : pagosv[i3].nofactura,
                             "descripcionpago" : pagosv[i3].descripcionpago,
-                            "montopago" : pagosv[i3].montopago,
-                            "montosanciones" : pagosv[i3].montosanciones,
-                            "montosancion":montosancion,
-                            "montosaldo":pagosv[i3].montopago ,
+                            "montopago" : poneiva(pagosv[i3].montopago,iva,req.params.id5),
+                            "montosanciones" : poneiva(pagosv[i3].montosanciones,iva,req.params.id5),
+                            "montosancion":poneiva(montosancion,iva,req.params.id5),
+                            "montosaldo":poneiva(pagosv[i3].montopago,iva,req.params.id5) ,
                             "bancotransferencia" : pagosv[i3].bancotransferencia,
                             "nocuenta" : pagosv[i3].nocuenta,
                             "observaciones" : pagosv[i3].observaciones,
@@ -1068,17 +1115,17 @@ if((cinicial+ cretiro)>0)
                             "idempresa" : pagosv[i3].idempresa,
                             "idpapa" : pagosv[i3].idpapa,
                             "createdAt" : pagosv[i3].createdAt,
-                            "montoapagar" : pagosv[i3].montoapagar,
-                            "montoemergencia" : pagosv[i3].montoemergencia,
+                            "montoapagar" :poneiva( pagosv[i3].montoapagar,iva,req.params.id5),
+                            "montoemergencia" : poneiva(pagosv[i3].montoemergencia,iva,req.params.id5),
                             "nopago" : pagosv[i3].nopago,
                             "periodopago" : pagosv[i3].periodopago,
                             sanciones:sancionesvv
                         }
                         )
-                        montopago=montopago +pagosv[i3].montopago
-                        montoenmiendaejecutado=montoenmiendaejecutado+pagosv[i3].montopago
+                        montopago=montopago +poneiva(pagosv[i3].montopago,iva,req.params.id5)
+                        montoenmiendaejecutado=montoenmiendaejecutado+poneiva(pagosv[i3].montopago,iva,req.params.id5)
                         montosancion0=montosancion0+montosancion
-                        montossaldo0=montossaldo0+pagosv[i3].montopago 
+                        montossaldo0=montossaldo0+poneiva(pagosv[i3].montopago ,iva,req.params.id5)
                     }
                     }
 
@@ -1092,22 +1139,22 @@ if((cinicial+ cretiro)>0)
                         fecharegistro: enmiendasv[i2].fecharegistro,
                         fechainicial: enmiendasv[i2].fechainicial,
                         fechafinalizacion:enmiendasv[i2].fechainicial,
-                        montoinicial: enmiendasv[i2].montoinicial,
-                        montoejecutado: enmiendasv[i2].montoejecutado,
+                        montoinicial: poneiva(enmiendasv[i2].montoinicial,iva,req.params.id5),
+                        montoejecutado:poneiva( enmiendasv[i2].montoejecutado,iva,req.params.id5),
                         estado: enmiendasv[i2].estado,
                         createdAt: enmiendasv[i2].createdAt,
                         tipo: enmiendasv[i2].tipo,
-                        montototalenmienda: enmiendasv[i2].montototalenmienda,
+                        montototalenmienda: poneiva(enmiendasv[i2].montototalenmienda,iva,req.params.id5),
                         multasporperiodo: enmiendasv[i2].multasporperiodo.split('¬')[0].split(':')[1].split('<br>')[0] ,
                         idmultasporperiodo:enmiendasv[i2].multasporperiodo.split('¬')[1],
                         montopagos:montopago,
                         montosancion:montosancion0,
-                        montosaldo: enmiendasv[i2].montototalenmienda - montopago ,
+                        montosaldo: poneiva(enmiendasv[i2].montototalenmienda,iva,req.params.id5) - montopago ,
                         pagos:pagosvv
                       }
 
                 )
-                 montoenmienda=montoenmienda+enmiendasv[i2].montototalenmienda
+                 montoenmienda=montoenmienda+poneiva(enmiendasv[i2].montototalenmienda,iva,req.params.id5)
                  
                     }
 
@@ -1129,11 +1176,11 @@ if((cinicial+ cretiro)>0)
                     "idempresa" :contratosv[i].idempresa,
                     "fechafinalizacioncontrato" : contratosv[i].fechafinalizacion,
                     "fechainicialcontrato" :  contratosv[i].fechainicial,
-                    "montoestimadocontrato" :  contratosv[i].montoestimado,
+                    "montoestimadocontrato" :  poneiva(contratosv[i].montoestimado,iva,req.params.id5),
                     "plazomaximocontrato" :  contratosv[i].plazomaximo,
                     "fecharegistrocontrato" :  contratosv[i].fecharegistro,
-                    "montoejecutadocontrato" :  contratosv[i].montoejecutado,
-                    "montoglobalcontrato" :  contratosv[i].montoglobal,
+                    "montoejecutadocontrato" :  poneiva(contratosv[i].montoejecutado,iva,req.params.id5),
+                    "montoglobalcontrato" :  poneiva(contratosv[i].montoglobal,iva,req.params.id5),
                     "periodo" :  contratosv[i].periodo,
                     "montototal":montoenmienda,
                     "montototalejecutado":montoenmiendaejecutado,

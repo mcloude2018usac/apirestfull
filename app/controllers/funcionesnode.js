@@ -130,6 +130,32 @@ function dafiltrocad(todos,id2,id3) {
            cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
        }
         break;
+        case 'Componente': 
+        if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+        else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+        if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+        {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+        }
+        else
+        {
+           
+            cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+        }
+         break;
+
+         
+         case 'Visualizar query': 
+         if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+         else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+         if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+         {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+         }
+         else
+         {
+            
+             cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+         }
+          break;
       case 'Numerico':  
       if(todos[i].name==id2){cadxx='"' +id2 + '":' +id3 + ''  }
       if(todos[i].required=='false')

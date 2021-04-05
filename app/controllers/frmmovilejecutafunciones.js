@@ -10,7 +10,10 @@ var formulariousr = require('../models/formulariousr');
 var functool = require('./funcionesnode');
 var kardex = require('../models/asociadoventa/kardexcorreos');
 var kardexproducto = require('../models/asociadoventa/kardexcorreosproducto');
+var adodb = require('database-js-adodb');
 
+
+var Poliza = require('../models/ges/poliza');
 
 
 var sql = require("mssql");
@@ -19,7 +22,7 @@ var sql = require("mssql");
 var conecta1 = 'mssql://sa:$ertobar@192.168.34.5/stbd'
 var conecta2 = 'mssql://sa:$ertobar@192.168.34.5/cielomarbd'
 var conecta3 = 'mssql://sa:$ertobar@192.168.34.5/camposbd'
-
+var connectionString= 'Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\\BD_DUA\\declaraciones_dua.d;  Uid=admin; Pwd=$3rt084r202523;Persist Security Info=False;'
 const connectionConfig = {
     connectionString: 'DSN=OTRO',
     connectionTimeout: 10,
@@ -27,6 +30,10 @@ const connectionConfig = {
 }
 
  
+
+const ADODB = require('node-adodb');
+ADODB.debug = true;
+var connection10 = ADODB.open(connectionString);
 
 
 
@@ -40,7 +47,7 @@ function dadatosformulariofinal  (namess,filtro,idempresa,namess2)
 {
     return new Promise(resolve => { 
 
-        Frmmovild.find({idmovil:namess, display : "true",idempresa:idempresa}).sort([['order', 1]]).exec(function(err, todos) {
+        Frmmovild.find({idmovil:namess,idempresa:idempresa}).sort([['order', 1]]).exec(function(err, todos) {
             if (err){ res.send(err); }
           
      //   console.log(todos)
@@ -175,7 +182,7 @@ function actualizaformularioidfinal  (namess,filtro,idempresa,namess2,est)
                                     delete mongoose.connection.models[namess2];
                                     var  frmtt= mongoose.model(namess2,tt);
 
-                                    frmtt.update(filtro, est, function(err, todos2) {
+                                    frmtt.updateMany(filtro, est, function(err, todos2) {
                                    
                                         if (err){  res.send(err); }
 
@@ -445,6 +452,32 @@ switch(value) {
              cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
          }
           break;
+          case 'Componente': 
+          if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+          else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+          if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+          {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+          }
+          else
+          {
+             
+              cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+          }
+           break;
+
+           
+           case 'Visualizar query': 
+           if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+           else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+           if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+           {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+           }
+           else
+           {
+              
+               cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+           }
+            break;
         case 'Numerico':  
         if(todos[i].name==id2){cadxx='"' +id2 + '":' +id3 + ''  }
         if(todos[i].required=='false')
@@ -890,6 +923,12 @@ function numberWithCommas(x) {
   return formatNumber(Number(x))
 }
 
+function padLeadingZeros(num, size) {
+    var s = num+"";
+    while (s.length < size) s = "0" + s;
+    return s;
+}
+
 
     var daejecutafunciones= async function(req, res, next,dataanterior){
         console.log(req.params)
@@ -915,49 +954,45 @@ function numberWithCommas(x) {
                 case 'getdatospoliza': //REQUISICION
 
                 (async () => {
-                  //trae todo el formulario
-
-              
-                  sql.connect(conecta1, function (err) {
-    
-                    if (err) console.log(err);
-            
-                    // create Request object
-                    var request = new sql.Request();
-                       
-                    // query to the database and get the records
-                    request.query('select * from ticket  where  noticket=187707', function (err, recordset) {
-                        
-                        if (err) console.log(err)
-            
-                        // send records as a response                        res.send(recordset);   const connection = ADODB.open('Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\BD_DUA\declaraciones_dua.d;');
-
-                        console.log(req.params.id5)
-                      
-                      
-          
-                
-
-                 
-                
-                    
-                  
-
-                     
-
-
-
-                        
-                    });
-                });
+                    //trae todo el formulario
+                    console.log(req.params.id5)
+                    //obtener el correlativo general estado= Activo  605a1ed86886480f70f6ec08
+                    //actualizar correlativo en tabla
+                    //insertar en tabla   idempresa,codigo,ano,estado,noorden,correlativo
+                    //devolver correlativo
+                    var dt2 = new Date();
+                    var anii=dt2.getFullYear().toString()
            
-
-
-            
-        
-    
+      
+                    var polizam = await dadatosformulariofinal('605a1ed86886480f70f6ec08',{idempresa:req.params.id3,estado:'Activo',anyo:anii},req.params.id3,'605a1ed86886480f70f6ec08'); 
+  
+                      if(polizam.length>0)
+                      {
+                          var corr=Number(polizam[0].correlativo)
+  
+                          var estructura={
+                              "correlativo" : padLeadingZeros(corr+1,5)
+                             
+                             
+                          }
+                            var actualiza = await actualizaformularioidfinal('605a1ed86886480f70f6ec08',{ _id:polizam[0]._id},req.params.id3,'605a1ed86886480f70f6ec08',estructura); 
+  
+  
+                            Poliza.create({idempresa:req.params.id3,codigo:'' + polizam[0].patente,anyo:anii,estado:'Asignado',noorden:req.params.id2,correlativo: padLeadingZeros(corr+1,5)});
+                          
+                            resolve({estado:'exito',datat: padLeadingZeros(corr+1,5)}); 
+                      }
+                      else
+                      {
                     
-                })();
+                          
+                            resolve({estado:'No se encuentra configurada poliza, año para generar correlativo',datat:'11222222'}); 
+                      }
+  
+           
+      
+                      
+                  })();
                     break;
            
                 default:
