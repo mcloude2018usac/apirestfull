@@ -4,21 +4,36 @@ var Bitacora = require('../models/bitacora');
 
 exports.getFrmmovild = function(req, res, next){
     if(req.params.id4)
-    {   if(req.params.id2=='frmcamposdetalle')
+    {   if(req.params.id2=='frmcamposdetallexxx')
     { //,"Check list detalle"
-        Frmmovild.find({idempresa:req.params.id3,idmovil:req.params.id,  "type" : {$in :  ["Formulario detalle"]}}).sort({'order': 1}).exec(function(err, todos) {
+        Frmmovild.find({idempresa:req.params.id3,  "type" : {$in :  ["Formulario detalle"]}}).sort({'order': 1}).exec(function(err, todos) {
             if (err){  res.send(err);  }
 
            
                   var myData = [];
                   for(var i = 0; i < todos.length;i++){
-                    myData.push({_id:todos[i].idformdetalle.id ,nombre:todos[i].idformdetalle.nombre  })
+                    myData.push({_id:todos[i].idformdetalle.id ,nombre:todos[i].idformdetalle.nombre,idmovil:todos[i].idmovil  })
                   }
 
                  res.json(myData);   
          });
     }
     else{
+        if(req.params.id2=='frmcamposdetalle')
+        { //,"Check list detalle"
+            Frmmovild.find({idempresa:req.params.id3,idmovil:req.params.id,  "type" : {$in :  ["Formulario detalle"]}}).sort({'order': 1}).exec(function(err, todos) {
+                if (err){  res.send(err);  }
+    
+               
+                      var myData = [];
+                      for(var i = 0; i < todos.length;i++){
+                        myData.push({_id:todos[i].idformdetalle.id ,nombre:todos[i].idformdetalle.nombre  })
+                      }
+    
+                     res.json(myData);   
+             });
+        }
+        else{
         if(req.params.id2=='camposdetalle')
         { //,"Check list detalle"
             Frmmovild.find({idempresa:req.params.id3,idmovil:req.params.id,  "type" : {$in :  ["Formulario detalle","Check List Detalle"]}}).sort({'order': 1}).exec(function(err, todos) {
@@ -59,7 +74,7 @@ exports.getFrmmovild = function(req, res, next){
                     if (err){  res.send(err);  }
                      res.json(todos);
                  });
-            }}}}
+            }}}}}
     }
     else
     {

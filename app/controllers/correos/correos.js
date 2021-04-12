@@ -8,6 +8,143 @@ function stringToObject(JSONString) {
     return jsonObject;
 }
 
+function dadatosformulariogruposuma(namess,filtro,idempresa,namess2,filtrogrupo,filtrosuma,limitx,sortx)
+{
+    return new Promise(resolve => { 
+
+        Frmmovild.find({idmovil:namess, display : "true",idempresa:idempresa}).sort([['order', 1]]).exec(function(err, todos) {
+            if (err){ res.send(err); }
+          
+     //   console.log(todos)
+                                if(todos.length>0)   {  
+                               
+                                    var cad=''
+                                    var cadxx=''
+                                    var cad3=(dafiltrocad(todos,'','')).split('°')
+                                  
+                              
+                                 
+                                    cad=cad3[0]
+                                    cadxx='{'+ cad3[1] + '}'
+                                    cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                    cad='{' + cad + '}'
+                                    cadxx='{' + cadxx + '}'
+
+                               //  console.log(cad)
+                                    var jsonObject = stringToObject(cad);
+                                  
+                                    var mongoose = require("mongoose");
+                                    var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                                    delete mongoose.connection.models[namess2];
+                                    var  frmtt= mongoose.model(namess2,tt);
+
+                                    frmtt.aggregate( [
+                                        { $limit: limitx},
+                                        {   $match: filtro},
+                                                          {
+                                                           
+                                                                "$group" : filtrogrupo
+                                                            }, 
+                                                            { 
+                                                                "$project" : filtrosuma
+                                                            },
+                                                            { $sort : sortx }
+                                    ]).exec(function(err, todos2) {
+                                        if (err){ console.log(err);  res.send(err); }
+
+                                        resolve(todos2); 
+                                       // res.json(todos2);
+
+                                    });
+                                }
+
+
+    });
+        
+                                    
+                                   
+                             
+                
+        
+    
+
+                                });
+
+}
+function dadatosformulariogrupo(namess,filtro,idempresa,namess2,campo)
+{
+    return new Promise(resolve => { 
+
+        Frmmovild.find({idmovil:namess, display : "true",idempresa:idempresa}).sort([['order', 1]]).exec(function(err, todos) {
+            if (err){ res.send(err); }
+          
+     //   console.log(todos)
+                                if(todos.length>0)   {  
+                               
+                                    var cad=''
+                                    var cadxx=''
+                                    var cad3=(dafiltrocad(todos,'','')).split('°')
+                                  
+                              
+                                 
+                                    cad=cad3[0]
+                                    cadxx='{'+ cad3[1] + '}'
+                                    cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                    cad='{' + cad + '}'
+                                    cadxx='{' + cadxx + '}'
+
+                               //  console.log(cad)
+                                    var jsonObject = stringToObject(cad);
+                                  
+                                    var mongoose = require("mongoose");
+                                    var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                                    delete mongoose.connection.models[namess2];
+                                    var  frmtt= mongoose.model(namess2,tt);
+
+
+                                    frmtt.aggregate( [
+                                        { $match: filtro},
+                                        { 
+                                            "$group" : {
+                                                "_id" : {
+                                                    "nombre" : campo
+                                                }, 
+                                                "COUNT(*)" : {
+                                                    "$sum" : 1
+                                                }
+                                            }
+                                        }, 
+                                        { 
+                                            "$project" : {
+                                                "nombre" : "$_id.nombre", 
+                                                "cantidad" : "$COUNT(*)", 
+                                                "_id" :0
+                                            }
+                                        }
+                                    ]).exec(function(err, todos2) {
+                                        if (err){  res.send(err); }
+
+                                        resolve(todos2); 
+                                       // res.json(todos2);
+
+                                    });
+                                }
+
+
+    });
+        
+                                    
+                                   
+                             
+                
+        
+    
+
+                                });
+
+}
+
+
 function datipo(value) {
     var tt='';
     switch(value) {
@@ -373,7 +510,127 @@ exports.getCorreos = async function(req, res, next){
         }
         else
         {
-        
+            if(req.params.id2==='reportegerencia')
+            { 
+                (async () => {
+
+
+                    var fechat=req.params.id.split('°')
+               
+           
+var filtro={createdAt:{"$gte": new Date(fechat[0]+'T00:00:00.000Z'),"$lt": new Date(fechat[1] +'T24:00:00.000Z')} };
+
+
+
+
+var grupo= {
+                    "_id" : {         fecha:{$dateToString: { format: "%m-%Y", date: "$createdAt" }}},
+                    subtotal: { $sum: "$subtotal"  },"cantidad" : { "$sum" : "$cantidad" }
+                }
+var project= {"fecha" : "$_id.fecha","cantidad" : "$cantidad",       "subtotal" : "$subtotal",   "_id" :0  }
+
+
+                h1 = await dadatosformulariogruposuma('5fc0308c2fc3552d10147947',filtro,req.params.id3,'5fc0308c2fc3552d10147947', grupo ,project,500,  { fecha : -1 } ); 
+                //fecha cantidaddespachada subtotal
+
+var grupo= {
+                    "_id" : {         fecha:{$dateToString: { format: "%m-%Y", date: "$createdAt" }}},
+                    subtotal: { $sum: "$subtotal"  },"cantidaddespachada" : { "$sum" : "$cantidaddespachada" }
+                }
+var project={"fecha" : "$_id.fecha","cantidaddespachada" : "$cantidaddespachada",       "subtotal" : "$subtotal",   "_id" :0  }
+            
+
+                requi1 = await dadatosformulariogruposuma('5fc03c79ab0f6448b877eb5c',filtro,req.params.id3,'5fc03c79ab0f6448b877eb5cs', grupo ,project,500,  { fecha : -1 } ); 
+
+
+                
+
+var grupo= {
+    "_id" : {         articulo:"$articulo"},
+    subtotal: { $sum: "$subtotal"  },"cantidad" : { "$sum" : "$cantidad" }
+}
+var project= {"articulo" : "$_id.articulo","cantidad" : "$cantidad",       "subtotal" : "$subtotal",   "_id" :0  }
+
+
+h1a = await dadatosformulariogruposuma('5fc0308c2fc3552d10147947',filtro,req.params.id3,'5fc0308c2fc3552d10147947', grupo ,project,21,  { cantidad : -1 } ); 
+//fecha cantidaddespachada subtotal
+
+var grupo= {
+    "_id" : {          articulo:"$articulo"},
+    subtotal: { $sum: "$subtotal"  },"cantidaddespachada" : { "$sum" : "$cantidaddespachada" }
+}
+var project={"articulo" : "$_id.articulo","cantidaddespachada" : "$cantidaddespachada",       "subtotal" : "$subtotal",   "_id" :0  }
+
+
+requi1b = await dadatosformulariogruposuma('5fc03c79ab0f6448b877eb5c',filtro,req.params.id3,'5fc03c79ab0f6448b877eb5cs', grupo ,project,21,  { cantidaddespachada : -1 } ); 
+
+
+
+                var myData1 = [];
+                var myData2 = [];
+                var myData3 = [];
+                for(var i = 0; i < h1.length;i++){
+                    myData1.push(h1[i].fecha)
+                    myData2.push(h1[i].cantidad)
+                    myData3.push(h1[i].subtotal)
+                }
+
+           
+             
+                var myData1b = [];
+                var myData2b = [];
+                var myData3b = [];
+                for(var i = 0; i < requi1.length;i++){
+                    myData1b.push(requi1[i].fecha)
+                    myData2b.push(requi1[i].cantidaddespachada)
+                    myData3b.push(requi1[i].subtotal)
+                }
+
+           
+    
+                
+                var myData1c = [];
+                var myData2c = [];
+                var myData3c = [];
+                for(var i = 0; i < h1a.length;i++){
+                    myData1c.push(h1a[i].articulo.split('<br>')[2].split(':')[1].trim() )
+                    myData2c.push(h1a[i].cantidad)
+                    myData3c.push(h1a[i].subtotal)
+                }
+
+           
+             
+                var myData1d = [];
+                var myData2d = [];
+                var myData3d = [];
+                for(var i = 0; i < requi1b.length;i++){
+                    myData1d.push(requi1b[i].articulo.split('<br>')[2].split(':')[1].trim() )
+                    myData2d.push(requi1b[i].cantidaddespachada)
+                    myData3d.push(requi1b[i].subtotal)
+                }
+
+
+          
+              
+    res.json({vgraf1:{labels:myData1,
+    data:[{    label: 'Cantidad',  data: myData2, backgroundColor: '#F55555', borderColor: '#F55555',borderWidth: 1},
+    { label: 'Monto', data: myData3,  backgroundColor: '#7367F0',  borderColor: '#7367F0', borderWidth: 1}]},
+      
+    vgraf2:{labels:myData1b,
+    data:[{    label: 'Cantidad',   data: myData2b, backgroundColor: '#F55555',  borderColor: '#F55555',borderWidth: 1},{    label: 'Monto',  data: myData3b, backgroundColor: '#7367F0',  borderColor: '#7367F0', borderWidth: 1}]}
+
+    ,vgraf1a:{labels:myData1c,
+        data:[{    label: 'Cantidad',  data: myData2c, backgroundColor: '#F55555', borderColor: '#F55555',borderWidth: 1},
+        { label: 'Monto', data: myData3c,  backgroundColor: '#7367F0',  borderColor: '#7367F0', borderWidth: 1}]},
+          
+        vgraf2a:{labels:myData1d,
+        data:[{    label: 'Cantidad',   data: myData2d, backgroundColor: '#F55555',  borderColor: '#F55555',borderWidth: 1},{    label: 'Monto',  data: myData3d, backgroundColor: '#7367F0',  borderColor: '#7367F0', borderWidth: 1}]}
+});
+                
+            })();
+            }
+            else
+            {
         if(req.params.id2==='reportecaduca')
         { 
             (async () => {
@@ -481,7 +738,7 @@ exports.getCorreos = async function(req, res, next){
                 
             });
 
-        }     }}
+        }     }}}
       
     }
    

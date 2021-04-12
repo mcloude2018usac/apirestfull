@@ -24,6 +24,7 @@ var frmactor = require('../models/asociadoventa/frmactor');
 var frmactorgrupo = require('../models/asociadoventa/frmactorgrupo');
 const frmmovilejecutareporte = require('../controllers/frmmovilejecutareporte');
 const frmmovilejecutafunciones = require('../controllers/frmmovilejecutafunciones');
+const frmmovilejecutacomandos = require('../controllers/frmmovilejecutacomandos');
 
 
 
@@ -56,7 +57,7 @@ function actualizaformularioidfinal  (namess,filtro,idempresa,namess2,est)
                                   
                                     var mongoose = require("mongoose");
                                     var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
-                                    delete mongoose.connection.models[namess2];
+                                    delete mongoose.connection.models[namess2 ];
                                     var  frmtt= mongoose.model(namess2,tt);
                                    
                                     frmtt.updateMany(filtro, est, function(err, todos2) {
@@ -841,6 +842,7 @@ function dafiltrocad(todos,id2,id3,norequerido) {
                cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
            }
             break;
+
         case 'Numerico':  
         if(todos[i].name==id2){cadxx='"' +id2 + '":' +id3 + ''  }
         if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
@@ -1911,7 +1913,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
 
             if(req.params.id2=='detallemaster')
             { //aqui tenemos que jalar primero el idpapa todos los campos detalle de ese formulario  req.params.id5
-
+/*
                 Frmmovild.find({idmovil:req.params.id,idempresa:req.params.id3}).exec(function(err, todos) {
                     if (err){  res.send(err);  }
                     var data=[]
@@ -1922,16 +1924,16 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                 data.push('' + todos[i].idformdetalle.id + '')
                         }
                     }
-
+*/
                     
 
-                    Frmmovil.find({_id:{$in:data}}).sort({'_id': -1}).exec(function(err, todos) {
+                    Frmmovil.find({_id:{$in:req.params.id}}).sort({'_id': -1}).exec(function(err, todos) {
                         if (err){  res.send(err);  }
                       
                          res.json(todos);
                      });
 
-                    });
+                 //   });
 
 
                
@@ -3648,14 +3650,14 @@ exports.creaFrmmovil3s = async function(req, res, next){
             case '1':
 
                 (async () => {    
-                    respuesta = await frmejecuta.visitas_programadas(req, res, next);
+                    respuesta = await frmmovilejecutacomandos.ejecutacomandos(req, res, next);
                     
                     if(respuesta.estado!=='exito')
                     {
                         res.status(500).send(respuesta.estado) 
                         return;
                     }   
-                    res.json({estado:'ok'});
+                    res.json({estado:'ok',data:respuesta.data,tipo:respuesta.tipo});
                 })();
 
 
@@ -3663,7 +3665,7 @@ exports.creaFrmmovil3s = async function(req, res, next){
            
             break;
             default:
-                res.json({estado:'ok'});
+                res.json({estado:'ok',data:[],tipo:''});
           }
     }
     else

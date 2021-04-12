@@ -1,4 +1,3 @@
-'use strict';
 
 var Frmmovil = require('../models/frmmovil');
 var Frmmovild = require('../models/frmmovild');
@@ -10,33 +9,6 @@ var formulariousr = require('../models/formulariousr');
 var functool = require('./funcionesnode');
 var kardex = require('../models/asociadoventa/kardexcorreos');
 var kardexproducto = require('../models/asociadoventa/kardexcorreosproducto');
-var adodb = require('database-js-adodb');
-
-
-var Poliza = require('../models/ges/poliza');
-
-const odbc = require('odbc');
-var sql = require("mssql");
-
-// config for your database  DRIVER={Microsoft Access Driver (*.mdb)}; DBQ=C:\BD_DUA\declaraciones_dua.d; Uid=admin; Pwd=$3rt084r202523;
-var conecta1 = 'mssql://sa:$ertobar@192.168.34.5/stbd'
-var conecta2 = 'mssql://sa:$ertobar@192.168.34.5/cielomarbd'
-var conecta3 = 'mssql://sa:$ertobar@192.168.34.5/camposbd'
-var connectionString= 'Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\\BD_DUA\\declaraciones_dua.d;  Uid=admin; Pwd=$3rt084r202523;Persist Security Info=False;'
-const connectionConfig = {
-    connectionString: 'DSN=OTRO',
-    connectionTimeout: 10,
-    loginTimeout: 10,
-}
-
- 
-
-const ADODB = require('node-adodb');
-ADODB.debug = true;
-var connection10 = ADODB.open(connectionString);
-
-
-
                             
 function onlyUnique(value, index, self) { 
     return self.indexOf(value) === index;
@@ -47,7 +19,7 @@ function dadatosformulariofinal  (namess,filtro,idempresa,namess2)
 {
     return new Promise(resolve => { 
 
-        Frmmovild.find({idmovil:namess,idempresa:idempresa}).sort([['order', 1]]).exec(function(err, todos) {
+        Frmmovild.find({idmovil:namess, display : "true",idempresa:idempresa}).sort([['order', 1]]).exec(function(err, todos) {
             if (err){ res.send(err); }
           
      //   console.log(todos)
@@ -61,7 +33,7 @@ function dadatosformulariofinal  (namess,filtro,idempresa,namess2)
                                  
                                     cad=cad3[0]
                                     cadxx='{'+ cad3[1] + '}'
-                                    cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                    cad=cad + ' "idpapa"	: { "type" : "String" }, "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
                                     cad='{' + cad + '}'
                                     cadxx='{' + cadxx + '}'
 
@@ -181,10 +153,10 @@ function actualizaformularioidfinal  (namess,filtro,idempresa,namess2,est)
                                     var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
                                     delete mongoose.connection.models[namess2];
                                     var  frmtt= mongoose.model(namess2,tt);
-
+                                    
                                     frmtt.updateMany(filtro, est, function(err, todos2) {
-                                   
-                                        if (err){  res.send(err); }
+                                  
+                                        if (err){   console.log(err) }
 
                                         resolve(todos2); 
                                        // res.json(todos2);
@@ -577,13 +549,6 @@ switch(value) {
       return jsonString;
   }
 
-  var dafecha = function(ff) {
-      var fecha= new Date(ff).toISOString().substr(0,10);   
-      var  ffa=fecha.split('-')
-    
-    return ffa[2] + '-' + ffa[1] + '-' + ffa[0];
-};
-
   var getDaysArray = function(start, end) {
     for(var arr=[],dt=new Date(start); dt<=end; dt.setDate(dt.getDate()+1)){
       var fecha=new Date(dt)
@@ -592,7 +557,30 @@ switch(value) {
     return arr;
 };
   
- 
+ function dafechapago1(mes,ano)//'2018-08'
+ {re=''
+ if(mes<10)
+ {
+   re=ano + '-0' + mes
+ }
+ else
+ {
+  re=ano + '-' + mes
+ }
+return re;
+ }
+ function dafechapago2(mes,ano)//08-2018
+ {re=''
+ if(mes<10)
+ {
+   re='0' + mes + '-' + ano
+ }
+ else
+ {
+  re=mes + '-' + ano
+ }
+return re;
+ }
   function daarreglo(data,op) {
   
     var val=[]
@@ -905,108 +893,407 @@ try {
 
 }
 
-function currencyFormatDE(num) {
-  return (
-    num
-      .toFixed(2) // always two decimal digits
-      .replace('.', ',') // replace decimal point character with ,
-      .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') + ' Q.'
-  ) // use . as a separator
-}
-function formatNumber(num) {
-  return 'Q.' + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
-}
+var ejecutacomandos=async  function(req, res, next){
 
-function numberWithCommas(x) {
+  return new Promise(resolve => {
+    var aa=req.body.ejecuta
+  console.log('ejecuta operacion ' +  aa)
+    switch(aa) {
+      case '5f595df92521cd38c8fe3126°606f8dc3f0e7551a88ac449d°Genera archivo para importar pagos'://genera excel pagos
+      (async () => {
+
+      
+  var markup;
+        var todos20 = await dadatosformulariofinal(req.body.idform,{ idpapa:req.body.idpapa},req.body.idempresa,req.body.idform); 
+        markup=''
+        markup=markup+'<table id="excel-table" border="1">'
+
+        
+        markup=markup+'<tr><td contenteditable="true" colspan="1">'+ '_id'+'</td> '
+        markup=markup+'<td contenteditable="true" colspan="1">'+ 'TIPO APORTE'+'</td> '
+        markup=markup+'<td contenteditable="true" colspan="1">'+'NO PAGO' +'</td> '
+        markup=markup+'<td contenteditable="true" colspan="1">'+ 'FECHA INICIAL'+'</td> '
+        markup=markup+'<td contenteditable="true" colspan="1">'+'FECHA PAGO' +'</td> '
+        markup=markup+'<td contenteditable="true" colspan="1">'+'PERIODO PAGO' +'</td> '
+        markup=markup+'<td contenteditable="true" colspan="1">'+'NO FACTURA' +'</td> '
+        markup=markup+'<td contenteditable="true" colspan="1">'+'DESCRIPCION DE PAGO' +'</td> '
+        markup=markup+'<td contenteditable="true" colspan="1">'+ 'MONTO DE PAGO'+'</td> '
+        markup=markup+'<td contenteditable="true" colspan="1">'+ 'MONTO A PAGAR'+'</td> '
+        markup=markup+'<td contenteditable="true" colspan="1">'+'BANCO TRANSFERENCIA' +'</td> '
+        markup=markup+'<td contenteditable="true" colspan="1">'+ 'NO DE CUENTA'+'</td> '
+        markup=markup+'<td contenteditable="true" colspan="1">'+ 'OBSERVACIONES'+'</td> '
+        markup=markup+'<td contenteditable="true" colspan="1">'+ 'ESTADO'+'</td> '
+        markup=markup+'<td contenteditable="true" colspan="1">'+'idempresa' +'</td> '
+        markup=markup+'<td contenteditable="true" colspan="1">'+ 'idpapa'+'</td>    </tr>'
+        for(var i = 0; i < todos20.length;i++){
+          markup=markup+'<tr><td contenteditable="true" colspan="1">'+ todos20[i]._id+'</td> '
+          markup=markup+'<td contenteditable="true" colspan="1">'+ todos20[i].tipodeaporte+'</td> '
+          markup=markup+'<td contenteditable="true" colspan="1">'+todos20[i].nopago +'</td> '
+          markup=markup+'<td contenteditable="true" colspan="1">'+ todos20[i].fechainicial+'</td> '
+          markup=markup+'<td contenteditable="true" colspan="1">'+todos20[i].fechapago +'</td> '
+          markup=markup+'<td contenteditable="true" colspan="1">'+todos20[i].periodopago +'</td> '
+          markup=markup+'<td contenteditable="true" colspan="1">'+todos20[i].nofactura +'</td> '
+          markup=markup+'<td contenteditable="true" colspan="1">'+todos20[i].descripcionpago +'</td> '
+          markup=markup+'<td contenteditable="true" colspan="1">'+ todos20[i].montopago+'</td> '
+          markup=markup+'<td contenteditable="true" colspan="1">'+ todos20[i].montoapagar+'</td> '
+          markup=markup+'<td contenteditable="true" colspan="1">'+todos20[i].bancotransferencia +'</td> '
+          markup=markup+'<td contenteditable="true" colspan="1">'+ todos20[i].nocuenta+'</td> '
+          markup=markup+'<td contenteditable="true" colspan="1">'+ todos20[i].observaciones+'</td> '
+          markup=markup+'<td contenteditable="true" colspan="1">'+ todos20[i].estado+'</td> '
+          markup=markup+'<td contenteditable="true" colspan="1">'+todos20[i].idempresa +'</td> '
+          markup=markup+'<td contenteditable="true" colspan="1">'+ todos20[i].idpapa+'</td>  </tr>'
 
 
-  return formatNumber(Number(x))
-}
+        }
 
-function padLeadingZeros(num, size) {
-    var s = num+"";
-    while (s.length < size) s = "0" + s;
-    return s;
-}
+      
 
 
-    var daejecutafunciones= async function(req, res, next,dataanterior){
-        console.log(req.params)
-        return new Promise(resolve => {
+        
+        resolve({estado:'exito',data:markup,tipo:'csv'}); 
 
-            switch(req.params.id) {
-                case 'getselectivo': //REQUISICION
+      })();
+        break;
+      case '5f595df92521cd38c8fe3126°606f8da8f0e7551a88ac449b°Genera emergencias': //genera emergencias
+      (async () => {
 
-            (async () => {
-              //trae todo el formulario
-              console.log(req.params.id5)
+        var   acum=req.body.acumulados;
+        var enmiendatt;
+        for(var i = 0; i < acum.length;i++){
+          switch(acum[i].idtabla) {
+              case '5f72a12587c9e33bd4ada7ab':  enmiendatt=  acum[i].item;break;
+              default:
+             }}
 
-              var datafinal=[]
-              datafinal.push({_id:'1223',nombre:'111111111111'})
+             console.log(enmiendatt)
+             var nopagos= enmiendatt.montodeemergencias
+            
+             
+             var todos20 = await dadatosformulariofinal(req.body.idform,{ idpapa:req.body.idpapa},req.body.idempresa,req.body.idform); 
+             if(todos20.length===0)
+             {
+               resolve({estado:'No existen pagos generados , ejecute la opción 1'}); 
+             }
+
+
+             if(nopagos===undefined  )
+             {
+              resolve({estado:'Ingrese en enmienda el monto de emergencias a aplicar'}); 
+             }
+             else
+             {
+            
+              var pagosid=[]
+
+              for(var j2 = 0; j2 < todos20.length;j2++){
+                pagosid.push('' + todos20[j2]._id)
+              }
               
 
+                var todos20a = await dadatosformulariofinal('603715b7a59cf50610072759',{ idpapa:{$in:pagosid}},
+                req.body.idempresa,'603715b7a59cf50610072759'); 
+                if(todos20a.length>0)
+                {
+                  resolve({estado:'Ya existen emergencias procesadas'}); 
+                }
+                else
+                {
+                  for(var j = 0; j < todos20.length;j++){
+                    var encuentra=0;
+                    for(var jj = 0; jj < todos20a.length;jj++){
+                      if(String(todos20[j]._id)===todos20a[jj].idpapa)
+                      {
+
+                        encuentra=1;
+                        break;
+                      }
+                    }
+               
+                    if(encuentra==0)
+                    {
+                              var names='603715b7a59cf50610072759'
+                              var estructura= {
+
+                                "descripciondelaemergencia" : "sss",
+                                "monto" : nopagos,
+                                "estado" : "No atendida",
+                                  "usuarionew" :req.body.bitacora.email,
+                                  "usuarioup" : req.body.bitacora.email,
+                                  "idpapa" : todos20[j]._id,
+                                
+                                  "idempresa" : req.body.idempresa,
+
+                                  "sequencia" : "3",
+                                
+                                  "comentarioanulado" : "",
+                                  "comentariocerrado" : "",
+                                  "estadointerno" : "activo"
+
+                              
+                              
+                                
+                            }
+
+                            console.log(names + ' ' + req.body.idform + ' '+ req.body.idpapa + ' ' +req.body.idtipo)
+                            creafrmregistro(req, res, next,names,'603715b7a59cf50610072759',estructura,'noresponde',[],todos20[j]._id
+                            ,req.body.tipo)
+
+                    }
+                                
+  
+                 
+                   
+  
+  
+                  }
+  
+                  
+                  resolve({estado:'exito',data:[],tipo:''}); 
+                }
+
+
+           
+
+             }
+        
+      })();
+      break;
+      case '5f595df92521cd38c8fe3126°606f8d8cf0e7551a88ac4499°Generación de pagos': //generapagos
+      (async () => {
+
+        var   acum=req.body.acumulados;
+        var enmiendatt;
+        for(var i = 0; i < acum.length;i++){
+          switch(acum[i].idtabla) {
+              case '5f72a12587c9e33bd4ada7ab':  enmiendatt=  acum[i].item;break;
+              default:
+             }}
+
+             console.log(enmiendatt)
+             var nopagos= enmiendatt.cantidaddemesesparagenerarpagos
+             var mesinicio= enmiendatt.periodoinicialparagenerarpagos
+             var montototal=enmiendatt.montototalenmienda
+
+             if(nopagos===undefined  )
+             {
+              resolve({estado:'Ingrese en enmienda el no pagos'}); 
+             }
+             else
+             {
               
-                resolve({estado:'exito',datat:datafinal}); 
+              if( mesinicio===undefined )
+              {
+                resolve({estado:'Ingrese en periodo inicial del pago en enmiendas'}); 
+              }
+              else
+              {
+                
+                if( montototal===undefined)
+                {
+                 resolve({estado:'Ingrese monto total de la enmienda'}); 
+                }
+                else
+                {
+                var aarr=[]
+                var montito= montototal / Number(nopagos)
+                var mesini=mesinicio.split('-')
+                console.log(montito)
+                console.log(mesini[0] + '    ' + mesini[1])
+                var periodopagon=Number(mesini[0])
+                var periodopago2n=Number(mesini[1])
+
+                var todos20 = await dadatosformulariofinal(req.body.idform,{ idpapa:req.body.idpapa},req.body.idempresa,req.body.idform); 
+                if(todos20.length>0)
+                {
+                  resolve({estado:'Ya existen pagos procesados'}); 
+                }
+
+
+                for(var j = 0; j < nopagos;j++){
+
+                  var  fechapago1=dafechapago1(periodopagon,periodopago2n) // '2018-08'
+                  var  fechapago2=dafechapago2(periodopagon,periodopago2n)//'07-2018'
+
+
+                  var names='5f595df92521cd38c8fe3126'
+                  var estructura= {
+
+                      "tipodeaporte" : "Tipo aporte",
+                      "nopago" : '' + (j+1),
+                      "fechainicial" : fechapago1+ "-01T00:19:17.765Z",
+                      "fechapago" : fechapago1 + "-01T00:19:17.765Z",
+                      "periodopago" : fechapago2,
+                      "nofactura" : " ",
+                      "descripcionpago" : "Pago "+'' + (j+1)+" - De " + fechapago2,
+                      "montopago" : '' + montito,
+                      "montosanciones" : "0",
+                      "montoemergencia" : "0",
+                      "montoapagar" : montito,
+                      "bancotransferencia" : " ",
+                      "nocuenta" : " ",
+                      "observaciones" : "",
+                      "usuarionew" :req.body.bitacora.email,
+                      "usuarioup" : req.body.bitacora.email,
+                      "idpapa" : req.body.idpapa,
+                      "estado" : 'Pendiente',
+                      "idempresa" : req.body.idempresa,
+            
+                      "sequencia" : "3",
+                    
+                      "comentarioanulado" : "",
+                      "comentariocerrado" : "",
+                      "estadointerno" : "activo"
+
+                   
+                  
+                    
+                }
+  
+  console.log(names + ' ' + req.body.idform + ' '+ req.body.idpapa + ' ' +req.body.tipo)
+                creafrmregistro(req, res, next,names,req.body.idform,estructura,'noresponde',[],req.body.idpapa,req.body.tipo)
+
+                 periodopagon=periodopagon+1
+                 if(periodopagon===13)
+                 {periodopagon=1
+                  periodopago2n=periodopago2n+1
+                 }
+                 
+
+
+                }
 
                 
-            })();
-                break;
-                case 'getdatospoliza': //REQUISICION
+                resolve({estado:'exito',data:[],tipo:''}); 
 
-                (async () => {
-                    //trae todo el formulario
-                    console.log(req.params.id5)
-                    //obtener el correlativo general estado= Activo  605a1ed86886480f70f6ec08
-                    //actualizar correlativo en tabla
-                    //insertar en tabla   idempresa,codigo,ano,estado,noorden,correlativo
-                    //devolver correlativo
-                    var dt2 = new Date();
-                    var anii=dt2.getFullYear().toString()
-           
+             }}}
+        
+      })();
+      break;
+   
+
       
-                    var polizam = await dadatosformulariofinal('605a1ed86886480f70f6ec08',{idempresa:req.params.id3,estado:'Activo',anyo:anii},req.params.id3,'605a1ed86886480f70f6ec08'); 
-  
-                      if(polizam.length>0)
-                      {
-                          var corr=Number(polizam[0].correlativo)
-  
-                          var estructura={
-                              "correlativo" : padLeadingZeros(corr+1,5)
-                             
-                             
-                          }
-                            var actualiza = await actualizaformularioidfinal('605a1ed86886480f70f6ec08',{ _id:polizam[0]._id},req.params.id3,'605a1ed86886480f70f6ec08',estructura); 
-  
-  
-                            Poliza.create({idempresa:req.params.id3,codigo:'' + polizam[0].patente,anyo:anii,estado:'Asignado',noorden:req.params.id2,correlativo: padLeadingZeros(corr+1,5)});
-                          
-                            resolve({estado:'exito',datat: padLeadingZeros(corr+1,5)}); 
-                      }
-                      else
-                      {
-                    
-                          
-                            resolve({estado:'No se encuentra configurada poliza, año para generar correlativo',datat:'11222222'}); 
-                      }
-  
-           
-      
-                      
-                  })();
-                    break;
-           
+      case '2': 
+      (async () => {
+
+        var   acum=req.body.acumulados;
+        var periodot;
+        var supervidort;
+        var inspectort;
+        var planificat;
+        for(var i = 0; i < acum.length;i++){
+            switch(acum[i].tabla) {
+                case 'Planificación':  periodot=  acum[i].item;break;
+                case 'Planificación supervisores':  supervidort=  acum[i].item;break;
+                case 'Planificación inspectores':  inspectort=  acum[i].item;break;
+                case 'Planificar':  planificat=  acum[i].item;break;
                 default:
-                  // code block
-                  resolve({estado:'exito'}); 
+               }}
+      var frmmovil='5f7f5f7b85f18458404125fds'
+      var todos20 = await dadatosformulariofinal('5f7f5f7b85f18458404125fd',{ idpapa:inspectort._id},req.body.idempresa,'5f7f5f7b85f18458404125fds'); 
+      var todos2=JSON.parse(JSON.stringify(todos20))
+      var f1 =new Date( planificat.fechainicio);   
+      var f2 =new Date( planificat.fechafinalizacion);//.toISOString().substr(0,10);   
+      var visitas = planificat.novisitasdiarias
+
+     var fechas=getDaysArray(f1,f2)
+
+     console.log('fechass ---' + fechas.length)
+     console.log('visitas ---' + visitas)
+     console.log('proyectos ---' + todos2.length)
+     for(var j = 0; j < fechas.length;j++){ // todas las fechas
+      for(var k = 0; k < visitas;k++){//no visitas
+        for(var i = 0; i < todos2.length;i++){ // todos los proyectpos
+       
+
+          
+            
+            
+         
+        
+              var aarr=todos2[i].proyecto.split('¬')
+              console.log(aarr)
+
+             
+            contrato = await dadatosformularioidfinal('5f729c2487c9e33bd4ada798',{ _id:aarr[1].split('°')[0]},req.body.idempresa,'5f729c2487c9e33bd4ada798'); 
+              console.log(contrato)
+         
+            var proyectot=contrato.proyecto.split('¬')[1]
+            var empresat=contrato.empresa.split('¬')[1]
+
+            
+                var names='5f81d95fc07d6532900465a4'
+                var estructura= {
+                  "novisita" :k+1,
+                  "idperiodo" : periodot._id,
+                  "periodo" : periodot.nombre,
+                  "idsupervisor" : supervidort.usuario.split('¬')[1],
+                  "supervisor" : supervidort.usuario.split('¬')[0],
+                  "idinspector" : inspectort.usuario.split('¬')[1],
+                  "inspector" : inspectort.usuario.split('¬')[0],
+                  "idplanifica" : planificat._id,
+                  "idinspector0" : inspectort._id,
+                  "idsupervisor0" : supervidort._id,
+                  "idproyecto0" : todos2[i]._id,
+                  "idproyecto" :  proyectot,
+                  "idempresa0" : empresat,
+                  "idcontrato" : aarr[1].split('°')[0],
+                  "fechaasignada" :""+ fechas[j] + "",
+                  "verificapersonal":'',
+                  "verificavehiculos":'',
+                  "verificaherramienta":'',
+                  "comentariopersonal":'',
+                  "geoposicion":'',
+                  "comentariovehiculos":'',
+                  "comentarioherramienta":'',
+                  "proyecto" :todos2[i].proyecto,
+                  "usuarionew" :req.body.bitacora.email,
+                  "usuarioup" : req.body.bitacora.email,
+                  "idpapa" : req.body.idpapa,
+                  "estado" : 'activa',
+                  "idempresa" : req.body.idempresa,
+                  "nombre":  "  <strong>No contrato:</strong> "+aarr[0].split('°')[0].trim().split(':')[1]+ " <br> "+
+                  "<strong>Empresa:</strong>"+contrato.empresa.split('°')[2].split(':')[1]+ " <br> "+
+                  "<strong>Nit Empresa:</strong>"+contrato.empresa.split('°')[1].split(':')[2]+ " <br> "+
+                  "<strong>Codigo proyecto:</strong>"+ contrato.proyecto.split('°')[1].split(':')[2] + " <br> "+
+                  "<strong>Nombre proyecto:</strong>"+  contrato.proyecto.split('°')[2].split(':')[1] +" <br> "+
+                  " <strong>Supervisor:</strong> "+ supervidort.usuario.split('¬')[0] +" <br>"+
+                  " <strong>Inspector:</strong> " + inspectort.usuario.split('¬')[0] +" <br>"
+                  
               }
-        });
+
+
+              creafrmregistro(req, res, next,names,req.body.idform,estructura,'noresponde',[],req.body.idpapa,req.body.idtipo)
+
+        
+          
+         
+                  
+              }
+
+            }
+          
+       
+      
     }
+
+    
+    resolve({estado:'exito'}); 
+})();
+        break;
+        default:
+          // code block
+          resolve({estado:'exito',data:[]}); 
+      }
+});
+
+
+
+
+}
 
 
 module.exports = {
-
+    ejecutacomandos: ejecutacomandos,
+ 
   
-
-  daejecutafunciones: daejecutafunciones
-   
       }
