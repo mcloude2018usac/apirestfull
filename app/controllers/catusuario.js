@@ -31,6 +31,10 @@ exports.getCatusuario = function(req, res, next){
                 exec(function(err, todosa) {
                  
                     if (err){  res.send(err);  }
+                    if(todosa.length===0)
+                    {res.json([]);}
+                    else
+                    {
              
                     formulariousrd.find({idempresa:req.params.id,tipo:req.params.id4,idusuario:req.params.id3}).populate('idpapa').populate('idformulario').exec(function(err, todos) {
 
@@ -65,7 +69,7 @@ exports.getCatusuario = function(req, res, next){
                       
     
                     });
-               
+                }
              
                  });
         
