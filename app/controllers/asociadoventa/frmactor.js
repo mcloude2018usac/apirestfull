@@ -5,6 +5,7 @@ var Bitacora = require('../../models/bitacora');
 var Image = require('../../models/image2');
 var frmactorgrupo = require('../../models/asociadoventa/frmactorgrupo');
 var functool = require('../../controllers/funcionesnode');
+var frmactorgrupo = require('../../models/asociadoventa/frmactorgrupo');
 
 
 function creactores(req,res,idactor,todos2,nombreactor ){
@@ -59,10 +60,70 @@ exports.getfrmactor = function(req, res, next){
     {   
             if(req.params.id2=='todos')
             { 
+                frmactorgrupo.find({idempresa:req.params.id3,idpapa0:req.params.id4}).sort({'_id': -1}).exec(function(err, todosaa) {
+                    if (err){  res.send(err);  }
+                      
                 frmactor.find({idempresa:req.params.id3,idpapa:req.params.id4}).sort({'_id': 1}).exec(function(err, todos) {
                     if (err){  res.send(err);  }
-                     res.json(todos);
+                    
+
+
+                    
+                    var duplicates = [];
+                    for(var i = 0; i < todos.length;i++){
+                        var cuantos=0;
+                        var cadhtm='<ul>';
+                        
+                        for(var ii = 0; ii < todosaa.length;ii++){
+
+                            
+                            if(String(todos[i]._id)===String(todosaa[ii].idpapa))
+                            {
+                                cuantos=cuantos+1
+                               cadhtm=cadhtm +  '<li>' +  todosaa[ii].nombre + '</li>'
+                              //  cadhtm=cadhtm + cuantos + '.' +  todosaa[ii].nombre + '<br>'
+                            }
+                           
+
+                        }
+                        cadhtm=cadhtm + '</ul>'
+                                    duplicates.push({ 
+                                        
+     
+
+
+
+
+                                        idempresa:todos[i].idempresa,
+                                        idpapa:todos[i].idpapa,
+                                        _id:todos[i]._id,
+                                      
+                                        idpapa0:todos[i].idpapa0,
+                                        nombre:todos[i].nombre,
+
+                                        usuarios:todos[i].usuarios,
+                                        nombreusuarios:todos[i].nombreusuarios,
+                                        correousuarios:todos[i].correousuarios,
+                                        idpapa:todos[i].idpapa,
+
+                                        estado	:todos[i].estado,	
+                                        usuarionew:todos[i].usuarionew,	
+                                        acciones:cadhtm,
+                                     
+                                    cuantos:cuantos});
+                    }
+                    
+                       
+                   
+                    res.json(duplicates);
+
+
                  });
+
+
+                 });
+
+              
             }
             else
             {

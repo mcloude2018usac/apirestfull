@@ -10,12 +10,12 @@ var formulariousr = require('../models/formulariousr');
 var functool = require('./funcionesnode');
 var kardex = require('../models/asociadoventa/kardexcorreos');
 var kardexproducto = require('../models/asociadoventa/kardexcorreosproducto');
-
+var adodb = require('database-js-adodb');
 
 
 var Poliza = require('../models/ges/poliza');
 
-
+const odbc = require('odbc');
 var sql = require("mssql");
 
 // config for your database  DRIVER={Microsoft Access Driver (*.mdb)}; DBQ=C:\BD_DUA\declaraciones_dua.d; Uid=admin; Pwd=$3rt084r202523;
@@ -30,6 +30,11 @@ const connectionConfig = {
 }
 
  
+
+const ADODB = require('node-adodb');
+ADODB.debug = true;
+var connection10 = ADODB.open(connectionString);
+
 
 
                             
