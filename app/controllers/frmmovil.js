@@ -2704,7 +2704,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                 Frmmovild.find({idmovil:req.params.id, display : "true",idempresa:arrtodos[0]}).sort([['order', 1]]).exec(function(err, todos) {
                     if (err){ res.send(err); }
                  
-                  
+                  console.log(todos)
                     var objetox = {};
                     for(var i = 0; i < todos.length;i++){
                         objetox[todos[i].name] =todos[i].title + '°' + todos[i].type + '°'+ todos[i].display;

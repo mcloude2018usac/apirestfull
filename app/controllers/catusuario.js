@@ -31,10 +31,7 @@ exports.getCatusuario = function(req, res, next){
                 exec(function(err, todosa) {
                  
                     if (err){  res.send(err);  }
-                    if(todosa.length===0)
-                    {res.json([]);}
-                    else
-                    {
+                    //if(todosa.length===0)       {res.json([]);}         else                 {
              
                     formulariousrd.find({idempresa:req.params.id,tipo:req.params.id4,idusuario:req.params.id3}).populate('idpapa').populate('idformulario').exec(function(err, todos) {
 
@@ -47,15 +44,23 @@ exports.getCatusuario = function(req, res, next){
                       
                         var uniqueNames = [];
                         for(var i = 0; i< todos.length; i++){    
+                            if(todos[i].idformulario && todos[i].idformulario !==null)
+                            {
                             if(uniqueNames.indexOf(todos[i].idformulario.categoria) === -1){
                                 uniqueNames.push(todos[i].idformulario.categoria);        
                             }        
                         }
+                        }
     
                         for(var i = 0; i< todosa.length; i++){    
-                            if(uniqueNames.indexOf(todosa[i].categoria) === -1){
-                                uniqueNames.push(todosa[i].categoria);        
-                            }        
+                            if(todosa[i].categoria && todosa[i].categoria!==null)
+                            {
+                                if(uniqueNames.indexOf(todosa[i].categoria) === -1){
+                                    uniqueNames.push(todosa[i].categoria);        
+                                } 
+
+                            }
+                                 
                         }
     
                         for(var i = 0; i< uniqueNames.length; i++){    
@@ -69,7 +74,7 @@ exports.getCatusuario = function(req, res, next){
                       
     
                     });
-                }
+               // }
              
                  });
         
@@ -94,15 +99,20 @@ exports.getCatusuario = function(req, res, next){
                          
                     var uniqueNames = [];
                     for(var i = 0; i< todos.length; i++){    
+                        if(todos[i].idformulario && todos[i].idformulario !==null)
+                        {
                         if(uniqueNames.indexOf(todos[i].idformulario.categoria) === -1){
                             uniqueNames.push(todos[i].idformulario.categoria);        
-                        }        
+                        }     
+                    }   
                     }
 
                     for(var i = 0; i< todosa.length; i++){    
+                        if(todosa[i].categoria && todosa[i].categoria!==null)
+                        {
                         if(uniqueNames.indexOf(todosa[i].categoria) === -1){
                             uniqueNames.push(todosa[i].categoria);        
-                        }        
+                        }        }
                     }
 
                     for(var i = 0; i< uniqueNames.length; i++){    

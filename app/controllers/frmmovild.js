@@ -276,7 +276,7 @@ else{
                         nombreconsulta2:'',
                         required :rr	,
                         placeholder :'Ingrese '+ req.body.title+''	,
-                        display :'false',
+                        display :req.body.display,
                         selected :true 	,
                         disabled :'false' 	,
                         hidden :'false' 	,
@@ -338,7 +338,8 @@ if(req.params.id!=='crea')
             todo.name       	=	req.body.name        	||	todo.name;    
             todo.nombre       	=	req.body.name + ' '+  req.body.title   + ' '+req.body.type;    
             todo.placeholder ='Ingrese '+ req.body.title+''	;
-            todo.order       	=	req.body.order        	||	todo.order;    
+            todo.order       	=	req.body.order        	||	todo.order;   
+            todo.display	=	req.body.display        ;    
             todo.title       	=	req.body.title        	||	todo.title;    
             todo.estado       	=	req.body.estado        	||	todo.estado;    
             todo.type       	=	req.body.type        	||	todo.type;    
@@ -384,8 +385,8 @@ else{
                         default 	: '' 	,
                         copiarencampo:'',
                         required :rr	,
-                        placeholder :'Ingrese '+ req.body.title+''	,
-                        display :'false',
+                        placeholder :'Ingrese '+ req.body.title + ''	,
+                        display :req.body.display,
                         selected :true 	,
                         disabled :'false' 	,
                         hidden :'false' 	,
