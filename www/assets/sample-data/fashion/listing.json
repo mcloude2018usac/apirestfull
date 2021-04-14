@@ -1,0 +1,46 @@
+{
+  "items": [
+    {
+      "id": "1",
+      "slug": "badass-leather-jacket",
+      "price": 105,
+      "salePrice": 99,
+      "image": "./assets/sample-images/categories/vino1.png",
+      "name": "Alamos Malbec",
+      "tipo":"vino",
+      "tipo2": "vino argentino"
+    },
+    {
+      "id": "2",
+      "slug": "washed-skinny-jeans",
+      "price": 260,
+      "salePrice": 244,
+      "image": "./assets/sample-images/categories/vino2.png",
+      "name": "Alma Negra",
+      "tipo":"vino",
+      "tipo2": "vino argentino"
+    },
+    {
+      "id": "3",
+      "slug": "washed-skinny-jeans",
+      "price": 160,
+      "salePrice": 114,
+      "image": "./assets/sample-images/categories/vino3.png",
+      "name": "Montes Classic Malbec",
+      "tipo":"vino",
+      "tipo2": "vino chile"
+    },
+    {
+      "id": "4",
+      "slug": "washed-skinny-jeans",
+      "price": 650,
+      "salePrice": 592,
+      "image": "./assets/sample-images/categories/wiski.png",
+      "name": "JW Red Label 750 ml",
+      "tipo": "wisky",
+      "tipo2": "na"
+    }
+    
+  
+  ]
+}
