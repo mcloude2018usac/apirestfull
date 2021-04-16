@@ -15,7 +15,7 @@ var kardexproducto = require('../models/asociadoventa/kardexcorreosproducto');
 
 var Poliza = require('../models/ges/poliza');
 
-const odbc = require('odbc');
+
 var sql = require("mssql");
 
 // config for your database  DRIVER={Microsoft Access Driver (*.mdb)}; DBQ=C:\BD_DUA\declaraciones_dua.d; Uid=admin; Pwd=$3rt084r202523;
