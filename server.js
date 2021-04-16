@@ -1,5 +1,6 @@
 
 var express  = require('express');
+var compression = require('compression');
 const fileUpload = require('express-fileupload');
 const cron = require("node-cron");
 var crntt = require('./app/controllers/crontabfunc');
@@ -56,6 +57,7 @@ console.log("App listening on port 9090");
 //app.use(express.static('app/controllers'));
 app.use(express.static('public'));
 app.use(express.static('www'));
+app.use(compression());
 
 
 

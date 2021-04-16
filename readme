@@ -10,7 +10,9 @@ SET DEBUG=express:*
 cd C:\DESARROLLO DE SOFTWARE\expressjs\mongose>
 node index.js
 
-
+promptpay-emvco-parser
+ promptpay-qr
+ 
  genre: { type: String, enum: ['male', 'female'] }
 
 
