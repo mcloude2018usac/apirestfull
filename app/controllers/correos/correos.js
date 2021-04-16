@@ -745,6 +745,24 @@ requi1b = await dadatosformulariogruposuma('5fc03c79ab0f6448b877eb5c',filtro,req
 }
 
 exports.creacorreos2s = function(req, res, next){
+    if(req.body.operacion==='actualizalineakardexmasivo')
+    { 
+
+        console.log(req.body.id)
+        kardex.updateMany({_id:{$in:req.body.id}}, {nodockardex :req.body.nodockardex    ,estadoprint
+        :req.body.estadoprint,nodockardexlinea:req.body.nodockardexlinea,
+        anulacion:req.body.anulacion}, function(err, todos) {
+                                   
+            if (err){  res.send(err); }
+            console.log(todos)
+            res.json(todos);
+
+        });
+      
+    
+    }
+    else
+    {
 
     if(req.body.operacion==='actualizalineakardex')
     { 
@@ -754,6 +772,7 @@ exports.creacorreos2s = function(req, res, next){
             {   todo.nodockardex        	=	req.body.nodockardex        	||	todo.nodockardex        	;
                 todo.estadoprint        	=	req.body.estadoprint        	     	;
                 todo.nodockardexlinea        	=	req.body.nodockardexlinea        	    	;
+                todo.anulacion        	=	todo.anulacion + ' <br>'+ req.body.anulacion ;       	;
                 
                
     
@@ -799,6 +818,6 @@ exports.creacorreos2s = function(req, res, next){
         }
        
      
-    }
+    }}
 
 }

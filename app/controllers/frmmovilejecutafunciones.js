@@ -16,6 +16,8 @@ var kardexproducto = require('../models/asociadoventa/kardexcorreosproducto');
 var Poliza = require('../models/ges/poliza');
 
 
+var sql = require("mssql");
+
 // config for your database  DRIVER={Microsoft Access Driver (*.mdb)}; DBQ=C:\BD_DUA\declaraciones_dua.d; Uid=admin; Pwd=$3rt084r202523;
 var conecta1 = 'mssql://sa:$ertobar@192.168.34.5/stbd'
 var conecta2 = 'mssql://sa:$ertobar@192.168.34.5/cielomarbd'
@@ -28,6 +30,8 @@ const connectionConfig = {
 }
 
  
+
+
 
 
                             

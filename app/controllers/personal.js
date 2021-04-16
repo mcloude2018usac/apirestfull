@@ -1276,6 +1276,7 @@ if(req.params.recordID)
         else
         {  
              todo.email        	=	req.body.email        	||	todo.email        	;
+             todo.correonotifica        	=	req.body.correonotifica        	||	todo.correonotifica        	;
             todo.role        	=	req.body.role       	||	todo.role        	;
             todo.nombre        	=	req.body.nombre        	||	todo.nombre        	;
             todo.nombrealias        	=	req.body.nombrealias        	||	todo.nombrealias        	;

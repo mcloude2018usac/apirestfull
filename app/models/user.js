@@ -11,6 +11,7 @@ var UserSchema = new mongoose.Schema({
         unique: true,
         required: true
     },
+    correonotifica		: { type : String},
     password: {
         type: String,
         required: true

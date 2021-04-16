@@ -104,6 +104,7 @@ if(cuiiii==='' || cuiiii===undefined)
  
         var user = new User({
             email: email,
+            correonotifica: email,
             password: password,
             role: req.body.role,
             idempresa:req.body.idempresa,
