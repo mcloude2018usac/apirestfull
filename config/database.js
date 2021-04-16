@@ -6,7 +6,7 @@ module.exports = {
 url:'mongodb+srv://dbcloude:Admin123@cluster0.emali.mongodb.net/correos?retryWrites=true&w=majority'   
 //url:'mongodb+srv://dbcloude:Admin123@cluster0.emali.mongodb.net/metriclion?retryWrites=true&w=majority'
 
-   
+      
 //url:'mongodb://181.174.122.180:27017/muni?retryWrites=true&w=majority'
 //-----------------------------------------para carnes
 //mongodb+srv://usac:6zdvLMGFvaN7ohHD@cluster0-labwq.mongodb.net/test
