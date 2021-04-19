@@ -10,7 +10,7 @@ var formulariousr = require('../models/formulariousr');
 var functool = require('./funcionesnode');
 var kardex = require('../models/asociadoventa/kardexcorreos');
 var kardexproducto = require('../models/asociadoventa/kardexcorreosproducto');
-var adodb = require('database-js-adodb');
+
 
 
 var Poliza = require('../models/ges/poliza');
