@@ -1,6 +1,11 @@
 
 var Frmmovil = require('../models/frmmovil');
 var Frmmovild = require('../models/frmmovild');
+var conecta1 = 'mssql://sa:$ertobar@192.168.34.5/stbd'
+var conecta2 = 'mssql://sa:$ertobar@192.168.34.5/cielomarbd'
+var conecta3 = 'mssql://sa:$ertobar@192.168.34.5/camposbd'
+var sql = require("mssql");
+
 const { getGaleriaimg } = require('./galeriaimg');
 function datipo(value) {
   var tt='';
@@ -23,6 +28,34 @@ function datipo(value) {
       return tt;
     }
     
+
+    function ejecutasql  (cad,sqlconecta)
+    {
+    //var  ejecutasql= async function(cad,sqlconecta) {
+       
+        return new Promise(resolve => {
+
+          sql.connect(sqlconecta, function (err) {if (err) console.log(err);               
+            var request = new sql.Request();
+             request.query(cad, function (err, recordset) {             
+                 if (err) console.log(err)
+          
+         
+                 resolve({estado:'exito',datat:recordset})
+              
+          
+         });
+
+
+
+         
+        });
+      });
+    }
+
+      
+
+
   function stringToObject(JSONString) {
     var jsonObject = JSON.parse(JSONString);
     return jsonObject;
@@ -1125,6 +1158,8 @@ module.exports = {
     getImagesruta: getImagesruta,
     dafechacompleta:dafechacompleta,
     dafecha:dafecha,
+    ejecutasql:ejecutasql,
+    
     dahora:dahora,
     dafechastring:dafechastring,
     daimagen:daimagen,

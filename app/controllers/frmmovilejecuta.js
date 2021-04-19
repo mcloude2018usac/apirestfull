@@ -9,6 +9,11 @@ var formulariousr = require('../models/formulariousr');
 var functool = require('../controllers/funcionesnode');
 var kardex = require('../models/asociadoventa/kardexcorreos');
 var kardexproducto = require('../models/asociadoventa/kardexcorreosproducto');
+var conecta1 = 'mssql://sa:$ertobar@192.168.34.5/stbd'
+var conecta2 = 'mssql://sa:$ertobar@192.168.34.5/cielomarbd'
+var conecta3 = 'mssql://sa:$ertobar@192.168.34.5/camposbd'
+
+
                             
 function onlyUnique(value, index, self) { 
     return self.indexOf(value) === index;
@@ -1560,6 +1565,27 @@ var visitas_programadas=async  function(req, res, next){
    console.log(req.body)
             return new Promise(resolve => {
                 switch(req.body.ejecuta) {
+                  case '1_creacliente':
+
+                          //
+               (async () => {   
+                 
+                var est=req.body.estructura
+                   
+                var cad1=''//codigoc  codigos
+             cad1="insert into clientes values ("+ est.codigoa +",'"+ est.nit +"','"+ est.nombre +"','"+ est.direccion +"','0','','GUATEMALA','"+ est.telefono +"',0,0,999999,'120101',1,30,0,'#PRL#','"+ est.dpi +"','','','GUATEMALA','','#PRL#','"+ est.correo +"','',0,null)"
+        
+               var ejecuta1=await  functool.ejecutasql(cad1,conecta2)
+
+               //actualizar codigos en el formulario
+
+               resolve({estado:'exito'}); 
+              })();
+
+
+
+               
+                  break;
                   case '1_actualizainvrequisicion':
                     (async () => {
                         var ingreso=0
@@ -1758,185 +1784,8 @@ var visitas_programadas=async  function(req, res, next){
                   }
             });
         }
-  
-        var formulariofinalact= async function(req, res, next,dataanterior){
-            return new Promise(resolve => {
-                switch(req.body.ejecuta) {
-                   
-                    case '1_actualizainventarioaj': 
-                    resolve({estado:'Existencia no valida'}); 
-                    break;
-                    default:
-                      // code block
-                      resolve({estado:'exito'}); 
-                  }
-            });
-        }
-  
-        var formulariofinaldel= async function(req, res, next,dataanterior){
-            return new Promise(resolve => {
-                switch(req.body.ejecuta) {
-                    case '1_actualizainvrequisicion':
-                        (async () => {
-                            var ingreso=0
-                            var salida=0
-                            var saldoactual=0
-                            var total=0
-                            var existenciaactual=0
-                            var cantidadingreso=0
-                            var idproducto=req.body.estructura.articulo.split('¬')[1]
-        
-             
-                            producto = await dadatosformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579'); 
-                        
-                            if(producto.existenciaactual)
-                            {existenciaactual=Number(producto.existenciaactual)}
-                            else{existenciaactual=0}
-        
-                            if(req.body.estructura.cantidaddespachada)
-                            {
-                                cantidadingreso=Number(req.body.estructura.cantidaddespachada)
-                            }
-                            else
-                            {
-                                cantidadingreso=0;
-                            }
-        
-                    
-                              salida=0
-                          
-                            ingreso=cantidadingreso
-                            saldoactual=existenciaactual+ingreso
-
-                        
-                          total=saldoactual*Number(producto.precioporunidad)
-                          kardex.create({
-                            idempresa		: req.body.estructura.idempresa,  
-                            fecha		: req.body.papaitem.fecha,  
-                            tipo		: 'Entrada',  
-                            accion		: 'Elimina Salida requisición',  
-                            proveedor		: req.body.papaitem.departamento,  
-                            nodoc		: req.body.papaitem.nodocumento.toString(),  
-                            iddocumento		: req.body.estructura._id.toString(),  
-                            categoria		:producto.categoria,
-                            producto		: producto.codigoarticulo,  
-                            unidad: producto.unidaddemedida,
-                            
-                    nodockardex		: '',  
-                    nodockardexlinea		: '',  
-                    tarjetasanuladas: '',
-                    estadoprint:'No impreso',
-                    anulacion:'',
-                            idproducto:producto._id,
-                            producton		: producto.descripciondelarticulo,
-                            saldoanterior		: existenciaactual,
-                            ingreso		: ingreso,
-                            obs:'',
-                            egreso		: salida,
-                            saldoactual		: saldoactual,
-                            precioanterior:Number(producto.precioporunidad),
-                            precio		: Number(producto.precioporunidad),
-                            total		: total,
-                          });
-                          var estructura={
-                            "precioporunidad" : producto.precioporunidad.toString(),
-                            "existenciaactual" : saldoactual.toString(),
-                            "total" :( saldoactual*Number(producto.precioporunidad)).toString()
-                          
-                        }
-                          producto = await actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579',estructura); 
-                          resolve({estado:'exito'}); 
-                       })();
-        
-        
-                      
-                       
-                     
-                        break;
-                        case '1_formulario1hpone': 
-                        (async () => {
-                            var ingreso=0
-                            var salida=0
-                            var saldoactual=0
-                            var total=0
-                            var existenciaactual=0
-                            var cantidadingreso=0
-                            var idproducto=req.body.estructura.articulo.split('¬')[1]
-        
-             
-                            producto = await dadatosformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579'); 
-                        
-                            if(producto.existenciaactual)
-                            {existenciaactual=Number(producto.existenciaactual)}
-                            else{existenciaactual=0}
-        
-                            if(req.body.estructura.cantidad)
-                            {
-                                cantidadingreso=Number(req.body.estructura.cantidad)
-                            }
-                            else
-                            {
-                                cantidadingreso=0;
-                            }
-        
-                    
-                              entrada=0
-                          
-                            salida=cantidadingreso
-                            saldoactual=existenciaactual-salida
-                          
-        
-                          total=saldoactual*Number(producto.precioporunidad)
-                          kardex.create({
-                            idempresa		: req.body.estructura.idempresa,  
-                            fecha		: req.body.papaitem.fecha,  
-                            tipo		: 'Salida',  
-                            accion		: 'Elimina Ingreso formulario 1-H',  
-                            proveedor		: req.body.papaitem.proveedor,  
-                            nodoc		: req.body.papaitem.codigo.toString(),  
-                            iddocumento		: req.body.estructura._id.toString(),  
-                            categoria		:producto.categoria,
-                            producto		: producto.codigoarticulo,  
-                            
-                    nodockardex		: '',  
-                    nodockardexlinea		: '',  
-                    tarjetasanuladas: '',
-                    estadoprint:'No impreso',
-                    anulacion:'',
-                            idproducto:producto._id,
-                            producton		: producto.descripciondelarticulo,
-                            saldoanterior		: existenciaactual,
-                            unidad: producto.unidaddemedida,
-                            ingreso		: ingreso,
-                            obs:'',
-                            egreso		: salida,
-                            saldoactual		: saldoactual,
-                            precioanterior:Number(producto.precioporunidad),
-                            precio		: Number(producto.precioporunidad),
-                            total		: total,
-                          });
-                          var estructura={
-                            "precioporunidad" : producto.precioporunidad.toString(),
-                            "existenciaactual" : saldoactual.toString(),
-                            "total" :( saldoactual*Number(producto.precioporunidad)).toString()
-                          
-                        }
-                          producto = await actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579',estructura); 
-                          resolve({estado:'exito'}); 
-                       })();
-        
-        
-                      
-                       
-                     
-                        break;
-                        default:
-                          // code block
-                          resolve({estado:'exito'}); 
-                  
-                  }
-            });
-        }
+ 
+ 
       
         var formularioanula= async function(req, res, next,dataanterior){
             console.log(req.body)
@@ -2121,11 +1970,231 @@ var visitas_programadas=async  function(req, res, next){
                   }
             });
         }
+
+
+      
+        var formularioejecutaactualiza= async function(req, res, next,dataanterior){
+          return new Promise(resolve => {
+            console.log('ejecuta al inicio actualiza:' + req.body.ejecutainicio)
+              switch(req.body.ejecutaactualiza) {
+                 
+                  case '2_actualizacliente': 
+
+               //insert into clientes values (#codigota#,'#PNIT#','#PNOMBRE#','#PDIRECCION#','0','','GUATEMALA','#PTELEFONO#',0,0,999999,'120101',1,30,0,'#PRL#','#PDPI#','','','GUATEMALA','','#PRL#','#PCORREO#','',0,null)
+               (async () => {   
+                 
+                var est=req.body.estructura
+                   
+                var cad1=''//codigoc  codigos
+             cad1="update clientes set nombre='" + est.nombre +"',nit='" + est.nit +"' ,direccion='" + est.direccion +"' ,telefono='" + est.telefono +"' ,correo='" + est.correo +"'   where codigo="+ est.codigoa
+        
+               var ejecuta1=await  functool.ejecutasql(cad1,conecta2)
+               resolve({estado:'Existencia no valida'}); 
+              })();
+
+
+
+               
+                  break;
+                  default:
+                    // code block
+                    resolve({estado:'exito'}); 
+                }
+          });
+      }
+
+      var formularioejecutaelimina= async function(req, res, next,dataanterior){
+        return new Promise(resolve => {
+          console.log('ejecuta al inicio actualiza:' + req.body.ejecutainicio)
+            switch(req.body.ejecutaelimina) {
+               
+                case '3_eliminacliente': 
+                                        //
+               (async () => {   
+                 
+                var est=req.body.estructura
+                   
+                var cad1=''//codigoc  codigos
+             cad1="delete from  clientes where codigoa="+ est.codigoa 
+        
+               var ejecuta1=await  functool.ejecutasql(cad1,conecta2)
+
+               //actualizar codigos en el formulario
+
+               resolve({estado:'exito'}); 
+              })();
+
+
+                break;
+                case '1_actualizainvrequisicion':
+                  (async () => {
+                      var ingreso=0
+                      var salida=0
+                      var saldoactual=0
+                      var total=0
+                      var existenciaactual=0
+                      var cantidadingreso=0
+                      var idproducto=req.body.estructura.articulo.split('¬')[1]
+  
+       
+                      producto = await dadatosformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579'); 
+                  
+                      if(producto.existenciaactual)
+                      {existenciaactual=Number(producto.existenciaactual)}
+                      else{existenciaactual=0}
+  
+                      if(req.body.estructura.cantidaddespachada)
+                      {
+                          cantidadingreso=Number(req.body.estructura.cantidaddespachada)
+                      }
+                      else
+                      {
+                          cantidadingreso=0;
+                      }
+  
+              
+                        salida=0
+                    
+                      ingreso=cantidadingreso
+                      saldoactual=existenciaactual+ingreso
+
+                  
+                    total=saldoactual*Number(producto.precioporunidad)
+                    kardex.create({
+                      idempresa		: req.body.estructura.idempresa,  
+                      fecha		: req.body.papaitem.fecha,  
+                      tipo		: 'Entrada',  
+                      accion		: 'Elimina Salida requisición',  
+                      proveedor		: req.body.papaitem.departamento,  
+                      nodoc		: req.body.papaitem.nodocumento.toString(),  
+                      iddocumento		: req.body.estructura._id.toString(),  
+                      categoria		:producto.categoria,
+                      producto		: producto.codigoarticulo,  
+                      unidad: producto.unidaddemedida,
+                      
+              nodockardex		: '',  
+              nodockardexlinea		: '',  
+              tarjetasanuladas: '',
+              estadoprint:'No impreso',
+              anulacion:'',
+                      idproducto:producto._id,
+                      producton		: producto.descripciondelarticulo,
+                      saldoanterior		: existenciaactual,
+                      ingreso		: ingreso,
+                      obs:'',
+                      egreso		: salida,
+                      saldoactual		: saldoactual,
+                      precioanterior:Number(producto.precioporunidad),
+                      precio		: Number(producto.precioporunidad),
+                      total		: total,
+                    });
+                    var estructura={
+                      "precioporunidad" : producto.precioporunidad.toString(),
+                      "existenciaactual" : saldoactual.toString(),
+                      "total" :( saldoactual*Number(producto.precioporunidad)).toString()
+                    
+                  }
+                    producto = await actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579',estructura); 
+                    resolve({estado:'exito'}); 
+                 })();
+  
+  
+                
+                 
+               
+                  break;
+                  case '1_formulario1hpone': 
+                  (async () => {
+                      var ingreso=0
+                      var salida=0
+                      var saldoactual=0
+                      var total=0
+                      var existenciaactual=0
+                      var cantidadingreso=0
+                      var idproducto=req.body.estructura.articulo.split('¬')[1]
+  
+       
+                      producto = await dadatosformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579'); 
+                  
+                      if(producto.existenciaactual)
+                      {existenciaactual=Number(producto.existenciaactual)}
+                      else{existenciaactual=0}
+  
+                      if(req.body.estructura.cantidad)
+                      {
+                          cantidadingreso=Number(req.body.estructura.cantidad)
+                      }
+                      else
+                      {
+                          cantidadingreso=0;
+                      }
+  
+              
+                        entrada=0
+                    
+                      salida=cantidadingreso
+                      saldoactual=existenciaactual-salida
+                    
+  
+                    total=saldoactual*Number(producto.precioporunidad)
+                    kardex.create({
+                      idempresa		: req.body.estructura.idempresa,  
+                      fecha		: req.body.papaitem.fecha,  
+                      tipo		: 'Salida',  
+                      accion		: 'Elimina Ingreso formulario 1-H',  
+                      proveedor		: req.body.papaitem.proveedor,  
+                      nodoc		: req.body.papaitem.codigo.toString(),  
+                      iddocumento		: req.body.estructura._id.toString(),  
+                      categoria		:producto.categoria,
+                      producto		: producto.codigoarticulo,  
+                      
+              nodockardex		: '',  
+              nodockardexlinea		: '',  
+              tarjetasanuladas: '',
+              estadoprint:'No impreso',
+              anulacion:'',
+                      idproducto:producto._id,
+                      producton		: producto.descripciondelarticulo,
+                      saldoanterior		: existenciaactual,
+                      unidad: producto.unidaddemedida,
+                      ingreso		: ingreso,
+                      obs:'',
+                      egreso		: salida,
+                      saldoactual		: saldoactual,
+                      precioanterior:Number(producto.precioporunidad),
+                      precio		: Number(producto.precioporunidad),
+                      total		: total,
+                    });
+                    var estructura={
+                      "precioporunidad" : producto.precioporunidad.toString(),
+                      "existenciaactual" : saldoactual.toString(),
+                      "total" :( saldoactual*Number(producto.precioporunidad)).toString()
+                    
+                  }
+                    producto = await actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579',estructura); 
+                    resolve({estado:'exito'}); 
+                 })();
+  
+  
+                
+                 
+               
+                  break;
+                  default:
+                  // code block
+                  resolve({estado:'exito'}); 
+              }
+        });
+    }
+
 module.exports = {
     visitas_programadas: visitas_programadas,
  
   
-
+    formularioejecutaactualiza:formularioejecutaactualiza,
+    formularioejecutaelimina:formularioejecutaelimina,
+ 
+  
     procesoinicialcrea: procesoinicialcrea,
     procesoinicialact: procesoinicialact,
     procesoinicialdel: procesoinicialdel,
@@ -2143,7 +2212,7 @@ module.exports = {
 
 
     formulariofinalcrea: formulariofinalcrea,
-    formulariofinalact: formulariofinalact,
-    formulariofinaldel: formulariofinaldel,
+    
+    
     formularioanula: formularioanula
       }

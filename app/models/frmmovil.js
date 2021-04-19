@@ -12,8 +12,8 @@ var mongoose =require("mongoose");
         iniciocorrelativo:  { type : Number },
         ejecuta:  { type : String },
         ejecutainicio:  { type : String },
-        ejecutaope:  { type : String },
-        ejecutaope2:  { type : String },
+        ejecutaactualiza:  { type : String },
+        ejecutaelimina:  { type : String },
       //  idformdetalle:  	{    id	: { type : String },   nombre	: { type : String }        },
         usuarionew	: { type : String },      usuarioup	: { type : String }}, {
         timestamps: true

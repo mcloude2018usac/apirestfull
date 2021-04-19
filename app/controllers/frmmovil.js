@@ -2005,7 +2005,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                         {
                                             myData.push({_id:todos[i].idformulario._id,categoria:todos[i].idformulario.categoria,nombre:todos[i].idformulario.nombre,foto:todos[i].idformulario.foto,estado:todos[i].idformulario.estado ,verregistros:todos[i].verregistros,geoposicion:todos[i].idformulario.geoposicion ,tipo2:todos[i].idformulario.tipo2,ejecuta:todos[i].idformulario.ejecuta  ,
                                                 ejecutainicio:todos[i].idformulario.ejecutainicio,
-                                                ejecutaope2:todos[i].idformulario.ejecutaope2,ejecutaope:todos[i].idformulario.ejecutaope  ,tipo:todos[i].idformulario.tipo,permisos:{
+                                                ejecutaelimina:todos[i].idformulario.ejecutaelimina,ejecutaactualiza:todos[i].idformulario.ejecutaactualiza  ,tipo:todos[i].idformulario.tipo,permisos:{
                                                 pactualizacion:todos[i].actualizacion,  pconsulta:todos[i].consulta, 
                                                 comandos:todos[i].comandos, 
                                                 generareporte:todos[i].generareporte,comandos:todos[i].comandos, 
@@ -2069,7 +2069,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                                 
                                                     if(todos[i].idformulario.categoria==req.params.id)
                                                     { 
-                                                        myData.push({_id:todos[i].idformulario._id,categoria:todos[i].idformulario.categoria,nombre:todos[i].idformulario.nombre,foto:todos[i].idformulario.foto,estado:todos[i].idformulario.estado ,verregistros:todos[i].verregistros,geoposicion:todos[i].idformulario.geoposicion ,tipo2:todos[i].idformulario.tipo2,ejecuta:todos[i].idformulario.ejecuta  ,ejecutainicio:todos[i].idformulario.ejecutainicio ,ejecutaope2:todos[i].idformulario.ejecutaope2,ejecutaope:todos[i].idformulario.ejecutaope ,tipo:todos[i].idformulario.tipo,
+                                                        myData.push({_id:todos[i].idformulario._id,categoria:todos[i].idformulario.categoria,nombre:todos[i].idformulario.nombre,foto:todos[i].idformulario.foto,estado:todos[i].idformulario.estado ,verregistros:todos[i].verregistros,geoposicion:todos[i].idformulario.geoposicion ,tipo2:todos[i].idformulario.tipo2,ejecuta:todos[i].idformulario.ejecuta  ,ejecutainicio:todos[i].idformulario.ejecutainicio ,ejecutaelimina:todos[i].idformulario.ejecutaelimina,ejecutaactualiza:todos[i].idformulario.ejecutaactualiza ,tipo:todos[i].idformulario.tipo,
                                                             pactualizacion:todos[i].actualizacion,  pconsulta:todos[i].consulta, 
                                                             activas:todos[i].activas,cerradas:todos[i].cerradas,ejecutadas:todos[i].ejecutadas,
                                                             generareporte:todos[i].generareporte, 
@@ -2096,7 +2096,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                                         }
                                                         if(encuentra==0)
                                                         {
-                                                        myData.push({_id:todosa[i]._id,categoria:todosa[i].categoria,nombre:todosa[i].nombre,foto:todosa[i].foto,estado:todosa[i].estado ,verregistros:todosa[i].verregistros,geoposicion:todosa[i].geoposicion ,tipo2:todosa[i].tipo2,ejecuta:todosa[i].ejecuta  ,ejecutainicio:todosa[i].ejecutainicio,ejecutaope2:todosa[i].ejecutaope2,ejecutaope:todosa[i].ejecutaope  ,tipo:todosa[i].tipo,
+                                                        myData.push({_id:todosa[i]._id,categoria:todosa[i].categoria,nombre:todosa[i].nombre,foto:todosa[i].foto,estado:todosa[i].estado ,verregistros:todosa[i].verregistros,geoposicion:todosa[i].geoposicion ,tipo2:todosa[i].tipo2,ejecuta:todosa[i].ejecuta  ,ejecutainicio:todosa[i].ejecutainicio,ejecutaelimina:todosa[i].ejecutaelimina,ejecutaactualiza:todosa[i].ejecutaactualiza  ,tipo:todosa[i].tipo,
                                                             pactualizacion:'true',  pconsulta:'true', pcreacion:'true', peliminacion:'true',  pfiltro:'true', pingreso:'true', reporte:'true',
                                                             generareporte:'', 
                                                             activas:'true',cerradas:'true',ejecutadas:'false',
@@ -2111,7 +2111,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                             
                                                 var myData2 = [];
                                                             for(var i = 0; i < unique.length;i++){
-                                                                myData2.push({_id:unique[i]._id,tipo:unique[i].tipo,ejecuta:unique[i].ejecuta,ejecutainicio:unique[i].ejecutainicio ,ejecutaope2:unique[i].ejecutaope2 ,ejecutaope:unique[i].ejecutaope  ,tipo2:unique[i].tipo2,geoposicion:unique[i].geoposicion ,categoria:unique[i].categoria,nombre:unique[i].nombre,foto:unique[i].foto,estado:unique[i].estado ,verregistros:unique[i].verregistros,permisos:{pactualizacion:unique[i].pactualizacion, 
+                                                                myData2.push({_id:unique[i]._id,tipo:unique[i].tipo,ejecuta:unique[i].ejecuta,ejecutainicio:unique[i].ejecutainicio ,ejecutaelimina:unique[i].ejecutaelimina ,ejecutaactualiza:unique[i].ejecutaactualiza  ,tipo2:unique[i].tipo2,geoposicion:unique[i].geoposicion ,categoria:unique[i].categoria,nombre:unique[i].nombre,foto:unique[i].foto,estado:unique[i].estado ,verregistros:unique[i].verregistros,permisos:{pactualizacion:unique[i].pactualizacion, 
                                                                     comandos:unique[i].comandos,
                                                                     activas:unique[i].activas,cerradas:unique[i].cerradas,ejecutadas:unique[i].ejecutadas,
                                                                     generareporte:unique[i].generareporte, 
@@ -3296,46 +3296,55 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                 }
 }}}
 }
-exports.deleteFrmmovil = function(req, res, next){
+exports.deleteFrmmovil = async function(req, res, next){
    
     Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina formulario movil '});
+
+
+
+        
     Frmmovil.findByIdAndRemove({ _id: req.params.recordID  }, function(err, todo) {
 
-       Frmmovild.deleteMany({idmovil:req.params.recordID  }, function(err, todo100) {  
-            frmactividad.deleteMany({idpapa:req.params.recordID  }, function(err, todo100) {  
-                frmacciones.deleteMany({idpapa0:req.params.recordID  }, function(err, todo100) {  
-                    frmactor.find({idpapa:req.params.recordID  }, function(err, todo100a) { 
-                        var duplicates = [];
-                        for(var i = 0; i < todo100a.length;i++){
-                                        duplicates.push(todo100a[i]._id);
-                        }
-                        
-                frmactor.deleteMany({idpapa:req.params.recordID  }, function(err, todo100) { 
+        Frmmovild.deleteMany({idmovil:req.params.recordID  }, function(err, todo100) {  
+             frmactividad.deleteMany({idpapa:req.params.recordID  }, function(err, todo100) {  
+                 frmacciones.deleteMany({idpapa0:req.params.recordID  }, function(err, todo100) {  
+                     frmactor.find({idpapa:req.params.recordID  }, function(err, todo100a) { 
+                         var duplicates = [];
+                         for(var i = 0; i < todo100a.length;i++){
+                                         duplicates.push(todo100a[i]._id);
+                         }
+                         
+                 frmactor.deleteMany({idpapa:req.params.recordID  }, function(err, todo100) { 
+                     
                     
-                   
+ 
+ 
+ 
+                         frmactorgrupo.deleteMany({idpapa: {$in: duplicates}  }, function(err, todo100) { 
+ 
+                             formulariousrd.deleteMany({idformulario:req.params.recordID  }, function(err, todo100) { 
+                                 res.json(todo);
+                             });
+ 
+ 
+                             
+                         });
+                     });
+                 });
+  });
+             });
+ 
+            
+ 
+ 
+         });
+         
+     });
+      
 
 
 
-                        frmactorgrupo.deleteMany({idpapa: {$in: duplicates}  }, function(err, todo100) { 
 
-                            formulariousrd.deleteMany({idformulario:req.params.recordID  }, function(err, todo100) { 
-                                res.json(todo);
-                            });
-
-
-                            
-                        });
-                    });
-                });
- });
-            });
-
-           
-
-
-        });
-        
-    });
 }
 
 
@@ -3405,11 +3414,15 @@ exports.deleteFrmmovil2 = async function(req, res, next){
                                     else
                                     {console.log('ddddddddddddddddddddddddddddd')
                                         if(req.body.tipo2==='Formulario'){
-                                            if(req.body.ejecuta!=='' && req.body.ejecuta!==undefined)
+                                            if(req.body.ejecutaelimina!=='' && req.body.ejecutaelimina!==undefined)
                                             {
                                                 (async () => {  
-                                                respuesta = await frmejecuta.formulariofinaldel(req, res, next,[]);
+                                                respuesta = await frmejecuta.formularioejecutaelimina(req, res, next,[]);
                                                 
+
+                                     
+
+
                                                 if(respuesta.estado!=='exito')
                                                 {
                                                     res.status(500).send(respuesta.estado) 
@@ -3478,11 +3491,12 @@ exports.deleteFrmmovil2 = async function(req, res, next){
                                     else
                                     {
                                         if(req.body.tipo2==='Formulario'){
-                                            if(req.body.ejecuta!=='' && req.body.ejecuta!==undefined)
+                                            if(req.body.ejecutaelimina!=='' && req.body.ejecutaelimina!==undefined)
                                             {
                                                 (async () => {  
-                                                respuesta = await frmejecuta.formulariofinaldel(req, res, next,[]);
+                                                respuesta = await frmejecuta.formularioejecutaelimina(req, res, next,[]);
                                                 
+
                                                 if(respuesta.estado!=='exito')
                                                 {
                                                     res.status(500).send(respuesta.estado) 
@@ -3641,7 +3655,7 @@ exports.creaFrmmovil3s = async function(req, res, next){
     }
     else
     {
-    if(req.body.operacion==='ejecutaoperacion')
+    if(req.body.operacion==='ejecutaactualizaracion')
     {
         console.log('entraaaaaaaaaaaaaaaaaaaaaaaaa  EJECUTA OPERACION '+ req.body.ejecuta)
 
@@ -3767,7 +3781,7 @@ if(req.params.recordID!=='crea')
                                   //   try {
                                          var  frmtt= mongoose.model(namess,tt);
                                     
-                                         frmtt.update({ _id: req.params.recordID }, req.body.estructura, function(err, todo3) {
+                                         frmtt.updateMany({ _id: req.params.recordID }, req.body.estructura, function(err, todo3) {
                                              if (err){       res.status(500).send(err.message)    }
                                              if(req.body.tipo==='proceso')
                                              {//crea trayectoria
@@ -3804,7 +3818,25 @@ if(req.params.recordID!=='crea')
                                                   actividadsiguienteaccion		:  req.body.trayectoria.actividadsiguienteaccion
                                             }  , function(err, todo330) {
                                              if (err){  console.log(err.message);    res.status(500).send(err.message)    }
-                                             res.json(todo330);
+
+
+                                             if(req.body.ejecutaactualiza!=='' && req.body.ejecutaactualiza!==undefined)
+                                                {
+                                                    (async () => {    
+                                                    respuesta = await frmejecuta.formularioejecutaactualiza(req, res, next,[]);
+                                                    console.log(respuesta)
+                                                    res.json(todo330);
+                                                    })();
+                                            
+                                                }
+                                                else
+                                                {
+                                                    res.json(todo330);
+                                                }
+        
+
+
+                                             
                                             });
                                      
                                      
@@ -3812,7 +3844,19 @@ if(req.params.recordID!=='crea')
                                              }
                                              else
                                              {
-                                              res.json(todo3);
+                                                if(req.body.ejecutaactualiza!=='' && req.body.ejecutaactualiza!==undefined)
+                                                {
+                                                    (async () => {    
+                                                    respuesta = await frmejecuta.formularioejecutaactualiza(req, res, next,[]);
+                                                    console.log(respuesta)
+                                                    res.json(todo3);
+                                                    })();
+                                            
+                                                }
+                                                else
+                                                {
+                                                    res.json(todo3);
+                                                }
                                              }
      
                                           
@@ -3881,7 +3925,7 @@ if(req.params.recordID!=='crea')
                            
                                                 var  frmtt=  mongoose.model(namess,tt);
                                                 
-                                                frmtt.update({ _id: req.params.recordID }, req.body.estructura, function(err, todo3) {
+                                                frmtt.updateMany({ _id: req.params.recordID }, req.body.estructura, function(err, todo3) {
                                                     if (err){       res.status(500).send(err.message)    }
                                                     if(req.body.tipo==='proceso')
                                                     {//crea trayectoria
@@ -3918,7 +3962,19 @@ if(req.params.recordID!=='crea')
                                                          actividadsiguienteaccion		:  req.body.trayectoria.actividadsiguienteaccion
                                                    }  , function(err, todo330) {
                                                     if (err){  console.log(err.message);    res.status(500).send(err.message)    }
-                                                    res.json(todo330);
+                                                    if(req.body.ejecutaactualiza!=='' && req.body.ejecutaactualiza!==undefined)
+                                                    {
+                                                        (async () => {    
+                                                        respuesta = await frmejecuta.formularioejecutaactualiza(req, res, next,[]);
+                                                        console.log(respuesta)
+                                                        res.json(todo330);
+                                                        })();
+                                                
+                                                    }
+                                                    else
+                                                    {
+                                                        res.json(todo330);
+                                                    }
                                                    });
                                             
                                             
@@ -3926,7 +3982,19 @@ if(req.params.recordID!=='crea')
                                                     }
                                                     else
                                                     {
-                                                     res.json(todo3);
+                                                        if(req.body.ejecutaactualiza!=='' && req.body.ejecutaactualiza!==undefined)
+                                                {
+                                                    (async () => {    
+                                                    respuesta = await frmejecuta.formularioejecutaactualiza(req, res, next,[]);
+                                                    console.log(respuesta)
+                                                    res.json(todo3);
+                                                    })();
+                                            
+                                                }
+                                                else
+                                                {
+                                                    res.json(todo3);
+                                                }
                                                     }
             
                                                  
@@ -4299,8 +4367,8 @@ if(req.params.recordID!=='crea')
             todo.tipo2    	=	req.body.tipo2    	||	todo.tipo2    	;
             todo.ejecuta    	=	req.body.ejecuta    	 	;
             todo.ejecutainicio    	=	req.body.ejecutainicio    	   	;
-            todo.ejecutaope    	=	req.body.ejecutaope    	||	todo.ejecutaope    	;
-            todo.ejecutaope2    	=	req.body.ejecutaope2   	||	todo.ejecutaope2    	;
+            todo.ejecutaactualiza    	=	req.body.ejecutaactualiza    	  	;
+            todo.ejecutaelimina    	=	req.body.ejecutaelimina   		;
             todo.foto    	=	req.body.foto    	||	todo.foto    	;
             todo.geoposicion    	=	req.body.geoposicion      	;
            
@@ -4343,8 +4411,8 @@ else{
                     idpapa        	: req.body.idpapa        	,
                     ejecuta        	: req.body.ejecuta        	,
                     ejecutainicio: req.body.ejecutainicio,
-                    ejecutaope: req.body.ejecutaope,
-                    ejecutaope2: req.body.ejecutaope2,
+                    ejecutaactualiza: req.body.ejecutaactualiza,
+                    ejecutaelimina: req.body.ejecutaelimina,
                     categoria        	: req.body.categoria        	,
                     nombre        	: req.body.nombre        	,
                     foto    	: req.body.foto    	,
@@ -4383,8 +4451,8 @@ else{
                     publico        	: req.body.publico        	,
                     ejecuta        	: req.body.ejecuta        	,
                     ejecutainicio: req.body.ejecutainicio,
-                    ejecutaope: req.body.ejecutaope,
-                    ejecutaope2: req.body.ejecutaope2,
+                    ejecutaactualiza: req.body.ejecutaactualiza,
+                    ejecutaelimina: req.body.ejecutaelimina,
                     foto    	: req.body.foto    	,
               //      idformdetalle:   req.body.idformdetalle,
                     geoposicion :   req.body.geoposicion,
