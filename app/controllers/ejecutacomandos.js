@@ -27,7 +27,7 @@ function dadatosformulariofinal  (namess,filtro,idempresa,namess2)
                                
                                     var cad=''
                                     var cadxx=''
-                                    var cad3=(dafiltrocad(todos,'','')).split('°')
+                                    var cad3=(dafiltrocad(todos,'','','')).split('°')
                                   
                               
                                  
@@ -82,7 +82,7 @@ function dadatosformularioidfinal  (namess,filtro,idempresa,namess2)
                                
                                     var cad=''
                                     var cadxx=''
-                                    var cad3=(dafiltrocad(todos,'','')).split('°')
+                                    var cad3=(dafiltrocad(todos,'','','')).split('°')
                                   
                               
                                  
@@ -136,7 +136,7 @@ function actualizaformularioidfinal  (namess,filtro,idempresa,namess2,est)
                                
                                     var cad=''
                                     var cadxx=''
-                                    var cad3=(dafiltrocad(todos,'','')).split('°')
+                                    var cad3=(dafiltrocad(todos,'','','')).split('°')
                                   
                               
                                  
@@ -190,7 +190,7 @@ function dadatosformulario(namess,filtro,idempresa)
                                
                                     var cad=''
                                     var cadxx=''
-                                    var cad3=(dafiltrocad(todos,'','')).split('°')
+                                    var cad3=(dafiltrocad(todos,'','','')).split('°')
                                   
                               
                                  
@@ -244,7 +244,7 @@ function dadatosformularioispapaarray(namess,idpapa,idempresa)
                                
                                     var cad=''
                                     var cadxx=''
-                                    var cad3=(dafiltrocad(todos,'','')).split('°')
+                                    var cad3=(dafiltrocad(todos,'','','')).split('°')
                                   
                               
                                  
@@ -638,7 +638,7 @@ var creafrmregistro= function(req, res, next,namess,idform,estructura,responde,d
                                {
 
                                 var cad=''
-                                var cad3=(dafiltrocad(todos,'','')).split('°')
+                                var cad3=(dafiltrocad(todos,'','','')).split('°')
                                 cad=cad3[0]
                               
                                 if(idpapa)
@@ -728,7 +728,7 @@ try {
                         
 
                                 var cad=''
-                                var cad3=(dafiltrocad(todos,'','')).split('°')
+                                var cad3=(dafiltrocad(todos,'','','')).split('°')
                                 cad=cad3[0]
                                 if(idpapa)
                                 {

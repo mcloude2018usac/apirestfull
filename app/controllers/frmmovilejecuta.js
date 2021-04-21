@@ -14,889 +14,8 @@ var conecta2 = 'mssql://sa:$ertobar@192.168.34.5/cielomarbd'
 var conecta3 = 'mssql://sa:$ertobar@192.168.34.5/camposbd'
 
 
-                            
-function onlyUnique(value, index, self) { 
-    return self.indexOf(value) === index;
-}
-
-    
-function dadatosformulariofinal  (namess,filtro,idempresa,namess2)
-{
-    return new Promise(resolve => { 
-
-        Frmmovild.find({idmovil:namess, display : "true",idempresa:idempresa}).sort([['order', 1]]).exec(function(err, todos) {
-            if (err){ res.send(err); }
-          
-     //   console.log(todos)
-                                if(todos.length>0)   {  
-                               
-                                    var cad=''
-                                    var cadxx=''
-                                    var cad3=(dafiltrocad(todos,'','')).split('°')
-                                  
-                              
-                                 
-                                    cad=cad3[0]
-                                    cadxx='{'+ cad3[1] + '}'
-                                    cad=cad + ' "idpapa"	: { "type" : "String" }, "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
-                                    cad='{' + cad + '}'
-                                    cadxx='{' + cadxx + '}'
-
-                               //  console.log(cad)
-                                    var jsonObject = stringToObject(cad);
-                                  
-                                    var mongoose = require("mongoose");
-                                    var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
-                                    delete mongoose.connection.models[namess2];
-                                    var  frmtt= mongoose.model(namess2,tt);
-
-
-                                    frmtt.find(filtro).exec(function(err, todos2) {
-                                        if (err){  res.send(err); }
-
-                                        resolve(todos2); 
-                                       // res.json(todos2);
-
-                                    });
-                                }
-
-
-    });
-        
-                                    
-                                   
-                             
-                
-        
     
 
-                                });
-
-}
-
-
-function dadatosformularioidfinal  (namess,filtro,idempresa,namess2)
-{
-    return new Promise(resolve => { 
-
-        Frmmovild.find({idmovil:namess, idempresa:idempresa}).sort([['order', 1]]).exec(function(err, todos) {
-            if (err){ res.send(err); }
-          
-     //   console.log(todos)
-                                if(todos.length>0)   {  
-                               
-                                    var cad=''
-                                    var cadxx=''
-                                    var cad3=(dafiltrocad(todos,'','')).split('°')
-                                  
-                              
-                                 
-                                    cad=cad3[0]
-                                    cadxx='{'+ cad3[1] + '}'
-                                    cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
-                                    cad='{' + cad + '}'
-                                    cadxx='{' + cadxx + '}'
-
-                               //  console.log(cad)
-                                    var jsonObject = stringToObject(cad);
-                                  
-                                    var mongoose = require("mongoose");
-                                    var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
-                                    delete mongoose.connection.models[namess2];
-                                    var  frmtt= mongoose.model(namess2,tt);
-
-
-                                    frmtt.findById(filtro).exec(function(err, todos2) {
-                                        if (err){  res.send(err); }
-
-                                        resolve(todos2); 
-                                       // res.json(todos2);
-
-                                    });
-                                }
-
-
-    });
-        
-                                    
-                                   
-                             
-                
-        
-    
-
-                                });
-
-}
-
-function actualizaformularioidfinal  (namess,filtro,idempresa,namess2,est)
-{
-    return new Promise(resolve => { 
-
-        Frmmovild.find({idmovil:namess, idempresa:idempresa}).sort([['order', 1]]).exec(function(err, todos) {
-            if (err){ res.send(err); }
-          
-     //   console.log(todos)
-                                if(todos.length>0)   {  
-                               
-                                    var cad=''
-                                    var cadxx=''
-                                    var cad3=(dafiltrocad(todos,'','')).split('°')
-                                  
-                              
-                                 
-                                    cad=cad3[0]
-                                    cadxx='{'+ cad3[1] + '}'
-                                    cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
-                                    cad='{' + cad + '}'
-                                    cadxx='{' + cadxx + '}'
-
-                               //  console.log(cad)
-                                    var jsonObject = stringToObject(cad);
-                                  
-                                    var mongoose = require("mongoose");
-                                    var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
-                                    delete mongoose.connection.models[namess2];
-                                    var  frmtt= mongoose.model(namess2,tt);
-                                    
-                                    frmtt.updateMany(filtro, est, function(err, todos2) {
-                                  
-                                        if (err){   console.log(err) }
-
-                                        resolve(todos2); 
-                                       // res.json(todos2);
-
-                                    });
-                                }
-
-
-    });
-        
-                                    
-                                   
-                             
-                
-        
-    
-
-                                });
-
-}
-
-function dadatosformulario(namess,filtro,idempresa)
-{
-    return new Promise(resolve => { 
-
-        Frmmovild.find({idmovil:namess, display : "true",idempresa:idempresa}).sort([['order', 1]]).exec(function(err, todos) {
-            if (err){ res.send(err); }
-          
-     //   console.log(todos)
-                                if(todos.length>0)   {  
-                               
-                                    var cad=''
-                                    var cadxx=''
-                                    var cad3=(dafiltrocad(todos,'','')).split('°')
-                                  
-                              
-                                 
-                                    cad=cad3[0]
-                                    cadxx='{'+ cad3[1] + '}'
-                                    cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
-                                    cad='{' + cad + '}'
-                                    cadxx='{' + cadxx + '}'
-
-                               //  console.log(cad)
-                                    var jsonObject = stringToObject(cad);
-                                  
-                                    var mongoose = require("mongoose");
-                                    var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
-                                    delete mongoose.connection.models[namess];
-                                    var  frmtt= mongoose.model(namess,tt);
-
-                                 
-                                    frmtt.find(filtro).exec(function(err, todos2) {
-                                        if (err){  res.send(err); }
-
-                                        resolve(todos2); 
-                                       // res.json(todos2);
-
-                                    });
-                                }
-
-
-    });
-        
-                                    
-                                   
-                             
-                
-        
-    
-
-                                });
-
-}
-
-function dadatosformularioispapaarray(namess,idpapa,idempresa)
-{
-    return new Promise(resolve => { 
-
-        Frmmovild.find({idmovil:namess, display : "true",idempresa:idempresa}).sort([['order', 1]]).exec(function(err, todos) {
-            if (err){ res.send(err); }
-          
-     //   console.log(todos)
-                                if(todos.length>0)   {  
-                               
-                                    var cad=''
-                                    var cadxx=''
-                                    var cad3=(dafiltrocad(todos,'','')).split('°')
-                                  
-                              
-                                 
-                                    cad=cad3[0]
-                                    cadxx='{'+ cad3[1] + '}'
-                                    cad=cad + ' "usuarionew"	: { "type" : "String" },     "idpapa"	: { "type" : "String" },  "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
-                                    cad='{' + cad + '}'
-                                    cadxx='{' + cadxx + '}'
-
-                               //  console.log(cad)
-                                    var jsonObject = stringToObject(cad);
-                                  
-                                    var mongoose = require("mongoose");
-                                    var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
-                                    delete mongoose.connection.models[namess];
-                                    var  frmtt= mongoose.model(namess,tt);
-
-                             
-                                    frmtt.find({idpapa:{$in:idpapa},idempresa:idempresa}).exec(function(err, todos2) {
-                                        if (err){  res.send(err); }
-
-                                        resolve(todos2); 
-                                       // res.json(todos2);
-
-                                    });
-                                }
-
-
-    });
-        
-                                    
-                                   
-                             
-                
-        
-    
-
-                                });
-
-}
-function datipo(value) {
-var tt='';
-switch(value) {
-    case 'Alfanumerico':  tt='String';   break;
-   case 'Numerico':  tt='Number';   break;
-   case 'Moneda':  tt='Number';   break;
-   case 'TextArea':   tt='String';   break;
-   case 'Etiqueta':   tt='String';   break;
-   case 'Rango':   tt='Number';   break;
-   case 'Fecha':   tt='Date';   break;
-   case 'Fecha y Hora':   tt='Date';   break;
-   case 'Hora':   tt='Date';   break;
-   case 'Check':   tt='String';   break;
-   case 'Imagen':   tt='String';   break;
-   
-    default:
-      // code block
-  }
-    return tt;
-  }
-
-  function datipo2(value) {
-    var tt='';
-    switch(value) {
-        case 'Alfanumerico':  tt='text';   break;
-       case 'Numerico':  tt='Number';   break;
-       case 'Moneda':  tt='moneda';   break;
-       case 'TextArea':   tt='textarea';   break;
-       case 'Etiqueta':   tt='label';   break;
-       case 'Lista de valores':   tt='select';   break;
-       case 'Check List':   tt='select2';   break;
-       case 'Check List Detalle':   tt='select3';   break;
-       case 'Rango':   tt='rango';   break;
-       case 'Fecha':   tt='fecha';   break;
-       case 'Fecha y Hora':   tt='fechahora';   break;
-       case 'Hora':   tt='hora';   break;
-       case 'Check':   tt='check';   break;
-       case 'Imagen':   tt='imagen';   break;
-        default:
-          // code block
-      }
-        return tt;
-      }
-
-  function stringToObject(JSONString) {
-      var jsonObject = JSON.parse(JSONString);
-      return jsonObject;
-  }
-
-  function dafiltrocad(todos,id2,id3) {
-    var cad=''
-    var cadxx=''
-   
-    for(var i = 0; i < todos.length;i++){
-                                      
-     
-        switch(todos[i].type) {
-            case 'Rango':  
-            if(todos[i].name==id2){cadxx='"' +id2 + '":' +id3 + ''  }
-            if(todos[i].required=='false')
-            {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-            }
-            else
-            {
-                cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-            }
-            break;
-             case 'Fecha': //ISODate("2018-08-08T15:00:56.875Z"),
-             if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-             else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-             if(todos[i].required=='false')
-             {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-             }
-             else
-             {
-                
-                 cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-             }
-              break;
-              case 'Hora': //ISODate("2018-08-08T15:00:56.875Z"),
-              if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-              else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-              if(todos[i].required=='false')
-              {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-              }
-              else
-              {
-                 
-                  cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-              }
-               break;
-              case 'Fecha y Hora': //ISODate("2018-08-08T15:00:56.875Z"),
-              if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-              else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-              if(todos[i].required=='false')
-              {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-              }
-              else
-              {
-                 
-                  cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-              }
-               break;
-              case 'Check': 
-              if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-              else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-              if(todos[i].required=='false')
-              {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-              }
-              else
-              {
-                 
-                  cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-              }
-               break;
-               case 'Imagen': 
-               if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-               else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-               if(todos[i].required=='false')
-               {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-               }
-               else
-               {
-                  
-                   cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-               }
-                break;
-         case 'Alfanumerico': 
-         if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-         else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-         if(todos[i].required=='false')
-         {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-         }
-         else
-         {
-            
-             cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-         }
-          break;
-          case 'Componente': 
-          if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-          else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-          if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
-          {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-          }
-          else
-          {
-             
-              cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-          }
-           break;
-
-           
-           case 'Visualizar query': 
-           if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-           else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-           if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
-           {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-           }
-           else
-           {
-              
-               cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-           }
-            break;
-        case 'Numerico':  
-        if(todos[i].name==id2){cadxx='"' +id2 + '":' +id3 + ''  }
-        if(todos[i].required=='false')
-        {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-        }
-        else
-        {
-            cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-        }
-        break;
-        case 'Moneda':  
-        if(todos[i].name==id2){cadxx='"' +id2 + '":' +id3 + ''  }
-        if(todos[i].required=='false')
-        {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-        }
-        else
-        {
-            cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-        }
-        break;
-        case 'TextArea':  
-        if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-        else{cadxx='"' +id2 + '": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-//        if(todos[i].name==id2){cadxx='"' +id2 + '":"' +id3 + '"'  }
-   
-        if(todos[i].required=='false')
-        {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-        }
-        else
-        {
-            cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-        }
-          break;
-        case 'Etiqueta':   
-         break;
-        case 'Lista de valores': 
-        if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '.label":"' +id3 + '"' }
-         else{cadxx='"' +id2 + '.label": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-        if(todos[i].required=='false')
-             {cad=cad+'"'+todos[i].name+'":{"type" : "String"},';
-                 //cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String"},   "label"	: { "type" : "String" }},';
-             }
-             else
-             {cad=cad+'"'+todos[i].name+'":{"type" : "String", "required" : "true"},';
-                //     cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
-             }
-
-          break;
-          case 'Check List': 
-          if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '.label":"' +id3 + '"' }
-           else{cadxx='"' +id2 + '.label": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-          if(todos[i].required=='false')
-               {cad=cad+'"'+todos[i].name+'":{"type" : "String"},';
-                   //cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String"},   "label"	: { "type" : "String" }},';
-               }
-               else
-               {cad=cad+'"'+todos[i].name+'":{"type" : "String", "required" : "true"},';
-                  //     cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
-               }
-  
-            break;
-            case 'Check List Detalle': 
-            if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '.label":"' +id3 + '"' }
-             else{cadxx='"' +id2 + '.label": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-            if(todos[i].required=='false')
-                 {cad=cad+'"'+todos[i].name+'":{"type" : "String"},';
-                     //cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String"},   "label"	: { "type" : "String" }},';
-                 }
-                 else
-                 {cad=cad+'"'+todos[i].name+'":{"type" : "String", "required" : "true"},';
-                    //     cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
-                 }
-    
-              break;
-         default:
-           // code block
-       }
-
-     
-     }
-     return cad +'°'+cadxx
-}
-  function objectFindByKey(array, key, value) {
-    return array[0][0];
-  //  return this.array(function(x) { return x[key] })
-
-}
-
-
-  
-  // Convert javascript object to json string.
-  function objectToString(jsObject) {
-  
-      var jsonString = JSON.stringify(jsObject);
-  
-   
-      return jsonString;
-  }
-
-  var getDaysArray = function(start, end) {
-    for(var arr=[],dt=new Date(start); dt<=end; dt.setDate(dt.getDate()+1)){
-      var fecha=new Date(dt)
-        arr.push(fecha.toISOString() );
-    }
-    return arr;
-};
-  
- function dafechapago1(mes,ano)//'2018-08'
- {re=''
- if(mes<10)
- {
-   re=ano + '-0' + mes
- }
- else
- {
-  re=ano + '-' + mes
- }
-return re;
- }
- function dafechapago2(mes,ano)//08-2018
- {re=''
- if(mes<10)
- {
-   re='0' + mes + '-' + ano
- }
- else
- {
-  re=mes + '-' + ano
- }
-return re;
- }
-  function daarreglo(data,op) {
-  
-    var val=[]
-
-    //return data.map(function(item,index){      return item.idunidad === op;   });
-     //val = data.filter(function(item){        return item.idunidad === op;   });
-   // val= data.forEach(function(item,index){      return item.idunidad === op;   });
-  
-    for(var i = 0; i <data.length; i++) {
-             if(data[i].idunidad==op)
-             {
-
-                val.push({key:data[i]._id,label:data[i].nombre});
-             }
-    }
-    
-   return val;
-
-    
-}
-
-var creafrmregistro= function(req, res, next,namess,idform,estructura,responde,datat,idpapa,idtipo){
-
-
-   // Bitacora.create(req.body.bitacora);
-    Frmmovild.find({idmovil:idform}).exec(function(err, todos) {
-  
-        if (err){ res.send(err); }
-                            if(todos.length>0)   {  
-
-                               //validar si ya existe algunos de los que son llave 
-                                var validarcampos =[];
-                                var filtrovalida=''
-                               for(var i = 0; i <todos.length; i++) {
-                                   if(todos[i].usarunaves==='true')
-                                   {
-                                   if(i===0)
-                                   {
-                                    filtrovalida=  '{"' +todos[i].name + '":"' + req.body.estructura[todos[i].name] + '"' 
-                                   }
-                                   else
-                                   {
-                                    filtrovalida= filtrovalida + ',"' +todos[i].name + '":"' + req.body.estructura[todos[i].name]  + '"' 
-                                   }
-                                    
-                                         
-                                   }
-
-                               }
-                            //   filtrovalida=filtrovalida.substring(0,filtrovalida.length-1)
-                               console.log('filtroooooooooo ::::::::::::::::: '+filtrovalida + ' ::::::::')
-                               
-
-                               if(filtrovalida ==='')
-                               {
-
-                                var cad=''
-                                var cad3=(dafiltrocad(todos,'','')).split('°')
-                                cad=cad3[0]
-                              
-                                if(idpapa)
-                                {
-                                    if(idtipo==='proceso')
-                                    {
-                                     cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"}'
-                                    }
-                                    else
-                                    {
-                                     cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"}'
-                                    }
-                                 
-                                }
-                                else
-                                {
- 
-                                     if(idtipo==='proceso')
-                                     {
-                                         cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"}'
-                                       
-                                     }
-                                     else
-                                     {
-                                         cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"}'
-                                     }
-                                 
- 
-                                }
-                                
-                           
-                               
-                                
-                              
-                               cad='{' + cad + '}'
-                               var jsonObject = stringToObject(cad);
-                         
-                               var mongoose = require("mongoose");
-                               delete mongoose.connection.models[namess];
-                               var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
-                             
-                                //GRABA TODO BIEN------------------------------------------------------------------------------
-try {
-   
-    var  frmtt=  mongoose.model(namess ,tt);
-   
-    console.log('sigueeeeeeeeeeeeeeeeeeeeeeeeeeeeeee0000000000000000000000000000000')
- 
-    frmtt.create(estructura
-        , function(err, todo3) {
-        if (err){  console.log(err.message);    res.status(500).send(err.message)    }
-       if(responde==='siresponde'){     res.json(datat);}
-       if(responde==='siregistro'){     res.json(todo3);}
-        console.log('finallllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll0000000000000000000000')
-     
-      
-    
-        });
-  
-  } catch(e) {
-    
-    console.log(e)
-    //ya no le pongo esquema eso dice la solucion// pero no graba lo nuevo campo
-    //aqui tendria que se un sabe
-    console.log('sigueeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
-  
-    var  frmtt= mongoose.model(namess);
-  
- 
-    frmtt.create(estructura
-        , function(err, todo3) {
-        if (err){       res.status(500).send(err.message)    }
-   
-        if(responde==='siresponde'){     res.json(datat);}
-        if(responde==='siregistro'){     res.json(todo3);}
-        console.log('finallllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll')
-      
-    
-        });
-  }
- //FIN GRABA TODO BIENNNNNNNNN--------------------------------------------------
-                               }
-                               else
-                               {
-                                filtrovalida='{' +filtrovalida + '}'
-                                console.log(filtrovalida)
-                        
-
-                                var cad=''
-                                var cad3=(dafiltrocad(todos,'','')).split('°')
-                                cad=cad3[0]
-                                if(idpapa)
-                                {
-                                    if(idtipo==='proceso')
-                                    {
-                                     cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"}'
-                                    }
-                                    else
-                                    {
-                                     cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"}'
-                                    }
-                                 
-                                }
-                                else
-                                {
- 
-                                     if(idtipo==='proceso')
-                                     {
-                                         cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"}'
-                                     }
-                                     else
-                                     {
-                                         cad=cad + 'usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"}'
-                                     }
-                                 
- 
-                                }
-                                
-                               
-                               cad='{' + cad + '}'
-                               var jsonObject = stringToObject(cad);
-                             
-                               var mongoose = require("mongoose");
-                               var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
-
-
-                               //BUSCAR UNO EXISTENTE-----------------------------------------------------------------------------------
-                               try {
-                                   var  frmbusca= mongoose.model(namess,tt);
-                                //{"contrato":"descripcion: descripción del contrato , nocontrato: a1 ,        °5f7648b37e8d091240017cc3"}
-                                   frmbusca.find(JSON.parse(filtrovalida) ,function(err, todos2a) {
-                                       if (err){  res.send(err);  }
-                               
-                                       if(todos2a.length>0)
-                                       {
-                                          
-                                           res.status(500).send('Este registro Ya existe en base de datos, no pueden haber repetidos') 
-                                        
-                                       }
-                                       else
-                                       {
-                                       //GRABA TODO BIEN------------------------------------------------------------------------------
-                               try {
-                                   var  frmtt=  mongoose.model(namess,tt);
-                                
-                                   frmtt.create(estructura
-                                       , function(err, todo3) {
-                                       if (err){  console.log(err.message);    res.status(500).send(err.message)    }
-                                           
-                                       if(responde==='siresponde'){     res.json(datat);}
-       if(responde==='siregistro'){     res.json(todo3);}
-                                       });
-                                 
-                                 } catch(e) {
-                                   
-                                   console.log(e)
-                                   //ya no le pongo esquema eso dice la solucion// pero no graba lo nuevo campo
-                                   //aqui tendria que se un sabe
-                                   var  frmtt= mongoose.model(namess);
-                                  
-                                   frmtt.create(estructura
-                                       , function(err, todo3) {
-                                       if (err){       res.status(500).send(err.message)    }
-                                  
-                                       if(responde==='siresponde'){     res.json(datat);}
-                                       if(responde==='siregistro'){     res.json(todo3);}
-                                   
-                                       });
-                                 }
-//FIN GRABA TODO BIENNNNNNNNN--------------------------------------------------
-   
-                                          
-                                       }
-                                     
-                                     
-                                   });
-                                 } catch(e) {
-                                    
-                                   var  frmbusca= mongoose.model(namess);
-                                  
-                                   frmbusca.find(JSON.parse(filtrovalida),function(err, todos2a) {
-                                        if (err){  res.send(err);  }
-                                     
-                                        if(todos2a.length>0)
-                                        {
-                                           res.status(500).send('Este registro Ya existe en base de datos, no pueden haber repetidos') 
-                                        
-                                          
-                                         } else
-                                           {
-
-//GRABA TODO BIEN------------------------------------------------------------------------------
-try {
-   var  frmtt=  mongoose.model(namess,tt);
-
-   frmtt.create(estructura
-       , function(err, todo3) {
-       if (err){  console.log(err.message);    res.status(500).send(err.message)    }
-           
-       if(responde==='siresponde'){     res.json(datat);}
-       if(responde==='siregistro'){     res.json(todo3);}
-   
-       });
- 
- } catch(e) {
-   
-   console.log(e)
-   //ya no le pongo esquema eso dice la solucion// pero no graba lo nuevo campo
-   //aqui tendria que se un sabe
-   var  frmtt= mongoose.model(namess);
-  
-   frmtt.create(estructura
-       , function(err, todo3) {
-       if (err){       res.status(500).send(err.message)    }
-  
-       if(responde==='siresponde'){     res.json(datat);}
-       if(responde==='siregistro'){     res.json(todo3);}
-   
-       });
- }
-//FIN GRABA TODO BIENNNNNNNNN--------------------------------------------------
-
-
-                                           }
-                                    
-                                    });
-                                 }
-
-                               }
-                         
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                
-                  
-
-        }
-    });
-
-
-
-}
 
 var visitas_programadas=async  function(req, res, next){
 
@@ -920,7 +39,7 @@ var visitas_programadas=async  function(req, res, next){
              var nopagos= enmiendatt.montodeemergencias
             
              
-             var todos20 = await dadatosformulariofinal(req.body.idform,{ idpapa:req.body.idpapa},req.body.idempresa,req.body.idform); 
+             var todos20 = await functool.dadatosformulariofinal(req.body.idform,{ idpapa:req.body.idpapa},req.body.idempresa,req.body.idform); 
              if(todos20.length===0)
              {
                resolve({estado:'No existen pagos generados , ejecute la opción 1'}); 
@@ -941,7 +60,7 @@ var visitas_programadas=async  function(req, res, next){
               }
               
 
-                var todos20a = await dadatosformulariofinal('603715b7a59cf50610072759',{ idpapa:{$in:pagosid}},
+                var todos20a = await functool.dadatosformulariofinal('603715b7a59cf50610072759',{ idpapa:{$in:pagosid}},
                 req.body.idempresa,'603715b7a59cf50610072759'); 
                 if(todos20a.length>0)
                 {
@@ -986,7 +105,7 @@ var visitas_programadas=async  function(req, res, next){
                             }
 
                             console.log(names + ' ' + req.body.idform + ' '+ req.body.idpapa + ' ' +req.body.idtipo)
-                            creafrmregistro(req, res, next,names,'603715b7a59cf50610072759',estructura,'noresponde',[],todos20[j]._id
+                            functool.creafrmregistro(req, res, next,names,'603715b7a59cf50610072759',estructura,'noresponde',[],todos20[j]._id
                             ,req.body.tipo)
 
                     }
@@ -1053,7 +172,7 @@ var visitas_programadas=async  function(req, res, next){
                 var periodopagon=Number(mesini[0])
                 var periodopago2n=Number(mesini[1])
 
-                var todos20 = await dadatosformulariofinal(req.body.idform,{ idpapa:req.body.idpapa},req.body.idempresa,req.body.idform); 
+                var todos20 = await functool.dadatosformulariofinal(req.body.idform,{ idpapa:req.body.idpapa},req.body.idempresa,req.body.idform); 
                 if(todos20.length>0)
                 {
                   resolve({estado:'Ya existen pagos procesados'}); 
@@ -1062,8 +181,8 @@ var visitas_programadas=async  function(req, res, next){
 
                 for(var j = 0; j < nopagos;j++){
 
-                  var  fechapago1=dafechapago1(periodopagon,periodopago2n) // '2018-08'
-                  var  fechapago2=dafechapago2(periodopagon,periodopago2n)//'07-2018'
+                  var  fechapago1=functool.dafechapago1(periodopagon,periodopago2n) // '2018-08'
+                  var  fechapago2=functool.dafechapago2(periodopagon,periodopago2n)//'07-2018'
 
 
                   var names='5f595df92521cd38c8fe3126'
@@ -1101,7 +220,7 @@ var visitas_programadas=async  function(req, res, next){
                 }
   
   console.log(names + ' ' + req.body.idform + ' '+ req.body.idpapa + ' ' +req.body.tipo)
-                creafrmregistro(req, res, next,names,req.body.idform,estructura,'noresponde',[],req.body.idpapa,req.body.tipo)
+  functool.creafrmregistro(req, res, next,names,req.body.idform,estructura,'noresponde',[],req.body.idpapa,req.body.tipo)
 
                  periodopagon=periodopagon+1
                  if(periodopagon===13)
@@ -1140,13 +259,13 @@ var visitas_programadas=async  function(req, res, next){
                 default:
                }}
       var frmmovil='5f7f5f7b85f18458404125fds'
-      var todos20 = await dadatosformulariofinal('5f7f5f7b85f18458404125fd',{ idpapa:inspectort._id},req.body.idempresa,'5f7f5f7b85f18458404125fds'); 
+      var todos20 = await functool.dadatosformulariofinal('5f7f5f7b85f18458404125fd',{ idpapa:inspectort._id},req.body.idempresa,'5f7f5f7b85f18458404125fds'); 
       var todos2=JSON.parse(JSON.stringify(todos20))
       var f1 =new Date( planificat.fechainicio);   
       var f2 =new Date( planificat.fechafinalizacion);//.toISOString().substr(0,10);   
       var visitas = planificat.novisitasdiarias
 
-     var fechas=getDaysArray(f1,f2)
+     var fechas=functool.getDaysArray(f1,f2)
 
      console.log('fechass ---' + fechas.length)
      console.log('visitas ---' + visitas)
@@ -1165,7 +284,7 @@ var visitas_programadas=async  function(req, res, next){
               console.log(aarr)
 
              
-            contrato = await dadatosformularioidfinal('5f729c2487c9e33bd4ada798',{ _id:aarr[1].split('°')[0]},req.body.idempresa,'5f729c2487c9e33bd4ada798'); 
+            contrato = await functool.dadatosformularioidfinal('5f729c2487c9e33bd4ada798',{ _id:aarr[1].split('°')[0]},req.body.idempresa,'5f729c2487c9e33bd4ada798'); 
               console.log(contrato)
          
             var proyectot=contrato.proyecto.split('¬')[1]
@@ -1213,7 +332,7 @@ var visitas_programadas=async  function(req, res, next){
               }
 
 
-              creafrmregistro(req, res, next,names,req.body.idform,estructura,'noresponde',[],req.body.idpapa,req.body.idtipo)
+              functool.creafrmregistro(req, res, next,names,req.body.idform,estructura,'noresponde',[],req.body.idpapa,req.body.idtipo)
 
         
           
@@ -1289,6 +408,13 @@ var visitas_programadas=async  function(req, res, next){
         var procesofinalcrea= async function(req, res, next,dataanterior){
           return new Promise(resolve => {
               switch(req.body.ejecuta) {
+                case '1_creaimportaciones':
+
+
+                
+                  resolve({estado:'exito'}); 
+
+                  break;
                 case '1_actualizapagocontrato':
                   (async () => {
                     var pagoid=req.body.estructura.pagosintermedios.split('¬')[1]
@@ -1309,7 +435,7 @@ var visitas_programadas=async  function(req, res, next){
                       "estado":'Cancelado'
                      
                   }
-                    producto = await actualizaformularioidfinal('5f595df92521cd38c8fe3126',{ _id:pagoid}
+                    producto = await functool.actualizaformularioidfinal('5f595df92521cd38c8fe3126',{ _id:pagoid}
                     ,req.body.estructura.idempresa,'5f595df92521cd38c8fe3126',estructura); 
   
   
@@ -1334,7 +460,7 @@ var visitas_programadas=async  function(req, res, next){
         
                 var idpagot=''
         
-                pagos = await dadatosformulario('5f595df92521cd38c8fe3126',{ periodopago: periodo[1] + '-' + periodo[0] ,idempresa:req.body.estructura.idempresa,idpapa:enmienda.trim()},req.body.estructura.idempresa); 
+                pagos = await functool.dadatosformulario('5f595df92521cd38c8fe3126',{ periodopago: periodo[1] + '-' + periodo[0] ,idempresa:req.body.estructura.idempresa,idpapa:enmienda.trim()},req.body.estructura.idempresa); 
                    
                 
                 idpagot=pagos[0]._id
@@ -1365,7 +491,7 @@ var visitas_programadas=async  function(req, res, next){
         
                
                console.log(options)
-               creafrmregistro(req, res, next,'5f74c0fff22ed14ea01c1cbes','5f74c0fff22ed14ea01c1cbe',{
+               functool.creafrmregistro(req, res, next,'5f74c0fff22ed14ea01c1cbes','5f74c0fff22ed14ea01c1cbe',{
                 // descripcion: Barrido de  vías urbanas AREA TIPO A°monto: 3000°plazoenminutospararesolver: 120°"
                 'tiposancion' : tipo[0] + '°' + tipo[1] + '°', // "descripcion: Barrido de  vías urbanas AREA TIPO A°monto: 3000°       ¬5fa36ac7c4579d2250e8558a",
                 'fechasancion' : dataanterior.createdAt ,
@@ -1443,7 +569,7 @@ var visitas_programadas=async  function(req, res, next){
 
                    
 
-                    producto = await dadatosformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579'); 
+                    producto = await functool.dadatosformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579'); 
 
               
 
@@ -1508,7 +634,7 @@ var visitas_programadas=async  function(req, res, next){
                     "total" :( saldoactual*Number(producto.precioporunidad)).toString()
                    
                 }
-                  producto = await actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579',estructura); 
+                  producto = await functool.actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579',estructura); 
                   resolve({estado:'exito'}); 
                })();
 
@@ -1571,6 +697,11 @@ var visitas_programadas=async  function(req, res, next){
                (async () => {   
                  
                 var est=req.body.estructura
+
+              
+
+                var ejecuta1=await  functool.ejecutasql('select count(*)+1 as codigo  from clientes',conecta2)
+               var codigoaa=ejecuta1.datat.recordset[0].codigo 
                    
                 var cad1=''//codigoc  codigos
              cad1="insert into clientes values ("+ est.codigoa +",'"+ est.nit +"','"+ est.nombre +"','"+ est.direccion +"','0','','GUATEMALA','"+ est.telefono +"',0,0,999999,'120101',1,30,0,'#PRL#','"+ est.dpi +"','','','GUATEMALA','','#PRL#','"+ est.correo +"','',0,null)"
@@ -1578,6 +709,20 @@ var visitas_programadas=async  function(req, res, next){
                var ejecuta1=await  functool.ejecutasql(cad1,conecta2)
 
                //actualizar codigos en el formulario
+
+               
+               var estructura={
+                "codigos" : codigoaa,
+             
+            }
+
+              detalle = await functool.actualizaformularioidfinal('605a1f506886480f70f6ec12',{ _id:dataanterior._id.toString()},
+              req.body.estructura.idempresa,'605a1f506886480f70f6ec12',estructura); 
+              
+
+
+
+
 
                resolve({estado:'exito'}); 
               })();
@@ -1598,7 +743,7 @@ var visitas_programadas=async  function(req, res, next){
                         var idproducto=req.body.estructura.articulo.split('¬')[1]
                         console.log(req.body.estructura)
          
-                        producto = await dadatosformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579'); 
+                        producto = await functool.dadatosformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579'); 
                         if(producto.descripciondelarticulo==='VIENEN DE LA' || producto.descripciondelarticulo==='ULTIMA LINEA')
                         { resolve({estado:'exito'}); }
                         else
@@ -1660,14 +805,14 @@ var visitas_programadas=async  function(req, res, next){
                         "total" :( saldoactual*Number(producto.precioporunidad)).toString()
                       
                     }
-                      producto = await actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579',estructura); 
+                      producto = await functool.actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579',estructura); 
 
                       var estructura={
                         "subtotal" : ( Number(  Number(req.body.estructura.cantidaddespachada)*precioproducto).toFixed(2)).toString(),
                      
                     }
 
-                      detalle = await actualizaformularioidfinal('5fc03c79ab0f6448b877eb5c',{ _id:dataanterior._id.toString()},req.body.estructura.idempresa,'5fc03c79ab0f6448b877eb5cs',estructura); 
+                      detalle = await functool.actualizaformularioidfinal('5fc03c79ab0f6448b877eb5c',{ _id:dataanterior._id.toString()},req.body.estructura.idempresa,'5fc03c79ab0f6448b877eb5cs',estructura); 
                       
 
                       resolve({estado:'exito'}); 
@@ -1694,7 +839,7 @@ var visitas_programadas=async  function(req, res, next){
     
                         precioingreso=Number(req.body.estructura.preciounitario)
          
-                        producto = await dadatosformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579'); 
+                        producto = await functool.dadatosformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579'); 
                         
                         if(producto.descripciondelarticulo==='VIENEN DE LA' || producto.descripciondelarticulo==='ULTIMA LINEA')
                         { resolve({estado:'exito'}); }
@@ -1752,23 +897,23 @@ var visitas_programadas=async  function(req, res, next){
                         egreso		: salida,
                         saldoactual		: saldoactual,
                         precioanterior:producto.precioporunidad,
-                        precio		: precioingreso,//preciomedio,
+                        precio		: preciomedio,//precioingreso,//preciomedio,
                         total		: total,
                       });
                       var estructura={
-                        "precioporunidad" : producto.precioporunidad.toString(),// preciomedio.toString(),
+                        "precioporunidad" :  preciomedio.toString(),//producto.precioporunidad.toString(),//
                         "existenciaactual" : saldoactual.toString(),
                         "total" :( saldoactual*Number(producto.precioporunidad)).toString()
 
                       
                     }
-                      producto = await actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579',estructura); 
+                      producto = await functool.actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579',estructura); 
                       var estructura={
                         "subtotal" : ( Number(  Number(req.body.estructura.cantidad)*precioproducto).toFixed(2)).toString(),
                      
                     }
 
-                      detalle = await actualizaformularioidfinal('5fc0308c2fc3552d10147947',{ _id:dataanterior._id.toString()},req.body.estructura.idempresa,'5fc0308c2fc3552d10147947',estructura); 
+                      detalle = await functool.actualizaformularioidfinal('5fc0308c2fc3552d10147947',{ _id:dataanterior._id.toString()},req.body.estructura.idempresa,'5fc0308c2fc3552d10147947',estructura); 
                       resolve({estado:'exito'}); 
                   }
                    })();
@@ -1795,7 +940,7 @@ var visitas_programadas=async  function(req, res, next){
                         (async () => {
 
                             
-                            detalle = await dadatosformulario('5fc03c79ab0f6448b877eb5c',{ idpapa:req.body.idform},req.body.idempresa); 
+                            detalle = await functool.dadatosformulario('5fc03c79ab0f6448b877eb5c',{ idpapa:req.body.idform},req.body.idempresa); 
                             (async () => {
                             for(var i = 0; i < detalle.length;i++){
 
@@ -1809,7 +954,7 @@ var visitas_programadas=async  function(req, res, next){
                             var idproducto=detalle[i].articulo.split('¬')[1]
         
              
-                            producto = await dadatosformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},detalle[i].idempresa,'5fc01bbba8d0a14888774579'); 
+                            producto = await functool.dadatosformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},detalle[i].idempresa,'5fc01bbba8d0a14888774579'); 
                         
                             if(producto.existenciaactual)
                             {existenciaactual=Number(producto.existenciaactual)}
@@ -1866,7 +1011,7 @@ var visitas_programadas=async  function(req, res, next){
                             "total" :( saldoactual*Number(producto.precioporunidad)).toString()
                           
                         }
-                          producto = await actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},detalle[i].idempresa,'5fc01bbba8d0a14888774579',estructura); 
+                          producto = await functool.actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},detalle[i].idempresa,'5fc01bbba8d0a14888774579',estructura); 
                     //})();
 
                     }
@@ -1882,7 +1027,7 @@ var visitas_programadas=async  function(req, res, next){
                         case '5fc02f572fc3552d1014792f': 
                         (async () => {
 
-                            detalle = await dadatosformulario('5fc0308c2fc3552d10147947',{ idpapa:req.body.idform},req.body.idempresa); 
+                            detalle = await functool.dadatosformulario('5fc0308c2fc3552d10147947',{ idpapa:req.body.idform},req.body.idempresa); 
                             (async () => {
                             for(var i = 0; i < detalle.length;i++){
 
@@ -1895,7 +1040,7 @@ var visitas_programadas=async  function(req, res, next){
                             var idproducto=detalle[i].articulo.split('¬')[1]
         
              
-                            producto = await dadatosformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},detalle[i].idempresa,'5fc01bbba8d0a14888774579'); 
+                            producto = await functool.dadatosformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},detalle[i].idempresa,'5fc01bbba8d0a14888774579'); 
                         
                             if(producto.existenciaactual)
                             {existenciaactual=Number(producto.existenciaactual)}
@@ -1952,7 +1097,7 @@ var visitas_programadas=async  function(req, res, next){
                             "total" :( saldoactual*Number(producto.precioporunidad)).toString()
                           
                         }
-                          producto = await actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},detalle[i].idempresa,'5fc01bbba8d0a14888774579',estructura); 
+                          producto = await functool.actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},detalle[i].idempresa,'5fc01bbba8d0a14888774579',estructura); 
                         }
                     })();
                           resolve({estado:'exito'}); 
@@ -2008,14 +1153,14 @@ var visitas_programadas=async  function(req, res, next){
           console.log('ejecuta al inicio actualiza:' + req.body.ejecutainicio)
             switch(req.body.ejecutaelimina) {
                
-                case '3_eliminacliente': 
+                case '2_eliminacliente': 
                                         //
                (async () => {   
                  
                 var est=req.body.estructura
                    
                 var cad1=''//codigoc  codigos
-             cad1="delete from  clientes where codigoa="+ est.codigoa 
+             cad1="delete from  clientes where codigo="+ est.codigoa 
         
                var ejecuta1=await  functool.ejecutasql(cad1,conecta2)
 
@@ -2037,7 +1182,7 @@ var visitas_programadas=async  function(req, res, next){
                       var idproducto=req.body.estructura.articulo.split('¬')[1]
   
        
-                      producto = await dadatosformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579'); 
+                      producto = await functool.dadatosformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579'); 
                   
                       if(producto.existenciaactual)
                       {existenciaactual=Number(producto.existenciaactual)}
@@ -2094,7 +1239,7 @@ var visitas_programadas=async  function(req, res, next){
                       "total" :( saldoactual*Number(producto.precioporunidad)).toString()
                     
                   }
-                    producto = await actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579',estructura); 
+                    producto = await functool.actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579',estructura); 
                     resolve({estado:'exito'}); 
                  })();
   
@@ -2114,7 +1259,7 @@ var visitas_programadas=async  function(req, res, next){
                       var idproducto=req.body.estructura.articulo.split('¬')[1]
   
        
-                      producto = await dadatosformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579'); 
+                      producto = await functool.dadatosformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579'); 
                   
                       if(producto.existenciaactual)
                       {existenciaactual=Number(producto.existenciaactual)}
@@ -2171,7 +1316,7 @@ var visitas_programadas=async  function(req, res, next){
                       "total" :( saldoactual*Number(producto.precioporunidad)).toString()
                     
                   }
-                    producto = await actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579',estructura); 
+                    producto = await functool.actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579',estructura); 
                     resolve({estado:'exito'}); 
                  })();
   

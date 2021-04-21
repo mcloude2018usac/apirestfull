@@ -4,7 +4,35 @@ var Bitacora = require('../models/bitacora');
 exports.getCatalogodiploma = function(req, res, next){
 
     if(req.params.id3)
-    { 
+    {
+        if(req.params.id3==='todos10')
+        {
+    
+            if(req.params.id2==='ADMINISTRADOR')
+            {
+                Catalogodiploma.find({idempresa:req.params.id}).select({_id:1,nombre:1}).exec(function(err, todos) {
+                    if (err){ res.send(err); }
+                   
+                     res.json(todos); 
+                    
+                });
+            }
+            else
+            {
+                console.log({idempresa:req.params.id,unidad:req.params.id2})
+                Catalogodiploma.find({idempresa:req.params.id,unidad:req.params.id2}).select({_id:1,nombre:1}).exec(function(err, todos) {
+                    if (err){ res.send(err); }
+                   
+                     res.json(todos); 
+                    
+                });
+    
+            }
+    
+        
+        }
+        else
+        {
         if(req.params.id3==='todos')
     {
 
@@ -19,6 +47,7 @@ exports.getCatalogodiploma = function(req, res, next){
         }
         else
         {
+            console.log({idempresa:req.params.id,unidad:req.params.id2})
             Catalogodiploma.find({idempresa:req.params.id,unidad:req.params.id2},function(err, todos) {
                 if (err){ res.send(err); }
                
@@ -40,7 +69,7 @@ exports.getCatalogodiploma = function(req, res, next){
         });
 
     }
-       }
+       }}
     else
     {
        

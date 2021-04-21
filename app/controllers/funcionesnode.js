@@ -1,32 +1,67 @@
 
 var Frmmovil = require('../models/frmmovil');
 var Frmmovild = require('../models/frmmovild');
+var Contador = require('../models/contador');
 var conecta1 = 'mssql://sa:$ertobar@192.168.34.5/stbd'
 var conecta2 = 'mssql://sa:$ertobar@192.168.34.5/cielomarbd'
 var conecta3 = 'mssql://sa:$ertobar@192.168.34.5/camposbd'
 var sql = require("mssql");
 
 const { getGaleriaimg } = require('./galeriaimg');
+
 function datipo(value) {
-  var tt='';
-  switch(value) {
-      case 'Alfanumerico':  tt='String';   break;
-     case 'Numerico':  tt='Number';   break;
-     case 'Moneda':  tt='Number';   break;
-     case 'TextArea':   tt='String';   break;
-     case 'Etiqueta':   tt='String';   break;
-     case 'Rango':   tt='Number';   break;
-     case 'Fecha':   tt='Date';   break;
-     case 'Fecha y Hora':   tt='Date';   break;
-     case 'Hora':   tt='Date';   break;
-     case 'Check':   tt='String';   break;
-     case 'Imagen':   tt='String';   break;
-     case 'Documento':   tt='String';   break;
-      default:
-        // code block
-    }
-      return tt;
-    }
+    var tt='';
+    switch(value) {
+        case 'Alfanumerico':  tt='String';   break;
+   case 'Numerico':  tt='Number';   break;
+   case 'Moneda':  tt='Number';   break;
+   case 'TextArea':   tt='String';   break;
+   case 'Etiqueta':   tt='String';   break;
+   case 'Rango':   tt='Number';   break;
+   case 'Fecha':   tt='Date';   break;
+   case 'Fecha y Hora':   tt='Date';   break;
+   case 'Hora':   tt='Date';   break;
+   case 'Check':   tt='String';   break;
+   case 'Imagen':   tt='String';   break;
+   case 'Documento':   tt='String';   break;
+   case 'Componente':   tt='String';   break;
+   case 'Visualizar query':   tt='String';   break;
+   case 'Lista de valores remoto':   tt='String';   break;
+        default:
+          // code block
+      }
+        return tt;
+      }
+    
+      function datipo2(value) {
+        var tt='';
+        switch(value) {
+            case 'Alfanumerico':  tt='text';   break;
+           case 'Numerico':  tt='Number';   break;
+           case 'Moneda':  tt='moneda';   break;
+           case 'TextArea':   tt='textarea';   break;
+           case 'Etiqueta':   tt='label';   break;
+           case 'Lista de valores':   tt='select';   break;
+           case 'Check List':   tt='select2';   break;
+           case 'Check List Detalle':   tt='select3';   break;
+           case 'Rango':   tt='rango';   break;
+           case 'Fecha':   tt='fecha';   break;
+           case 'Fecha y Hora':   tt='fechahora';   break;
+           case 'Hora':   tt='hora';   break;
+           case 'Check':   tt='check';   break;
+           case 'Imagen':   tt='imagen';   break;
+           case 'Documento':   tt='String';   break;
+           case 'Componente':   tt='String';   break;
+           case 'Visualizar query':   tt='String';   break;
+           case 'Lista de valores remoto':   tt='String';   break;
+            default:
+              // code block
+          }
+            return tt;
+          }
+
+
+
     
 
     function ejecutasql  (cad,sqlconecta)
@@ -60,77 +95,34 @@ function datipo(value) {
     var jsonObject = JSON.parse(JSONString);
     return jsonObject;
 }
+function dafiltrocad(todos,id2,id3,norequerido) {
+    var cad=''
+    var cadxx=''
+    var norequerido2=norequerido;
+    if(norequerido2===undefined)
+    {
+        norequerido2=''
+    }
 
-function dafiltrocad(todos,id2,id3) {
-  var cad=''
-  var cadxx=''
- 
-  for(var i = 0; i < todos.length;i++){
-                                    
-   
-      switch(todos[i].type) {
-          case 'Rango':  
-          if(todos[i].name==id2){cadxx='"' +id2 + '":' +id3 + ''  }
-          if(todos[i].required=='false')
-          {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-          }
-          else
-          {
-              cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-          }
-          break;
-           case 'Fecha': //ISODate("2018-08-08T15:00:56.875Z"),
-           if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-           else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-           if(todos[i].required=='false')
-           {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-           }
-           else
-           {
-              
-               cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-           }
+
+    for(var i = 0; i < todos.length;i++){
+                                      
+     
+        switch(todos[i].type) {
+            case 'Rango':  
+            if(todos[i].name==id2){cadxx='"' +id2 + '":' +id3 + ''  }
+            if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+            {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+            }
+            else
+            {
+                cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+            }
             break;
-            case 'Hora': //ISODate("2018-08-08T15:00:56.875Z"),
-            if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-            else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-            if(todos[i].required=='false')
-            {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-            }
-            else
-            {
-               
-                cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-            }
-             break;
-            case 'Fecha y Hora': //ISODate("2018-08-08T15:00:56.875Z"),
-            if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-            else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-            if(todos[i].required=='false')
-            {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-            }
-            else
-            {
-               
-                cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-            }
-             break;
-            case 'Check': 
-            if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-            else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-            if(todos[i].required=='false')
-            {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-            }
-            else
-            {
-               
-                cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-            }
-             break;
-             case 'Imagen': 
+             case 'Fecha': //ISODate("2018-08-08T15:00:56.875Z"),
              if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
              else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-             if(todos[i].required=='false')
+             if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
              {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
              }
              else
@@ -139,10 +131,10 @@ function dafiltrocad(todos,id2,id3) {
                  cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
              }
               break;
-              case 'Documento': 
+              case 'Hora': //ISODate("2018-08-08T15:00:56.875Z"),
               if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
               else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-              if(todos[i].required=='false')
+              if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
               {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
               }
               else
@@ -151,33 +143,55 @@ function dafiltrocad(todos,id2,id3) {
                   cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
               }
                break;
-       case 'Alfanumerico': 
-       if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-       else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-       if(todos[i].required=='false')
-       {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-       }
-       else
-       {
-          
-           cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-       }
-        break;
-        case 'Componente': 
-        if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-        else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-        if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
-        {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-        }
-        else
-        {
-           
-            cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-        }
-         break;
-
-         
-         case 'Visualizar query': 
+              case 'Fecha y Hora': //ISODate("2018-08-08T15:00:56.875Z"),
+              if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+              else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+              if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+              {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+              }
+              else
+              {
+                 
+                  cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+              }
+               break;
+              case 'Check': 
+              if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+              else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+              if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+              {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+              }
+              else
+              {
+                 
+                  cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+              }
+               break;
+               case 'Imagen': 
+               if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+               else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+               if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+               {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+               }
+               else
+               {
+                  
+                   cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+               }
+                break;
+                case 'Documento': 
+                if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+                else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+                if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+                {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+                }
+                else
+                {
+                   
+                    cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+                }
+                 break;
+         case 'Alfanumerico': 
          if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
          else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
          if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
@@ -189,58 +203,72 @@ function dafiltrocad(todos,id2,id3) {
              cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
          }
           break;
-      case 'Numerico':  
-      if(todos[i].name==id2){cadxx='"' +id2 + '":' +id3 + ''  }
-      if(todos[i].required=='false')
-      {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-      }
-      else
-      {
-          cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-      }
-      break;
-      case 'Moneda':  
-      if(todos[i].name==id2){cadxx='"' +id2 + '":' +id3 + ''  }
-      if(todos[i].required=='false')
-      {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-      }
-      else
-      {
-          cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-      }
-      break;
-      case 'TextArea':  
-      if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-      else{cadxx='"' +id2 + '": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-//        if(todos[i].name==id2){cadxx='"' +id2 + '":"' +id3 + '"'  }
- 
-      if(todos[i].required=='false')
-      {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-      }
-      else
-      {
-          cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-      }
-        break;
-      case 'Etiqueta':   
-       break;
-      case 'Lista de valores': 
-      if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '.label":"' +id3 + '"' }
-       else{cadxx='"' +id2 + '.label": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-      if(todos[i].required=='false')
-           {cad=cad+'"'+todos[i].name+'":{"type" : "String"},';
-               //cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String"},   "label"	: { "type" : "String" }},';
+          case 'Componente': 
+          if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+          else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+          if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+          {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+          }
+          else
+          {
+             
+              cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+          }
+           break;
+
+           
+           case 'Visualizar query': 
+           if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+           else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+           if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+           {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
            }
            else
-           {cad=cad+'"'+todos[i].name+'":{"type" : "String", "required" : "true"},';
-              //     cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
+           {
+              
+               cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
            }
+            break;
 
+        case 'Numerico':  
+        if(todos[i].name==id2){cadxx='"' +id2 + '":' +id3 + ''  }
+        if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+        {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+        }
+        else
+        {
+            cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+        }
         break;
-        case 'Check List': 
+        case 'Moneda':  
+        if(todos[i].name==id2){cadxx='"' +id2 + '":' +id3 + ''  }
+        if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+        {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+        }
+        else
+        {
+            cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+        }
+        break;
+        case 'TextArea':  
+        if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+        else{cadxx='"' +id2 + '": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+//        if(todos[i].name==id2){cadxx='"' +id2 + '":"' +id3 + '"'  }
+   
+        if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+        {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+        }
+        else
+        {
+            cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+        }
+          break;
+        case 'Etiqueta':   
+         break;
+        case 'Lista de valores': 
         if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '.label":"' +id3 + '"' }
          else{cadxx='"' +id2 + '.label": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-        if(todos[i].required=='false')
+        if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
              {cad=cad+'"'+todos[i].name+'":{"type" : "String"},';
                  //cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String"},   "label"	: { "type" : "String" }},';
              }
@@ -250,10 +278,10 @@ function dafiltrocad(todos,id2,id3) {
              }
 
           break;
-          case 'Check List Detalle': 
+          case 'Check List': 
           if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '.label":"' +id3 + '"' }
            else{cadxx='"' +id2 + '.label": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-          if(todos[i].required=='false')
+          if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
                {cad=cad+'"'+todos[i].name+'":{"type" : "String"},';
                    //cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String"},   "label"	: { "type" : "String" }},';
                }
@@ -263,13 +291,26 @@ function dafiltrocad(todos,id2,id3) {
                }
   
             break;
-       default:
-         // code block
-     }
+            case 'Check List Detalle': 
+            if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '.label":"' +id3 + '"' }
+             else{cadxx='"' +id2 + '.label": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+            if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+                 {cad=cad+'"'+todos[i].name+'":{"type" : "String"},';
+                     //cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String"},   "label"	: { "type" : "String" }},';
+                 }
+                 else
+                 {cad=cad+'"'+todos[i].name+'":{"type" : "String", "required" : "true"},';
+                    //     cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
+                 }
+    
+              break;
+         default:
+           // code block
+       }
 
-   
-   }
-   return cad +'°'+cadxx
+     
+     }
+     return cad +'°'+cadxx
 }
 
 
@@ -306,6 +347,14 @@ var dahora= function(data) {
   return re;
 
  }
+
+ var dafechatodate = function(ff) {
+    var fecha= new Date(ff).toISOString().substr(0,10);   
+    var  ffa=fecha.split('-')
+  
+  return ffa[2] + '-' + ffa[1] + '-' + ffa[0];
+};
+
 
   var dafecha= function(data) {
   let  re = '';
@@ -1045,11 +1094,13 @@ data[aa].replace('¬', ',') + '" target="_blank">https://www.google.com/maps/sea
       }
     
     
-      var dadatosformulariofinal  =  function(namess,filtro,idempresa,namess2)
+
+
+function dadatosformulariofinal  (namess,filtro,idempresa,namess2)
 {
     return new Promise(resolve => { 
 
-        Frmmovild.find({idmovil:namess, display : "true",idempresa:idempresa}).sort([['order', 1]]).exec(function(err, todos) {
+        Frmmovild.find({idmovil:namess,idempresa:idempresa}).sort([['order', 1]]).exec(function(err, todos) {
             if (err){ res.send(err); }
           
      //   console.log(todos)
@@ -1057,7 +1108,7 @@ data[aa].replace('¬', ',') + '" target="_blank">https://www.google.com/maps/sea
                                
                                     var cad=''
                                     var cadxx=''
-                                    var cad3=(dafiltrocad(todos,'','')).split('°')
+                                    var cad3=(dafiltrocad(todos,'','','')).split('°')
                                   
                               
                                  
@@ -1100,11 +1151,12 @@ data[aa].replace('¬', ',') + '" target="_blank">https://www.google.com/maps/sea
 }
 
 
-var dadatosformularioidfinal  =  function(namess,filtro,idempresa,namess2)
+
+function dadatosformularioidfinal  (namess,filtro,idempresa,namess2)
 {
     return new Promise(resolve => { 
 
-        Frmmovild.find({idmovil:namess, display : "true",idempresa:idempresa}).sort([['order', 1]]).exec(function(err, todos) {
+        Frmmovild.find({idmovil:namess, idempresa:idempresa}).sort([['order', 1]]).exec(function(err, todos) {
             if (err){ res.send(err); }
           
      //   console.log(todos)
@@ -1112,7 +1164,7 @@ var dadatosformularioidfinal  =  function(namess,filtro,idempresa,namess2)
                                
                                     var cad=''
                                     var cadxx=''
-                                    var cad3=(dafiltrocad(todos,'','')).split('°')
+                                    var cad3=(dafiltrocad(todos,'','','')).split('°')
                                   
                               
                                  
@@ -1154,14 +1206,1241 @@ var dadatosformularioidfinal  =  function(namess,filtro,idempresa,namess2)
 
 }
 
+function actualizaformularioidfinal  (namess,filtro,idempresa,namess2,est)
+{
+    return new Promise(resolve => { 
+
+        Frmmovild.find({idmovil:namess, idempresa:idempresa}).sort([['order', 1]]).exec(function(err, todos) {
+            if (err){ res.send(err); }
+          
+     //   console.log(todos)
+                                if(todos.length>0)   {  
+                               
+                                    var cad=''
+                                    var cadxx=''
+                                    var cad3=(dafiltrocad(todos,'','','')).split('°')
+                                  
+                              
+                                 
+                                    cad=cad3[0]
+                                    cadxx='{'+ cad3[1] + '}'
+                                    cad=cad + ' "comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno"	: { "type" : "String" },"usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                    cad='{' + cad + '}'
+                                    cadxx='{' + cadxx + '}'
+                               //  console.log(cad)
+                                    var jsonObject = stringToObject(cad);
+                                  
+                                    var mongoose = require("mongoose");
+                                    var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                                    delete mongoose.connection.models[namess2];
+                                    var  frmtt= mongoose.model(namess2,tt);
+
+                                    frmtt.updateMany(filtro, est, function(err, todos2) {
+                                   
+                                        if (err){  res.send(err); }
+
+                                        resolve(todos2); 
+                                       // res.json(todos2);
+
+                                    });
+                                }
+
+
+    });
+        
+                                    
+                                   
+                             
+                
+        
+    
+
+                                });
+
+}
+
+function dadatosformulario(namess,filtro,idempresa)
+{
+    return new Promise(resolve => { 
+
+        Frmmovild.find({idmovil:namess, display : "true",idempresa:idempresa}).sort([['order', 1]]).exec(function(err, todos) {
+            if (err){ res.send(err); }
+          
+     //   console.log(todos)
+                                if(todos.length>0)   {  
+                               
+                                    var cad=''
+                                    var cadxx=''
+                                    var cad3=(dafiltrocad(todos,'','','')).split('°')
+                                  
+                              
+                                 
+                                    cad=cad3[0]
+                                    cadxx='{'+ cad3[1] + '}'
+                                    cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                    cad='{' + cad + '}'
+                                    cadxx='{' + cadxx + '}'
+
+                               //  console.log(cad)
+                                    var jsonObject = stringToObject(cad);
+                                  
+                                    var mongoose = require("mongoose");
+                                    var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                                    delete mongoose.connection.models[namess];
+                                    var  frmtt= mongoose.model(namess,tt);
+
+                                 
+                                    frmtt.find(filtro).exec(function(err, todos2) {
+                                        if (err){  res.send(err); }
+
+                                        resolve(todos2); 
+                                       // res.json(todos2);
+
+                                    });
+                                }
+
+
+    });
+        
+                                    
+                                   
+                             
+                
+        
+    
+
+                                });
+
+}
+
+function dadatosformularioispapaarray(namess,idpapa,idempresa)
+{
+    return new Promise(resolve => { 
+
+        Frmmovild.find({idmovil:namess, display : "true",idempresa:idempresa}).sort([['order', 1]]).exec(function(err, todos) {
+            if (err){ res.send(err); }
+          
+     //   console.log(todos)
+                                if(todos.length>0)   {  
+                               
+                                    var cad=''
+                                    var cadxx=''
+                                    var cad3=(dafiltrocad(todos,'','','')).split('°')
+                                  
+                              
+                                 
+                                    cad=cad3[0]
+                                    cadxx='{'+ cad3[1] + '}'
+                                    cad=cad + ' "usuarionew"	: { "type" : "String" },     "idpapa"	: { "type" : "String" },  "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                    cad='{' + cad + '}'
+                                    cadxx='{' + cadxx + '}'
+
+                               //  console.log(cad)
+                                    var jsonObject = stringToObject(cad);
+                                  
+                                    var mongoose = require("mongoose");
+                                    var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                                    delete mongoose.connection.models[namess];
+                                    var  frmtt= mongoose.model(namess,tt);
+
+                             
+                                    frmtt.find({idpapa:{$in:idpapa},idempresa:idempresa}).exec(function(err, todos2) {
+                                        if (err){  res.send(err); }
+
+                                        resolve(todos2); 
+                                       // res.json(todos2);
+
+                                    });
+                                }
+
+
+    });
+        
+                                    
+                                   
+                             
+                
+        
+    
+
+                                });
+
+}
+
+
+ 
+
+  function objectFindByKey(array, key, value) {
+    return array[0][0];
+  //  return this.array(function(x) { return x[key] })
+
+}
+
+
+  
+  // Convert javascript object to json string.
+  function objectToString(jsObject) {
+  
+      var jsonString = JSON.stringify(jsObject);
+  
+   
+      return jsonString;
+  }
+
+//var async = require("async");
+function daformxid(namess,filtro, cadxx)
+{
+    return new Promise(resolve => { 
+var re=''
+                                var cad=''
+                              
+                                cad=cadxx + '     "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+
+                                cad='{' + cad + '}'
+                         
+                                var jsonObject = stringToObject(cad);
+                              
+                                var mongoose = require("mongoose");
+                                delete mongoose.connection.models[namess];
+                                var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                                var  frmtt= mongoose.model(namess,tt);
+                                
+                                    frmtt.find(filtro ,function(err, todos2) {
+                                        if (err){  res.send(err); }
+                                      
+                                    
+                                      resolve(todos2); 
+                                      
+                                    });
+                            
+                             
+                
+        
+    
+
+                                });
+
+}
+
+  var getDaysArray = function(start, end) {
+    for(var arr=[],dt=new Date(start); dt<=end; dt.setDate(dt.getDate()+1)){
+      var fecha=new Date(dt)
+        arr.push(fecha.toISOString() );
+    }
+    return arr;
+};
+  
+ 
+  function daarreglo(data,op) {
+  
+    var val=[]
+
+    //return data.map(function(item,index){      return item.idunidad === op;   });
+     //val = data.filter(function(item){        return item.idunidad === op;   });
+   // val= data.forEach(function(item,index){      return item.idunidad === op;   });
+  
+    for(var i = 0; i <data.length; i++) {
+             if(data[i].idunidad==op)
+             {
+
+                val.push({key:data[i]._id,label:data[i].nombre});
+             }
+    }
+    
+   return val;
+
+    
+}
+
+var creafrmregistro= function(req, res, next,namess,idform,estructura,responde,datat,idpapa,idtipo){
+
+
+   // Bitacora.create(req.body.bitacora);
+    Frmmovild.find({idmovil:idform}).exec(function(err, todos) {
+  
+        if (err){ res.send(err); }
+                            if(todos.length>0)   {  
+
+                               //validar si ya existe algunos de los que son llave 
+                                var validarcampos =[];
+                                var filtrovalida=''
+                               for(var i = 0; i <todos.length; i++) {
+                                   if(todos[i].usarunaves==='true')
+                                   {
+                                   if(i===0)
+                                   {
+                                    filtrovalida=  '{"' +todos[i].name + '":"' + req.body.estructura[todos[i].name] + '"' 
+                                   }
+                                   else
+                                   {
+                                    filtrovalida= filtrovalida + ',"' +todos[i].name + '":"' + req.body.estructura[todos[i].name]  + '"' 
+                                   }
+                                    
+                                         
+                                   }
+
+                               }
+                            //   filtrovalida=filtrovalida.substring(0,filtrovalida.length-1)
+                               console.log('filtroooooooooo ::::::::::::::::: '+filtrovalida + ' ::::::::')
+                               
+
+                               if(filtrovalida ==='')
+                               {
+
+                                var cad=''
+                                var cad3=(dafiltrocad(todos,'','','')).split('°')
+                                cad=cad3[0]
+                              
+                                if(idpapa)
+                                {
+                                    if(idtipo==='proceso')
+                                    {
+                                     cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"}'
+                                    }
+                                    else
+                                    {
+                                     cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"}'
+                                    }
+                                 
+                                }
+                                else
+                                {
+ 
+                                     if(idtipo==='proceso')
+                                     {
+                                         cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"}'
+                                       
+                                     }
+                                     else
+                                     {
+                                         cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"}'
+                                     }
+                                 
+ 
+                                }
+                                
+                           
+                               
+                                
+                              
+                               cad='{' + cad + '}'
+                               var jsonObject = stringToObject(cad);
+                         
+                               var mongoose = require("mongoose");
+                               delete mongoose.connection.models[namess];
+                               var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                             
+                                //GRABA TODO BIEN------------------------------------------------------------------------------
+try {
+   
+    var  frmtt=  mongoose.model(namess ,tt);
+   
+    console.log('sigueeeeeeeeeeeeeeeeeeeeeeeeeeeeeee0000000000000000000000000000000')
+ 
+    frmtt.create(estructura
+        , function(err, todo3) {
+        if (err){  console.log(err.message);    res.status(500).send(err.message)    }
+       if(responde==='siresponde'){     res.json(datat);}
+       if(responde==='siregistro'){     res.json(todo3);}
+        console.log('finallllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll0000000000000000000000')
+     
+      
+    
+        });
+  
+  } catch(e) {
+    
+    console.log(e)
+    //ya no le pongo esquema eso dice la solucion// pero no graba lo nuevo campo
+    //aqui tendria que se un sabe
+    console.log('sigueeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
+  
+    var  frmtt= mongoose.model(namess);
+  
+ 
+    frmtt.create(estructura
+        , function(err, todo3) {
+        if (err){       res.status(500).send(err.message)    }
+   
+        if(responde==='siresponde'){     res.json(datat);}
+        if(responde==='siregistro'){     res.json(todo3);}
+        console.log('finallllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll')
+      
+    
+        });
+  }
+ //FIN GRABA TODO BIENNNNNNNNN--------------------------------------------------
+                               }
+                               else
+                               {
+                                filtrovalida='{' +filtrovalida + '}'
+                                console.log(filtrovalida)
+                        
+
+                                var cad=''
+                                var cad3=(dafiltrocad(todos,'','','')).split('°')
+                                cad=cad3[0]
+                                if(idpapa)
+                                {
+                                    if(idtipo==='proceso')
+                                    {
+                                     cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"}'
+                                    }
+                                    else
+                                    {
+                                     cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"}'
+                                    }
+                                 
+                                }
+                                else
+                                {
+ 
+                                     if(idtipo==='proceso')
+                                     {
+                                         cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"}'
+                                     }
+                                     else
+                                     {
+                                         cad=cad + 'usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"}'
+                                     }
+                                 
+ 
+                                }
+                                
+                               
+                               cad='{' + cad + '}'
+                               var jsonObject = stringToObject(cad);
+                             
+                               var mongoose = require("mongoose");
+                               var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+
+
+                               //BUSCAR UNO EXISTENTE-----------------------------------------------------------------------------------
+                               try {
+                                   var  frmbusca= mongoose.model(namess,tt);
+                                //{"contrato":"descripcion: descripción del contrato , nocontrato: a1 ,        °5f7648b37e8d091240017cc3"}
+                                   frmbusca.find(JSON.parse(filtrovalida) ,function(err, todos2a) {
+                                       if (err){  res.send(err);  }
+                               
+                                       if(todos2a.length>0)
+                                       {
+                                          
+                                           res.status(500).send('Este registro Ya existe en base de datos, no pueden haber repetidos') 
+                                        
+                                       }
+                                       else
+                                       {
+                                       //GRABA TODO BIEN------------------------------------------------------------------------------
+                               try {
+                                   var  frmtt=  mongoose.model(namess,tt);
+                                
+                                   frmtt.create(estructura
+                                       , function(err, todo3) {
+                                       if (err){  console.log(err.message);    res.status(500).send(err.message)    }
+                                           
+                                       if(responde==='siresponde'){     res.json(datat);}
+       if(responde==='siregistro'){     res.json(todo3);}
+                                       });
+                                 
+                                 } catch(e) {
+                                   
+                                   console.log(e)
+                                   //ya no le pongo esquema eso dice la solucion// pero no graba lo nuevo campo
+                                   //aqui tendria que se un sabe
+                                   var  frmtt= mongoose.model(namess);
+                                  
+                                   frmtt.create(estructura
+                                       , function(err, todo3) {
+                                       if (err){       res.status(500).send(err.message)    }
+                                  
+                                       if(responde==='siresponde'){     res.json(datat);}
+                                       if(responde==='siregistro'){     res.json(todo3);}
+                                   
+                                       });
+                                 }
+//FIN GRABA TODO BIENNNNNNNNN--------------------------------------------------
+   
+                                          
+                                       }
+                                     
+                                     
+                                   });
+                                 } catch(e) {
+                                    
+                                   var  frmbusca= mongoose.model(namess);
+                                  
+                                   frmbusca.find(JSON.parse(filtrovalida),function(err, todos2a) {
+                                        if (err){  res.send(err);  }
+                                     
+                                        if(todos2a.length>0)
+                                        {
+                                           res.status(500).send('Este registro Ya existe en base de datos, no pueden haber repetidos') 
+                                        
+                                          
+                                         } else
+                                           {
+
+//GRABA TODO BIEN------------------------------------------------------------------------------
+try {
+   var  frmtt=  mongoose.model(namess,tt);
+
+   frmtt.create(estructura
+       , function(err, todo3) {
+       if (err){  console.log(err.message);    res.status(500).send(err.message)    }
+           
+       if(responde==='siresponde'){     res.json(datat);}
+       if(responde==='siregistro'){     res.json(todo3);}
+   
+       });
+ 
+ } catch(e) {
+   
+   console.log(e)
+   //ya no le pongo esquema eso dice la solucion// pero no graba lo nuevo campo
+   //aqui tendria que se un sabe
+   var  frmtt= mongoose.model(namess);
+  
+   frmtt.create(estructura
+       , function(err, todo3) {
+       if (err){       res.status(500).send(err.message)    }
+  
+       if(responde==='siresponde'){     res.json(datat);}
+       if(responde==='siregistro'){     res.json(todo3);}
+   
+       });
+ }
+//FIN GRABA TODO BIENNNNNNNNN--------------------------------------------------
+
+
+                                           }
+                                    
+                                    });
+                                 }
+
+                               }
+                         
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                
+                  
+
+        }
+    });
+
+
+
+}
+
+function currencyFormatDE(num) {
+  return (
+    num
+      .toFixed(2) // always two decimal digits
+      .replace('.', ',') // replace decimal point character with ,
+      .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') + ' Q.'
+  ) // use . as a separator
+}
+function formatNumber(num) {
+  return 'Q.' + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+}
+
+function aplicacampo(cad,campo) {
+ 
+    var re=0
+
+    if(cad===undefined || cad==='')
+    {
+        var re=0
+    }
+    else
+    {
+    var cad2=cad.split('°')
+
+    for(var i = 0; i < cad2.length;i++){
+        if(cad2[i]===campo)
+        {
+            re=1;
+            break;
+        }
+    }
+    }
+
+    return re;
+}
+function dafiltrocadvalida(todos,id2,id3,req) {
+    var cad=''
+    registrorep=''
+
+    for(var i = 0; i < todos.length;i++){
+        if(aplicacampo(req.body.nocambio,todos[i].name)===0)
+        {
+              if(todos[i].usarunaves==='true')
+        {
+            
+            
+            registrorep=registrorep + todos[i].name + '  '
+        switch(todos[i].type) {
+           
+        
+     
+        case 'Numerico':  
+        if(cad===''){  cad=  '"' +todos[i].name + '":' + req.body.estructura[todos[i].name] + ''  }
+        else { cad= cad + ',"' +todos[i].name + '":' + req.body.estructura[todos[i].name]  + '' }
+         
+        break;
+        case 'Moneda':  
+        if(cad===''){  cad=  '"' +todos[i].name + '":' + req.body.estructura[todos[i].name] + ''  }
+        else { cad= cad + ',"' +todos[i].name + '":' + req.body.estructura[todos[i].name]  + '' }
+         
+        break;
+      
+          
+         default:
+            if(cad===''){  cad=  '"' +todos[i].name + '":"' + req.body.estructura[todos[i].name] + '"'  }
+            else { cad= cad + ',"' +todos[i].name + '":"' + req.body.estructura[todos[i].name]  + '"' }
+             
+       }
+    }
+}
+     
+     }
+     return cad 
+}
+function numberWithCommas(x) {
+
+
+  return formatNumber(Number(x))
+}
+
+function padLeadingZeros(num, size) {
+    var s = num+"";
+    while (s.length < size) s = "0" + s;
+    return s;
+}
+
+function onlyUnique(value, index, self) { 
+    return self.indexOf(value) === index;
+}
+
+
+
+function sequenceGenerator(id){
+
+
+
+    Contador.findOneAndUpdate({tipo:id}, { $inc: { sequence_value: 1 } }, function(err, seq){
+      if(err) { throw(err); }
+   
+      return seq.sequence_value;
+    });
+
+
+}
+  
+function dafechapago1(mes,ano)//'2018-08'
+{re=''
+if(mes<10)
+{
+  re=ano + '-0' + mes
+}
+else
+{
+ re=ano + '-' + mes
+}
+return re;
+}
+function dafechapago2(mes,ano)//08-2018
+{re=''
+if(mes<10)
+{
+  re='0' + mes + '-' + ano
+}
+else
+{
+ re=mes + '-' + ano
+}
+return re;
+}
+ 
+
+
+
+function davalorvv(vec, valor)
+{var re=''
+    for(var i = 0; i < vec.length;i++){
+        var aa=vec[i].split('°')
+       if(aa[0]===valor)
+       { re=aa[1]
+        break;
+
+       }
+    }
+
+    return re;
+}
+
+
+
+function replaceAll(str, find, replace) {
+    return str.replace(new RegExp(find, 'g'), replace);
+  }
+
+
+
+  function daidformreg(namess,filtro,orden,idempresa,tabla)
+  {
+  
+       
+      return new Promise(resolve => { 
+          Frmmovild.find({idmovil:tabla, idempresa:idempresa}).sort([['order', 1]]).exec(function(err, todos) {
+              if (err){ res.send(err); }
+            
+   
+                                  if(todos.length>0)   {  
+                                 
+                                      var cad=''
+                                      var cadxx=''
+                                      var cad3=(functool.dafiltrocad(todos,'','','')).split('°')
+                                    
+                                
+                                   
+                                      cad=cad3[0]
+                                      cadxx='{'+ cad3[1] + '}'
+                                      cad=cad + ' "ordenhijas": { "type" : "String" },"idpapa"	: { "type" : "String" },"usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                      cad='{' + cad + '}'
+                                      cadxx='{' + cadxx + '}'
+  
+                                 //  console.log(cad)
+                                      var jsonObject = functool.stringToObject(cad);
+                                    
+                                      var mongoose = require("mongoose");
+                                      var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                                      delete mongoose.connection.models[namess];
+                                      var  frmtt= mongoose.model(namess,tt);
+  
+                                      frmtt.find(filtro).sort(orden).exec(function(err, todos2) {
+                                          if (err){  res.send(err); }
+                                          
+                                          
+  
+   resolve(todos2); 
+  
+  
+                                      });
+                                  }
+  
+  
+      });
+          
+                                      
+                                     
+                               
+                  
+          
+      
+  
+                                  });
+  
+  
+  
+  }
+  
+  
+
+function dadatosformulariocombo(namess,filtro,idempresa, myDatavector)
+{
+    
+    return new Promise(resolve => { 
+        Frmmovild.find({idmovil:namess, display : "true",idempresa:idempresa}).sort([['order', 1]]).exec(function(err, todos) {
+            if (err){ res.send(err); }
+          
+ 
+            var objetox = {};
+                
+          
+                for(var j = 0; j < myDatavector.length;j++){
+                    for(var i = 0; i < todos.length;i++){
+                if(myDatavector[j].split('°')[0]===todos[i].name)
+                {
+                    objetox[todos[i].name] =todos[i].title + '°' + todos[i].type + '°'+ todos[i].display;
+                }
+            }
+               
+                
+            }
+                                if(todos.length>0)   {  
+                               
+                                    var cad=''
+                                    var cadxx=''
+                                    var cad3=(functool.dafiltrocad(todos,'','','')).split('°')
+                                  
+                              
+                                 
+                                    cad=cad3[0]
+                                    cadxx='{'+ cad3[1] + '}'
+                                    cad=cad + ' "estadointerno"	: { "type" : "String" },  "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                    cad='{' + cad + '}'
+                                    cadxx='{' + cadxx + '}'
+
+                               //  console.log(cad)
+                                    var jsonObject = functool.stringToObject(cad);
+                                  
+                                    var mongoose = require("mongoose");
+                                    var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                                    delete mongoose.connection.models[namess];
+                                    var  frmtt= mongoose.model(namess,tt);
+
+                                    frmtt.find(filtro).exec(function(err, todos2) {
+                                        if (err){  res.send(err); }
+                                        
+                                        
+
+ var datafinal = functool.procesahtmlrecord(objetox,todos2,'si')
+                                                  
+ //res.json(datafinal);
+ resolve(datafinal); 
+ /*
+                                        var myData = [];
+                                        for(var i = 0; i < todos2.length;i++){
+                                          var nombret ='';
+                                          for(var j = 0; j < myDatavector.length;j++){
+                                              nombret = nombret + myDatavector[j].split('°')[1] + ': ' +  todos2[i][myDatavector[j].split('°')[0]]  + '°'
+                                          }
+                                          myData.push({_id:todos2[i]._id , nombre: nombret })
+    
+                                           
+                                        }
+                                         
+
+
+                                        resolve(myData); 
+                                        */
+                                       // res.json(todos2);
+
+                                    });
+                                }
+
+
+    });
+        
+                                    
+                                   
+                             
+                
+        
+    
+
+                                });
+
+}
+
+
+
+
+function eliminaformulario(namess,recordID,idempresa)
+{
+    return new Promise(resolve => { 
+
+        Frmmovild.find({idmovil:namess, display : "true",idempresa:idempresa}).sort([['order', 1]]).exec(function(err, todos) {
+            if (err){ res.send(err); }
+          
+     //   console.log(todos)
+                                if(todos.length>0)   {  
+                               
+                                    var cad=''
+                                    var cadxx=''
+                                    var cad3=(dafiltrocad(todos,'','','')).split('°')
+                                  
+                              
+                                 
+                                    cad=cad3[0]
+                                    cadxx='{'+ cad3[1] + '}'
+                                    cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                    cad='{' + cad + '}'
+                                    cadxx='{' + cadxx + '}'
+
+                               //  console.log(cad)
+                                    var jsonObject = stringToObject(cad);
+                                  
+                                    var mongoose = require("mongoose");
+                                    var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                                    delete mongoose.connection.models[namess];
+                                    var  frmtt= mongoose.model(namess,tt);
+
+                                    frmtt.findByIdAndRemove({ _id: recordID }, function(err, todo) {
+                                        resolve(todo); 
+                                    });
+                                 
+                                }
+
+
+    });
+        
+                                    
+                                   
+                             
+                
+        
+    
+
+                                });
+
+}
+
+
+function dadatosformulariogruposuma(namess,filtro,idempresa,namess2,filtrogrupo,filtrosuma,limitx,sortx)
+{
+    return new Promise(resolve => { 
+
+        Frmmovild.find({idmovil:namess, display : "true",idempresa:idempresa}).sort([['order', 1]]).exec(function(err, todos) {
+            if (err){ res.send(err); }
+          
+     //   console.log(todos)
+                                if(todos.length>0)   {  
+                               
+                                    var cad=''
+                                    var cadxx=''
+                                    var cad3=(functool.dafiltrocad(todos,'','','')).split('°')
+                                  
+                              
+                                 
+                                    cad=cad3[0]
+                                    cadxx='{'+ cad3[1] + '}'
+                                    cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                    cad='{' + cad + '}'
+                                    cadxx='{' + cadxx + '}'
+
+                               //  console.log(cad)
+                                    var jsonObject = functool.replaceAll(cad);
+                                  
+                                    var mongoose = require("mongoose");
+                                    var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                                    delete mongoose.connection.models[namess2];
+                                    var  frmtt= mongoose.model(namess2,tt);
+
+                                    frmtt.aggregate( [
+                                        { $limit: limitx},
+                                        {   $match: filtro},
+                                                          {
+                                                           
+                                                                "$group" : filtrogrupo
+                                                            }, 
+                                                            { 
+                                                                "$project" : filtrosuma
+                                                            },
+                                                            { $sort : sortx }
+                                    ]).exec(function(err, todos2) {
+                                        if (err){ console.log(err);  res.send(err); }
+
+                                        resolve(todos2); 
+                                       // res.json(todos2);
+
+                                    });
+                                }
+
+
+    });
+        
+                                    
+                                   
+                             
+                
+        
+    
+
+                                });
+
+}
+function dadatosformulariogrupo(namess,filtro,idempresa,namess2,campo)
+{
+    return new Promise(resolve => { 
+
+        Frmmovild.find({idmovil:namess, display : "true",idempresa:idempresa}).sort([['order', 1]]).exec(function(err, todos) {
+            if (err){ res.send(err); }
+          
+     //   console.log(todos)
+                                if(todos.length>0)   {  
+                               
+                                    var cad=''
+                                    var cadxx=''
+                                    var cad3=(functool.dafiltrocad(todos,'','','')).split('°')
+                                  
+                              
+                                 
+                                    cad=cad3[0]
+                                    cadxx='{'+ cad3[1] + '}'
+                                    cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                    cad='{' + cad + '}'
+                                    cadxx='{' + cadxx + '}'
+
+                               //  console.log(cad)
+                                    var jsonObject = functool.replaceAll(cad);
+                                  
+                                    var mongoose = require("mongoose");
+                                    var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                                    delete mongoose.connection.models[namess2];
+                                    var  frmtt= mongoose.model(namess2,tt);
+
+
+                                    frmtt.aggregate( [
+                                        { $match: filtro},
+                                        { 
+                                            "$group" : {
+                                                "_id" : {
+                                                    "nombre" : campo
+                                                }, 
+                                                "COUNT(*)" : {
+                                                    "$sum" : 1
+                                                }
+                                            }
+                                        }, 
+                                        { 
+                                            "$project" : {
+                                                "nombre" : "$_id.nombre", 
+                                                "cantidad" : "$COUNT(*)", 
+                                                "_id" :0
+                                            }
+                                        }
+                                    ]).exec(function(err, todos2) {
+                                        if (err){  res.send(err); }
+
+                                        resolve(todos2); 
+                                       // res.json(todos2);
+
+                                    });
+                                }
+
+
+    });
+        
+                                    
+                                   
+                             
+                
+        
+    
+
+                                });
+
+}
+
+
+function dadatosformulariosort(namess,filtro,idempresa,namess2,ss)
+{
+    return new Promise(resolve => { 
+
+        Frmmovild.find({idmovil:namess, display : "true",idempresa:idempresa}).sort([['order', 1]]).exec(function(err, todos) {
+            if (err){ res.send(err); }
+          
+     //   console.log(todos)
+                                if(todos.length>0)   {  
+                               
+                                    var cad=''
+                                    var cadxx=''
+                                    var cad3=(dafiltrocad(todos,'','','')).split('°')
+                                  
+                              
+                                 
+                                    cad=cad3[0]
+                                    cadxx='{'+ cad3[1] + '}'
+                                    cad=cad + ' "idpapa"	: { "type" : "String" }, "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                    cad='{' + cad + '}'
+                                    cadxx='{' + cadxx + '}'
+
+                               //  console.log(cad)
+                                    var jsonObject = stringToObject(cad);
+                                  
+                                    var mongoose = require("mongoose");
+                                    var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                                    delete mongoose.connection.models[namess2];
+                                    var  frmtt= mongoose.model(namess2,tt);
+
+
+                                    frmtt.find(filtro).sort(ss).exec(function(err, todos2) {
+                                        if (err){  res.send(err); }
+
+                                        resolve(todos2); 
+                                       // res.json(todos2);
+
+                                    });
+                                }
+
+
+    });
+        
+                                    
+                                   
+                             
+                
+        
+    
+
+                                });
+
+}
+
+function dadatosformularioproceso(namess,filtro,idempresa,namess2)
+{
+    return new Promise(resolve => { 
+
+        Frmmovild.find({idmovil:namess, display : "true",idempresa:idempresa}).sort([['order', 1]]).exec(function(err, todos) {
+            if (err){ res.send(err); }
+          
+     //   console.log(todos)
+                                if(todos.length>0)   {  
+                               
+                                    var cad=''
+                                    var cadxx=''
+                                    var cad3=(dafiltrocad(todos,'','','')).split('°')
+                                  
+                              
+                                 
+                                    cad=cad3[0]
+                                    cadxx='{'+ cad3[1] + '}'
+                                    cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"},"geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},  "pmodulo": { "type" :"Array"}'
+
+                                    
+                                    cad='{' + cad + '}'
+                                    cadxx='{' + cadxx + '}'
+
+                               //  console.log(cad)
+                                    var jsonObject = stringToObject(cad);
+                                  
+                                    var mongoose = require("mongoose");
+                                    var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                                    delete mongoose.connection.models[namess2];
+                                    var  frmtt= mongoose.model(namess2,tt);
+
+
+                                    frmtt.find(filtro).exec(function(err, todos2) {
+                                        if (err){  res.send(err); }
+
+                                        resolve(todos2); 
+                                       // res.json(todos2);
+
+                                    });
+                                }
+
+
+    });
+        
+                                    
+                                   
+                             
+                
+        
+    
+
+                                });
+
+}
+
+
+function dadatosformulariogruposuma0(namess,filtro,idempresa,namess2,filtrogrupo,filtrosuma)
+{
+    return new Promise(resolve => { 
+
+        Frmmovild.find({idmovil:namess, display : "true",idempresa:idempresa}).sort([['order', 1]]).exec(function(err, todos) {
+            if (err){ res.send(err); }
+          
+     //   console.log(todos)
+                                if(todos.length>0)   {  
+                               
+                                    var cad=''
+                                    var cadxx=''
+                                    var cad3=(dafiltrocad(todos,'','','')).split('°')
+                                  
+                              
+                                 
+                                    cad=cad3[0]
+                                    cadxx='{'+ cad3[1] + '}'
+                                    cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                    cad='{' + cad + '}'
+                                    cadxx='{' + cadxx + '}'
+
+                               //  console.log(cad)
+                                    var jsonObject = stringToObject(cad);
+                                  
+                                    var mongoose = require("mongoose");
+                                    var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                                    delete mongoose.connection.models[namess2];
+                                    var  frmtt= mongoose.model(namess2,tt);
+
+
+                                    frmtt.aggregate( [
+                                        { $match: filtro},
+                                        { 
+                                            "$group" : filtrogrupo
+                                        }, 
+                                        { 
+                                            "$project" : filtrosuma
+                                        }
+                                    ]).exec(function(err, todos2) {
+                                        if (err){  res.send(err); }
+
+                                        resolve(todos2); 
+                                       // res.json(todos2);
+
+                                    });
+                                }
+
+
+    });
+        
+                                    
+                                   
+                             
+                
+        
+    
+
+                                });
+
+}
+
 module.exports = {
+    objectFindByKey:objectFindByKey,
+    objectToString:objectToString,
     getImagesruta: getImagesruta,
     dafechacompleta:dafechacompleta,
     dafecha:dafecha,
     ejecutasql:ejecutasql,
-    
+    padLeadingZeros:padLeadingZeros,
+    formatNumber:formatNumber,
+    numberWithCommas:numberWithCommas,
+    currencyFormatDE:currencyFormatDE,
+    creafrmregistro:creafrmregistro,
+    getDaysArray:getDaysArray,
+    daarreglo:daarreglo,
+    dafecha:dafecha,
+    dafiltrocad:dafiltrocad,
+    datipo2:datipo2,
+    datipo:datipo,
+    dadatosformulariogruposuma:dadatosformulariogruposuma,
+    dadatosformulariogruposuma0:dadatosformulariogruposuma0,
+    dadatosformulariogrupo:dadatosformulariogrupo,
+    dadatosformularioispapaarray:dadatosformularioispapaarray,
+    dadatosformulario:dadatosformulario,
+    actualizaformularioidfinal:actualizaformularioidfinal,
+    daformxid:daformxid,
+    dadatosformulariofinal:dadatosformulariofinal,
+    dafechapago1:dafechapago1,
+    dafechapago2:dafechapago2,
+    onlyUnique:onlyUnique,
     dahora:dahora,
     dafechastring:dafechastring,
+    dafechatodate:dafechatodate,
     daimagen:daimagen,
     getKeyssrthtml:getKeyssrthtml,
     procesahtmlrecord:procesahtmlrecord,
@@ -1169,7 +2448,17 @@ module.exports = {
     procesatablauirecord:procesatablauirecord,
     procesaexcelrecord:procesaexcelrecord,
     procesacsvrecord:procesacsvrecord,
-    dadatosformulariofinal:dadatosformulariofinal,
-    dadatosformularioidfinal: dadatosformularioidfinal
+    dafiltrocadvalida:dafiltrocadvalida,
+    replaceAll:replaceAll,
+    sequenceGenerator:sequenceGenerator,
+    daidformreg:daidformreg,
+    stringToObject:stringToObject,
+    aplicacampo:aplicacampo,
+    davalorvv:davalorvv,
+    dadatosformulariosort:dadatosformulariosort,
+    dadatosformularioidfinal: dadatosformularioidfinal,
+    dadatosformulariocombo:dadatosformulariocombo,
+    eliminaformulario:eliminaformulario,
+    dadatosformularioproceso:dadatosformularioproceso
    
       }

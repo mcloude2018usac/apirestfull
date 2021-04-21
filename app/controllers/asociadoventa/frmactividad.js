@@ -113,7 +113,7 @@ exports.getfrmactividad = function(req, res, next){
                             if(String(todos[i]._id)===String(todosaa[ii].idpapa))
                             {
                                 cuantos=cuantos+1
-                               cadhtm=cadhtm +  '<li>' +  todosaa[ii].nombre + '</li>'
+                               cadhtm=cadhtm +  '<li>' +  todosaa[ii].nombre +' ('+todosaa[ii].tipo + ')'+ '</li>'
                               //  cadhtm=cadhtm + cuantos + '.' +  todosaa[ii].nombre + '<br>'
                             }
                            
@@ -185,7 +185,7 @@ exports.getfrmactividad = function(req, res, next){
                                     if(String(todos[i]._id)===String(todosaa[ii].idpapa))
                                     {
                                         cuantos=cuantos+1
-                                        cadhtm=cadhtm +  '<li>' +  todosaa[ii].nombre + '</li>'
+                                        cadhtm=cadhtm +  '<li>' +  todosaa[ii].nombre +' ('+todosaa[ii].tipo + ')'+ '</li>'
                                     }
                                     cadhtm='</ul>'
 

@@ -2,435 +2,11 @@ var kardex = require('../../models/asociadoventa/kardexcorreos');
 var Bitacora = require('../../models/bitacora');
 var Frmmovil = require('../../models/frmmovil');
 var Frmmovild = require('../../models/frmmovild');
-
-function stringToObject(JSONString) {
-    var jsonObject = JSON.parse(JSONString);
-    return jsonObject;
-}
-
-function dadatosformulariogruposuma(namess,filtro,idempresa,namess2,filtrogrupo,filtrosuma,limitx,sortx)
-{
-    return new Promise(resolve => { 
-
-        Frmmovild.find({idmovil:namess, display : "true",idempresa:idempresa}).sort([['order', 1]]).exec(function(err, todos) {
-            if (err){ res.send(err); }
-          
-     //   console.log(todos)
-                                if(todos.length>0)   {  
-                               
-                                    var cad=''
-                                    var cadxx=''
-                                    var cad3=(dafiltrocad(todos,'','')).split('°')
-                                  
-                              
-                                 
-                                    cad=cad3[0]
-                                    cadxx='{'+ cad3[1] + '}'
-                                    cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
-                                    cad='{' + cad + '}'
-                                    cadxx='{' + cadxx + '}'
-
-                               //  console.log(cad)
-                                    var jsonObject = stringToObject(cad);
-                                  
-                                    var mongoose = require("mongoose");
-                                    var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
-                                    delete mongoose.connection.models[namess2];
-                                    var  frmtt= mongoose.model(namess2,tt);
-
-                                    frmtt.aggregate( [
-                                        { $limit: limitx},
-                                        {   $match: filtro},
-                                                          {
-                                                           
-                                                                "$group" : filtrogrupo
-                                                            }, 
-                                                            { 
-                                                                "$project" : filtrosuma
-                                                            },
-                                                            { $sort : sortx }
-                                    ]).exec(function(err, todos2) {
-                                        if (err){ console.log(err);  res.send(err); }
-
-                                        resolve(todos2); 
-                                       // res.json(todos2);
-
-                                    });
-                                }
+var functool = require('../../controllers/funcionesnode');
 
 
-    });
-        
-                                    
-                                   
-                             
-                
-        
-    
-
-                                });
-
-}
-function dadatosformulariogrupo(namess,filtro,idempresa,namess2,campo)
-{
-    return new Promise(resolve => { 
-
-        Frmmovild.find({idmovil:namess, display : "true",idempresa:idempresa}).sort([['order', 1]]).exec(function(err, todos) {
-            if (err){ res.send(err); }
-          
-     //   console.log(todos)
-                                if(todos.length>0)   {  
-                               
-                                    var cad=''
-                                    var cadxx=''
-                                    var cad3=(dafiltrocad(todos,'','')).split('°')
-                                  
-                              
-                                 
-                                    cad=cad3[0]
-                                    cadxx='{'+ cad3[1] + '}'
-                                    cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
-                                    cad='{' + cad + '}'
-                                    cadxx='{' + cadxx + '}'
-
-                               //  console.log(cad)
-                                    var jsonObject = stringToObject(cad);
-                                  
-                                    var mongoose = require("mongoose");
-                                    var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
-                                    delete mongoose.connection.models[namess2];
-                                    var  frmtt= mongoose.model(namess2,tt);
 
 
-                                    frmtt.aggregate( [
-                                        { $match: filtro},
-                                        { 
-                                            "$group" : {
-                                                "_id" : {
-                                                    "nombre" : campo
-                                                }, 
-                                                "COUNT(*)" : {
-                                                    "$sum" : 1
-                                                }
-                                            }
-                                        }, 
-                                        { 
-                                            "$project" : {
-                                                "nombre" : "$_id.nombre", 
-                                                "cantidad" : "$COUNT(*)", 
-                                                "_id" :0
-                                            }
-                                        }
-                                    ]).exec(function(err, todos2) {
-                                        if (err){  res.send(err); }
-
-                                        resolve(todos2); 
-                                       // res.json(todos2);
-
-                                    });
-                                }
-
-
-    });
-        
-                                    
-                                   
-                             
-                
-        
-    
-
-                                });
-
-}
-
-
-function datipo(value) {
-    var tt='';
-    switch(value) {
-        case 'Alfanumerico':  tt='String';   break;
-       case 'Numerico':  tt='Number';   break;
-       case 'Moneda':  tt='Number';   break;
-       case 'TextArea':   tt='String';   break;
-       case 'Etiqueta':   tt='String';   break;
-       case 'Rango':   tt='Number';   break;
-       case 'Fecha':   tt='Date';   break;
-       case 'Fecha y Hora':   tt='Date';   break;
-       case 'Hora':   tt='Date';   break;
-       case 'Check':   tt='String';   break;
-       case 'Imagen':   tt='String';   break;
-       
-        default:
-          // code block
-      }
-        return tt;
-      }
-
-function dafiltrocad(todos,id2,id3) {
-    var cad=''
-    var cadxx=''
-   
-    for(var i = 0; i < todos.length;i++){
-                                      
-     
-        switch(todos[i].type) {
-            case 'Rango':  
-            if(todos[i].name==id2){cadxx='"' +id2 + '":' +id3 + ''  }
-            if(todos[i].required=='false')
-            {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-            }
-            else
-            {
-                cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-            }
-            break;
-             case 'Fecha': //ISODate("2018-08-08T15:00:56.875Z"),
-             if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-             else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-             if(todos[i].required=='false')
-             {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-             }
-             else
-             {
-                
-                 cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-             }
-              break;
-              case 'Hora': //ISODate("2018-08-08T15:00:56.875Z"),
-              if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-              else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-              if(todos[i].required=='false')
-              {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-              }
-              else
-              {
-                 
-                  cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-              }
-               break;
-              case 'Fecha y Hora': //ISODate("2018-08-08T15:00:56.875Z"),
-              if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-              else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-              if(todos[i].required=='false')
-              {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-              }
-              else
-              {
-                 
-                  cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-              }
-               break;
-              case 'Check': 
-              if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-              else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-              if(todos[i].required=='false')
-              {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-              }
-              else
-              {
-                 
-                  cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-              }
-               break;
-               case 'Imagen': 
-               if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-               else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-               if(todos[i].required=='false')
-               {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-               }
-               else
-               {
-                  
-                   cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-               }
-                break;
-         case 'Alfanumerico': 
-         if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-         else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-         if(todos[i].required=='false')
-         {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-         }
-         else
-         {
-            
-             cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-         }
-          break;
-          case 'Componente': 
-          if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-          else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-          if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
-          {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-          }
-          else
-          {
-             
-              cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-          }
-           break;
-
-           
-           case 'Visualizar query': 
-           if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-           else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-           if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
-           {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-           }
-           else
-           {
-              
-               cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-           }
-            break;
-        case 'Numerico':  
-        if(todos[i].name==id2){cadxx='"' +id2 + '":' +id3 + ''  }
-        if(todos[i].required=='false')
-        {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-        }
-        else
-        {
-            cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-        }
-        break;
-        case 'Moneda':  
-        if(todos[i].name==id2){cadxx='"' +id2 + '":' +id3 + ''  }
-        if(todos[i].required=='false')
-        {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-        }
-        else
-        {
-            cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-        }
-        break;
-        case 'TextArea':  
-        if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-        else{cadxx='"' +id2 + '": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-//        if(todos[i].name==id2){cadxx='"' +id2 + '":"' +id3 + '"'  }
-   
-        if(todos[i].required=='false')
-        {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-        }
-        else
-        {
-            cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-        }
-          break;
-        case 'Etiqueta':   
-         break;
-        case 'Lista de valores': 
-        if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '.label":"' +id3 + '"' }
-         else{cadxx='"' +id2 + '.label": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-        if(todos[i].required=='false')
-             {cad=cad+'"'+todos[i].name+'":{"type" : "String"},';
-                 //cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String"},   "label"	: { "type" : "String" }},';
-             }
-             else
-             {cad=cad+'"'+todos[i].name+'":{"type" : "String", "required" : "true"},';
-                //     cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
-             }
-
-          break;
-          case 'Check List': 
-          if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '.label":"' +id3 + '"' }
-           else{cadxx='"' +id2 + '.label": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-          if(todos[i].required=='false')
-               {cad=cad+'"'+todos[i].name+'":{"type" : "String"},';
-                   //cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String"},   "label"	: { "type" : "String" }},';
-               }
-               else
-               {cad=cad+'"'+todos[i].name+'":{"type" : "String", "required" : "true"},';
-                  //     cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
-               }
-  
-            break;
-            case 'Check List Detalle': 
-            if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '.label":"' +id3 + '"' }
-             else{cadxx='"' +id2 + '.label": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-            if(todos[i].required=='false')
-                 {cad=cad+'"'+todos[i].name+'":{"type" : "String"},';
-                     //cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String"},   "label"	: { "type" : "String" }},';
-                 }
-                 else
-                 {cad=cad+'"'+todos[i].name+'":{"type" : "String", "required" : "true"},';
-                    //     cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
-                 }
-    
-              break;
-         default:
-           // code block
-       }
-
-     
-     }
-     return cad +'°'+cadxx
-}
-function dadatosformulariofinal  (namess,filtro,idempresa,namess2,orden)
-{
-    return new Promise(resolve => { 
-
-        Frmmovild.find({idmovil:namess,idempresa:idempresa}).sort([['order', 1]]).exec(function(err, todos) {
-            if (err){ res.send(err); }
-          
-     //   console.log(todos)
-                                if(todos.length>0)   {  
-                               
-                                    var cad=''
-                                    var cadxx=''
-                                    var cad3=(dafiltrocad(todos,'','')).split('°')
-                                  
-                              
-                                 
-                                    cad=cad3[0]
-                                    cadxx='{'+ cad3[1] + '}'
-                                    cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
-                                    cad='{' + cad + '}'
-                                    cadxx='{' + cadxx + '}'
-
-                               //  console.log(cad)
-                                    var jsonObject = stringToObject(cad);
-                                  
-                                    var mongoose = require("mongoose");
-                                    var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
-                                    delete mongoose.connection.models[namess2];
-                                    var  frmtt= mongoose.model(namess2,tt);
-
-                                    if(orden==={})
-                                    {  frmtt.find(filtro).exec(function(err, todos2) {
-                                        if (err){  res.send(err); }
-
-                                        resolve(todos2); 
-                                       // res.json(todos2);
-
-                                    });
-
-                                    }
-                                    else
-                                    {
-                                        frmtt.find(filtro).sort(orden).exec(function(err, todos2) {
-                                            if (err){  res.send(err); }
-    
-                                            resolve(todos2); 
-                                           // res.json(todos2);
-    
-                                        });
-                                    }
-
-                                  
-                                }
-
-
-    });
-        
-                                    
-                                   
-                             
-                
-        
-    
-
-                                });
-
-}
 
 exports.getCorreos = async function(req, res, next){
     if(req.params.id3)
@@ -439,7 +15,7 @@ exports.getCorreos = async function(req, res, next){
         { 
 
             (async () => {
-            producto = await dadatosformulariofinal('5fc01bbba8d0a14888774579',{ },req.params.id3,'5fc01bbba8d0a14888774579',{fechadevencimiento:1}); 
+            producto = await functool.dadatosformulariofinal('5fc01bbba8d0a14888774579',{ },req.params.id3,'5fc01bbba8d0a14888774579',{fechadevencimiento:1}); 
             var datat= []
             var regt0=[];   
            
@@ -530,7 +106,7 @@ var grupo= {
 var project= {"fecha" : "$_id.fecha","cantidad" : "$cantidad",       "subtotal" : "$subtotal",   "_id" :0  }
 
 
-                h1 = await dadatosformulariogruposuma('5fc0308c2fc3552d10147947',filtro,req.params.id3,'5fc0308c2fc3552d10147947', grupo ,project,500,  { fecha : -1 } ); 
+                h1 = await functool.dadatosformulariogruposuma('5fc0308c2fc3552d10147947',filtro,req.params.id3,'5fc0308c2fc3552d10147947', grupo ,project,500,  { fecha : -1 } ); 
                 //fecha cantidaddespachada subtotal
 
 var grupo= {
@@ -540,7 +116,7 @@ var grupo= {
 var project={"fecha" : "$_id.fecha","cantidaddespachada" : "$cantidaddespachada",       "subtotal" : "$subtotal",   "_id" :0  }
             
 
-                requi1 = await dadatosformulariogruposuma('5fc03c79ab0f6448b877eb5c',filtro,req.params.id3,'5fc03c79ab0f6448b877eb5cs', grupo ,project,500,  { fecha : -1 } ); 
+                requi1 = await functool.dadatosformulariogruposuma('5fc03c79ab0f6448b877eb5c',filtro,req.params.id3,'5fc03c79ab0f6448b877eb5cs', grupo ,project,500,  { fecha : -1 } ); 
 
 
                 
@@ -552,7 +128,7 @@ var grupo= {
 var project= {"articulo" : "$_id.articulo","cantidad" : "$cantidad",       "subtotal" : "$subtotal",   "_id" :0  }
 
 
-h1a = await dadatosformulariogruposuma('5fc0308c2fc3552d10147947',filtro,req.params.id3,'5fc0308c2fc3552d10147947', grupo ,project,21,  { cantidad : -1 } ); 
+h1a = await functool.dadatosformulariogruposuma('5fc0308c2fc3552d10147947',filtro,req.params.id3,'5fc0308c2fc3552d10147947', grupo ,project,21,  { cantidad : -1 } ); 
 //fecha cantidaddespachada subtotal
 
 var grupo= {
@@ -562,7 +138,7 @@ var grupo= {
 var project={"articulo" : "$_id.articulo","cantidaddespachada" : "$cantidaddespachada",       "subtotal" : "$subtotal",   "_id" :0  }
 
 
-requi1b = await dadatosformulariogruposuma('5fc03c79ab0f6448b877eb5c',filtro,req.params.id3,'5fc03c79ab0f6448b877eb5cs', grupo ,project,21,  { cantidaddespachada : -1 } ); 
+requi1b = await functool.dadatosformulariogruposuma('5fc03c79ab0f6448b877eb5c',filtro,req.params.id3,'5fc03c79ab0f6448b877eb5cs', grupo ,project,21,  { cantidaddespachada : -1 } ); 
 
 
 
@@ -634,7 +210,7 @@ requi1b = await dadatosformulariogruposuma('5fc03c79ab0f6448b877eb5c',filtro,req
         if(req.params.id2==='reportecaduca')
         { 
             (async () => {
-            producto = await dadatosformulariofinal('5fc01bbba8d0a14888774579',{ },req.params.id3,'5fc01bbba8d0a14888774579',{fechadevencimiento:1}); 
+            producto = await functool.dadatosformulariofinal('5fc01bbba8d0a14888774579',{ },req.params.id3,'5fc01bbba8d0a14888774579',{fechadevencimiento:1}); 
 
             var datat= []
             var regt0=[];   
@@ -720,7 +296,51 @@ requi1b = await dadatosformulariogruposuma('5fc03c79ab0f6448b877eb5c',filtro,req
             kardex.find({producto:req.params.id,idempresa :req.params.id3}).sort({_id:-1}).exec(function(err, todos) {
                 if (err){ res.send(err); }
                
-                if(todos.length>0)   {    res.json(todos);   }
+                if(todos.length>0)   {     var datat=[]
+                    for(var i = 0; i < todos.length;i++){
+                        var ee=todos[i].proveedor
+                        var prov=ee
+                        if(ee.indexOf('<br>')>0)
+                        {
+                            prov=ee.split('<br>')[1].split(':')[1]
+
+                        }
+
+                        if(todos[i].tipo==='Salida')
+                        {
+                            datat.push({  "_id" : todos[i]._id,"idempresa" : todos[i].idempresa,                     "fecha" : todos[i].fecha,   "tipo" : todos[i].tipo,  "accion" : todos[i].accion,
+                            "proveedor" : prov,     "nodoc" : todos[i].nodoc,
+                            "s2" : prov,     "s1" : todos[i].nodoc,
+                            "iddocumento" : todos[i].iddocumento,       "categoria" : todos[i].categoria,
+                            "nodockardex" : todos[i].nodockardex,    "nodockardexlinea" : todos[i].nodockardexlinea,
+                            "tarjetasanuladas" :todos[i].tarjetasnuladas,"estadoprint" : todos[i].estadoprint,
+                            "anulacion" : todos[i].anulacion,             "producto" : todos[i].producto,
+                            "idproducto" : todos[i].idproducto,       "producton" : todos[i].producton,
+                            "unidad" : todos[i].unidad,      "saldoanterior" : todos[i].saldoanterior,
+                            "ingreso" : todos[i].ingreso,      "obs" : todos[i].obs,
+                            "egreso" : todos[i].egreso,        "saldoactual" : todos[i].saldoactual,
+                            "precioanterior" :todos[i].precioanterior,            "precio" : todos[i].precio,
+                            "total" : todos[i].total})
+                        }
+                        else
+                        {
+                            datat.push({  "_id" : todos[i]._id,"idempresa" : todos[i].idempresa,                     "fecha" : todos[i].fecha,   "tipo" : todos[i].tipo,  "accion" : todos[i].accion,
+                            "proveedor" : prov,     "nodoc" : todos[i].nodoc,
+                            "e2" : prov,     "e1" : todos[i].nodoc,
+                            "iddocumento" : todos[i].iddocumento,       "categoria" : todos[i].categoria,
+                            "nodockardex" : todos[i].nodockardex,    "nodockardexlinea" : todos[i].nodockardexlinea,
+                            "tarjetasanuladas" :todos[i].tarjetasnuladas,"estadoprint" : todos[i].estadoprint,
+                            "anulacion" : todos[i].anulacion,             "producto" : todos[i].producto,
+                            "idproducto" : todos[i].idproducto,       "producton" : todos[i].producton,
+                            "unidad" : todos[i].unidad,      "saldoanterior" : todos[i].saldoanterior,
+                            "ingreso" : todos[i].ingreso,      "obs" : todos[i].obs,
+                            "egreso" : todos[i].egreso,        "saldoactual" : todos[i].saldoactual,
+                            "precioanterior" :todos[i].precioanterior,            "precio" : todos[i].precio,
+                            "total" : todos[i].total})
+                        }
+                      
+                    }
+                     res.json(datat);  }
                 else
                 {  res.status(500).send('NO EXISTE REGISTRO');      }
                 
@@ -732,7 +352,32 @@ requi1b = await dadatosformulariogruposuma('5fc03c79ab0f6448b877eb5c',filtro,req
             kardex.find({nodockardex:req.params.id,idempresa :req.params.id3}).sort({_id:-1}).exec(function(err, todos) {
                 if (err){ res.send(err); }
                
-                if(todos.length>0)   {    res.json(todos);   }
+                if(todos.length>0)   {   
+                    var datat=[]
+                    for(var i = 0; i < todos.length;i++){
+                        var ee=todos[i].proveedor
+                        var prov=ee
+                        if(ee.indexOf('<br>')>=0)
+                        {
+                            prov=ee.split('<br>')[1].split(':')[1]
+
+                        }
+                        datat.push({  "_id" : todos[i]._id,"idempresa" : todos[i].idempresa,                     "fecha" : todos[i].fecha,   "tipo" : todos[i].tipo,  "accion" : todos[i].accion,
+                        "proveedor" : prov,     "nodoc" : todos[i].nodoc,
+                        "iddocumento" : todos[i].iddocumento,       "categoria" : todos[i].categoria,
+                        "nodockardex" : todos[i].nodockardex,    "nodockardexlinea" : todos[i].nodockardexlinea,
+                        "tarjetasanuladas" :todos[i].tarjetasnuladas,"estadoprint" : todos[i].estadoprint,
+                        "anulacion" : todos[i].anulacion,             "producto" : todos[i].producto,
+                        "idproducto" : todos[i].idproducto,       "producton" : todos[i].producton,
+                        "unidad" : todos[i].unidad,      "saldoanterior" : todos[i].saldoanterior,
+                        "ingreso" : todos[i].ingreso,      "obs" : todos[i].obs,
+                        "egreso" : todos[i].egreso,        "saldoactual" : todos[i].saldoactual,
+                        "precioanterior" :todos[i].precioanterior,            "precio" : todos[i].precio,
+                        "total" : todos[i].total})
+                    }
+                     res.json(datat);
+                    
+                    }
                 else
                 {  res.status(500).send('NO EXISTE REGISTRO1');      }
                 

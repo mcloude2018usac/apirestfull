@@ -29,313 +29,6 @@ const frmmovilejecutacomandos = require('../controllers/frmmovilejecutacomandos'
 
 
 
-
-function actualizaformularioidfinal  (namess,filtro,idempresa,namess2,est)
-{
-    return new Promise(resolve => { 
-
-        Frmmovild.find({idmovil:namess, idempresa:idempresa}).sort([['order', 1]]).exec(function(err, todos) {
-            if (err){ res.send(err); }
-          
-     //   console.log(todos)
-                                if(todos.length>0)   {  
-                               
-                                    var cad=''
-                                    var cadxx=''
-                                    var cad3=(dafiltrocad(todos,'','')).split('°')
-                                  
-                              
-                                 
-                                    cad=cad3[0]
-                                    cadxx='{'+ cad3[1] + '}'
-                                    cad=cad + ' "comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno"	: { "type" : "String" },"usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
-                                    cad='{' + cad + '}'
-                                    cadxx='{' + cadxx + '}'
-
-                               //  console.log(cad)
-                                    var jsonObject = stringToObject(cad);
-                                  
-                                    var mongoose = require("mongoose");
-                                    var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
-                                    delete mongoose.connection.models[namess2 ];
-                                    var  frmtt= mongoose.model(namess2,tt);
-                                   
-                                    frmtt.updateMany(filtro, est, function(err, todos2) {
-                                   
-                                        if (err){  res.send(err); }
-
-                                        resolve(todos2); 
-                                       // res.json(todos2);
-
-                                    });
-                                }
-
-
-    });
-        
-                                    
-                                   
-                             
-                
-        
-    
-
-                                });
-
-}
-
-
-//var async = require("async");
-function daformxid(namess,filtro, cadxx)
-{
-    return new Promise(resolve => { 
-var re=''
-                                var cad=''
-                              
-                                cad=cadxx + '     "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
-
-                                cad='{' + cad + '}'
-                         
-                                var jsonObject = stringToObject(cad);
-                              
-                                var mongoose = require("mongoose");
-                                delete mongoose.connection.models[namess];
-                                var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
-                                var  frmtt= mongoose.model(namess,tt);
-                                
-                                    frmtt.find(filtro ,function(err, todos2) {
-                                        if (err){  res.send(err); }
-                                      
-                                    
-                                      resolve(todos2); 
-                                      
-                                    });
-                            
-                             
-                
-        
-    
-
-                                });
-
-}
-   function daidform(namess,filtro)
-{
-    return new Promise(resolve => { 
-var re=''
-                                var cad=''
-                              
-                                cad=cad + ' "_id"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
-
-                                cad='{' + cad + '}'
-                         
-                                var jsonObject = stringToObject(cad);
-                              
-                                var mongoose = require("mongoose");
-                                delete mongoose.connection.models[namess];
-                                var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
- 
-                            
-                                try {
-                                   
-                                    var  frmtt= mongoose.model(namess,tt);
-                                    frmtt.find(filtro).sort({_id:-1}).exec(function(err, todos2) {
-                                        if (err){  res.send(err); }
-                                       
-                                      
-                                      re=todos2[0]._id;
-                                    
-                                      resolve(re); 
-                                      
-                                    });
-                                  } catch(e) {
-                                    
-                                    var  frmtt= mongoose.model(namess);
-                          
-                                    frmtt.find( filtro).sort({_id:-1}).exec(function(err, todos2) {
-                                         if (err){  res.send(err);
-                                        }
-                                 
-                                     
-                                      
-                                        re=todos2[0]._id;
-                                      
-                                        
-                                      resolve(re); 
-                                     
-                                     });
-                                  }
-
-
-                             
-                
-        
-    
-
-                                });
-
-}
-
-function daidformreg(namess,filtro,orden,idempresa,tabla)
-{
-
-     
-    return new Promise(resolve => { 
-        Frmmovild.find({idmovil:tabla, idempresa:idempresa}).sort([['order', 1]]).exec(function(err, todos) {
-            if (err){ res.send(err); }
-          
- 
-                                if(todos.length>0)   {  
-                               
-                                    var cad=''
-                                    var cadxx=''
-                                    var cad3=(dafiltrocad(todos,'','')).split('°')
-                                  
-                              
-                                 
-                                    cad=cad3[0]
-                                    cadxx='{'+ cad3[1] + '}'
-                                    cad=cad + ' "ordenhijas": { "type" : "String" },"idpapa"	: { "type" : "String" },"usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
-                                    cad='{' + cad + '}'
-                                    cadxx='{' + cadxx + '}'
-
-                               //  console.log(cad)
-                                    var jsonObject = stringToObject(cad);
-                                  
-                                    var mongoose = require("mongoose");
-                                    var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
-                                    delete mongoose.connection.models[namess];
-                                    var  frmtt= mongoose.model(namess,tt);
-
-                                    frmtt.find(filtro).sort(orden).exec(function(err, todos2) {
-                                        if (err){  res.send(err); }
-                                        
-                                        
-
- resolve(todos2); 
-
-
-                                    });
-                                }
-
-
-    });
-        
-                                    
-                                   
-                             
-                
-        
-    
-
-                                });
-
-
-
-}
-
-function davalorvv(vec, valor)
-{var re=''
-    for(var i = 0; i < vec.length;i++){
-        var aa=vec[i].split('°')
-       if(aa[0]===valor)
-       { re=aa[1]
-        break;
-
-       }
-    }
-
-    return re;
-}
-
-function dadatosformulariocombo(namess,filtro,idempresa, myDatavector)
-{
-    
-    return new Promise(resolve => { 
-        Frmmovild.find({idmovil:namess, display : "true",idempresa:idempresa}).sort([['order', 1]]).exec(function(err, todos) {
-            if (err){ res.send(err); }
-          
- 
-            var objetox = {};
-                
-          
-                for(var j = 0; j < myDatavector.length;j++){
-                    for(var i = 0; i < todos.length;i++){
-                if(myDatavector[j].split('°')[0]===todos[i].name)
-                {
-                    objetox[todos[i].name] =todos[i].title + '°' + todos[i].type + '°'+ todos[i].display;
-                }
-            }
-               
-                
-            }
-                                if(todos.length>0)   {  
-                               
-                                    var cad=''
-                                    var cadxx=''
-                                    var cad3=(dafiltrocad(todos,'','')).split('°')
-                                  
-                              
-                                 
-                                    cad=cad3[0]
-                                    cadxx='{'+ cad3[1] + '}'
-                                    cad=cad + ' "estadointerno"	: { "type" : "String" },  "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
-                                    cad='{' + cad + '}'
-                                    cadxx='{' + cadxx + '}'
-
-                               //  console.log(cad)
-                                    var jsonObject = stringToObject(cad);
-                                  
-                                    var mongoose = require("mongoose");
-                                    var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
-                                    delete mongoose.connection.models[namess];
-                                    var  frmtt= mongoose.model(namess,tt);
-
-                                    frmtt.find(filtro).exec(function(err, todos2) {
-                                        if (err){  res.send(err); }
-                                        
-                                        
-
- var datafinal = functool.procesahtmlrecord(objetox,todos2,'si')
-                                                  
- //res.json(datafinal);
- resolve(datafinal); 
- /*
-                                        var myData = [];
-                                        for(var i = 0; i < todos2.length;i++){
-                                          var nombret ='';
-                                          for(var j = 0; j < myDatavector.length;j++){
-                                              nombret = nombret + myDatavector[j].split('°')[1] + ': ' +  todos2[i][myDatavector[j].split('°')[0]]  + '°'
-                                          }
-                                          myData.push({_id:todos2[i]._id , nombre: nombret })
-    
-                                           
-                                        }
-                                         
-
-
-                                        resolve(myData); 
-                                        */
-                                       // res.json(todos2);
-
-                                    });
-                                }
-
-
-    });
-        
-                                    
-                                   
-                             
-                
-        
-    
-
-                                });
-
-}
-
-
 async function getcombomanual(req, res, next)
 {
     console.log(req.params)
@@ -363,10 +56,10 @@ async function getcombomanual(req, res, next)
                 var myDatavector = campost.split(',');
                 var idempresa=req.params.id3.split('°')[0]
                 var myDatavector2 = req.params.id5.split(',');
-                var contrato=davalorvv(myDatavector2,'contrato')
+                var contrato=functool.davalorvv(myDatavector2,'contrato')
                 var filtro={estado:'Activo',idpapa:contrato}
                 //enmiendas
-                const ans = await daidformreg('5f72a12587c9e33bd4ada7abs',filtro,{_id:-1},idempresa,'5f72a12587c9e33bd4ada7ab'); 
+                const ans = await functool.daidformreg('5f72a12587c9e33bd4ada7abs',filtro,{_id:-1},idempresa,'5f72a12587c9e33bd4ada7ab'); 
 
 var papasx=[]
 for(var i = 0; i <ans.length; i++) {
@@ -374,7 +67,7 @@ for(var i = 0; i <ans.length; i++) {
 }
 
                  var arr=req.params.id3.split('°')
-                 const pagosf = await daidformreg('5f595df92521cd38c8fe3126',{
+                 const pagosf = await functool.daidformreg('5f595df92521cd38c8fe3126',{
                     idpapa:{$in:papasx}
                     ,estado:'Pendiente'},{_id:1},idempresa,'5f595df92521cd38c8fe3126'); 
 
@@ -385,11 +78,11 @@ for(var i = 0; i <pagosf.length; i++) {
     enmiendax.push('' + pagosf[i]._id)
 }
 
-const multas = await daidformreg('5f74c0fff22ed14ea01c1cbes',{
+const multas = await functool.daidformreg('5f74c0fff22ed14ea01c1cbes',{
     idpapa:{$in:enmiendax}
     ,estado:'Activo'},{_id:1},idempresa,'5f74c0fff22ed14ea01c1cbe'); 
 
-    const emergencias = await daidformreg('603715b7a59cf50610072759',{
+    const emergencias = await functool.daidformreg('603715b7a59cf50610072759',{
         idpapa:{$in:enmiendax},estado:'No atendida'
         },{_id:1},idempresa,'603715b7a59cf50610072759'); 
 
@@ -438,7 +131,7 @@ var pagosxx=[]
 
 
 
-          /*      planificaciones = await dadatosformulariocombo('5f595df92521cd38c8fe3126',{
+          /*      planificaciones = await functool.dadatosformulariocombo('5f595df92521cd38c8fe3126',{
                     idpapa:{$in:papasx}
                     ,estado:'Cancelado'},arr[0],myDatavector); 
                     */
@@ -469,19 +162,19 @@ var pagosxx=[]
                     
                     var myDatavector2 = req.params.id5.split(',');
                     
-                    var enmienda=davalorvv(myDatavector2,'enmienda')
+                    var enmienda=functool.davalorvv(myDatavector2,'enmienda')
                   
                     //en las enmiendas vos a traer que plantilla de multas uso
                     var enmiendacampos=[]
 
-                    enmiendacampos = await daformxid('5f72a12587c9e33bd4ada7abs',{_id:  '' +enmienda +''},'"multasporperiodo"	: { "type" : "String" }, '); 
+                    enmiendacampos = await functool.daformxid('5f72a12587c9e33bd4ada7abs',{_id:  '' +enmienda +''},'"multasporperiodo"	: { "type" : "String" }, '); 
 
 
 
                     
                     var campossst=[]
                     campossst.push('multa°Multa')
-                    planificaciones = await dadatosformulariocombo('5fc55f9894568f50c4cdcb4c',{idpapa:enmiendacampos[0].multasporperiodo.split('¬')[1]},arr[0],campossst); 
+                    planificaciones = await functool.dadatosformulariocombo('5fc55f9894568f50c4cdcb4c',{idpapa:enmiendacampos[0].multasporperiodo.split('¬')[1]},arr[0],campossst); 
                     res.json(planificaciones);
 
 
@@ -490,7 +183,7 @@ var pagosxx=[]
                     var filtro={estado:'Activo',idpapa:contrato}
                     const ans = await daidform('5f72a12587c9e33bd4ada7abs',filtro); 
                      var arr=req.params.id3.split('°')
-                    planificaciones = await dadatosformulariocombo('5fc55f9894568f50c4cdcb4cs',{idpapa:ans,estado:'Activo'},arr[0],myDatavector); 
+                    planificaciones = await functool.dadatosformulariocombo('5fc55f9894568f50c4cdcb4cs',{idpapa:ans,estado:'Activo'},arr[0],myDatavector); 
                     res.json(planificaciones);
 */
 
@@ -504,504 +197,18 @@ var pagosxx=[]
 
 }
 
-function padLeadingZeros(num, size) {
-    var s = num+"";
-    while (s.length < size) s = "0" + s;
-    return s;
-}
-function sequenceGenerator(id){
 
 
 
-    Contador.findOneAndUpdate({tipo:id}, { $inc: { sequence_value: 1 } }, function(err, seq){
-      if(err) { throw(err); }
-   
-      return seq.sequence_value;
-    });
 
 
-}
-
-                            
-function onlyUnique(value, index, self) { 
-    return self.indexOf(value) === index;
-}
-
-function datipo(value) {
-var tt='';
-switch(value) {
-    case 'Alfanumerico':  tt='String';   break;
-   case 'Numerico':  tt='Number';   break;
-   case 'Moneda':  tt='Number';   break;
-   case 'TextArea':   tt='String';   break;
-   case 'Etiqueta':   tt='String';   break;
-   case 'Rango':   tt='Number';   break;
-   case 'Fecha':   tt='Date';   break;
-   case 'Fecha y Hora':   tt='Date';   break;
-   case 'Hora':   tt='Date';   break;
-   case 'Check':   tt='String';   break;
-   case 'Imagen':   tt='String';   break;
-   case 'Documento':   tt='String';   break;
-   case 'Componente':   tt='String';   break;
-   case 'Visualizar query':   tt='String';   break;
-   case 'Lista de valores remoto':   tt='String';   break;
-
-    default:
-      // code block
-  }
-    return tt;
-  }
-
-  function datipo2(value) {
-    var tt='';
-    switch(value) {
-        case 'Alfanumerico':  tt='text';   break;
-       case 'Numerico':  tt='Number';   break;
-       case 'Moneda':  tt='moneda';   break;
-       case 'TextArea':   tt='textarea';   break;
-       case 'Etiqueta':   tt='label';   break;
-       case 'Lista de valores':   tt='select';   break;
-       case 'Check List':   tt='select2';   break;
-       case 'Check List Detalle':   tt='select3';   break;
-       case 'Rango':   tt='rango';   break;
-       case 'Fecha':   tt='fecha';   break;
-       case 'Fecha y Hora':   tt='fechahora';   break;
-       case 'Hora':   tt='hora';   break;
-       case 'Check':   tt='check';   break;
-       case 'Imagen':   tt='imagen';   break;
-       case 'Documento':   tt='documento';   break;
-       case 'Componente':   tt='componente';   break;
-       case 'Visualizar query':   tt='verquery';   break;
-       case 'Lista de valores remoto':   tt='selectremoto';   break;
-        default:
-          // code block
-      }
-        return tt;
-      }
-
-  function stringToObject(JSONString) {
-      var jsonObject = JSON.parse(JSONString);
-      return jsonObject;
-  }
-
-
-  function objectFindByKey(array, key, value) {
-    return array[0][0];
-  //  return this.array(function(x) { return x[key] })
-
-}
-
-
-  
-  // Convert javascript object to json string.
-  function objectToString(jsObject) {
-  
-      var jsonString = JSON.stringify(jsObject);
-  
-   
-      return jsonString;
-  }
-  
- 
-  function daarreglo(data,op) {
-  
-    var val=[]
-
-    //return data.map(function(item,index){      return item.idunidad === op;   });
-     //val = data.filter(function(item){        return item.idunidad === op;   });
-   // val= data.forEach(function(item,index){      return item.idunidad === op;   });
-  
-    for(var i = 0; i <data.length; i++) {
-             if(data[i].idunidad==op)
-             {
-
-                val.push({key:data[i]._id,label:data[i].nombre});
-             }
-    }
-    
-   return val;
-
-    
-}
-
-function  existeregistrosfrom(idformulario,todos,cadxx,idpapa)
-{
- 
-    var namess=idformulario
-
-
-                  
-                           
-                                var cad100=''
-                                var cadxx=''
-                                var cad3=(dafiltrocad(todos,'','')).split('°')
-                                cad100=cad3[0]
-
-                                if(idpapa)
-                                {
-                                 cad100=cad100 + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
-                                }
-                                else
-                                {
-                                 cad100=cad100 + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" }'
-                                }
-                               
-                                
-                               
-                               cad100='{' + cad100 + '}'
-                  
-
-
-                        
-                                var jsonObject = stringToObject(cad100);
-                                var mongoose = require("mongoose");
-                               
-                                var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
-                               
-                                try {
-                                    var  frmtt= mongoose.model(namess,tt);
-                                    
-                                  
-                                    
-                                    frmtt.find({"contrato":"descripcion: descripción del contrato , nocontrato: a1 ,        °5f7648b37e8d091240017cc3"} ,function(err, todos2) {
-                                        if (err){  res.send(err);  }
-                                
-                                        if(todos2.length>0)
-                                        {
-                                           
-                                            
-                                         
-                                        }
-                                        else
-                                        {
-                                            
-                                           
-                                        }
-                                      
-                                      
-                                    });
-                                  } catch(e) {
-                                     
-                                    var  frmtt= mongoose.model(namess);
-                                   
-                                    frmtt.find({"contrato":"descripcion: descripción del contrato , nocontrato: a1 ,        °5f7648b37e8d091240017cc3"},function(err, todos2) {
-                                         if (err){  res.send(err);  }
-                                      
-                                         if(todos2.length>0)
-                                         {
-                                            return 'si'
-                                          
-                                           
-                                          } else
-                                            {
-                                                return 'no'
-                                            
-                                            }
-                                     
-                                     });
-                                  }
-
-
-                             
-       
-        
-    
-}
-
-function dafiltrocad(todos,id2,id3,norequerido) {
-    var cad=''
-    var cadxx=''
-    var norequerido2=norequerido;
-    if(norequerido2===undefined)
-    {
-        norequerido2=''
-    }
-
-
-    for(var i = 0; i < todos.length;i++){
-                                      
-     
-        switch(todos[i].type) {
-            case 'Rango':  
-            if(todos[i].name==id2){cadxx='"' +id2 + '":' +id3 + ''  }
-            if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
-            {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-            }
-            else
-            {
-                cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-            }
-            break;
-             case 'Fecha': //ISODate("2018-08-08T15:00:56.875Z"),
-             if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-             else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-             if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
-             {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-             }
-             else
-             {
-                
-                 cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-             }
-              break;
-              case 'Hora': //ISODate("2018-08-08T15:00:56.875Z"),
-              if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-              else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-              if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
-              {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-              }
-              else
-              {
-                 
-                  cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-              }
-               break;
-              case 'Fecha y Hora': //ISODate("2018-08-08T15:00:56.875Z"),
-              if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-              else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-              if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
-              {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-              }
-              else
-              {
-                 
-                  cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-              }
-               break;
-              case 'Check': 
-              if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-              else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-              if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
-              {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-              }
-              else
-              {
-                 
-                  cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-              }
-               break;
-               case 'Imagen': 
-               if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-               else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-               if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
-               {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-               }
-               else
-               {
-                  
-                   cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-               }
-                break;
-                case 'Documento': 
-                if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-                else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-                if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
-                {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-                }
-                else
-                {
-                   
-                    cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-                }
-                 break;
-         case 'Alfanumerico': 
-         if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-         else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-         if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
-         {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-         }
-         else
-         {
-            
-             cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-         }
-          break;
-          case 'Componente': 
-          if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-          else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-          if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
-          {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-          }
-          else
-          {
-             
-              cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-          }
-           break;
-
-           
-           case 'Visualizar query': 
-           if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-           else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-           if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
-           {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-           }
-           else
-           {
-              
-               cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-           }
-            break;
-
-        case 'Numerico':  
-        if(todos[i].name==id2){cadxx='"' +id2 + '":' +id3 + ''  }
-        if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
-        {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-        }
-        else
-        {
-            cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-        }
-        break;
-        case 'Moneda':  
-        if(todos[i].name==id2){cadxx='"' +id2 + '":' +id3 + ''  }
-        if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
-        {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-        }
-        else
-        {
-            cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-        }
-        break;
-        case 'TextArea':  
-        if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-        else{cadxx='"' +id2 + '": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-//        if(todos[i].name==id2){cadxx='"' +id2 + '":"' +id3 + '"'  }
-   
-        if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
-        {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-        }
-        else
-        {
-            cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-        }
-          break;
-        case 'Etiqueta':   
-         break;
-        case 'Lista de valores': 
-        if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '.label":"' +id3 + '"' }
-         else{cadxx='"' +id2 + '.label": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-        if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
-             {cad=cad+'"'+todos[i].name+'":{"type" : "String"},';
-                 //cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String"},   "label"	: { "type" : "String" }},';
-             }
-             else
-             {cad=cad+'"'+todos[i].name+'":{"type" : "String", "required" : "true"},';
-                //     cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
-             }
-
-          break;
-          case 'Check List': 
-          if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '.label":"' +id3 + '"' }
-           else{cadxx='"' +id2 + '.label": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-          if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
-               {cad=cad+'"'+todos[i].name+'":{"type" : "String"},';
-                   //cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String"},   "label"	: { "type" : "String" }},';
-               }
-               else
-               {cad=cad+'"'+todos[i].name+'":{"type" : "String", "required" : "true"},';
-                  //     cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
-               }
-  
-            break;
-            case 'Check List Detalle': 
-            if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '.label":"' +id3 + '"' }
-             else{cadxx='"' +id2 + '.label": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-            if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
-                 {cad=cad+'"'+todos[i].name+'":{"type" : "String"},';
-                     //cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String"},   "label"	: { "type" : "String" }},';
-                 }
-                 else
-                 {cad=cad+'"'+todos[i].name+'":{"type" : "String", "required" : "true"},';
-                    //     cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
-                 }
-    
-              break;
-         default:
-           // code block
-       }
-
-     
-     }
-     return cad +'°'+cadxx
-}
 
 
 var registrorep=''
-function aplicacampo(cad,campo) {
+
+
  
-    var re=0
 
-    if(cad===undefined || cad==='')
-    {
-        var re=0
-    }
-    else
-    {
-    var cad2=cad.split('°')
-
-    for(var i = 0; i < cad2.length;i++){
-        if(cad2[i]===campo)
-        {
-            re=1;
-            break;
-        }
-    }
-    }
-
-    return re;
-}
-function dafiltrocadvalida(todos,id2,id3,req) {
-    var cad=''
-    registrorep=''
-
-    for(var i = 0; i < todos.length;i++){
-        if(aplicacampo(req.body.nocambio,todos[i].name)===0)
-        {
-              if(todos[i].usarunaves==='true')
-        {
-            
-            
-            registrorep=registrorep + todos[i].name + '  '
-        switch(todos[i].type) {
-           
-        
-     
-        case 'Numerico':  
-        if(cad===''){  cad=  '"' +todos[i].name + '":' + req.body.estructura[todos[i].name] + ''  }
-        else { cad= cad + ',"' +todos[i].name + '":' + req.body.estructura[todos[i].name]  + '' }
-         
-        break;
-        case 'Moneda':  
-        if(cad===''){  cad=  '"' +todos[i].name + '":' + req.body.estructura[todos[i].name] + ''  }
-        else { cad= cad + ',"' +todos[i].name + '":' + req.body.estructura[todos[i].name]  + '' }
-         
-        break;
-      
-          
-         default:
-            if(cad===''){  cad=  '"' +todos[i].name + '":"' + req.body.estructura[todos[i].name] + '"'  }
-            else { cad= cad + ',"' +todos[i].name + '":"' + req.body.estructura[todos[i].name]  + '"' }
-             
-       }
-    }
-}
-     
-     }
-     return cad 
-}
-var objectToArray = function(obj) {
-    var _arr = [];
-
-    for (var key in obj) {
-        _arr.push([key, obj[key]]);
-    }
-    return _arr;
-}
- 
-function replaceAll(str, find, replace) {
-    return str.replace(new RegExp(find, 'g'), replace);
-  }
 
 exports.getFrmmovil = async function(req, res, next){
     
@@ -1097,9 +304,9 @@ exports.getFrmmovil = async function(req, res, next){
                                    
                                         var cad=''
                                         var cadxx=''
-                                        var cad3=(dafiltrocad(todos,'','','')).split('°')
+                                        var cad3=(functool.dafiltrocad(todos,'','','')).split('°')
                                         var filtro=''
-                                        filtro='{' +replaceAll( arremp[1] ,'ë','/')+ '}'
+                                        filtro='{' +functool.replaceAll( arremp[1] ,'ë','/')+ '}'
                                   
                                         
                                         cad=cad3[0]
@@ -1109,7 +316,7 @@ exports.getFrmmovil = async function(req, res, next){
                                         cadxx='{' + cadxx + '}'
 
 
-                                        var jsonObject = stringToObject(cad);
+                                        var jsonObject = functool.stringToObject(cad);
                                       
                                         var mongoose = require("mongoose");
                                         delete mongoose.connection.models[namess];
@@ -1187,10 +394,10 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                    
                                         var cad=''
                                         var cadxx=''
-                                        var cad3=(dafiltrocad(todos,'','','')).split('°')
+                                        var cad3=(functool.dafiltrocad(todos,'','','')).split('°')
                                         var filtro=''
                                         console.log(req.params.id2)
-                                        filtro='{' +replaceAll(req.params.id2,'ë','/')+ '}'
+                                        filtro='{' +functool.replaceAll(req.params.id2,'ë','/')+ '}'
                                         console.log(filtro)
                                         cad=cad3[0]
                                         cadxx='{'+ cad3[1] + '}'
@@ -1198,7 +405,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                         cad='{' + cad + '}'
                                         cadxx='{' + cadxx + '}'
                                      
-                                        var jsonObject = stringToObject(cad);
+                                        var jsonObject = functool.stringToObject(cad);
                                       
                                         var mongoose = require("mongoose");
                                         delete mongoose.connection.models[namess];
@@ -1278,12 +485,12 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                        
                                         var cad=''
                                         var cadxx=''
-                                        var cad3=(dafiltrocad(todos,'','','')).split('°')
+                                        var cad3=(functool.dafiltrocad(todos,'','','')).split('°')
                                         var filtro=''
                                   if(arremp[2] ===undefined && arremp[3]===undefined )
                                   {
 
-                                    filtro='{' +replaceAll( arremp[1] ,'ë','/')+ '}'
+                                    filtro='{' +functool.replaceAll( arremp[1] ,'ë','/')+ '}'
                                   
 
 
@@ -1291,7 +498,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                   }
                                   else
                                   {
-                                    filtro='{' +replaceAll( arremp[1] ,'ë','/')+ '°' + +replaceAll( arremp[2] ,'ë','/')+ + '°' + +replaceAll( arremp[3] ,'ë','/')+ + '}'
+                                    filtro='{' +functool.replaceAll( arremp[1] ,'ë','/')+ '°' + +functool.replaceAll( arremp[2] ,'ë','/')+ + '°' + +functool.replaceAll( arremp[3] ,'ë','/')+ + '}'
                                   }
                                        
                                    
@@ -1302,7 +509,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                         cadxx='{' + cadxx + '}'
 
                                    
-                                        var jsonObject = stringToObject(cad);
+                                        var jsonObject = functool.stringToObject(cad);
                                       
                                         var mongoose = require("mongoose");
                                         delete mongoose.connection.models[namess];
@@ -1365,7 +572,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
         {
 
             var namess=req.params.id
-            var idbuscar=padLeadingZeros(req.params.id2,7)
+            var idbuscar=functool.padLeadingZeros(req.params.id2,7)
             var arrt=req.params.id3.split('°')
 
 
@@ -1377,7 +584,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                    
                                         var cad=''
                                         var cadxx=''
-                                        var cad3=(dafiltrocad(todos,'','','')).split('°')
+                                        var cad3=(functool.dafiltrocad(todos,'','','')).split('°')
                                   
                                         cad=cad3[0]
                                       
@@ -1385,7 +592,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                         cad='{' + cad + '}'
                                        
                                  
-                                        var jsonObject = stringToObject(cad);
+                                        var jsonObject = functool.stringToObject(cad);
                                       
                                         var mongoose = require("mongoose");
                                         delete mongoose.connection.models[namess];
@@ -1474,7 +681,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                        
                                             var cad=''
                                             var cadxx=''
-                                            var cad3=(dafiltrocad(todos,'','','')).split('°')
+                                            var cad3=(functool.dafiltrocad(todos,'','','')).split('°')
                                       
                                             cad=cad3[0]
                                           
@@ -1482,7 +689,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                             cad='{' + cad + '}'
                                            
                                        
-                                            var jsonObject = stringToObject(cad);
+                                            var jsonObject = functool.stringToObject(cad);
                                           
                                             var mongoose = require("mongoose");
                                             delete mongoose.connection.models[namess];
@@ -1549,7 +756,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                            
                                                 var cad=''
                                                 var cadxx=''
-                                                var cad3=(dafiltrocad(todos,'','','')).split('°')
+                                                var cad3=(functool.dafiltrocad(todos,'','','')).split('°')
                                           
                                                 cad=cad3[0]
                                               
@@ -1557,7 +764,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                                 cad='{' + cad + '}'
                                                
                                          
-                                                var jsonObject = stringToObject(cad);
+                                                var jsonObject = functool.stringToObject(cad);
                                               
                                                 var mongoose = require("mongoose");
                                                 delete mongoose.connection.models[namess];
@@ -1617,7 +824,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                                
                                                     var cad=''
                                                     var cadxx=''
-                                                    var cad3=(dafiltrocad(todos,'','','')).split('°')
+                                                    var cad3=(functool.dafiltrocad(todos,'','','')).split('°')
                                               
                                                     cad=cad3[0]
                                                   
@@ -1625,7 +832,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                                     cad='{' + cad + '}'
                                                    
                                              
-                                                    var jsonObject = stringToObject(cad);
+                                                    var jsonObject = functool.stringToObject(cad);
                                                   
                                                     var mongoose = require("mongoose");
                                                     delete mongoose.connection.models[namess];
@@ -1685,7 +892,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                        
                                             var cad=''
                                             var cadxx=''
-                                            var cad3=(dafiltrocad(todos,'','','')).split('°')
+                                            var cad3=(functool.dafiltrocad(todos,'','','')).split('°')
                                       
                                             cad=cad3[0]
                                           
@@ -1693,7 +900,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                             cad='{' + cad + '}'
                                            
                                      
-                                            var jsonObject = stringToObject(cad);
+                                            var jsonObject = functool.stringToObject(cad);
                                           
                                             var mongoose = require("mongoose");
                                             delete mongoose.connection.models[namess];
@@ -1752,7 +959,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                        
                                             var cad=''
                                             var cadxx=''
-                                            var cad3=(dafiltrocad(todos,'','','')).split('°')
+                                            var cad3=(functool.dafiltrocad(todos,'','','')).split('°')
                                       
                                             cad=cad3[0]
                                           
@@ -1760,7 +967,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                             cad='{' + cad + '}'
                                            
                                      
-                                            var jsonObject = stringToObject(cad);
+                                            var jsonObject = functool.stringToObject(cad);
                                           
                                             var mongoose = require("mongoose");
                                             delete mongoose.connection.models[namess];
@@ -1842,7 +1049,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                    
                                         var cad=''
                                         var cadxx=''
-                                        var cad3=(dafiltrocad(todos,'','','')).split('°')
+                                        var cad3=(functool.dafiltrocad(todos,'','','')).split('°')
                                   
                                         cad=cad3[0]
                                         cadxx='{'+ cad3[1] + '}'
@@ -1850,7 +1057,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                         cad='{' + cad + '}'
                                         cadxx='{' + cadxx + '}'
                                    
-                                        var jsonObject = stringToObject(cad);
+                                        var jsonObject = functool.stringToObject(cad);
                                       
                                         var mongoose = require("mongoose");
                                         delete mongoose.connection.models[namess];
@@ -2040,7 +1247,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                             myData.push({_id:todosa[i]._id,categoria:todosa[i].categoria,nombre:todosa[i].nombre,foto:todosa[i].foto,estado:todosa[i].estado ,verregistros:todosa[i].verregistros,geoposicion:todosa[i].geoposicion ,tipo2:todosa[i].tipo2,ejecuta:todosa[i].ejecuta  ,tipo:todosa[i].tipo,publico:todosa[i].publico});
                                         }
                                     }
-                                    var unique =   myData.filter( onlyUnique );
+                                    var unique =   myData.filter( functool.onlyUnique );
                                     var myData2 = [];
                                                   for(var i = 0; i < unique.length;i++){
                                                      myData2.push({_id:unique[i]._id,tipo:unique[i].tipo,ejecuta:unique[i].ejecuta,tipo2:unique[i].tipo2,geoposicion:unique[i].geoposicion ,categoria:unique[i].categoria,nombre:unique[i].nombre,foto:unique[i].foto,estado:unique[i].estado ,verregistros:unique[i].verregistros,permisos:{pactualizacion:'true',  pconsulta:'true', pcreacion:'true', peliminacion:'true',  pfiltro:'true', pingreso:'true', reporte:'true',  potros1:'',comandos:[], 
@@ -2107,7 +1314,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                                     
                                                 }
                                     
-                                                var unique =   myData.filter( onlyUnique );
+                                                var unique =   myData.filter( functool.onlyUnique );
                                             
                                                 var myData2 = [];
                                                             for(var i = 0; i < unique.length;i++){
@@ -2150,7 +1357,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
 
                 var filtro={ordenhijas: { $regex: '.*' + req.params.id + '.*' },idempresa:req.params.id3}
                 //enmiendas
-                const ans = await daidformreg(req.params.id2,filtro,{_id:-1},req.params.id3,req.params.id2); 
+                const ans = await functool.daidformreg(req.params.id2,filtro,{_id:-1},req.params.id3,req.params.id2); 
                 res.json(ans);
             }
             else
@@ -2174,7 +1381,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                
                                     var cad=''
                                     var cadxx=''
-                                    var cad3=(dafiltrocad(todos,req.params.id2,req.params.id3.replace('¬','/'),'')).split('°')
+                                    var cad3=(functool.dafiltrocad(todos,req.params.id2,req.params.id3.replace('¬','/'),'')).split('°')
                                     cad=cad3[0]
 
                                     if(arrtodos[1] ==='todosdetalle')
@@ -2211,7 +1418,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
 
                                     cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
                                     cad='{' + cad + '}'
-                                    var jsonObject = stringToObject(cad);
+                                    var jsonObject = functool.stringToObject(cad);
                                     var mongoose = require("mongoose");
                                     delete mongoose.connection.models[namess];
                                     var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
@@ -2630,7 +1837,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                                
                                                     var cad=''
                                                     var cadxx=''
-                                                    var cad3=(dafiltrocad(todos,'','','')).split('°')
+                                                    var cad3=(functool.dafiltrocad(todos,'','','')).split('°')
                                               
                                                     cad=cad3[0]
                                                     cadxx='{'+ cad3[1] + '}'
@@ -2638,7 +1845,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                                     cad='{' + cad + '}'
                                                     cadxx='{' + cadxx + '}'
                                                  
-                                                    var jsonObject = stringToObject(cad);
+                                                    var jsonObject = functool.stringToObject(cad);
                                                   
                                                     var mongoose = require("mongoose");
                                                     delete mongoose.connection.models[namess];
@@ -2704,7 +1911,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                 Frmmovild.find({idmovil:req.params.id, display : "true",idempresa:arrtodos[0]}).sort([['order', 1]]).exec(function(err, todos) {
                     if (err){ res.send(err); }
                  
-                  console.log(todos)
+              
                     var objetox = {};
                     for(var i = 0; i < todos.length;i++){
                         objetox[todos[i].name] =todos[i].title + '°' + todos[i].type + '°'+ todos[i].display;
@@ -2715,7 +1922,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                        
                                             var cad=''
                                             var cadxx=''
-                                            var cad3=(dafiltrocad(todos,'','','')).split('°')
+                                            var cad3=(functool.dafiltrocad(todos,'','','')).split('°')
                                       
                                             cad=cad3[0]
                                             cadxx='{'+ cad3[1] + '}'
@@ -2723,7 +1930,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                             cad='{' + cad + '}'
                                             cadxx='{' + cadxx + '}'
                                          
-                                            var jsonObject = stringToObject(cad);
+                                            var jsonObject = functool.stringToObject(cad);
                                           
                                             var mongoose = require("mongoose");
                                             delete mongoose.connection.models[namess];
@@ -2882,7 +2089,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                         
                                                 var cad=''
                                                 var cadxx=''
-                                                var cad3=(dafiltrocad(todos,'','','')).split('°')
+                                                var cad3=(functool.dafiltrocad(todos,'','','')).split('°')
                                         
                                                 cad=cad3[0]
                                                 cadxx='{'+ cad3[1] + '}'
@@ -2890,7 +2097,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                                 cad='{' + cad + '}'
                                                 cadxx='{' + cadxx + '}'
                                             
-                                                var jsonObject = stringToObject(cad);
+                                                var jsonObject = functool.stringToObject(cad);
                                             
                                                 var mongoose = require("mongoose");
                                                 delete mongoose.connection.models[namess];
@@ -2964,7 +2171,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                         
                                                 var cad=''
                                                 var cadxx=''
-                                                var cad3=(dafiltrocad(todos,'','','')).split('°')
+                                                var cad3=(functool.dafiltrocad(todos,'','','')).split('°')
                                         
                                                 cad=cad3[0]
                                                 cadxx='{'+ cad3[1] + '}'
@@ -2972,7 +2179,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                                 cad='{' + cad + '}'
                                                 cadxx='{' + cadxx + '}'
                                             
-                                                var jsonObject = stringToObject(cad);
+                                                var jsonObject = functool.stringToObject(cad);
                                             
                                                 var mongoose = require("mongoose");
                                                 delete mongoose.connection.models[namess];
@@ -3048,7 +2255,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                         
                                                 var cad=''
                                                 var cadxx=''
-                                                var cad3=(dafiltrocad(todos,'','','')).split('°')
+                                                var cad3=(functool.dafiltrocad(todos,'','','')).split('°')
                                         
                                                 cad=cad3[0]
                                                 cadxx='{'+ cad3[1] + '}'
@@ -3056,7 +2263,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                                 cad='{' + cad + '}'
                                                 cadxx='{' + cadxx + '}'
                                             
-                                                var jsonObject = stringToObject(cad);
+                                                var jsonObject = functool.stringToObject(cad);
                                             
                                                 var mongoose = require("mongoose");
                                                 delete mongoose.connection.models[namess];
@@ -3113,7 +2320,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                                                 data.push({  
                                                                 _id :  todos[i]._id, 
                                                                 idmovil	:  todos[i].idmovil._id,
-                                                                type   		: datipo2(todos[i].type) ,
+                                                                type   		: functool.datipo2(todos[i].type) ,
                                                                 name   		: todos[i].name,
                                                                 default:todos[i].default,
                                                                 default2:todos[i].default2,
@@ -3133,7 +2340,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                                                 labelsizefondt:  todos[i].labelsizefondt,
                                                                 categoria:  todos[i].categoria,
                                                                 combofijo:  todos[i].combofijo,
-                                                                options:daarreglo(todos1,todos[i]._id),
+                                                                options:functool.daarreglo(todos1,todos[i]._id),
                                                                 fondoetiqueta: todos[i].fondoetiqueta,
                                                                 coloretiqueta: todos[i].coloretiqueta,
                                                                 copiarencampo: todos[i].copiarencampo,
@@ -3192,7 +2399,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                                                     data.push({  
                                                                     _id :  todos[i]._id, 
                                                                     idmovil	:  todos[i].idmovil._id,
-                                                                    type   		: datipo2(todos[i].type) ,
+                                                                    type   		: functool.datipo2(todos[i].type) ,
                                                                     name   		: todos[i].name,
                                                                     default:todos[i].default,
                                                                     default2:todos[i].default2,
@@ -3213,7 +2420,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                                                     labelsizefondt:  todos[i].labelsizefondt,
                                                                     categoria:  todos[i].categoria,
                                                                     combofijo:  todos[i].combofijo,
-                                                                    options:daarreglo(todos1,todos[i]._id),
+                                                                    options:functool.daarreglo(todos1,todos[i]._id),
                                                                     fondoetiqueta: todos[i].fondoetiqueta,
                                                                     coloretiqueta: todos[i].coloretiqueta,
                                                                     blike: todos[i].blike,
@@ -3365,12 +2572,12 @@ exports.deleteFrmmovil2 = async function(req, res, next){
 
 
                                 
-                                var cad3=(dafiltrocad(todos,'','','')).split('°')
+                                var cad3=(functool.dafiltrocad(todos,'','','')).split('°')
                                 cad=cad3[0]
                                // cadxx='{'+ cad3[1] + '}'
                                 cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" }'
                                 cad='{' + cad + '}'
-                                var jsonObject = stringToObject(cad);
+                                var jsonObject = functool.stringToObject(cad);
                                
                               
                                 var mongoose = require("mongoose");
@@ -3578,7 +2785,7 @@ exports.creaFrmmovil3s = async function(req, res, next){
     
          
     
-            producto = await actualizaformularioidfinal(req.body.formulario,{ _id:req.body.idform},req.body.bitacora.idempresa,req.body.formulario,req.body.estructura); 
+            producto = await functool.actualizaformularioidfinal(req.body.formulario,{ _id:req.body.idform},req.body.bitacora.idempresa,req.body.formulario,req.body.estructura); 
            
             res.json({estado:'ok'});
     
@@ -3591,7 +2798,7 @@ exports.creaFrmmovil3s = async function(req, res, next){
 
      
 
-        producto = await actualizaformularioidfinal(req.body.formulario,{ _id:req.body.idform},req.body.bitacora.idempresa,req.body.formulario,req.body.update); 
+        producto = await functool.actualizaformularioidfinal(req.body.formulario,{ _id:req.body.idform},req.body.bitacora.idempresa,req.body.formulario,req.body.update); 
        
         res.json({estado:'ok'});
 
@@ -3604,7 +2811,7 @@ exports.creaFrmmovil3s = async function(req, res, next){
 
      
 
-        producto = await actualizaformularioidfinal(req.body.formulario,{ _id:req.body.idform},req.body.bitacora.idempresa,req.body.formulario,req.body.update); 
+        producto = await functool.actualizaformularioidfinal(req.body.formulario,{ _id:req.body.idform},req.body.bitacora.idempresa,req.body.formulario,req.body.update); 
        
         res.json({estado:'ok'});
 
@@ -3734,13 +2941,13 @@ if(req.params.recordID!=='crea')
 
                                 var filtrovalida=''
                   
-                                filtrovalida=dafiltrocadvalida(todos,'','',req)
+                                filtrovalida=functool.dafiltrocadvalida(todos,'','',req)
                
                                 if(filtrovalida ==='')
                                 {
                                     var cad=''
                               
-                                    var cad3=(dafiltrocad(todos,'','','',req.body.norequeridospp)).split('°')
+                                    var cad3=(functool.dafiltrocad(todos,'','','',req.body.norequeridospp)).split('°')
                                     cad=cad3[0]
                                     if(req.body.idpapa)
                                     {
@@ -3771,7 +2978,7 @@ if(req.params.recordID!=='crea')
                                     }
                                     
                                      cad='{' + cad + '}'
-                                     var jsonObject = stringToObject(cad);
+                                     var jsonObject = functool.stringToObject(cad);
                                     
                                
                                      var mongoose = require("mongoose");
@@ -3871,7 +3078,7 @@ if(req.params.recordID!=='crea')
                             
     
                                     var cad=''
-                                    var cad3=(dafiltrocad(todos,'','','',req.body.norequeridospp)).split('°')
+                                    var cad3=(functool.dafiltrocad(todos,'','','',req.body.norequeridospp)).split('°')
                                     cad=cad3[0]
                                     if(req.body.idpapa)
                                     {
@@ -3903,7 +3110,7 @@ if(req.params.recordID!=='crea')
                                     
                                    
                                    cad='{' + cad + '}'
-                                   var jsonObject = stringToObject(cad);
+                                   var jsonObject = functool.stringToObject(cad);
                                  
                                    var mongoose = require("mongoose");
                                    delete mongoose.connection.models[namess];
@@ -4052,20 +3259,20 @@ if(req.body.tipo2==='Formulario'){
                                     if(err) { throw(err); }
                                     console.log(seq)
                                     var secuencia;
-                                    secuencia=padLeadingZeros(seq.sequence_value,7)
+                                    secuencia=functool.padLeadingZeros(seq.sequence_value,7)
                                     req.body.estructura['sequencia']= secuencia;
                                    
                                //validar si ya existe algunos de los que son llave 
                           
                                 var filtrovalida=''
                   
-                               filtrovalida=dafiltrocadvalida(todos,'','',req)
+                               filtrovalida=functool.dafiltrocadvalida(todos,'','',req)
               
                                if(filtrovalida ==='')
                                {
 
                                             var cad=''
-                                            var cad3=(dafiltrocad(todos,'','',req.body.norequeridospp)).split('°')
+                                            var cad3=(functool.dafiltrocad(todos,'','',req.body.norequeridospp)).split('°')
                                             cad=cad3[0]
                                             if(req.body.idpapa)
                                             {
@@ -4095,7 +3302,7 @@ if(req.body.tipo2==='Formulario'){
             
                                             }
                                         cad='{' + cad + '}'
-                                        var jsonObject = stringToObject(cad);
+                                        var jsonObject = functool.stringToObject(cad);
                                     
                                         var mongoose = require("mongoose");
                                         delete mongoose.connection.models[namess];
@@ -4222,7 +3429,7 @@ if(req.body.tipo2==='Formulario'){
                         
 
                                 var cad=''
-                                var cad3=(dafiltrocad(todos,'','',req.body.norequeridospp)).split('°')
+                                var cad3=(functool.dafiltrocad(todos,'','',req.body.norequeridospp)).split('°')
                                 cad=cad3[0]
                                 if(req.body.idpapa)
                                 {
@@ -4254,7 +3461,7 @@ if(req.body.tipo2==='Formulario'){
                                 
                                
                                cad='{' + cad + '}'
-                               var jsonObject = stringToObject(cad);
+                               var jsonObject = functool.stringToObject(cad);
                              
                                var mongoose = require("mongoose");
                                delete mongoose.connection.models[namess];
