@@ -13,6 +13,7 @@ var kardexproducto = require('../models/asociadoventa/kardexcorreosproducto');
 
 var Poliza = require('../models/ges/poliza');
 
+
 var sql = require("mssql");
 
 // config for your database  DRIVER={Microsoft Access Driver (*.mdb)}; DBQ=C:\BD_DUA\declaraciones_dua.d; Uid=admin; Pwd=$3rt084r202523;
@@ -27,6 +28,7 @@ const connectionConfig = {
 }
 
  
+
 
 
     
@@ -135,7 +137,23 @@ var daejecutafunciones= async function(req, res, next,dataanterior){
               {
 
                 
-            
+                const connection = odbc.connect(connectionConfig, (error, connection) => {
+                    connection.query("select * from declaraciones where agente_pol= 187707;", (error, result) => {
+                        if (error) { console.error(error) }
+                        console.log(result);
+
+                        //insertar a sqlserver no esta
+
+                        var datafinal=[]
+                        datafinal.push({_id:'1223',nombre:'111111111111'})
+                    
+          
+                        
+                          resolve({estado:'exito',datat:datafinal}); 
+
+
+                    });
+                });
 
               }
                   
