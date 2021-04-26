@@ -293,7 +293,7 @@ requi1b = await functool.dadatosformulariogruposuma('5fc03c79ab0f6448b877eb5c',f
         {
         if(req.params.id2==='kardex1')
         { 
-            kardex.find({producto:req.params.id,idempresa :req.params.id3}).sort({_id:-1}).exec(function(err, todos) {
+            kardex.find({producto:req.params.id,idempresa :req.params.id3}).sort({_id:1}).exec(function(err, todos) {
                 if (err){ res.send(err); }
                
                 if(todos.length>0)   {     var datat=[]
