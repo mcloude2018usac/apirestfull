@@ -22,9 +22,8 @@ function  ejecutaaccess  (cad)
 {
 
     return new Promise(resolve => {
+ resolve({estado:'exito',datat:result}); 
 
-
-        resolve({estado:'exito',datat:''}); 
 });
 }
 
