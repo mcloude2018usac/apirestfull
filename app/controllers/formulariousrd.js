@@ -114,6 +114,7 @@ if(req.params.recordID!=='crea')
  todo.cerradas  	= req.body.cerradas;  
  todo.ejecutadas  	= req.body.ejecutadas;    
  todo.filtrarorden  	= req.body.filtrarorden;  
+ todo.filtrarordentipo  	= req.body.filtrarordentipo;  
 
  todo.estado       	=	req.body.estado        	||	todo.estado;   
             todo.usuarioup=req.body.bitacora.email;
@@ -180,6 +181,7 @@ else{
  cerradas  	: req.body.cerradas	,
  ejecutadas  	: req.body.ejecutadas	,
  filtrarorden  	: req.body.filtrarorden	,
+ filtrarordentipo  	: req.body.filtrarordentipo	,
 
                 usuarionew:req.body.bitacora.email,
               }

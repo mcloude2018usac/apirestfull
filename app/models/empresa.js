@@ -25,6 +25,7 @@ var mongoose =require("mongoose");
         horario	: { type : String },
         inicio	: { type : String },
         siregister: { type : String },
+        siperfil: { type : String },
         redsocial1	: { type : String },
         redsocial2	: { type : String },
         redsocial3	: { type : String },

@@ -349,7 +349,7 @@ requi1b = await functool.dadatosformulariogruposuma('5fc03c79ab0f6448b877eb5c',f
         else
         {
             console.log({nodockardex:req.params.id,idempresa :req.params.id3})
-            kardex.find({nodockardex:req.params.id,idempresa :req.params.id3}).sort({_id:-1}).exec(function(err, todos) {
+            kardex.find({nodockardex:req.params.id,idempresa :req.params.id3}).sort({_id:1}).exec(function(err, todos) {
                 if (err){ res.send(err); }
                
                 if(todos.length>0)   {   

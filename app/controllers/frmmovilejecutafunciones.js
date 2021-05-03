@@ -80,18 +80,43 @@ var daejecutafunciones= async function(req, res, next,dataanterior){
 
 
 
-          var datafinal=[]
-          var ejecuta1=await  functool.ejecutaaccess("select * from declaraciones where agente_pol= 187707;")
-            
-          if(ejecuta1.datat.length>0)
-          {
-            resolve({estado:'exito',datat:'<br><strong>ADUANA</strong>: 1 <br>'}); 
-          }
-          else
-          {
-            resolve({estado:'exito',datat:'<br><strong>ADUANA</strong>: 1 <br>'}); 
-          }
-          
+            var dt2 = new Date();
+            var   anii=dt2.getFullYear().toString()
+       
+
+            var polizam = await functool.dadatosformulariofinal('605a1ed86886480f70f6ec08',{idempresa:req.params.id3,estado:'Activo',anyo:anii},req.params.id3,'605a1ed86886480f70f6ec08'); 
+
+              if(polizam.length>0)
+              {
+              
+                var cc=polizam[0].codigoanyosql + functool.padLeadingZeros(polizam[0].correlativo,5)
+
+                var datafinal=[]
+                var cad="select * from declaraciones  where anyo='" +polizam[0].anyo  +"' and  agente_pol= " + Number(cc) + ";"
+                var ejecuta1=await  functool.ejecutaaccess(cad)
+                  
+                if(ejecuta1.datat.length>0)
+                {
+
+                  //actualizar al sqlserver del dua update  r_selectivo
+                
+var cad="update  declaraciones set r_selectivo='" + ejecuta1.datat[0].r_selectivo  + "'  where  agente_pol=" +Number(cc) + " and anyo='"+ polizam[0].anyo+ "'"
+var ejecuta1=await  functool.ejecutasql(cad ,'mssql://sa:$ertobar@192.168.34.5/DUA-SQL')
+
+                  resolve({estado:'exito',datat:'<br><strong>Selectivo</strong>:  '  + ejecuta1.datat[0].r_selectivo +' <br>'}); 
+                }
+                else
+                {//
+                  resolve({estado:'exito',datat:'<br><strong>Selectivo</strong>:  <br>'}); 
+                }
+                
+
+
+              }
+
+
+
+     
 
           
            
@@ -106,23 +131,77 @@ var daejecutafunciones= async function(req, res, next,dataanterior){
 
                     // create Request object   idtickt  req.params.id2   todos req.params.id4
                     var arrayxx= req.params.id5.split('°')
-              
-                    var ejecuta1=await  functool.ejecutasql('select * from ticket  where  noticket=' +Number(arrayxx[1]),functool.daconectasql(arrayxx[2]))
+
+                  var dt2 = new Date();
+                    var   anii=dt2.getFullYear().toString()
+               
+      
+                    var polizam = await functool.dadatosformulariofinal('605a1ed86886480f70f6ec08',{idempresa:req.params.id3,estado:'Activo',anyo:anii},req.params.id3,'605a1ed86886480f70f6ec08'); 
+      
+                      if(polizam.length>0)
+                      {
+                      
+                        var cc=polizam[0].codigoanyosql + functool.padLeadingZeros(polizam[0].correlativo,5)
+                        var cad="select * from  declaraciones  where  agente_pol=" +Number(cc) + 
+                        " and anyo='"+ polizam[0].anyo+ "'"
+                        var ejecuta1=await  functool.ejecutasql(cad ,'mssql://sa:$ertobar@192.168.34.5/DUA-SQL')
             
-                    if(ejecuta1.datat.recordset.length>0)
-                    {
-                      resolve({estado:'exito',datat:'<br><strong>ADUANA</strong>: ' +  ejecuta1.datat.recordset[0].aduana  +' <br><strong>ADUANA</strong>: ' + ejecuta1.datat.recordset[0].dirinteresado});                     +'<br><strong>ADUANA</strong>:' + ejecuta1.datat.recordset[0].nombreinteresado +' <br>'
+                        if(ejecuta1.datat.recordset.length>0)
+                        {
+                          resolve({estado:'exito',datat: '<br><strong>Año</strong>: ' +  ejecuta1.datat[0].anyo+' <br>'+
+                          '<br><strong>Clase</strong>: ' +  ejecuta1.datat[0].clase_dec+' <br>'+
+                           '<br><strong>Regimen</strong>: ' + ejecuta1.datat[0].cod_regimen+' <br>'+
+                           '<br><strong>Aduana de Entrada</strong>: ' + ejecuta1.datat[0].adu_ent_sale_cod_sat+' <br>'+
+                           '<br><strong>Alm / Zona Franca</strong>: ' + ejecuta1.datat[0].deposito_zona_franca_cod+' <br>'+
+                          '<br><strong>Peso Bruto</strong>: ' +  ejecuta1.datat[0].peso_bruto_total +' <br>'+
+                          '<br><strong>Peso Neto</strong>: ' +  ejecuta1.datat[0].peso_neto_total+' <br>'+
+                          '<br><strong>Nit</strong>: ' +  ejecuta1.datat[0].nit_interesado+' <br>'+
+                          '<br><strong>Cliente</strong>: ' +  ejecuta1.datat[0].nombre_interesado+' <br>'+
+                           '<br><strong>Total FOB</strong>: ' + ejecuta1.datat[0].total_fob_usd+' <br>'+
+                           '<br><strong>Total Flete</strong>: ' + ejecuta1.datat[0].total_flete_usd+' <br>'+
+                           '<br><strong>Total Seguro</strong>: ' + ejecuta1.datat[0].total_seguro_usd+' <br>'+
+                          '<br><strong>otal Otros</strong>: ' +  ejecuta1.datat[0].total_otros_usd+' <br>'+
+                          '<br><strong>Total CIF</strong>: ' +  ejecuta1.datat[0].total_cif_usd+' <br>'+
+                          '<br><strong>Total Bultos</strong>: ' +  ejecuta1.datat[0].total_bultos+' <br>'+
+         '<br><strong>CLIENTE</strong>: ' + ejecuta1.datat[0].equipo_numero});  
+                          
+                            /*
+                  '<br><strong>Año</strong>: ' +  ejecuta1.datat[0].anyo+' <br>'+
+                  '<br><strong>Clase</strong>: ' +  ejecuta1.datat[0].clase_dec+' <br>'+
+                   '<br><strong>Regimen</strong>: ' + ejecuta1.datat[0].cod_regimen+' <br>'+
+                   '<br><strong>Aduana de Entrada</strong>: ' + ejecuta1.datat[0].adu_ent_sale_cod_sat+' <br>'+
+                   '<br><strong>Alm / Zona Franca</strong>: ' + ejecuta1.datat[0].deposito_zona_franca_cod+' <br>'+
+                  '<br><strong>Peso Bruto</strong>: ' +  ejecuta1.datat[0].peso_bruto_total +' <br>'+
+                  '<br><strong>Peso Neto</strong>: ' +  ejecuta1.datat[0].peso_neto_total+' <br>'+
+                  '<br><strong>Nit</strong>: ' +  ejecuta1.datat[0].nit_interesado+' <br>'+
+                  '<br><strong>Cliente</strong>: ' +  ejecuta1.datat[0].nombre_interesado+' <br>'+
+                   '<br><strong>Total FOB</strong>: ' + ejecuta1.datat[0].total_fob_usd+' <br>'+
+                   '<br><strong>Total Flete</strong>: ' + ejecuta1.datat[0].total_flete_usd+' <br>'+
+                   '<br><strong>Total Seguro</strong>: ' + .datat[0].total_seguro_usd+' <br>'+
+                  '<br><strong>otal Otros</strong>: ' +  ejecuta1.datat[0].total_otros_usd+' <br>'+
+                  '<br><strong>Total CIF</strong>: ' +  ejecuta1.datat[0].total_cif_usd+' <br>'+
+                  '<br><strong>Total Bultos</strong>: ' +  ejecuta1.datat[0].total_bultos+' <br>'+
+ '<br><strong>CLIENTE</strong>: ' + ejecuta1.datat[0].equipo_numero+' <br>'+
+           
+*/
+
+                         
+                        }
+                        else
+                        {
+          
+                          //que lo grabe  simrpe deberia de existir  grabar en el accesss
+                          //consulto en access y grabo en 
+                          //access filtrar  agentepol  =cc   anopre=anyu
+
+                          resolve({estado:'exito',datat:'<br><strong>CLIENTE</strong>:<br>'});  
                       
+          
+                        }
                       
-                     
-                    }
-                    else
-                    {
-      
-                      //que lo grabe  simrpe deberia de existir
-                  
-      
-                    }
+                      }
+              
+                 
                   
                     
 

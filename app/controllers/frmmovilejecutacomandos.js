@@ -20,17 +20,145 @@ var ejecutacomandos=async  function(req, res, next){
     var aa=req.body.ejecuta
   console.log('ejecuta operacion ' +  aa)
     switch(aa) {
-      case '5f595df92521cd38c8fe3126°606f8dc3f0e7551a88ac449d°Genera archivo para importar pagos'://genera excel pagos
+      case '605a23446886480f70f6ec3f°605cab3c71887c22d0bfedc6°Rectificación':
+        //cerrar el ticke actual
+
+        //crear un nuevo ticket igual pero en otra actividad ( este nuevo ya tiene una orden papa)
+        //para la recti poner la nueva orden en la actividad no 120 prepoliza rectificatoria
+        //para la complementaria en la actividad no 160 pre-poliza complementaria
+
+
+        //luego actualizar ñla tabñla de ticket stddb depende del tipo orden con el ticket cerrado
+        // pasaticketno=  numero orden de la nueva
+
+                
+        
+        //crear un nuevo ticket de la nueva
+        //vieneticketno== no orden vieja   ticketoriginal=  orden   vinicial  el papa de todas
+
+
+        resolve({estado:'exito',data:[]}); 
+        break;
+        case '605a23446886480f70f6ec3f°605cab4e71887c22d0bfedc8°Complementaria':
+          resolve({estado:'exito',data:[]}); 
+          break;
+        
+          case '605a23446886480f70f6ec3f°605cab8171887c22d0bfedcc°Trasladar Datos a Campos':
+            //select ticket tabla segun orden segun noticket de la orden
+            //copia a camposdb
+
+
+            resolve({estado:'exito',data:[]}); 
+            break;
+
+          
+
+      case '5f729c2487c9e33bd4ada798°608d6e228c872d219486c94c°Generación de archivo de pagos (csv)'://genera excel pagos
       (async () => {
 
       
   var markup;
-        var todos20 = await functool.dadatosformulariofinal(req.body.idform,{ idpapa:req.body.idpapa},req.body.idempresa,req.body.idform); 
+
+  //buscar todos los contratos activos
+  //buscar todas las enmiendas activas
+
+  var contratos = await functool.dadatosformulariofinal('5f729c2487c9e33bd4ada798',{ estado:'Activo'},req.body.idempresa,'5f729c2487c9e33bd4ada798'); 
+
+
+
+  var papasuper=[];
+  var contratosd=[]
+
+  
+  for(var i = 0; i < contratos.length;i++){
+    papasuper.push('' + contratos[i]._id + '')
+    contratosd.push({_id: contratos[i]._id ,empresa:contratos[i].empresa.split('<br>')[1].split(':')[1]
+    ,proyecto:  contratos[i].proyecto.split('<br>')[1].split(':')[1] + '(' +contratos[i].proyecto.split('<br>')[0].split(':')[1] + ')'})
+}
+
+
+
+  var enmiendas = await functool.dadatosformulariofinal('5f72a12587c9e33bd4ada7ab',{idpapa:{$in:papasuper},idempresa:req.body.idempresa, 
+  estado:'Activo'},req.body.idempresa,'5f72a12587c9e33bd4ada7abs'); 
+  
+  
+  papasuper=[];
+var enmiendasd=[]
+  for(var i = 0; i < enmiendas.length;i++){
+      papasuper.push('' + enmiendas[i]._id + '')
+      for(var ii = 0; ii < contratosd.length;ii++){
+        if(String(contratosd[ii]._id)===String(enmiendas[i].idpapa))
+        {
+          enmiendasd.push({_id: enmiendas[i]._id ,empresa:contratosd[ii].empresa
+      ,proyecto:contratosd[ii].proyecto})
+
+        }
+      }
+  }
+
+  
+  var pagos = await functool.dadatosformulariofinal('5f595df92521cd38c8fe3126',{idpapa:{$in:papasuper},idempresa:req.body.idempresa, 
+  estado:'Pendiente'},req.body.idempresa,'5f595df92521cd38c8fe3126')
+  
+  
+    
+  var todos20=[];
+ var paparepetido=''
+ 
+  for(var i = 0; i < pagos.length;i++){
+    if( pagos[i].idpapa!==paparepetido)
+    {
+
+      for(var ii = 0; ii < enmiendasd.length;ii++){
+        if(String(enmiendasd[ii]._id)===String(pagos[i].idpapa))
+        {
+
+          todos20.push({"_id" : pagos[i]._id,
+          "empresa":enmiendasd[ii].empresa,
+          "proyecto":enmiendasd[ii].proyecto,
+          "tipodeaporte" : pagos[i].tipodeaporte,
+          "nopago" : pagos[i].nopago,
+          "fechainicial" : pagos[i].fechainicial,
+          "fechapago" : pagos[i].fechapago,
+          "periodopago" : pagos[i].periodopago,
+          "nofactura" : pagos[i].nofactura,
+          "descripcionpago" : pagos[i].descripcionpago,
+          "montopago" :pagos[i].montopago,
+          "montosanciones" : pagos[i].montosanciones,
+          "montoemergencia" : pagos[i].montoemergencia,
+          "montoapagar" :pagos[i].montoapagar,
+          "bancotransferencia" : pagos[i].bancotransferencia,
+          "nocuenta" : pagos[i].nocuenta,
+          "observaciones" : pagos[i].observaciones,
+        
+          "idpapa" : pagos[i].idpapa,
+          "estado" :pagos[i].estado,
+          "idempresa" : pagos[i].idempresa})
+
+
+        }
+      }
+    
+      paparepetido=pagos[i].idpapa
+    }
+    {
+      paparepetido=pagos[i].idpapa
+    }
+  }
+
+
+  
+
+
+  
+     //   var todos20 = await functool.dadatosformulariofinal(req.body.idform,{ idpapa:req.body.idpapa},req.body.idempresa,req.body.idform); 
         markup=''
         markup=markup+'<table id="excel-table" border="1">'
 
         
         markup=markup+'<tr><td contenteditable="true" colspan="1">'+ '_id'+'</td> '
+        markup=markup+'<td contenteditable="true" colspan="1">'+ 'EMPRESA'+'</td> '
+        markup=markup+'<td contenteditable="true" colspan="1">'+ 'PROYECTO'+'</td> '
         markup=markup+'<td contenteditable="true" colspan="1">'+ 'TIPO APORTE'+'</td> '
         markup=markup+'<td contenteditable="true" colspan="1">'+'NO PAGO' +'</td> '
         markup=markup+'<td contenteditable="true" colspan="1">'+ 'FECHA INICIAL'+'</td> '
@@ -48,7 +176,9 @@ var ejecutacomandos=async  function(req, res, next){
         markup=markup+'<td contenteditable="true" colspan="1">'+ 'idpapa'+'</td>    </tr>'
         for(var i = 0; i < todos20.length;i++){
           markup=markup+'<tr><td contenteditable="true" colspan="1">'+ todos20[i]._id+'</td> '
-          markup=markup+'<td contenteditable="true" colspan="1">'+ todos20[i].tipodeaporte+'</td> '
+          markup=markup+'<td contenteditable="true" colspan="1">'+ todos20[i].empresa+'</td> '
+          markup=markup+'<td contenteditable="true" colspan="1">'+ todos20[i].proyecto+'</td> '
+          markup=markup+'<td contenteditable="true" colspan="1"></td> '
           markup=markup+'<td contenteditable="true" colspan="1">'+todos20[i].nopago +'</td> '
           markup=markup+'<td contenteditable="true" colspan="1">'+ todos20[i].fechainicial+'</td> '
           markup=markup+'<td contenteditable="true" colspan="1">'+todos20[i].fechapago +'</td> '

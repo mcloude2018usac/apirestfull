@@ -570,7 +570,7 @@ if((cinicial+ cretiro)>0)
 
 
         var  datat= []
-            if(req.params.id5==='Supervisor planificación')
+            if(req.params.id5==='Supervisor planificación'|| req.params.id5==='Gerente de servicios')
             {
 
                 for(var i = 0; i < planificaciones.length;i++){
@@ -748,7 +748,7 @@ if((cinicial+ cretiro)>0)
                                             var  frmtt= mongoose.model('5f81d95fc07d6532900465a4',tt);
 
                                             var filtro={idempresa:req.params.id3,idinspector:req.params.id4, estado:req.params.id2} ;
-                                            if(req.params.id5==='Supervisor planificación')
+                                            if(req.params.id5==='Supervisor planificación'|| req.params.id5==='Gerente de servicios')
                                             {
                                                 filtro={idempresa:req.params.id3,idsupervisor:req.params.id4, estado:req.params.id2} ;
                                             }
@@ -804,7 +804,7 @@ frmtareasprogramadasfotos.deleteMany({ idpapa: req.params.recordID  }, function(
 
   
 }
-exports.creafrmtareasprogramadas2s = function(req, res, next){
+exports.creafrmtareasprogramadas2s = async function(req, res, next){
     Bitacora.create(req.body.bitacora);
 if(req.params.recordID!=='crea')
 { 
@@ -828,8 +828,25 @@ if(req.params.recordID!=='crea')
 else{
 
     var namess=req.body.idform
+    var filtro={estado:req.body.estructura.estado,
+        //fechaasignada:req.body.estructura.fechaasignada,
+        fechaasignada:{"$gte": new Date('2021-04-27'+'T00:00:00.000Z'),"$lt": new Date('2021-04-27' +'T24:00:00.000Z')},
+        idcontrato:req.body.estructura.idcontrato,
+        idempresa:req.body.estructura.idempresa,
+        idempresa0:req.body.estructura.idempresa0,
+        idinspector:req.body.estructura.idinspector,
+        idinspector0:req.body.estructura.idinspector0,
+      
+        idperiodo:req.body.estructura.idperiodo,
+        idplanifica:req.body.estructura.idplanifica}
 
-    console.log(req.body)
+    var datos= await functool.dadatosformulario(namess,filtro,req.body.bitacora.idempresa)
+
+
+if(datos.length>0)
+{ res.status(500).send('Ya se encuentra una visita programada, despues de 24 horas podra crear una nueva')  }
+else
+{   
 
     Frmmovild.find({idmovil:req.body.idform}).exec(function(err, todos) {
      
@@ -891,7 +908,7 @@ else{
 
         }
     });
-
+}
 
 }
 }

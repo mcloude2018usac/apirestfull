@@ -60,6 +60,8 @@ var Asignapap = require('../models/asignapap');
 var Marketemail = require('../models/marketemail');
 var Asignaestpap= require('../models/asignaestudiantepap');
 var Personal = require('../models/user');
+var functool = require('../controllers/funcionesnode');
+var kardex = require('../models/asociadoventa/kardexcorreos');
 
 var request = require('request');
 
@@ -418,8 +420,239 @@ var defaultDiacriticsRemovalMap = [
         return str;
     }
 
+    function getponekardex(data){
+        return new Promise(resolve => {
+        //datat.push({rm:r1[ii],rd:r1d[i],fecha:fecha,tipo:'r1'})
+      (async () => {
+
+        var idempresa='5f503bededa4710798a79b84'
+        var ingreso=0
+        var salida=0
+        var saldoactual=0
+        var total=0
+        var existenciaactual=0
+        var precioproducto=0
+        var cantidadingreso=0
+        var idproducto=data.rd.articulo.split('¬')[1]
+var cantidadv1=0
 
 
+        producto = await functool.dadatosformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},idempresa,'5fc01bbba8d0a14888774579'); 
+        console.log(producto)
+        if(producto===null)
+        {console.log('sinnnnnnnnnnnnnnnnn  producto**********************************');resolve({estado:'exito'}); }
+        else
+        {
+        if(producto.descripciondelarticulo==='VIENEN DE LA' || producto.descripciondelarticulo==='ULTIMA LINEA')
+        { resolve({estado:'exito'});  }
+        else
+        {
+
+    
+
+
+
+        if(data.tipo==='h1')
+        {//ingresos
+cantidadv1=data.rd.cantidad
+proveedorv=data.rm.proveedor
+nodocv=data.rm.codigo.toString()
+tipov='Entrada'
+accionv='Ingreso formulario 1-H'
+
+    
+if(producto.existenciaactual)
+{existenciaactual=Number(producto.existenciaactual)}
+else{existenciaactual=0}
+
+
+
+if(cantidadv1)
+{
+    cantidadingreso=Number(cantidadv1)
+}
+else
+{
+    cantidadingreso=0;
+}
+
+ingreso=cantidadingreso
+saldoactual=existenciaactual+ingreso
+precioingreso=Number(data.rd.preciounitario)
+
+preciomedio=(precioingreso+Number(producto.precioporunidad))/2
+
+        }
+        else
+        {//egresos
+                proveedorv=data.rm.departamento
+                nodocv=data.rm.nodocumento.toString()
+                tipov='Salida'
+                accionv='Salida requisición'
+
+                    
+        if(producto.existenciaactual)
+        {existenciaactual=Number(producto.existenciaactual)}
+        else{existenciaactual=0}
+
+        cantidadv1=data.rd.cantidaddespachada
+
+        if(cantidadv1)
+        {
+            cantidadingreso=Number(cantidadv1)
+        }
+        else
+        {
+            cantidadingreso=0;
+        }
+
+
+                
+                salida=cantidadingreso
+                saldoactual=existenciaactual-salida
+                preciomedio=Number(producto.precioporunidad)
+        
+        }
+       
+        
+
+     
+      total=saldoactual*Number(producto.precioporunidad)
+      precioproducto=Number(producto.precioporunidad)
+      var gkardex={
+        idempresa		: idempresa,  
+        fecha		: data.rm.fecha,  
+        tipo		: tipov,  
+        accion		: accionv,  
+        
+    nodockardex		: '',  
+    nodockardexlinea		: '',  
+    tarjetasanuladas: '',
+    estadoprint:'No impreso',
+    anulacion:'',
+        proveedor		: proveedorv,  
+        nodoc		: nodocv,  
+        iddocumento		: data.rm._id.toString(),  
+        categoria		:producto.categoria,
+        producto		: producto.codigoarticulo,  
+        unidad: producto.unidaddemedida,
+        idproducto:producto._id,
+        producton		: producto.descripciondelarticulo,
+        saldoanterior		: existenciaactual,
+        ingreso		: ingreso,
+        obs:'',
+        egreso		: salida,
+        saldoactual		: saldoactual,
+        precioanterior:Number(producto.precioporunidad),
+        precio		: Number(producto.precioporunidad),
+        total		: total,
+      }
+
+
+        var estructura={
+    "precioporunidad" : preciomedio,
+    "existenciaactual" : saldoactual.toString(),
+    "total" :( saldoactual*Number(preciomedio)).toString()
+  
+}
+  producto = await functool.actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},idempresa,'5fc01bbba8d0a14888774579',estructura);
+
+  kardex.create(gkardex,function(err, todos) {
+        if (err){ console.log(err)  }
+
+    console.log(todos)
+        resolve({estado:'exito'});
+      });
+
+      
+ 
+  
+
+
+
+
+    
+
+      
+
+
+      
+
+      }}
+})();
+
+        });
+    }
+      
+    function getponekardexini(data){
+        return new Promise(resolve => {
+        //datat.push({rm:r1[ii],rd:r1d[i],fecha:fecha,tipo:'r1'})
+      (async () => {
+
+        var idempresa='5f503bededa4710798a79b84'
+        var ingreso=0
+        var salida=0
+        var saldoactual=0
+        var total=0
+        var existenciaactual=0
+        var precioproducto=0
+        var cantidadingreso=0
+        var idproducto=data.rm._id
+var cantidadv1=0
+
+   
+      var gkardex={
+        idempresa		: idempresa,  
+        fecha		: '2021-05-03T00:00:00.000Z',  
+        tipo		: 'Entrada',  
+        accion		: 'Inventario inicial',  
+        
+    nodockardex		: '',  
+    nodockardexlinea		: '',  
+    tarjetasanuladas: '',
+    estadoprint:'No impreso',
+    anulacion:'',
+        proveedor		: '',  
+        nodoc		: '',  
+        iddocumento		: data.rm._id.toString(),  
+        categoria		:data.rm.categoria,
+        producto		: data.rm.codigoarticulo,  
+        unidad: data.rm.unidaddemedida,
+        idproducto:data.rm._id,
+        producton		: data.rm.descripciondelarticulo,
+        saldoanterior		: 0,
+        ingreso		: data.rm.existenciainicial,
+        obs:'Acta administrativa No: ' + data.rm.nodeactainventarioinicial + ' inventario inicial',
+        egreso		: 0,
+        saldoactual		: data.rm.existenciainicial,
+        precioanterior:data.rm.precioporunidad,
+        precio		: data.rm.precioporunidad,
+        total		: data.rm.precioporunidad*Number(data.rm.existenciainicial),
+      }
+
+
+      var estructura={
+        "precioporunidad" : data.rm.precioporunidad,
+        "existenciaactual" :data.rm.existenciainicial,
+        "total" :(  data.rm.precioporunidad*data.rm.existenciainicial).toString()
+      
+    }
+      producto = await functool.actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:data.rm._id},idempresa,'5fc01bbba8d0a14888774579',estructura);
+
+
+
+  kardex.create(gkardex,function(err, todos) {
+        if (err){ console.log(err)  }
+
+    console.log(todos)
+        resolve({estado:'exito'});
+      });
+
+      
+})();
+
+        });
+    }
       
       function getNextSequenceValue2auser(id1,cuentaaa,res){
 
@@ -647,13 +880,102 @@ else
 }
 return re;
 }
+
+function sortByProperty(property){  
+        return function(a,b){  
+           if(a[property] > b[property])  
+              return 1;  
+           else if(a[property] < b[property])  
+              return -1;  
+       
+           return 0;  
+        }  
+     }
       
-exports.getCombofijo = function(req, res, next){
+exports.getCombofijo = async function(req, res, next){
        var sql='';
 
        
 
        switch(req.params.id) {
+        case 'dakardexinvinicial':
+
+                var h1= await functool.dadatosformulario('5fc01bbba8d0a14888774579',{},'5f503bededa4710798a79b84')
+                var  datat =[]
+                for(var i = 0; i < h1.length;i++){
+                                        d =new Date(h1[i].createdAt)
+                                        fecha= d.getTime(); 
+                                        datat.push({rm:h1[i],rd:null,fecha:fecha,tipo:'invini'})
+
+                }
+
+
+               // datat.sort(sortByProperty("fecha"));
+
+console.log( datat.length)
+ for(var i = 0; i < datat.length;i++){
+         console.log(i)
+     aaa= await  getponekardexini(datat[i])
+
+ }
+
+                res.json({ datat});
+
+
+
+                break;
+        case 'dakardex':
+
+        
+                // "articulo" : {'$regex': '¬6024591280c5e740903e146f', '$options': 'i'}
+//"articulo" : {'$regex': '¬6024591280c5e740903e146f', '$options': 'i'}
+                var h1= await functool.dadatosformulario('5fc02f572fc3552d1014792f',{},'5f503bededa4710798a79b84')
+                var h1d=await functool.dadatosformulario('5fc0308c2fc3552d10147947',{},'5f503bededa4710798a79b84')
+
+                var r1=await functool.dadatosformulario('5ff67ee82977bb360c526f8a',{},'5f503bededa4710798a79b84')
+                var r1d=await functool.dadatosformulario('5fc03c79ab0f6448b877eb5c',{},'5f503bededa4710798a79b84')
+
+                var datat=[]
+                for(var i = 0; i < h1d.length;i++){
+                        for(var ii = 0; ii < h1.length;ii++){
+                                if(String(h1d[i].idpapa)===String(h1[ii]._id))
+                                {
+                                        d =new Date(h1d[i].createdAt)
+                                        fecha= d.getTime(); 
+                                        datat.push({rm:h1[ii],rd:h1d[i],fecha:fecha,tipo:'h1'})
+                                   //  datat.push({nodocumento:h1[ii].codigo,fecha1:h1d[i].createdAt,cantidad:h1d[i].////cantidad,fecha:fecha,tipo:'h1'})
+
+                                }
+                        }
+                }
+
+                for(var i = 0; i < r1d.length;i++){
+                        for(var ii = 0; ii < r1.length;ii++){
+                                if(String(r1d[i].idpapa)===String(r1[ii]._id))
+                                {
+                                        d =new Date(r1d[i].createdAt)
+                                        fecha= d.getTime(); 
+                                        datat.push({rm:r1[ii],rd:r1d[i],fecha:fecha,tipo:'r1'})
+//datat.push({nodocumento:r1[ii].nodocumento,fecha1:r1d[i].createdAt,cantidad:r1d[i].cantidaddespachada,fecha:fecha,tipo:'r1'})
+                                }
+                        }
+                }
+
+
+                datat.sort(sortByProperty("fecha"));
+
+console.log( datat.length)
+ for(var i = 0; i < datat.length;i++){
+         console.log(i)
+     aaa= await  getponekardex(datat[i])
+
+ }
+
+                res.json({ datat});
+
+              
+
+                break;
         case 'reasignapap':
 
                 Asignaestpap.aggregate( [

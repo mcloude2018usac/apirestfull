@@ -5,9 +5,12 @@ var Contador = require('../models/contador');
 var conecta1 = 'mssql://sa:$ertobar@192.168.34.5/stbd'
 var conecta2 = 'mssql://sa:$ertobar@192.168.34.5/cielomarbd'
 var conecta3 = 'mssql://sa:$ertobar@192.168.34.5/camposbd'
-var sql = require("mssql");
+var sql = require("mssql")
+var sql2 = require("mssql")
+var sql3 = require("mssql")
 
-//const odbc = require('odbc');
+
+const odbc = require('odbc');
 
 const connectionConfig = {   connectionString: 'DSN=OTRO',    connectionTimeout: 10,    loginTimeout: 10,}
 
@@ -17,9 +20,7 @@ const { getGaleriaimg } = require('./galeriaimg');
 
 function  ejecutaaccess  (cad)
 {
-       resolve({estado:'exito',datat:'result'}); 
 
-/*
     return new Promise(resolve => {
 const connection = odbc.connect(connectionConfig, (error, connection) => {
   connection.query(cad, (error, result) => {
@@ -32,13 +33,12 @@ const connection = odbc.connect(connectionConfig, (error, connection) => {
   });
 });
 });
-*/
 }
 
 function daconectasql(tipo) {
     var tt='';
     switch(tipo) {
-        case '605a23446886480f70f6ec3f':  tt=conecta3;   break;//importaciones
+        case '605a23446886480f70f6ec3f':  tt=conecta1;   break;//importaciones
  
         default:
           // code block
@@ -99,17 +99,68 @@ function datipo(value) {
 
 
 
+
+
     function ejecutasql  (cad,sqlconecta)
     {
     //var  ejecutasql= async function(cad,sqlconecta) {
        
         return new Promise(resolve => {
-
+        
           sql.connect(sqlconecta, function (err) {if (err) console.log(err);               
             var request = new sql.Request();
              request.query(cad, function (err, recordset) {             
                  if (err) console.log(err)
           
+              //   request.end();
+              sql.close();
+                 resolve({estado:'exito',datat:recordset})
+              
+          
+         });
+
+
+
+         
+        });
+      });
+    }
+
+    function ejecutasql2  (cad,sqlconecta)
+    {
+    //var  ejecutasql= async function(cad,sqlconecta) {
+       
+        return new Promise(resolve => {
+        
+          sql2.connect(sqlconecta, function (err) {if (err) console.log(err);               
+            var request = new sql2.Request();
+             request.query(cad, function (err, recordset) {             
+                 if (err) console.log(err)
+          
+                 sql.close();
+                 resolve({estado:'exito',datat:recordset})
+              
+          
+         });
+
+
+
+         
+        });
+      });
+    }
+
+    function ejecutasql3  (cad,sqlconecta)
+    {
+    //var  ejecutasql= async function(cad,sqlconecta) {
+       
+        return new Promise(resolve => {
+        
+          sql3.connect(sqlconecta, function (err) {if (err) console.log(err);               
+            var request = new sql3.Request();
+             request.query(cad, function (err, recordset) {             
+                 if (err) console.log(err)
+                 sql.close();
          
                  resolve({estado:'exito',datat:recordset})
               
@@ -577,11 +628,16 @@ var dahora= function(data) {
                   
                 if(todos2[i].estadointerno ==='activo')
                 {
-                    datafinal.push({item:todos2[i],_id:todos2[i]._id,nombre2:'tico',nombre:cad+ '<div style="font-size: 10px;text-transform: capitalize;">Crea: [' + dafechastring(todos2[i]['createdAt'])+',' + todos2[i]['usuarionew'] + ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +   todos2[i]['usuarioup']+ '] <br> </div><div style="font-size: 14px;text-transform: capitalize;color:blue;">Estado interno: '+ todos2[i].estadointerno + comt + comt2 +'</div>',item:todos2[i],usuario:''})
+                    datafinal.push({item:todos2[i],_id:todos2[i]._id,nombre2:'tico',nombre:cad+ '<div style="font-size: 10px;text-transform: capitalize;">Crea: [' +
+                     dafechastring(todos2[i]['createdAt'])+','  + dausuariobita(todos2[i]['usuarionew'],todos2[i]['usuarionew2']) + ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +  
+                      dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) + '] <br> </div><div style="font-size: 14px;text-transform: capitalize;color:blue;">Estado interno: '+ todos2[i].estadointerno + comt + comt2 +'</div>',item:todos2[i],usuario:''})
                 }
                 else
                 {
-                    datafinal.push({item:todos2[i],_id:todos2[i]._id,nombre2:'tico',nombre:cad+ '<div style="font-size: 10px;text-transform: capitalize;">Crea: [' + dafechastring(todos2[i]['createdAt'])+',' + todos2[i]['usuarionew'] + ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +   todos2[i]['usuarioup']+ '] <br> </div><div style="font-size: 14px;text-transform: capitalize;color:red;">Estado interno: '+ todos2[i].estadointerno + comt + comt2 +'</div>',item:todos2[i],usuario:''}) 
+                    datafinal.push({item:todos2[i],_id:todos2[i]._id,nombre2:'tico',nombre:cad+ '<div style="font-size: 10px;text-transform: capitalize;">Crea: [' + 
+                    dafechastring(todos2[i]['createdAt'])+',' + 
+                     dausuariobita(todos2[i]['usuarionew'],todos2[i]['usuarionew2'])+ ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +  
+                     dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) +  '] <br> </div><div style="font-size: 14px;text-transform: capitalize;color:red;">Estado interno: '+ todos2[i].estadointerno + comt + comt2 +'</div>',item:todos2[i],usuario:''}) 
                 }
                  cad='';
   
@@ -593,6 +649,18 @@ var dahora= function(data) {
          return datafinal;
       }
   
+      var dausuariobita=function(correo,usuario)
+      {
+          if(usuario!==undefined)
+          {
+            return usuario +' (' +correo +') ' 
+          }
+          else
+          {
+            return  correo 
+          }
+          
+      }
     var procesahtmlrecord = function(objetox,todos2,sicampovalida)
     {
         var keys = Object.keys(objetox);
@@ -720,12 +788,16 @@ data[aa].replace('¬', ',') + '" target="_blank">https://www.google.com/maps/sea
 
                 if(todos2[i].estadointerno ==='activo')
                 {
-                    datafinal.push({_id:todos2[i]._id,nombre2:'tico',nombre:cad+ '<div style="font-size: 10px;text-transform: capitalize;">Crea: [' + dafechastring(todos2[i]['createdAt'])+',' + todos2[i]['usuarionew'] + ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +   todos2[i]['usuarioup']+ '] <br></div><div style="font-size: 14px;text-transform: capitalize;color:blue;"> Estado interno: '+ todos2[i].estadointerno + comt + comt2 +'</div>',item:todos2[i],usuario:''})
+                    datafinal.push({_id:todos2[i]._id,nombre2:'tico',nombre:cad+ '<div style="font-size: 10px;text-transform: capitalize;">Crea: [' + dafechastring(todos2[i]['createdAt'])+',' 
+                    + dausuariobita(todos2[i]['usuarionew'],todos2[i]['usuarionew2']) +  ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +   
+                    dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) + '] <br></div><div style="font-size: 14px;text-transform: capitalize;color:blue;"> Estado interno: '+ todos2[i].estadointerno + comt + comt2 +'</div>',item:todos2[i],usuario:''})
 
                 }
                 else
                 {
-                    datafinal.push({_id:todos2[i]._id,nombre2:'tico',nombre:cad+ '<div style="font-size: 10px;text-transform: capitalize;">Crea: [' + dafechastring(todos2[i]['createdAt'])+',' + todos2[i]['usuarionew'] + ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +   todos2[i]['usuarioup']+ '] <br></div><div style="font-size: 14px;text-transform: capitalize;color:red;"> Estado interno: '+ todos2[i].estadointerno + comt + comt2 +'</div>',item:todos2[i],usuario:''})
+                    datafinal.push({_id:todos2[i]._id,nombre2:'tico',nombre:cad+ '<div style="font-size: 10px;text-transform: capitalize;">Crea: [' + dafechastring(todos2[i]['createdAt'])+',' 
+                    + dausuariobita(todos2[i]['usuarionew'],todos2[i]['usuarionew2']) +  ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +  
+                    dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) + '] <br></div><div style="font-size: 14px;text-transform: capitalize;color:red;"> Estado interno: '+ todos2[i].estadointerno + comt + comt2 +'</div>',item:todos2[i],usuario:''})
 
                 }
 
@@ -856,11 +928,15 @@ data[aa].replace('¬', ',') + '" target="_blank">https://www.google.com/maps/sea
               else{
                   if(todos2[i].estadointerno ==='activo')
                   {
-                    datafinal.push({_id:todos2[i]._id,nombre2:'tico',nombre:cad+ '<div style="font-size: 10px;text-transform: capitalize;">Crea: [' + dafechastring(todos2[i]['createdAt'])+',' + todos2[i]['usuarionew'] + ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +   todos2[i]['usuarioup']+ '] <br></div> <div style="font-size: 14px;text-transform: capitalize;color:blue;">Estado interno: '+ todos2[i].estadointerno +'</div>',item:todos2[i],usuario:''})
+                    datafinal.push({_id:todos2[i]._id,nombre2:'tico',nombre:cad+ '<div style="font-size: 10px;text-transform: capitalize;">Crea: [' + dafechastring(todos2[i]['createdAt'])+',' + 
+                    dausuariobita(todos2[i]['usuarionew'],todos2[i]['usuarionew2']) +  ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' 
+                   + dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) + '] <br></div> <div style="font-size: 14px;text-transform: capitalize;color:blue;">Estado interno: '+ todos2[i].estadointerno +'</div>',item:todos2[i],usuario:''})
                   }
                   else
                   {
-                    datafinal.push({_id:todos2[i]._id,nombre2:'tico',nombre:cad+ '<div style="font-size: 10px;text-transform: capitalize;">Crea: [' + dafechastring(todos2[i]['createdAt'])+',' + todos2[i]['usuarionew'] + ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +   todos2[i]['usuarioup']+ '] <br></div> <div style="font-size: 14px;text-transform: capitalize;color:red;">Estado interno: '+ todos2[i].estadointerno +'</div>',item:todos2[i],usuario:''})
+                    datafinal.push({_id:todos2[i]._id,nombre2:'tico',nombre:cad+ '<div style="font-size: 10px;text-transform: capitalize;">Crea: [' + dafechastring(todos2[i]['createdAt'])+',' +
+                     dausuariobita(todos2[i]['usuarionew'],todos2[i]['usuarionew2']) + ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' + 
+                     dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) + + '] <br></div> <div style="font-size: 14px;text-transform: capitalize;color:red;">Estado interno: '+ todos2[i].estadointerno +'</div>',item:todos2[i],usuario:''})
                   }
               
                cad='';
@@ -1149,7 +1225,7 @@ function dadatosformulariofinal  (namess,filtro,idempresa,namess2)
                                  
                                     cad=cad3[0]
                                     cadxx='{'+ cad3[1] + '}'
-                                    cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                    cad=cad + '"idpapa"	: { "type" : "String" },  "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
                                     cad='{' + cad + '}'
                                     cadxx='{' + cadxx + '}'
 
@@ -1205,7 +1281,7 @@ function dadatosformularioidfinal  (namess,filtro,idempresa,namess2)
                                  
                                     cad=cad3[0]
                                     cadxx='{'+ cad3[1] + '}'
-                                    cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                    cad=cad + ' "idpapa"	: { "type" : "String" },"usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
                                     cad='{' + cad + '}'
                                     cadxx='{' + cadxx + '}'
 
@@ -1259,7 +1335,7 @@ function actualizaformularioidfinal  (namess,filtro,idempresa,namess2,est)
                                  
                                     cad=cad3[0]
                                     cadxx='{'+ cad3[1] + '}'
-                                    cad=cad + ' "comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno"	: { "type" : "String" },"usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                    cad=cad + '"idpapa"	: { "type" : "String" }, "comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno"	: { "type" : "String" },"usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
                                     cad='{' + cad + '}'
                                     cadxx='{' + cadxx + '}'
                                //  console.log(cad)
@@ -1298,7 +1374,7 @@ function dadatosformulario(namess,filtro,idempresa)
 {
     return new Promise(resolve => { 
 
-        Frmmovild.find({idmovil:namess, display : "true",idempresa:idempresa}).sort([['order', 1]]).exec(function(err, todos) {
+        Frmmovild.find({idmovil:namess, idempresa:idempresa}).sort([['order', 1]]).exec(function(err, todos) {
             if (err){ res.send(err); }
           
      //   console.log(todos)
@@ -1312,7 +1388,7 @@ function dadatosformulario(namess,filtro,idempresa)
                                  
                                     cad=cad3[0]
                                     cadxx='{'+ cad3[1] + '}'
-                                    cad=cad + ' "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                    cad=cad + ' "idpapa"	: { "type" : "String" }, "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
                                     cad='{' + cad + '}'
                                     cadxx='{' + cadxx + '}'
 
@@ -1366,7 +1442,7 @@ function dadatosformularioispapaarray(namess,idpapa,idempresa)
                                  
                                     cad=cad3[0]
                                     cadxx='{'+ cad3[1] + '}'
-                                    cad=cad + ' "usuarionew"	: { "type" : "String" },     "idpapa"	: { "type" : "String" },  "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                    cad=cad + '"idpapa"	: { "type" : "String" }, "usuarionew"	: { "type" : "String" },     "idpapa"	: { "type" : "String" },  "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
                                     cad='{' + cad + '}'
                                     cadxx='{' + cadxx + '}'
 
@@ -2451,6 +2527,8 @@ module.exports = {
     dafechacompleta:dafechacompleta,
     dafecha:dafecha,
     ejecutasql:ejecutasql,
+    ejecutasql2:ejecutasql2,
+    ejecutasql3:ejecutasql3,
     padLeadingZeros:padLeadingZeros,
     formatNumber:formatNumber,
     numberWithCommas:numberWithCommas,

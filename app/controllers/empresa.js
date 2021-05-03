@@ -117,6 +117,7 @@ if(req.params.recordID!=='crea')
              todo.clavecorreo= req.body.clavecorreo    	;
              todo.puertocorreo= req.body.puertocorreo    	;
              todo.tipofirma= req.body.tipofirma    	;
+             todo.siperfil= req.body.siperfil	;
 
 
             todo.nit       	=	req.body.nit        	||	todo.nit;   
@@ -187,7 +188,7 @@ else{
          clavecorreo: req.body.clavecorreo    	,
          puertocorreo: req.body.puertocorreo    	,
          tipofirma: req.body.tipofirma    	,
-
+         siperfil	: req.body.siperfil	,
          estado     	: req.body.estado    	,
 
 
