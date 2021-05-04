@@ -319,7 +319,7 @@ requi1b = await functool.dadatosformulariogruposuma('5fc03c79ab0f6448b877eb5c',f
                             "unidad" : todos[i].unidad,      "saldoanterior" : todos[i].saldoanterior,
                             "ingreso" : todos[i].ingreso,      "obs" : todos[i].obs,
                             "egreso" : todos[i].egreso,        "saldoactual" : todos[i].saldoactual,
-                            "precioanterior" :todos[i].precioanterior,            "precio" : todos[i].precio,
+                            "precioanterior" :todos[i].precioanterior,            "precio" : Number(todos[i].precio).toFixed(2),
                             "total" : todos[i].total})
                         }
                         else
@@ -335,7 +335,7 @@ requi1b = await functool.dadatosformulariogruposuma('5fc03c79ab0f6448b877eb5c',f
                             "unidad" : todos[i].unidad,      "saldoanterior" : todos[i].saldoanterior,
                             "ingreso" : todos[i].ingreso,      "obs" : todos[i].obs,
                             "egreso" : todos[i].egreso,        "saldoactual" : todos[i].saldoactual,
-                            "precioanterior" :todos[i].precioanterior,            "precio" : todos[i].precio,
+                            "precioanterior" :todos[i].precioanterior,            "precio" :  Number(todos[i].precio).toFixed(2),
                             "total" : todos[i].total})
                         }
                       
@@ -372,7 +372,7 @@ requi1b = await functool.dadatosformulariogruposuma('5fc03c79ab0f6448b877eb5c',f
                         "unidad" : todos[i].unidad,      "saldoanterior" : todos[i].saldoanterior,
                         "ingreso" : todos[i].ingreso,      "obs" : todos[i].obs,
                         "egreso" : todos[i].egreso,        "saldoactual" : todos[i].saldoactual,
-                        "precioanterior" :todos[i].precioanterior,            "precio" : todos[i].precio,
+                        "precioanterior" :todos[i].precioanterior,            "precio" :  Number(todos[i].precio).toFixed(2),
                         "total" : todos[i].total})
                     }
                      res.json(datat);
