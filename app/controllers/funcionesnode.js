@@ -10,7 +10,7 @@ var sql2 = require("mssql")
 var sql3 = require("mssql")
 
 
-const odbc = require('odbc');
+//const odbc = require('odbc');
 
 const connectionConfig = {   connectionString: 'DSN=OTRO',    connectionTimeout: 10,    loginTimeout: 10,}
 
