@@ -244,6 +244,16 @@ exports.getFrmmovil = async function(req, res, next){
         if(req.params.id4=='frmmovilp')
         {
          
+            if(req.params.id2=='sintodos')
+            { 
+                Frmmovil.find({idempresa:req.params.id3}).sort({'_id': -1}).exec(function(err, todos) {
+                    if (err){  res.send(err);  }
+                  
+                     res.json(todos);
+                 });
+            }
+            else
+            {
             if(req.params.id2=='todos')
             { 
                 Frmmovil.find({idempresa:req.params.id3,tipo:req.params.id,categoria:req.params.id5}).sort({'_id': -1}).exec(function(err, todos) {
@@ -260,7 +270,7 @@ exports.getFrmmovil = async function(req, res, next){
                      res.json(todos);
                  });
 
-            }
+            }}
         
         }
         else
@@ -1249,7 +1259,16 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
             }
             else
             {
-
+                if(req.params.id2=='sintodos')
+                { 
+                    Frmmovil.find({idempresa:req.params.id3,tipo:{$in:['proceso']}}).sort({'_id': -1}).exec(function(err, todos) {
+                        if (err){  res.send(err);  }
+                      
+                         res.json(todos);
+                     });
+                }
+                else
+                {  
             if(req.params.id2=='todos')
             { 
                 Frmmovil.find({idempresa:req.params.id3,tipo:req.params.id}).sort({'_id': -1}).exec(function(err, todos) {
@@ -1266,7 +1285,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                      res.json(todos);
                  });
 
-            }
+            }}
         }
 
         }
@@ -1943,7 +1962,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                               
                                                     cad=cad3[0]
                                                     cadxx='{'+ cad3[1] + '}'
-                                                    cad=cad + '"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" }, "comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno"	: { "type" : "String" },  "geoposicion"	: { "type" : "String" },  "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                                    cad=cad + '"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" }, "comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno"	: { "type" : "String" },  "geoposicionxxx"	: { "type" : "String" },  "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
                                                     cad='{' + cad + '}'
                                                     cadxx='{' + cadxx + '}'
                                                  
@@ -2028,7 +2047,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                       
                                             cad=cad3[0]
                                             cadxx='{'+ cad3[1] + '}'
-                                            cad=cad + '"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" }, "comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno"	: { "type" : "String" },  "geoposicion"	: { "type" : "String" },  "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                            cad=cad + '"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" }, "comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno"	: { "type" : "String" },  "geoposicionxxx"	: { "type" : "String" },  "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
                                             cad='{' + cad + '}'
                                             cadxx='{' + cadxx + '}'
                                          
@@ -2195,7 +2214,7 @@ console.log({idmovil:req.params.id, display : "true",idempresa:req.params.id3})
                                         
                                                 cad=cad3[0]
                                                 cadxx='{'+ cad3[1] + '}'
-                                                cad=cad + '"estadointerno"	: { "type" : "String" },"geoposicion"	: { "type" : "String" }, "usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" },    "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                                cad=cad + '"estadointerno"	: { "type" : "String" },"geoposicionxxx"	: { "type" : "String" }, "usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" },    "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
                                                 cad='{' + cad + '}'
                                                 cadxx='{' + cadxx + '}'
                                             

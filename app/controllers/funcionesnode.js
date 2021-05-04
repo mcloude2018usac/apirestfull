@@ -10,7 +10,7 @@ var sql2 = require("mssql")
 var sql3 = require("mssql")
 
 
-//const odbc = require('odbc');
+const odbc = require('odbc');
 
 const connectionConfig = {   connectionString: 'DSN=OTRO',    connectionTimeout: 10,    loginTimeout: 10,}
 
@@ -22,8 +22,7 @@ function  ejecutaaccess  (cad)
 {
 
     return new Promise(resolve => {
- resolve({estado:'exito',datat:result}); 
-
+  resolve({estado:'exito',datat:result}); 
 });
 }
 
@@ -407,6 +406,26 @@ var getImagesruta= function(op){
 
 
 
+var dahorautf= function(data) {
+    let re = '';
+    var fecha= new Date(data)
+var datatt= fecha.toUTCString().split(' ');
+var data2=datatt[4].split(':')
+if(Number(data2[0]>12))
+{
+    re=data2[0] + ':' + data2[1] + ' PM'
+}
+else
+{
+    re=data2[0] + ':' + data2[1] + ' AM'
+}
+
+
+ 
+  // DD/MM/YYYY hh:mm A
+  return re;
+
+ }
 
 var dahora= function(data) {
     let re = '';
@@ -696,7 +715,7 @@ var dahora= function(data) {
                    {
                        if(arreglo[1]==='Hora')
                    {
-                       cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + dahora(valorxx) + '<br>'
+                       cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + dahorautf(valorxx) + '<br>'
                    }
                    else
                    {
@@ -758,7 +777,14 @@ var dahora= function(data) {
 data[aa].replace('¬', ',') + '" target="_blank">https://www.google.com/maps/search/?api=1&query=' + data[aa].replace('¬', ',')
 + '</a> ' ;  break;
                */
-            
+var geopp=''
+if(todos2[i].geoposicionxxx)
+{
+    geopp= '<br> <a href="https://www.google.com/maps/search/?api=1&query=' +
+    todos2[i].geoposicionxxx.replace('¬', ',') + '" target="_blank">https://www.google.com/maps/search/?api=1&query=' + todos2[i].geoposicionxxx.replace('¬', ',')
+    + '</a> ' ; 
+}
+
               if(sicampovalida==='si')
               {
                 datafinal.push({_id:todos2[i]._id,nombre2:'tico',nombre:cad,item:todos2[i],usuario:''})
@@ -782,14 +808,14 @@ data[aa].replace('¬', ',') + '" target="_blank">https://www.google.com/maps/sea
                 {
                     datafinal.push({_id:todos2[i]._id,nombre2:'tico',nombre:cad+ '<div style="font-size: 10px;text-transform: capitalize;">Crea: [' + dafechastring(todos2[i]['createdAt'])+',' 
                     + dausuariobita(todos2[i]['usuarionew'],todos2[i]['usuarionew2']) +  ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +   
-                    dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) + '] <br></div><div style="font-size: 14px;text-transform: capitalize;color:blue;"> Estado interno: '+ todos2[i].estadointerno + comt + comt2 +'</div>',item:todos2[i],usuario:''})
+                    dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) + '] <br></div><div style="font-size: 14px;text-transform: capitalize;color:blue;"> Estado interno: '+ todos2[i].estadointerno + comt + comt2 + geopp + '</div>',item:todos2[i],usuario:''})
 
                 }
                 else
                 {
                     datafinal.push({_id:todos2[i]._id,nombre2:'tico',nombre:cad+ '<div style="font-size: 10px;text-transform: capitalize;">Crea: [' + dafechastring(todos2[i]['createdAt'])+',' 
                     + dausuariobita(todos2[i]['usuarionew'],todos2[i]['usuarionew2']) +  ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +  
-                    dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) + '] <br></div><div style="font-size: 14px;text-transform: capitalize;color:red;"> Estado interno: '+ todos2[i].estadointerno + comt + comt2 +'</div>',item:todos2[i],usuario:''})
+                    dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) + '] <br></div><div style="font-size: 14px;text-transform: capitalize;color:red;"> Estado interno: '+ todos2[i].estadointerno + comt + comt2 + geopp+'</div>',item:todos2[i],usuario:''})
 
                 }
 
@@ -849,7 +875,7 @@ data[aa].replace('¬', ',') + '" target="_blank">https://www.google.com/maps/sea
                    {
                        if(arreglo[1]==='Hora')
                    {
-                       cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + dahora(valorxx) + '<br>'
+                       cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + dahorautf(valorxx) + '<br>'
                    }
                    else
                    {
