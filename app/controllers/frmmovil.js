@@ -49,6 +49,10 @@ async function getcombomanual(req, res, next)
                 })();
 
         break;
+        case 'getactividadesproceso':
+            var namess=req.params.id
+            var campost=req.params.id2
+            break;
         case 'getcombopagocontratos':
                     
                 var namess=req.params.id
