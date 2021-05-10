@@ -412,8 +412,34 @@ var visitas_programadas=async  function(req, res, next){
 
 
                 
-                  resolve({estado:'exito'}); 
-
+                  (async () => {
+                    var est=req.body.estructura
+                    var aduana=est.aduana.split('¬')[1]
+                    var cliente=est.cliente.split('¬')[1]
+  
+                    aduanat = await functool.dadatosformularioidfinal('605a21c86886480f70f6ec2d',{ _id:aduana}
+                    ,req.body.estructura.idempresa,'605a21c86886480f70f6ec2ds'); 
+  
+                    
+                    clientet = await functool.dadatosformularioidfinal('605a1f506886480f70f6ec12',{ _id:cliente}
+                    ,req.body.estructura.idempresa,'605a1f506886480f70f6ec12'); 
+  
+                    var cad="insert into ticket values("+ Number(est.sequenciag) +",'',"+ 
+                    clientet.codigoa +",getdate(),1,'',0,861,'"+ est.referencia +"',0,0,0,0,0,0,0,"+ aduanat.idcig +",0,'',0,'"+ 
+                    aduanat.nombre +"',null,'"+ clientet.nombre +"','','',0,0,0,0,0,'',"+ est.sequenciag +",'','',1,'0','"+ est.master +"','"+ est.contenedor +"')"
+  
+                    var ejecuta1=await  functool.ejecutasql( cad,conecta1)
+                 //   insert into ticket values(0000014,'',1,getdate(),1,'',0,861,'111',0,0,0,0,0,0,0,1,0,'',0,'Central',null,'MANANTIAL DE LA CULTURA, SOCIEDAD ANONIMA','','',0,0,0,0,0,'',0000014,'','',1,'0','undefined','11')'
+  
+  
+  
+                    console.log('listo')
+     
+  
+  
+  
+                    resolve({estado:'exito'}); 
+                  })();
                   break;
                 case '1_actualizapagocontrato':
                   (async () => {
@@ -697,27 +723,46 @@ var visitas_programadas=async  function(req, res, next){
                (async () => {   
                  
                 var est=req.body.estructura
+            
+                var ejecuta2=await  functool.ejecutasql('select max(codigo)+1 as codigo  from clientes',conecta2)
+                var codigoc=ejecuta2.datat.recordset[0].codigo 
+                var cad2=''//codigoc  codigos
+                cad2="insert into clientes values ("+ codigoc+",'"+ est.nit +"','"+ est.nombre +"','"+ est.direccion +"','0','','GUATEMALA','"+ est.telefono +"',0,0,999999,'120101',1,30,0,'"+ est.representantelegal +"','"+ est.dpi +"','','','GUATEMALA','','"+ est.representantelegal +"','"+ est.correo +"','',0,null)"
+                var ejecuta2=await  functool.ejecutasql(cad2,conecta2)
 
-              
-
-                var ejecuta1=await  functool.ejecutasql('select count(*)+1 as codigo  from clientes',conecta2)
-               var codigoaa=ejecuta1.datat.recordset[0].codigo 
-                   
+                var ejecuta1=await  functool.ejecutasql('select max(codigo)+1 as codigo  from clientes',conecta1)
+                var codigos=ejecuta1.datat.recordset[0].codigo 
                 var cad1=''//codigoc  codigos
-             cad1="insert into clientes values ("+ est.codigoa +",'"+ est.nit +"','"+ est.nombre +"','"+ est.direccion +"','0','','GUATEMALA','"+ est.telefono +"',0,0,999999,'120101',1,30,0,'#PRL#','"+ est.dpi +"','','','GUATEMALA','','#PRL#','"+ est.correo +"','',0,null)"
-        
-               var ejecuta1=await  functool.ejecutasql(cad1,conecta2)
+                cad1="insert into clientes values ("+ codigos +",'"+ est.nit +"','"+ est.nombre +"','"+ est.direccion +"','0','','GUATEMALA','"+ est.telefono +"',0,0,999999,'120101',1,30,0,'"+ est.representantelegal +"','"+ est.dpi +"','','','GUATEMALA','','"+ est.representantelegal +"','"+ est.correo +"','',0,null)"
+                var ejecuta1=await  functool.ejecutasql(cad1,conecta1)
+ 
+                
+      
+
+
+                          
+               var ejecuta3=await  functool.ejecutasql('select max(codigo)+1 as codigo  from clientes',conecta3)
+               var codigoa=ejecuta3.datat.recordset[0].codigo 
+               var cad3=''//codigoc  codigos
+               cad3="insert into clientes values ("+codigoa+",'"+ est.nit +"','"+ est.nombre +"','"+ est.direccion +"','0','','GUATEMALA','"+ est.telefono +"',0,0,999999,'120101',1,30,0,'"+ est.representantelegal +"','"+ est.dpi +"','','','GUATEMALA','','"+ est.representantelegal +"','"+ est.correo +"','',0,null)"
+               var ejecuta3=await  functool.ejecutasql(cad3,conecta3)
+
 
                //actualizar codigos en el formulario
 
                
                var estructura={
-                "codigos" : codigoaa,
+                "codigos" : codigos,
+                "codigoc" : codigoc,
+                "codigoa" : codigoa,
              
             }
 
               detalle = await functool.actualizaformularioidfinal('605a1f506886480f70f6ec12',{ _id:dataanterior._id.toString()},
               req.body.estructura.idempresa,'605a1f506886480f70f6ec12',estructura); 
+              
+
+
               
 
 
@@ -871,7 +916,7 @@ var visitas_programadas=async  function(req, res, next){
 
                         precioproducto=Number(producto.precioporunidad)
     
-                      total=saldoactual*Number(precioingreso)
+                      total=saldoactual*Number(preciomedio)
                       kardex.create({
                         idempresa		: req.body.estructura.idempresa,  
                         fecha		: req.body.papaitem.fecha,  
@@ -903,7 +948,7 @@ var visitas_programadas=async  function(req, res, next){
                       var estructura={
                         "precioporunidad" :  preciomedio.toString(),//producto.precioporunidad.toString(),//
                         "existenciaactual" : saldoactual.toString(),
-                        "total" :( saldoactual*Number(producto.precioporunidad)).toString()
+                        "total" :( saldoactual*Number(preciomedio)).toString()
 
                       
                     }
@@ -1130,10 +1175,13 @@ var visitas_programadas=async  function(req, res, next){
                  
                 var est=req.body.estructura
                    
-                var cad1=''//codigoc  codigos
-             cad1="update clientes set nombre='" + est.nombre +"',nit='" + est.nit +"' ,direccion='" + est.direccion +"' ,telefono='" + est.telefono +"' ,correo='" + est.correo +"'   where codigo="+ est.codigoa
-        
-               var ejecuta1=await  functool.ejecutasql(cad1,conecta2)
+
+                var ejecuta1=await  functool.ejecutasql("update clientes set nombre='" + est.nombre +"',nit='" + est.nit +"' ,direccion='" + est.direccion +"' ,telefono='" + est.telefono +"' ,correo='" + est.correo +"'   where codigo="+ est.codigos,conecta1)
+                var ejecuta2=await  functool.ejecutasql("update clientes set nombre='" + est.nombre +"',nit='" + est.nit +"' ,direccion='" + est.direccion +"' ,telefono='" + est.telefono +"' ,correo='" + est.correo +"'   where codigo="+ est.codigoc,conecta2)
+                var ejecuta3=await  functool.ejecutasql("update clientes set nombre='" + est.nombre +"',nit='" + est.nit +"' ,direccion='" + est.direccion +"' ,telefono='" + est.telefono +"' ,correo='" + est.correo +"'   where codigo="+ est.codigoa,conecta3)
+
+
+
                resolve({estado:'Existencia no valida'}); 
               })();
 
@@ -1156,15 +1204,12 @@ var visitas_programadas=async  function(req, res, next){
                 case '2_eliminacliente': 
                                         //
                (async () => {   
-                 
-                var est=req.body.estructura
-                   
-                var cad1=''//codigoc  codigos
-             cad1="delete from  clientes where codigo="+ est.codigoa 
-        
-               var ejecuta1=await  functool.ejecutasql(cad1,conecta2)
-
-               //actualizar codigos en el formulario
+   var est=req.body.estructura
+                                       
+                                  
+                                         var ejecuta1=await  functool.ejecutasql("delete from  clientes where codigo="+ est.codigos ,conecta1)
+                                         var ejecuta2=await  functool.ejecutasql("delete from  clientes where codigo="+ est.codigoc ,conecta2)
+                                         var ejecuta3=await  functool.ejecutasql("delete from  clientes where codigo="+ est.codigoa ,conecta3)
 
                resolve({estado:'exito'}); 
               })();

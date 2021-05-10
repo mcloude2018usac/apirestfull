@@ -274,7 +274,7 @@ else{
                         idfrmconsulta:req.body.idfrmconsulta,
                         idfrmconsulta2:req.body.idfrmconsulta2,
                         nombreconsulta2:'',
-                        required :rr	,
+                        required :req.body.required	,
                         placeholder :'Ingrese '+ req.body.title+''	,
                         display :req.body.display,
                         selected :true 	,
@@ -340,6 +340,7 @@ if(req.params.id!=='crea')
             todo.placeholder ='Ingrese '+ req.body.title+''	;
             todo.order       	=	req.body.order        	||	todo.order;   
             todo.display	=	req.body.display        ;    
+            todo.required	=	req.body.required        ;    
             todo.title       	=	req.body.title        	||	todo.title;    
             todo.estado       	=	req.body.estado        	||	todo.estado;    
             todo.type       	=	req.body.type        	||	todo.type;    
@@ -387,6 +388,8 @@ else{
                         required :rr	,
                         placeholder :'Ingrese '+ req.body.title + ''	,
                         display :req.body.display,
+                        required :req.body.required,
+                        
                         selected :true 	,
                         disabled :'false' 	,
                         hidden :'false' 	,

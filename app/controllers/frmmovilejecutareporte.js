@@ -216,6 +216,44 @@ var kardexproducto = require('../models/asociadoventa/kardexcorreosproducto');
             var reportefrm=req.params.id.split('°')
             console.log('clase frmmovilejecutareporte --> add en la funcion dareportepdf  case ' + reportefrm[1] + ':(async () => { })();')
             switch(reportefrm[1]) {
+              case '605a23446886480f70f6ec3f': //IMPIRTACIONES
+//no ticke  req.params.id2    empresa req.params.id3
+(async () => {
+
+
+  let jsonx= [];
+  formulario = await functool.dadatosformularioidfinal(reportefrm[1],{ _id:req.params.id2},req.params.id3,reportefrm[1]); 
+     
+jsonx.push({
+  margin: [0, 0, 0, 10],
+  layout: {
+      fillColor: function (rowIndex, node, columnIndex) {
+          return (rowIndex % 2 === 0) ? '#ebebeb' : '#f5f5f5';
+      }
+  },
+  table: {
+      widths: ['100%'],
+      heights: [20,10],
+      body: [
+          [
+              { 
+                alignment: 'center',
+                  text: 'tipo '+ ': '+'titulo',
+                  fontSize: 16,
+                  bold: true,
+              }
+          ],
+         
+      ],
+  }
+},)
+
+
+                resolve({estado:jsonx}); 
+
+                
+            })();
+              break;
                 case '5ff67ee82977bb360c526f8a': //REQUISICION
 
             (async () => {

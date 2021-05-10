@@ -21,37 +21,97 @@ var ejecutacomandos=async  function(req, res, next){
   console.log('ejecuta operacion ' +  aa)
     switch(aa) {
       case '605a23446886480f70f6ec3f°605cab3c71887c22d0bfedc6°Rectificación':
-        //cerrar el ticke actual
+        (async () => {
+       
+  
+          var creaorden = await functool.creafrmregistroproceso(req); 
+          var ordenvieja=req.body.acumulados[0].item.sequenciag
+          var ordennueva =creaorden.sequenciag
 
-        //crear un nuevo ticket igual pero en otra actividad ( este nuevo ya tiene una orden papa)
-        //para la recti poner la nueva orden en la actividad no 120 prepoliza rectificatoria
-        //para la complementaria en la actividad no 160 pre-poliza complementaria
+//CERRAR LA ORDEN VIEJA
+                    
+          var ejecuta1=await  functool.ejecutasql("update ticket set pasaticketno='" + ordennueva +"' where noticket="+
+          Number(ordenvieja),functool.daconectasql(req.body.idform),null)
+ 
+
+          var est=creaorden
+          var aduana=est.aduana.split('¬')[1]
+          var cliente=est.cliente.split('¬')[1]
+
+          aduanat = await functool.dadatosformularioidfinal('605a21c86886480f70f6ec2d',{ _id:aduana}
+          ,req.body.idempresa,'605a21c86886480f70f6ec2ds'); 
+
+          
+          clientet = await functool.dadatosformularioidfinal('605a1f506886480f70f6ec12',{ _id:cliente}
+          ,req.body.idempresa,'605a1f506886480f70f6ec12'); 
+
+          var cad="insert into ticket values("+ Number(ordennueva) +",'',"+ 
+          clientet.codigoa +",getdate(),1,'',0,861,'"+ est.referencia +"',0,"+  Number(ordenvieja) +",0,0,0,0,0,"+ aduanat.idcig +",0,'',0,'"+ 
+          aduanat.nombre +"',null,'"+ clientet.nombre +"','','',0,0,0,0,0,'',"+ Number(ordenvieja) +",'','',1,'0','"+ est.master +"','"+ est.contenedor +"')"
+
+          var ejecuta1=await  functool.ejecutasql( cad,functool.daconectasql(req.body.idform))
 
 
-        //luego actualizar ñla tabñla de ticket stddb depende del tipo orden con el ticket cerrado
-        // pasaticketno=  numero orden de la nueva
-
-                
-        
-        //crear un nuevo ticket de la nueva
-        //vieneticketno== no orden vieja   ticketoriginal=  orden   vinicial  el papa de todas
-
-
-        resolve({estado:'exito',data:[]}); 
+          resolve({estado:'exito',data:[]}); 
+        })();
         break;
         case '605a23446886480f70f6ec3f°605cab4e71887c22d0bfedc8°Complementaria':
-          resolve({estado:'exito',data:[]}); 
+          (async () => {
+            var creaorden = await functool.creafrmregistroproceso(req); 
+            var ordenvieja=req.body.acumulados[0].item.sequenciag
+            var ordennueva =creaorden.sequenciag
+  
+  //CERRAR LA ORDEN VIEJA
+                      
+            var ejecuta1=await  functool.ejecutasql("update ticket set pasaticketno='" + ordennueva +"' where noticket="+
+            Number(ordenvieja),functool.daconectasql(req.body.idform),null)
+   
+  
+            var est=creaorden
+            var aduana=est.aduana.split('¬')[1]
+            var cliente=est.cliente.split('¬')[1]
+  
+            aduanat = await functool.dadatosformularioidfinal('605a21c86886480f70f6ec2d',{ _id:aduana}
+            ,req.body.idempresa,'605a21c86886480f70f6ec2ds'); 
+  
+            
+            clientet = await functool.dadatosformularioidfinal('605a1f506886480f70f6ec12',{ _id:cliente}
+            ,req.body.idempresa,'605a1f506886480f70f6ec12'); 
+  
+            var cad="insert into ticket values("+ Number(ordennueva) +",'',"+ 
+            clientet.codigoa +",getdate(),1,'',0,861,'"+ est.referencia +"',0,"+  Number(ordenvieja) +",0,0,0,0,0,"+ aduanat.idcig +",0,'',0,'"+ 
+            aduanat.nombre +"',null,'"+ clientet.nombre +"','','',0,0,0,0,0,'',"+ Number(ordenvieja) +",'','',1,'0','"+ est.master +"','"+ est.contenedor +"')"
+  
+            var ejecuta1=await  functool.ejecutasql( cad,functool.daconectasql(req.body.idform))
+  
+  
+            resolve({estado:'exito',data:[]}); 
+        })();
           break;
         
           case '605a23446886480f70f6ec3f°605cab8171887c22d0bfedcc°Trasladar Datos a Campos':
+            (async () => {
             //select ticket tabla segun orden segun noticket de la orden
             //copia a camposdb
 
+            var ordenvieja=req.body.acumulados[0].item.sequenciag
 
-            resolve({estado:'exito',data:[]}); 
-            break;
+            var cad="   INSERT INTO [camposbd].[dbo].[ticket]([noticket],[Polizaaduana],[idcliente],[fechaticket],[estadoticket],[fechacerrado],[factura],[libre],[libretexto],[pasaticketno],[vieneticketno],[Cargos],[abonocliente],[montofacturar],[montofacturado],[dias],[filial],[abonosertobar],[regimen],[vuelto],[aduana],[nombreinteresado],[nitinteresado],[dirinteresado],[fob],[flete],[seguro],[otros],[cif],[numerodua],[ticketoriginal],[libretexto2],[libretexto3],[tasadecambio],[liqembarque],[embarquemaster],[contenedor])  select         [noticket],[Polizaaduana],[idcliente],[fechaticket],[estadoticket],[fechacerrado],[factura],[libre],[libretexto],[pasaticketno],[vieneticketno],[Cargos],[abonocliente],[montofacturar],[montofacturado],[dias],[filial],[abonosertobar],[regimen],[vuelto],[aduana],[nombreinteresado],[nitinteresado],[dirinteresado],[fob],[flete],[seguro],[otros],[cif],[numerodua],[ticketoriginal],[libretexto2],[libretexto3],[tasadecambio],[liqembarque],[embarquemaster],[contenedor]  from ticket where noticket=" +Number(ordenvieja) 
 
-          
+            var ejecuta2=await  functool.ejecutasql(cad ,functool.daconectasql(req.body.idform))
+
+
+
+ 
+
+
+        
+resolve({estado:'exito',data:[]}); 
+         
+          })();
+          break;
+        
+         
 
       case '5f729c2487c9e33bd4ada798°608d6e228c872d219486c94c°Generación de archivo de pagos (csv)'://genera excel pagos
       (async () => {
