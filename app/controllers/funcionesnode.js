@@ -12,7 +12,7 @@ var sql2 = require("mssql")
 var sql3 = require("mssql")
 
 
-const odbc = require('odbc');
+//const odbc = require('odbc');
 
 const connectionConfig = {   connectionString: 'DSN=OTRO',    connectionTimeout: 10,    loginTimeout: 10,}
 
@@ -22,7 +22,9 @@ const { getGaleriaimg } = require('./galeriaimg');
 
 function  ejecutaaccess  (cad)
 {
+    resolve({estado:'exito',datat:''}); 
 
+/*
     return new Promise(resolve => {
 const connection = odbc.connect(connectionConfig, (error, connection) => {
   connection.query(cad, (error, result) => {
@@ -35,6 +37,7 @@ const connection = odbc.connect(connectionConfig, (error, connection) => {
   });
 });
 });
+*/
 }
 
 /*
