@@ -10,7 +10,7 @@ var formulariousr = require('../models/formulariousr');
 var functool = require('./funcionesnode');
 var kardex = require('../models/asociadoventa/kardexcorreos');
 var kardexproducto = require('../models/asociadoventa/kardexcorreosproducto');
-
+var frmactividad = require('../models/asociadoventa/frmactividad');
 var Poliza = require('../models/ges/poliza');
 
 
@@ -22,8 +22,44 @@ var daejecutafunciones= async function(req, res, next,dataanterior){
 
         switch(req.params.id) {
           case 'getcontactoempresa':
+            (async () => {
+              var jsonObject = functool.stringToObject( req.params.id2);
+              console.log(jsonObject)
+  
+              /*
+              var datat = await functool.dadatosformulariofinal('605a1ed86886480f70f6ec08',{idempresa:req.params.id3,anyo:anii},req.params.id3,'605a1ed86886480f70f6ec08'); 
+  
+  
+              pagosxx.push({_id:pagosf[i]._id,nopago:Number(pagosf[i].nopago),item:pagosf[i],nombre:'<strong>No pago</strong>: '+ pagosf[i].nopago+'<br><strong>Perido pago</strong>: '+ pagosf[i].periodopago+'<br><strong>Monto Pago</strong>: '+totalpago+'<br><strong>Multas</strong>: '+ totalmulta+'<br><strong>Emergencias</strong>: '+ totalemergencias+'<br><strong>Monto a pagar</strong>: ' + montoapagar +'<br>'})
+  */
+  
+  
+  
+              })();
+
+
             break;
           case 'getactividadesproceso':
+
+            (async () => {
+            var jsonObject = functool.stringToObject( functool.replaceAll( req.params.id2 ,'ë','/'));
+            console.log(jsonObject)
+
+            var arrr=jsonObject.eventorelacionadoa.split('¬')
+            frmactividad.find({idempresa:req.params.id3,idpapa:arrr[1] }).sort({'orden': 1}).exec(function(err, todos) {
+              if (err){  res.send(err);  }
+              var datat=[]
+              for(var i = 0; i < todos.length;i++){
+                datat.push({_id:todos[i]._id,nombre:todos[i].nombre})
+              }
+              resolve({estado:'exito',datat: datat}); 
+
+            });
+          
+
+
+
+            })();
             break;
             case 'generapoliza_2020': //REQUISICION
 

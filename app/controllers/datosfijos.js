@@ -1379,7 +1379,74 @@ break;
     });
 
                 break;
+                case 'participacursos200':
+                        //http://127.0.0.1:9090/api/datosfijos/participacursos/mpalaciosgonzalez986@gmail.com
+                        var myData = [];
+                        var teve='';
+                        var teveid='';
+                        var tipoevento='';
+                        var tfecha='';
+                        var thora='';
+                        var arrr=req.params.id2.split('°')
+           
+                        Evento.find({_id:arrr[2]
+                                }).select({_id:1,nombre:1,fecha:1,costo:1,tipoevento:1,idempresa:1,unidad:1,plantilla:1}).sort({_id:-1}).lean().exec(function(err, todos0aaa) {
+       
+                
 
+                        var duplicates = [];
+
+
+                        for(var i = 0; i < todos0aaa.length;i++){
+        
+                                duplicates.push(todos0aaa[i]._id);
+
+                            }
+
+
+
+                                Participa.find({_id:arrr[0]}).sort({idevento:-1}).lean().exec(function(err, todos2) {
+                                       
+                                      if(todos2.length)
+                                      {
+                                        for (var i = 0; i < todos2.length; i++) {
+                                              
+
+                                                
+                                                for (var ii = 0; ii < todos0aaa.length; ii++) {
+                                                        if(todos2[i].idevento==todos0aaa[ii]._id)
+                                                        {
+                                                                teve=todos0aaa[ii].nombre;
+                                                                teveid=todos0aaa[ii]._id;
+                                                                tfecha=todos0aaa[ii].fecha;
+                                                                thora=todos0aaa[ii].costo;
+                                                                tipoevento=todos0aaa[ii].tipoevento;
+                                                                
+                                                                myData.push({plantilla:todos0aaa[ii].plantilla, idempresa:todos0aaa[ii].idempresa,unidad:todos0aaa[ii].unidad,ideve:teveid,tipoevento:tipoevento,idcurso:todos2[i]._id ,nombre:todos2[i].nombre + ' ' +todos2[i].apellido,curso:teve,tipo:2,fecha:tfecha,hora:thora});
+
+                                                        }
+                                                }
+
+
+                                              
+
+                                              
+                                        }
+                                       
+                                }
+                              
+                                        res.json(myData);   
+
+                                    });
+
+                     
+               
+        }); 
+
+
+                        break;
+
+                    
                 case 'participacursos':
                         //http://127.0.0.1:9090/api/datosfijos/participacursos/mpalaciosgonzalez986@gmail.com
                         var myData = [];
