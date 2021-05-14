@@ -414,7 +414,7 @@ jsonx.push({	text: [{text: 	'Recibido por: ', bold: true},{text: '______________
                             ],
                             // optional space between columns
                             columnGap: 1,
-                            margin: [ 25, 85, 10, 1 ] ,
+                            margin: [ 25, 80, 10, 1 ] ,
                           
                            
                             fontSize: 8
