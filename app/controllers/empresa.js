@@ -119,6 +119,10 @@ if(req.params.recordID!=='crea')
              todo.tipofirma= req.body.tipofirma    	;
              todo.siperfil= req.body.siperfil	;
 
+             todo.siimagenes= req.body.siimagenes	;
+             todo.sicorrelativo= req.body.sicorrelativo	;
+             todo.subtitulo= req.body.subtitulo	;
+
 
             todo.nit       	=	req.body.nit        	||	todo.nit;   
             todo.razon       	=	req.body.razon        	||	todo.razon;   
@@ -189,6 +193,11 @@ else{
          puertocorreo: req.body.puertocorreo    	,
          tipofirma: req.body.tipofirma    	,
          siperfil	: req.body.siperfil	,
+
+         siimagenes	: req.body.siimagenes	,
+         sicorrelativo	: req.body.sicorrelativo	,
+         subtitulo	: req.body.subtitulo	,
+
          estado     	: req.body.estado    	,
 
 

@@ -24,20 +24,6 @@ function  ejecutaaccess  (cad)
 {
     resolve({estado:'exito',datat:''}); 
 
-/*
-    return new Promise(resolve => {
-const connection = odbc.connect(connectionConfig, (error, connection) => {
-  connection.query(cad, (error, result) => {
-      if (error) { console.error(error) }
-
-      
-        resolve({estado:'exito',datat:result}); 
-
-
-  });
-});
-});
-*/
 }
 
 /*

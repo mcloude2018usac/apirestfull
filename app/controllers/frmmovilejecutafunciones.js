@@ -21,6 +21,111 @@ var daejecutafunciones= async function(req, res, next,dataanterior){
     return new Promise(resolve => {
 
         switch(req.params.id) {
+          case 'getcombopagocontratos':
+            (async () => {
+            var jsonObject = functool.stringToObject( req.params.id2);
+
+          
+            var campost=req.params.id2
+     
+            var idempresa=req.params.id3
+        
+            var contrato=String(jsonObject.contrato).split('¬')[1]
+            var filtro={estado:'Activo',idpapa:contrato}
+            //enmiendas
+            const ans = await functool.daidformreg('5f72a12587c9e33bd4ada7abs',filtro,{_id:-1},idempresa,'5f72a12587c9e33bd4ada7ab'); 
+
+var papasx=[]
+for(var i = 0; i <ans.length; i++) {
+papasx.push('' + ans[i]._id)
+}
+
+             var arr=req.params.id3.split('°')
+             const pagosf = await functool.daidformreg('5f595df92521cd38c8fe3126',{
+                idpapa:{$in:papasx}
+                ,estado:'Pendiente'},{_id:1},idempresa,'5f595df92521cd38c8fe3126'); 
+
+
+
+                var enmiendax=[]
+for(var i = 0; i <pagosf.length; i++) {
+enmiendax.push('' + pagosf[i]._id)
+}
+
+const multas = await functool.daidformreg('5f74c0fff22ed14ea01c1cbes',{
+idpapa:{$in:enmiendax}
+,estado:'Activo'},{_id:1},idempresa,'5f74c0fff22ed14ea01c1cbe'); 
+
+const emergencias = await functool.daidformreg('603715b7a59cf50610072759',{
+    idpapa:{$in:enmiendax},estado:'No atendida'
+    },{_id:1},idempresa,'603715b7a59cf50610072759'); 
+
+var pagosxx=[]
+//String(Supervisores[i2]._id)
+    for(var i = 0; i <pagosf.length; i++) {
+        var totalmulta=0
+        var totalemergencias=0
+        var totalpago=pagosf[i].montopago;
+        var idpago=String(pagosf[i]._id);
+       
+        for(var i2 = 0; i2 <multas.length; i2++) {
+            if(idpago===multas[i2].idpapa)
+            {
+                totalmulta=totalmulta+ multas[i2].monto
+
+            }
+       
+        }
+
+
+        for(var i3 = 0; i3 <emergencias.length; i3++) {
+
+            if(idpago===emergencias[i3].idpapa)
+            {
+                totalemergencias=totalemergencias+ emergencias[i3].monto
+
+            }
+       
+        }
+        
+        var montoapagar=totalpago-totalmulta-totalemergencias
+        pagosxx.push({_id:pagosf[i]._id,nopago:Number(pagosf[i].nopago),item:pagosf[i],nombre:'<strong>No pago</strong>: '+ pagosf[i].nopago+'<br><strong>Perido pago</strong>: '+ pagosf[i].periodopago+'<br><strong>Monto Pago</strong>: '+totalpago+'<br><strong>Multas</strong>: '+ totalmulta+'<br><strong>Emergencias</strong>: '+ totalemergencias+'<br><strong>Monto a pagar</strong>: ' + montoapagar +'<br>'})
+       
+    }
+
+
+    pagosxx.sort(function(a, b) {
+        return parseFloat(a.nopago) - parseFloat(b.nopago);
+    });
+
+
+  
+
+    //nombre:'<strong>Monto Pago</strong>: 307201.83<br><strong>No pago</strong>: 25<br><strong>Monto a pagar</strong>: 307201.83<br>'
+
+
+
+      /*      planificaciones = await functool.dadatosformulariocombo('5f595df92521cd38c8fe3126',{
+                idpapa:{$in:papasx}
+                ,estado:'Cancelado'},arr[0],myDatavector); 
+                */
+
+                var pagos2=[]
+
+            if(pagosxx.length===0)
+            {
+               
+                resolve({estado:'exito',datat: pagosxx}); 
+            }
+            else
+            {
+                pagos2.push({_id:pagosxx[0]._id,nopago:pagosxx[0].nopago,item:pagosxx[0].item,nombre:pagosxx[0].nombre});
+                resolve({estado:'exito',datat: pagos2}); 
+                
+            }
+
+              })();
+    break;
           case 'getcontactoempresa':
             (async () => {
               var jsonObject = functool.stringToObject( req.params.id2);

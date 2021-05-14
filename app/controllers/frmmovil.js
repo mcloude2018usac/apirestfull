@@ -3201,7 +3201,20 @@ if(req.params.recordID!=='crea')
                                                 }
                                                 else
                                                 {
-                                                    res.json(todo330);
+                                                    if(req.body.ejecuta!=='' && req.body.ejecuta!==undefined)
+                                                    {
+                                                        (async () => {    
+                                                        respuesta = await frmejecuta. procesofinalcrea(req, res, next,todo3);
+                                                        console.log(respuesta)
+                                                        res.json(todo330);
+                                                        })();
+                                                
+                                                    }
+                                                    else
+                                                    {
+                                                        res.json(todo330);
+                                                    }
+    
                                                 }
         
 

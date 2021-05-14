@@ -214,39 +214,163 @@ var kardexproducto = require('../models/asociadoventa/kardexcorreosproducto');
         console.log(req.params)
         return new Promise(resolve => {
             var reportefrm=req.params.id.split('°')
+            //reportefrm this.nidformulario + '°' + this.idformulario  + '°'+item._id 
             console.log('clase frmmovilejecutareporte --> add en la funcion dareportepdf  case ' + reportefrm[1] + ':(async () => { })();')
             switch(reportefrm[1]) {
+              case 'printgeneralprocesos': //IMPIRTACIONES
+              //no ticke  req.params.id2    empresa req.params.id3
+              (async () => {
+              
+              
+                var jsonObject = functool.stringToObject( functool.replaceAll( req.params.id5 ,'ë','/'));
+                var jsonObject2 = functool.stringToObject( functool.replaceAll( req.params.id2 ,'ë','/'));
+              
+                let jsonx= [];
+              
+              //  formulario = await functool.dadatosformularioidfinal(reportefrm[1],{ _id:reportefrm[2]},req.params.id3,reportefrm[1]); 
+              
+                
+              jsonx.push(jsonObject)
+              
+              jsonx.push({text:'   '})
+              
+          
+              
+              jsonx.push( {
+                style: 'tableExample',
+                layout: {
+                    fillColor: function (rowIndex, node, columnIndex) {
+                        return (rowIndex === 0) ? '#c2dec2' : null;
+                    }
+                },
+                table: {
+                    widths: ['100%'],
+                    heights: [20,10],
+                    headerRows: 1,
+                    body: 
+                    jsonObject2
+                      
+                       
+                    
+                }
+              })
+              
+              
+        
+              jsonx.push({text:'   '})
+              
+              jsonx.push({	text: [{text: 	'Recibido por: ', bold: true},{text: '______________________________'}	],  alignment: 'right'})
+              
+              
+              
+                              resolve({estado:jsonx}); 
+              
+                              
+                          })();
+                            break;
               case '605a23446886480f70f6ec3f': //IMPIRTACIONES
 //no ticke  req.params.id2    empresa req.params.id3
 (async () => {
 
 
+  var jsonObject = functool.stringToObject( functool.replaceAll( req.params.id5 ,'ë','/'));
+  var jsonObject2 = functool.stringToObject( functool.replaceAll( req.params.id2 ,'ë','/'));
+
   let jsonx= [];
-  formulario = await functool.dadatosformularioidfinal(reportefrm[1],{ _id:req.params.id2},req.params.id3,reportefrm[1]); 
-     
+
+  formulario = await functool.dadatosformularioidfinal(reportefrm[1],{ _id:reportefrm[2]},req.params.id3,reportefrm[1]); 
+
+  
+jsonx.push(jsonObject)
+
+jsonx.push({text:'   '})
+
 jsonx.push({
-  margin: [0, 0, 0, 10],
+  style: 'tableExample',
+  table: {
+    body: [
+      ['No. poliza', '          '],
+      ['Clase 36/37   ', '          ']
+    ]
+  }
+});
+
+jsonx.push({text:'   '})
+
+
+jsonx.push( {
+  style: 'tableExample',
   layout: {
       fillColor: function (rowIndex, node, columnIndex) {
-          return (rowIndex % 2 === 0) ? '#ebebeb' : '#f5f5f5';
+          return (rowIndex === 0) ? '#c2dec2' : null;
       }
   },
   table: {
       widths: ['100%'],
       heights: [20,10],
-      body: [
-          [
-              { 
-                alignment: 'center',
-                  text: 'tipo '+ ': '+'titulo',
-                  fontSize: 16,
-                  bold: true,
-              }
-          ],
+      headerRows: 1,
+      body: 
+      jsonObject2
+        
          
-      ],
+      
   }
-},)
+})
+
+
+jsonx.push({text:'   '})
+jsonx.push({
+  style: 'tableExample',
+  color: '#444',
+  table: {
+    widths: [210, 'auto', 'auto', 'auto', 'auto', 'auto', 'auto'],
+    headerRows: 2,
+    // keepWithHeaderRows: 1,
+    body: [
+      [{text: 'STATUS', style: 'tableHeader', alignment: 'center'}, 
+      {text: 'INICIAL', style: 'tableHeader',colSpan: 2,  alignment: 'center'},{},
+      {text: '2DA REV', style: 'tableHeader',colSpan: 2,  alignment: 'center'}, {},
+      {text: 'CLASE 36 / CLASE 37', style: 'tableHeader',colSpan: 2,  alignment: 'center'},{}],
+      
+          [{text: '', style: 'tableHeader', alignment: 'center'}, 
+      {text: 'HORA', style: 'tableHeader', alignment: 'center'}
+      , {text: 'FECHA', style: 'tableHeader', alignment: 'center'}, 
+          {text: 'HORA', style: 'tableHeader', alignment: 'center'}
+      , {text: 'FECHA', style: 'tableHeader', alignment: 'center'}, 
+          {text: 'HORA', style: 'tableHeader', alignment: 'center'}
+      , {text: 'FECHA', style: 'tableHeader', alignment: 'center'}, 
+    
+      
+      
+      ],
+      
+      ['RECIBIDO DE SERVICIO AL CLIENTE', '', '','', '', '',''],
+      ['ENTREGA A CONTROL DE CALIDAD', '', '','', '', '',''],
+      ['RECIBIDA DE CONTROL DE CALIDAD', '', '','', '', '',''],
+      ['PREPOLIZA DE SERVICIO AL CLIENTE', '', '','', '', '',''],
+        ['CONFIRMA A  SERVICIO AL CLIENTE', '', '','', '', '',''],
+          ['A TRAMITE', '', '','', '', '',''],
+    
+    ]
+  }
+});
+
+jsonx.push({text:'   '})
+
+jsonx.push({
+  style: 'tableExample',
+  table: {
+    body: [
+      ['Regimen', '          '],
+      ['Aduana Entrada ', '          '],
+      ['Aduana Salida', '          ']
+    ]
+  }
+});
+jsonx.push({text:'   '})
+
+jsonx.push({	text: [{text: 	'Recibido por: ', bold: true},{text: '______________________________'}	],  alignment: 'right'})
+
 
 
                 resolve({estado:jsonx}); 
@@ -290,7 +414,7 @@ jsonx.push({
                             ],
                             // optional space between columns
                             columnGap: 1,
-                            margin: [ 25, 75, 10, 1 ] ,
+                            margin: [ 25, 85, 10, 1 ] ,
                           
                            
                             fontSize: 8
