@@ -2,10 +2,19 @@ var mongoose =require("mongoose");
 var formulariotrayectoriaSchema 		=	new  mongoose.Schema({
  idempresa		: { type : String, required : true },  
  idorden		: { type : String, required : true,ref:'' },  
+ 
  usuariocreador		:{    id	: { type : String},   nombre	: { type : String}  ,   
- email	: { type : String}        },
+ email	: { type : String}    ,usuarionew2	: { type : String}        },
  usuarioejecutor		:{    id	: { type : String},   nombre	: { type : String}  ,   
- email	: { type : String}        },
+ email	: { type : String}     ,usuarionew2	: { type : String}     },
+ estadoxxx	: { type : String}, 
+ enviadoporxxx	: { type : String}, 
+ info	: { type : String}, 
+
+
+ secuenciagants: { type :Array},
+ idanst: { type :Array},
+
  dias		: { type : Number },
  horas		: { type : Number },
  minutos		: { type : Number },

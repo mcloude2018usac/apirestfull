@@ -109,6 +109,9 @@ if(req.params.recordID!=='crea')
             todo.pmodulo       	=	req.body.pmodulo        	||	todo.pmodulo;   
              todo.moneda     	= req.body.moneda    	;
 
+             todo.simarca	=	req.body.simarca        ;  
+             todo.siexporta	=	req.body.siexporta        ;  
+             todo.sicorrelativo2	=	req.body.sicorrelativo2        ;  
 
              todo.tipocorreo	= req.body.tipocorreo    	;
              todo.segurocorreo= req.body.segurocorreo    	;
@@ -122,6 +125,7 @@ if(req.params.recordID!=='crea')
              todo.siimagenes= req.body.siimagenes	;
              todo.sicorrelativo= req.body.sicorrelativo	;
              todo.subtitulo= req.body.subtitulo	;
+             todo.sicodigointerno= req.body.sicodigointerno	;
 
 
             todo.nit       	=	req.body.nit        	||	todo.nit;   
@@ -175,6 +179,7 @@ else{
          foto0     	: req.body.foto0    	,
          foto1     	: req.body.foto1    	,
          foto2     	: req.body.foto2    	,
+         sicodigointerno  :  req.body.sicodigointerno,
          logo1     	: req.body.logo1    	,
          logo2     	: req.body.logo2    	,
          nombredominio     	: req.body.nombredominio    	,
@@ -193,6 +198,11 @@ else{
          puertocorreo: req.body.puertocorreo    	,
          tipofirma: req.body.tipofirma    	,
          siperfil	: req.body.siperfil	,
+
+         simarca	: req.body.simarca	,
+         sicorrelativo2	: req.body.sicorrelativo	,
+         siexporta	: req.body.siexporta	,
+
 
          siimagenes	: req.body.siimagenes	,
          sicorrelativo	: req.body.sicorrelativo	,

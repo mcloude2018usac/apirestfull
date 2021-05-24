@@ -7,6 +7,9 @@ var AuthenticationController = require('./controllers/authentication'),
     Image2frmController = require('./controllers/image2frm'),
     Imagessl2Controller = require('./controllers/imagessl2'),
     CorreosController = require('./controllers/correos/correos'),
+
+    GesController = require('./controllers/ges/ges'),
+
     tarifaController = require('./controllers/asociadoventa/tarifa'),
     dispositivoController = require('./controllers/asociadoventa/dispositivo'),
     frmaccionesController = require('./controllers/asociadoventa/frmacciones'),
@@ -213,6 +216,7 @@ module.exports = function(app){
         formulariofotosRoutes = express.Router(),
         formulariofotos2Routes = express.Router(),
         correosRoutes = express.Router(),
+        gesRoutes = express.Router(),
 
         formulariotareasRoutes = express.Router(),
         formulariotareasdocRoutes = express.Router(),
@@ -390,6 +394,9 @@ SINNNNNNNNNNNNNN AUTORIZACION
   correosRoutes.post('/:recordID',requireAuth,  CorreosController.creacorreos2s);
   correosRoutes.get('/:id/:id2/:id3',requireAuth,  CorreosController.getCorreos);
 
+  apiRoutes.use('/gess', gesRoutes);
+  gesRoutes.post('/:recordID',requireAuth,  GesController.creages2s);
+  gesRoutes.get('/:id/:id2/:id3',requireAuth,  GesController.getGes);
 
   apiRoutes.use('/Image2s', image2Routes);
   image2Routes.get('/:id',  Image2Controller.getImage2s);

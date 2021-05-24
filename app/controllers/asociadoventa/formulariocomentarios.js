@@ -56,7 +56,9 @@ if(req.params.recordID!=='crea')
     });
 }
 else{
-    formulariocomentarios.find({nombre        	: req.body.nombre  },function(err, todos) {
+    formulariocomentarios.find({nombre        	: req.body.nombre , idempresa     	: req.body.idempresa    	,
+        idpapa     	: req.body.idpapa    	,
+        actividad	: req.body.actividad    	, },function(err, todos) {
         if (err){ res.send(err); }
         if(todos.length>0)   {    res.status(500).send('Ya existe un formulariocomentarios en plataforma'); }
         else

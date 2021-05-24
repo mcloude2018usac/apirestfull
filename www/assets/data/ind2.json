@@ -1,0 +1,71 @@
+{
+    "items":  [
+        
+    
+ 
+        {
+            "name": "Educación",
+            "icon": "home",
+            "children": [
+               
+                        {"name": "Aumentar cobertura nivel preprimario",  "icon": "briefcase", "information": "", "modulo": "1" },
+                        {"name": "Aumentar cobertura nivel primario",  "icon": "briefcase", "information": "", "modulo": "1" },
+                        {"name": "Aumentar cobertura nivel básico",  "icon": "briefcase", "information": "", "modulo": "1" },
+                        {"name": "Aumentar cobertura nivel diversificado",  "icon": "briefcase", "information": "", "modulo": "1" },
+                        {"name": "Disminuir nivel de analfabetismo",  "icon": "briefcase", "information": "", "modulo": "1" },
+                        {"name": "Aumentar cobertura seguro médico escolar (millones niños)",  "icon": "briefcase", "information": "", "modulo": "1" },
+                        {"name": "Aumentar inversión en servicios de alimentación escolar",  "icon": "briefcase", "information": "", "modulo": "1" },
+                        {"name": "Aumentar cantidad de becas escolares",  "icon": "briefcase", "information": "", "modulo": "1" },
+                        {"name": "Profesionalización docente a nivel de licenciatura",  "icon": "briefcase", "information": "", "modulo": "1" },
+                        {"name": "Incremenar el número de maestros",  "icon": "briefcase", "information": "", "modulo": "1" },
+                        {"name": "Incrementar número consejos escol padres fam",  "icon": "briefcase", "information": "", "modulo": "1" },
+                        {"name": "Presupuesto asignado a Minudec (s/PIB)",  "icon": "briefcase", "information": "", "modulo": "1" },
+                        {"name": "Proporción de estudiantes de 15 años de edad que alcanza el nivel 2 o más en las pruebas de lectura del Programa Internacional de Evaluación de Estudiantes (PISA)",  "icon": "briefcase", "information": "", "modulo": "1" },
+                        {"name": "Proporción de estudiantes de 15 años de edad que alcanza el nivel 2 o más en las pruebas de matematica del Programa Internacional de Evaluación de Estudiantes (PISA)",  "icon": "briefcase", "information": "", "modulo": "1" },
+                        {"name": "Proporción de estudiantes de 15 años de edad que alcanza el nivel 2 o más en las pruebas de ciencias naturales  del Programa Internacional de Evaluación de Estudiantes (PISA)",  "icon": "briefcase", "information": "", "modulo": "1" }
+
+                       ]   
+        },
+        {
+            "name": "salud",
+            "icon": "home",
+            "children": [
+               
+                        {"name": "Porcentaje de niños con desnutrición crónica",  "icon": "color-filter", "information": "", "modulo": "1" },
+                        {"name": "Disminuir tasa de mortalidad materna",  "icon": "checkbox", "information": "", "modulo": "2" },
+                        {"name": "Disminuir tasa de mortalidad infantil",  "icon": "checkbox", "information": "", "modulo": "4" },
+                        {"name": "Casos de morbilidad infantil",  "icon": "checkbox", "information": "", "modulo": "1" },
+                        {"name": "Porcentaje de niños y niñas de 12-23 meses con esquema completo de vacunación",  "icon": "checkbox", "information": "", "modulo": "1" },
+                        {"name": "Aumentar cantidad pacientes atendidos sist de salud",  "icon": "checkbox", "information": "", "modulo": "1" },
+                        {"name": "Aumentar cantidad centros de salud nuevos tipo A y B",  "icon": "checkbox", "information": "", "modulo": "1" }
+                       ]   
+        },
+        {
+            "name": "Atención de la pobreza",
+            "icon": "home",
+            "children": [
+               
+                        {"name": "Familias atendidas programa transferencias monetar",  "icon": "eye", "information": "", "modulo": "1" },
+                        {"name": "Monto invertido programa transferencias monetar (en millones de Q.) ",  "icon": "eye", "information": "", "modulo": "1" },
+                        {"name": "Adultos mayores atendidos programa pensiones",  "icon": "eye", "information": "", "modulo": "1" },
+                        {"name": "Monto invertido programa adulto mayor",  "icon": "eye", "information": "", "modulo": "1" },
+                        {"name": "Personas capacitadas actividad economica productivas",  "icon": "eye", "information": "", "modulo": "1" },
+                        {"name": "Cantidad de personas atendidas comedores sociales",  "icon": "eye", "information": "", "modulo": "1" },
+                        {"name": "Monto invertido programa comedores sociales",  "icon": "eye", "information": "", "modulo": "1" },
+                        {"name": "Aumentar fondo social para la atención desastres",  "icon": "eye", "information": "", "modulo": "1" }
+                       ]   
+        },
+        {
+            "name": "vivienda",
+            "icon": "home",
+            "children": [
+               
+                        {"name": "Propiciar  el crecimiento del PIB (%)",  "icon": "home", "information": "", "modulo": "1" },
+                        {"name": "Propiciar aumento construc vivienda social",  "icon": "home", "information": "", "modulo": "1" },
+                        {"name": "Aumentar cantidad subsidios vivienda social",  "icon": "home", "information": "", "modulo": "1" }
+                       ]   
+        }
+       
+       
+        ]
+}

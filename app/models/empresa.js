@@ -25,6 +25,12 @@ var mongoose =require("mongoose");
         horario	: { type : String },
         inicio	: { type : String },
         siregister: { type : String },
+
+        simarca: { type : String },
+        siexporta: { type : String },
+        sicorrelativo2: { type : String },
+
+        sicodigointerno: { type : String },
         siperfil: { type : String },
         siimagenes: { type : String },
         sicorrelativo: { type : String },

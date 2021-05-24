@@ -144,6 +144,66 @@ function datipo(value) {
 
 
 
+          var     actualizatrayectoria= function(idtt,idorden,fechatt,usuarioejecutor){
+            return new Promise(resolve => {    
+                
+                
+    
+               
+             formulariotrayectoria.findOne({ _id:{$nin:[idtt]},
+                 idorden:idorden }).sort({_id:-1}).exec( function (err, todo2000)  {
+                 if (err) {  res.send(err);  }
+     
+     
+                 if(todo2000.length===0)
+                 {
+                     resolve(todo3); 
+                 }
+                 else
+     {
+                 var ff3=new Date(fechatt)
+                 var ff4=todo2000.createdAt 
+                 
+     
+                 var diffDays = parseInt((ff3 - ff4) / (1000 * 60 * 60 * 24)); //gives day difference
+                 var diffhoras = parseInt((ff3 - ff4) / (1000 * 60 * 60 )); //gives day difference
+                 var diffminutos = parseInt((ff3 - ff4) / (1000 * 60 )); //gives day difference
+                 var diffseg = parseInt((ff3 - ff4) / (1000  )); //gives day difference
+     //one_day means 1000*60*60*24
+     //one_hour means 1000*60*60
+     //one_minute means 1000*60
+     //one_second means 1000
+     
+     
+                 formulariotrayectoria.findById({ _id:todo2000._id}, function (err, todo3000)  {
+                     
+                     if (err) {  res.send(err);  }
+                     else
+                     {  todo3000.salioorden=0;
+                         todo3000.usuarioejecutor=usuarioejecutor;
+                         todo3000.dias=diffDays;
+                         todo3000.horas=diffhoras;
+                         todo3000.minutos=diffminutos;
+                         todo3000.segundos=diffseg;
+     
+                         todo3000.save(function (err, todo){
+                             if (err)     {  res.status(500).send(err.message)   }
+                             
+                             resolve(todo); 
+                         });
+                     }
+                 });
+             }
+             });
+    
+    
+    
+              
+    
+            });
+        }
+    
+
     function ejecutasql  (cad,sqlconecta)
     {
     //var  ejecutasql= async function(cad,sqlconecta) {
@@ -270,7 +330,7 @@ function datipo(value) {
                                                 {
                                                     if(req.body.optionorden.tipo==='proceso')
                                                     {
-                                                    cad=cad + '"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" }, "usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"},"geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},"sequencia":{"type":"String"},"sequenciag":{"type":"String"},"papaorigen":{"type":"String"},  "pmodulo": { "type" :"Array"}'
+                                                    cad=cad + '"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" }, "usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"},"geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},"sequencia":{"type":"String"},"sequenciag":{"type":"String"},"papaorigen":{"type":"String"},  "secuenciagants": { "type" :"Array"},"idanst": { "type" :"Array"}, "secuenciagants": { "type" :"Array"},"idanst": { "type" :"Array"}, "pmodulo": { "type" :"Array"}'
                                                     }
                                                     else
                                                     {
@@ -283,7 +343,7 @@ function datipo(value) {
                 
                                                     if(req.body.optionorden.tipo==='proceso')
                                                     {
-                                                        cad=cad + '"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" }, "usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"},"geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},"sequencia":{"type":"String"},"sequenciag":{"type":"String"},"papaorigen":{"type":"String"},  "pmodulo": { "type" :"Array"}'
+                                                        cad=cad + '"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" }, "usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"},"geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},"sequencia":{"type":"String"},"sequenciag":{"type":"String"},"papaorigen":{"type":"String"},  "secuenciagants": { "type" :"Array"},"idanst": { "type" :"Array"}, "pmodulo": { "type" :"Array"}'
                                                     
                                                     }
                                                     else
@@ -328,8 +388,15 @@ function datipo(value) {
                                                                     idordeng:secuencia,
                                                                     papaorigen: req.body.itemsx._id,
                                                                     sequencia:todo3.sequencia,
+                                                                    sequenciag:todo3.sequenciag,
                                                                     usuariocreador		: req.body.optionorden.trayectoria.usuariocreador,
                                                                     email:req.body.optionorden.trayectoria.email,
+                                                                    procedimiento:req.body.optionorden.trayectoria.procedimiento,
+                                                                    secuenciagants:req.body.optionorden.trayectoria.secuenciagants,
+                                                                    idanst:req.body.optionorden.trayectoria.idanst,
+                                                                    estadoxxx:req.body.optionorden.trayectoria.estadoxxx,
+                                                                    enviadoporxxx:req.body.optionorden.trayectoria.enviadoporxxx,
+                                                                    info:req.body.optionorden.trayectoria.info,
                                                                     minutos		:0,
                                                                     dias:0,
                                                                     horas:0,
@@ -396,8 +463,15 @@ function datipo(value) {
                                                                 idorden	: todo3._id,
                                                                 idordeng:0,
                                                                 sequencia:todo3.sequencia,
+                                                                sequenciag:todo3.sequenciag,
                                                                 usuariocreador		: req.body.optionorden.trayectoria.usuariocreador,
                                                                 email:req.body.optionorden.trayectoria.email,
+                                                                procedimiento:req.body.optionorden.trayectoria.procedimiento,
+                                                                secuenciagants:req.body.optionorden.trayectoria.secuenciagants,
+                                                                idanst:req.body.optionorden.trayectoria.idanst,
+                                                                estadoxxx:req.body.optionorden.trayectoria.estadoxxx,
+                                                                enviadoporxxx:req.body.optionorden.trayectoria.enviadoporxxx,
+                                                                info:req.body.optionorden.trayectoria.info,
                                                                 minutos		:0,
                                                                 dias:0,
                                                                 horas:0,
@@ -465,7 +539,7 @@ function datipo(value) {
                                     {
                                         if(req.body.optionorden.tipo==='proceso')
                                         {
-                                         cad=cad + '"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" }, "usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"},"geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},"sequencia":{"type":"String"},"sequenciag":{"type":"String"},"papaorigen":{"type":"String"},  "pmodulo": { "type" :"Array"}'
+                                         cad=cad + '"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" }, "usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"},"geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},"sequencia":{"type":"String"},"sequenciag":{"type":"String"},"papaorigen":{"type":"String"},  "secuenciagants": { "type" :"Array"},"idanst": { "type" :"Array"}, "pmodulo": { "type" :"Array"}'
                                          
                                         }
                                         else
@@ -479,7 +553,7 @@ function datipo(value) {
      
                                          if(req.body.optionorden.tipo==='proceso')
                                          {
-                                             cad=cad + '"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" }, "usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"},"geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},"sequencia":{"type":"String"},"sequenciag":{"type":"String"},"papaorigen":{"type":"String"},  "pmodulo": { "type" :"Array"}'
+                                             cad=cad + '"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" }, "usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"},"geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},"sequencia":{"type":"String"},"sequenciag":{"type":"String"},"papaorigen":{"type":"String"},  "secuenciagants": { "type" :"Array"},"idanst": { "type" :"Array"}, "pmodulo": { "type" :"Array"}'
                                          }
                                          else
                                          {
@@ -531,6 +605,12 @@ function datipo(value) {
                                                                     papaorigen: req.body.itemsx._id,
                                                                     usuariocreador		: req.body.optionorden.trayectoria.usuariocreador,
                                                                     email:req.body.optionorden.trayectoria.email,
+                                                                    procedimiento:req.body.optionorden.trayectoria.procedimiento,
+                                                                    secuenciagants:req.body.optionorden.trayectoria.secuenciagants,
+                                                                    idanst:req.body.optionorden.trayectoria.idanst,
+                                                                    estadoxxx:req.body.optionorden.trayectoria.estadoxxx,
+                                                                    enviadoporxxx:req.body.optionorden.trayectoria.enviadoporxxx,
+                                                                    info:req.body.optionorden.trayectoria.info,
                                                                     minutos		:0,
                                                                     dias:0,
                                                                     horas:0,
@@ -598,6 +678,12 @@ function datipo(value) {
                                                          
                                                             usuariocreador		: req.body.optionorden.trayectoria.usuariocreador,
                                                             email:req.body.optionorden.trayectoria.email,
+                                                            procedimiento:req.body.optionorden.trayectoria.procedimiento,
+                                                            secuenciagants:req.body.optionorden.trayectoria.secuenciagants,
+                                                            idanst:req.body.optionorden.trayectoria.idanst,
+                                                            estadoxxx:req.body.optionorden.trayectoria.estadoxxx,
+                                                            enviadoporxxx:req.body.optionorden.trayectoria.enviadoporxxx,
+                                                            info:req.body.optionorden.trayectoria.info,
                                                             minutos		:0,
                                                             dias:0,
                                                             horas:0,
@@ -1129,29 +1215,37 @@ var dahora= function(data) {
                   }
    
 
-
+                  var cadenabusqueda=todos2[i].actorxxx + ' ' + todos2[i].sequenciag+ ' ' + todos2[i].sequencia+ ' ' + todos2[i].actividadxxx+ ' ' + todos2[i].enviadoporxxx
                   
-                if(todos2[i].estadointerno ==='activo')
-                {
-                    datafinal.push({item:todos2[i],_id:todos2[i]._id,nombre2:'tico',nombre:cad+ '<div style="font-size: 10px;text-transform: capitalize;">Crea: [' +
-                     dafechastring(todos2[i]['createdAt'])+','  + dausuariobita(todos2[i]['usuarionew'],todos2[i]['usuarionew2']) + ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +  
-                      dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) + '] <br> </div><div style="font-size: 14px;text-transform: capitalize;color:blue;">Estado interno: '+ todos2[i].estadointerno + comt + comt2 +'</div>',item:todos2[i],usuario:''})
-                }
-                else
-                {
-                    datafinal.push({item:todos2[i],_id:todos2[i]._id,nombre2:'tico',nombre:cad+ '<div style="font-size: 10px;text-transform: capitalize;">Crea: [' + 
-                    dafechastring(todos2[i]['createdAt'])+',' + 
-                     dausuariobita(todos2[i]['usuarionew'],todos2[i]['usuarionew2'])+ ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +  
-                     dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) +  '] <br> </div><div style="font-size: 14px;text-transform: capitalize;color:red;">Estado interno: '+ todos2[i].estadointerno + comt + comt2 +'</div>',item:todos2[i],usuario:''}) 
-                }
-                 cad='';
-  
-                }
-  
-  
-                   
-             }
-         return datafinal;
+                  if(todos2[i].estadointerno ==='activo')
+                  {
+                      datafinal.push({item:todos2[i],_id:todos2[i]._id,          nombre2:cad+ '<div style="font-size: 10px;text-transform: capitalize;">Crea: [' +
+                      dafechastring(todos2[i]['createdAt'])+','  + dausuariobita(todos2[i]['usuarionew'],todos2[i]['usuarionew2']) + ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +  
+                       dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) + '] <br> </div><div style="font-size: 14px;text-transform: capitalize;color:blue;">Estado interno: '+ todos2[i].estadointerno + comt + comt2 +'</div>',
+                      nombre:cad+ ' ' +cadenabusqueda +  ' <div style="font-size: 10px;text-transform: capitalize;">Crea: [' +
+                       dafechastring(todos2[i]['createdAt'])+','  + dausuariobita(todos2[i]['usuarionew'],todos2[i]['usuarionew2']) + ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +  
+                        dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) + '] <br> </div><div style="font-size: 14px;text-transform: capitalize;color:blue;">Estado interno: '+ todos2[i].estadointerno + comt + comt2 +'</div>'
+                        ,item:todos2[i],usuario:''})
+                  }
+                  else
+                  {
+                      datafinal.push({item:todos2[i],_id:todos2[i]._id,    nombre:cad + ' ' +cadenabusqueda + ' <div style="font-size: 10px;text-transform: capitalize;">Crea: [' + 
+                      dafechastring(todos2[i]['createdAt'])+',' +      dausuariobita(todos2[i]['usuarionew'],todos2[i]['usuarionew2'])+ ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +  
+                       dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) +  '] <br> </div><div style="font-size: 14px;text-transform: capitalize;color:red;">Estado interno: '+ todos2[i].estadointerno + comt + comt2 +'</div>'
+                  ,
+                      nombre:cad+ '<div style="font-size: 10px;text-transform: capitalize;">Crea: [' + 
+                      dafechastring(todos2[i]['createdAt'])+',' +      dausuariobita(todos2[i]['usuarionew'],todos2[i]['usuarionew2'])+ ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +  
+                       dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) +  '] <br> </div><div style="font-size: 14px;text-transform: capitalize;color:red;">Estado interno: '+ todos2[i].estadointerno + comt + comt2 +'</div>'
+                       ,item:todos2[i],usuario:''}) 
+                  }
+                   cad='';
+    
+                  }
+    
+    
+                     
+               }
+           return datafinal;
       }
   
       var dausuariobita=function(correo,usuario)
@@ -1175,7 +1269,7 @@ var dahora= function(data) {
         var cad3=''
             for(var i = 0; i < todos2.length;i++){
             //console.log(todos2[i])
-              
+            cad=cad + '<strong>Codigo interno</strong>: ' +todos2[i].sequencia+ '<br>'
                  
            for (let ii = 0; ii < keys.length; ii++) {
                var arreglo=(objetox[keys[ii]] ).split('°')
@@ -1829,6 +1923,66 @@ function dadatosformularioidfinal  (namess,filtro,idempresa,namess2)
 
 }
 
+
+
+
+
+function creatrayectoria  (namess,filtro,idempresa,namess2)
+{
+    return new Promise(resolve => { 
+
+        Frmmovild.find({idmovil:namess, idempresa:idempresa}).sort([['order', 1]]).exec(function(err, todos) {
+            if (err){ res.send(err); }
+          
+     //   console.log(todos)
+                                if(todos.length>0)   {  
+                               
+                                    var cad=''
+                                    var cadxx=''
+                                    var cad3=(dafiltrocad(todos,'','','')).split('°')
+                                  
+                              
+                                 
+                                    cad=cad3[0]
+                                    cadxx='{'+ cad3[1] + '}'
+                                    cad=cad + '"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" },   "usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"}, "geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},  "secuenciagants": { "type" :"Array"},"idanst": { "type" :"Array"}, "pmodulo": { "type" :"Array"}'
+                                 
+                                    cad='{' + cad + '}'
+                                    cadxx='{' + cadxx + '}'
+                               //  console.log(cad)
+                                    var jsonObject = stringToObject(cad);
+                                  
+                                    var mongoose = require("mongoose");
+                                    var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                                    delete mongoose.connection.models[namess2];
+                                    var  frmtt= mongoose.model(namess2,tt);
+
+                                    frmtt.updateMany(filtro, est, function(err, todos2) {
+                                   
+                                        if (err){  res.send(err); }
+
+                                        resolve(todos2); 
+                                       // res.json(todos2);
+
+                                    });
+                                }
+
+
+    });
+        
+                                    
+                                   
+                             
+                
+        
+    
+
+                                });
+
+}
+
+
+
 function actualizaformularioidfinal  (namess,filtro,idempresa,namess2,est)
 {
     return new Promise(resolve => { 
@@ -1847,7 +2001,8 @@ function actualizaformularioidfinal  (namess,filtro,idempresa,namess2,est)
                                  
                                     cad=cad3[0]
                                     cadxx='{'+ cad3[1] + '}'
-                                    cad=cad + '"idpapa"	: { "type" : "String" }, "comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno"	: { "type" : "String" },"usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                    cad=cad + '"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" },   "usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"}, "geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},  "secuenciagants": { "type" :"Array"},"idanst": { "type" :"Array"}, "pmodulo": { "type" :"Array"}'
+                                 
                                     cad='{' + cad + '}'
                                     cadxx='{' + cadxx + '}'
                                //  console.log(cad)
@@ -2970,7 +3125,7 @@ function dadatosformularioproceso(namess,filtro,idempresa,namess2)
                                  
                                     cad=cad3[0]
                                     cadxx='{'+ cad3[1] + '}'
-                                    cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"},"geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},  "pmodulo": { "type" :"Array"}'
+                                    cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"},"geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},  "secuenciagants": { "type" :"Array"},"idanst": { "type" :"Array"}, "pmodulo": { "type" :"Array"}'
 
                                     
                                     cad='{' + cad + '}'
@@ -3110,6 +3265,7 @@ module.exports = {
     procesahtmlrecord:procesahtmlrecord,
     procesahtmlrecordproceso:procesahtmlrecordproceso,
     procesatablauirecord:procesatablauirecord,
+    actualizatrayectoria:actualizatrayectoria,
     procesaexcelrecord:procesaexcelrecord,
     procesacsvrecord:procesacsvrecord,
     dafiltrocadvalida:dafiltrocadvalida,
