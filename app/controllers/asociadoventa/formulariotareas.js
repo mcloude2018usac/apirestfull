@@ -5,7 +5,7 @@ var functool = require('../../controllers/funcionesnode');
 exports.getformulariotareas = function(req, res, next){
     if(req.params.id4)
     {    if(req.params.id==='tareasusuario2')
-    { console.log(req.params)
+    { 
 
         if(req.params.id4)
         {
@@ -30,7 +30,7 @@ exports.getformulariotareas = function(req, res, next){
     else
     {
         if(req.params.id==='tareasusuario')
-        { console.log({idempresa:req.params.id3,idusuario:req.params.id2})
+        { 
             formulariotareas.find({idempresa:req.params.id3,idusuario:req.params.id2}).sort({'_id': -1}).exec(function(err, todos) {
                 if (err){  res.send(err);  }
                  res.json(todos);
@@ -124,7 +124,8 @@ if(req.params.recordID!=='crea')
     });
 }
 else{
-    formulariotareas.find({nombre        	: req.body.nombre  },function(err, todos) {
+    formulariotareas.find({nombre        	: req.body.nombre ,  idempresa     	: req.body.idempresa    	,
+        idpapa     	: req.body.idpapa    	 },function(err, todos) {
         if (err){ res.send(err); }
         if(todos.length>0)   {    res.status(500).send('Ya existe un formulariotareas en plataforma'); }
         else

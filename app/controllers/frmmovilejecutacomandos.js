@@ -551,6 +551,14 @@ var enmiendasd=[]
         producto = await functool.actualizaformularioidfinal(req.body.optionorden.formulario,{ _id:idt},
           req.body.optionorden.bitacora.idempresa,req.body.optionorden.formulario,
           {"estadointerno":"Cerrardo","actividadclasexxx" : "FINAL",                  "estadoordenxxx" : "cerrada"}); 
+
+
+          tary2= await functool.creatrayectoriatoid(idt,req.body.optionorden.formulario,req.body.optionorden.formulario,new Date(), 
+          req.body.usuarioejecutor,req.body.nidform,req.body.actividadsigaccion,req.body.fecha);
+          
+             
+
+       //creatrayectoriatoid(idt,req.body.optionorden.formulario,req.body.optionorden.formulario,new Date(), req.body.usuarioejecutor,req.body.nidform,req.body.actividadsigaccion)
        
         
                   aduanat = await functool.dadatosformularioidfinal('605a21c86886480f70f6ec2d',{ _id:aduana}
@@ -609,8 +617,10 @@ var enmiendasd=[]
                     producto = await functool.actualizaformularioidfinal(req.body.optionorden.formulario,{ _id:idt},
                       req.body.optionorden.bitacora.idempresa,req.body.optionorden.formulario,{"estadointerno":"Cerrardo","actividadclasexxx" : "FINAL",                  "estadoordenxxx" : "cerrada"}); 
                    
-                      producto2 = await functool.creatrayectoria(req.body.optionorden.formulario,{ _id:idt},
-                        req.body.optionorden.bitacora.idempresa,req.body.optionorden.formulario);
+                      tary2= await functool.creatrayectoriatoid(idt,req.body.optionorden.formulario,req.body.optionorden.formulario,new Date(), 
+                      req.body.usuarioejecutor,req.body.nidform,req.body.actividadsigaccion,req.body.fecha);
+                      
+                         
           
                     aduanat = await functool.dadatosformularioidfinal('605a21c86886480f70f6ec2d',{ _id:aduana}
                     ,req.body.idempresa,'605a21c86886480f70f6ec2ds'); 
@@ -630,7 +640,6 @@ var enmiendasd=[]
                 })();
                   break;
                 
-            
                   case 'Trasladar Datos a Campos':
                     (async () => {
                     //select ticket tabla segun orden segun noticket de la orden
@@ -664,6 +673,7 @@ var enmiendasd=[]
           {
             resolve({estado:'exito',data:[]}); 
           }
+
 
 
           

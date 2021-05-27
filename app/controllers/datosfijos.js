@@ -739,7 +739,7 @@ else
 
 ingreso=cantidadingreso
 saldoactual=existenciaactual+ingreso
-precioingreso=Number(producto.precioporunidad)//Number(data.precio)  *******************************
+precioingreso=Number(data.precio)//Number(data.precio)  *******************************
 
 preciomedio=(precioingreso+Number(producto.precioporunidad))/2
 
@@ -779,7 +779,9 @@ preciomedio=(precioingreso+Number(producto.precioporunidad))/2
                 
                 salida=cantidadingreso
                 saldoactual=existenciaactual-salida
+                precioingreso=Number(producto.precioporunidad)
                 preciomedio=Number(producto.precioporunidad)
+                
 }
 else
 {
@@ -811,12 +813,13 @@ else
                 ingreso=cantidadingreso
                 saldoactual=existenciaactual+ingreso
             //    precioingreso=Number(data.precio)
-                precioingreso=Number(producto.precioporunidad)//Number(data.precio)  *******************************
+                precioingreso=Number(data.precio)//Number(data.precio)  *******************************
 
                 
-                preciomedio=(precioingreso+Number(producto.precioporunidad))/2
+                preciomedio=precioingreso
                 obstt='Acta administrativa No: ' + data.prov + ' inventario inicial'
 
+               
 
 }
 else
@@ -829,10 +832,10 @@ else
         }
        
         
-
+        total=saldoactual*Number(preciomedio)
+        precioproducto=Number(preciomedio)
      
-      total=saldoactual*Number(producto.precioporunidad)
-      precioproducto=Number(producto.precioporunidad)
+    
       var gkardex={
         idempresa		: idempresa,  
         fecha		: data.fecha,  
@@ -858,7 +861,7 @@ else
         egreso		: salida,
         saldoactual		: saldoactual,
         precioanterior:Number(producto.precioporunidad),
-        precio		: Number(producto.precioporunidad),
+        precio		: Number(preciomedio),
         total		: total,
       }
 
@@ -869,6 +872,7 @@ else
     "total" :( saldoactual*Number(preciomedio)).toString()
   
 }
+console.log(estructura);
   producto = await functool.actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:producto._id},idempresa,'5fc01bbba8d0a14888774579',estructura);
 
   kardex.create(gkardex,function(err, todos) {

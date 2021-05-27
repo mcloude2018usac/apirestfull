@@ -26,7 +26,7 @@ function poneiva(monto, iva,op)
 }
 
 exports.getfrmtareasprogramadas = async  function(req, res, next){
-    console.log(req.params)
+    
     if(req.params.id5)
     {
         if(req.params.id2=='dashboard1periodo')
@@ -116,7 +116,7 @@ exports.getfrmtareasprogramadas = async  function(req, res, next){
                 filtro= {estado:'Activo',proyecto:req.params.id,empresa:{'$regex': empresav[i0]._id, '$options' : 'i'},idempresa:req.params.id3}
             }
 
-            console.log(filtro)
+            
 
       
            
@@ -145,7 +145,7 @@ exports.getfrmtareasprogramadas = async  function(req, res, next){
             for(var i = 0; i < entradas.length;i++){
                
                     cinicial=cinicial+entradas[i].cantidad
-                    console.log(entradas[i].nombre.split('¬')[1])
+                    
                
                 
                 
@@ -156,7 +156,7 @@ exports.getfrmtareasprogramadas = async  function(req, res, next){
                 
                 
                     cretiro=cretiro+salidas[i].cantidad
-                    console.log(salidas[i].nombre.split('¬')[1])
+                    
                 
                 
                 
@@ -177,7 +177,7 @@ exports.getfrmtareasprogramadas = async  function(req, res, next){
 
 
                 }
-                console.log(entradas[i].nombre.split('</strong>'))
+                
                 proyectosvv.push({proyecto:entradas[i].nombre.split('</strong>')[4].split('<br>')[0],cinicial:cinicial2,cretiro:cretiro2,csaldo:cinicial2-cretiro2})
                 cinicial2=0
                 cretiro2=0
@@ -276,7 +276,7 @@ if((cinicial+ cretiro)>0)
            
 
            
-            console.log(filtro)
+            
             var ffcontrato=[]
 
             if(req.params.id4==='Periodo')
@@ -307,7 +307,7 @@ if((cinicial+ cretiro)>0)
             }
 
            for(var i = 0; i < contratosv.length;i++){
-               console.log(contratosv[i].empresa)
+               
             ffcontrato.push('' + contratosv[i]._id)
            }
 
@@ -528,14 +528,14 @@ if((cinicial+ cretiro)>0)
     }
         }
             // 127.0.0.1:9090/api/frmtareasprogramadass/1/dashboard1/5f503bededa4710798a79b84/1/role
-            console.log(datajson)
+            
             res.json(datajson);
           
         }
         else{
         if(req.params.id2=='todos0')
         { 
-            console.log('entraaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+            
             var planificaciones= []
             var Supervisores= []
             var Inspectores= []
@@ -705,7 +705,7 @@ if((cinicial+ cretiro)>0)
             }
            
             res.json(datat);
-            console.log(datat)
+            
 
 
         }
@@ -724,7 +724,7 @@ if((cinicial+ cretiro)>0)
                 Frmmovild.find({idmovil:'5f81d95fc07d6532900465a4', display : "true",idempresa:req.params.id3}).sort([['order', 1]]).exec(function(err, todos) {
                     if (err){ res.send(err); }
                   
-             //   console.log(todos)
+             
                                         if(todos.length>0)   {  
                                        
                                             var cad=''
@@ -739,7 +739,7 @@ if((cinicial+ cretiro)>0)
                                             cad='{' + cad + '}'
                                             cadxx='{' + cadxx + '}'
     
-                                       //  console.log(cad)
+                                       
                                             var jsonObject = functool.stringToObject(cad);
                                           
                                             var mongoose = require("mongoose");
@@ -752,7 +752,7 @@ if((cinicial+ cretiro)>0)
                                             {
                                                 filtro={idempresa:req.params.id3,idsupervisor:req.params.id4, estado:req.params.id2} ;
                                             }
-                                            console.log(filtro)
+                                            
                                             frmtt.find(filtro).sort({fechaasignada:1}).exec(function(err, todos2) {
                                                 if (err){  res.send(err); }
                                                 res.json(todos2);
@@ -785,10 +785,10 @@ if((cinicial+ cretiro)>0)
 }
 exports.deletefrmtareasprogramadas = async function(req, res, next){
 
-    console.log(' cccccccccccccccccccreaaaaaaaaaaaaa ')
+    
     Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina visitas orden de campo '});
   var elimit= []
-  console.log(req.params.recordID +  ' ----   ' + req.params.idempresa)
+  
   elimit = await functool.eliminaformulario('5f81d95fc07d6532900465a4',req.params.recordID,req.params.idempresa); 
 
 
@@ -893,7 +893,7 @@ else
    
     var  frmtt=  mongoose.model(namess ,tt);
    
-    console.log('sigueeeeeeeeeeeeeeeeeeeeeeeeeeeeeee0000000000000000000000000000000')
+    
  
     frmtt.create(req.body.estructura
         , function(err, todo3) {

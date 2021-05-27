@@ -21,10 +21,10 @@ exports.getSolprestamos = function(req, res, next){
 
         if(req.params.id=='autoriza')
         {
-            console.log({userasignadoemail:req.params.id2,estado:req.params.id3})
+            
             Solprestamos.find({userasignadoemail:req.params.id2,estado:req.params.id3},function(err, todos) {
                 if (err){ res.send(err); }
-               console.log(todos)
+               
                 res.json(todos);   
         
                 

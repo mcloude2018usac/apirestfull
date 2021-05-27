@@ -29,8 +29,9 @@ var mongoose =require("mongoose");
         simarca: { type : String },
         siexporta: { type : String },
         sicorrelativo2: { type : String },
-
         sicodigointerno: { type : String },
+        
+
         siperfil: { type : String },
         siimagenes: { type : String },
         sicorrelativo: { type : String },

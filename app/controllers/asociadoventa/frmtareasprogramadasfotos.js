@@ -59,8 +59,9 @@ if(req.params.recordID!=='crea')
     });
 }
 else{
-    console.log(req.body)
-    frmtareasprogramadasfotos.find({nombre        	: req.body.nombre  },function(err, todos) {
+    
+    frmtareasprogramadasfotos.find({nombre        	: req.body.nombre ,  idempresa     	: req.body.idempresa    	,
+        idpapa     	: req.body.idpapa    	 },function(err, todos) {
         if (err){ res.send(err); }
         if(todos.length>0)   {    res.status(500).send('Ya existe un frmtareasprogramadasfotos en plataforma'); }
         else

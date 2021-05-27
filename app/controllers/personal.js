@@ -35,13 +35,13 @@ exports.getPersonal = function(req, res, next){
 
         switch(req.params.id11) {
             case 'cobraconqr':
-                console.log('entra 999999999999999999')
+                
 
                 Personalsaldo.find({idempresa:req.params.id8,'idsuscriptor.id' : req.params.email
             }).populate('idsuscriptor.id').exec(function(err, todos) {
                     if (err){ res.send(err); }
                     var myData = [];
-                    console.log(todos)
+                    
 
                     if(todos.length>0)   { 
                    //     Tiposuscriptor.findById({ _id:todos[0].idsuscriptor.id.tiposuscriptor,idempresa:req.params.id8}, function (err, todo15)  {
@@ -409,7 +409,7 @@ console.log('entra 999999999999999999')
             }).populate('idsuscriptor.id').exec(function(err, todos) {
                     if (err){ res.send(err); }
                     var myData = [];
-                    console.log(todos)
+                    
 
                     if(todos.length>0)   { 
                    //     Tiposuscriptor.findById({ _id:todos[0].idsuscriptor.id.tiposuscriptor,idempresa:req.params.id8}, function (err, todo15)  {
@@ -421,7 +421,7 @@ console.log('entra 999999999999999999')
                     else
                     { 
                         
-                        console.log(todos[0].saldoactual  + ' ' +Number(req.params.id3))
+                        
                         if(Number(todos[0].saldoactual)>=Number(req.params.id3))
                         {
 
@@ -537,14 +537,14 @@ console.log('entra 999999999999999999')
                     case 'empresatodoasociadodisp':
                       var arr=req.params.id4.split('°')
                         if(req.params.email==='todos')
-                        { console.log({idempresa:req.params.id3,idsucursal:arr[0],iddispositivo:arr[1]})
+                        { 
                             Personal.find({idempresa:req.params.id3,idsucursal:arr[0],iddispositivo:arr[1]},function(err, todos) {
                                 if (err){  res.send(err);  }
                                     res.json(todos);
                                 });
                         }
                         else
-                        {console.log({idempresa:req.params.id3,estado:req.params.email,idsucursal:req.params.id4,iddispositivo:arr[1]})
+                        {
                             Personal.find({idempresa:req.params.id3,estado:req.params.email,idsucursal:req.params.id4,iddispositivo:arr[1]},function(err, todos) {
                                 if (err){  res.send(err);  }
                                     res.json(todos);
@@ -571,7 +571,7 @@ console.log('entra 999999999999999999')
                       
                          break;
                     case 'pagineo':  
-                    console.log('entrassssssssssssssss')
+                    
                        
                             var pagex=    Number(req.params.id3);
                             var limitx=    Number(req.params.email);
@@ -579,14 +579,14 @@ console.log('entra 999999999999999999')
                             Personal.paginate({idempresa:req.params.id4},{populate: ['unidad','tiposuscriptor'],lean:     false,page:pagex, limit:  limitx})
                             .then(function(err, todos) {
                                 if (err){  res.send(err);  }
-                                console.log(todos)
+                                
                                     res.end(todos);
                                     res.end();
                                   //  next();
                                 });
 break;
 case 'pagineo2x':  
-console.log('entrassssssssssssssss')
+
    
         var pagex=    Number(req.params.id3);
         var limitx=    Number(req.params.email);
@@ -598,7 +598,7 @@ console.log('entrassssssssssssssss')
             Personal.paginate({idempresa:arr[0]},{lean:     false,page:pagex, limit:  limitx})
             .then(function(err, todos) {
                 if (err){  res.send(err);  }
-                console.log(todos)
+                
                     res.end(todos);
                     res.end();
                   //  next();
@@ -610,7 +610,7 @@ console.log('entrassssssssssssssss')
         Personal.paginate({idempresa:arr[0],estado:arr[1]},{lean:     false,page:pagex, limit:  limitx})
         .then(function(err, todos) {
             if (err){  res.send(err);  }
-            console.log(todos)
+            
                 res.end(todos);
                 res.end();
               //  next();
@@ -651,7 +651,7 @@ break;
         {
 
     if(req.params.id3)
-    {console.log(req.params.id2)
+    {
             switch(req.params.id2) {
                 case 'personasaldito':
 
@@ -691,7 +691,7 @@ break;
                         if (err){ res.send(err); }
                 
                        
-                            console.log({'idsuscriptor.id':todos._id})
+                            
                             Personalsaldo.find({'idsuscriptor.id':todos._id  },function(err, todos4) {
                                 if (err){ res.send(err); }
 
@@ -760,13 +760,13 @@ console.log('crea')
                             .exec(function(err, todos) {
                                 if (err){ res.send(err); }
 
-                                console.log(todos)
+                                
                             
                                 if(todos.length>0)   {   
 
                                     Personalsaldo.find({'idsuscriptor.id':todos[0]._id},function(err, todos4) {
                                         if (err){ res.send(err); }
-console.log(todos4)
+
                                     
                                         var myData = [];
                                                 if(todos4.length>0)   {  
@@ -934,7 +934,7 @@ console.log(todos4)
                                     
                                 })
                                 .catch(err => {
-                                    console.log('entra cath' + err.message)
+                                  
                                     res.status(422).send(err.message);  
                                 })
                             }
@@ -947,7 +947,7 @@ console.log(todos4)
                                     
                                 })
                                 .catch(err => {
-                                    console.log('entra cath' + err.message)
+                                   
                                     res.status(422).send(err.message);  
                                 })
                             }   

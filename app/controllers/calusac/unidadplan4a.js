@@ -16,11 +16,11 @@ exports.getUnidadplan4a = function(req, res, next){
     switch(req.params.id5) {
 
         case 'nivelubica':
-          //  console.log({idtipounidad:req.params.id,ididioma:req.params.id2 ,idtipogrupo:req.params.id3})
+         
                 Unidadacademica3.find({idtipounidad:req.params.id,ididioma:req.params.id2 ,idtipogrupo:req.params.id3},function(err, todos) {
                     if (err){ res.send(err); }
 
-            //        console.log(todos)
+            
                    
                     if(todos.length>0)   {    
                         

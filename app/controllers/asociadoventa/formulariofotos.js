@@ -57,7 +57,8 @@ if(req.params.recordID!=='crea')
     });
 }
 else{
-    formulariofotos.find({nombre        	: req.body.nombre  },function(err, todos) {
+    formulariofotos.find({  idempresa     	: req.body.idempresa    	,
+        idpapa     	: req.body.idpapa    	 },function(err, todos) {
         if (err){ res.send(err); }
         if(todos.length>0)   {    res.status(500).send('Ya existe un formulariofotos en plataforma'); }
         else

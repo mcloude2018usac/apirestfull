@@ -7,15 +7,12 @@ var AuthenticationController = require('./controllers/authentication'),
     Image2frmController = require('./controllers/image2frm'),
     Imagessl2Controller = require('./controllers/imagessl2'),
     CorreosController = require('./controllers/correos/correos'),
-
-    GesController = require('./controllers/ges/ges'),
-
     tarifaController = require('./controllers/asociadoventa/tarifa'),
     dispositivoController = require('./controllers/asociadoventa/dispositivo'),
     frmaccionesController = require('./controllers/asociadoventa/frmacciones'),
     frmtareasprogramadasController = require('./controllers/asociadoventa/frmtareasprogramadas'),
     formulariotareasdocController = require('./controllers/asociadoventa/formulariotareasdoc'),
-
+    GesController = require('./controllers/ges/ges'),
     
     formulariofotos2Controller = require('./controllers/asociadoventa/formulariofotos2'),
 
@@ -217,7 +214,6 @@ module.exports = function(app){
         formulariofotos2Routes = express.Router(),
         correosRoutes = express.Router(),
         gesRoutes = express.Router(),
-
         formulariotareasRoutes = express.Router(),
         formulariotareasdocRoutes = express.Router(),
         tarifaRoutes = express.Router(),
@@ -394,9 +390,6 @@ SINNNNNNNNNNNNNN AUTORIZACION
   correosRoutes.post('/:recordID',requireAuth,  CorreosController.creacorreos2s);
   correosRoutes.get('/:id/:id2/:id3',requireAuth,  CorreosController.getCorreos);
 
-  apiRoutes.use('/gess', gesRoutes);
-  gesRoutes.post('/:recordID',requireAuth,  GesController.creages2s);
-  gesRoutes.get('/:id/:id2/:id3',requireAuth,  GesController.getGes);
 
   apiRoutes.use('/Image2s', image2Routes);
   image2Routes.get('/:id',  Image2Controller.getImage2s);
@@ -480,6 +473,13 @@ frmtareasprogramadasfotosRoutes.get('/:id/:id2/:id3/:id4',requireAuth,  frmtarea
 frmtareasprogramadasfotosRoutes.get('/:id',requireAuth,  frmtareasprogramadasfotosController.getfrmtareasprogramadasfotos);
 frmtareasprogramadasfotosRoutes.post('/:recordID',requireAuth,  frmtareasprogramadasfotosController.creafrmtareasprogramadasfotos2s);
 frmtareasprogramadasfotosRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  frmtareasprogramadasfotosController.deletefrmtareasprogramadasfotos);
+
+
+apiRoutes.use('/gess', gesRoutes);
+gesRoutes.post('/:recordID',requireAuth,  GesController.creages2s);
+gesRoutes.get('/:id/:id2/:id3',requireAuth,  GesController.getGes);
+
+
 
   apiRoutes.use('/Image2frms', image2frmRoutes);
   image2frmRoutes.get('/:id',  Image2frmController.getImage2frms);

@@ -408,6 +408,51 @@ var visitas_programadas=async  function(req, res, next){
         var procesofinalcrea= async function(req, res, next,dataanterior){
           return new Promise(resolve => {
               switch(req.body.ejecuta) {
+                case '1_creaimportacionesdb':
+
+
+                
+                  (async () => {
+                    var est=req.body.estructura
+                    var aduana=est.aduana.split('¬')[1]
+                    var cliente=est.cliente.split('¬')[1]
+  
+                    aduanat = await functool.dadatosformularioidfinal('605a21c86886480f70f6ec2d',{ _id:aduana}
+                    ,req.body.estructura.idempresa,'605a21c86886480f70f6ec2ds'); 
+  
+                    
+                    clientet = await functool.dadatosformularioidfinal('605a1f506886480f70f6ec12',{ _id:cliente}
+                    ,req.body.estructura.idempresa,'605a1f506886480f70f6ec12'); 
+                    var cctemp=''
+                    if(est.empresa==='Sertobar')
+                    {
+                      cctemp=conecta1
+                    }
+                    if(est.empresa==='Cielomar')
+                    {
+                      cctemp=conecta2
+                    }
+                    if(est.empresa==='Agencias Campos')
+                    {
+                      cctemp=conecta3
+                    }
+                    var cad="insert into ticket values("+ Number(est.sequenciag) +",'',"+ 
+                    clientet.codigoa +",getdate(),1,'',0,861,'"+ est.referencia +"',0,0,0,0,0,0,0,"+ aduanat.idcig +",0,'',0,'"+ 
+                    aduanat.nombre +"',null,'"+ clientet.nombre +"','','',0,0,0,0,0,'',"+ est.sequenciag +",'','',1,'0','"+ est.master +"','"+ est.contenedor +"')"
+  
+                    var ejecuta1=await  functool.ejecutasql( cad,cctemp)
+                 //   insert into ticket values(0000014,'',1,getdate(),1,'',0,861,'111',0,0,0,0,0,0,0,1,0,'',0,'Central',null,'MANANTIAL DE LA CULTURA, SOCIEDAD ANONIMA','','',0,0,0,0,0,'',0000014,'','',1,'0','undefined','11')'
+  
+  
+  
+                    console.log('listo')
+     
+  
+  
+  
+                    resolve({estado:'exito'}); 
+                  })();
+                  break;
                 case '1_creaimportaciones':
 
 
@@ -912,11 +957,18 @@ var visitas_programadas=async  function(req, res, next){
                       
                         ingreso=cantidadingreso
                         saldoactual=existenciaactual+ingreso
-                        preciomedio=(precioingreso+Number(producto.precioporunidad))/2
+                        if(Number(producto.precioporunidad)===0)
+                        {
+                          preciomedio=Number(producto.precioporunidad)
+                        }
+                        else{
+                          preciomedio=(precioingreso+Number(producto.precioporunidad))/2
+                        }
+                        
 
                         precioproducto=Number(producto.precioporunidad)
     
-                      total=saldoactual*Number(preciomedio)
+                      total=saldoactual*Number(precioingreso)
                       kardex.create({
                         idempresa		: req.body.estructura.idempresa,  
                         fecha		: req.body.papaitem.fecha,  
@@ -948,7 +1000,7 @@ var visitas_programadas=async  function(req, res, next){
                       var estructura={
                         "precioporunidad" :  preciomedio.toString(),//producto.precioporunidad.toString(),//
                         "existenciaactual" : saldoactual.toString(),
-                        "total" :( saldoactual*Number(preciomedio)).toString()
+                        "total" :( saldoactual*Number(producto.precioporunidad)).toString()
 
                       
                     }

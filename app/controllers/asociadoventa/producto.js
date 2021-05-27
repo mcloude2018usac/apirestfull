@@ -36,7 +36,7 @@ exports.getProducto = function(req, res, next){
                     }
                 }
             ]).exec(function(err, todos) {
-                console.log(todos)
+                
                 res.json(todos);
 
             });
@@ -46,7 +46,7 @@ exports.getProducto = function(req, res, next){
         else
         {
         if(req.params.id2=='todos')
-        { console.log('entraeee')
+        { 
             Producto.find({idpapa:req.params.id4}).populate('categoria').populate('subcategoria').sort({'_id': -1}).exec(function(err, todos) {
                 if (err){  res.send(err);  }
                  res.json(todos);
@@ -104,11 +104,11 @@ exports.deleteProducto = function(req, res, next){
 
       
         if(arra1!==''  &&   arra1!=='5f146aa48caa41db981e6830'){Image.findByIdAndRemove({_id:arra1 }, function(err, todo) {});}
-        console.log(arra1)
+     
         if(arra2!==''  &&   arra2!=='5f146aa48caa41db981e6830'){Image.findByIdAndRemove({_id:arra2}, function(err, todo) {});}
-        console.log(arra2)
+        
         if(arra2!==''  &&   arra2!=='5f146aa48caa41db981e6830'){Image.findByIdAndRemove({_id:arra3}, function(err, todo) {});}
-        console.log(arra3)
+        
 
         res.json(todo); 
 

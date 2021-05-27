@@ -169,6 +169,7 @@ else{
          telefonos     	: req.body.telefonos    	,
          horario     	: req.body.horario    	,
          moneda     	: req.body.moneda    	,
+         sicodigointerno  :  req.body.sicodigointerno,
          inicio     	: req.body.inicio ,
          siregister: req.body.inicio ,
          pinicio     	: req.body.pinicio   || 'app/billetera-list'  	,
@@ -179,7 +180,6 @@ else{
          foto0     	: req.body.foto0    	,
          foto1     	: req.body.foto1    	,
          foto2     	: req.body.foto2    	,
-         sicodigointerno  :  req.body.sicodigointerno,
          logo1     	: req.body.logo1    	,
          logo2     	: req.body.logo2    	,
          nombredominio     	: req.body.nombredominio    	,
@@ -200,7 +200,7 @@ else{
          siperfil	: req.body.siperfil	,
 
          simarca	: req.body.simarca	,
-         sicorrelativo2	: req.body.sicorrelativo	,
+         sicorrelativo2	: req.body.sicorrelativo2	,
          siexporta	: req.body.siexporta	,
 
 
