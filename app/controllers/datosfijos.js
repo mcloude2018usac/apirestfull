@@ -483,7 +483,7 @@ saldoactual=existenciaactual+ingreso
 precioingreso=Number(data.rd.preciounitario)
 
 if(Number(producto.precioporunidad)===0)
-{preciomedio=Number(producto.precioporunidad)
+{preciomedio=precioingreso
 }
 else
 {
@@ -751,7 +751,7 @@ saldoactual=existenciaactual+ingreso
 precioingreso=Number(data.precio)//Number(data.precio)  *******************************
 
 if(Number(producto.precioporunidad)===0)
-{preciomedio=Number(producto.precioporunidad)
+{preciomedio=precioingreso
 }
 else
 {

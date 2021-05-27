@@ -959,7 +959,7 @@ var visitas_programadas=async  function(req, res, next){
                         saldoactual=existenciaactual+ingreso
                         if(Number(producto.precioporunidad)===0)
                         {
-                          preciomedio=Number(producto.precioporunidad)
+                          preciomedio=precioingreso
                         }
                         else{
                           preciomedio=(precioingreso+Number(producto.precioporunidad))/2
