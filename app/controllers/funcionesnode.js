@@ -12,7 +12,7 @@ var sql2 = require("mssql")
 var sql3 = require("mssql")
 
 
-const odbc = require('odbc');
+//const odbc = require('odbc');
 
 const connectionConfig = {   connectionString: 'DSN=OTRO',    connectionTimeout: 10,    loginTimeout: 10,}
 
@@ -24,20 +24,7 @@ function  ejecutaaccess  (cad)
 {
 
     return new Promise(resolve => {
-const connection = odbc.connect(connectionConfig, (error, connection) => {
-  connection.query(cad, (error, result) => {
-      if (error) {  resolve({estado:'exito',datat:[]});  }
-      else
-      { resolve({estado:'exito',datat:result}); 
-
-      }
-
-      
-       
-
-
-  });
-});
+        resolve({estado:'exito',datat:''}); 
 });
 }
 
