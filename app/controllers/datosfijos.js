@@ -482,7 +482,16 @@ ingreso=cantidadingreso
 saldoactual=existenciaactual+ingreso
 precioingreso=Number(data.rd.preciounitario)
 
-preciomedio=(precioingreso+Number(producto.precioporunidad))/2
+if(Number(producto.precioporunidad)===0)
+{preciomedio=Number(producto.precioporunidad)
+}
+else
+{
+        preciomedio=(precioingreso+Number(producto.precioporunidad))/2
+}
+
+
+
 
         }
         else
@@ -741,7 +750,14 @@ ingreso=cantidadingreso
 saldoactual=existenciaactual+ingreso
 precioingreso=Number(data.precio)//Number(data.precio)  *******************************
 
-preciomedio=(precioingreso+Number(producto.precioporunidad))/2
+if(Number(producto.precioporunidad)===0)
+{preciomedio=Number(producto.precioporunidad)
+}
+else
+{
+        preciomedio=(precioingreso+Number(producto.precioporunidad))/2
+}
+
 
         }
         else
@@ -1149,9 +1165,11 @@ exports.getCombofijo = async function(req, res, next){
 
        switch(req.params.id) {
         case 'dakardexinvinicialexcel':
-                kardextemp.find({ }).exec(function(err, todos) {
+                kardextemp.find({ "codigo" : "ARTE-0027"}).exec(function(err, todos) {
                         if (err){ res.send(err); }
                         (async () => {
+
+                                console.log(todos.length)
                         for(var i = 0; i < todos.length;i++){
 console.log(i)
                                aaa= await  getponekardexinifinal(todos[i])
