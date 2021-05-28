@@ -110,7 +110,7 @@ if(req.params.recordID!=='crea')
  todo.idusuario       	=	req.body.idusuario        	||	todo.idusuario;  
  todo.actividad=req.body.actividad;
  todo.avance	=	req.body.avance        	||	todo.avance;   
-
+ todo.nombrealiasup=req.body.nombrealias;
  todo.horas	=	req.body.horas      	||	todo.horas;   
 
 
@@ -136,6 +136,7 @@ else{
   nombre     	: req.body.nombre    	,
   fechainicio     	: req.body.fechainicio    	,
   fechafinal     	: req.body.fechafinal    	,
+  nombrealiasnew	: req.body.nombrealias	,
   actividad	: req.body.actividad    	,
   horas: req.body.horas,
   avance: req.body.avance,

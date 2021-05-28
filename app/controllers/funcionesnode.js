@@ -10,7 +10,7 @@ var conecta3 = 'mssql://sa:$ertobar@192.168.34.5/camposbd'
 var sql = require("mssql")
 var sql2 = require("mssql")
 var sql3 = require("mssql")
-
+   
 
 //const odbc = require('odbc');
 
@@ -22,9 +22,9 @@ const { getGaleriaimg } = require('./galeriaimg');
 
 function  ejecutaaccess  (cad)
 {
-
+   
     return new Promise(resolve => {
-        resolve({estado:'exito',datat:''}); 
+        resolve({estado:'exito',datat:[]});
 });
 }
 
@@ -112,6 +112,22 @@ function daactividadsegunfrm(frm)
 
             default: return 'na'
     }
+}
+function daconectaorden(tipo) {
+    var tt='';
+    switch(tipo) {
+        case '605a23446886480f70f6ec3f':  tt='861';   break;//importaciones
+        case '605a23696886480f70f6ec43':  tt='861';   break;//exportaciones
+        case '605a24e46886480f70f6ec47':  tt='861';   break;//transitos
+        case '605a252e6886480f70f6ec4b':  tt='861';   break;//df zf
+        case '605a27bf6886480f70f6ec57': tt='861';    break;//servicios
+        case '605a27336886480f70f6ec53':  tt='861';   break;//carga internacional
+        
+ 
+        default:
+          // code block
+      }
+        return tt;
 }
 function daconectasql(tipo,estructura) {
     var tt='';
@@ -3307,6 +3323,7 @@ module.exports = {
     dadatosformulariofinal:dadatosformulariofinal,
     dafechapago1:dafechapago1,
     dafechapago2:dafechapago2,
+    daconectaorden:daconectaorden,
     onlyUnique:onlyUnique,
     dahora:dahora,
     dafechastring:dafechastring,

@@ -489,10 +489,6 @@ else
 {
         preciomedio=(precioingreso+Number(producto.precioporunidad))/2
 }
-
-
-
-
         }
         else
         {//egresos
@@ -757,8 +753,6 @@ else
 {
         preciomedio=(precioingreso+Number(producto.precioporunidad))/2
 }
-
-
         }
         else
         {//egresos
@@ -795,8 +789,18 @@ else
                 
                 salida=cantidadingreso
                 saldoactual=existenciaactual-salida
-                precioingreso=Number(producto.precioporunidad)
-                preciomedio=Number(producto.precioporunidad)
+                if(saldoactual===0)
+                {
+                        precioingreso=0
+                        preciomedio=0
+                       
+                }
+                else
+                {
+                        precioingreso=Number(producto.precioporunidad)
+                        preciomedio=Number(producto.precioporunidad)
+                }
+                
                 
 }
 else
@@ -1165,11 +1169,9 @@ exports.getCombofijo = async function(req, res, next){
 
        switch(req.params.id) {
         case 'dakardexinvinicialexcel':
-                kardextemp.find({ "codigo" : "ARTE-0027"}).exec(function(err, todos) {
+                kardextemp.find({ }).exec(function(err, todos) {
                         if (err){ res.send(err); }
                         (async () => {
-
-                                console.log(todos.length)
                         for(var i = 0; i < todos.length;i++){
 console.log(i)
                                aaa= await  getponekardexinifinal(todos[i])

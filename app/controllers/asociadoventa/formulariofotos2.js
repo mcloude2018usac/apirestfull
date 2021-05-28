@@ -49,6 +49,7 @@ if(req.params.recordID!=='crea')
  todo.foto       	=	req.body.foto        	||	todo.foto;   
  todo.actividad=req.body.actividad;
             todo.usuarioup=req.body.bitacora.email;
+            todo.nombrealiasup=req.body.nombrealias;
             todo.save(function (err, todo){
                 if (err)     {  res.status(500).send(err.message)   }
                 res.json(todo);
@@ -67,6 +68,7 @@ else{
   idempresa     	: req.body.idempresa    	,
   idpapa     	: req.body.idpapa    	,
   nombre     	: req.body.nombre    	,
+  nombrealiasnew	: req.body.nombrealias	,
   actividad	: req.body.actividad    	,
   foto     	: req.body.foto    	,
                 usuarionew:req.body.bitacora.email,

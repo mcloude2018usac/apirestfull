@@ -437,12 +437,11 @@ var visitas_programadas=async  function(req, res, next){
                       cctemp=conecta3
                     }
                     var cad="insert into ticket values("+ Number(est.sequenciag) +",'',"+ 
-                    clientet.codigoa +",getdate(),1,'',0,861,'"+ est.referencia +"',0,0,0,0,0,0,0,"+ aduanat.idcig +",0,'',0,'"+ 
+                    clientet.codigoa +",getdate(),1,'',0,"+functool.daconectaorden(req.body.idform)+ ",'"+ est.referencia +"',0,0,0,0,0,0,0,"+ aduanat.idcig +",0,'',0,'"+ 
                     aduanat.nombre +"',null,'"+ clientet.nombre +"','','',0,0,0,0,0,'',"+ est.sequenciag +",'','',1,'0','"+ est.master +"','"+ est.contenedor +"')"
   
                     var ejecuta1=await  functool.ejecutasql( cad,cctemp)
-                 //   insert into ticket values(0000014,'',1,getdate(),1,'',0,861,'111',0,0,0,0,0,0,0,1,0,'',0,'Central',null,'MANANTIAL DE LA CULTURA, SOCIEDAD ANONIMA','','',0,0,0,0,0,'',0000014,'','',1,'0','undefined','11')'
-  
+               
   
   
                     console.log('listo')
@@ -470,11 +469,11 @@ var visitas_programadas=async  function(req, res, next){
                     ,req.body.estructura.idempresa,'605a1f506886480f70f6ec12'); 
   
                     var cad="insert into ticket values("+ Number(est.sequenciag) +",'',"+ 
-                    clientet.codigoa +",getdate(),1,'',0,861,'"+ est.referencia +"',0,0,0,0,0,0,0,"+ aduanat.idcig +",0,'',0,'"+ 
+                    clientet.codigoa +",getdate(),1,'',0,"+functool.daconectaorden(req.body.idform)+ ",'"+ est.referencia +"',0,0,0,0,0,0,0,"+ aduanat.idcig +",0,'',0,'"+ 
                     aduanat.nombre +"',null,'"+ clientet.nombre +"','','',0,0,0,0,0,'',"+ est.sequenciag +",'','',1,'0','"+ est.master +"','"+ est.contenedor +"')"
   
                     var ejecuta1=await  functool.ejecutasql( cad,conecta1)
-                 //   insert into ticket values(0000014,'',1,getdate(),1,'',0,861,'111',0,0,0,0,0,0,0,1,0,'',0,'Central',null,'MANANTIAL DE LA CULTURA, SOCIEDAD ANONIMA','','',0,0,0,0,0,'',0000014,'','',1,'0','undefined','11')'
+               
   
   
   

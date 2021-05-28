@@ -4,7 +4,8 @@ var formulariofotos2Schema 		=	new  mongoose.Schema({
  idpapa		: { type : String, required : true,ref:'' },  
  nombre		: { type : String, required : true },  
  foto		: { type : String, required : true }
- ,usuarionew	: { type : String },      usuarioup	: { type : String },      actividad	: { type : String }
+ ,usuarionew	: { type : String },      usuarioup	: { type : String },      actividad	: { type : String },
+ nombrealiasnew	: { type : String },nombrealiasup	: { type : String }
    }, {
    timestamps: true
    }); 
