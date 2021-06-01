@@ -698,10 +698,16 @@ var visitas_programadas=async  function(req, res, next){
                     precio		: Number(producto.precioporunidad),
                     total		: total,
                   });
+
+                  var preciofinal= producto.precioporunidad
+                  if(saldoactual<=0)
+                  {preciofinal='0'
+
+                  }
                   var estructura={
-                    "precioporunidad" : producto.precioporunidad.toString(),
+                    "precioporunidad" :preciofinal.toString(),
                     "existenciaactual" : saldoactual.toString(),
-                    "total" :( saldoactual*Number(producto.precioporunidad)).toString()
+                    "total" :( saldoactual*Number(preciofinal)).toString()
                    
                 }
                   producto = await functool.actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579',estructura); 
@@ -888,10 +894,16 @@ var visitas_programadas=async  function(req, res, next){
                         precio		: Number(producto.precioporunidad),
                         total		: total,
                       });
+                      var preciofinal= producto.precioporunidad
+                      if(saldoactual<=0)
+                      {preciofinal='0'
+    
+                      }
+
                       var estructura={
-                        "precioporunidad" : producto.precioporunidad.toString(),
+                        "precioporunidad" : preciofinal.toString(),
                         "existenciaactual" : saldoactual.toString(),
-                        "total" :( saldoactual*Number(producto.precioporunidad)).toString()
+                        "total" :( saldoactual*Number(preciofinal)).toString()
                       
                     }
                       producto = await functool.actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579',estructura); 
@@ -1101,10 +1113,17 @@ var visitas_programadas=async  function(req, res, next){
                             precio		: Number(producto.precioporunidad),
                             total		: total,
                           });
+
+                          var preciofinal= producto.precioporunidad
+                          if(saldoactual<=0)
+                          {preciofinal='0'
+        
+                          }
+
                           var estructura={
-                            "precioporunidad" : producto.precioporunidad.toString(),
+                            "precioporunidad" : preciofinal.toString(),
                             "existenciaactual" : saldoactual.toString(),
-                            "total" :( saldoactual*Number(producto.precioporunidad)).toString()
+                            "total" :( saldoactual*Number(preciofinal)).toString()
                           
                         }
                           producto = await functool.actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},detalle[i].idempresa,'5fc01bbba8d0a14888774579',estructura); 
@@ -1187,10 +1206,17 @@ var visitas_programadas=async  function(req, res, next){
                             precio		: Number(producto.precioporunidad),
                             total		: total,
                           });
+
+                          var preciofinal= producto.precioporunidad
+                          if(saldoactual<=0)
+                          {preciofinal='0'
+        
+                          }
+
                           var estructura={
-                            "precioporunidad" : producto.precioporunidad.toString(),
+                            "precioporunidad" :preciofinal.toString(),
                             "existenciaactual" : saldoactual.toString(),
-                            "total" :( saldoactual*Number(producto.precioporunidad)).toString()
+                            "total" :( saldoactual*Number(preciofinal)).toString()
                           
                         }
                           producto = await functool.actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},detalle[i].idempresa,'5fc01bbba8d0a14888774579',estructura); 

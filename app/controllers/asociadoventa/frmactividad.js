@@ -255,6 +255,7 @@ if(req.params.recordID!=='crea')
  todo.orden       	=	req.body.orden        	||	todo.orden;   
   todo.actor     	={id: req.body.actor.id, nombre: req.body.actor.nombre}    	,
   todo.clase     	= req.body.clase    	,
+  todo.descripciong	= req.body.descripciong	,
  todo.nombre       	=	req.body.nombre        	||	todo.nombre;   
  todo.tipo     	= req.body.tipo    	,
  todo.etapa     	= req.body.etapa    	,
@@ -303,6 +304,7 @@ else{
   clase     	: req.body.clase    	,
   nombre     	: req.body.nombre    	,
   tipo     	: req.body.tipo	,
+  descripciong	: req.body.descripciong	,
   etapa     	: req.body.etapa    	,
   conector     	: req.body.conector    	,
   tiempomin     	: req.body.tiempomin    	,

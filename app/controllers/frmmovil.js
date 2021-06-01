@@ -4143,6 +4143,7 @@ if(req.params.recordID!=='crea')
             todo.ejecutaelimina    	=	req.body.ejecutaelimina   		;
             todo.foto    	=	req.body.foto    	||	todo.foto    	;
             todo.geoposicion    	=	req.body.geoposicion      	;
+            todo.descripciong	= req.body.descripciong	,
            
        //     todo.idformdetalle   		 ={id:req.body.idformdetalle.id,nombre:req.body.idformdetalle.nombre   }   	;
 
@@ -4181,6 +4182,7 @@ else{
                     iniciocorrelativo: req.body.iniciocorrelativo,
                     publico        	: req.body.publico        	,
                     idpapa        	: req.body.idpapa        	,
+                    descripciong	: req.body.descripciong	,
                     ejecuta        	: req.body.ejecuta        	,
                     ejecutainicio: req.body.ejecutainicio,
                     ejecutaactualiza: req.body.ejecutaactualiza,
@@ -4224,6 +4226,7 @@ else{
                     ejecuta        	: req.body.ejecuta        	,
                     ejecutainicio: req.body.ejecutainicio,
                     ejecutaactualiza: req.body.ejecutaactualiza,
+                    descripciong	: req.body.descripciong	,
                     ejecutaelimina: req.body.ejecutaelimina,
                     foto    	: req.body.foto    	,
               //      idformdetalle:   req.body.idformdetalle,

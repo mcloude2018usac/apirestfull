@@ -265,9 +265,9 @@ var enmiendasd=[]
   
   
                   }
-  
                   
-                  resolve({estado:'exito',data:[],tipo:''}); 
+                  
+                  resolve({estado:'exito',data:{estado:'Operación realizada con exito'},tipo:''}); 
                 }
 
 
@@ -382,7 +382,7 @@ var enmiendasd=[]
                 }
 
                 
-                resolve({estado:'exito',data:[],tipo:''}); 
+                resolve({estado:'exito',data:{estado:'Operación realizada con exito'},tipo:''}); 
 
              }}}
         
@@ -569,14 +569,14 @@ var enmiendasd=[]
                   ,req.body.idempresa,'605a1f506886480f70f6ec12'); 
         
                   var cad="insert into ticket values("+ Number(ordennueva) +",'',"+ 
-                  clientet.codigoa +",getdate(),1,'',0,"+functool.daconectaorden(req.body.idform)+ ",'"+ est.referencia +"',0,"+  Number(ordenvieja) +",0,0,0,0,0,"+ aduanat.idcig +",0,'',0,'"+ 
+                  clientet.codigoa +",getdate(),1,'',0,"+  functool.daconectaorden(req.body.idform)+",'"+ est.referencia +"',0,"+  Number(ordenvieja) +",0,0,0,0,0,"+ aduanat.idcig +",0,'',0,'"+ 
                   aduanat.nombre +"',null,'"+ clientet.nombre +"','','',0,0,0,0,0,'',"+ Number(ordenoriginal) +",'','',1,'0','"+ est.master +"','"+ est.contenedor +"')"
         
                   var ejecuta1=await  functool.ejecutasql( cad,functool.daconectasql(req.body.idform))
 
         
         
-                  resolve({estado:'exito',data:[]}); 
+                  resolve({estado:'exito',data:{estado:'No ticket creado segun rectificación: ' + ordennueva}}); 
                 })();
                 break;
                 case 'Complementaria':
@@ -636,7 +636,7 @@ var enmiendasd=[]
                     var ejecuta1=await  functool.ejecutasql( cad,functool.daconectasql(req.body.idform))
           
           
-                    resolve({estado:'exito',data:[]}); 
+                    resolve({estado:'exito',data:{estado:'No ticket creado segun complementaria: ' + ordennueva}}); 
                 })();
                   break;
                 
@@ -657,13 +657,13 @@ var enmiendasd=[]
         
         
                 
-        resolve({estado:'exito',data:[]}); 
+        resolve({estado:'exito',data:{estado:'Operación realizada con exito'}}); 
                  
                   })();
                   break;
                   default:
                 
-                    resolve({estado:'exito',data:[]}); 
+                    resolve({estado:'exito',data:{estado:''}}); 
 
                 }
             
@@ -671,7 +671,7 @@ var enmiendasd=[]
           }
           else
           {
-            resolve({estado:'exito',data:[]}); 
+            resolve({estado:'exito',data:{estado:''}}); 
           }
 
 

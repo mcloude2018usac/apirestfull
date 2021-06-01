@@ -10,7 +10,7 @@ var conecta3 = 'mssql://sa:$ertobar@192.168.34.5/camposbd'
 var sql = require("mssql")
 var sql2 = require("mssql")
 var sql3 = require("mssql")
-   
+
 
 //const odbc = require('odbc');
 
@@ -22,13 +22,29 @@ const { getGaleriaimg } = require('./galeriaimg');
 
 function  ejecutaaccess  (cad)
 {
-   
+
     return new Promise(resolve => {
-        resolve({estado:'exito',datat:[]});
+
+resolve({estado:'exito',datat:[]}); 
 });
 }
 
+function dacodigocliente(tipo) {
+    var tt='';
+    switch(tipo) {
+        case '605a23446886480f70f6ec3f':  tt='codigos';   break;//importaciones
+        case '605a23696886480f70f6ec43':  tt='codigos';   break;//exportaciones
+        case '605a24e46886480f70f6ec47':  tt='codigos';   break;//transitos
+        case '605a252e6886480f70f6ec4b':  tt='codigos';   break;//df zf
+      
+        case '605a27336886480f70f6ec53':  tt='codigoc';   break;//carga internacional
 
+     
+        default:
+          // code block
+      }
+        return tt;
+}
 
 function ejecutasql  (cad,sqlconecta)
 {
@@ -3301,7 +3317,7 @@ module.exports = {
     dafechacompleta:dafechacompleta,
     dafecha:dafecha,
     ejecutasql:ejecutasql,
-
+    dacodigocliente:dacodigocliente,
     padLeadingZeros:padLeadingZeros,
     formatNumber:formatNumber,
     numberWithCommas:numberWithCommas,

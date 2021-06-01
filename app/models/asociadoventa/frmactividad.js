@@ -10,6 +10,7 @@
   etapa		: { type : String, required : true },  
   conector		: { type : String, required : true },  
   tiempomin		: { type : String, required : true },  
+  descripciong		: { type : String },  
   tiempomax		: { type : String, required : true },  
   camposvisible		: { id	: { type : String },   nombre	: { type : String }   },
   camposmodificables		:  { id	: { type : String },   nombre	: { type : String }   },

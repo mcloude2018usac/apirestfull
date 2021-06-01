@@ -9,6 +9,7 @@ var mongoose =require("mongoose");
         estado	: { type : String, required : true },
         publico	: { type : String},
         geoposicion:  { type : String },
+        descripciong		: { type : String },  
         iniciocorrelativo:  { type : Number },
         ejecuta:  { type : String },
         ejecutainicio:  { type : String },

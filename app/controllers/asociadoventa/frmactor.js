@@ -247,6 +247,7 @@ if(req.params.recordID!=='crea')
  todo.idpapa       	=	req.body.idpapa        	||	todo.idpapa;   
  todo.nombre       	=	req.body.nombre        	||	todo.nombre;   
  todo.actores       	=	req.body.actores        	||	todo.actores;   
+ todo.descripciong	= req.body.descripciong	,
  todo.estado       	=	req.body.estado        	||	todo.estado;   
             todo.usuarioup=req.body.bitacora.email;
             todo.save(function (err, todo){
@@ -267,6 +268,7 @@ else{
   idpapa     	: req.body.idpapa    	,
   nombre     	: req.body.nombre    	,
   actores     	: req.body.actores    	,
+  descripciong	: req.body.descripciong	,
   estado     	: req.body.estado    	,
                 usuarionew:req.body.bitacora.email,
               }
