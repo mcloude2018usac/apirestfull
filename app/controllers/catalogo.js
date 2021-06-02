@@ -149,19 +149,19 @@ else{
 
     Catalogo.find({nombre        	: req.body.nombre,tipo        	: req.body.tipo  },function(err, todos) {
         if (err){ res.send(err); }
-      
+
         if(todos.length>0)   {    res.status(500).send('Ya existe un catalogo con este nombre'); }
         else
-        {   
+        {
 
-            Catalogo.create({ 
-                idempresa        	: req.body.idempresa       	,
-                tipo        	: req.body.tipo        	,
-                nombre        	: req.body.nombre        	,
-                fecha        	: req.body.fecha        	,
-                foto        	: req.body.foto        	,
+            Catalogo.create({
+                idempresa 	: req.body.idempresa       	,
+                tipo 	: req.body.tipo        	,
+                nombre 	: req.body.nombre        	,
+                fecha 	: req.body.fecha        	,
+                foto 	: req.body.foto        	,
                 usuarionew:req.body.bitacora.email,
-                estado 	: req.body.estado 	
+                estado	: req.body.estado 	
               }
                 , function(err, todo) {
                 if (err){ 
