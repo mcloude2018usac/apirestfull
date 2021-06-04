@@ -24,8 +24,7 @@ function  ejecutaaccess  (cad)
 {
 
     return new Promise(resolve => {
-
-resolve({estado:'exito',datat:[]}); 
+        resolve({estado:'exito',datat:[]}); 
 });
 }
 

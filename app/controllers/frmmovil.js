@@ -1343,7 +1343,7 @@ exports.getFrmmovil = async function(req, res, next){
                                                 generareporte:todos[i].generareporte,comandos:todos[i].comandos, 
                                                 activas:todos[i].activas,cerradas:todos[i].cerradas,ejecutadas:todos[i].ejecutadas,
                                                 filtrarordentipo:todos[i].filtrarordentipo, filtrarorden:todos[i].filtrarorden,pcreacion:todos[i].creacion, peliminacion:todos[i].eliminacion,  pfiltro:todos[i].filtro, pingreso:'true', reporte:todos[i].preporte,  potros1:'', imprimeorden	:todos[i].imprimeorden, 
-                                                        cancelarorden:todos[i].cancelarorden,reasignarorden:todos[i].reasignarorden,bitacoraorden:todos[i].bitacoraorden,papaorden:todos[i].papaorden,imprimeorden2	:todos[i].imprimeorden2,  finalizaorden :todos[i].finalizaorden,  eliminaorden  :todos[i].eliminaorden,  trayectoriaorden:todos[i].trayectoriaorden,  documentacionorden:todos[i].documentacionorden,  pausarorden  :todos[i].pausarorden,  anularorden  :todos[i].anularorden,  fotosorden:todos[i].fotosorden, comentariosorden:todos[i].comentariosorden,  documentosorden :todos[i].documentosorden,  tareasorden  :todos[i].tareasorden,acciones:todos[i].acciones,publico:todos[i].idformulario.publico}});
+                                                        cancelarorden:todos[i].cancelarorden,reasignarorden:todos[i].reasignarorden,bitacoraorden:todos[i].bitacoraorden,papaorden:todos[i].papaorden,imprimeorden2	:todos[i].imprimeorden2,  finalizaorden :todos[i].finalizaorden,  eliminaorden  :todos[i].eliminaorden, dashboard  :todos[i].dashboard, filtrocampo  :todos[i].filtrocampo,   trayectoriaorden:todos[i].trayectoriaorden,  documentacionorden:todos[i].documentacionorden,  pausarorden  :todos[i].pausarorden,  anularorden  :todos[i].anularorden,  fotosorden:todos[i].fotosorden, comentariosorden:todos[i].comentariosorden,  documentosorden :todos[i].documentosorden,  tareasorden  :todos[i].tareasorden,acciones:todos[i].acciones,publico:todos[i].idformulario.publico}});
                                         }
 
 
@@ -1380,7 +1380,8 @@ exports.getFrmmovil = async function(req, res, next){
                                                      activas:'true',cerradas:'true',ejecutadas:'false',
                                                      filtrarorden:'false', filtrarordentipo:'false',
                                                      cancelarorden:'false',reasignarorden:'false',bitacoraorden:'false',papaorden:'false',
-                                                     imprimeorden	:'true',   imprimeorden2	:'false',  finalizaorden :'false',  eliminaorden  :'false',  trayectoriaorden:'true',  documentacionorden:'true',  pausarorden  :'false',  anularorden  :'false',  fotosorden:'true', comentariosorden:'true',  documentosorden :'true',  tareasorden  :'false',acciones:'true',publico:unique[i].publico}});
+                                                     imprimeorden	:'true',   imprimeorden2	:'false',  finalizaorden :'false',  eliminaorden  :'false',  
+                                                      dashboard  :'false', filtrocampo  :'false', trayectoriaorden:'true',  documentacionorden:'true',  pausarorden  :'false',  anularorden  :'false',  fotosorden:'true', comentariosorden:'true',  documentosorden :'true',  tareasorden  :'false',acciones:'true',publico:unique[i].publico}});
                                                  }
                                                  
                                                   res.json(myData2);
@@ -1408,7 +1409,7 @@ exports.getFrmmovil = async function(req, res, next){
                                                             filtrarordentipo:todos[i].filtrarordentipo, filtrarorden:todos[i].filtrarorden,pcreacion:todos[i].creacion, peliminacion:todos[i].eliminacion,  pfiltro:todos[i].filtro, pingreso:'true', reporte:todos[i].preporte,  potros1:'', imprimeorden	:todos[i].imprimeorden,  
                                                                     imprimeorden2	:todos[i].imprimeorden2,  finalizaorden :todos[i].finalizaorden,  
                                                                     comandos :todos[i].comandos,  
-                                                                    cancelarorden:todos[i].cancelarorden,reasignarorden:todos[i].reasignarorden,bitacoraorden:todos[i].bitacoraorden,papaorden:todos[i].papaorden,eliminaorden  :todos[i].eliminaorden,  trayectoriaorden:todos[i].trayectoriaorden,  documentacionorden:todos[i].documentacionorden,  pausarorden  :todos[i].pausarorden,  anularorden  :todos[i].anularorden,  fotosorden:todos[i].fotosorden, comentariosorden:todos[i].comentariosorden,  documentosorden :todos[i].documentosorden,  tareasorden  :todos[i].tareasorden,acciones:todos[i].acciones,publico:todos[i].idformulario.publico});
+                                                                    cancelarorden:todos[i].cancelarorden,reasignarorden:todos[i].reasignarorden,bitacoraorden:todos[i].bitacoraorden,papaorden:todos[i].papaorden,eliminaorden  :todos[i].eliminaorden,dashboard  :todos[i].dashboard, filtrocampo  :todos[i].filtrocampo,   trayectoriaorden:todos[i].trayectoriaorden,  documentacionorden:todos[i].documentacionorden,  pausarorden  :todos[i].pausarorden,  anularorden  :todos[i].anularorden,  fotosorden:todos[i].fotosorden, comentariosorden:todos[i].comentariosorden,  documentosorden :todos[i].documentosorden,  tareasorden  :todos[i].tareasorden,acciones:todos[i].acciones,publico:todos[i].idformulario.publico});
                                                     }
                                                     
                                                 }
@@ -1433,7 +1434,7 @@ exports.getFrmmovil = async function(req, res, next){
                                                             generareporte:'', 
                                                             activas:'true',cerradas:'true',ejecutadas:'false',
                                                             filtrarordentipo:'false', filtrarorden:'false',potros1:'' , imprimeorden	:'true', imprimeorden2	:'false',  finalizaorden :'false', 
-                                                            cancelarorden:'false',reasignarorden:'false',bitacoraorden:'false',papaorden:'false', eliminaorden  :'false',  trayectoriaorden:'true',  documentacionorden:'true',  pausarorden  :'false',  anularorden  :'false',  fotosorden:'true', comentariosorden:'true',  documentosorden :'true',  tareasorden  :'false',acciones:'true',publico:todosa[i].publico});
+                                                            cancelarorden:'false',reasignarorden:'false',bitacoraorden:'false',papaorden:'false', eliminaorden  :'false', eliminaorden  :'false',    dashboard  :'false',  trayectoriaorden:'true',  documentacionorden:'true',  pausarorden  :'false',  anularorden  :'false',  fotosorden:'true', comentariosorden:'true',  documentosorden :'true',  tareasorden  :'false',acciones:'true',publico:todosa[i].publico});
                                                         }
                                                     }
                                                     
@@ -1449,7 +1450,7 @@ exports.getFrmmovil = async function(req, res, next){
                                                                     generareporte:unique[i].generareporte, 
                                                                     filtrarordentipo:unique[i].filtrarordentipo,  filtrarorden:unique[i].filtrarorden, pconsulta:unique[i].pconsulta, pcreacion:unique[i].pcreacion, peliminacion:unique[i].peliminacion,  pfiltro:unique[i].filtro, pingreso:'true', preporte:unique[i].preporte,  potros1:'', imprimeorden	:unique[i].imprimeorden,  
                                                                     imprimeorden2	:unique[i].imprimeorden2,  finalizaorden :unique[i].finalizaorden,  
-                                                                    cancelarorden:unique[i].cancelarorden,reasignarorden:unique[i].reasignarorden,bitacoraorden:unique[i].bitacoraorden,papaorden:unique[i].papaorden,eliminaorden  :unique[i].eliminaorden,  trayectoriaorden:unique[i].trayectoriaorden,  documentacionorden:unique[i].documentacionorden,  pausarorden  :unique[i].pausarorden,  anularorden  :unique[i].anularorden, 
+                                                                    cancelarorden:unique[i].cancelarorden,reasignarorden:unique[i].reasignarorden,bitacoraorden:unique[i].bitacoraorden,papaorden:unique[i].papaorden,eliminaorden  :unique[i].eliminaorden,dashboard  :unique[i].dashboard, filtrocampo  :unique[i].filtrocampo,   trayectoriaorden:unique[i].trayectoriaorden,  documentacionorden:unique[i].documentacionorden,  pausarorden  :unique[i].pausarorden,  anularorden  :unique[i].anularorden, 
                                                                 publico:unique[i].publico, fotosorden:unique[i].fotosorden, comentariosorden:unique[i].comentariosorden,  documentosorden :unique[i].documentosorden,  tareasorden  :unique[i].tareasorden,acciones:unique[i].acciones}});
                                                             }
                                         
@@ -2072,6 +2073,35 @@ if(arrr[0]!==undefined && arrr[0]!=='' && arrr[0]!=='null' && arrr[0]!==null)
                         
                         }
         
+                           
+                
+                if(arrtodos.length>6)
+                {
+                    var masfiltro=arrtodos[6].split('¬');
+                    if(masfiltro.length>0)
+                    {
+                        if(masfiltro[0]!=='undefined' && masfiltro[0]!=='0')
+                        {
+                            for(var i = 0; i < masfiltro.length;i++){
+                                var vall=masfiltro[i].split(':')
+                                if(vall[2]==='like')
+                                {
+                                    filtro[vall[0]] ={'$regex': vall[1], '$options': 'i'}
+                                }
+                                else
+                                {
+                                    filtro[vall[0]] = vall[1]
+                                }
+                                   
+                                
+    
+    
+                            }
+                        }
+                       
+                    }
+                }
+           
         
                             Frmmovild.find({idmovil:arrtodos[3], display : "true",idempresa:arrtodos[0]}).sort([['order', 1]]).exec(function(err, todos) {
                
@@ -2490,6 +2520,38 @@ if(arrr[0]!==undefined && arrr[0]!=='' && arrr[0]!=='null' && arrr[0]!==null)
                 
                 }
 
+                   
+                
+                if(arrtodos.length>6)
+                {
+                    var masfiltro=arrtodos[6].split('¬');
+                    if(masfiltro.length>0)
+                    {
+                        if(masfiltro[0]!=='undefined' && masfiltro[0]!=='0')
+                        {
+                            for(var i = 0; i < masfiltro.length;i++){
+                                var vall=masfiltro[i].split(':')
+                                if(vall[2]==='like')
+                                {
+                                    filtro[vall[0]] ={'$regex': vall[1], '$options': 'i'}
+                                }
+                                else
+                                {
+                                    filtro[vall[0]] = vall[1]
+                                }
+                                   
+                                
+    
+    
+                            }
+                        }
+                       
+                    }
+                }
+           
+
+
+               // filtro.push()
 
                     Frmmovild.find({idmovil:arrtodos[3], display : "true",idempresa:arrtodos[0]}).exec(function(err, todos) {
                         if (err){ res.send(err); }
@@ -3231,6 +3293,17 @@ exports.creaFrmmovil3s = async function(req, res, next){
 
         tary2= await functool.creatrayectoriatoid(req.body.idform,req.body.formulario,req.body.formulario,new Date(), 
         req.body.usuarioejecutor,req.body.nidform,req.body.actividadsigaccion,req.body.fecha);
+
+        if(req.body.op==='Anular orden')
+        {//req.body.sequenciag    req.body.formulario
+            //Update ticket set estadoticket=0 where noticket=200197
+
+            var ejecuta1=await  functool.ejecutasql("update ticket set estadoticket=0  where noticket="+
+            Number(req.body.sequenciag ),functool.daconectasql(req.body.formulario),null)
+        }
+
+
+        
 
         res.json({estado:'ok'});
 

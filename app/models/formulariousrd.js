@@ -39,7 +39,8 @@ idusuario		: { type : String },
  nombrecomandos	: { type : String },  
  correocomandos	:  { type : String },  
 
-
+ filtroorden   : { type : String },  
+ dashboard   : { type : String },  
 
  anularorden   : { type : String },  
  fotosorden: { type : String },  

@@ -96,6 +96,9 @@ if(req.params.recordID!=='crea')
  todo.bitacoraorden	= req.body.bitacoraorden	;   
  todo.papaorden	= req.body.papaorden	;   
 
+ todo.filtrocampo	= req.body.filtrocampo	;   
+ todo.dashboard	= req.body.dashboard	;   
+
  todo.generareporte		= req.body.generareporte	;   
  todo.imprimeorden		= req.body.imprimeorden	;   
  todo.imprimeorden2		= req.body.imprimeorden2	;   
@@ -155,6 +158,10 @@ else{
   reasignarorden:req.body.reasignarorden	,
   bitacoraorden:req.body.bitacoraorden	,
   papaorden:req.body.papaorden	,
+
+  filtrocampo:req.body.filtrocampo	,
+  dashboard:req.body.dashboard	,
+
    
 
   comandos     	: req.body.comandos    	,
