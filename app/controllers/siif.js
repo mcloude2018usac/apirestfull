@@ -710,7 +710,7 @@ console.log(todo100aaa.length)
                     var options = {
                         'method': 'POST',
                         gzip: true,
-                        'url': 'http://calusacvirtual.usac.edu.gt/app/api/order.php',
+                        'url': 'https://calusacvirtual.usac.edu.gt/app/api/order.php',
                         'headers': {
                         'Content-Type': 'text/xml;charset=UTF-8',
                         'User-Agent': 'PostmanRuntime/7.22.0',
@@ -862,9 +862,9 @@ res.send({cadena:'Orden pago ya ha sido utilizada en el sistema.'});
 
 
      
-
+            
             request({
-                url: "http://calusacvirtual.usac.edu.gt/app/api/order.php",
+                url: "https://calusacvirtual.usac.edu.gt/app/api/order.php",
                 method: "POST",
                 gzip: true,
                 headers: {
