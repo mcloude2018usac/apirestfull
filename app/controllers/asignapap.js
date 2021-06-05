@@ -540,7 +540,7 @@ else
       
       
                 const mailO = {
-                    destino: 'mario.morales@mcloude.com', // list of receivers
+                    destino: 'mario.morales@mcloude.com;ambrosioaleman07@gmail.com;lopezvilleda@gmail.com', // list of receivers
                     subject: 'Solicitud de nuevo salon PAP', // Subject line
                     html: 'Solicitando salon para Unidad academica PAP: ' + myData3aa[0].idunidadacademica.nombre + ', Materia: '+  myData3aa[0].idmateria +', Edificio: '+  myData3aa[0].idedificio.nombre +' y Salon: '+  myData3aa[0].idsalon.nombre ,// plain text body
                     actualiza: 0// plain text body
