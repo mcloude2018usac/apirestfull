@@ -864,7 +864,7 @@ res.send({cadena:'Orden pago ya ha sido utilizada en el sistema.'});
      
             
             request({
-                url: "https://calusacvirtual.usac.edu.gt/app/api/order.php",
+                url: "http://calusacvirtual.usac.edu.gt/app/api/order.php",
                 method: "POST",
                 gzip: true,
                 headers: {

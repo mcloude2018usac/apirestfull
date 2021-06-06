@@ -24,7 +24,7 @@ function  ejecutaaccess  (cad)
 {
 
     return new Promise(resolve => {
-        resolve({estado:'exito',datat:[]}); 
+resolve({estado:'exito',datat:[]}); 
 });
 }
 
@@ -185,6 +185,10 @@ function datipo(value) {
    case 'Componente':   tt='String';   break;
    case 'Visualizar query':   tt='String';   break;
    case 'Lista de valores remoto':   tt='String';   break;
+   case 'Firma Electronica':   tt='String';   break;
+   case 'Codigo Qr':   tt='String';   break;
+   case 'Firma Digital':   tt='String';   break;
+   case 'Geoposicionamiento automatico':   tt='String';   break;
         default:
           // code block
       }
@@ -212,11 +216,16 @@ function datipo(value) {
            case 'Componente':   tt='componente';   break;
            case 'Visualizar query':   tt='verquery';   break;
            case 'Lista de valores remoto':   tt='selectremoto';   break;
+           case 'Firma Electronica':   tt='firmaelectronica';   break;
+           case 'Codigo Qr':   tt='codigoqr';   break;
+           case 'Firma Digital':   tt='firmadigital';   break;
+           case 'Geoposicionamiento automatico':   tt='geoautomatico';   break;
             default:
               // code block
           }
             return tt;
           }
+
 
 
 
