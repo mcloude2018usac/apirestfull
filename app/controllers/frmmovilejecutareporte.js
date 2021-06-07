@@ -231,21 +231,7 @@ jsonx.push(jsonObject)
 
 jsonx.push({text:'   '})
 //BUENO
-jsonx.push({
-  style: 'tableExample',
-  fontSize: 10,
-  table: 
-  {
-    widths: ['auto', 150],
-    heights: [15, 15],
-    body: [
-      ['No. Póliza', {text: ''}],
-      ['Clase 36/37 ', '']
-    ]
-  }
-});
 
-jsonx.push({text:'   '})
 
 
 jsonx.push( {
@@ -268,63 +254,10 @@ layout:
 
 //BUENO
 jsonx.push({text:'   '})
-jsonx.push
-(
-  {
-    table: 
-    {
-      widths: ['auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto'],
-      headerRows: 2,
-      body: 
-      [
-        [
-          {rowSpan: 2, text: 'STATUS', style: 'tableHeader', alignment: 'center',fontSize: 10}, 
-          {text: 'INICIAL', style: 'tableHeader',colSpan: 2,  alignment: 'center',fontSize: 10},
-          {},
-          {text: '2DA REV', style: 'tableHeader',colSpan: 2,  alignment: 'center',fontSize: 10},
-          {},
-          {text: 'CLASE 36 / 37', style: 'tableHeader',colSpan: 2,  alignment: 'center',fontSize: 10},
-          {}
-        ],
-        [
-          {text: '', style: 'tableHeader', alignment: 'center',fontSize: 10}, 
-          {text: ' HORA ', style: 'tableHeader', alignment: 'center',fontSize: 10}, 
-          {text: 'FECHA', style: 'tableHeader', alignment: 'center',fontSize: 10}, 
-          {text: ' HORA ', style: 'tableHeader', alignment: 'center',fontSize: 10}, 
-          {text: 'FECHA', style: 'tableHeader', alignment: 'center',fontSize: 10}, 
-          {text: ' HORA ', style: 'tableHeader', alignment: 'center',fontSize: 10},
-          {text: 'FECHA',  style: 'tableHeader', alignment: 'center',fontSize: 10},
-        ],
-        [{text:'RECIBIDO DE SERVICIO AL CLIENTE',fontSize: 10}, '', '','', '', '',''],
-        [{text:'ENTREGA A CONTROL DE CALIDAD',fontSize: 10}, '', '','', '', '',''],
-        [{text:'RECIBIDA DE CONTROL DE CALIDAD',fontSize: 10}, '', '','', '', '',''],
-        [{text:'PREPOLIZA DE SERVICIO AL CLIENTE',fontSize: 10}, '', '','', '', '',''],
-        [{text:'CONFIRMA A  SERVICIO AL CLIENTE',fontSize: 10}, '', '','', '', '',''],
-        [{text:'A TRÁMITE',fontSize: 10}, '', '','', '', '',''],
-      
-      ]
-    }
-   }
-);
 
 jsonx.push({text:'   '})
 
-jsonx.push({
-  style: 'tableExample', 
-  fontSize: 10,
-  table: 
-  {
-    widths: ['auto', 50],
-    heights: [25, 25, 25],
-    body: 
-    [
-      ['Regimen', ''],
-      ['Aduana Entrada ', ''],
-      ['Aduana Salida', '']
-    ]
-  }
-});
-jsonx.push({text:'   '})
+
 
 jsonx.push({	text: [{text:'Recibido por: ', bold: true,fontSize:10},{text: '______________________________'}	],  alignment: 'right'})
 
