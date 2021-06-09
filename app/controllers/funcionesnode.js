@@ -25,7 +25,6 @@ function  ejecutaaccess  (cad)
 
     return new Promise(resolve => {
         resolve({estado:'exito',datat:[]}); 
-
 });
 }
 
@@ -1027,7 +1026,54 @@ function dafiltrocad(todos,id2,id3,norequerido) {
           }
            break;
 
-           
+           case 'Firma Electronica': 
+           if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+           else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+           if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+           {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+           }
+           else
+           {
+              
+               cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+           }
+            break;
+            case 'Codigo Qr': 
+            if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+            else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+            if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+            {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+            }
+            else
+            {
+               
+                cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+            }
+             break;
+             case 'Firma Digital': 
+             if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+             else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+             if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+             {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+             }
+             else
+             {
+                
+                 cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+             }
+              break;
+              case 'Geoposicionamiento automatico': 
+              if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+              else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+              if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+              {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+              }
+              else
+              {
+                 
+                  cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+              }
+               break;
            case 'Visualizar query': 
            if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
            else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
@@ -1102,54 +1148,6 @@ function dafiltrocad(todos,id2,id3,norequerido) {
                }
   
             break;
-            case 'Firma Electronica': 
-            if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-            else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-            if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
-            {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-            }
-            else
-            {
-               
-                cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-            }
-             break;
-             case 'Codigo Qr': 
-             if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-             else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-             if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
-             {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-             }
-             else
-             {
-                
-                 cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-             }
-              break;
-              case 'Firma Digital': 
-              if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-              else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-              if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
-              {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-              }
-              else
-              {
-                 
-                  cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-              }
-               break;
-               case 'Geoposicionamiento automatico': 
-               if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-               else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-               if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
-               {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-               }
-               else
-               {
-                  
-                   cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-               }
-                break;
             case 'Check List Detalle': 
             if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '.label":"' +id3 + '"' }
              else{cadxx='"' +id2 + '.label": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }

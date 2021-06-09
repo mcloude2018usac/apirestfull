@@ -2086,7 +2086,16 @@ if(arrr[0]!==undefined && arrr[0]!=='' && arrr[0]!=='null' && arrr[0]!==null)
                                 var vall=masfiltro[i].split(':')
                                 if(vall[2]==='like')
                                 {
-                                    filtro[vall[0]] ={'$regex': vall[1], '$options': 'i'}
+                                     var cadtt=vall[1]
+                                    
+                                    if(cadtt.indexOf('|')>=0)
+                                    {
+                                        filtro[vall[0]] ={'$regex': '('+vall[1]+').*', '$options': 'i'}
+                                    }
+                                    else
+                                    {
+                                        filtro[vall[0]] ={'$regex': vall[1], '$options': 'i'}
+                                    }
                                 }
                                 else
                                 {
@@ -2533,7 +2542,16 @@ if(arrr[0]!==undefined && arrr[0]!=='' && arrr[0]!=='null' && arrr[0]!==null)
                                 var vall=masfiltro[i].split(':')
                                 if(vall[2]==='like')
                                 {
-                                    filtro[vall[0]] ={'$regex': vall[1], '$options': 'i'}
+                                    var cadtt=vall[1]
+                                    
+                                    if(cadtt.indexOf('|')>=0)
+                                    {
+                                        filtro[vall[0]] ={'$regex': '('+vall[1]+').*', '$options': 'i'}
+                                    }
+                                    else
+                                    {
+                                        filtro[vall[0]] ={'$regex': vall[1], '$options': 'i'}
+                                    }
                                 }
                                 else
                                 {
