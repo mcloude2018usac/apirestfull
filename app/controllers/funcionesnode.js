@@ -24,7 +24,10 @@ function  ejecutaaccess  (cad)
 {
 
     return new Promise(resolve => {
+
         resolve({estado:'exito',datat:[]}); 
+
+
 });
 }
 
@@ -226,8 +229,148 @@ function datipo(value) {
             return tt;
           }
 
-
-
+          function graficatiposubtipocantidad(todos2,op) {
+               
+            var myData2 = [];
+            var myData3 = [];
+            var myData = [];
+          
+    
+            var arre=['rgba(255, 99, 132, 0.2)', 'rgba(75, 192, 192, 0.2)','rgba(255, 159, 64, 0.2)', 'rgba(255, 205, 86, 0.2)']
+            var arre2=['rgb(255, 99, 132)','rgb(54, 162, 235)', 'rgb(255, 159, 64)', 'rgb(255, 205, 86)', 'rgb(75, 192, 192)']
+            //etiquetas
+    
+            if(todos2.length==0)
+            {
+              return {labels:[],dataset:[]}
+            }
+            else
+            {
+            if(op==='')
+            {
+                for(var i = 0; i < todos2.length;i++){  myData.push(todos2[i].grupo) ;  todos2[i].exito=0}
+            }
+            else
+            {
+                
+                for(var i = 0; i < todos2.length;i++){  
+                    if(todos2[i].grupo0!==undefined && todos2[i].grupo0!==''){
+                        myData.push(todos2[i].grupo+'-' + todos2[i].grupo0) ; 
+                    }
+                    else
+                    {
+                        myData.push(todos2[i].grupo) ; 
+                    }
+                    todos2[i].exito=0
+                }
+            }            
+            
+            // console.log(myData)
+    
+        myData=removeDups(myData);
+        myData.sort()
+        var total=0
+         for(var i = 0; i <myData.length;i++){    myData3.push(null)      }
+         var grupo=todos2[0].subgrupo
+         var ncolor=0;
+         var j=0;
+         var grupott=''
+         for(var i = 0; i <todos2.length;i++){
+            
+             if( todos2[i].exito===0)
+             {
+             if(grupo==todos2[i].subgrupo)     {   
+                 for(var r = 0; r < myData.length;r++){
+                     if(op==='')
+                     {grupott=todos2[i].grupo}
+                     else
+                     {
+                        if(todos2[i].grupo0!==undefined && todos2[i].grupo0!==''){
+                            grupott=todos2[i].grupo+'-' + todos2[i].grupo0
+                        }
+                        else
+                        {
+                            grupott=todos2[i].grupo
+                        }
+                        
+                     }
+                     if(myData[r]==grupott)
+                     {
+                         myData3[r]=Number(todos2[i].cantidad);      
+                         total=total+Number(todos2[i].cantidad)
+                         todos2[i].exito=1
+    
+                     }
+                 }
+    
+                   
+                 
+                 }
+             else{
+    
+            
+                     myData2.push({ label: grupo,   data: myData3,  fill: false,backgroundColor:arre[ncolor],  borderColor: arre2[ncolor], borderWidth: 1  });
+           
+                 
+    
+                      ncolor=ncolor+1;
+                      myData3 = [];
+                     j=0;
+                     for(var ii = 0; ii <  myData.length;ii++){
+                         myData3.push(null)
+                     }
+                     grupo=todos2[i].subgrupo
+    
+                     for(var r = 0; r < myData.length;r++){
+                        if(op==='')
+                        {grupott=todos2[i].grupo}
+                        else
+                        {
+                            if(todos2[i].grupo0!==undefined && todos2[i].grupo0!==''){
+                                grupott=todos2[i].grupo+'-' + todos2[i].grupo0
+                            }
+                            else
+                            {
+                                grupott=todos2[i].grupo
+                            }
+                        }
+                         if(myData[r]==grupott)
+                         {
+                             myData3[r]=Number(todos2[i].cantidad);   
+                             total=total+Number(todos2[i].cantidad);   
+                             todos2[i].exito=1
+    
+                         }
+                     }
+    
+                 
+                 //    myData3[j]=result.rows[i].VALOR
+                 //    j=j+1;
+                
+                    
+             }
+            
+            }
+    
+         }
+    
+    
+    
+             myData2.push({ label: grupo,  data: myData3, fill: false, backgroundColor:arre[ncolor],  borderColor: arre2[ncolor], borderWidth: 1  });
+    
+         return {labels:myData,dataset:myData2,total:total,tabla:todos2};
+        }
+        
+        }
+        function removeDups(names) {
+            let unique = {};
+            names.forEach(function(i) {
+              if(!unique[i]) {
+                unique[i] = true;
+              }
+            });
+            return Object.keys(unique);
+          }
 
      var     actualizatrayectoria= function(idtt,idorden,fechatt,usuarioejecutor){
         return new Promise(resolve => {    
@@ -3400,6 +3543,8 @@ module.exports = {
     dafechastring:dafechastring,
     dafechatodate:dafechatodate,
     daimagen:daimagen,
+    graficatiposubtipocantidad:graficatiposubtipocantidad,
+    removeDups:removeDups,
     getKeyssrthtml:getKeyssrthtml,
     procesahtmlrecord:procesahtmlrecord,
     procesahtmlrecordproceso:procesahtmlrecordproceso,

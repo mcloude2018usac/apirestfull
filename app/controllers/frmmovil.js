@@ -1695,11 +1695,11 @@ exports.getFrmmovil = async function(req, res, next){
                         var arrr=req.params.id.split('°')
 
                                    
-var filtro={procedimiento:arrr[0],salioorden:1,createdAt:{"$gte": new Date(arrr[2]+'T00:00:00.000Z'),"$lt": new Date(arrr[3] +'T24:00:00.000Z')}}
+var filtro={idform:arrr[0],salioorden:1,createdAt:{"$gte": new Date(arrr[2]+'T00:00:00.000Z'),"$lt": new Date(arrr[3] +'T24:00:00.000Z')}}
 
 if(arrr[1]!==undefined && arrr[1]!=='' && arrr[1]!=='null' && arrr[1]!==null)
 {
-    filtro={procedimiento:arrr[0],salioorden:1,createdAt:{"$gte": new Date(arrr[2]+'T00:00:00.000Z'),"$lt": new Date(arrr[3] +'T24:00:00.000Z')
+    filtro={idform:arrr[0],salioorden:1,createdAt:{"$gte": new Date(arrr[2]+'T00:00:00.000Z'),"$lt": new Date(arrr[3] +'T24:00:00.000Z')
     },sequenciag:functool.padLeadingZeros(arrr[1],7)}
 
 }
@@ -1734,7 +1734,8 @@ if(arrr[0]!==undefined && arrr[0]!=='' && arrr[0]!=='null' && arrr[0]!==null)
                 { 
                     "$group" : {
                         "_id" : {
-                            "procedimiento" : "$procedimiento"
+                            "procedimiento" : "$procedimiento",
+                            "idform":"$idform"
                         }, 
                         "COUNT(*)" : {
                             "$sum" : 1
@@ -1744,6 +1745,7 @@ if(arrr[0]!==undefined && arrr[0]!=='' && arrr[0]!=='null' && arrr[0]!==null)
                 { 
                     "$project" : {
                         "procedimiento" : "$_id.procedimiento", 
+                        "idform":"$_id.idform",
                         "cantidad" : "$COUNT(*)", 
                         "_id" :0
                     }
@@ -2420,6 +2422,508 @@ if(arrr[0]!==undefined && arrr[0]!=='' && arrr[0]!=='null' && arrr[0]!==null)
             
            
   break;
+  
+  case 'formularioprocesodash':
+    var arrtodos=req.params.id3.split('°')
+    var usuarito=''
+    var tieneactividadasignacion=arrtodos[5]
+    usuarioup=arrtodos[4]
+    var actividadt=[]
+    actividadt=req.params.id.split(',')
+    var namess=arrtodos[3]
+    var estadoxxx=arrtodos[2];
+    var filtroestado={}
+    if(estadoxxx==='activa' || estadoxxx==='ejecutadas')
+    {
+        filtroestado={$in:[estadoxxx]}
+    }
+    else
+    {
+        filtroestado={$nin:['activa','ejecutadas']}
+    }
+    
+        if(arrtodos[1]==='todos')
+        {
+            filtro={idempresa:arrtodos[0],estadoordenxxx:filtroestado}
+        }
+        else
+        {
+            if(arrtodos[1]==='todosmios')
+            {
+              
+                if(tieneactividadasignacion==='0')
+                {
+                    if(arrtodos[2]==='ejecutadas')
+                    {
+                        filtro={idempresa:arrtodos[0],pmodulo: {$in:[[usuarioup]]}}
+                    }
+                    else
+                    {
+                        filtro={idempresa:arrtodos[0],estadoordenxxx:filtroestado,
+                            idactividadxxx:{$in:actividadt}}
+                    }
+                }
+                else
+                {// si  esta involucrado en alguna actividad de tipo asignacion pueda ser que la reciba
+                 
+                    if(arrtodos[2]==='ejecutadas')
+                    {
+                        filtro={idempresa:arrtodos[0],pmodulo: {$in:[[usuarioup]]}}
+                    }
+                    else
+                    {
+                        if(actividadt[0]!=='123')
+                        {
+                            filtro={idempresa:arrtodos[0],estadoordenxxx:filtroestado,
+                                idactividadxxx:{$in:actividadt}
+                              //  $or: [       {idactividadxxx : {$in:actividadt}},
+                                //    {idusuariosasigna: {$in:arrtodos[4]}}       ]
+                                }
+                        }
+                        else
+                        { 
+                            filtro={idempresa:arrtodos[0],estadoordenxxx:filtroestado,
+                                idusuariosasigna: {$in:[[arrtodos[4]]]}
+                                }
+                            
+                        }
+                       
+                    }
+
+                }
+          
+            
+            
+            
+            }
+            else
+            {
+                if(actividadt[0]!=='123')
+                {
+
+                    if(arrtodos[2]==='ejecutadas')
+                    {
+                        filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1],pmodulo: {$in:[[usuarioup]]}}
+                    }
+                    else
+                    {
+                        filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1],estadoordenxxx:filtroestado,
+                            idactividadxxx:{$in:actividadt}}
+                    }
+                    
+                
+                }
+                else
+                {
+                    if(arrtodos[2]==='ejecutadas')
+                    {
+                        filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1],pmodulo: {$in:[[usuarioup]]}}
+                    }
+                    else
+                    {
+                        filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1],estadoordenxxx:filtroestado}
+                    }
+                
+
+                }
+                
+
+            }
+        
+        }
+
+        
+        
+        if(arrtodos.length>6)
+        {
+            var masfiltro=arrtodos[6].split('¬');
+            if(masfiltro.length>0)
+            {
+                if(masfiltro[0]!=='undefined' && masfiltro[0]!=='0')
+                {
+                    for(var i = 0; i < masfiltro.length;i++){
+                        var vall=masfiltro[i].split(':')
+                        if(vall[2]==='like')
+                        {   var cadtt=vall[1]
+                            
+                            if(cadtt.indexOf('|')>=0)
+                            {
+                                filtro[vall[0]] ={'$regex': '('+vall[1]+').*', '$options': 'i'}
+                            }
+                            else
+                            {
+                                filtro[vall[0]] ={'$regex': vall[1], '$options': 'i'}
+                            }
+                            
+/*
+                            $or : [
+                                { $and : [ { aduana:{'$regex': '605a3a9e5bc1b8016c3ce64b', '$options': 'i'} }] },
+                                { $and : [ { aduana:{'$regex': '6081ef095fd01a21f8ae4692', '$options': 'i'} }] }]
+
+                                */
+                            
+                        }
+                        else
+                        {
+                            filtro[vall[0]] = vall[1]
+                        }
+                           
+                        
+
+
+                    }
+                }
+               
+            }
+        }
+   
+
+        console.log(filtro)
+
+
+            Frmmovild.find({idmovil:arrtodos[3], display : "true",idempresa:arrtodos[0]}).exec(function(err, todos) {
+                if (err){ res.send(err); }
+            
+                var objetox = {};
+            for(var i = 0; i < todos.length;i++){
+                objetox[todos[i].name] =todos[i].title + '°' + todos[i].type + '°'+ todos[i].display;
+            }
+  
+                                //    if(todos.length>0)   {  "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },   
+                                
+                                        var cad=''
+                                        var cadxx=''
+                                        var cad3=(functool.dafiltrocad(todos,'','','')).split('°')
+                                
+                                        cad=cad3[0]
+                                        cadxx='{'+ cad3[1] + '}'
+                                        cad=cad + '"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" },   "usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"}, "geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"asignadoxxx":{"type":"String"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},  "secuenciagants": { "type" :"Array"},"idanst": { "type" :"Array"},  "pmodulo": { "type" :"Array"}'
+
+                                        cad='{' + cad + '}'
+                                        cadxx='{' + cadxx + '}'
+                                    
+                                        var jsonObject = functool.stringToObject(cad);
+                                    
+                                        var mongoose = require("mongoose");
+                                        delete mongoose.connection.models[namess];
+                                        var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                                    
+                                        
+                                    
+                                        try {
+                                            var  frmtt= mongoose.model(namess,tt);
+                                            frmtt.aggregate([
+                          
+                                                {
+                                                 
+                                                      "$group" : {
+                                                          "_id" : {
+                                                             grupo:"$actividadxxx",
+                                                             subgrupo:"$estadoordenxxx"
+                                                            
+                                                              
+                                                          }, 
+                                                           
+                                                          cantidad: { $sum: 1 }
+                                                          
+                                                      }
+                                                  }, 
+                                                  { 
+                                                      "$project" : {
+                                                         
+                                                          "grupo":"$_id.grupo",
+                                                        "subgrupo":"$_id.subgrupo",
+                                                        
+                                                           "cantidad" : "$cantidad", 
+                                                          "_id" :0
+                                                      }
+                                                  },
+                                                  { 
+                                                    "$sort" : {
+                                                        "subgrupo" : 1
+                                                    }
+                                                }
+                                              ]).exec(function(err, todos2) {
+                                                if (err){  res.send(err); }
+                                            
+                                                
+                                                res.json(functool.graficatiposubtipocantidad(todos2,''));
+                                            
+                                            });
+                                        } catch(e) {
+                                            
+                                            var  frmtt= mongoose.model(namess);
+                                
+                                            frmtt.find( filtro ).sort([['_id', -1]]).exec(function(err, todos2) {
+                                                if (err){  res.send(err);
+                                                }
+                                                res.json(todos2);
+                                            
+                                            });
+                                        }
+
+
+                                    
+                        
+               // }
+            });
+        
+    
+    break;
+
+    
+    case 'formularioprocesodash2':
+    var arrtodos=req.params.id3.split('°')
+    var usuarito=''
+    var tieneactividadasignacion=arrtodos[5]
+    usuarioup=arrtodos[4]
+    var actividadt=[]
+    actividadt=req.params.id.split(',')
+    var namess=arrtodos[3]
+    var estadoxxx=arrtodos[2];
+    var filtroestado={}
+    if(estadoxxx==='activa' || estadoxxx==='ejecutadas')
+    {
+        filtroestado={$in:[estadoxxx]}
+    }
+    else
+    {
+        filtroestado={$nin:['activa','ejecutadas']}
+    }
+    
+        if(arrtodos[1]==='todos')
+        {
+            filtro={idempresa:arrtodos[0],estadoordenxxx:filtroestado}
+        }
+        else
+        {
+            if(arrtodos[1]==='todosmios')
+            {
+              
+                if(tieneactividadasignacion==='0')
+                {
+                    if(arrtodos[2]==='ejecutadas')
+                    {
+                        filtro={idempresa:arrtodos[0],pmodulo: {$in:[[usuarioup]]}}
+                    }
+                    else
+                    {
+                        filtro={idempresa:arrtodos[0],estadoordenxxx:filtroestado,
+                            idactividadxxx:{$in:actividadt}}
+                    }
+                }
+                else
+                {// si  esta involucrado en alguna actividad de tipo asignacion pueda ser que la reciba
+                 
+                    if(arrtodos[2]==='ejecutadas')
+                    {
+                        filtro={idempresa:arrtodos[0],pmodulo: {$in:[[usuarioup]]}}
+                    }
+                    else
+                    {
+                        if(actividadt[0]!=='123')
+                        {
+                            filtro={idempresa:arrtodos[0],estadoordenxxx:filtroestado,
+                                idactividadxxx:{$in:actividadt}
+                              //  $or: [       {idactividadxxx : {$in:actividadt}},
+                                //    {idusuariosasigna: {$in:arrtodos[4]}}       ]
+                                }
+                        }
+                        else
+                        { 
+                            filtro={idempresa:arrtodos[0],estadoordenxxx:filtroestado,
+                                idusuariosasigna: {$in:[[arrtodos[4]]]}
+                                }
+                            
+                        }
+                       
+                    }
+
+                }
+          
+            
+            
+            
+            }
+            else
+            {
+                if(actividadt[0]!=='123')
+                {
+
+                    if(arrtodos[2]==='ejecutadas')
+                    {
+                        filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1],pmodulo: {$in:[[usuarioup]]}}
+                    }
+                    else
+                    {
+                        filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1],estadoordenxxx:filtroestado,
+                            idactividadxxx:{$in:actividadt}}
+                    }
+                    
+                
+                }
+                else
+                {
+                    if(arrtodos[2]==='ejecutadas')
+                    {
+                        filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1],pmodulo: {$in:[[usuarioup]]}}
+                    }
+                    else
+                    {
+                        filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1],estadoordenxxx:filtroestado}
+                    }
+                
+
+                }
+                
+
+            }
+        
+        }
+
+        
+        
+        if(arrtodos.length>6)
+        {
+            var masfiltro=arrtodos[6].split('¬');
+            if(masfiltro.length>0)
+            {
+                if(masfiltro[0]!=='undefined' && masfiltro[0]!=='0')
+                {
+                    for(var i = 0; i < masfiltro.length;i++){
+                        var vall=masfiltro[i].split(':')
+                        if(vall[2]==='like')
+                        {   var cadtt=vall[1]
+                            
+                            if(cadtt.indexOf('|')>=0)
+                            {
+                                filtro[vall[0]] ={'$regex': '('+vall[1]+').*', '$options': 'i'}
+                            }
+                            else
+                            {
+                                filtro[vall[0]] ={'$regex': vall[1], '$options': 'i'}
+                            }
+                            
+/*
+                            $or : [
+                                { $and : [ { aduana:{'$regex': '605a3a9e5bc1b8016c3ce64b', '$options': 'i'} }] },
+                                { $and : [ { aduana:{'$regex': '6081ef095fd01a21f8ae4692', '$options': 'i'} }] }]
+
+                                */
+                            
+                        }
+                        else
+                        {
+                            filtro[vall[0]] = vall[1]
+                        }
+                           
+                        
+
+
+                    }
+                }
+               
+            }
+        }
+   
+
+        console.log(filtro)
+
+
+            Frmmovild.find({idmovil:arrtodos[3], display : "true",idempresa:arrtodos[0]}).exec(function(err, todos) {
+                if (err){ res.send(err); }
+            
+                var objetox = {};
+            for(var i = 0; i < todos.length;i++){
+                objetox[todos[i].name] =todos[i].title + '°' + todos[i].type + '°'+ todos[i].display;
+            }
+  
+                                //    if(todos.length>0)   {  "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },   
+                                
+                                        var cad=''
+                                        var cadxx=''
+                                        var cad3=(functool.dafiltrocad(todos,'','','')).split('°')
+                                
+                                        cad=cad3[0]
+                                        cadxx='{'+ cad3[1] + '}'
+                                        cad=cad + '"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" },   "usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"}, "geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"asignadoxxx":{"type":"String"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},  "secuenciagants": { "type" :"Array"},"idanst": { "type" :"Array"},  "pmodulo": { "type" :"Array"}'
+
+                                        cad='{' + cad + '}'
+                                        cadxx='{' + cadxx + '}'
+                                    
+                                        var jsonObject = functool.stringToObject(cad);
+                                    
+                                        var mongoose = require("mongoose");
+                                        delete mongoose.connection.models[namess];
+                                        var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                                    
+                                        
+                                    
+                                        try {
+                                            var  frmtt= mongoose.model(namess,tt);
+                                            frmtt.aggregate([
+                          
+                                                {
+                                                 
+                                                      "$group" : {
+                                                          "_id" : {
+                                                             grupo:"$actorxxx",
+                                                             grupo0:"$asignadoxxx",
+                                                             subgrupo:"$estadoordenxxx"
+                                                            
+                                                              
+                                                          }, 
+                                                           
+                                                          cantidad: { $sum: 1 }
+                                                          
+                                                      }
+                                                  }, 
+                                                  { 
+                                                      "$project" : {
+                                                         
+                                                          "grupo":"$_id.grupo",
+                                                          "grupo0":"$_id.grupo0",
+                                                        "subgrupo":"$_id.subgrupo",
+                                                        
+                                                           "cantidad" : "$cantidad", 
+                                                          "_id" :0
+                                                      }
+                                                  },
+                                                  { 
+                                                    "$sort" : {
+                                                        "subgrupo" : 1
+                                                    }
+                                                }
+                                              ]).exec(function(err, todos2) {
+                                                if (err){  res.send(err); }
+                                            
+                                                
+                                                res.json(functool.graficatiposubtipocantidad(todos2,'grupo+grupo0'));
+                                            
+                                            });
+                                        } catch(e) {
+                                            
+                                            var  frmtt= mongoose.model(namess);
+                                
+                                            frmtt.find( filtro ).sort([['_id', -1]]).exec(function(err, todos2) {
+                                                if (err){  res.send(err);
+                                                }
+                                                res.json(todos2);
+                                            
+                                            });
+                                        }
+
+
+                                    
+                        
+               // }
+            });
+        
+    
+    break;
+
+    
+
             case 'formularioproceso':
             var arrtodos=req.params.id3.split('°')
             var usuarito=''
@@ -3558,6 +4062,7 @@ if(req.params.recordID!=='crea')
                                                   usuariocreador		: req.body.trayectoria.usuariocreador,
                                                   procedimiento		: req.body.trayectoria.procedimiento,
                                                   estadoxxx		: req.body.trayectoria.estadoxxx,
+                                                  asignadoxxx	: req.body.trayectoria.asignadoxxx,
                                                   fecha		: req.body.trayectoria.fecha,
                                                   enviadoporxxx		: req.body.trayectoria.enviadoporxxx,
                                                   info		: req.body.trayectoria.info,
@@ -3721,6 +4226,7 @@ if(req.params.recordID!=='crea')
                                                          usuariocreador		: req.body.trayectoria.usuariocreador,
                                                          procedimiento		: req.body.trayectoria.procedimiento,
                                                          fecha		: req.body.trayectoria.fecha,
+                                                         asignadoxxx	: req.body.trayectoria.asignadoxxx,
                                                          estadoxxx		: req.body.trayectoria.estadoxxx,
                                                          enviadoporxxx		: req.body.trayectoria.enviadoporxxx,
                                                          info		: req.body.trayectoria.info,
@@ -3930,6 +4436,7 @@ if(req.body.tipo2==='Formulario'){
                                                     procedimiento		: req.body.trayectoria.procedimiento,
                                                     fecha		: todo3.createdAt,
                                                     estadoxxx		: req.body.trayectoria.estadoxxx,
+                                                    asignadoxxx	: req.body.trayectoria.asignadoxxx,
                                                     enviadoporxxx		: req.body.trayectoria.enviadoporxxx,
                                                     info		: req.body.trayectoria.info,
                                                     email:req.body.trayectoria.email,
@@ -4104,6 +4611,7 @@ if(req.body.tipo2==='Formulario'){
                                                         procedimiento		: req.body.trayectoria.procedimiento,
                                                       fecha		: todo3.createdAt,
                                                         estadoxxx		: req.body.trayectoria.estadoxxx,
+                                                        asignadoxxx	: req.body.trayectoria.asignadoxxx,
                                                         enviadoporxxx		: req.body.trayectoria.enviadoporxxx,
                                                         info		: req.body.trayectoria.info,
                                                         email:req.body.trayectoria.email,

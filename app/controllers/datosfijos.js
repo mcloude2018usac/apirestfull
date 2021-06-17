@@ -1955,7 +1955,7 @@ console.log('TERMINA')
                 var options = {
                   'method': 'POST',
                
-                  'url': 'http://calusacvirtual.usac.edu.gt/app/api/api.php?apicall=validate_carne',
+                  'url': 'https://calusacvirtual.usac.edu.gt/app/api/api.php?apicall=validate_carne',
                   'headers': {
                         "Accept": "application/json",
                         'Content-Type': 'application/json; charset=UTF-8',
