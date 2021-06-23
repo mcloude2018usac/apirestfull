@@ -24,10 +24,7 @@ function  ejecutaaccess  (cad)
 {
 
     return new Promise(resolve => {
-
         resolve({estado:'exito',datat:[]}); 
-
-
 });
 }
 
@@ -2889,6 +2886,8 @@ function dafiltrocadvalida(todos,id2,id3,req) {
             
             
             registrorep=registrorep + todos[i].name + '  '
+            var valort=req.body.estructura[todos[i].name]
+            valort=replaceAll(valort,'"',"'")
         switch(todos[i].type) {
            
         
