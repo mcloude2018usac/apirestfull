@@ -2364,7 +2364,8 @@ break;
                             "$group" : {
                                 "_id" : {
                                     "idevento" : "$idevento",
-                                    "mes": { $dateToString: { format: "%Y-%m}", date: "$createdAt" } }
+                                    "mes": { $dateToString: { format: "%Y-%m}", date: "$createdAt" } },
+                                    "dia": { $dateToString: { format: "%Y-%m-%d}", date: "$createdAt" } }
                                    
                                 }, 
                                 "cantidad" : {
@@ -2376,6 +2377,7 @@ break;
                             "$project" : {
                                 "idevento" : "$_id.idevento", 
                                 "mes" : "$_id.mes", 
+                                "dia" : "$_id.dia", 
                                 "cantidad" : "$cantidad", 
                                 "_id" :0
                             }
@@ -2388,7 +2390,7 @@ break;
                                         if(todos[i]._id==todos2[i2].idevento)
                                         {
                                                 myData.push({unidad:todos[i].unidad,nombre:todos[i].nombre,cantidad:todos2[i2].cantidad,estado:todos[i].impresion
-                                                ,grupo:todos[i].tipoevento,id:todos[i]._id,mes:todos2[i2].mes});
+                                                ,grupo:todos[i].tipoevento,id:todos[i]._id,mes:todos2[i2].mes,dia:todos2[i2].dia});
                                         }
                                         
                                 }
@@ -3032,7 +3034,12 @@ else
         case 'modulo-grupo':
                         res.json([{id:'PAGINA',nombre:'PAGINA'} ,{id:'LINK',nombre:'LINK'},{id:'MENU',nombre:'MENU'},{id:'PAGINAHTML',nombre:'PAGINAHTML'},{id:'MENU_BOTONES',nombre:'MENU_BOTONES'}]);
         break;
-     
+        case 'ordenes-gess':
+                res.json([{id:'605bb34d71887c22d0bfedbc°6074c31473b21e24e0f63c38°6074c61a73b21e24e0f63c40¬605a23446886480f70f6ec3f¬605a23446886480f70f6ec3fs¬Importaciones',nombre:'Importaciones'},{id:'6085a87f842ba023f878b618°6085acd0842ba023f878b625°6085b18d842ba023f878b634¬605a23696886480f70f6ec43¬605a23696886480f70f6ec43¬Exportaciones',nombre:'Exportaciones'},
+                {id:'60862f892e70db0d600a82c2°608630572e70db0d600a82c4°608633fc2e70db0d600a82d0°608634e42e70db0d600a82d3¬605a24e46886480f70f6ec47¬605a24e46886480f70f6ec47¬Transitos',nombre:'Transitos'},
+                {id:'6087209ee75c6616505520d9°608720ffe75c6616505520db°60873bf6e75c6616505520e8°60873cbee75c6616505520ea¬605a252e6886480f70f6ec4b¬605a252e6886480f70f6ec4bs¬DF / ZF',nombre:'DF / ZF'},
+                {id:'60885496e75c661650552235¬605a26e16886480f70f6ec4f¬605a26e16886480f70f6ec4fs¬Faucas',nombre:'Faucas'}, ]);
+break;
         case 'excel-eventos':
                            var filename   = "eventos.csv";
 
