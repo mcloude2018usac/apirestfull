@@ -32,6 +32,7 @@ var formulariotrayectoriaSchema 		=	new  mongoose.Schema({
  papaorigen: { type : String}, 
  sequenciag	: { type : String}, 
  asignadoxxx	:{ type : String}, 
+ grupoasignado:{ type :Array},
  estadoorden	: { type : String, required : true }, 
  categoriaform	: { type : String, required : true },
  idactividad		: { type : String, required : true }, 

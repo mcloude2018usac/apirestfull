@@ -36,6 +36,7 @@ var mongoose =require("mongoose");
         valor: { type : Number },
         verregistros: { type : String },
         usarunaves:  { type : String },
+        usarunaves2:  { type : String },
         idfrmconsultaorigen:  { id	: { type : String },   nombre	: { type : String }   },
         idfrmconsulta2origen:[{   id	: { type : String, required : true },   nombre		: { type : String, required : true }}],
         nombreconsulta2origen		: { type : String },  

@@ -625,6 +625,40 @@ var visitas_programadas=async  function(req, res, next){
               console.log('ejecuta al inicio crea:' + req.body.ejecutainicio)
              
               switch(req.body.ejecutainicio) {
+                case '1_verificainvrequisicion': 
+
+                (async () => {
+                  var ingreso=0
+                  var salida=0
+                  var saldoactual=0
+                  var total=0
+                  var existenciaactual=0
+                  var cantidadingreso=0
+                  var idproducto=req.body.estructura.articulo.split('¬')[1]
+
+                 
+
+                  producto = await functool.dadatosformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579'); 
+
+            
+
+              
+                  if(Number(producto.existenciaactual)<Number(req.body.estructura.cantidaddespachada))
+                  { resolve({estado:'No se puede despachar ' + req.body.estructura.cantidaddespachada + ' articulos, ya que solo se cuenta con una existencia = ' + producto.existenciaactual}); }
+                  else
+                  {
+                    resolve({estado:'exito'}); 
+                  }
+              
+             })();
+
+
+                
+/*
+              
+                */
+               
+                break;
                 
                   case '1_actualizainventarioaj': 
 

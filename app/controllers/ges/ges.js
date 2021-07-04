@@ -7,12 +7,110 @@ var functool = require('../../controllers/funcionesnode');
 var conecta1 = 'mssql://sa:$ertobar@192.168.34.5/stbd'
 var conecta2 = 'mssql://sa:$ertobar@192.168.34.5/cielomarbd'
 var conecta3 = 'mssql://sa:$ertobar@192.168.34.5/camposbd'
+var formulariocomentarios = require('../../models/asociadoventa/formulariocomentarios');
 
 
 
 exports.getGes = async function(req, res, next){
     if(req.params.id3)
     { 
+        if(req.params.id2==='reporteclientes')
+        { 
+            (async () => {
+            var arrr=req.params.id.split('¬')
+            var nopoliza=arrr[5]
+            var referencia=arrr[6]
+            var activi=arrr[1].split('°')
+            var clientes=arrr[0]
+            var form=arrr[2]
+            var form2=arrr[3]
+
+            var filtro={idactividadxxx:{$in:activi},
+            cliente:{"$regex": "(" + clientes+").*", "$options": "i"}}
+
+            if(nopoliza!=='undefined' && nopoliza!=='')
+            {
+                filtro['nopoliza'] ={'$regex': '('+nopoliza+').*', '$options': 'i'}
+            }
+
+            if(referencia!=='undefined' && referencia!=='')
+            {
+                filtro['referencia'] =referencia
+            }
+           
+
+            
+                producto = await functool.dadatosformulariofinal(form,filtro,req.params.id3,form2 ); 
+                var ordenestt=[]
+                for(var i = 0; i < producto.length;i++){
+                    ordenestt.push(producto[i]._id)
+                }
+
+                formulariocomentarios.find({idpapa:{$in:ordenestt},idempresa:req.params.id3}).sort({_id:-1}).exec(function(err, todos10) {
+                    if (err){  res.send(err);  }
+
+                    var datat=[]
+                    for(var i = 0; i < producto.length;i++){
+
+                        var comentario=''
+
+                        for(var ii = 0; ii < todos10.length;ii++){
+                            if(todos10[ii].idpapa===String(producto[i]._id))
+                            {
+                                var date= new Date(todos10[ii].createdAt)
+                                var dateStr =
+                                ("00" + date.getDate()).slice(-2) + "/" +
+                                ("00" + (date.getMonth() + 1)).slice(-2) + "/" +
+  date.getFullYear() + " " +
+  ("00" + date.getHours()).slice(-2) + ":" +
+  ("00" + date.getMinutes()).slice(-2) + ":" +
+  ("00" + date.getSeconds()).slice(-2);
+
+                                comentario=' [' + dateStr + '] ' + todos10[ii].nombre 
+                                break;
+                            }
+                            }
+    
+                        var aduana=''
+
+                        var cliente=''
+                        var selectivo=''
+
+                        if(String(producto[i].aduana).indexOf(':')>0){aduana=producto[i].aduana.split(':')[1].split('<br>')[0]}
+                        if(String(producto[i].cliente).indexOf(':')>0){cliente=producto[i].cliente.split(':')[1].split('<br>')[0]}
+                        if(String(producto[i].selectivoma).indexOf(':')>0){selectivo=producto[i].selectivoma.split(':')[1].split('<br>')[0]}
+
+
+                        if(selectivo.indexOf('null')>0)
+                        {
+                            if(producto[i].selectivoterr.indexOf(':')>0)
+                            {
+                                selectivo=producto[i].selectivoterr.split(':')[1].split('<br>')[0]
+                            }
+                            else
+                            {selectivo=''}
+                            
+                        }
+                        datat.push({comentario:comentario,_id:producto[i]._id,actividad:producto[i].actividadxxx,estadoxxx:producto[i].estadoxxx,
+                            sequenciag:producto[i].sequenciag,usuarionew:producto[i].usuarionew,cliente:cliente,
+                            aduana:aduana,selectivoma:selectivo,nopoliza:producto[i].nopoliza,referencia:producto[i].referencia})
+    
+    
+                    }
+    
+                    res.json(datat)
+
+
+                });
+
+
+                
+            })();
+             
+
+        }
+        else
+        {
         if(req.params.id2==='getgastos')
         { 
 
@@ -23,11 +121,11 @@ exports.getGes = async function(req, res, next){
 
           
            var cad1="select ticket.aduana,ticket.Polizaaduana,clientes.Nombre,clientes.Nit,ticket.libretexto from ticket,clientes where ticket.idcliente=clientes.codigo and ticket.noticket= '"+req.params.id+"' "
-           var cad1a="select preautorizadopor,autorizadopor,statusreq,noreq,ticketno,solicitadopor,nombrecliente,polizano,CONVERT(varchar,fechareq,103)  fechareq,descripcion1,Monto1,descripcion2,Monto2,descripcion3,Monto3,descripcion4,Monto4,descripcion5,Monto5,descripcion6,Monto6,descripcion7,Monto7,descripcion8,Monto8,descripcion9,Monto9,descripcion10,Monto10 ,montofact1 venta1,montofact2 venta2,montofact3 venta3,montofact4 venta4,montofact5 venta5,montofact6 venta6,montofact7 venta7,montofact8 venta8,montofact9 venta9,montofact10 venta10 from requisicion where ticketno='"+req.params.id+"' "
+           var cad1a="select comentarioreq,moneda,preautorizadopor,autorizadopor,statusreq,noreq,ticketno,solicitadopor,nombrecliente,polizano,CONVERT(varchar,fechareq,103)  fechareq,descripcion1,Monto1,descripcion2,Monto2,descripcion3,Monto3,descripcion4,Monto4,descripcion5,Monto5,descripcion6,Monto6,descripcion7,Monto7,descripcion8,Monto8,descripcion9,Monto9,descripcion10,Monto10 ,montofact1 venta1,montofact2 venta2,montofact3 venta3,montofact4 venta4,montofact5 venta5,montofact6 venta6,montofact7 venta7,montofact8 venta8,montofact9 venta9,montofact10 venta10 from requisicion where ticketno='"+req.params.id+"' "
  
            
            var cad2="select ticket.aduana,ticket.Polizaaduana,clientes.Nombre,clientes.Nit,ticket.libretexto from ticket,clientes where ticket.idcliente=clientes.codigo and ticket.noticket= '"+req.params.id+"' "
-           var cad2a=" select preautorizadopor,autorizadopor,statusreq,noreq,ticketno,solicitadopor,nombrecliente,polizano,CONVERT(varchar,fechareq,103) fechareq,descripcion1,Monto1,descripcion2,Monto2,descripcion3,Monto3,descripcion4,Monto4,descripcion5,Monto5,descripcion6,Monto6,descripcion7,Monto7,descripcion8,Monto8,descripcion9,Monto9,descripcion10,Monto10,montofact1 venta1,montofact2 venta2,montofact3 venta3,montofact4 venta4,montofact5 venta5,montofact6 venta6,montofact7 venta7,montofact8 venta8,montofact9 venta9,montofact10 venta10 from requisicion where ticketno='"+req.params.id+"' "
+           var cad2a=" select comentarioreq,moneda,preautorizadopor,autorizadopor,statusreq,noreq,ticketno,solicitadopor,nombrecliente,polizano,CONVERT(varchar,fechareq,103) fechareq,descripcion1,Monto1,descripcion2,Monto2,descripcion3,Monto3,descripcion4,Monto4,descripcion5,Monto5,descripcion6,Monto6,descripcion7,Monto7,descripcion8,Monto8,descripcion9,Monto9,descripcion10,Monto10,montofact1 venta1,montofact2 venta2,montofact3 venta3,montofact4 venta4,montofact5 venta5,montofact6 venta6,montofact7 venta7,montofact8 venta8,montofact9 venta9,montofact10 venta10 from requisicion where ticketno='"+req.params.id+"' "
            
            var servicios1= "select '['+ CONVERT(VARCHAR(10),codigoinv) +'] ' + descripcioninv _id,  '['+ CONVERT(VARCHAR(10),codigoinv) +'] ' + descripcioninv nombre from invemae  order by Descripcioninv"
            var servicios2= "select '['+ CONVERT(VARCHAR(10),codigoinv) +'] ' + descripcioninv _id,  '['+ CONVERT(VARCHAR(10),codigoinv) +'] ' + descripcioninv nombre from invemae  order by Descripcioninv"
@@ -87,10 +185,10 @@ else
                 var regt0=[];   
     
               
-               var cad1a="select preautorizadopor,autorizadopor,statusreq,noreq,ticketno,solicitadopor,nombrecliente,polizano,CONVERT(varchar,fechareq,103)  fechareq,descripcion1,Monto1,descripcion2,Monto2,descripcion3,Monto3,descripcion4,Monto4,descripcion5,Monto5,descripcion6,Monto6,descripcion7,Monto7,descripcion8,Monto8,descripcion9,Monto9,descripcion10,Monto10 ,montofact1 venta1,montofact2 venta2,montofact3 venta3,montofact4 venta4,montofact5 venta5,montofact6 venta6,montofact7 venta7,montofact8 venta8,montofact9 venta9,montofact10 venta10 from requisicion where ticketno='"+req.params.id+"' "
+               var cad1a="select comentarioreq,moneda,preautorizadopor,autorizadopor,statusreq,noreq,ticketno,solicitadopor,nombrecliente,polizano,CONVERT(varchar,fechareq,103)  fechareq,descripcion1,Monto1,descripcion2,Monto2,descripcion3,Monto3,descripcion4,Monto4,descripcion5,Monto5,descripcion6,Monto6,descripcion7,Monto7,descripcion8,Monto8,descripcion9,Monto9,descripcion10,Monto10 ,montofact1 venta1,montofact2 venta2,montofact3 venta3,montofact4 venta4,montofact5 venta5,montofact6 venta6,montofact7 venta7,montofact8 venta8,montofact9 venta9,montofact10 venta10 from requisicion where ticketno='"+req.params.id+"' "
      
                
-                var cad2a=" select preautorizadopor,autorizadopor,statusreq,noreq,ticketno,solicitadopor,nombrecliente,polizano,CONVERT(varchar,fechareq,103) fechareq,descripcion1,Monto1,descripcion2,Monto2,descripcion3,Monto3,descripcion4,Monto4,descripcion5,Monto5,descripcion6,Monto6,descripcion7,Monto7,descripcion8,Monto8,descripcion9,Monto9,descripcion10,Monto10,montofact1 venta1,montofact2 venta2,montofact3 venta3,montofact4 venta4,montofact5 venta5,montofact6 venta6,montofact7 venta7,montofact8 venta8,montofact9 venta9,montofact10 venta10 from requisicion where ticketno='"+req.params.id+"' "
+                var cad2a=" select comentarioreq,moneda, preautorizadopor,autorizadopor,statusreq,noreq,ticketno,solicitadopor,nombrecliente,polizano,CONVERT(varchar,fechareq,103) fechareq,descripcion1,Monto1,descripcion2,Monto2,descripcion3,Monto3,descripcion4,Monto4,descripcion5,Monto5,descripcion6,Monto6,descripcion7,Monto7,descripcion8,Monto8,descripcion9,Monto9,descripcion10,Monto10,montofact1 venta1,montofact2 venta2,montofact3 venta3,montofact4 venta4,montofact5 venta5,montofact6 venta6,montofact7 venta7,montofact8 venta8,montofact9 venta9,montofact10 venta10 from requisicion where ticketno='"+req.params.id+"' "
                
           
     
@@ -109,7 +207,7 @@ else
     
             }
 
-        }
+        }}
        
       
     }
@@ -123,12 +221,12 @@ exports.creages2s = async function(req, res, next){
 
 
 
-        var cad="    INSERT INTO [dbo].[requisicion]        ([noreq]   ,[fechareq]     ,[ticketno]       ,[polizano]      ,[montoreq]     ,[solicitadopor]      ,[descripcion1]  ,[Monto1]      ,[descripcion2]     ,[Monto2]      ,[descripcion3]      ,[Monto3]  ,[descripcion4]       ,[Monto4]     ,[descripcion5],[Monto5]  ,[descripcion6],[Monto6] ,[descripcion7],[Monto7]        ,[descripcion8]        ,[Monto8]        ,[descripcion9],[Monto9]        ,[descripcion10] ,[Monto10],[fechaauto] ,[autorizadopor] ,[statusreq] ,[nombrecliente]  ,[nitcliente] ,[aduana] ,[preautorizadopor] ,[codigo1],[codigo2] ,[codigo3] ,[codigo4] ,[codigo5] ,[codigo6]  ,[codigo7]  ,[codigo8]  ,[codigo9]  ,[codigo10] ,[usado1],[usado2] ,[usado3] ,[usado4]  ,[usado5] ,[usado6] ,[usado7] ,[usado8] ,[usado9] ,[usado10]  ,[comentarioreq]  ,[montofact]  ,[montofact1]  ,[montofact2]  ,[montofact3]  ,[montofact4]  ,[montofact5]  ,[montofact6] ,[montofact7]  ,[montofact8]  ,[montofact9]  ,[montofact10]  ,[moneda]  ,[ref])     VALUES " 
+        var cad="    INSERT INTO [dbo].[requisicion]        ([noreq]   ,[fechareq]     ,[ticketno]       ,[polizano]      ,[montoreq]     ,[solicitadopor]      ,[descripcion1]  ,[Monto1]      ,[descripcion2]     ,[Monto2]      ,[descripcion3]      ,[Monto3]  ,[descripcion4]       ,[Monto4]     ,[descripcion5],[Monto5]  ,[descripcion6],[Monto6] ,[descripcion7],[Monto7]        ,[descripcion8]        ,[Monto8]        ,[descripcion9],[Monto9]        ,[descripcion10] ,[Monto10],[fechaauto] ,[autorizadopor] ,[statusreq] ,[nombrecliente]  ,[nitcliente] ,[aduana] ,[preautorizadopor] ,[codigo1],[codigo2] ,[codigo3] ,[codigo4] ,[codigo5] ,[codigo6]  ,[codigo7]  ,[codigo8]  ,[codigo9]  ,[codigo10] ,[usado1],[usado2] ,[usado3] ,[usado4]  ,[usado5] ,[usado6] ,[usado7] ,[usado8] ,[usado9] ,[usado10]  ,[comentarioreq]  ,[montofact]  ,[montofact1]  ,[montofact2]  ,[montofact3]  ,[montofact4]  ,[montofact5]  ,[montofact6] ,[montofact7]  ,[montofact8]  ,[montofact9]  ,[montofact10]  ,[moneda]  ,[ref])  output inserted.noreq    VALUES " 
       cad=cad+ " ((select max(noreq)+1 from requisicion),getdate(),     "+  " " + req.body.ticketno + ",'" +      req.body.polizano+ "'," +   req.body.montoreq+ ",'"+      req.body.solicitadopor+ "','"+  req.body.descripcion1+ "',"+     req.body.Monto1+ ",'"+      req.body.descripcion2+ "', " +req.body.Monto2 + ",'"+ req.body.descripcion3+ "',"+    req.body.Monto3+ ",'"+ req.body.descripcion4+ "'," + req.body.Monto4+ ",'" +        req.body.descripcion5+ "'," +       req.body.Monto5+ ",'" +     req.body.descripcion6 + "'," +req.body.Monto6+ ",'" +      req.body.descripcion7+ "'," +      req.body.Monto7+ ",'" +   req.body.descripcion8+ "',"
 cad=cad + req.body.Monto8+ ",'" +       req.body.descripcion9+ "'," +      req.body.Monto9+ ",'" +req.body.descripcion10+ "'," + req.body.Monto10+ ",  getdate(),'',1,'" +req.body.nombrecliente+ "','" +req.body.nitcliente + "','" +req.body.aduana+ "'," +"''"+ "," +  req.body.codigo1+ "," +   req.body.codigo2+ "," +      req.body.codigo3+ "," +      req.body.codigo4+ "," +   req.body.codigo5+ "," +   req.body.codigo6+ ","
 cad=cad+req.body.codigo7+ "," +       req.body.codigo8+ "," +    req.body.codigo9+ "," +     req.body.codigo10+ "," +"       null,null,null,null,null,null,null,null,null,null,'" +     req.body.comentarioreq+ "',0," +  req.body.montofact1+ "," +req.body.montofact2+ "," + req.body.montofact3+ "," +   req.body.montofact4+ "," +req.body.montofact5+ "," +     req.body.montofact6+ "," +    req.body.montofact7+ "," +  req.body.montofact8+ "," +req.body.montofact9+ "," + req.body.montofact10+ ",'" +      req.body.moneda+ "'," +    "        '')"
 
-                                    
+                                      
 
                                     if(req.body.tipo===1)
                                     {//setobar
@@ -141,7 +239,7 @@ cad=cad+req.body.codigo7+ "," +       req.body.codigo8+ "," +    req.body.codigo
 
                                   //  res.json({data:ejecuta2.datat.recordset})
 
-                                  res.json({data:null})
+                                  res.json({data:ejecuta2})
       
     
     }

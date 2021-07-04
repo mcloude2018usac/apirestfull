@@ -292,7 +292,7 @@ for (var ii = 0; ii < todos100.length; ii++) {
                         }
 if(encuentra==0)
 {
-    console.log(todos100[ii].idestudiante)
+    console.log(todos100[ii]._id)
 }
 
 

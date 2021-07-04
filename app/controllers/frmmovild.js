@@ -229,6 +229,7 @@ if(req.params.id!=='crea')
             todo.idformdetalle   		 ={id:req.body.idformdetalle.id,nombre:req.body.idformdetalle.nombre   }   	;
 
             todo.usarunaves   			=	req.body.usarunaves             	;
+            todo.usarunaves2   			=	req.body.usarunaves2             	;
             
             todo.verregistros   			=	req.body.verregistros      	||	todo.verregistros       	;
             todo.copiarencampo=req.body.copiarencampo        	||	todo.copiarencampo        	;
@@ -319,6 +320,7 @@ else{
                         geoposicion :'false' 	,
                         blike:  'false',
                         usarunaves:  'false',
+                        usarunaves2:  'false',
                         fondoetiqueta: 'cbg117',
                         coloretiqueta:  'cco104',
                         idformdetalle:'',

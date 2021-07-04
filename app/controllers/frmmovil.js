@@ -1492,100 +1492,127 @@ exports.getFrmmovil = async function(req, res, next){
 
          
 
-       
-        var namess=req.params.id //formulario
-        //req.params.id2   campo   req.params.id3   informacion
+    
         
-        var filtro
-       
-       var arrtodos=     req.params.id4.split('°')
-
-
-        Frmmovild.find({idmovil:req.params.id, display : "true"}).sort([['order', 1]]).exec(function(err, todos) {
-            if (err){ res.send(err); }
-
+                var namess=req.params.id //formulario
+                //req.params.id2   campo   req.params.id3   informacion
                 
-            var objetox = {};
-            for(var i = 0; i < todos.length;i++){
-                objetox[todos[i].name] =todos[i].title + '°' + todos[i].type + '°'+ todos[i].display;
-            }
-
-                                if(todos.length>0)   {  
-                               
-                                    var cad=''
-                                    var cadxx=''
-                                    var cad3=(functool.dafiltrocad(todos,req.params.id2,req.params.id3.replace('¬','/'),'')).split('°')
-                                    cad=cad3[0]
-
-                                    if(arrtodos[1] ==='todosdetalle')
-                                    {
-                                        if(arrtodos[2] ==='todos')
-                                        {//{ "$regex" : "' +id3 + '",
-                                            cadxx='{'+ cad3[1] +',"' +'idempresa' + '":"' +arrtodos[0] + '"' +',"' +'idpapa' + '":"' +arrtodos[3] + '"'+ '}'
-                                           
-                                        }
-                                        else
-                                        {
-                                            cadxx='{'+ cad3[1] + ',"' +'idempresa' + '":"'+ arrtodos[0] + '"' +',"' +'usuarionew' + '":"' +arrtodos[2] + '"'  +',"' +'idpapa' + '":"' +arrtodos[3] + '"'+ '}'
-                                             
-                                        }
-                                    }
-                                    else
-                                    {
-                                        if(arrtodos[1] ==='todos')
-                                        {//{ "$regex" : "' +id3 + '",
-                                            cadxx='{'+ cad3[1] +',"' +'idempresa' + '":"' +arrtodos[0] + '"'+ '}'
-                                           
-                                        }
-                                        else
-                                        {
-                                            cadxx='{'+ cad3[1] + ',"' +'idempresa' + '":"'+ arrtodos[0] + '"' +',"' +'usuarionew' + '":"' +arrtodos[1] + '"'  +'}'
-                                             
-                                        }
-                                    }
-                             
-
-
-                                      cad=cad + '"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" },   "usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"}, "geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"asignadoxxx":{"type":"String"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},  "secuenciagants": { "type" :"Array"},"idanst": { "type" :"Array"},  "pmodulo": { "type" :"Array"}'
-
-
-
-                                  
-                                    cad='{' + cad + '}'
-                                    var jsonObject = functool.stringToObject(cad);
-                                    var mongoose = require("mongoose");
-                                    delete mongoose.connection.models[namess];
-                                    var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
-                                   
-                                    try {
-                                        var  frmtt= mongoose.model(namess,tt);
-                                        
-                                        frmtt.find(JSON.parse(cadxx) ,function(err, todos2) {
-                                            if (err){  res.send(err);  }
-                                        
-                                            var datafinal = functool.procesahtmlrecordproceso(objetox,todos2,'no')
+                var filtro
+               
+               var arrtodos=     req.params.id4.split('°')
+        
+               
+               Frmmovild.find({idmovil:req.params.id}).sort([['order', 1]]).exec(function(err, todosuno) {
+                if (err){ res.send(err); }
+                var cad3a=(functool.dafiltrocadsolouno(todosuno,req.params.id2,req.params.id3.replace('¬','/'),'')).split('°');
+                var cada = cad3a[0];
+                var cadsolouno = cad3a[1]
+        
+                Frmmovild.find({idmovil:req.params.id, display : "true"}).sort([['order', 1]]).exec(function(err, todos) {
+                    if (err){ res.send(err); }
+                    var objetox = {};
+                        
+                    for(var i = 0; i < todos.length;i++){
+                        objetox[todos[i].name] =todos[i].title + '°' + todos[i].type + '°'+ todos[i].display;
+                    }
+                                        if(todos.length>0)   {  
+                                       
                                                
-                                            res.json(datafinal);
-                                          
-                                        });
-                                      } catch(e) {
-                                         
-                                        var  frmtt= mongoose.model(namess);
-                              
-                                        frmtt.find(JSON.parse(cadxx) ,function(err, todos2) {
-                                             if (err){  res.send(err);  }
-                                             var datafinal = functool.procesahtmlrecordproceso(objetox,todos2,'no')
+                                            var cad=''
+                                            var cadxx=''
+                                            var cad4=(functool.dafiltrocad(todos,req.params.id2,req.params.id3.replace('¬','/'),''))
+                                            var cad3=(functool.dafiltrocad(todos,req.params.id2,req.params.id3.replace('¬','/'),'')).split('°')
+                                            cad=cad3[0] +cada
+
+                                            if(cad4.indexOf('°')>0)
+                                            {
+                                                
+                                               // e{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+        
+                                                cad3[1]  = cadsolouno+ '"' +req.params.id2 + '": { "$regex" : "' +req.params.id3.split('°')[0] + '", "$options" : "i" } ' 
+        
+                                            }
+                                            else
+                                            {
                                                
+                                            
+        
+                                                cad3[1]  = cadsolouno+ cad3[1]
+                                            }
+
+
+        
+                                            if(arrtodos[1] ==='todosdetalle')
+                                            {
+                                                if(arrtodos[2] ==='todos')
+                                                {//{ "$regex" : "' +id3 + '",
+                                                    cadxx='{' + cad3[1] +',"' +'idempresa' + '":"' +arrtodos[0] + '"' +',"' +'idpapa' + '":"' +arrtodos[3] + '"'+ '}'
+                                                   
+                                                }
+                                                else
+                                                {
+                                                    cadxx='{'+ cad3[1] + ',"' +'idempresa' + '":"'+ arrtodos[0] + '"' +',"' +'usuarionew' + '":"' +arrtodos[2] + '"'  +',"' +'idpapa' + '":"' +arrtodos[3] + '"'+ '}'
+                                                     
+                                                }
+                                            }
+                                            else
+                                            {
+                                                if(arrtodos[1] ==='todos')
+                                                {//{ "$regex" : "' +id3 + '",
+                                                    cadxx='{'+ cad3[1] +',"' +'idempresa' + '":"' +arrtodos[0] + '"'+ '}'
+                                                   
+                                                }
+                                                else
+                                                {
+                                                    cadxx='{'+ cad3[1] + ',"' +'idempresa' + '":"'+ arrtodos[0] + '"' +',"' +'usuarionew' + '":"' +arrtodos[1] + '"'  +'}'
+                                                     
+                                                }
+                                            }
+                                     
+        
+        
+                                           
+        
+        
+                                            cad=cad + '"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" },   "usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"}, "geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"asignadoxxx":{"type":"String"},"grupoasignado":{ "type" :"Array"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},  "secuenciagants": { "type" :"Array"},"idanst": { "type" :"Array"},  "pmodulo": { "type" :"Array"}'
+                                            cad='{' + cad + '}'
+                                            var jsonObject = functool.stringToObject(cad);
+                                            var mongoose = require("mongoose");
+                                            delete mongoose.connection.models[namess];
+                                            var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                                           
+                                            try {
+                                                var  frmtt= mongoose.model(namess,tt);
+                                                
+                                                frmtt.find(JSON.parse(cadxx) ,function(err, todos2) {
+                                                    if (err){  res.send(err);  }
+                                                
+                                                    var datafinal = functool.procesahtmlrecord(objetox,todos2,'no')
+                                                          
                                                     res.json(datafinal);
+                                                  
+                                                  
+                                                });
+                                              } catch(e) {
+                                                 
+                                                var  frmtt= mongoose.model(namess);
+                                      
+                                                frmtt.find(JSON.parse(cadxx) ,function(err, todos2) {
+                                                     if (err){  res.send(err);  }
+                                                     var datafinal = functool.procesahtmlrecord(objetox,todos2,'no')
+                                                          
+                                                           res.json(datafinal);
+                                                         
+                                                 
+                                                 });
+                                              }
+        
+        
                                          
-                                         });
-                                      }
-
-
-                                 
-                    
-            }
-        });
+                            
+                    }
+                });
+            });
     }}}}}}}}}}}}}}
 
     }
@@ -1717,6 +1744,10 @@ filtro={idform:arrr[0],salioorden:1,createdAt:{"$gte": new Date(arrr[2]+'T00:00:
 
 }
 
+if(arrr[4]!==undefined && arrr[4]!=='' && arrr[4]!=='null' && arrr[4]!==null)
+{
+    filtro['info']={ "$regex" : arrr[4], "$options" : "i" } 
+}
 
 
 
@@ -1746,7 +1777,7 @@ var datat=[]
 for(var k = 0; k < todos.length;k++){
 
 
-var ff3=new Date()
+var ff3=todos[k].updatedAt
 var ff4=todos[k].createdAt
 var ff5 =todos[k].updatedAt
 
@@ -1815,7 +1846,7 @@ else
 }
 }
 
-datat.push({actividad:todos[k].nombreactividad,usuarioejecutor:todos[k].usuarioejecutor,idform:todos[k].idform
+datat.push({actividad:todos[k].nombreactividad,usuarioejecutor:todos[k].usuarioejecutor,idform:todos[k].idform,asignadoxxx:todos[k].asignadoxxx
 ,usuariocreador:todos[k].usuariocreador,info:infott,idorden:todos[k].sequenciag,idorden2:todos[k].sequencia,tiempo:tiempo,
 fecha:ff4,fechasalida:ff5,dias:diffDays,horas:diffhoras,minutos:diffminutos,segundos:diffseg,enviadopor:todos[k].enviadoporxxx,actor:actort})
 
@@ -1844,6 +1875,10 @@ filtro={salioorden:1,createdAt:{"$gte": new Date(arrr[1]+'T00:00:00.000Z'),"$lt"
 
 }
 
+if(arrr[3]!==undefined && arrr[3]!=='' && arrr[3]!=='null' && arrr[3]!==null)
+{
+    filtro['info']={ "$regex" : arrr[3], "$options" : "i" } 
+}
 
     formulariotrayectoria.aggregate( [
         { $match:filtro},
@@ -1905,6 +1940,8 @@ break;
                                 ,usuariocorreo:todos10[k].usuarionew,actividad:todos10[k].actividad,comentario:todos10[k].nombre})
                         
                     }
+                    trayecto.sort(functool.sortByProperty("fechaingreso"));
+                    trayecto.reverse()
 
                         res.json(trayecto);
                         
@@ -2717,7 +2754,7 @@ break;
                                 
                                         cad=cad3[0]
                                         cadxx='{'+ cad3[1] + '}'
-                                        cad=cad + '"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" },   "usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"}, "geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"asignadoxxx":{"type":"String"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},  "secuenciagants": { "type" :"Array"},"idanst": { "type" :"Array"},  "pmodulo": { "type" :"Array"}'
+                                        cad=cad + '"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" },   "usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"}, "geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"asignadoxxx":{"type":"String"},"grupoasignado":{ "type" :"Array"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},  "secuenciagants": { "type" :"Array"},"idanst": { "type" :"Array"},  "pmodulo": { "type" :"Array"}'
 
                                         cad='{' + cad + '}'
                                         cadxx='{' + cadxx + '}'
@@ -2966,7 +3003,7 @@ break;
                                 
                                         cad=cad3[0]
                                         cadxx='{'+ cad3[1] + '}'
-                                        cad=cad + '"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" },   "usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"}, "geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"asignadoxxx":{"type":"String"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},  "secuenciagants": { "type" :"Array"},"idanst": { "type" :"Array"},  "pmodulo": { "type" :"Array"}'
+                                        cad=cad + '"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" },   "usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"}, "geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"asignadoxxx":{"type":"String"},"grupoasignado":{ "type" :"Array"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},  "secuenciagants": { "type" :"Array"},"idanst": { "type" :"Array"},  "pmodulo": { "type" :"Array"}'
 
                                         cad='{' + cad + '}'
                                         cadxx='{' + cadxx + '}'
@@ -3219,7 +3256,7 @@ console.log(filtro)
                                     
                                             cad=cad3[0]
                                             cadxx='{'+ cad3[1] + '}'
-                                            cad=cad + '"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" },   "usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"}, "geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"asignadoxxx":{"type":"String"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},  "secuenciagants": { "type" :"Array"},"idanst": { "type" :"Array"},  "pmodulo": { "type" :"Array"}'
+                                            cad=cad + '"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" },   "usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"}, "geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"asignadoxxx":{"type":"String"},"grupoasignado":{ "type" :"Array"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},  "secuenciagants": { "type" :"Array"},"idanst": { "type" :"Array"},  "pmodulo": { "type" :"Array"}'
 
                                             cad='{' + cad + '}'
                                             cadxx='{' + cadxx + '}'
@@ -3489,6 +3526,7 @@ console.log(filtro)
                                                                 verregistros:todos[i].verregistros,
 
                                                                 usarunaves: todos[i].usarunaves,
+                                                                usarunaves2: todos[i].usarunaves2,
                                                                 idfrmconsultaorigen: todos[i].idfrmconsultaorigen,
                                                                 idfrmconsulta2origen: todos[i].idfrmconsulta2origen,
                                                                 nombreconsulta2origen		: todos[i].nombreconsulta2origen,
@@ -3568,6 +3606,7 @@ console.log(filtro)
                                                                     verregistros:todos[i].verregistros,
             
                                                                     usarunaves: todos[i].usarunaves,
+                                                                    usarunaves2: todos[i].usarunaves2,
                                                                     idfrmconsultaorigen: todos[i].idfrmconsultaorigen,
                                                                     idfrmconsulta2origen: todos[i].idfrmconsulta2origen,
                                                                     nombreconsulta2origen		: todos[i].nombreconsulta2origen,
@@ -4150,7 +4189,7 @@ if(req.params.recordID!=='crea')
                                     {
                                         if(req.body.tipo==='proceso')
                                         {
-                                         cad=cad + '"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" },   "usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"}, "geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"asignadoxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},  "secuenciagants": { "type" :"Array"},"idanst": { "type" :"Array"},  "pmodulo": { "type" :"Array"}'
+                                         cad=cad + '"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" },   "usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"}, "geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"asignadoxxx":{"type":"String"},"grupoasignado":{ "type" :"Array"},"estadoordenxxx":{"type":"String"},  "secuenciagants": { "type" :"Array"},"idanst": { "type" :"Array"},  "pmodulo": { "type" :"Array"}'
                                         }
                                         else
                                         {
@@ -4163,7 +4202,7 @@ if(req.params.recordID!=='crea')
      
                                          if(req.body.tipo==='proceso')
                                          {
-                                             cad=cad + '"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" }, "usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"},"geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno":{"type":"String"},"idactividadxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"asignadoxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},  "secuenciagants": { "type" :"Array"},"idanst": { "type" :"Array"},  "pmodulo": { "type" :"Array"}'
+                                             cad=cad + '"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" }, "usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"},"geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno":{"type":"String"},"idactividadxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"asignadoxxx":{"type":"String"},"grupoasignado":{ "type" :"Array"},"estadoordenxxx":{"type":"String"},  "secuenciagants": { "type" :"Array"},"idanst": { "type" :"Array"},  "pmodulo": { "type" :"Array"}'
                                            
                                          }
                                          else
@@ -4203,6 +4242,7 @@ if(req.params.recordID!=='crea')
                                                   enviadoporxxx		: req.body.trayectoria.enviadoporxxx,
                                                   info		: req.body.trayectoria.info,
                                                     email:req.body.trayectoria.email,
+                                                    grupoasignado		: req.body.trayectoria.grupoasignado,
                                                   minutos		:0,
                                                   dias:0,
                                                   horas:0,
@@ -4302,7 +4342,7 @@ if(req.params.recordID!=='crea')
                                     {
                                         if(req.body.tipo==='proceso')
                                         {
-                                         cad=cad + '"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" }, "usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"},"geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"asignadoxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},"sequencia":{"type":"String"},"sequenciag":{"type":"String"},  "secuenciagants": { "type" :"Array"},"idanst": { "type" :"Array"},  "pmodulo": { "type" :"Array"}'
+                                         cad=cad + '"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" }, "usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"},"geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"asignadoxxx":{"type":"String"},"grupoasignado":{ "type" :"Array"},"estadoordenxxx":{"type":"String"},"sequencia":{"type":"String"},"sequenciag":{"type":"String"},  "secuenciagants": { "type" :"Array"},"idanst": { "type" :"Array"},  "pmodulo": { "type" :"Array"}'
                                          
                                         }
                                         else
@@ -4316,7 +4356,7 @@ if(req.params.recordID!=='crea')
      
                                          if(req.body.tipo==='proceso')
                                          {
-                                             cad=cad + '"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" }, "usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"},"geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"asignadoxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},"sequencia":{"type":"String"},"sequenciag":{"type":"String"},  "secuenciagants": { "type" :"Array"},"idanst": { "type" :"Array"},  "pmodulo": { "type" :"Array"}'
+                                             cad=cad + '"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" }, "usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"},"geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"asignadoxxx":{"type":"String"},"grupoasignado":{ "type" :"Array"},"estadoordenxxx":{"type":"String"},"sequencia":{"type":"String"},"sequenciag":{"type":"String"},  "secuenciagants": { "type" :"Array"},"idanst": { "type" :"Array"},  "pmodulo": { "type" :"Array"}'
                                          }
                                          else
                                          {
@@ -4338,8 +4378,22 @@ if(req.params.recordID!=='crea')
                
                                        frmbusca.find(JSON.parse(filtrovalida) ,function(err, todos2a) {
                                            if (err){  res.send(err);  }
-                                   
-                                           if(todos2a.length>0)
+                                           var cadrrr=functool.validawarning(todos)
+                                           if(cadrrr.estado==='false')
+                                           {
+                                               registrorep=cadrrr.llave+ ' '+filtrovalida
+                                           }
+                                           if(cadrrr.estado==='true')
+                                           {
+                                               registrorep=cadrrr.llave2+ ' '+filtrovalida
+                                           }
+   
+                                           if(cadrrr.estado==='nada')
+                                           {
+                                               registrorep=''
+                                           }
+   
+                                           if(todos2a.length>0 && cadrrr.estado==='false')
                                            {
                                               
                                                res.status(500).send('Registro ya existe en base de datos, este formulario tiene llaves unicas: ' + registrorep) 
@@ -4367,6 +4421,7 @@ if(req.params.recordID!=='crea')
                                                          enviadoporxxx		: req.body.trayectoria.enviadoporxxx,
                                                          info		: req.body.trayectoria.info,
                                                            email:req.body.trayectoria.email,
+                                                           grupoasignado		: req.body.trayectoria.grupoasignado,
                                                          minutos		:0,
                                                          dias:0,
                                                          horas:0,
@@ -4398,14 +4453,18 @@ if(req.params.recordID!=='crea')
                                                     {
                                                         (async () => {    
                                                         respuesta = await frmejecuta.formularioejecutaactualiza(req, res, next,[]);
-                                                        console.log(respuesta)
-                                                        res.json(todo330);
+                                                       
+                                                       
+                                                if(cadrrr.estado==='nada')  {      res.json(todo330);}
+                                                else{        res.status(500).send('Precaución registro ya existe en base de datos, este formulario tiene llaves unicas: ' + registrorep) }
                                                         })();
                                                 
                                                     }
                                                     else
                                                     {
-                                                        res.json(todo330);
+                                                       
+                                                if(cadrrr.estado==='nada')  {      res.json(todo330);}
+                                                else{        res.status(500).send('Precaución registro ya existe en base de datos, este formulario tiene llaves unicas: ' + registrorep) }
                                                     }
                                                    });
                                             
@@ -4419,13 +4478,17 @@ if(req.params.recordID!=='crea')
                                                     (async () => {    
                                                     respuesta = await frmejecuta.formularioejecutaactualiza(req, res, next,[]);
                                                     console.log(respuesta)
-                                                    res.json(todo3);
+                                                   
+                                                if(cadrrr.estado==='nada')  {      res.json(todo3);}
+                                                else{        res.status(500).send('Precaución registro ya existe en base de datos, este formulario tiene llaves unicas: ' + registrorep) }
                                                     })();
                                             
                                                 }
                                                 else
                                                 {
-                                                    res.json(todo3);
+                                                  
+                                                if(cadrrr.estado==='nada')  {      res.json(todo3);}
+                                                else{        res.status(500).send('Precaución registro ya existe en base de datos, este formulario tiene llaves unicas: ' + registrorep) }
                                                 }
                                                     }
             
@@ -4520,7 +4583,7 @@ if(req.body.tipo2==='Formulario'){
                                             {
                                                 if(req.body.tipo==='proceso')
                                                 {
-                                                cad=cad + '"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" }, "usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"},"geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"asignadoxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},"sequencia":{"type":"String"},"sequenciag":{"type":"String"},  "secuenciagants": { "type" :"Array"},"idanst": { "type" :"Array"},  "pmodulo": { "type" :"Array"}'
+                                                cad=cad + '"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" }, "usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"},"geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"asignadoxxx":{"type":"String"},"grupoasignado":{ "type" :"Array"},"estadoordenxxx":{"type":"String"},"sequencia":{"type":"String"},"sequenciag":{"type":"String"},  "secuenciagants": { "type" :"Array"},"idanst": { "type" :"Array"},  "pmodulo": { "type" :"Array"}'
                                                 }
                                                 else
                                                 {
@@ -4533,7 +4596,7 @@ if(req.body.tipo2==='Formulario'){
             
                                                 if(req.body.tipo==='proceso')
                                                 {
-                                                    cad=cad + '"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" }, "usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"},"geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"asignadoxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},"sequencia":{"type":"String"},"sequenciag":{"type":"String"},  "secuenciagants": { "type" :"Array"},"idanst": { "type" :"Array"},  "pmodulo": { "type" :"Array"}'
+                                                    cad=cad + '"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" }, "usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"},"geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"asignadoxxx":{"type":"String"},"grupoasignado":{ "type" :"Array"},"estadoordenxxx":{"type":"String"},"sequencia":{"type":"String"},"sequenciag":{"type":"String"},  "secuenciagants": { "type" :"Array"},"idanst": { "type" :"Array"},  "pmodulo": { "type" :"Array"}'
                                                 
                                                 }
                                                 else
@@ -4572,10 +4635,12 @@ if(req.body.tipo2==='Formulario'){
                                                     procedimiento		: req.body.trayectoria.procedimiento,
                                                     fecha		: todo3.createdAt,
                                                     estadoxxx		: req.body.trayectoria.estadoxxx,
+                                                    
                                                     asignadoxxx	: req.body.trayectoria.asignadoxxx,
                                                     enviadoporxxx		: req.body.trayectoria.enviadoporxxx,
                                                     info		: req.body.trayectoria.info,
                                                     email:req.body.trayectoria.email,
+                                                    grupoasignado		: req.body.trayectoria.grupoasignado,
                                                     minutos		:0,
                                                     dias:0,
                                                     horas:0,
@@ -4684,7 +4749,7 @@ if(req.body.tipo2==='Formulario'){
                                 {
                                     if(req.body.tipo==='proceso')
                                     {
-                                     cad=cad + '"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" }, "usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"},"geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"asignadoxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},"sequencia":{"type":"String"},"sequenciag":{"type":"String"},  "secuenciagants": { "type" :"Array"},"idanst": { "type" :"Array"},  "pmodulo": { "type" :"Array"}'
+                                     cad=cad + '"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" }, "usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"},"geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"asignadoxxx":{"type":"String"},"grupoasignado":{ "type" :"Array"},"estadoordenxxx":{"type":"String"},"sequencia":{"type":"String"},"sequenciag":{"type":"String"},  "secuenciagants": { "type" :"Array"},"idanst": { "type" :"Array"},  "pmodulo": { "type" :"Array"}'
                                      
                                     }
                                     else
@@ -4698,7 +4763,7 @@ if(req.body.tipo2==='Formulario'){
  
                                      if(req.body.tipo==='proceso')
                                      {
-                                         cad=cad + '"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" }, "usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"},"geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"asignadoxxx":{"type":"String"},"asignadoxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},"sequencia":{"type":"String"},"sequenciag":{"type":"String"},  "secuenciagants": { "type" :"Array"},"idanst": { "type" :"Array"},  "pmodulo": { "type" :"Array"}'
+                                         cad=cad + '"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" }, "usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"},"geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"asignadoxxx":{"type":"String"},"grupoasignado":{ "type" :"Array"},"asignadoxxx":{"type":"String"},"grupoasignado":{ "type" :"Array"},"estadoordenxxx":{"type":"String"},"sequencia":{"type":"String"},"sequenciag":{"type":"String"},  "secuenciagants": { "type" :"Array"},"idanst": { "type" :"Array"},  "pmodulo": { "type" :"Array"}'
                                      }
                                      else
                                      {
@@ -4720,8 +4785,23 @@ if(req.body.tipo2==='Formulario'){
            
                                    frmbusca.find(JSON.parse(filtrovalida) ,function(err, todos2a) {
                                        if (err){  res.send(err);  }
-                               
-                                       if(todos2a.length>0)
+                                        var cadrrr=functool.validawarning(todos)
+                                        if(cadrrr.estado==='false')
+                                        {
+                                            registrorep=cadrrr.llave+ ' '+filtrovalida
+                                        }
+                                        if(cadrrr.estado==='true')
+                                        {
+                                            registrorep=cadrrr.llave2+ ' '+filtrovalida
+                                        }
+
+                                        if(cadrrr.estado==='nada')
+                                        {
+                                            registrorep=''
+                                        }
+
+                                        
+                                       if(todos2a.length>0 && cadrrr.estado==='false')
                                        {
                                           
                                            res.status(500).send('Registro ya existe en base de datos, este formulario tiene llaves unicas: ' + registrorep) 
@@ -4745,12 +4825,14 @@ if(req.body.tipo2==='Formulario'){
                                                         sequenciag:todo3.sequenciag,
                                                         usuariocreador		: req.body.trayectoria.usuariocreador,
                                                         procedimiento		: req.body.trayectoria.procedimiento,
+                                                        
                                                       fecha		: todo3.createdAt,
                                                         estadoxxx		: req.body.trayectoria.estadoxxx,
                                                         asignadoxxx	: req.body.trayectoria.asignadoxxx,
                                                         enviadoporxxx		: req.body.trayectoria.enviadoporxxx,
                                                         info		: req.body.trayectoria.info,
                                                         email:req.body.trayectoria.email,
+                                                        grupoasignado		: req.body.trayectoria.grupoasignado,
                                                         minutos		:0,
                                                         dias:0,
                                                         horas:0,
@@ -4791,7 +4873,12 @@ if(req.body.tipo2==='Formulario'){
                                                     res.status(500).send(respuesta.estado) 
                                                     return;
                                                 }   
-                                                res.json(todo3);
+
+
+                                        
+                                                if(cadrrr.estado==='nada')  {      res.json(todo3);}
+                                                else{        res.status(500).send('Precaución registro ya existe en base de datos, este formulario tiene llaves unicas: ' + registrorep) }
+
                                             })();
                                                 }
                                                 else
@@ -4807,13 +4894,25 @@ if(req.body.tipo2==='Formulario'){
                                                                 res.status(500).send(respuesta.estado) 
                                                                 return;
                                                             }   
-                                                            res.json(todo3);
+                                                            
+                                                if(cadrrr.estado==='nada')  {      res.json(todo3);}
+                                                else{        res.status(500).send('Precaución registro ya existe en base de datos, este formulario tiene llaves unicas: ' + registrorep) }
                                                         })();
                                                     
                                                         }
                                                         else
+                                                        { if(cadrrr==='true')
+                                                        {res.status(500).send('Precaución campo ya existe en base de datos') 
+                                                            return;
+
+                                                        }
+                                                        else
                                                         {
-                                                            res.json(todo3);
+                                                            
+                                                if(cadrrr.estado==='nada')  {      res.json(todo3);}
+                                                else{        res.status(500).send('Precaución registro ya existe en base de datos, este formulario tiene llaves unicas: ' + registrorep) }
+                                                        }
+                                                           
                                                         }
                                                         
                                                        
@@ -4827,7 +4926,9 @@ if(req.body.tipo2==='Formulario'){
                                                 }
                                                 else
                                                 {
-                                                    res.json(todo3);
+                                                   
+                                                if(cadrrr.estado==='nada')  {      res.json(todo3);}
+                                                else{        res.status(500).send('Precaución registro ya existe en base de datos, este formulario tiene llaves unicas: ' + registrorep) }
                                                 }
                                             
                                                 });
