@@ -12,7 +12,7 @@ var sql2 = require("mssql")
 var sql3 = require("mssql")
 
 
-//const odbc = require('odbc');
+const odbc = require('odbc');
 
 const connectionConfig = {   connectionString: 'DSN=OTRO',    connectionTimeout: 10,    loginTimeout: 10,}
 
@@ -24,10 +24,20 @@ function  ejecutaaccess  (cad)
 {
 
     return new Promise(resolve => {
+const connection = odbc.connect(connectionConfig, (error, connection) => {
+  connection.query(cad, (error, result) => {
+      if (error) {  resolve({estado:'exito',datat:[]});  }
+      else
+      { resolve({estado:'exito',datat:result}); 
 
-        resolve({estado:'exito',datat:[]}); 
+      }
+
+      
+       
 
 
+  });
+});
 });
 }
 
@@ -1048,6 +1058,7 @@ function datipo(value) {
     var jsonObject = JSON.parse(JSONString);
     return jsonObject;
 }
+/*
 function dafiltrocad(todos,id2,id3,norequerido) {
     var cad=''
     var cadxx=''
@@ -1312,8 +1323,274 @@ function dafiltrocad(todos,id2,id3,norequerido) {
      }
      return cad +'°'+cadxx
 }
+*/
+
+function dafiltrocad(todos,id2,id3,norequerido) {
+    var cad=''
+    var cadxx=''
+    var cadxxx=''
+    var norequerido2=norequerido;
+    if(norequerido2===undefined)
+    {
+        norequerido2=''
+    }
 
 
+    for(var i = 0; i < todos.length;i++){
+                                      
+     
+        switch(todos[i].type) {
+            case 'Rango':  
+            if(todos[i].name==id2){cadxx='"' +id2 + '":' +id3 + '' ;cadxxx=id2+'¬' +id3 + '¬'; }
+            if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+            {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+            }
+            else
+            {
+                cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+            }
+            break;
+             case 'Fecha': //ISODate("2018-08-08T15:00:56.875Z"),
+             if(todos[i].name==id2){cadxxx=id2+'¬' +id3 + '¬';if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+             else{cadxxx=cadxxx + 'like';cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+             if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+             {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+             }
+             else
+             {
+                
+                 cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+             }
+              break;
+              case 'Hora': //ISODate("2018-08-08T15:00:56.875Z"),
+              if(todos[i].name==id2){cadxxx=id2+'¬' +id3 + '¬';if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+              else{cadxxx=cadxxx + 'like';cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+              if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+              {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+              }
+              else
+              {
+                 
+                  cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+              }
+               break;
+              case 'Fecha y Hora': //ISODate("2018-08-08T15:00:56.875Z"),
+              if(todos[i].name==id2){cadxxx=id2+'¬' +id3 + '¬';if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+              else{cadxxx=cadxxx + 'like';cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+              if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+              {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+              }
+              else
+              {
+                 
+                  cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+              }
+               break;
+              case 'Check': 
+              if(todos[i].name==id2){cadxxx=id2+'¬' +id3 + '¬';if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+              else{cadxxx=cadxxx + 'like';cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+              if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+              {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+              }
+              else
+              {
+                 
+                  cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+              }
+               break;
+               case 'Imagen': 
+               if(todos[i].name==id2){cadxxx=id2+'¬' +id3 + '¬';if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+               else{cadxxx=cadxxx + 'like';cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+               if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+               {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+               }
+               else
+               {
+                  
+                   cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+               }
+                break;
+                case 'Documento': 
+                if(todos[i].name==id2){cadxxx=id2+'¬' +id3 + '¬';if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+                else{cadxxx=cadxxx + 'like';cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+                if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+                {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+                }
+                else
+                {
+                   
+                    cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+                }
+                 break;
+         case 'Alfanumerico': 
+         if(todos[i].name==id2){cadxxx=id2+'¬' +id3 + '¬';if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+         else{cadxxx=cadxxx + 'like';cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+         if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+         {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+         }
+         else
+         {
+            
+             cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+         }
+          break;
+          case 'Componente': 
+          if(todos[i].name==id2){cadxxx=id2+'¬' +id3 + '¬';if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+          else{cadxxx=cadxxx + 'like';cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+          if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+          {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+          }
+          else
+          {
+             
+              cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+          }
+           break;
+
+           
+           case 'Visualizar query': 
+           if(todos[i].name==id2){cadxxx=id2+'¬' +id3 + '¬';if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+           else{cadxxx=cadxxx + 'like';cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+           if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+           {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+           }
+           else
+           {
+              
+               cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+           }
+            break;
+
+        case 'Numerico':  
+        if(todos[i].name==id2){cadxxx=id2+'¬' +id3 + '¬';cadxx='"' +id2 + '":' +id3 + ''  }
+        if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+        {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+        }
+        else
+        {
+            cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+        }
+        break;
+        case 'Moneda':  
+        if(todos[i].name==id2){cadxxx=id2+'¬' +id3 + '¬';cadxx='"' +id2 + '":' +id3 + ''  }
+        if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+        {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+        }
+        else
+        {
+            cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+        }
+        break;
+        case 'TextArea':  
+        if(todos[i].name==id2){cadxxx=id2+'¬' +id3 + '¬';if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+        else{cadxxx=cadxxx + 'like';cadxx='"' +id2 + '": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+//        if(todos[i].name==id2){cadxx='"' +id2 + '":"' +id3 + '"'  }
+   
+        if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+        {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+        }
+        else
+        {
+            cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+        }
+          break;
+        case 'Etiqueta':   
+         break;
+         case 'Firma Electronica': 
+         if(todos[i].name==id2){cadxxx=id2+'¬' +id3 + '¬';if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+         else{cadxxx=cadxxx + 'like';cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+         if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+         {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+         }
+         else
+         {
+            
+             cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+         }
+          break;
+          case 'Codigo Qr': 
+          if(todos[i].name==id2){cadxxx=id2+'¬' +id3 + '¬';if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+          else{cadxxx=cadxxx + 'like';cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+          if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+          {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+          }
+          else
+          {
+             
+              cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+          }
+           break;
+           case 'Firma Digital': 
+           if(todos[i].name==id2){cadxxx=id2+'¬' +id3 + '¬';if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+           else{cadxxx=cadxxx + 'like';cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+           if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+           {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+           }
+           else
+           {
+              
+               cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+           }
+            break;
+            case 'Geoposicionamiento automatico': 
+            if(todos[i].name==id2){cadxxx=id2+'¬' +id3 + '¬';if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+            else{cadxxx=cadxxx + 'like';cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+            if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+            {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+            }
+            else
+            {
+               
+                cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+            }
+             break;
+        case 'Lista de valores': 
+        if(todos[i].name==id2){cadxxx=id2+'¬' +id3 + '¬';if(todos[i].blike=='false') {cadxx='"' +id2 + '.label":"' +id3 + '"' }
+         else{cadxxx=cadxxx + 'like';cadxx='"' +id2 + '.label": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+        if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+             {cad=cad+'"'+todos[i].name+'":{"type" : "String"},';
+                 //cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String"},   "label"	: { "type" : "String" }},';
+             }
+             else
+             {cad=cad+'"'+todos[i].name+'":{"type" : "String", "required" : "true"},';
+                //     cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
+             }
+
+          break;
+          case 'Check List': 
+          if(todos[i].name==id2){cadxxx=id2+'¬' +id3 + '¬';if(todos[i].blike=='false') {cadxx='"' +id2 + '.label":"' +id3 + '"' }
+           else{cadxxx=cadxxx + 'like';cadxx='"' +id2 + '.label": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+          if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+               {cad=cad+'"'+todos[i].name+'":{"type" : "String"},';
+                   //cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String"},   "label"	: { "type" : "String" }},';
+               }
+               else
+               {cad=cad+'"'+todos[i].name+'":{"type" : "String", "required" : "true"},';
+                  //     cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
+               }
+  
+            break;
+            case 'Check List Detalle': 
+            if(todos[i].name==id2){cadxxx=id2+'¬' +id3 + '¬';if(todos[i].blike=='false') {cadxx='"' +id2 + '.label":"' +id3 + '"' }
+             else{cadxxx=cadxxx + 'like';cadxx='"' +id2 + '.label": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+            if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+                 {cad=cad+'"'+todos[i].name+'":{"type" : "String"},';
+                     //cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String"},   "label"	: { "type" : "String" }},';
+                 }
+                 else
+                 {cad=cad+'"'+todos[i].name+'":{"type" : "String", "required" : "true"},';
+                    //     cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
+                 }
+    
+              break;
+         default:
+           // code block
+       }
+
+     
+     }
+     return cad +'°'+cadxx + '°' + cadxxx
+}
 var getImagesruta= function(op){
     if((op).indexOf('/')>=0)
     {
@@ -1734,6 +2011,8 @@ if(todos2[i].geoposicionxxx)
                     comt2='<br> Comentario anulado: ' + todos2[i].comentarioanulado
                 }
                 var cadenabusqueda=todos2[i].actorxxx + ' ' + todos2[i].sequenciag+ ' ' + todos2[i].sequencia+ ' ' + todos2[i].actividadxxx+ ' ' + todos2[i].enviadoporxxx
+
+                if(cadenabusqueda==='undefined undefined undefined undefined undefined'){cadenabusqueda=''}
                   
                 if(todos2[i].estadointerno ==='activo')
                 {
@@ -3526,6 +3805,7 @@ var sortByProperty= function(property){
  function dafiltrocadsolouno(todos,id2,id3,norequerido) {
     var cad=''
     var cadxx=''
+    var cadxxx=''
     var norequerido2=norequerido;
     if(norequerido2===undefined)
     {
@@ -3536,6 +3816,7 @@ var sortByProperty= function(property){
     for(var i = 0; i < todos.length;i++){
                                       
         if(todos[i].name==id2 && todos[i].display==='false'){
+            cadxxx=id2+'¬'+id3+'¬'
         switch(todos[i].type) {
             case 'Rango':  
             if(todos[i].name==id2){cadxx='"' +id2 + '":' +id3 + ''  }
@@ -3549,7 +3830,7 @@ var sortByProperty= function(property){
             break;
              case 'Fecha': //ISODate("2018-08-08T15:00:56.875Z"),
              if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-             else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+             else{cadxxx=cadxxx+'like';cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
              if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
              {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
              }
@@ -3561,7 +3842,7 @@ var sortByProperty= function(property){
               break;
               case 'Hora': //ISODate("2018-08-08T15:00:56.875Z"),
               if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-              else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+              else{cadxxx=cadxxx+'like';cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
               if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
               {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
               }
@@ -3573,7 +3854,7 @@ var sortByProperty= function(property){
                break;
               case 'Fecha y Hora': //ISODate("2018-08-08T15:00:56.875Z"),
               if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-              else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+              else{cadxxx=cadxxx+'like';cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
               if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
               {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
               }
@@ -3585,7 +3866,7 @@ var sortByProperty= function(property){
                break;
               case 'Check': 
               if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-              else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+              else{cadxxx=cadxxx+'like';cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
               if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
               {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
               }
@@ -3597,7 +3878,7 @@ var sortByProperty= function(property){
                break;
                case 'Imagen': 
                if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-               else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+               else{cadxxx=cadxxx+'like';cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
                if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
                {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
                }
@@ -3609,7 +3890,7 @@ var sortByProperty= function(property){
                 break;
                 case 'Documento': 
                 if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-                else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+                else{cadxxx=cadxxx+'like';cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
                 if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
                 {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
                 }
@@ -3621,7 +3902,7 @@ var sortByProperty= function(property){
                  break;
          case 'Alfanumerico': 
          if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-         else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+         else{cadxxx=cadxxx+'like';cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
          if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
          {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
          }
@@ -3633,7 +3914,7 @@ var sortByProperty= function(property){
           break;
           case 'Componente': 
           if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-          else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+          else{cadxxx=cadxxx+'like';cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
           if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
           {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
           }
@@ -3647,7 +3928,7 @@ var sortByProperty= function(property){
            
            case 'Visualizar query': 
            if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-           else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+           else{cadxxx=cadxxx+'like';cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
            if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
            {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
            }
@@ -3680,7 +3961,7 @@ var sortByProperty= function(property){
         break;
         case 'TextArea':  
         if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-        else{cadxx='"' +id2 + '": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+        else{cadxxx=cadxxx+'like';cadxx='"' +id2 + '": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
 //        if(todos[i].name==id2){cadxx='"' +id2 + '":"' +id3 + '"'  }
    
         if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
@@ -3695,7 +3976,7 @@ var sortByProperty= function(property){
          break;
          case 'Firma Electronica': 
          if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-         else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+         else{cadxxx=cadxxx+'like';cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
          if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
          {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
          }
@@ -3707,7 +3988,7 @@ var sortByProperty= function(property){
           break;
           case 'Codigo Qr': 
           if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-          else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+          else{cadxxx=cadxxx+'like';cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
           if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
           {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
           }
@@ -3719,7 +4000,7 @@ var sortByProperty= function(property){
            break;
            case 'Firma Digital': 
            if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-           else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+           else{cadxxx=cadxxx+'like';cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
            if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
            {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
            }
@@ -3731,7 +4012,7 @@ var sortByProperty= function(property){
             break;
             case 'Geoposicionamiento automatico': 
             if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-            else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+            else{cadxxx=cadxxx+'like';cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
             if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
             {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
             }
@@ -3743,7 +4024,7 @@ var sortByProperty= function(property){
              break;
         case 'Lista de valores': 
         if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '.label":"' +id3 + '"' }
-         else{cadxx='"' +id2 + '.label": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+         else{cadxxx=cadxxx+'like';cadxx='"' +id2 + '.label": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
         if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
              {cad=cad+'"'+todos[i].name+'":{"type" : "String"},';
                  //cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String"},   "label"	: { "type" : "String" }},';
@@ -3756,7 +4037,7 @@ var sortByProperty= function(property){
           break;
           case 'Check List': 
           if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '.label":"' +id3 + '"' }
-           else{cadxx='"' +id2 + '.label": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+           else{cadxxx=cadxxx+'like';cadxx='"' +id2 + '.label": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
           if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
                {cad=cad+'"'+todos[i].name+'":{"type" : "String"},';
                    //cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String"},   "label"	: { "type" : "String" }},';
@@ -3769,7 +4050,7 @@ var sortByProperty= function(property){
             break;
             case 'Check List Detalle': 
             if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '.label":"' +id3 + '"' }
-             else{cadxx='"' +id2 + '.label": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+             else{cadxxx=cadxxx+'like';cadxx='"' +id2 + '.label": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
             if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
                  {cad=cad+'"'+todos[i].name+'":{"type" : "String"},';
                      //cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String"},   "label"	: { "type" : "String" }},';
@@ -3790,8 +4071,9 @@ var sortByProperty= function(property){
 
      
      }
-     return cad +'°'+cadxx
+     return cad +'°'+cadxx + '°' + cadxxx
 }
+
 
 
 function dadatosformulariogruposuma0(namess,filtro,idempresa,namess2,filtrogrupo,filtrosuma)

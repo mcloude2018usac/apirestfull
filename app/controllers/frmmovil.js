@@ -2528,7 +2528,7 @@ break;
                                       
                                             cad=cad3[0]
                                             cadxx='{'+ cad3[1] + '}'
-                                            cad=cad + '    "sequencia"	: { "type" : "String" },"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" }, "comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno"	: { "type" : "String" },  "geoposicionxxx"	: { "type" : "String" },  "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                            cad=cad + '"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" },   "usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"}, "geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"asignadoxxx":{"type":"String"},"grupoasignado":{ "type" :"Array"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},  "secuenciagants": { "type" :"Array"},"idanst": { "type" :"Array"},  "pmodulo": { "type" :"Array"}'
                                             cad='{' + cad + '}'
                                             cadxx='{' + cadxx + '}'
                                          
@@ -3080,7 +3080,526 @@ break;
     break;
 
 
+       
+    case 'formularioprocesosolouna':
+        var arrtodos=req.params.id3.split('°')
+        var usuarito=''
+        var tieneactividadasignacion=arrtodos[5]
+        usuarioup=arrtodos[4]
+        var actividadt=[]
+        actividadt=req.params.id.split(',')
 
+        var pagex=arrtodos[7]
+        var lastid=arrtodos[8]
+        var limitx=arrtodos[6]
+        var namess=arrtodos[3]
+        var noorden=functool.padLeadingZeros(arrtodos[10],7)
+        var sisequencia=arrtodos[11]
+        var estadoxxx=arrtodos[2];
+        var filtroestado={}
+        if(estadoxxx==='activa' || estadoxxx==='ejecutadas')
+        {
+            filtroestado={$in:[estadoxxx]}
+        }
+        else
+        {
+            filtroestado={$nin:['activa','ejecutadas']}
+        }
+        
+            if(arrtodos[1]==='todos')
+            {
+                filtro={idempresa:arrtodos[0],estadoordenxxx:filtroestado}
+            }
+            else
+            {
+                if(arrtodos[1]==='todosmios')
+                {
+                  
+                    if(tieneactividadasignacion==='0')
+                    {
+                        if(arrtodos[2]==='ejecutadas')
+                        {
+                            filtro={idempresa:arrtodos[0],pmodulo: {$in:[[usuarioup]]}}
+                        }
+                        else
+                        {
+                            filtro={idempresa:arrtodos[0],estadoordenxxx:filtroestado,
+                                idactividadxxx:{$in:actividadt}}
+                        }
+                    }
+                    else
+                    {// si  esta involucrado en alguna actividad de tipo asignacion pueda ser que la reciba
+                     
+                        if(arrtodos[2]==='ejecutadas')
+                        {
+                            filtro={idempresa:arrtodos[0],pmodulo: {$in:[[usuarioup]]}}
+                        }
+                        else
+                        {
+                            if(actividadt[0]!=='123')
+                            {
+                                filtro={idempresa:arrtodos[0],estadoordenxxx:filtroestado,
+                                    idactividadxxx:{$in:actividadt}
+                                  //  $or: [       {idactividadxxx : {$in:actividadt}},
+                                    //    {idusuariosasigna: {$in:arrtodos[4]}}       ]
+                                    }
+                            }
+                            else
+                            { 
+                                filtro={idempresa:arrtodos[0],estadoordenxxx:filtroestado,
+                                    idusuariosasigna: {$in:[[arrtodos[4]]]}
+                                    }
+                                
+                            }
+                           
+                        }
+
+                    }
+              
+                
+                
+                
+                }
+                else
+                {
+                    if(actividadt[0]!=='123')
+                    {
+
+                        if(arrtodos[2]==='ejecutadas')
+                        {
+                            filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1],pmodulo: {$in:[[usuarioup]]}}
+                        }
+                        else
+                        {
+                            filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1],estadoordenxxx:filtroestado,
+                                idactividadxxx:{$in:actividadt}}
+                        }
+                        
+                    
+                    }
+                    else
+                    {
+                        if(arrtodos[2]==='ejecutadas')
+                        {
+                            filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1],pmodulo: {$in:[[usuarioup]]}}
+                        }
+                        else
+                        {
+                            filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1],estadoordenxxx:filtroestado}
+                        }
+                    
+
+                    }
+                    
+
+                }
+            
+            }
+
+      if(sisequencia==='Si')
+      {
+        filtro['sequenciag'] = noorden
+      }
+      else
+      {
+        filtro['sequenciag'] = noorden
+      }
+              
+             
+            
+            if(arrtodos.length>8 && arrtodos[9]!==undefined)
+            {
+                var masfiltro=arrtodos[9].split('¬');
+                if(masfiltro.length>0)
+                {
+                    if(masfiltro[0]!=='false' && masfiltro[0]!=='undefined' && masfiltro[0]!=='0')
+                    {
+                        for(var i = 0; i < masfiltro.length;i++){
+                            var vall=masfiltro[i].split(':')
+                            if(vall[2]==='like')
+                            {
+                                var cadtt=vall[1]
+                                
+                                if(cadtt.indexOf('|')>=0)
+                                {
+                                    filtro[vall[0]] ={'$regex': '('+vall[1]+').*', '$options': 'i'}
+                                }
+                                else
+                                {
+                                    filtro[vall[0]] ={'$regex': vall[1], '$options': 'i'}
+                                }
+                            }
+                            else
+                            {
+                                filtro[vall[0]] = vall[1]
+                            }
+                               
+                            
+
+
+                        }
+                    }
+                   
+                }
+            }
+       
+
+     
+console.log(filtro)
+
+                Frmmovild.find({idmovil:arrtodos[3], display : "true",idempresa:arrtodos[0]}).exec(function(err, todos) {
+                    if (err){ res.send(err); }
+                
+                    var objetox = {};
+                for(var i = 0; i < todos.length;i++){
+                    objetox[todos[i].name] =todos[i].title + '°' + todos[i].type + '°'+ todos[i].display;
+                }
+      
+                                    //    if(todos.length>0)   {  "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },   
+                                    
+                                            var cad=''
+                                            var cadxx=''
+                                            var cad3=(functool.dafiltrocad(todos,'','','')).split('°')
+                                    
+                                            cad=cad3[0]
+                                            cadxx='{'+ cad3[1] + '}'
+                                            cad=cad + '"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" },   "usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"}, "geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"asignadoxxx":{"type":"String"},"grupoasignado":{ "type" :"Array"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},  "secuenciagants": { "type" :"Array"},"idanst": { "type" :"Array"},  "pmodulo": { "type" :"Array"}'
+
+                                            cad='{' + cad + '}'
+                                            cadxx='{' + cadxx + '}'
+                                        
+                                            var jsonObject = functool.stringToObject(cad);
+                                        
+                                            var mongoose = require("mongoose");
+                                            delete mongoose.connection.models[namess];
+                                            var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                                        
+                                            
+                                        
+                                            try {
+                                                var  frmtt= mongoose.model(namess,tt);
+                                                
+                                                //Personal.paginate({filtro},{lean:     false,page:pagex, limit:  limitx})
+                                                //.skip(skips).limit(page_size)
+                                                //.skip(skips).limit(page_size)
+                                              //  var skips = Number(limitx) * (Number(pagex) - 1)
+                                              var skips = Number(limitx)
+                                              //  frmtt.paginate({filtro},{lean:     false,page:pagex, limit:  limitx}).exec(function(err, todos2) {
+                                                frmtt.find( filtro ).sort([['_id', -1]]).limit(skips).exec(function(err, todos2) {
+                                                    if (err){  res.send(err); }
+                                                
+                                                    var datafinal = functool.procesahtmlrecordproceso(objetox,todos2,'no')
+                                               
+                                                    res.json(datafinal);
+                                                
+                                                   // res.json(todos2);
+                                                
+                                                });
+                                            } catch(e) {
+                                                
+                                                var  frmtt= mongoose.model(namess);
+                                    
+                                                frmtt.find( filtro ).sort([['_id', -1]]).exec(function(err, todos2) {
+                                                    if (err){  res.send(err);
+                                                    }
+                                                    var datafinal = functool.procesahtmlrecordproceso(objetox,todos2,'no')
+                                               
+                                                    res.json(datafinal);
+                                                  //  res.json(todos2);
+                                                
+                                                });
+                                            }
+
+
+                                        
+                            
+                   // }
+                });
+            
+        
+        break;
+
+       
+        case 'formularioprocesosololike':
+            var arrtodos=req.params.id3.split('°')
+            var usuarito=''
+            var tieneactividadasignacion=arrtodos[5]
+            usuarioup=arrtodos[4]
+            var actividadt=[]
+            actividadt=req.params.id.split(',')
+    
+            var pagex=arrtodos[7]
+            var lastid=arrtodos[8]
+            var limitx=arrtodos[6]
+            var namess=arrtodos[3]
+            var campoxxx=arrtodos[10]
+            var valorxxx=arrtodos[11]
+            var estadoxxx=arrtodos[2];
+            var filtroestado={}
+            if(estadoxxx==='activa' || estadoxxx==='ejecutadas')
+            {
+                filtroestado={$in:[estadoxxx]}
+            }
+            else
+            {
+                filtroestado={$nin:['activa','ejecutadas']}
+            }
+            
+                if(arrtodos[1]==='todos')
+                {
+                    filtro={idempresa:arrtodos[0],estadoordenxxx:filtroestado}
+                }
+                else
+                {
+                    if(arrtodos[1]==='todosmios')
+                    {
+                      
+                        if(tieneactividadasignacion==='0')
+                        {
+                            if(arrtodos[2]==='ejecutadas')
+                            {
+                                filtro={idempresa:arrtodos[0],pmodulo: {$in:[[usuarioup]]}}
+                            }
+                            else
+                            {
+                                filtro={idempresa:arrtodos[0],estadoordenxxx:filtroestado,
+                                    idactividadxxx:{$in:actividadt}}
+                            }
+                        }
+                        else
+                        {// si  esta involucrado en alguna actividad de tipo asignacion pueda ser que la reciba
+                         
+                            if(arrtodos[2]==='ejecutadas')
+                            {
+                                filtro={idempresa:arrtodos[0],pmodulo: {$in:[[usuarioup]]}}
+                            }
+                            else
+                            {
+                                if(actividadt[0]!=='123')
+                                {
+                                    filtro={idempresa:arrtodos[0],estadoordenxxx:filtroestado,
+                                        idactividadxxx:{$in:actividadt}
+                                      //  $or: [       {idactividadxxx : {$in:actividadt}},
+                                        //    {idusuariosasigna: {$in:arrtodos[4]}}       ]
+                                        }
+                                }
+                                else
+                                { 
+                                    filtro={idempresa:arrtodos[0],estadoordenxxx:filtroestado,
+                                        idusuariosasigna: {$in:[[arrtodos[4]]]}
+                                        }
+                                    
+                                }
+                               
+                            }
+    
+                        }
+                  
+                    
+                    
+                    
+                    }
+                    else
+                    {
+                        if(actividadt[0]!=='123')
+                        {
+    
+                            if(arrtodos[2]==='ejecutadas')
+                            {
+                                filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1],pmodulo: {$in:[[usuarioup]]}}
+                            }
+                            else
+                            {
+                                filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1],estadoordenxxx:filtroestado,
+                                    idactividadxxx:{$in:actividadt}}
+                            }
+                            
+                        
+                        }
+                        else
+                        {
+                            if(arrtodos[2]==='ejecutadas')
+                            {
+                                filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1],pmodulo: {$in:[[usuarioup]]}}
+                            }
+                            else
+                            {
+                                filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1],estadoordenxxx:filtroestado}
+                            }
+                        
+    
+                        }
+                        
+    
+                    }
+                
+                }
+    
+          
+                 
+                
+                if(arrtodos.length>8 && arrtodos[9]!==undefined)
+                {
+                    var masfiltro=arrtodos[9].split('¬');
+                    if(masfiltro.length>0)
+                    {
+                        if(masfiltro[0]!=='false' && masfiltro[0]!=='undefined' && masfiltro[0]!=='0')
+                        {
+                            for(var i = 0; i < masfiltro.length;i++){
+                                var vall=masfiltro[i].split(':')
+                                if(vall[2]==='like')
+                                {
+                                    var cadtt=vall[1]
+                                    
+                                    if(cadtt.indexOf('|')>=0)
+                                    {
+                                        filtro[vall[0]] ={'$regex': '('+vall[1]+').*', '$options': 'i'}
+                                    }
+                                    else
+                                    {
+                                        filtro[vall[0]] ={'$regex': vall[1], '$options': 'i'}
+                                    }
+                                }
+                                else
+                                {
+                                    filtro[vall[0]] = vall[1]
+                                }
+                                   
+                                
+    
+    
+                            }
+                        }
+                       
+                    }
+                }
+           
+    
+         
+                Frmmovild.find({idmovil:arrtodos[3],idempresa:arrtodos[0]}).sort([['order', 1]]).exec(function(err, todosuno) {
+                    if (err){ res.send(err); }
+    
+    
+                    var cad3a=(functool.dafiltrocadsolouno(todosuno,campoxxx,valorxxx.replace('¬','/'),'')).split('°');
+                    var cada = cad3a[0];
+                    var cadsolouno = ''
+                    cadsolouno=cad3a[2];
+                    if(cadsolouno!=="")
+                    {
+                            if(cadsolouno.split('¬')[2]==='like')
+                            {
+                                filtro[cadsolouno.split('¬')[0]]= { "$regex" : cadsolouno.split('¬')[1].split('°')[0] , "$options" : "i" } 
+                            }
+                            else
+                            {
+                                filtro[cadsolouno.split('¬')[0]]=cadsolouno.split('¬')[1].split('°')[0]
+                            }
+    
+                    }
+              
+                Frmmovild.find({idmovil:arrtodos[3], display : "true",idempresa:arrtodos[0]}).exec(function(err, todos) {
+                        if (err){ res.send(err); }
+                    
+                        var objetox = {};
+                    for(var i = 0; i < todos.length;i++){
+                        objetox[todos[i].name] =todos[i].title + '°' + todos[i].type + '°'+ todos[i].display;
+                    }
+                  
+               
+                    var cad4=(functool.dafiltrocad(todos,campoxxx,valorxxx.replace('¬','/'),''))
+                    var cad3=(functool.dafiltrocad(todos,campoxxx,valorxxx.replace('¬','/'),'')).split('°')
+    
+                    var cadsolouno = ''
+                        cadsolouno=cad3[2];
+                        if(cadsolouno!=="")
+                        {
+                                if(cadsolouno.split('¬')[2]==='like')
+                                {
+                                    if(cad4.indexOf('°')>0)
+                                    {
+                                       filtro[campoxxx]= { "$regex" : valorxxx.split('°')[0] , "$options" : "i" } 
+                                    }
+                                    else
+                                    {
+                                        filtro[cadsolouno.split('¬')[0]]= { "$regex" : cadsolouno.split('¬')[1].split('°')[0] , "$options" : "i" } 
+                                    }
+    
+                                   
+                                }
+                                else
+                                {
+                                    filtro[cadsolouno.split('¬')[0]]=cadsolouno.split('¬')[1].split('°')[0]
+                                }
+                        }
+    
+    
+    
+                   
+                                              
+                                        
+                                                cad=cad3[0]+cada
+                                              //  cadxx='{'+ cad3[1] + '}'
+                                                cad=cad + '"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" },   "usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"}, "geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"asignadoxxx":{"type":"String"},"grupoasignado":{ "type" :"Array"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},  "secuenciagants": { "type" :"Array"},"idanst": { "type" :"Array"},  "pmodulo": { "type" :"Array"}'
+    
+                                                cad='{' + cad + '}'
+                                               // cadxx='{' + cadxx + '}'
+    
+                                                //filtro    + cad3[1] +',"' +
+                                            
+                                                var jsonObject = functool.stringToObject(cad);
+                                            
+                                                var mongoose = require("mongoose");
+                                                delete mongoose.connection.models[namess];
+                                                var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                                            
+                                                
+                                            
+                                                try {
+                                                    var  frmtt= mongoose.model(namess,tt);
+                                                    
+                                                    //Personal.paginate({filtro},{lean:     false,page:pagex, limit:  limitx})
+                                                    //.skip(skips).limit(page_size)
+                                                    //.skip(skips).limit(page_size)
+                                                  //  var skips = Number(limitx) * (Number(pagex) - 1)
+                                                  var skips = Number(limitx)
+                                                  //  frmtt.paginate({filtro},{lean:     false,page:pagex, limit:  limitx}).exec(function(err, todos2) {
+                                                    frmtt.find( filtro ).sort([['_id', -1]]).limit(skips).exec(function(err, todos2) {
+                                                        if (err){  res.send(err); }
+                                                    
+                                                        var datafinal = functool.procesahtmlrecordproceso(objetox,todos2,'no')
+                                                   
+                                                        res.json(datafinal);
+                                                    
+                                                       // res.json(todos2);
+                                                    
+                                                    });
+                                                } catch(e) {
+                                                    
+                                                    var  frmtt= mongoose.model(namess);
+                                        
+                                                    frmtt.find( filtro ).sort([['_id', -1]]).exec(function(err, todos2) {
+                                                        if (err){  res.send(err);
+                                                        }
+                                                        var datafinal = functool.procesahtmlrecordproceso(objetox,todos2,'no')
+                                                   
+                                                        res.json(datafinal);
+                                                      //  res.json(todos2);
+                                                    
+                                                    });
+                                                }
+    
+    
+                                            
+                                
+                       // }
+                    });
+                });
+            
+            break;
+    
+    
+    
+        
     
     case 'formularioproceso':
         var arrtodos=req.params.id3.split('°')
@@ -4401,6 +4920,7 @@ if(req.params.recordID!=='crea')
                                            }
                                            else
                                            {
+                                            if(cadrrr.estado==='false'){cadrrr.estado='nada'}
                            
                                                 var  frmtt=  mongoose.model(namess,tt);
                                                 
@@ -4744,7 +5264,7 @@ if(req.body.tipo2==='Formulario'){
 
                                 var cad=''
                                 var cad3=(functool.dafiltrocad(todos,'','',req.body.norequeridospp)).split('°')
-                                cad=cad3[0]
+                                    cad=cad3[0]
                                 if(req.body.idpapa)
                                 {
                                     if(req.body.tipo==='proceso')
@@ -4809,6 +5329,7 @@ if(req.body.tipo2==='Formulario'){
                                        }
                                        else
                                        {
+                                           if(cadrrr.estado==='false'){cadrrr.estado='nada'}
                        
                                             var  frmtt=  mongoose.model(namess,tt);
                                             

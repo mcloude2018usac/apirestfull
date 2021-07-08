@@ -888,11 +888,12 @@ else
 
         var estructura={
     "precioporunidad" : preciomedio,
-    "existenciaactual" : saldoactual.toString(),
+    "existenciaactual" : Number(saldoactual),
     "total" :( saldoactual*Number(preciomedio)).toString()
   
 }
 console.log(estructura);
+
   producto = await functool.actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:producto._id},idempresa,'5fc01bbba8d0a14888774579',estructura);
 
   kardex.create(gkardex,function(err, todos) {
