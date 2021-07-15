@@ -1445,6 +1445,115 @@ console.log( datat.length)
         case 'correpueba':
                 mailt.mandacorreoprueba2(['eveready11p@gmail.com','ambrosioaleman07@gmail.com','mario.morales@mcloude.com'],'Solicitando salon para Unidad academica:', 'Solicitud de nuevo salon',['mario.morales@mcloude.com'])
 break;
+
+case 'ponegrupos':
+                
+        var idempresa='5f503bededa4710798a79b84'
+        var idforma1='6086febae75c6616505520c9'
+        var idforma2='6086febae75c6616505520c9'
+
+        var h1= await functool.dadatosformulario(idforma1,{grupoasignado:null},idempresa)
+
+        var todos2= await functool.dacualquiertabla('frmactorgrupo',{},idempresa)
+        
+
+        var  datat =[]
+        for(var i = 0; i < h1.length;i++){
+                               
+                                datat.push({idactor:h1[i].idactorxxx,_id:h1[i]._id,grupos:[],asignado:h1[i].asignadoxxx})
+
+        }
+
+
+                for(var ii = 0; ii < datat.length;ii++){
+
+                        var encuentra=[]
+                        var asignado=  datat[ii].asignado
+
+                        var masde1grupo=[]
+
+                                  for(var i = 0; i < todos2.length;i++){
+                        
+
+                                        if(todos2[i].idpapa === datat[ii].idactor)
+                                        {
+
+
+                                                masde1grupo.push({_id:String(todos2[i]._id),nombre:todos2[i].nombre})
+                                                encuentra.push([String(todos2[i]._id)])
+
+                                          
+
+                                        }           
+
+
+                                   }
+
+
+                                   if(encuentra === [])
+                                   {
+                                               
+console.log('encuentraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+                                   }
+                                   else
+                                   {
+                                           if(encuentra.length>1)
+                                           {
+                                                var siasignado=''
+                                                for(var j = 0; j < masde1grupo.length;j++){
+                                                        if(asignado===masde1grupo[j].nombre)
+                                                        {
+                                                                siasignado=masde1grupo[j]._id
+                                                                encuentra=[]
+                                                                encuentra.push([String(masde1grupo[j]._id)])
+                                                                break;
+                                                        }
+
+                                                }
+
+                                                datat[ii].grupos=encuentra
+
+
+                                           }
+                                           else
+                                           {
+                                                datat[ii].grupos=encuentra
+                                           }
+
+                                           
+                                   }
+
+
+               
+                }
+
+
+//actualiza
+                for(var ii = 0; ii < datat.length;ii++)
+                {
+
+                     var   aaa=  await componegrupo(datat[ii]._id,datat[ii].grupos,idempresa,idforma1,idforma2,String(datat[ii]._id))
+                     console.log(String(datat[ii]._id))
+
+                }
+
+                res.json({ datat});
+
+
+
+       
+
+
+
+        
+
+
+
+      
+
+break;
+
+
      
         case 'creaempresa':
                 //http://127.0.0.1:9090/api/datosfijos/creaempresa

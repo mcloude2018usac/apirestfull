@@ -2139,7 +2139,9 @@ break;
                     var tieneactividadasignacion=arrtodos[5]
                     usuarioup=arrtodos[4]
                     var actividadt=[]
-                    actividadt=req.params.id.split(',')
+                    actividadt=req.params.id.split('¬')[0].split(',')
+                    var grupot=[]
+                    grupot=req.params.id.split('¬')[1].split('°')
                     var namess=arrtodos[3]
                     var filtro
                         if(arrtodos[1]==='todos')
@@ -2160,7 +2162,7 @@ break;
                                     else
                                     {
                                         filtro={idempresa:arrtodos[0],estadoordenxxx:arrtodos[2],
-                                            idactividadxxx:{$in:actividadt}}
+                                            idactividadxxx:{$in:actividadt},grupoasignado:{$in:grupot}}
                                     }
                                 }
                                 else
@@ -2175,7 +2177,7 @@ break;
                                         if(actividadt[0]!=='123')
                                         {
                                             filtro={idempresa:arrtodos[0],estadoordenxxx:arrtodos[2],
-                                                idactividadxxx:{$in:actividadt}
+                                                idactividadxxx:{$in:actividadt},grupoasignado:{$in:grupot}
                                               //  $or: [       {idactividadxxx : {$in:actividadt}},
                                                 //    {idusuariosasigna: {$in:arrtodos[4]}}       ]
                                                 }
@@ -2208,7 +2210,7 @@ break;
                                     else
                                     {
                                         filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1],estadoordenxxx:arrtodos[2],
-                                            idactividadxxx:{$in:actividadt}}
+                                            idactividadxxx:{$in:actividadt},grupoasignado:{$in:grupot}}
                                     }
                                     
                                 
@@ -2586,7 +2588,10 @@ break;
     var tieneactividadasignacion=arrtodos[5]
     usuarioup=arrtodos[4]
     var actividadt=[]
-    actividadt=req.params.id.split(',')
+            actividadt=req.params.id.split('¬')[0].split(',')
+            var grupot=[]
+            grupot=req.params.id.split('¬')[1].split('°')
+
     var namess=arrtodos[3]
     var estadoxxx=arrtodos[2];
     var filtroestado={}
@@ -2617,7 +2622,7 @@ break;
                     else
                     {
                         filtro={idempresa:arrtodos[0],estadoordenxxx:filtroestado,
-                            idactividadxxx:{$in:actividadt}}
+                            idactividadxxx:{$in:actividadt},grupoasignado:{$in:grupot}}
                     }
                 }
                 else
@@ -2632,7 +2637,7 @@ break;
                         if(actividadt[0]!=='123')
                         {
                             filtro={idempresa:arrtodos[0],estadoordenxxx:filtroestado,
-                                idactividadxxx:{$in:actividadt}
+                                idactividadxxx:{$in:actividadt},grupoasignado:{$in:grupot}
                               //  $or: [       {idactividadxxx : {$in:actividadt}},
                                 //    {idusuariosasigna: {$in:arrtodos[4]}}       ]
                                 }
@@ -2665,7 +2670,7 @@ break;
                     else
                     {
                         filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1],estadoordenxxx:filtroestado,
-                            idactividadxxx:{$in:actividadt}}
+                            idactividadxxx:{$in:actividadt},grupoasignado:{$in:grupot}}
                     }
                     
                 
@@ -2835,7 +2840,10 @@ break;
     var tieneactividadasignacion=arrtodos[5]
     usuarioup=arrtodos[4]
     var actividadt=[]
-    actividadt=req.params.id.split(',')
+    actividadt=req.params.id.split('¬')[0].split(',')
+    var grupot=[]
+    grupot=req.params.id.split('¬')[1].split('°')
+
     var namess=arrtodos[3]
     var estadoxxx=arrtodos[2];
     var filtroestado={}
@@ -2866,7 +2874,7 @@ break;
                     else
                     {
                         filtro={idempresa:arrtodos[0],estadoordenxxx:filtroestado,
-                            idactividadxxx:{$in:actividadt}}
+                            idactividadxxx:{$in:actividadt},grupoasignado:{$in:grupot}}
                     }
                 }
                 else
@@ -2881,7 +2889,7 @@ break;
                         if(actividadt[0]!=='123')
                         {
                             filtro={idempresa:arrtodos[0],estadoordenxxx:filtroestado,
-                                idactividadxxx:{$in:actividadt}
+                                idactividadxxx:{$in:actividadt},grupoasignado:{$in:grupot}
                               //  $or: [       {idactividadxxx : {$in:actividadt}},
                                 //    {idusuariosasigna: {$in:arrtodos[4]}}       ]
                                 }
@@ -2914,7 +2922,7 @@ break;
                     else
                     {
                         filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1],estadoordenxxx:filtroestado,
-                            idactividadxxx:{$in:actividadt}}
+                            idactividadxxx:{$in:actividadt},grupoasignado:{$in:grupot}}
                     }
                     
                 
@@ -3086,8 +3094,10 @@ break;
         var usuarito=''
         var tieneactividadasignacion=arrtodos[5]
         usuarioup=arrtodos[4]
-        var actividadt=[]
-        actividadt=req.params.id.split(',')
+    var actividadt=[]
+            actividadt=req.params.id.split('¬')[0].split(',')
+            var grupot=[]
+            grupot=req.params.id.split('¬')[1].split('°')
 
         var pagex=arrtodos[7]
         var lastid=arrtodos[8]
@@ -3124,7 +3134,7 @@ break;
                         else
                         {
                             filtro={idempresa:arrtodos[0],estadoordenxxx:filtroestado,
-                                idactividadxxx:{$in:actividadt}}
+                                idactividadxxx:{$in:actividadt},grupoasignado:{$in:grupot}}
                         }
                     }
                     else
@@ -3139,7 +3149,7 @@ break;
                             if(actividadt[0]!=='123')
                             {
                                 filtro={idempresa:arrtodos[0],estadoordenxxx:filtroestado,
-                                    idactividadxxx:{$in:actividadt}
+                                    idactividadxxx:{$in:actividadt},grupoasignado:{$in:grupot}
                                   //  $or: [       {idactividadxxx : {$in:actividadt}},
                                     //    {idusuariosasigna: {$in:arrtodos[4]}}       ]
                                     }
@@ -3172,7 +3182,7 @@ break;
                         else
                         {
                             filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1],estadoordenxxx:filtroestado,
-                                idactividadxxx:{$in:actividadt}}
+                                idactividadxxx:{$in:actividadt},grupoasignado:{$in:grupot}}
                         }
                         
                     
@@ -3326,7 +3336,9 @@ console.log(filtro)
             var tieneactividadasignacion=arrtodos[5]
             usuarioup=arrtodos[4]
             var actividadt=[]
-            actividadt=req.params.id.split(',')
+            actividadt=req.params.id.split('¬')[0].split(',')
+            var grupot=[]
+            grupot=req.params.id.split('¬')[1].split('°')
     
             var pagex=arrtodos[7]
             var lastid=arrtodos[8]
@@ -3363,7 +3375,7 @@ console.log(filtro)
                             else
                             {
                                 filtro={idempresa:arrtodos[0],estadoordenxxx:filtroestado,
-                                    idactividadxxx:{$in:actividadt}}
+                                    idactividadxxx:{$in:actividadt},grupoasignado:{$in:grupot}}
                             }
                         }
                         else
@@ -3378,7 +3390,7 @@ console.log(filtro)
                                 if(actividadt[0]!=='123')
                                 {
                                     filtro={idempresa:arrtodos[0],estadoordenxxx:filtroestado,
-                                        idactividadxxx:{$in:actividadt}
+                                        idactividadxxx:{$in:actividadt},grupoasignado:{$in:grupot}
                                       //  $or: [       {idactividadxxx : {$in:actividadt}},
                                         //    {idusuariosasigna: {$in:arrtodos[4]}}       ]
                                         }
@@ -3411,7 +3423,7 @@ console.log(filtro)
                             else
                             {
                                 filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1],estadoordenxxx:filtroestado,
-                                    idactividadxxx:{$in:actividadt}}
+                                    idactividadxxx:{$in:actividadt},grupoasignado:{$in:grupot}}
                             }
                             
                         
@@ -3607,7 +3619,9 @@ console.log(filtro)
         var tieneactividadasignacion=arrtodos[5]
         usuarioup=arrtodos[4]
         var actividadt=[]
-        actividadt=req.params.id.split(',')
+        actividadt=req.params.id.split('¬')[0].split(',')
+        var grupot=[]
+        grupot=req.params.id.split('¬')[1].split('°')
 
         var pagex=arrtodos[7]
         var lastid=arrtodos[8]
@@ -3642,7 +3656,7 @@ console.log(filtro)
                         else
                         {
                             filtro={idempresa:arrtodos[0],estadoordenxxx:filtroestado,
-                                idactividadxxx:{$in:actividadt}}
+                                idactividadxxx:{$in:actividadt},grupoasignado:{$in:grupot}}
                         }
                     }
                     else
@@ -3657,7 +3671,7 @@ console.log(filtro)
                             if(actividadt[0]!=='123')
                             {
                                 filtro={idempresa:arrtodos[0],estadoordenxxx:filtroestado,
-                                    idactividadxxx:{$in:actividadt}
+                                    idactividadxxx:{$in:actividadt},grupoasignado:{$in:grupot}
                                   //  $or: [       {idactividadxxx : {$in:actividadt}},
                                     //    {idusuariosasigna: {$in:arrtodos[4]}}       ]
                                     }
@@ -3690,7 +3704,7 @@ console.log(filtro)
                         else
                         {
                             filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1],estadoordenxxx:filtroestado,
-                                idactividadxxx:{$in:actividadt}}
+                                idactividadxxx:{$in:actividadt},grupoasignado:{$in:grupot}}
                         }
                         
                     

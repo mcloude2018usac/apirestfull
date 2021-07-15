@@ -2620,6 +2620,27 @@ function actualizaformularioidfinal  (namess,filtro,idempresa,namess2,est)
 
 }
 
+function dacualquiertabla(namess,filtro,idempresa)
+{
+    return new Promise(resolve => { 
+
+        switch(namess) {
+            case 'frmactorgrupo':
+
+                frmactorgrupo.find(filtro,function(err, todos2) {
+                    if (err){ res.send(err); }
+                    resolve(todos2); 
+
+                    });
+
+                break;
+        }
+
+
+    });
+
+}
+
 function dadatosformulario(namess,filtro,idempresa)
 {
     return new Promise(resolve => { 
@@ -4157,6 +4178,7 @@ module.exports = {
     dafiltrocad:dafiltrocad,
     datipo2:datipo2,
     datipo:datipo,
+    dacualquiertabla:dacualquiertabla,
     dadatosformulariogruposuma:dadatosformulariogruposuma,
     dadatosformulariogruposuma0:dadatosformulariogruposuma0,
     dadatosformulariogrupo:dadatosformulariogrupo,
