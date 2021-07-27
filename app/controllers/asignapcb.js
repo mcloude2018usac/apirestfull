@@ -584,7 +584,7 @@ else{
 
 var aa=1;
 if(aa==2) 
-{
+{   
     res.status(404).send('Las fechas de inscripción PCB han finalizado.');
 
 }
