@@ -115,62 +115,129 @@ exports.getGes = async function(req, res, next){
         { 
 
             (async () => {
-          //  producto = await functool.dadatosformulariofinal('5fc01bbba8d0a14888774579',{ },req.params.id3,'5fc01bbba8d0a14888774579',{fechadevencimiento:1}); 
-            var datat= []
-            var regt0=[];   
-
-          
-           var cad1="select ticket.aduana,ticket.Polizaaduana,clientes.Nombre,clientes.Nit,ticket.libretexto from ticket,clientes where ticket.idcliente=clientes.codigo and ticket.noticket= '"+req.params.id+"' "
-           var cad1a="select comentarioreq,moneda,preautorizadopor,autorizadopor,statusreq,noreq,ticketno,solicitadopor,nombrecliente,polizano,CONVERT(varchar,fechareq,103)  fechareq,descripcion1,Monto1,descripcion2,Monto2,descripcion3,Monto3,descripcion4,Monto4,descripcion5,Monto5,descripcion6,Monto6,descripcion7,Monto7,descripcion8,Monto8,descripcion9,Monto9,descripcion10,Monto10 ,montofact1 venta1,montofact2 venta2,montofact3 venta3,montofact4 venta4,montofact5 venta5,montofact6 venta6,montofact7 venta7,montofact8 venta8,montofact9 venta9,montofact10 venta10 from requisicion where ticketno='"+req.params.id+"' "
- 
-           
-           var cad2="select ticket.aduana,ticket.Polizaaduana,clientes.Nombre,clientes.Nit,ticket.libretexto from ticket,clientes where ticket.idcliente=clientes.codigo and ticket.noticket= '"+req.params.id+"' "
-           var cad2a=" select comentarioreq,moneda,preautorizadopor,autorizadopor,statusreq,noreq,ticketno,solicitadopor,nombrecliente,polizano,CONVERT(varchar,fechareq,103) fechareq,descripcion1,Monto1,descripcion2,Monto2,descripcion3,Monto3,descripcion4,Monto4,descripcion5,Monto5,descripcion6,Monto6,descripcion7,Monto7,descripcion8,Monto8,descripcion9,Monto9,descripcion10,Monto10,montofact1 venta1,montofact2 venta2,montofact3 venta3,montofact4 venta4,montofact5 venta5,montofact6 venta6,montofact7 venta7,montofact8 venta8,montofact9 venta9,montofact10 venta10 from requisicion where ticketno='"+req.params.id+"' "
-           
-           var servicios1= "select '['+ CONVERT(VARCHAR(10),codigoinv) +'] ' + descripcioninv _id,  '['+ CONVERT(VARCHAR(10),codigoinv) +'] ' + descripcioninv nombre from invemae  order by Descripcioninv"
-           var servicios2= "select '['+ CONVERT(VARCHAR(10),codigoinv) +'] ' + descripcioninv _id,  '['+ CONVERT(VARCHAR(10),codigoinv) +'] ' + descripcioninv nombre from invemae  order by Descripcioninv"
-
-
-
-
-           var  cad3="select ticket.aduana,ticket.Polizaaduana,clientes.Nombre,clientes.Nit,ticket.libretexto from ticket,clientes where ticket.idcliente=clientes.codigo and ticket.noticket="+req.params.id+"' "
-           
-           var cad4=  " SELECT *  FROM (select comentarioreq,noreq Requisicion,ticketno Ticket,polizano Poliza,descripcion1 Descripcion,Monto1 Costo,montofact1 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"       union all       select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion2 Descripcion,Monto2 Costo,montofact2 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"       union all       select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion3 Descripcion,Monto3 Costo,montofact3 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"      union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion4 Descripcion,Monto4 Costo,montofact4 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"      union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion5 Descripcion,Monto5 Costo,montofact5 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"      union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion6 Descripcion,Monto6 Costo,montofact6 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"       union all       select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion7 Descripcion,Monto7 Costo,montofact7 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"       union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion8 Descripcion,Monto8 Costo,montofact8 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"      union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion9 Descripcion,Monto9 Costo,montofact9 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"       union all       select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion10 Descripcion,Monto10 Costo,montofact10 Venta, moneda Moneda from requisicion where ticketno='"+req.params.id+"'     ) a  WHERE a.VENTA>0 AND a.moneda='Q' "
-  	    	cad4=cad4 +  " union all SELECT '','','','','TOTAL',SUM(COSTO),SUM(VENTA),''  FROM (select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion1 Descripcion,Monto1 Costo,montofact1 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"       union all       select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion2 Descripcion,Monto2 Costo,montofact2 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"       union all       select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion3 Descripcion,Monto3 Costo,montofact3 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"      union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion4 Descripcion,Monto4 Costo,montofact4 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"      union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion5 Descripcion,Monto5 Costo,montofact5 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"      union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion6 Descripcion,Monto6 Costo,montofact6 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"       union all       select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion7 Descripcion,Monto7 Costo,montofact7 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"       union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion8 Descripcion,Monto8 Costo,montofact8 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"      union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion9 Descripcion,Monto9 Costo,montofact9 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"       union all       select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion10 Descripcion,Monto10 Costo,montofact10 Venta, moneda Moneda from requisicion where ticketno='"+req.params.id+"'     ) a  WHERE a.VENTA>0 AND a.moneda='Q'  "
-
-              var cad5=" SELECT *  FROM (select comentarioreq,noreq Requisicion,ticketno Ticket,polizano Poliza,descripcion1 Descripcion,Monto1 Costo,montofact1 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"       union all       select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion2 Descripcion,Monto2 Costo,montofact2 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"       union all       select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion3 Descripcion,Monto3 Costo,montofact3 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"      union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion4 Descripcion,Monto4 Costo,montofact4 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"      union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion5 Descripcion,Monto5 Costo,montofact5 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"      union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion6 Descripcion,Monto6 Costo,montofact6 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"       union all       select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion7 Descripcion,Monto7 Costo,montofact7 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"       union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion8 Descripcion,Monto8 Costo,montofact8 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"      union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion9 Descripcion,Monto9 Costo,montofact9 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"       union all       select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion10 Descripcion,Monto10 Costo,montofact10 Venta, moneda Moneda from requisicion where ticketno='"+req.params.id+"'     ) a  WHERE a.VENTA>0 AND a.moneda='$' "
-
-cad5=cad5+" union all SELECT '','','','','TOTAL',SUM(COSTO),SUM(VENTA),''  FROM (select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion1 Descripcion,Monto1 Costo,montofact1 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"       union all       select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion2 Descripcion,Monto2 Costo,montofact2 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"       union all       select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion3 Descripcion,Monto3 Costo,montofact3 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"      union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion4 Descripcion,Monto4 Costo,montofact4 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"      union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion5 Descripcion,Monto5 Costo,montofact5 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"      union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion6 Descripcion,Monto6 Costo,montofact6 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"       union all       select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion7 Descripcion,Monto7 Costo,montofact7 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"       union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion8 Descripcion,Monto8 Costo,montofact8 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"      union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion9 Descripcion,Monto9 Costo,montofact9 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"       union all       select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion10 Descripcion,Monto10 Costo,montofact10 Venta, moneda Moneda from requisicion where ticketno='"+req.params.id+"'     ) a  WHERE a.VENTA>0 AND a.moneda='$'  "
-
-           var ejecuta1=await  functool.ejecutasql( cad1,conecta1)
-           var ejecuta1a=await  functool.ejecutasql( cad1a,conecta1)
+                //  producto = await functool.dadatosformulariofinal('5fc01bbba8d0a14888774579',{ },req.params.id3,'5fc01bbba8d0a14888774579',{fechadevencimiento:1}); 
+                  var datat= []
+                  var regt0=[];   
+      
+                //req.params.id
                 
-           var ejecuta2=await  functool.ejecutasql( cad2,conecta2)
-           var ejecuta2a=await  functool.ejecutasql( cad2a,conecta2)
-
-           var ejecuta3=await  functool.ejecutasql( servicios1,conecta1)
-           var ejecuta3a=await  functool.ejecutasql( servicios2,conecta2)
-if(req.params.id3==='setobar')
-{
-    var ejecuta4=await  functool.ejecutasql( cad4,conecta1)
-    var ejecuta4a=await  functool.ejecutasql( cad5,conecta1)
-    var ejecuta5=await  functool.ejecutasql(" select correodeingreso,correopreautorizacion,correoautorizacion from correo ",conecta1)
-
-}
-else
-{
-    var ejecuta4=await  functool.ejecutasql( cad4,conecta2)
-    var ejecuta4a=await  functool.ejecutasql( cad5,conecta2)
-    var ejecuta5=await  functool.ejecutasql("select correodeingreso,correopreautorizacion,correoautorizacion from correo ",conecta2)
-}
-         
+                 var cad1="select ticket.estadoticket,ticket.aduana,ticket.Polizaaduana,clientes.Nombre,clientes.Nit,ticket.libretexto from ticket,clientes where ticket.idcliente=clientes.codigo and ticket.noticket= '"+req.params.id+"' "
+                 var cad1a="select comentarioreq,moneda,preautorizadopor,autorizadopor,statusreq,noreq,ticketno,solicitadopor,nombrecliente,polizano,CONVERT(varchar,fechareq,103)  fechareq,descripcion1,Monto1,descripcion2,Monto2,descripcion3,Monto3,descripcion4,Monto4,descripcion5,Monto5,descripcion6,Monto6,descripcion7,Monto7,descripcion8,Monto8,descripcion9,Monto9,descripcion10,Monto10 ,montofact1 venta1,montofact2 venta2,montofact3 venta3,montofact4 venta4,montofact5 venta5,montofact6 venta6,montofact7 venta7,montofact8 venta8,montofact9 venta9,montofact10 venta10 from requisicion where ticketno='"+req.params.id+"' "
+       
+                 
+                 var cad2="select ticket.estadoticket,ticket.aduana,ticket.Polizaaduana,clientes.Nombre,clientes.Nit,ticket.libretexto from ticket,clientes where ticket.idcliente=clientes.codigo and ticket.noticket= '"+req.params.id+"' "
+                 var cad2a=" select comentarioreq,moneda,preautorizadopor,autorizadopor,statusreq,noreq,ticketno,solicitadopor,nombrecliente,polizano,CONVERT(varchar,fechareq,103) fechareq,descripcion1,Monto1,descripcion2,Monto2,descripcion3,Monto3,descripcion4,Monto4,descripcion5,Monto5,descripcion6,Monto6,descripcion7,Monto7,descripcion8,Monto8,descripcion9,Monto9,descripcion10,Monto10,montofact1 venta1,montofact2 venta2,montofact3 venta3,montofact4 venta4,montofact5 venta5,montofact6 venta6,montofact7 venta7,montofact8 venta8,montofact9 venta9,montofact10 venta10 from requisicion where ticketno='"+req.params.id+"' "
+                 
+                 var servicios1= "select '['+ CONVERT(VARCHAR(10),codigoinv) +'] ' + descripcioninv _id,  '['+ CONVERT(VARCHAR(10),codigoinv) +'] ' + descripcioninv nombre from invemae  order by Descripcioninv"
+                 var servicios2= "select '['+ CONVERT(VARCHAR(10),codigoinv) +'] ' + descripcioninv _id,  '['+ CONVERT(VARCHAR(10),codigoinv) +'] ' + descripcioninv nombre from invemae  order by Descripcioninv"
+      
+      
+      
+      
+                 var  cad3="select ticket.aduana,ticket.Polizaaduana,clientes.Nombre,clientes.Nit,ticket.libretexto from ticket,clientes where ticket.idcliente=clientes.codigo and ticket.noticket="+req.params.id+"' "
+                 
+                 var cad4=  " SELECT *  FROM (select comentarioreq,noreq Requisicion,ticketno Ticket,polizano Poliza,descripcion1 Descripcion,Monto1 Costo,montofact1 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"       union all       select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion2 Descripcion,Monto2 Costo,montofact2 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"       union all       select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion3 Descripcion,Monto3 Costo,montofact3 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"      union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion4 Descripcion,Monto4 Costo,montofact4 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"      union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion5 Descripcion,Monto5 Costo,montofact5 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"      union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion6 Descripcion,Monto6 Costo,montofact6 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"       union all       select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion7 Descripcion,Monto7 Costo,montofact7 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"       union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion8 Descripcion,Monto8 Costo,montofact8 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"      union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion9 Descripcion,Monto9 Costo,montofact9 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"       union all       select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion10 Descripcion,Monto10 Costo,montofact10 Venta, moneda Moneda from requisicion where ticketno='"+req.params.id+"'     ) a  WHERE a.VENTA>0 AND a.moneda='Q' "
+                    cad4=cad4 +  " union all SELECT '','','','','TOTAL',SUM(COSTO),SUM(VENTA),''  FROM (select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion1 Descripcion,Monto1 Costo,montofact1 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"       union all       select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion2 Descripcion,Monto2 Costo,montofact2 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"       union all       select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion3 Descripcion,Monto3 Costo,montofact3 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"      union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion4 Descripcion,Monto4 Costo,montofact4 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"      union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion5 Descripcion,Monto5 Costo,montofact5 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"      union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion6 Descripcion,Monto6 Costo,montofact6 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"       union all       select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion7 Descripcion,Monto7 Costo,montofact7 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"       union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion8 Descripcion,Monto8 Costo,montofact8 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"      union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion9 Descripcion,Monto9 Costo,montofact9 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"       union all       select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion10 Descripcion,Monto10 Costo,montofact10 Venta, moneda Moneda from requisicion where ticketno='"+req.params.id+"'     ) a  WHERE a.VENTA>0 AND a.moneda='Q'  "
+      
+                    var cad5=" SELECT *  FROM (select comentarioreq,noreq Requisicion,ticketno Ticket,polizano Poliza,descripcion1 Descripcion,Monto1 Costo,montofact1 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"       union all       select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion2 Descripcion,Monto2 Costo,montofact2 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"       union all       select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion3 Descripcion,Monto3 Costo,montofact3 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"      union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion4 Descripcion,Monto4 Costo,montofact4 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"      union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion5 Descripcion,Monto5 Costo,montofact5 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"      union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion6 Descripcion,Monto6 Costo,montofact6 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"       union all       select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion7 Descripcion,Monto7 Costo,montofact7 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"       union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion8 Descripcion,Monto8 Costo,montofact8 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"      union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion9 Descripcion,Monto9 Costo,montofact9 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"       union all       select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion10 Descripcion,Monto10 Costo,montofact10 Venta, moneda Moneda from requisicion where ticketno='"+req.params.id+"'     ) a  WHERE a.VENTA>0 AND a.moneda='$' "
+      
+      cad5=cad5+" union all SELECT '','','','','TOTAL',SUM(COSTO),SUM(VENTA),''  FROM (select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion1 Descripcion,Monto1 Costo,montofact1 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"       union all       select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion2 Descripcion,Monto2 Costo,montofact2 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"       union all       select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion3 Descripcion,Monto3 Costo,montofact3 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"      union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion4 Descripcion,Monto4 Costo,montofact4 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"      union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion5 Descripcion,Monto5 Costo,montofact5 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"      union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion6 Descripcion,Monto6 Costo,montofact6 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"       union all       select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion7 Descripcion,Monto7 Costo,montofact7 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"       union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion8 Descripcion,Monto8 Costo,montofact8 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"      union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion9 Descripcion,Monto9 Costo,montofact9 Venta, moneda Moneda from requisicion where ticketno IN("+req.params.id+") "+"       union all       select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion10 Descripcion,Monto10 Costo,montofact10 Venta, moneda Moneda from requisicion where ticketno='"+req.params.id+"'     ) a  WHERE a.VENTA>0 AND a.moneda='$'  "
+      
+                 var ejecuta1=await  functool.ejecutasql( cad1,conecta1)
+      
+                 var ejecuta2=await  functool.ejecutasql( cad2,conecta2)
+      
+      
         
-            
-     
-            res.json({d1:ejecuta1.datat.recordset,d1a:ejecuta1a.datat.recordset,d2:ejecuta2.datat.recordset,d2a:ejecuta2a.datat.recordset,
-                ss:ejecuta3.datat.recordset,ss2:ejecuta3a.datat.recordset,liq1:ejecuta4.datat.recordset,liq2:ejecuta4a.datat.recordset,correo1:ejecuta5.datat.recordset});   
-        })();
-
+                 if(ejecuta1.datat.recordset.length===0 && ejecuta1.datat.recordset.length===0 )
+                 {//no encuentra nada 
+      
+                  var eje=await  functool.dacualquiertabla('bitacoraxxx',{doc:'' + Number(req.params.id)},null)
+                  if(eje.length>0)
+                  {
+                   Bitacoraxxx.create({accion:'inserta sql en busqueda',texto:cad,doc:Number( eje[0].doc),conecta:ceje[0].conecta});
+                   var ejecuta10=await  functool.ejecutasql(  eje[0].texto,eje[0].conecta)
+      
+                   ejecuta1=await  functool.ejecutasql( cad1,conecta1)
+                   ejecuta2=await  functool.ejecutasql( cad2,conecta2)
+                   var ejecuta1a=await  functool.ejecutasql( cad1a,conecta1)
+                   var ejecuta2a=await  functool.ejecutasql( cad2a,conecta2)
+                   var ejecuta3=await  functool.ejecutasql( servicios1,conecta1)
+                   var ejecuta3a=await  functool.ejecutasql( servicios2,conecta2)
+                    if(req.params.id3==='setobar')
+                    {   var ejecuta4=await  functool.ejecutasql( cad4,conecta1)
+                        var ejecuta4a=await  functool.ejecutasql( cad5,conecta1)
+                        var ejecuta5=await  functool.ejecutasql(" select correodeingreso,correopreautorizacion,correoautorizacion from correo ",conecta1)
+                    }
+                    else
+                    {
+                        var ejecuta4=await  functool.ejecutasql( cad4,conecta2)
+                        var ejecuta4a=await  functool.ejecutasql( cad5,conecta2)
+                        var ejecuta5=await  functool.ejecutasql("select correodeingreso,correopreautorizacion,correoautorizacion from correo ",conecta2)
+                    }
+                 
+                    res.json({d1:ejecuta1.datat.recordset,d1a:ejecuta1a.datat.recordset,d2:ejecuta2.datat.recordset,d2a:ejecuta2a.datat.recordset,
+                        ss:ejecuta3.datat.recordset,ss2:ejecuta3a.datat.recordset,liq1:ejecuta4.datat.recordset,liq2:ejecuta4a.datat.recordset,correo1:ejecuta5.datat.recordset});   
+                   
+       
+                  }
+                  else
+                  {
+                      var ejecuta1a=await  functool.ejecutasql( cad1a,conecta1)
+                      var ejecuta2a=await  functool.ejecutasql( cad2a,conecta2)
+                      var ejecuta3=await  functool.ejecutasql( servicios1,conecta1)
+                      var ejecuta3a=await  functool.ejecutasql( servicios2,conecta2)
+                       if(req.params.id3==='setobar')
+                       {   var ejecuta4=await  functool.ejecutasql( cad4,conecta1)
+                           var ejecuta4a=await  functool.ejecutasql( cad5,conecta1)
+                           var ejecuta5=await  functool.ejecutasql(" select correodeingreso,correopreautorizacion,correoautorizacion from correo ",conecta1)
+                       }
+                       else
+                       {
+                           var ejecuta4=await  functool.ejecutasql( cad4,conecta2)
+                           var ejecuta4a=await  functool.ejecutasql( cad5,conecta2)
+                           var ejecuta5=await  functool.ejecutasql("select correodeingreso,correopreautorizacion,correoautorizacion from correo ",conecta2)
+                       }
+                    
+                       res.json({d1:ejecuta1.datat.recordset,d1a:ejecuta1a.datat.recordset,d2:ejecuta2.datat.recordset,d2a:ejecuta2a.datat.recordset,
+                           ss:ejecuta3.datat.recordset,ss2:ejecuta3a.datat.recordset,liq1:ejecuta4.datat.recordset,liq2:ejecuta4a.datat.recordset,correo1:ejecuta5.datat.recordset});   
+                      
+                  }
+       
+       
+      
+      
+                 }
+                 else
+                 {
+                  var ejecuta1a=await  functool.ejecutasql( cad1a,conecta1)
+                  var ejecuta2a=await  functool.ejecutasql( cad2a,conecta2)
+                  var ejecuta3=await  functool.ejecutasql( servicios1,conecta1)
+                  var ejecuta3a=await  functool.ejecutasql( servicios2,conecta2)
+                   if(req.params.id3==='setobar')
+                   {   var ejecuta4=await  functool.ejecutasql( cad4,conecta1)
+                       var ejecuta4a=await  functool.ejecutasql( cad5,conecta1)
+                       var ejecuta5=await  functool.ejecutasql(" select correodeingreso,correopreautorizacion,correoautorizacion from correo ",conecta1)
+                   }
+                   else
+                   {
+                       var ejecuta4=await  functool.ejecutasql( cad4,conecta2)
+                       var ejecuta4a=await  functool.ejecutasql( cad5,conecta2)
+                       var ejecuta5=await  functool.ejecutasql("select correodeingreso,correopreautorizacion,correoautorizacion from correo ",conecta2)
+                   }
+                
+                   res.json({d1:ejecuta1.datat.recordset,d1a:ejecuta1a.datat.recordset,d2:ejecuta2.datat.recordset,d2a:ejecuta2a.datat.recordset,
+                       ss:ejecuta3.datat.recordset,ss2:ejecuta3a.datat.recordset,liq1:ejecuta4.datat.recordset,liq2:ejecuta4a.datat.recordset,correo1:ejecuta5.datat.recordset});   
+                  
+                 }
+           
+                     
+                
+      
+      
+                 
+              })();
+      
 
         }
         else

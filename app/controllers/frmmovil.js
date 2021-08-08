@@ -968,7 +968,84 @@ exports.getFrmmovil = async function(req, res, next){
     
             }
             else
+            { if(req.params.id4=='unregistromoviltodo')
             {
+    
+                var namess=req.params.id
+                var idbuscar=req.params.id2
+                var arrt=req.params.id3.split('°')
+
+    
+                Frmmovild.find({idmovil:arrt[1], display : "true",idempresa:arrt[0]}).sort([['order', 1]]).exec(function(err, todos) {
+                    if (err){ res.send(err); }
+                  
+                               
+            var objetox = {};
+            
+            for(var i = 0; i < todos.length;i++){
+                objetox[todos[i].name] =todos[i].title + '°' + todos[i].type + '°'+ todos[i].display;
+            }
+     
+             
+                                        if(todos.length>0)   {  
+                                       
+                                            var cad=''
+                                            var cadxx=''
+                                            var cad3=(functool.dafiltrocad(todos,'','','')).split('°')
+                                      
+                                            cad=cad3[0]
+                                          
+                                            cad=cad + '"estadointerno"	: { "type" : "String" },"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" },"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"asignadoxxx":{"type":"String"},"grupoasignado":{ "type" :"Array"},"estadoordenxxx":{"type":"String"}'
+
+                                          
+                                            cad='{' + cad + '}'
+                                           
+                                     
+                                            var jsonObject = functool.stringToObject(cad);
+                                          
+                                            var mongoose = require("mongoose");
+                                            delete mongoose.connection.models[namess];
+                                            var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                                         
+                                        
+                                            try {
+                                                
+                                                var  frmtt= mongoose.model(namess,tt);
+                                                frmtt.find({_id:idbuscar} ,function(err, todos2) {
+                                                    if (err){  res.send(err); }
+                                                   
+                                                    var datafinal = functool.procesahtmlrecord(objetox,todos2,'no')
+                                                      
+                                                    res.json(datafinal);
+                                                  
+                                                });
+                                              } catch(e) {
+                                                
+                                                var  frmtt= mongoose.model(namess);
+                                      
+                                                frmtt.findd( {_id:idbuscar} ,function(err, todos2) {
+                                                     if (err){  res.send(err);
+                                                    }
+                                             
+                                                  
+                                                    var datafinal = functool.procesahtmlrecord(objetox,todos2,'no')
+                                                      
+                                                    res.json(datafinal);
+                                                 
+                                                 });
+                                              }
+        
+        
+                                         
+                            
+                    }
+                });
+        
+                
+    
+    
+            }
+      else{    
             if(req.params.id4=='unregistromovil')
             {
     
@@ -989,7 +1066,7 @@ exports.getFrmmovil = async function(req, res, next){
                                       
                                             cad=cad3[0]
                                           
-                                            cad=cad + ' "usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" }, "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                            cad=cad + '"estadointerno"	: { "type" : "String" }, "usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" }, "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
                                             cad='{' + cad + '}'
                                            
                                      
@@ -1529,8 +1606,14 @@ exports.getFrmmovil = async function(req, res, next){
                                                 
                                                // e{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
         
-                                                cad3[1]  = cadsolouno+ '"' +req.params.id2 + '": { "$regex" : "' +req.params.id3.split('°')[0] + '", "$options" : "i" } ' 
-        
+                                               if(cadsolouno.indexOf(req.params.id2)>=0)
+                                                {
+                                                    cad3[1]  = '"' +req.params.id2 + '": { "$regex" : "' +req.params.id3.split('°')[0] + '", "$options" : "i" } ' 
+                                                }
+                                                else
+                                                {
+                                                    cad3[1]  = cadsolouno+ ',"' +req.params.id2 + '": { "$regex" : "' +req.params.id3.split('°')[0] + '", "$options" : "i" } ' 
+                                                }    
                                             }
                                             else
                                             {
@@ -1613,7 +1696,7 @@ exports.getFrmmovil = async function(req, res, next){
                     }
                 });
             });
-    }}}}}}}}}}}}}}
+    }}}}}}}}}}}}}}}
 
     }
     else{
@@ -2345,10 +2428,16 @@ break;
                                                        
                                                          if(todos2.length>0)
                                                          {
-                                                            var datafinal = functool.procesatablauirecord(objetox,todos2,'no')
-                                                           
-                                                            res.json(datafinal);
-                                                        
+                                                            var datafinal = []
+                                                            if(arrtodos[7]==='1')
+                                                            {
+                                                             datafinal = functool.procesatablauirecord(objetox,todos2,'no')
+                                                            }
+                                                            else
+                                                            {
+                                                             datafinal = functool.procesatablauirecordfila(objetox,todos2,'no')
+                                                            }
+                                                             res.json(datafinal);
                                                          }
                                                          else
                                                          {

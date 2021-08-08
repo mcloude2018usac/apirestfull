@@ -2,6 +2,7 @@
 var Frmmovil = require('../models/frmmovil');
 var Frmmovild = require('../models/frmmovild');
 var Bitacora = require('../models/bitacora');
+var Bitacoraxxx = require('../models/bitacoraxxx');
 var Catusuario = require('../models/catusuario');
 var Formcat2 = require('../models/frmcat2');
 var formulariousrd = require('../models/formulariousrd');
@@ -439,6 +440,7 @@ var visitas_programadas=async  function(req, res, next){
                     var cad="insert into ticket values("+ Number(est.sequenciag) +",'',"+ 
                     clientet.codigoa +",getdate(),1,'',0,"+functool.daconectaorden(req.body.idform)+ ",'"+ est.referencia +"',0,0,0,0,0,0,0,"+ aduanat.idcig +",0,'',0,'"+ 
                     aduanat.nombre +"',null,'"+ clientet.nombre +"','','',0,0,0,0,0,'',"+ est.sequenciag +",'','',1,'0','"+ est.master +"','"+ est.contenedor +"')"
+                    Bitacoraxxx.create({accion:'inserta sql',texto:cad,conecta:cctemp});
   
                     var ejecuta1=await  functool.ejecutasql( cad,cctemp)
                
@@ -471,6 +473,8 @@ var visitas_programadas=async  function(req, res, next){
                     var cad="insert into ticket values("+ Number(est.sequenciag) +",'',"+ 
                     clientet.codigoa +",getdate(),1,'',0,"+functool.daconectaorden(req.body.idform)+ ",'"+ est.referencia +"',0,0,0,0,0,0,0,"+ aduanat.idcig +",0,'',0,'"+ 
                     aduanat.nombre +"',null,'"+ clientet.nombre +"','','',0,0,0,0,0,'',"+ est.sequenciag +",'','',1,'0','"+ est.master +"','"+ est.contenedor +"')"
+
+                    Bitacoraxxx.create({accion:'inserta sql',texto:cad,conecta:conecta1});
   
                     var ejecuta1=await  functool.ejecutasql( cad,conecta1)
                

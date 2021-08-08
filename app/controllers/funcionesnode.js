@@ -12,7 +12,7 @@ var sql2 = require("mssql")
 var sql3 = require("mssql")
 
 
-//const odbc = require('odbc');
+const odbc = require('odbc');
 
 const connectionConfig = {   connectionString: 'DSN=OTRO',    connectionTimeout: 10,    loginTimeout: 10,}
 
@@ -24,7 +24,20 @@ function  ejecutaaccess  (cad)
 {
 
     return new Promise(resolve => {
-        resolve({estado:'exito',datat:[]}); 
+const connection = odbc.connect(connectionConfig, (error, connection) => {
+  connection.query(cad, (error, result) => {
+      if (error) {  resolve({estado:'exito',datat:[]});  }
+      else
+      { resolve({estado:'exito',datat:result}); 
+
+      }
+
+      
+       
+
+
+  });
+});
 });
 }
 
@@ -1999,7 +2012,7 @@ if(todos2[i].geoposicionxxx)
                 }
                 var cadenabusqueda=todos2[i].actorxxx + ' ' + todos2[i].sequenciag+ ' ' + todos2[i].sequencia+ ' ' + todos2[i].actividadxxx+ ' ' + todos2[i].enviadoporxxx
 
-                if(cadenabusqueda==='undefined undefined undefined undefined undefined'){cadenabusqueda=''}
+                if(cadenabusqueda.indexOf('undefined')>=0){cadenabusqueda=''}
                   
                 if(todos2[i].estadointerno ==='activo')
                 {
@@ -2050,6 +2063,19 @@ if(todos2[i].geoposicionxxx)
        return datafinal;
     }
 
+    function darectiact(tipo,estructura) {
+        var tt='';
+        switch(tipo) {
+            case '605a23446886480f70f6ec3f':  tt='605cbe7e6f80160028dfd494';   break;//importaciones
+            case '605a23696886480f70f6ec43':  tt='6081e6af5fd01a21f8ae4660';   break;//exportaciones
+            case '605a24e46886480f70f6ec47':  tt='608206687a06732760df62db';   break;//transitos
+            case '605a252e6886480f70f6ec4b':  tt='6082068c7a06732760df63a6';   break;//df zf
+          
+            default:
+              // code block
+          }
+            return tt;
+    }
     
     var procesaexcelrecord = function(objetox,todos2,sicampovalida)
     {
@@ -2386,6 +2412,120 @@ data[aa].replace('¬', ',') + '" target="_blank">https://www.google.com/maps/sea
 data[aa].replace('¬', ',') + '" target="_blank">https://www.google.com/maps/search/?api=1&query=' + data[aa].replace('¬', ',')
 + '</a> ' ;  break;
                */
+              if(i===0){datafinal.push(regt0)}
+              datafinal.push(regt)
+           
+
+
+                 
+           }
+       return datafinal;
+    }
+    var procesatablauirecordfila = function(objetox,todos2,sicampovalida)
+    {
+        var keys = Object.keys(objetox);
+        var datafinal=[]
+        var cad=''
+        var cad2=''
+        var cad3=''
+            for(var i = 0; i < todos2.length;i++){
+            //console.log(todos2[i])
+            var regt0=[];   
+            var regt=[]; 
+            cad=''
+           for (let ii = 0; ii < keys.length; ii++) {
+               var arreglo=(objetox[keys[ii]] ).split('°')
+
+              
+               
+               var valorxx=todos2[i][keys[ii]]
+               var validacampo=arreglo[2]
+               if(sicampovalida==='si')
+               {
+                validacampo='true'
+               }
+
+               if(valorxx===undefined)
+               {
+                   valorxx=''
+               }
+          
+               if(arreglo[1]==='Fecha')
+               {
+                cad= cad + keys[ii] + ': ' + dafechastring(valorxx) + ' \n ';
+              
+                  
+               }
+               else
+               {
+                   if(arreglo[1]==='Fecha y Hora')
+                   {
+                      
+                    cad= cad + keys[ii] + ': ' +dafechacompleta(valorxx) + ' \n ';
+                    
+                   }
+                   else
+                   {
+                       if(arreglo[1]==='Hora')
+                   {
+                      
+                    cad= cad + keys[ii] + ': ' +dahora(valorxx) + ' \n ';
+                    
+                   }
+                   else
+                   {
+                   if(arreglo[1]==='Lista de valores')
+                   {
+                       if (valorxx.indexOf('°') > 0) {
+                        cad= cad + keys[ii] + ': ' +getKeyssrthtml(valorxx) + ' \n ';
+                        
+                          
+                       }
+                       else
+                       {
+                           if (valorxx.indexOf('¬') > 0) {
+
+                            cad= cad + keys[ii] + ': ' + valorxx.split('¬')[0] + ' \n ';
+                            
+                              
+                           }
+                           else
+                           {
+                            cad= cad + keys[ii] + ': ' +valorxx+ ' \n ';
+                            
+                              
+                           }
+
+                        }
+
+                      
+                   }
+                   else
+                   {
+
+                    cad= cad + keys[ii] + ': ' +valorxx;+ ' \n';
+                    
+                       
+                       
+                   }}}
+               }
+           
+                  
+                               
+                       
+                   
+               }
+
+               /*
+                cadurs3 = cadurs3 + ' <a href="https://www.google.com/maps/search/?api=1&query=' +
+data[aa].replace('¬', ',') + '" target="_blank">https://www.google.com/maps/search/?api=1&query=' + data[aa].replace('¬', ',')
++ '</a> ' ;  break;
+               */
+regt=[]
+regt.push(cad)
+regt0=[]
+regt0.push('Información')
+
               if(i===0){datafinal.push(regt0)}
               datafinal.push(regt)
            
@@ -4188,6 +4328,7 @@ module.exports = {
     procesahtmlrecord:procesahtmlrecord,
     procesahtmlrecordproceso:procesahtmlrecordproceso,
     procesatablauirecord:procesatablauirecord,
+    procesatablauirecordfila:procesatablauirecordfila,
     procesaexcelrecord:procesaexcelrecord,
     procesacsvrecord:procesacsvrecord,
     dafiltrocadvalida:dafiltrocadvalida,
@@ -4202,6 +4343,7 @@ module.exports = {
     validawarning:validawarning,
     stringToObject:stringToObject,
     aplicacampo:aplicacampo,
+    darectiact:darectiact,
     daconectasql:daconectasql,
     davalorvv:davalorvv,
     creatrayectoriatoid:creatrayectoriatoid,

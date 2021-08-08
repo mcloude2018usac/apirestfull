@@ -3180,7 +3180,7 @@ break;
                                                                 var n = d.split('-')   
                                         
 
-                                                        myData.push({nombre:cleanName(todos[i].nombre),fechaini:d,
+                                                        myData.push({nombre:todos[i].nombre,fechaini:d,
                                                                 ubicacion:todos[i].ubicacion,Noparticipantes:cc});
                                                         cc=0;
                                                         }
@@ -3499,10 +3499,9 @@ break;
                                                 var myData = [];
                                                 for(var i = 0; i < todos2.length;i++){
                                                         console.log(i)
-console.log({nombre:cleanName(todos2[i].nombre) + ' '+ cleanName(todos2[i].apellido),
-fecha:todos2[i].fecha.substr(0,10),ingresos:cleanName(todos2[i].cuenta),correo:todos2[i].correo  });
 
-                                                myData.push({nombre:cleanName(todos2[i].nombre) + ' '+ cleanName(todos2[i].apellido),fecha:todos2[i].fecha.substr(0,10),ingresos:cleanName(todos2[i].cuenta),correo:todos2[i].correo  });
+
+                                                myData.push({nombre:(todos2[i].nombre) + ' '+ (todos2[i].apellido),fecha:todos2[i].fecha.substr(0,10),ingresos:(todos2[i].cuenta),correo:todos2[i].correo  });
                                                 }
                                                 
                                                 res.statusCode = 200;

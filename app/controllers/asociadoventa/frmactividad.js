@@ -129,6 +129,9 @@ exports.getfrmactividad = function(req, res, next){
                                         nombre	:todos[i].nombre,	
                                         tipo	:todos[i].tipo,	
                                         etapa	:todos[i].etapa,	
+                                        correousuarios:todos[i].correousuarios,
+                                        nombreusuarios:todos[i].nombreusuarios,
+                                        usuarios       :todos[i].usuarios       ,
                                         conector:todos[i].conector,	
                                         tiempomin:todos[i].tiempomin,	
                                         tiempomax	:todos[i].tiempomax,	
@@ -199,6 +202,9 @@ exports.getfrmactividad = function(req, res, next){
                                                 nombre	:todos[i].nombre,	
                                                 tipo	:todos[i].tipo,	
                                                 etapa	:todos[i].etapa,	
+                                                correousuarios:todos[i].correousuarios,
+                                                nombreusuarios:todos[i].nombreusuarios,
+                                                usuarios       :todos[i].usuarios       ,
                                                 conector:todos[i].conector,	
                                                 tiempomin:todos[i].tiempomin,	
                                                 tiempomax	:todos[i].tiempomax,	
@@ -256,6 +262,9 @@ if(req.params.recordID!=='crea')
   todo.actor     	={id: req.body.actor.id, nombre: req.body.actor.nombre}    	,
   todo.clase     	= req.body.clase    	,
   todo.descripciong	= req.body.descripciong	,
+  todo.usuarios       	=	req.body.usuarios        	||	todo.usuarios;  
+  todo.correousuarios	=	req.body.correousuarios; 
+  todo.nombreusuarios	=	req.body.nombreusuarios;  
  todo.nombre       	=	req.body.nombre        	||	todo.nombre;   
  todo.tipo     	= req.body.tipo    	,
  todo.etapa     	= req.body.etapa    	,
@@ -309,7 +318,9 @@ else{
   conector     	: req.body.conector    	,
   tiempomin     	: req.body.tiempomin    	,
   tiempomax     	: req.body.tiempomax    	,
-
+  usuarios     	: req.body.usuarios    	,
+  nombreusuarios	: req.body.nombreusuarios	,
+  correousuarios	: req.body.correousuarios	,
   camposlectura		: req.body.camposlectura   	,
   camposmodificables	: req.body.camposmodificables   	,
   camposimprime	: req.body.camposimprime   	,
