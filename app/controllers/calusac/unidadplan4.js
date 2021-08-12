@@ -8,6 +8,28 @@ var Unidadprofesor3 = require('../../models/user');
 var Unidadpago3 = require('../../models/calusac/unidadpago3');
 var Unidadidiomanivel3 = require('../../models/calusac/unidadidiomanivel3');
 
+function onlyUnique(value, index, self) { 
+    return self.indexOf(value) === index;
+}
+
+
+function removeDuplicates( arr, prop ) {
+    var obj = {};
+    for ( var i = 0, len = arr.length; i < len; i++ ){
+      if(!obj[arr[i][prop]]) obj[arr[i][prop]] = arr[i];
+    }
+    var newArr = [];
+    for ( var key in obj ) newArr.push(obj[key]);
+    return newArr;
+  }
+
+  function removeDuplicates2( arr, prop ) {
+    let obj = {};
+    return Object.keys(arr.reduce((prev, next) => {
+      if(!obj[next[prop]]) obj[next[prop]] = next; 
+      return obj;
+    }, obj)).map((i) => obj[i]);
+  }
 exports.getUnidadplan4 = function(req, res, next){
     if(req.params.id5)
     {  
@@ -135,8 +157,18 @@ exports.getUnidadplan4 = function(req, res, next){
                     if (err){ res.send(err); }
                    
                     var duplicates = [];
-                    todos10.forEach(function (doc) {duplicates.push({nombre:doc.idhora});  });
-                    res.json(duplicates);
+
+              
+
+
+                    todos10.forEach(function (doc) {duplicates.push({nombre:doc.idhora}); 
+                
+                
+                });
+
+                var duplicates =  removeDuplicates( duplicates,'nombre');
+                res.json(duplicates);
+                 
                 });
             break
         default:
