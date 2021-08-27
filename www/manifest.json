@@ -1,0 +1,15 @@
+{
+  "name": "Usacenlinea",
+  "short_name": "Usacenlinea",
+  "description": "USAC en Línea es la WEBAPP oficial de la Universidad de San Carlos de Guatemala,esta diseñada para estudiantes de la Universidad de San Carlos, aspirantes y pueblo de Guatemala.",
+  "start_url": "index.html",
+  "display": "standalone",
+  "icons": [{
+    "src": "assets/img/logousac1.png",
+    "sizes": "144x144",
+    "type": "image/png"
+  }],
+  "background_color": "#f3f6fc",
+  "theme_color": "#f3f6fc",
+  "gcm_sender_id": "103953800507"
+}
