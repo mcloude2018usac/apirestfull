@@ -1,12 +1,12 @@
 
 var Frmmovild = require('../models/frmmovild');
+var Bitacora = require('../models/bitacora');
 var Frmmovil = require('../models/frmmovil');
 var Frmactividad = require('../models/asociadoventa/frmactividad');
-var Bitacora = require('../models/bitacora');
 
 exports.getFrmmovild = function(req, res, next){
     if(req.params.id4)
-    { 
+    {  
         if(req.params.id2=='frmactividades')
         { 
             Frmactividad.find({idempresa:req.params.id3,  idpapa:req.params.id}).sort({'order': 1}).exec(function(err, todos) {
@@ -23,6 +23,22 @@ exports.getFrmmovild = function(req, res, next){
         }
         else
         {
+            if(req.params.id2=='frmprocedimientos0')
+            { 
+                Frmmovil.find({idempresa:req.params.id3}).sort({'order': 1}).exec(function(err, todos) {
+                    if (err){  res.send(err);  }
+        
+                   
+                          var myData = [];
+                          for(var i = 0; i < todos.length;i++){
+                            myData.push({_id:todos[i]._id + '°' +todos[i].tipo ,nombre:todos[i].nombre,tipo:todos[i].tipo })
+                          }
+        
+                         res.json(myData);   
+                 });
+            }
+            else
+            {
         if(req.params.id2=='frmprocedimientos')
         { 
             Frmmovil.find({idempresa:req.params.id3,  "tipo" : {$in :  [req.params.id]}}).sort({'order': 1}).exec(function(err, todos) {
@@ -39,8 +55,7 @@ exports.getFrmmovild = function(req, res, next){
         }
         else
         {
-
-          if(req.params.id2=='frmcamposdetallexxx')
+        if(req.params.id2=='frmcamposdetallexxx')
     { //,"Check list detalle"
         Frmmovild.find({idempresa:req.params.id3,  "type" : {$in :  ["Formulario detalle"]}}).sort({'order': 1}).exec(function(err, todos) {
             if (err){  res.send(err);  }
@@ -110,7 +125,7 @@ exports.getFrmmovild = function(req, res, next){
                     if (err){  res.send(err);  }
                      res.json(todos);
                  });
-            }}}}}}}
+            }}}}}}}}
     }
     else
     {

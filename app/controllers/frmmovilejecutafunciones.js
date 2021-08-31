@@ -289,6 +289,93 @@ var ejecuta1=await  functool.ejecutasql(cad ,'mssql://sa:$ertobar@192.168.34.5/D
             
         })();
             break;
+            case 'getrequisicion': //REQUISICION
+
+            (async () => {
+              //trae todo el formulario
+
+                    // create Request object   idtickt  req.params.id2   todos req.params.id4
+                    var arrayxx= req.params.id5.split('°')
+                   
+
+
+                    
+                    var orden = await functool.dadatosformularioidfinal(arrayxx[2],
+                    {_id:req.params.id2},req.params.id3,arrayxx[2]); 
+                  
+                    var nopoliza='201744'  //Number(orden.sequenciag)
+
+                    var cad1a="select comentarioreq,moneda,preautorizadopor,autorizadopor,statusreq,noreq,ticketno,solicitadopor,nombrecliente,polizano,CONVERT(varchar,fechareq,103)  fechareq,descripcion1,Monto1,descripcion2,Monto2,descripcion3,Monto3,descripcion4,Monto4,descripcion5,Monto5,descripcion6,Monto6,descripcion7,Monto7,descripcion8,Monto8,descripcion9,Monto9,descripcion10,Monto10 ,montofact1 venta1,montofact2 venta2,montofact3 venta3,montofact4 venta4,montofact5 venta5,montofact6 venta6,montofact7 venta7,montofact8 venta8,montofact9 venta9,montofact10 venta10 from requisicion where ticketno='"+nopoliza+"' order by noreq"
+     
+
+
+
+
+                   var ejecuta1=await  functool.ejecutasql( cad1a,functool.daconectasql(arrayxx[2],null))
+                        
+                   
+         
+  
+                   if(ejecuta1.estado==='exito')
+                   {
+
+                     if(ejecuta1.datat.recordset.length>0)
+                     {
+
+                      var tablat=''
+                      for(var i = 0; i <ejecuta1.datat.recordset.length; i++) {
+                       tablat= tablat+ '<br>No requesicion: ' + ejecuta1.datat.recordset[i].noreq+'<br>Moneda: ' + ejecuta1.datat.recordset[i].moneda+'<br>Fecha: ' + ejecuta1.datat.recordset[i].fechareq+'<br>Comentario: ' + ejecuta1.datat.recordset[i].comentarioreq+'<br><table class="pure-table"><thead><tr><th>#</th><th>Descripción</th><th>Monto</th><th>Venta</th></tr></thead><tbody><tr><td>1</td><td>' + ejecuta1.datat.recordset[i].descripcion1+'</td><td>' + ejecuta1.datat.recordset[i].Monto1+'</td><td>' + ejecuta1.datat.recordset[i].venta1+'</td></tr></tr></thead><tbody><tr><td>2</td><td>' + ejecuta1.datat.recordset[i].descripcion2+'</td><td>' + ejecuta1.datat.recordset[i].Monto2+'</td><td>' + ejecuta1.datat.recordset[i].venta2+'</td></tr></tbody></table><br>'
+                      }
+                      resolve({estado:'exito',datat:tablat});                                                           
+                     }
+
+                    }
+                    else
+                    {
+                      resolve({estado:'exito',datat:'<br><strong>na</strong><br>'});  
+                    }
+
+        
+     
+                 
+                         
+                    
+/*
+                            
+           var cad4=  " SELECT *  FROM (select comentarioreq,noreq Requisicion,ticketno Ticket,polizano Poliza,descripcion1 Descripcion,Monto1 Costo,montofact1 Venta, moneda Moneda from requisicion where ticketno IN("+nopoliza+") "+"       union all       select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion2 Descripcion,Monto2 Costo,montofact2 Venta, moneda Moneda from requisicion where ticketno IN("+nopoliza+") "+"       union all       select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion3 Descripcion,Monto3 Costo,montofact3 Venta, moneda Moneda from requisicion where ticketno IN("+nopoliza+") "+"      union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion4 Descripcion,Monto4 Costo,montofact4 Venta, moneda Moneda from requisicion where ticketno IN("+nopoliza+") "+"      union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion5 Descripcion,Monto5 Costo,montofact5 Venta, moneda Moneda from requisicion where ticketno IN("+nopoliza+") "+"      union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion6 Descripcion,Monto6 Costo,montofact6 Venta, moneda Moneda from requisicion where ticketno IN("+nopoliza+") "+"       union all       select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion7 Descripcion,Monto7 Costo,montofact7 Venta, moneda Moneda from requisicion where ticketno IN("+nopoliza+") "+"       union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion8 Descripcion,Monto8 Costo,montofact8 Venta, moneda Moneda from requisicion where ticketno IN("+nopoliza+") "+"      union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion9 Descripcion,Monto9 Costo,montofact9 Venta, moneda Moneda from requisicion where ticketno IN("+nopoliza+") "+"       union all       select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion10 Descripcion,Monto10 Costo,montofact10 Venta, moneda Moneda from requisicion where ticketno='"+nopoliza+"'     ) a  WHERE a.VENTA>0 AND a.moneda='Q' "
+           cad4=cad4 +  " union all SELECT '','','','','TOTAL',SUM(COSTO),SUM(VENTA),''  FROM (select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion1 Descripcion,Monto1 Costo,montofact1 Venta, moneda Moneda from requisicion where ticketno IN("+nopoliza+") "+"       union all       select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion2 Descripcion,Monto2 Costo,montofact2 Venta, moneda Moneda from requisicion where ticketno IN("+nopoliza+") "+"       union all       select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion3 Descripcion,Monto3 Costo,montofact3 Venta, moneda Moneda from requisicion where ticketno IN("+nopoliza+") "+"      union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion4 Descripcion,Monto4 Costo,montofact4 Venta, moneda Moneda from requisicion where ticketno IN("+nopoliza+") "+"      union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion5 Descripcion,Monto5 Costo,montofact5 Venta, moneda Moneda from requisicion where ticketno IN("+nopoliza+") "+"      union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion6 Descripcion,Monto6 Costo,montofact6 Venta, moneda Moneda from requisicion where ticketno IN("+nopoliza+") "+"       union all       select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion7 Descripcion,Monto7 Costo,montofact7 Venta, moneda Moneda from requisicion where ticketno IN("+nopoliza+") "+"       union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion8 Descripcion,Monto8 Costo,montofact8 Venta, moneda Moneda from requisicion where ticketno IN("+nopoliza+") "+"      union all      select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion9 Descripcion,Monto9 Costo,montofact9 Venta, moneda Moneda from requisicion where ticketno IN("+nopoliza+") "+"       union all       select comentarioreq,noreq Requisición,ticketno Ticket,polizano Poliza,descripcion10 Descripcion,Monto10 Costo,montofact10 Venta, moneda Moneda from requisicion where ticketno='"+nopoliza+"'     ) a  WHERE a.VENTA>0 AND a.moneda='Q'  "
+
+           
+
+                        console.log(cad + '    ****************************************************************************************************')
+                        var ejecuta1=await  functool.ejecutasql(cad4 ,'mssql://sa:$ertobar@192.168.34.5/stbd')
+
+                        if(ejecuta1.estado==='exito')
+                        {
+
+                          if(ejecuta1.datat.recordset.length>0)
+                          {
+                            resolve({estado:'exito',datat: '<table>                          <caption>The Beatles</caption>                            <tr>                              <td>John Lennon</td>                              <td>Rhythm Guitar</td>                            </tr>                            <tr>                              <td>Paul McCartney</td>                              <td>Bass</td>                            </tr>                            <tr>                              <td>George Harrison</td>                              <td>Lead Guitar</td>                            </tr>                            <tr>                              <td>Ringo Starr</td>                              <td>Drums</td>                            </tr>                          </table>'});                                                           
+                         
+                         
+                         
+                          }
+         
+                     
+                      
+                        }
+              
+               */
+                    
+                //    resolve({estado:'exito',datat:'<br><strong>na</strong><br>'});  
+
+
+        
+    
+
+                
+            })();
+                break;
             case 'getdatospoliza': //REQUISICION
 
             (async () => {
@@ -368,12 +455,23 @@ var ejecuta1=await  functool.ejecutasql(cad ,'mssql://sa:$ertobar@192.168.34.5/D
                             if(ejecuta1.datat.length>0)
                             {
   //insertar en 
+  var ss1=''
+  if(ejecuta1.datat[0].selectivo!==null)
+  {ss1=ejecuta1.datat[0].selectivo
+
+  }
+
+  var ss2=''
+  if(ejecuta1.datat[0].r_selectivo!==null)
+  {ss2=ejecuta1.datat[0].r_selectivo
+
+  }
   console.log('INSERTA ************************** INSERTA INSERTA INSERTA INSERTA INSERTA INSERTA INSERTA INSERTA INSERTA INSERTA INSERTA INSERTA INSERTA INSERTA INSERTA INSERTA INSERTA INSERTA INSERTA INSERTA INSERTA INSERTA INSERTA INSERTA INSERTA INSERTA INSERTA INSERTA INSERTA INSERTA INSERTA INSERTA ')
   var cadii="INSERT INTO [dbo].[Declaraciones]([anyo],[agente_pat],[agente_pol],[clase_dec],[cod_regimen],[adu_ent_sale_cod_sat],[deposito_zona_franca_cod],[peso_bruto_total],[peso_neto_total],[nit_interesado],[nombre_interesado],[DIR1_INTERESADO],[total_fob_usd],[total_flete_usd],[total_seguro_usd],[total_otros_usd],[total_cif_usd],[selectivo],[r_selectivo],[total_bultos],[pagos_autoliquidado],[numero_dua],[equipo_numero],[adu_des_cod_sat],[FECHACREACION])VALUES " + "('" + ejecuta1.datat[0].anyo +"'," + "'" + ejecuta1.datat[0].agente_pat +"',"+ "" + ejecuta1.datat[0]. agente_pol + ","+ "'" + ejecuta1.datat[0].clase_dec+"',"
   + "'" + ejecuta1.datat[0].cod_regimen+"',"+ "'" + ejecuta1.datat[0].adu_ent_sale_cod_sat+"',"+ "'" + ejecuta1.datat[0].deposito_zona_franca_cod+"',"+ "" + ejecuta1.datat[0].peso_bruto_total+ ","
   + "" + ejecuta1.datat[0].peso_neto_total+ ","+ "'" + ejecuta1.datat[0].nit_interesado+"',"+ "'" + ejecuta1.datat[0].nombre_interesado+"',"+ "'" + ejecuta1.datat[0].DIR1_INTERESADO+"',"
   + "" + ejecuta1.datat[0].total_fob_usd+ ","+ "" + ejecuta1.datat[0].total_flete_usd+ ","+ "" + ejecuta1.datat[0].total_seguro_usd+ ","+ "" + ejecuta1.datat[0].total_otros_usd+ ","
-  + "" + ejecuta1.datat[0].total_cif_usd+ ","+ "'" + ejecuta1.datat[0].selectivo+"',"+ "'" + ejecuta1.datat[0].r_selectivo+"',"+ "" + ejecuta1.datat[0].total_bultos+ ","
+  + "" + ejecuta1.datat[0].total_cif_usd+ ","+ "'" + ss1+"',"+ "'" + ss2+"',"+ "" + ejecuta1.datat[0].total_bultos+ ","
   + "" + ejecuta1.datat[0].pagos_autoliquidado+ ","+ "'" + ejecuta1.datat[0].numero_dua+"',"+ "'" + ejecuta1.datat[0].equipo_numero+"',"+ "'" + ejecuta1.datat[0].adu_des_cod_sat+"',"+ "getdate())"
   var ejecuta2=await  functool.ejecutasql(cadii ,'mssql://sa:$ertobar@192.168.34.5/DUA-SQL')
               

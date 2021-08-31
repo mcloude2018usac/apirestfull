@@ -1148,8 +1148,41 @@ exports.creaAsignaubicaciona2s = function(req, res, next){
   //  res.status(404).send(' espere un momento ')    
    //  return;
 
-  
-
+   
+   if(req.body.operacion=='actualizaordenpago')
+   { 
+   
+       Asignaubicaciona.findById({ _id: req.params.recordID }, function (err, todo100)  {
+           if (err) {  res.send(err);  }
+           else
+           {
+              
+                
+                   todo100.noorden=req.body.orden,
+           
+                   
+                  
+        
+       
+                   todo100.save(function (err, todo200){
+                       if (err)     {  console.log(err.message)   }
+               
+                       res.json(todo200);
+                  
+                       
+                   });
+   
+             
+   
+   
+           }
+       });
+   
+   
+   
+   }
+   else
+   {
 if(req.body.operacion=='actualizadatos')
 { 
 
@@ -1551,5 +1584,5 @@ console.log(filtro)
 }
 });
 }}}
-}}
+}}}
 }

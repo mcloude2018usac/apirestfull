@@ -2,6 +2,7 @@
 var Frmmovil = require('../models/frmmovil');
 var Frmmovild = require('../models/frmmovild');
 var Bitacora = require('../models/bitacora');
+var Bitacoraxxx = require('../models/bitacoraxxx');
 var formulariotrayectoria = require('../models/asociadoventa/formulariotrayectoria');
 var Contador = require('../models/contador');
 var conecta1 = 'mssql://sa:$ertobar@192.168.34.5/stbd'
@@ -10,9 +11,13 @@ var conecta3 = 'mssql://sa:$ertobar@192.168.34.5/camposbd'
 var sql = require("mssql")
 var sql2 = require("mssql")
 var sql3 = require("mssql")
+var fs = require('fs');
+var util = require('util');
+
+var log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'a'});
 
 
-//const odbc = require('odbc');
+const odbc = require('odbc');
 
 const connectionConfig = {   connectionString: 'DSN=OTRO',    connectionTimeout: 10,    loginTimeout: 10,}
 
@@ -24,25 +29,118 @@ function  ejecutaaccess  (cad)
 {
 
     return new Promise(resolve => {
-        resolve({estado:'exito',datat:[]});
+const connection = odbc.connect(connectionConfig, (error, connection) => {
+  connection.query(cad, (error, result) => {
+      if (error) {  
+        log_file.write(util.format(cad) + '\r\n');  
+        resolve({estado:'exito',datat:[]}); 
+     
+    }
+      else
+      { resolve({estado:'exito',datat:result}); 
+
+      }
+
+      
+       
+
+
+  });
+});
 });
 }
 
-function dacodigocliente(tipo) {
-    var tt='';
-    switch(tipo) {
-        case '605a23446886480f70f6ec3f':  tt='codigos';   break;//importaciones
-        case '605a23696886480f70f6ec43':  tt='codigos';   break;//exportaciones
-        case '605a24e46886480f70f6ec47':  tt='codigos';   break;//transitos
-        case '605a252e6886480f70f6ec4b':  tt='codigos';   break;//df zf
-      
-        case '605a27336886480f70f6ec53':  tt='codigoc';   break;//carga internacional
+
+async function  sertobartime() {
+
+
+    var cad1="select noticket,fechacerrado,cerradopor,usuario,trasladoEP,idtr from ticketcerrado where trasladoEP=0"
+     var ejecuta1=await  ejecutasql( cad1,conecta1)
+
+     var ticketin=''
 
      
-        default:
-          // code block
-      }
-        return tt;
+    for(var i = 0; i < ejecuta1.datat.recordset.length;i++){
+        ticketin=ticketin + ejecuta1.datat.recordset[i].noticket + ','
+
+    }
+
+    if(ticketin!=='')
+    {
+
+        ticketin=ticketin.substring(0,ticketin.length-1)
+        var cad2="select serieface,nofactuface,NoDte,No_Factura,ticket from Factura_Encabezado where ticket in ("+  ticketin +")"
+    
+        var ejecuta2=await  ejecutasql( cad2,conecta1)
+
+        for(var i = 0; i < ejecuta2.datat.recordset.length;i++){
+        
+
+            var  updatet={
+                serie:ejecuta2.datat.recordset[i].serieface,
+                nofactura:ejecuta2.datat.recordset[i].nofactuface,
+                uuid:ejecuta2.datat.recordset[i].NoDte,
+                reffactfel:ejecuta2.datat.recordset[i].           No_Factura,
+                estadoordenxxx:'cerrada',
+                estadointerno:'Cerrado'
+                
+            }
+
+               var tt=''
+               tt=padLeadingZeros(ejecuta2.datat.recordset[i].ticket,7)
+
+               var tray= await buscatrayectoria(tt)
+
+               producto = await actualizaformularioidfinal(tray.idform,{ sequenciag:padLeadingZeros(ejecuta2.datat.recordset[i].ticket,7)},'5f503bededa4710798a79b84',tray.idform,updatet); 
+                var cad3='update ticketcerrado set trasladoEP=1 where noticket ='+ejecuta2.datat.recordset[i].ticket
+               var ejecuta3=await  ejecutasql( cad3,conecta1)
+
+
+        
+       
+
+
+        }
+
+
+
+    }
+   
+  //   var ejecuta1=await  functool.ejecutasql( cad2,conecta1)
+
+
+}
+
+        
+var     buscatrayectoria= function(idtt){
+    return new Promise(resolve => {    
+        
+        
+
+       
+     formulariotrayectoria.find({ sequenciag:idtt}).exec( function (err, todo2000)  {
+         if (err) {  res.send(err);  }
+
+
+         if(todo2000.length===0)
+         {
+             resolve({idform:''}); 
+         }
+         else
+{
+
+resolve({idform:todo2000[0].idform}); 
+
+
+    
+     }
+     });
+
+
+
+      
+
+    });
 }
 
 function ejecutasql  (cad,sqlconecta)
@@ -55,8 +153,8 @@ function ejecutasql  (cad,sqlconecta)
           
         
         if (err) { 
-            console.log('errorrrrr  ***************************************************************************************************************')
-            console.log(err)
+            log_file.write(util.format('ERRORRRR---' + cad) + '\r\n');
+            log_file.write(util.format(cad) + '\r\n');
             resolve({estado:'error',datat:{recordset:[]}})
         }
         else
@@ -64,13 +162,14 @@ function ejecutasql  (cad,sqlconecta)
         var request = new sql.Request();
          request.query(cad, function (err, recordset) {             
              if (err) {
-                console.log('errorrrrr  ******************************************************************************')
-                console.log(err)
+         
+                log_file.write(util.format('ERRORRRR---' + cad) + '\r\n');
                   resolve({estado:'error',datat:{recordset:[]}})
                 }
              else
              {
                 sql.close();
+                log_file.write(util.format('BUENO---' + cad) + '\r\n');
                 resolve({estado:'exito',datat:recordset})
              }
       
@@ -132,13 +231,32 @@ function daconectaorden(tipo) {
     var tt='';
     switch(tipo) {
         case '605a23446886480f70f6ec3f':  tt='861';   break;//importaciones
-        case '605a23696886480f70f6ec43':  tt='861';   break;//exportaciones
-        case '605a24e46886480f70f6ec47':  tt='861';   break;//transitos
-        case '605a252e6886480f70f6ec4b':  tt='861';   break;//df zf
-        case '605a27bf6886480f70f6ec57': tt='861';    break;//servicios
-        case '605a27336886480f70f6ec53':  tt='861';   break;//carga internacional
-        
- 
+        case '605a23696886480f70f6ec43':  tt='862';   break;//exportaciones
+        case '605a24e46886480f70f6ec47':  tt='2101';   break;//transitos
+        case '605a252e6886480f70f6ec4b':  tt='2161';   break;//df zf
+        case '605a27bf6886480f70f6ec57': tt='2141';    break;//servicios
+        case '605a27336886480f70f6ec53':  tt='2201';   break;//carga internacional
+        case '605a26e16886480f70f6ec4f':  tt='2122';   break;//faucas
+
+     
+        default:
+          // code block
+      }
+        return tt;
+}
+
+function dacodigocliente(tipo) {
+    var tt='';
+    switch(tipo) {
+        case '605a23446886480f70f6ec3f':  tt='codigos';   break;//importaciones
+        case '605a23696886480f70f6ec43':  tt='codigos';   break;//exportaciones
+        case '605a24e46886480f70f6ec47':  tt='codigos';   break;//transitos
+        case '605a252e6886480f70f6ec4b':  tt='codigos';   break;//df zf
+      
+        case '605a27336886480f70f6ec53':  tt='codigoc';   break;//carga internacional
+        case '605a26e16886480f70f6ec4f':  tt='codigos';   break;//faucas
+
+     
         default:
           // code block
       }
@@ -151,13 +269,14 @@ function daconectasql(tipo,estructura) {
         case '605a23696886480f70f6ec43':  tt=conecta1;   break;//exportaciones
         case '605a24e46886480f70f6ec47':  tt=conecta1;   break;//transitos
         case '605a252e6886480f70f6ec4b':  tt=conecta1;   break;//df zf
-        case '605a27bf6886480f70f6ec57': 
+        case '605a27bf6886480f70f6ec57':  tt=conecta1;   break;//servicios
         //ver segun estructura     empresa   'Sertobar' (stbd)   'Cielomar'   'Agencias Campos' (camposbd)
         tt=conecta1;  
         
         break;//servicios
 
         case '605a27336886480f70f6ec53':  tt=conecta2;   break;//carga internacional
+        case '605a26e16886480f70f6ec4f':  tt=conecta1;   break;//faucas
         
  
         default:
@@ -225,6 +344,8 @@ function datipo(value) {
           }
             return tt;
           }
+
+
 
           function graficatiposubtipocantidad(todos2,op) {
                
@@ -359,6 +480,48 @@ function datipo(value) {
         }
         
         }
+
+  
+        function validawarning(todos) {
+            var re={estado:'nada',llave:'',llave2:''}
+            var siusallave=0
+            var siusallave2=0
+            var llave1=''
+            var llave2=''
+        
+            for(var i = 0; i < todos.length;i++){
+                if( todos[i].usarunaves===undefined){todos[i].usarunaves='false'}
+                if( todos[i].usarunaves2===undefined){todos[i].usarunaves2='false'}
+                      if((todos[i].usarunaves==='true' )  )
+                {
+                    siusallave=1
+                    llave1=llave1+ todos[i].title + '('+ todos[i].valor +')' + ', '
+                }
+                if(todos[i].usarunaves2==='true')
+                {siusallave2=1
+                    llave2=llave2+ todos[i].title + '('+ todos[i].valor +')' + ', '}
+                }
+        
+            if(siusallave===1)
+            {
+                return {estado:'false',llave:llave1,llave2:''}
+            }
+            else
+            {
+                if(siusallave2===1)
+                {
+                    return {estado:'true',llave:'',llave2:llave2}
+                }
+                else
+                { return {estado:'nada',llave:'',llave2:''}}
+            }
+        
+           
+        
+            
+        
+        }
+                  
         function removeDups(names) {
             let unique = {};
             names.forEach(function(i) {
@@ -368,7 +531,6 @@ function datipo(value) {
             });
             return Object.keys(unique);
           }
-
      var     actualizatrayectoria= function(idtt,idorden,fechatt,usuarioejecutor){
         return new Promise(resolve => {    
             
@@ -1045,273 +1207,6 @@ function datipo(value) {
     var jsonObject = JSON.parse(JSONString);
     return jsonObject;
 }
-/*
-function dafiltrocad(todos,id2,id3,norequerido) {
-    var cad=''
-    var cadxx=''
-    var norequerido2=norequerido;
-    if(norequerido2===undefined)
-    {
-        norequerido2=''
-    }
-
-
-    for(var i = 0; i < todos.length;i++){
-                                      
-     
-        switch(todos[i].type) {
-            case 'Rango':  
-            if(todos[i].name==id2){cadxx='"' +id2 + '":' +id3 + ''  }
-            if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
-            {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-            }
-            else
-            {
-                cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-            }
-            break;
-             case 'Fecha': //ISODate("2018-08-08T15:00:56.875Z"),
-             if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-             else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-             if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
-             {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-             }
-             else
-             {
-                
-                 cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-             }
-              break;
-              case 'Hora': //ISODate("2018-08-08T15:00:56.875Z"),
-              if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-              else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-              if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
-              {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-              }
-              else
-              {
-                 
-                  cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-              }
-               break;
-              case 'Fecha y Hora': //ISODate("2018-08-08T15:00:56.875Z"),
-              if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-              else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-              if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
-              {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-              }
-              else
-              {
-                 
-                  cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-              }
-               break;
-              case 'Check': 
-              if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-              else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-              if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
-              {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-              }
-              else
-              {
-                 
-                  cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-              }
-               break;
-               case 'Imagen': 
-               if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-               else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-               if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
-               {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-               }
-               else
-               {
-                  
-                   cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-               }
-                break;
-                case 'Documento': 
-                if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-                else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-                if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
-                {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-                }
-                else
-                {
-                   
-                    cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-                }
-                 break;
-         case 'Alfanumerico': 
-         if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-         else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-         if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
-         {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-         }
-         else
-         {
-            
-             cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-         }
-          break;
-          case 'Componente': 
-          if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-          else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-          if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
-          {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-          }
-          else
-          {
-             
-              cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-          }
-           break;
-
-           case 'Firma Electronica': 
-           if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-           else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-           if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
-           {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-           }
-           else
-           {
-              
-               cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-           }
-            break;
-            case 'Codigo Qr': 
-            if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-            else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-            if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
-            {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-            }
-            else
-            {
-               
-                cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-            }
-             break;
-             case 'Firma Digital': 
-             if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-             else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-             if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
-             {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-             }
-             else
-             {
-                
-                 cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-             }
-              break;
-              case 'Geoposicionamiento automatico': 
-              if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-              else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-              if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
-              {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-              }
-              else
-              {
-                 
-                  cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-              }
-               break;
-           case 'Visualizar query': 
-           if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-           else{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-           if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
-           {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-           }
-           else
-           {
-              
-               cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-           }
-            break;
-
-        case 'Numerico':  
-        if(todos[i].name==id2){cadxx='"' +id2 + '":' +id3 + ''  }
-        if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
-        {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-        }
-        else
-        {
-            cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-        }
-        break;
-        case 'Moneda':  
-        if(todos[i].name==id2){cadxx='"' +id2 + '":' +id3 + ''  }
-        if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
-        {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-        }
-        else
-        {
-            cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-        }
-        break;
-        case 'TextArea':  
-        if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
-        else{cadxx='"' +id2 + '": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-//        if(todos[i].name==id2){cadxx='"' +id2 + '":"' +id3 + '"'  }
-   
-        if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
-        {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
-        }
-        else
-        {
-            cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
-        }
-          break;
-        case 'Etiqueta':   
-         break;
-        case 'Lista de valores': 
-        if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '.label":"' +id3 + '"' }
-         else{cadxx='"' +id2 + '.label": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-        if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
-             {cad=cad+'"'+todos[i].name+'":{"type" : "String"},';
-                 //cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String"},   "label"	: { "type" : "String" }},';
-             }
-             else
-             {cad=cad+'"'+todos[i].name+'":{"type" : "String", "required" : "true"},';
-                //     cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
-             }
-
-          break;
-          case 'Check List': 
-          if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '.label":"' +id3 + '"' }
-           else{cadxx='"' +id2 + '.label": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-          if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
-               {cad=cad+'"'+todos[i].name+'":{"type" : "String"},';
-                   //cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String"},   "label"	: { "type" : "String" }},';
-               }
-               else
-               {cad=cad+'"'+todos[i].name+'":{"type" : "String", "required" : "true"},';
-                  //     cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
-               }
-  
-            break;
-            case 'Check List Detalle': 
-            if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '.label":"' +id3 + '"' }
-             else{cadxx='"' +id2 + '.label": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-            if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
-                 {cad=cad+'"'+todos[i].name+'":{"type" : "String"},';
-                     //cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String"},   "label"	: { "type" : "String" }},';
-                 }
-                 else
-                 {cad=cad+'"'+todos[i].name+'":{"type" : "String", "required" : "true"},';
-                    //     cad=cad+'"'+todos[i].name+'":{"key"	: { "type" : "String", "required" : "true" },   "label"	: { "type" : "String", "required" : "true" }},';
-                 }
-    
-              break;
-         default:
-           // code block
-       }
-
-     
-     }
-     return cad +'°'+cadxx
-}
-*/
-
 function dafiltrocad(todos,id2,id3,norequerido) {
     var cad=''
     var cadxx=''
@@ -1578,6 +1473,7 @@ function dafiltrocad(todos,id2,id3,norequerido) {
      }
      return cad +'°'+cadxx + '°' + cadxxx
 }
+
 var getImagesruta= function(op){
     if((op).indexOf('/')>=0)
     {
@@ -1998,9 +1894,7 @@ if(todos2[i].geoposicionxxx)
                     comt2='<br> Comentario anulado: ' + todos2[i].comentarioanulado
                 }
                 var cadenabusqueda=todos2[i].actorxxx + ' ' + todos2[i].sequenciag+ ' ' + todos2[i].sequencia+ ' ' + todos2[i].actividadxxx+ ' ' + todos2[i].enviadoporxxx
-
                 if(cadenabusqueda.indexOf('undefined')>=0){cadenabusqueda=''}
-                  
                 if(todos2[i].estadointerno ==='activo')
                 {
                     datafinal.push({item:todos2[i],_id:todos2[i]._id,          nombre2:cad+ '<div style="font-size: 10px;text-transform: capitalize;">Crea: [' +
@@ -2022,6 +1916,7 @@ if(todos2[i].geoposicionxxx)
                      dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) +  '] <br> </div><div style="font-size: 14px;text-transform: capitalize;color:red;">Estado interno: '+ todos2[i].estadointerno + comt + comt2 +'</div>'
                      ,item:todos2[i],usuario:''}) 
                 }
+
 /*
                 if(todos2[i].estadointerno ==='activo')
                 {
@@ -2050,20 +1945,19 @@ if(todos2[i].geoposicionxxx)
        return datafinal;
     }
 
-    function darectiact(tipo,estructura) {
-        var tt='';
-        switch(tipo) {
-            case '605a23446886480f70f6ec3f':  tt='605cbe7e6f80160028dfd494';   break;//importaciones
-            case '605a23696886480f70f6ec43':  tt='6081e6af5fd01a21f8ae4660';   break;//exportaciones
-            case '605a24e46886480f70f6ec47':  tt='608206687a06732760df62db';   break;//transitos
-            case '605a252e6886480f70f6ec4b':  tt='6082068c7a06732760df63a6';   break;//df zf
-          
-            default:
-              // code block
-          }
-            return tt;
-    }
     
+var sortByProperty= function(property){  
+    return function(a,b){  
+       if(a[property] > b[property])  
+          return 1;  
+       else if(a[property] < b[property])  
+          return -1;  
+   
+       return 0;  
+    }  
+ }
+
+
     var procesaexcelrecord = function(objetox,todos2,sicampovalida)
     {
         var keys = Object.keys(objetox);
@@ -2408,6 +2302,7 @@ data[aa].replace('¬', ',') + '" target="_blank">https://www.google.com/maps/sea
            }
        return datafinal;
     }
+
     var procesatablauirecordfila = function(objetox,todos2,sicampovalida)
     {
         var keys = Object.keys(objetox);
@@ -2734,27 +2629,6 @@ function actualizaformularioidfinal  (namess,filtro,idempresa,namess2,est)
 
 }
 
-function dacualquiertabla(namess,filtro,idempresa)
-{
-    return new Promise(resolve => { 
-
-        switch(namess) {
-            case 'frmactorgrupo':
-
-                frmactorgrupo.find(filtro,function(err, todos2) {
-                    if (err){ res.send(err); }
-                    resolve(todos2); 
-
-                    });
-
-                break;
-        }
-
-
-    });
-
-}
-
 function dadatosformulario(namess,filtro,idempresa)
 {
     return new Promise(resolve => { 
@@ -2961,7 +2835,7 @@ var creafrmregistro= function(req, res, next,namess,idform,estructura,responde,d
                                 var validarcampos =[];
                                 var filtrovalida=''
                                for(var i = 0; i <todos.length; i++) {
-                                   if(todos[i].usarunaves==='true' || todos[i].usarunaves2==='true')
+                                   if(todos[i].usarunaves==='true'  || todos[i].usarunaves2==='true' )
                                    {
                                    if(i===0)
                                    {
@@ -3281,7 +3155,7 @@ function dafiltrocadvalidaconbosy(todos,id2,id3,req) {
     for(var i = 0; i < todos.length;i++){
         if(aplicacampo(req.nocambio,todos[i].name)===0)
         {
-              if(todos[i].usarunaves==='true' || todos[i].usarunaves2==='true')
+              if(todos[i].usarunaves==='true'  || todos[i].usarunaves2==='true' )
         {
             
             
@@ -3313,48 +3187,6 @@ function dafiltrocadvalidaconbosy(todos,id2,id3,req) {
      }
      return cad 
 }
-
-  
-function validawarning(todos) {
-    var re={estado:'nada',llave:'',llave2:''}
-    var siusallave=0
-    var siusallave2=0
-    var llave1=''
-    var llave2=''
-
-    for(var i = 0; i < todos.length;i++){
-        if( todos[i].usarunaves===undefined){todos[i].usarunaves='false'}
-        if( todos[i].usarunaves2===undefined){todos[i].usarunaves2='false'}
-              if((todos[i].usarunaves==='true' )  )
-        {
-            siusallave=1
-            llave1=llave1+ todos[i].title + '('+ todos[i].valor +')' + ', '
-        }
-        if(todos[i].usarunaves2==='true')
-        {siusallave2=1
-            llave2=llave2+ todos[i].title + '('+ todos[i].valor +')' + ', '}
-        }
-
-    if(siusallave===1)
-    {
-        return {estado:'false',llave:llave1,llave2:''}
-    }
-    else
-    {
-        if(siusallave2===1)
-        {
-            return {estado:'true',llave:'',llave2:llave2}
-        }
-        else
-        { return {estado:'nada',llave:'',llave2:''}}
-    }
-
-   
-
-    
-
-}
-      
 function dafiltrocadvalida(todos,id2,id3,req) {
     var cad=''
     registrorep=''
@@ -3362,13 +3194,11 @@ function dafiltrocadvalida(todos,id2,id3,req) {
     for(var i = 0; i < todos.length;i++){
         if(aplicacampo(req.body.nocambio,todos[i].name)===0)
         {
-              if(todos[i].usarunaves==='true'  || todos[i].usarunaves2==='true')
+              if(todos[i].usarunaves==='true'  || todos[i].usarunaves2==='true' )
         {
             
             
             registrorep=registrorep + todos[i].name + '  '
-            var valort=req.body.estructura[todos[i].name]
-            valort=replaceAll(valort,'"',"'")
         switch(todos[i].type) {
            
         
@@ -3869,75 +3699,7 @@ function dadatosformulariosort(namess,filtro,idempresa,namess2,ss)
 
 }
 
-function dadatosformularioproceso(namess,filtro,idempresa,namess2)
-{
-    return new Promise(resolve => { 
-
-        Frmmovild.find({idmovil:namess, display : "true",idempresa:idempresa}).sort([['order', 1]]).exec(function(err, todos) {
-            if (err){ res.send(err); }
-          
-     //   console.log(todos)
-                                if(todos.length>0)   {  
-                               
-                                    var cad=''
-                                    var cadxx=''
-                                    var cad3=(dafiltrocad(todos,'','','')).split('°')
-                                  
-                              
-                                 
-                                    cad=cad3[0]
-                                    cadxx='{'+ cad3[1] + '}'
-                                    cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"},"geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"asignadoxxx":{"type":"String"},"grupoasignado":{ "type" :"Array"},"estadoordenxxx":{"type":"String"},  "secuenciagants": { "type" :"Array"},"idanst": { "type" :"Array"},  "pmodulo": { "type" :"Array"}'
-
-                                    
-                                    cad='{' + cad + '}'
-                                    cadxx='{' + cadxx + '}'
-
-                               //  console.log(cad)
-                                    var jsonObject = stringToObject(cad);
-                                  
-                                    var mongoose = require("mongoose");
-                                    var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
-                                    delete mongoose.connection.models[namess2];
-                                    var  frmtt= mongoose.model(namess2,tt);
-
-
-                                    frmtt.find(filtro).exec(function(err, todos2) {
-                                        if (err){  res.send(err); }
-
-                                        resolve(todos2); 
-                                       // res.json(todos2);
-
-                                    });
-                                }
-
-
-    });
-        
-                                    
-                                   
-                             
-                
-        
-    
-
-                                });
-
-}
-
-    
-var sortByProperty= function(property){  
-    return function(a,b){  
-       if(a[property] > b[property])  
-          return 1;  
-       else if(a[property] < b[property])  
-          return -1;  
-   
-       return 0;  
-    }  
- }
-
- function dafiltrocadsolouno(todos,id2,id3,norequerido) {
+function dafiltrocadsolouno(todos,id2,id3,norequerido) {
     var cad=''
     var cadxx=''
     var cadxxx=''
@@ -4211,6 +3973,93 @@ var sortByProperty= function(property){
 
 
 
+function dadatosformularioproceso(namess,filtro,idempresa,namess2)
+{
+    return new Promise(resolve => { 
+
+        Frmmovild.find({idmovil:namess, display : "true",idempresa:idempresa}).sort([['order', 1]]).exec(function(err, todos) {
+            if (err){ res.send(err); }
+          
+     //   console.log(todos)
+                                if(todos.length>0)   {  
+                               
+                                    var cad=''
+                                    var cadxx=''
+                                    var cad3=(dafiltrocad(todos,'','','')).split('°')
+                                  
+                              
+                                 
+                                    cad=cad3[0]
+                                    cadxx='{'+ cad3[1] + '}'
+                                    cad=cad + '"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"},"geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"asignadoxxx":{"type":"String"},"grupoasignado":{ "type" :"Array"},"estadoordenxxx":{"type":"String"},  "secuenciagants": { "type" :"Array"},"idanst": { "type" :"Array"},  "pmodulo": { "type" :"Array"}'
+
+                                    
+                                    cad='{' + cad + '}'
+                                    cadxx='{' + cadxx + '}'
+
+                               //  console.log(cad)
+                                    var jsonObject = stringToObject(cad);
+                                  
+                                    var mongoose = require("mongoose");
+                                    var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                                    delete mongoose.connection.models[namess2];
+                                    var  frmtt= mongoose.model(namess2,tt);
+
+
+                                    frmtt.find(filtro).exec(function(err, todos2) {
+                                        if (err){  res.send(err); }
+
+                                        resolve(todos2); 
+                                       // res.json(todos2);
+
+                                    });
+                                }
+
+
+    });
+        
+                                    
+                                   
+                             
+                
+        
+    
+
+                                });
+
+}
+
+
+function dacualquiertabla(namess,filtro,idempresa)
+{
+    return new Promise(resolve => { 
+
+        switch(namess) {
+            case 'frmactorgrupo':
+
+                frmactorgrupo.find(filtro,function(err, todos2) {
+                    if (err){ res.send(err); }
+                    resolve(todos2); 
+
+                    });
+
+                break;
+                case 'bitacoraxxx':
+
+                    Bitacoraxxx.find(filtro,function(err, todos2) {
+                        if (err){ res.send(err); }
+                        resolve(todos2); 
+    
+                        });
+    
+                    break;
+        }
+
+
+    });
+
+}
+
 function dadatosformulariogruposuma0(namess,filtro,idempresa,namess2,filtrogrupo,filtrosuma)
 {
     return new Promise(resolve => { 
@@ -4280,7 +4129,7 @@ module.exports = {
     dafechacompleta:dafechacompleta,
     dafecha:dafecha,
     ejecutasql:ejecutasql,
-    dacodigocliente:dacodigocliente,
+
     padLeadingZeros:padLeadingZeros,
     formatNumber:formatNumber,
     numberWithCommas:numberWithCommas,
@@ -4292,7 +4141,6 @@ module.exports = {
     dafiltrocad:dafiltrocad,
     datipo2:datipo2,
     datipo:datipo,
-    dacualquiertabla:dacualquiertabla,
     dadatosformulariogruposuma:dadatosformulariogruposuma,
     dadatosformulariogruposuma0:dadatosformulariogruposuma0,
     dadatosformulariogrupo:dadatosformulariogrupo,
@@ -4303,42 +4151,43 @@ module.exports = {
     dadatosformulariofinal:dadatosformulariofinal,
     dafechapago1:dafechapago1,
     dafechapago2:dafechapago2,
-    daconectaorden:daconectaorden,
     onlyUnique:onlyUnique,
+daconectaorden:daconectaorden,
     dahora:dahora,
     dafechastring:dafechastring,
     dafechatodate:dafechatodate,
     daimagen:daimagen,
-    graficatiposubtipocantidad:graficatiposubtipocantidad,
-    removeDups:removeDups,
     getKeyssrthtml:getKeyssrthtml,
     procesahtmlrecord:procesahtmlrecord,
     procesahtmlrecordproceso:procesahtmlrecordproceso,
     procesatablauirecord:procesatablauirecord,
-    procesatablauirecordfila:procesatablauirecordfila,
+    sortByProperty:sortByProperty,
     procesaexcelrecord:procesaexcelrecord,
     procesacsvrecord:procesacsvrecord,
     dafiltrocadvalida:dafiltrocadvalida,
     creafrmregistroproceso:creafrmregistroproceso,
     replaceAll:replaceAll,
+    graficatiposubtipocantidad:graficatiposubtipocantidad,
+    removeDups:removeDups,
+    dacodigocliente:dacodigocliente,
     ejecutaaccess:ejecutaaccess,
-    actualizatrayectoria:actualizatrayectoria,
     dafiltrocadsolouno:dafiltrocadsolouno,
+    actualizatrayectoria:actualizatrayectoria,
     sequenceGenerator:sequenceGenerator,
     daactividadsegunfrm:daactividadsegunfrm,
+    procesatablauirecordfila:procesatablauirecordfila,
     daidformreg:daidformreg,
-    validawarning:validawarning,
+    dacualquiertabla:dacualquiertabla,
     stringToObject:stringToObject,
     aplicacampo:aplicacampo,
-    darectiact:darectiact,
     daconectasql:daconectasql,
     davalorvv:davalorvv,
+    validawarning:validawarning,
     creatrayectoriatoid:creatrayectoriatoid,
     dadatosformulariosort:dadatosformulariosort,
     dadatosformularioidfinal: dadatosformularioidfinal,
     dadatosformulariocombo:dadatosformulariocombo,
     eliminaformulario:eliminaformulario,
-    dadatosformularioproceso:dadatosformularioproceso,
-    sortByProperty:sortByProperty
+    dadatosformularioproceso:dadatosformularioproceso
    
       }

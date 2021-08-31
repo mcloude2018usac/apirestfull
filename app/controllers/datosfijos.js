@@ -62,7 +62,6 @@ var Asignaestpap= require('../models/asignaestudiantepap');
 var Personal = require('../models/user');
 var functool = require('../controllers/funcionesnode');
 var kardex = require('../models/asociadoventa/kardexcorreos');
-var kardextemp = require('../models/asociadoventa/kardexpp');
 
 var request = require('request');
 
@@ -435,7 +434,6 @@ var defaultDiacriticsRemovalMap = [
         var precioproducto=0
         var cantidadingreso=0
         var idproducto=data.rd.articulo.split('¬')[1]
-        var descripcionaa=''
 var cantidadv1=0
 
 
@@ -482,13 +480,8 @@ ingreso=cantidadingreso
 saldoactual=existenciaactual+ingreso
 precioingreso=Number(data.rd.preciounitario)
 
-if(Number(producto.precioporunidad)===0)
-{preciomedio=precioingreso
-}
-else
-{
-        preciomedio=(precioingreso+Number(producto.precioporunidad))/2
-}
+preciomedio=(precioingreso+Number(producto.precioporunidad))/2
+
         }
         else
         {//egresos
@@ -661,270 +654,6 @@ var cantidadv1=0
         });
     }
       
-    
-    function getponekardexinifinal(data){
-        return new Promise(resolve => {
-        //datat.push({rm:r1[ii],rd:r1d[i],fecha:fecha,tipo:'r1'})
-      (async () => {
-
-        var idempresa='5f503bededa4710798a79b84'
-        var ingreso=0
-        var salida=0
-        var saldoactual=0
-        var total=0
-        var existenciaactual=0
-        var precioproducto=0
-        var cantidadingreso=0
-        var idproducto=data.codigo
-        var precioprod=0
-var cantidadv1=0
-var descripcionaaa=''
-var obstt=''
-
-        producto2 = await functool.dadatosformulariofinal('5fc01bbba8d0a14888774579',{ codigoarticulo:idproducto},idempresa,'5fc01bbba8d0a14888774579'); 
-        var producto=producto2[0]
-        if(!producto)
-        {
-//descripcionaaa= producto.descripciondelarticulo
-console.log(data.codigo + ' '+data.descripcion)
-resolve({estado:'exito'});
-        }
-        else
-        {
-       
-
-        if(producto.descripciondelarticulo!=='sinarticulo')
-        {
-                descripcionaaa= producto.descripciondelarticulo
-        }
-        else
-        {
-                descripcionaaa=data.descripcion
-        }
-
-        if(producto===null)
-        {
-                console.log('sinnnnnnnnnnnnnnnnn  producto**********************************');
-                resolve({estado:'exito'});
-         }
-        else
-        {
-        if(descripcionaaa==='VIENEN DE LA' || descripcionaaa==='ULTIMA LINEA')
-        { resolve({estado:'exito'});  }
-        else
-        {
-
-    
-
-
-
-        if(data.forma==='1-H')
-        {//ingresos
-cantidadv1=data.cantidad
-proveedorv=data.prov
-nodocv=data.no
-tipov='Entrada'
-accionv='Ingreso formulario 1-H'
-
-    
-if(producto.existenciaactual)
-{existenciaactual=Number(producto.existenciaactual)}
-else{existenciaactual=0}
-
-
-
-if(cantidadv1)
-{
-    cantidadingreso=Number(cantidadv1)
-}
-else
-{
-    cantidadingreso=0;
-}
-
-ingreso=cantidadingreso
-saldoactual=existenciaactual+ingreso
-precioingreso=Number(data.precio)//Number(data.precio)  *******************************
-
-if(Number(producto.precioporunidad)===0)
-{preciomedio=precioingreso
-}
-else
-{
-        preciomedio=(precioingreso+Number(producto.precioporunidad))/2
-}
-        }
-        else
-        {//egresos
-
-                if(data.forma==='REQUI')
-                {
-                proveedorv=data.prov
-                nodocv=data.no
-                tipov='Salida'
-                accionv='Salida requisición'
-
-                    
-        if(producto.existenciaactual)
-        {existenciaactual=Number(producto.existenciaactual)}
-        else{existenciaactual=0}
-
-        cantidadv1=data.cantidad
-
-
-        if(cantidadv1<0)
-        {
-                cantidadv1=cantidadv1*-1
-        }
-        if(cantidadv1)
-        {
-            cantidadingreso=Number(cantidadv1)
-        }
-        else
-        {
-            cantidadingreso=0;
-        }
-
-
-                
-                salida=cantidadingreso
-                saldoactual=existenciaactual-salida
-                if(saldoactual===0)
-                {
-                        precioingreso=0
-                        preciomedio=0
-                       
-                }
-                else
-                {
-                        precioingreso=Number(producto.precioporunidad)
-                        preciomedio=Number(producto.precioporunidad)
-                }
-                
-                
-}
-else
-{
-        if(data.forma==='INV INICIAL')
-        {
-
-                cantidadv1=data.cantidad
-                proveedorv=''
-                nodocv=data.codigo
-                tipov='Entrada'
-                accionv='Inventario inicial'
-                
-                    
-                if(producto.existenciaactual)
-                {existenciaactual=Number(producto.existenciaactual)}
-                else{existenciaactual=0}
-                
-                
-                
-                if(cantidadv1)
-                {
-                    cantidadingreso=Number(cantidadv1)
-                }
-                else
-                {
-                    cantidadingreso=0;
-                }
-                
-                ingreso=cantidadingreso
-                saldoactual=existenciaactual+ingreso
-            //    precioingreso=Number(data.precio)
-                precioingreso=Number(data.precio)//Number(data.precio)  *******************************
-
-                
-                preciomedio=precioingreso
-                obstt='Acta administrativa No: ' + data.prov + ' inventario inicial'
-
-               
-
-}
-else
-{
-
-        console.log('sin tipo')
-}
-
-}
-        }
-       
-        
-        total=saldoactual*Number(preciomedio)
-        precioproducto=Number(preciomedio)
-     
-    
-      var gkardex={
-        idempresa		: idempresa,  
-        fecha		: data.fecha,  
-        tipo		: tipov,  
-        accion		: accionv,  
-        
-    nodockardex		: '',  
-    nodockardexlinea		: '',  
-    tarjetasanuladas: '',
-    estadoprint:'No impreso',
-    anulacion:'',
-        proveedor		: proveedorv,  
-        nodoc		: nodocv,  
-        iddocumento		: data.no,  
-        categoria		:producto.categoria,
-        producto		: producto.codigoarticulo,  
-        unidad: producto.unidaddemedida,
-        idproducto:producto._id,
-        producton		: descripcionaaa,
-        saldoanterior		: existenciaactual,
-        ingreso		: ingreso,
-        obs:obstt,
-        egreso		: salida,
-        saldoactual		: saldoactual,
-        precioanterior:Number(producto.precioporunidad),
-        precio		: Number(preciomedio),
-        total		: total,
-      }
-
-
-        var estructura={
-    "precioporunidad" : preciomedio,
-    "existenciaactual" : Number(saldoactual),
-    "total" :( saldoactual*Number(preciomedio)).toString()
-  
-}
-console.log(estructura);
-
-  producto = await functool.actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:producto._id},idempresa,'5fc01bbba8d0a14888774579',estructura);
-
-  kardex.create(gkardex,function(err, todos) {
-        if (err){ console.log(err)  }
-
-    console.log(todos._id)
-        resolve({estado:'exito'});
-      });
-
-      
- 
-  
-
-
-
-
-    
-
-      
-
-
-      
-
-      }}}
-})();
-
-        });
-    }
-
-
-
       function getNextSequenceValue2auser(id1,cuentaaa,res){
 
 
@@ -1169,23 +898,6 @@ exports.getCombofijo = async function(req, res, next){
        
 
        switch(req.params.id) {
-        case 'dakardexinvinicialexcel':
-                kardextemp.find({ }).exec(function(err, todos) {
-                        if (err){ res.send(err); }
-                        (async () => {
-                        for(var i = 0; i < todos.length;i++){
-console.log(i)
-                               aaa= await  getponekardexinifinal(todos[i])
-                        }
-                })();
-                      
-                        res.json({ todos});
-
-
-
-                });
-
-                break;
         case 'dakardexinvinicial':
 
                 var h1= await functool.dadatosformulario('5fc01bbba8d0a14888774579',{},'5f503bededa4710798a79b84')
@@ -1445,115 +1157,6 @@ console.log( datat.length)
         case 'correpueba':
                 mailt.mandacorreoprueba2(['eveready11p@gmail.com','ambrosioaleman07@gmail.com','mario.morales@mcloude.com'],'Solicitando salon para Unidad academica:', 'Solicitud de nuevo salon',['mario.morales@mcloude.com'])
 break;
-
-case 'ponegrupos':
-                
-        var idempresa='5f503bededa4710798a79b84'
-        var idforma1='6086febae75c6616505520c9'
-        var idforma2='6086febae75c6616505520c9'
-
-        var h1= await functool.dadatosformulario(idforma1,{grupoasignado:null},idempresa)
-
-        var todos2= await functool.dacualquiertabla('frmactorgrupo',{},idempresa)
-        
-
-        var  datat =[]
-        for(var i = 0; i < h1.length;i++){
-                               
-                                datat.push({idactor:h1[i].idactorxxx,_id:h1[i]._id,grupos:[],asignado:h1[i].asignadoxxx})
-
-        }
-
-
-                for(var ii = 0; ii < datat.length;ii++){
-
-                        var encuentra=[]
-                        var asignado=  datat[ii].asignado
-
-                        var masde1grupo=[]
-
-                                  for(var i = 0; i < todos2.length;i++){
-                        
-
-                                        if(todos2[i].idpapa === datat[ii].idactor)
-                                        {
-
-
-                                                masde1grupo.push({_id:String(todos2[i]._id),nombre:todos2[i].nombre})
-                                                encuentra.push([String(todos2[i]._id)])
-
-                                          
-
-                                        }           
-
-
-                                   }
-
-
-                                   if(encuentra === [])
-                                   {
-                                               
-console.log('encuentraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
-                                   }
-                                   else
-                                   {
-                                           if(encuentra.length>1)
-                                           {
-                                                var siasignado=''
-                                                for(var j = 0; j < masde1grupo.length;j++){
-                                                        if(asignado===masde1grupo[j].nombre)
-                                                        {
-                                                                siasignado=masde1grupo[j]._id
-                                                                encuentra=[]
-                                                                encuentra.push([String(masde1grupo[j]._id)])
-                                                                break;
-                                                        }
-
-                                                }
-
-                                                datat[ii].grupos=encuentra
-
-
-                                           }
-                                           else
-                                           {
-                                                datat[ii].grupos=encuentra
-                                           }
-
-                                           
-                                   }
-
-
-               
-                }
-
-
-//actualiza
-                for(var ii = 0; ii < datat.length;ii++)
-                {
-
-                     var   aaa=  await componegrupo(datat[ii]._id,datat[ii].grupos,idempresa,idforma1,idforma2,String(datat[ii]._id))
-                     console.log(String(datat[ii]._id))
-
-                }
-
-                res.json({ datat});
-
-
-
-       
-
-
-
-        
-
-
-
-      
-
-break;
-
-
      
         case 'creaempresa':
                 //http://127.0.0.1:9090/api/datosfijos/creaempresa
@@ -1776,74 +1379,7 @@ break;
     });
 
                 break;
-                case 'participacursos200':
-                        //http://127.0.0.1:9090/api/datosfijos/participacursos/mpalaciosgonzalez986@gmail.com
-                        var myData = [];
-                        var teve='';
-                        var teveid='';
-                        var tipoevento='';
-                        var tfecha='';
-                        var thora='';
-                        var arrr=req.params.id2.split('°')
-           
-                        Evento.find({_id:arrr[2]
-                                }).select({_id:1,nombre:1,fecha:1,costo:1,tipoevento:1,idempresa:1,unidad:1,plantilla:1}).sort({_id:-1}).lean().exec(function(err, todos0aaa) {
-       
-                
 
-                        var duplicates = [];
-
-
-                        for(var i = 0; i < todos0aaa.length;i++){
-        
-                                duplicates.push(todos0aaa[i]._id);
-
-                            }
-
-
-
-                                Participa.find({_id:arrr[0]}).sort({idevento:-1}).lean().exec(function(err, todos2) {
-                                       
-                                      if(todos2.length)
-                                      {
-                                        for (var i = 0; i < todos2.length; i++) {
-                                              
-
-                                                
-                                                for (var ii = 0; ii < todos0aaa.length; ii++) {
-                                                        if(todos2[i].idevento==todos0aaa[ii]._id)
-                                                        {
-                                                                teve=todos0aaa[ii].nombre;
-                                                                teveid=todos0aaa[ii]._id;
-                                                                tfecha=todos0aaa[ii].fecha;
-                                                                thora=todos0aaa[ii].costo;
-                                                                tipoevento=todos0aaa[ii].tipoevento;
-                                                                
-                                                                myData.push({plantilla:todos0aaa[ii].plantilla, idempresa:todos0aaa[ii].idempresa,unidad:todos0aaa[ii].unidad,ideve:teveid,tipoevento:tipoevento,idcurso:todos2[i]._id ,nombre:todos2[i].nombre + ' ' +todos2[i].apellido,curso:teve,tipo:2,fecha:tfecha,hora:thora});
-
-                                                        }
-                                                }
-
-
-                                              
-
-                                              
-                                        }
-                                       
-                                }
-                              
-                                        res.json(myData);   
-
-                                    });
-
-                     
-               
-        }); 
-
-
-                        break;
-
-                    
                 case 'participacursos':
                         //http://127.0.0.1:9090/api/datosfijos/participacursos/mpalaciosgonzalez986@gmail.com
                         var myData = [];
@@ -2065,7 +1601,7 @@ console.log('TERMINA')
                 var options = {
                   'method': 'POST',
                
-                  'url': 'https://calusacvirtual.usac.edu.gt/app/api/api.php?apicall=validate_carne',
+                  'url': 'http://calusacvirtual.usac.edu.gt/app/api/api.php?apicall=validate_carne',
                   'headers': {
                         "Accept": "application/json",
                         'Content-Type': 'application/json; charset=UTF-8',
@@ -2474,8 +2010,7 @@ break;
                             "$group" : {
                                 "_id" : {
                                     "idevento" : "$idevento",
-                                    "mes": { $dateToString: { format: "%Y-%m}", date: "$createdAt" } },
-                                    "dia": { $dateToString: { format: "%Y-%m-%d}", date: "$createdAt" } }
+                                    "mes": { $dateToString: { format: "%Y-%m}", date: "$createdAt" } }
                                    
                                 }, 
                                 "cantidad" : {
@@ -2487,7 +2022,6 @@ break;
                             "$project" : {
                                 "idevento" : "$_id.idevento", 
                                 "mes" : "$_id.mes", 
-                                "dia" : "$_id.dia", 
                                 "cantidad" : "$cantidad", 
                                 "_id" :0
                             }
@@ -2500,7 +2034,7 @@ break;
                                         if(todos[i]._id==todos2[i2].idevento)
                                         {
                                                 myData.push({unidad:todos[i].unidad,nombre:todos[i].nombre,cantidad:todos2[i2].cantidad,estado:todos[i].impresion
-                                                ,grupo:todos[i].tipoevento,id:todos[i]._id,mes:todos2[i2].mes,dia:todos2[i2].dia});
+                                                ,grupo:todos[i].tipoevento,id:todos[i]._id,mes:todos2[i2].mes});
                                         }
                                         
                                 }
@@ -3180,7 +2714,7 @@ break;
                                                                 var n = d.split('-')   
                                         
 
-                                                        myData.push({nombre:todos[i].nombre,fechaini:d,
+                                                        myData.push({nombre:cleanName(todos[i].nombre),fechaini:d,
                                                                 ubicacion:todos[i].ubicacion,Noparticipantes:cc});
                                                         cc=0;
                                                         }
@@ -3499,9 +3033,10 @@ break;
                                                 var myData = [];
                                                 for(var i = 0; i < todos2.length;i++){
                                                         console.log(i)
+console.log({nombre:cleanName(todos2[i].nombre) + ' '+ cleanName(todos2[i].apellido),
+fecha:todos2[i].fecha.substr(0,10),ingresos:cleanName(todos2[i].cuenta),correo:todos2[i].correo  });
 
-
-                                                myData.push({nombre:(todos2[i].nombre) + ' '+ (todos2[i].apellido),fecha:todos2[i].fecha.substr(0,10),ingresos:(todos2[i].cuenta),correo:todos2[i].correo  });
+                                                myData.push({nombre:cleanName(todos2[i].nombre) + ' '+ cleanName(todos2[i].apellido),fecha:todos2[i].fecha.substr(0,10),ingresos:cleanName(todos2[i].cuenta),correo:todos2[i].correo  });
                                                 }
                                                 
                                                 res.statusCode = 200;

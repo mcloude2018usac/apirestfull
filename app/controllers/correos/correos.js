@@ -396,101 +396,7 @@ requi1b = await functool.dadatosformulariogruposuma('5fc03c79ab0f6448b877eb5c',f
             console.log({nodockardex:req.params.id,idempresa :req.params.id3})
             kardex.find({nodockardex:req.params.id,idempresa :req.params.id3}).sort({_id:1}).exec(function(err, todos) {
                 if (err){ res.send(err); }
-                  
-                if(todos.length>0)   {     var datat=[]
-                    for(var i = 0; i < todos.length;i++){
-                        var ee=todos[i].proveedor
-                        var prov=ee
-                        if(ee.indexOf('<br>')>0)
-                        {
-                            prov=ee.split('<br>')[1].split(':')[1]
-
-                        }
-
-                        if(todos[i].tipo==='Salida')
-                        {
-                            if(todos[i].accion==='Elimina Ingreso formulario 1-H')
-                            {
-                                datat.push({  "_id" : todos[i]._id,"idempresa" : todos[i].idempresa,                     "fecha" : todos[i].fecha,   "tipo" : todos[i].tipo,  "accion" : todos[i].accion,
-                                "proveedor" : prov,     "nodoc" : todos[i].nodoc,
-                                "e2" : prov,     "e1" : todos[i].nodoc,
-                                "iddocumento" : todos[i].iddocumento,       "categoria" : todos[i].categoria,
-                                "nodockardex" : todos[i].nodockardex,    "nodockardexlinea" : todos[i].nodockardexlinea,
-                                "tarjetasanuladas" :todos[i].tarjetasnuladas,"estadoprint" : todos[i].estadoprint,
-                                "anulacion" : todos[i].anulacion,             "producto" : todos[i].producto,
-                                "idproducto" : todos[i].idproducto,       "producton" : todos[i].producton,
-                                "unidad" : todos[i].unidad,      "saldoanterior" : todos[i].saldoanterior,
-                                "ingreso" : todos[i].ingreso,      "obs" : todos[i].obs,
-                                "egreso" : todos[i].egreso,        "saldoactual" : todos[i].saldoactual,
-                                "precioanterior" :todos[i].precioanterior,            "precio" : Number(todos[i].precio).toFixed(2),
-                                "total" : todos[i].total})
-                            }
-                            else
-                            {
-                                datat.push({  "_id" : todos[i]._id,"idempresa" : todos[i].idempresa,                     "fecha" : todos[i].fecha,   "tipo" : todos[i].tipo,  "accion" : todos[i].accion,
-                                "proveedor" : prov,     "nodoc" : todos[i].nodoc,
-                                "s2" : prov,     "s1" : todos[i].nodoc,
-                                "iddocumento" : todos[i].iddocumento,       "categoria" : todos[i].categoria,
-                                "nodockardex" : todos[i].nodockardex,    "nodockardexlinea" : todos[i].nodockardexlinea,
-                                "tarjetasanuladas" :todos[i].tarjetasnuladas,"estadoprint" : todos[i].estadoprint,
-                                "anulacion" : todos[i].anulacion,             "producto" : todos[i].producto,
-                                "idproducto" : todos[i].idproducto,       "producton" : todos[i].producton,
-                                "unidad" : todos[i].unidad,      "saldoanterior" : todos[i].saldoanterior,
-                                "ingreso" : todos[i].ingreso,      "obs" : todos[i].obs,
-                                "egreso" : todos[i].egreso,        "saldoactual" : todos[i].saldoactual,
-                                "precioanterior" :todos[i].precioanterior,            "precio" : Number(todos[i].precio).toFixed(2),
-                                "total" : todos[i].total})
-
-                            }
-                           
-                            
-                        }
-                        else
-                        {
-
-                           
-                            if(todos[i].accion==='Elimina Salida requisición')
-                            {
-                                datat.push({  "_id" : todos[i]._id,"idempresa" : todos[i].idempresa,                     "fecha" : todos[i].fecha,   "tipo" : todos[i].tipo,  "accion" : todos[i].accion,
-                                "proveedor" : prov,     "nodoc" : todos[i].nodoc,
-                                "s2" : prov,     "s1" : todos[i].nodoc,
-                                "iddocumento" : todos[i].iddocumento,       "categoria" : todos[i].categoria,
-                                "nodockardex" : todos[i].nodockardex,    "nodockardexlinea" : todos[i].nodockardexlinea,
-                                "tarjetasanuladas" :todos[i].tarjetasnuladas,"estadoprint" : todos[i].estadoprint,
-                                "anulacion" : todos[i].anulacion,             "producto" : todos[i].producto,
-                                "idproducto" : todos[i].idproducto,       "producton" : todos[i].producton,
-                                "unidad" : todos[i].unidad,      "saldoanterior" : todos[i].saldoanterior,
-                                "ingreso" : todos[i].ingreso,      "obs" : todos[i].obs,
-                                "egreso" : todos[i].egreso,        "saldoactual" : todos[i].saldoactual,
-                                "precioanterior" :todos[i].precioanterior,            "precio" :  Number(todos[i].precio).toFixed(2),
-                                "total" : todos[i].total})
-                            }
-                            else
-                            {
-                                datat.push({  "_id" : todos[i]._id,"idempresa" : todos[i].idempresa,                     "fecha" : todos[i].fecha,   "tipo" : todos[i].tipo,  "accion" : todos[i].accion,
-                                "proveedor" : prov,     "nodoc" : todos[i].nodoc,
-                                "e2" : prov,     "e1" : todos[i].nodoc,
-                                "iddocumento" : todos[i].iddocumento,       "categoria" : todos[i].categoria,
-                                "nodockardex" : todos[i].nodockardex,    "nodockardexlinea" : todos[i].nodockardexlinea,
-                                "tarjetasanuladas" :todos[i].tarjetasnuladas,"estadoprint" : todos[i].estadoprint,
-                                "anulacion" : todos[i].anulacion,             "producto" : todos[i].producto,
-                                "idproducto" : todos[i].idproducto,       "producton" : todos[i].producton,
-                                "unidad" : todos[i].unidad,      "saldoanterior" : todos[i].saldoanterior,
-                                "ingreso" : todos[i].ingreso,      "obs" : todos[i].obs,
-                                "egreso" : todos[i].egreso,        "saldoactual" : todos[i].saldoactual,
-                                "precioanterior" :todos[i].precioanterior,            "precio" :  Number(todos[i].precio).toFixed(2),
-                                "total" : todos[i].total})
-                            }
-
-                           
-                        }
-                      
-                    }
-                     res.json(datat);  }
-                else
-                {  res.status(500).send('NO EXISTE REGISTRO');      }
-                
-               /*
+               
                 if(todos.length>0)   {   
                     var datat=[]
                     for(var i = 0; i < todos.length;i++){
@@ -519,7 +425,6 @@ requi1b = await functool.dadatosformulariogruposuma('5fc03c79ab0f6448b877eb5c',f
                     }
                 else
                 {  res.status(500).send('NO EXISTE REGISTRO1');      }
-                */
                 
             });
 

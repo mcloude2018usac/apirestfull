@@ -510,7 +510,7 @@ var enmiendasd=[]
               case 'Rectificación':
                 (async () => {
                
-                  req.body.optionorden.estructura['grupoasignado']=   [      [        functool.darectiact(req.body.idform)            ]      ];
+                  req.body.optionorden.estructura['grupoasignado']=   [      [           "605cbe7e6f80160028dfd494"           ]      ];
                   var creaorden = await functool.creafrmregistroproceso(req); 
                   var ordenvieja=req.body.acumulados[0].item.sequenciag
                   var idt=req.body.acumulados[0].item._id
@@ -581,7 +581,7 @@ var enmiendasd=[]
                 break;
                 case 'Complementaria':
                   (async () => {
-                    req.body.optionorden.estructura['grupoasignado']=   [      [      functool.darectiact(req.body.idform)            ]      ];
+                    req.body.optionorden.estructura['grupoasignado']=   [      [           "605cbe7e6f80160028dfd494"           ]      ];
                     var creaorden = await functool.creafrmregistroproceso(req); 
                     var ordenvieja=req.body.acumulados[0].item.sequenciag
                     var idt=req.body.acumulados[0].item._id

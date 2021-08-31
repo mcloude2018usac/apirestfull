@@ -968,84 +968,85 @@ exports.getFrmmovil = async function(req, res, next){
     
             }
             else
-            { if(req.params.id4=='unregistromoviltodo')
             {
+                if(req.params.id4=='unregistromoviltodo')
+                {
+        
+                    var namess=req.params.id
+                    var idbuscar=req.params.id2
+                    var arrt=req.params.id3.split('°')
     
-                var namess=req.params.id
-                var idbuscar=req.params.id2
-                var arrt=req.params.id3.split('°')
-
-    
-                Frmmovild.find({idmovil:arrt[1], display : "true",idempresa:arrt[0]}).sort([['order', 1]]).exec(function(err, todos) {
-                    if (err){ res.send(err); }
-                  
-                               
-            var objetox = {};
-            
-            for(var i = 0; i < todos.length;i++){
-                objetox[todos[i].name] =todos[i].title + '°' + todos[i].type + '°'+ todos[i].display;
-            }
-     
-             
-                                        if(todos.length>0)   {  
-                                       
-                                            var cad=''
-                                            var cadxx=''
-                                            var cad3=(functool.dafiltrocad(todos,'','','')).split('°')
-                                      
-                                            cad=cad3[0]
-                                          
-                                            cad=cad + '"estadointerno"	: { "type" : "String" },"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" },"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"asignadoxxx":{"type":"String"},"grupoasignado":{ "type" :"Array"},"estadoordenxxx":{"type":"String"}'
-
-                                          
-                                            cad='{' + cad + '}'
-                                           
-                                     
-                                            var jsonObject = functool.stringToObject(cad);
-                                          
-                                            var mongoose = require("mongoose");
-                                            delete mongoose.connection.models[namess];
-                                            var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
-                                         
-                                        
-                                            try {
-                                                
-                                                var  frmtt= mongoose.model(namess,tt);
-                                                frmtt.find({_id:idbuscar} ,function(err, todos2) {
-                                                    if (err){  res.send(err); }
-                                                   
-                                                    var datafinal = functool.procesahtmlrecord(objetox,todos2,'no')
-                                                      
-                                                    res.json(datafinal);
-                                                  
-                                                });
-                                              } catch(e) {
-                                                
-                                                var  frmtt= mongoose.model(namess);
-                                      
-                                                frmtt.findd( {_id:idbuscar} ,function(err, todos2) {
-                                                     if (err){  res.send(err);
-                                                    }
-                                             
-                                                  
-                                                    var datafinal = functool.procesahtmlrecord(objetox,todos2,'no')
-                                                      
-                                                    res.json(datafinal);
-                                                 
-                                                 });
-                                              }
         
-        
-                                         
-                            
-                    }
-                });
-        
+                    Frmmovild.find({idmovil:arrt[1], display : "true",idempresa:arrt[0]}).sort([['order', 1]]).exec(function(err, todos) {
+                        if (err){ res.send(err); }
+                      
+                                   
+                var objetox = {};
                 
-    
-    
-            }
-      else{    
+                for(var i = 0; i < todos.length;i++){
+                    objetox[todos[i].name] =todos[i].title + '°' + todos[i].type + '°'+ todos[i].display;
+                }
+         
+                 
+                                            if(todos.length>0)   {  
+                                           
+                                                var cad=''
+                                                var cadxx=''
+                                                var cad3=(functool.dafiltrocad(todos,'','','')).split('°')
+                                          
+                                                cad=cad3[0]
+                                              
+                                                cad=cad + '"estadointerno"	: { "type" : "String" },"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" },"usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"geoposicionxxx":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"enviadoporxxx":{"type":"String"},"asignadoxxx":{"type":"String"},"grupoasignado":{ "type" :"Array"},"estadoordenxxx":{"type":"String"}'
+
+                                              
+                                                cad='{' + cad + '}'
+                                               
+                                         
+                                                var jsonObject = functool.stringToObject(cad);
+                                              
+                                                var mongoose = require("mongoose");
+                                                delete mongoose.connection.models[namess];
+                                                var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                                             
+                                            
+                                                try {
+                                                    
+                                                    var  frmtt= mongoose.model(namess,tt);
+                                                    frmtt.find({_id:idbuscar} ,function(err, todos2) {
+                                                        if (err){  res.send(err); }
+                                                       
+                                                        var datafinal = functool.procesahtmlrecord(objetox,todos2,'no')
+                                                          
+                                                        res.json(datafinal);
+                                                      
+                                                    });
+                                                  } catch(e) {
+                                                    
+                                                    var  frmtt= mongoose.model(namess);
+                                          
+                                                    frmtt.findd( {_id:idbuscar} ,function(err, todos2) {
+                                                         if (err){  res.send(err);
+                                                        }
+                                                 
+                                                      
+                                                        var datafinal = functool.procesahtmlrecord(objetox,todos2,'no')
+                                                          
+                                                        res.json(datafinal);
+                                                     
+                                                     });
+                                                  }
+            
+            
+                                             
+                                
+                        }
+                    });
+            
+                    
+        
+        
+                }
+          else{    
             if(req.params.id4=='unregistromovil')
             {
     
@@ -1066,7 +1067,7 @@ exports.getFrmmovil = async function(req, res, next){
                                       
                                             cad=cad3[0]
                                           
-                                            cad=cad + '"estadointerno"	: { "type" : "String" }, "usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" }, "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                            cad=cad + ' "estadointerno"	: { "type" : "String" },"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" }, "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
                                             cad='{' + cad + '}'
                                            
                                      
@@ -1420,7 +1421,7 @@ exports.getFrmmovil = async function(req, res, next){
                                                 generareporte:todos[i].generareporte,comandos:todos[i].comandos, 
                                                 activas:todos[i].activas,cerradas:todos[i].cerradas,ejecutadas:todos[i].ejecutadas,
                                                 filtrarordentipo:todos[i].filtrarordentipo, filtrarorden:todos[i].filtrarorden,pcreacion:todos[i].creacion, peliminacion:todos[i].eliminacion,  pfiltro:todos[i].filtro, pingreso:'true', reporte:todos[i].preporte,  potros1:'', imprimeorden	:todos[i].imprimeorden, 
-                                                        cancelarorden:todos[i].cancelarorden,reasignarorden:todos[i].reasignarorden,bitacoraorden:todos[i].bitacoraorden,papaorden:todos[i].papaorden,imprimeorden2	:todos[i].imprimeorden2,  finalizaorden :todos[i].finalizaorden,  eliminaorden  :todos[i].eliminaorden, dashboard  :todos[i].dashboard, filtrocampo  :todos[i].filtrocampo,   trayectoriaorden:todos[i].trayectoriaorden,  documentacionorden:todos[i].documentacionorden,  pausarorden  :todos[i].pausarorden,  anularorden  :todos[i].anularorden,  fotosorden:todos[i].fotosorden, comentariosorden:todos[i].comentariosorden,  documentosorden :todos[i].documentosorden,  tareasorden  :todos[i].tareasorden,acciones:todos[i].acciones,publico:todos[i].idformulario.publico}});
+                                                        cancelarorden:todos[i].cancelarorden,reasignarorden:todos[i].reasignarorden,bitacoraorden:todos[i].bitacoraorden,papaorden:todos[i].papaorden,imprimeorden2	:todos[i].imprimeorden2,  finalizaorden :todos[i].finalizaorden,  eliminaorden  :todos[i].eliminaorden, dashboard  :todos[i].dashboard, filtrocampo  :todos[i].filtrocampo,  trayectoriaorden:todos[i].trayectoriaorden,  documentacionorden:todos[i].documentacionorden,  pausarorden  :todos[i].pausarorden,  anularorden  :todos[i].anularorden,  fotosorden:todos[i].fotosorden, comentariosorden:todos[i].comentariosorden,  documentosorden :todos[i].documentosorden,  tareasorden  :todos[i].tareasorden,acciones:todos[i].acciones,publico:todos[i].idformulario.publico}});
                                         }
 
 
@@ -1457,8 +1458,7 @@ exports.getFrmmovil = async function(req, res, next){
                                                      activas:'true',cerradas:'true',ejecutadas:'false',
                                                      filtrarorden:'false', filtrarordentipo:'false',
                                                      cancelarorden:'false',reasignarorden:'false',bitacoraorden:'false',papaorden:'false',
-                                                     imprimeorden	:'true',   imprimeorden2	:'false',  finalizaorden :'false',  eliminaorden  :'false',  
-                                                      dashboard  :'false', filtrocampo  :'false', trayectoriaorden:'true',  documentacionorden:'true',  pausarorden  :'false',  anularorden  :'false',  fotosorden:'true', comentariosorden:'true',  documentosorden :'true',  tareasorden  :'false',acciones:'true',publico:unique[i].publico}});
+                                                     imprimeorden	:'true',   imprimeorden2	:'false',  finalizaorden :'false',  eliminaorden  :'false', eliminaorden  :'false',    dashboard  :'false',  trayectoriaorden:'true',  documentacionorden:'true',  pausarorden  :'false',  anularorden  :'false',  fotosorden:'true', comentariosorden:'true',  documentosorden :'true',  tareasorden  :'false',acciones:'true',publico:unique[i].publico}});
                                                  }
                                                  
                                                   res.json(myData2);
@@ -1486,7 +1486,7 @@ exports.getFrmmovil = async function(req, res, next){
                                                             filtrarordentipo:todos[i].filtrarordentipo, filtrarorden:todos[i].filtrarorden,pcreacion:todos[i].creacion, peliminacion:todos[i].eliminacion,  pfiltro:todos[i].filtro, pingreso:'true', reporte:todos[i].preporte,  potros1:'', imprimeorden	:todos[i].imprimeorden,  
                                                                     imprimeorden2	:todos[i].imprimeorden2,  finalizaorden :todos[i].finalizaorden,  
                                                                     comandos :todos[i].comandos,  
-                                                                    cancelarorden:todos[i].cancelarorden,reasignarorden:todos[i].reasignarorden,bitacoraorden:todos[i].bitacoraorden,papaorden:todos[i].papaorden,eliminaorden  :todos[i].eliminaorden,dashboard  :todos[i].dashboard, filtrocampo  :todos[i].filtrocampo,   trayectoriaorden:todos[i].trayectoriaorden,  documentacionorden:todos[i].documentacionorden,  pausarorden  :todos[i].pausarorden,  anularorden  :todos[i].anularorden,  fotosorden:todos[i].fotosorden, comentariosorden:todos[i].comentariosorden,  documentosorden :todos[i].documentosorden,  tareasorden  :todos[i].tareasorden,acciones:todos[i].acciones,publico:todos[i].idformulario.publico});
+                                                                    cancelarorden:todos[i].cancelarorden,reasignarorden:todos[i].reasignarorden,bitacoraorden:todos[i].bitacoraorden,papaorden:todos[i].papaorden,eliminaorden  :todos[i].eliminaorden, dashboard  :todos[i].dashboard, filtrocampo  :todos[i].filtrocampo,  trayectoriaorden:todos[i].trayectoriaorden,  documentacionorden:todos[i].documentacionorden,  pausarorden  :todos[i].pausarorden,  anularorden  :todos[i].anularorden,  fotosorden:todos[i].fotosorden, comentariosorden:todos[i].comentariosorden,  documentosorden :todos[i].documentosorden,  tareasorden  :todos[i].tareasorden,acciones:todos[i].acciones,publico:todos[i].idformulario.publico});
                                                     }
                                                     
                                                 }
@@ -1527,7 +1527,7 @@ exports.getFrmmovil = async function(req, res, next){
                                                                     generareporte:unique[i].generareporte, 
                                                                     filtrarordentipo:unique[i].filtrarordentipo,  filtrarorden:unique[i].filtrarorden, pconsulta:unique[i].pconsulta, pcreacion:unique[i].pcreacion, peliminacion:unique[i].peliminacion,  pfiltro:unique[i].filtro, pingreso:'true', preporte:unique[i].preporte,  potros1:'', imprimeorden	:unique[i].imprimeorden,  
                                                                     imprimeorden2	:unique[i].imprimeorden2,  finalizaorden :unique[i].finalizaorden,  
-                                                                    cancelarorden:unique[i].cancelarorden,reasignarorden:unique[i].reasignarorden,bitacoraorden:unique[i].bitacoraorden,papaorden:unique[i].papaorden,eliminaorden  :unique[i].eliminaorden,dashboard  :unique[i].dashboard, filtrocampo  :unique[i].filtrocampo,   trayectoriaorden:unique[i].trayectoriaorden,  documentacionorden:unique[i].documentacionorden,  pausarorden  :unique[i].pausarorden,  anularorden  :unique[i].anularorden, 
+                                                                    cancelarorden:unique[i].cancelarorden,reasignarorden:unique[i].reasignarorden,bitacoraorden:unique[i].bitacoraorden,papaorden:unique[i].papaorden,eliminaorden  :unique[i].eliminaorden, dashboard  :unique[i].dashboard, filtrocampo  :unique[i].filtrocampo,  trayectoriaorden:unique[i].trayectoriaorden,  documentacionorden:unique[i].documentacionorden,  pausarorden  :unique[i].pausarorden,  anularorden  :unique[i].anularorden, 
                                                                 publico:unique[i].publico, fotosorden:unique[i].fotosorden, comentariosorden:unique[i].comentariosorden,  documentosorden :unique[i].documentosorden,  tareasorden  :unique[i].tareasorden,acciones:unique[i].acciones}});
                                                             }
                                         
@@ -1569,7 +1569,6 @@ exports.getFrmmovil = async function(req, res, next){
 
          
 
-    
         
                 var namess=req.params.id //formulario
                 //req.params.id2   campo   req.params.id3   informacion
@@ -1594,7 +1593,7 @@ exports.getFrmmovil = async function(req, res, next){
                     }
                                         if(todos.length>0)   {  
                                        
-                                               
+                                       
                                             var cad=''
                                             var cadxx=''
                                             var cad4=(functool.dafiltrocad(todos,req.params.id2,req.params.id3.replace('¬','/'),''))
@@ -1605,15 +1604,24 @@ exports.getFrmmovil = async function(req, res, next){
                                             {
                                                 
                                                // e{cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
-        
-                                               if(cadsolouno.indexOf(req.params.id2)>=0)
+                                                if(cadsolouno.indexOf(req.params.id2)>=0)
                                                 {
                                                     cad3[1]  = '"' +req.params.id2 + '": { "$regex" : "' +req.params.id3.split('°')[0] + '", "$options" : "i" } ' 
                                                 }
                                                 else
                                                 {
-                                                    cad3[1]  = cadsolouno+ ',"' +req.params.id2 + '": { "$regex" : "' +req.params.id3.split('°')[0] + '", "$options" : "i" } ' 
+                                                    if(cadsolouno==='')
+                                                    {
+                                                        cad3[1]  = '"' +req.params.id2 + '": { "$regex" : "' +req.params.id3.split('°')[0] + '", "$options" : "i" } ' 
+                                                    }
+                                                    else
+                                                    {
+                                                        cad3[1]  = cadsolouno+ ',"' +req.params.id2 + '": { "$regex" : "' +req.params.id3.split('°')[0] + '", "$options" : "i" } ' 
+                                                    }
+                                                    
                                                 }    
+                                                
+        
                                             }
                                             else
                                             {
@@ -1812,7 +1820,8 @@ exports.getFrmmovil = async function(req, res, next){
                     });
               break;
          
-    
+     
+     
               case 'todasordenes2filtro':
 
                 var arrr=req.params.id.split('°')
@@ -1827,10 +1836,12 @@ filtro={idform:arrr[0],salioorden:1,createdAt:{"$gte": new Date(arrr[2]+'T00:00:
 
 }
 
-if(arrr[4]!==undefined && arrr[4]!=='' && arrr[4]!=='null' && arrr[4]!==null)
+if(arrr[4]!==undefined &&arrr[4]!=='undefined' && arrr[4]!=='' && arrr[4]!=='null' && arrr[4]!==null)
 {
     filtro['info']={ "$regex" : arrr[4], "$options" : "i" } 
 }
+
+
 
 
 
@@ -1915,10 +1926,17 @@ if(cad.indexOf('>: .')>0 || cad.indexOf('>: 0')>0 || cad.indexOf('¬')>=0  || ca
 {}
 else
 {
-    if(cad.indexOf('cliente')>0 )
+    if(cad.indexOf('cliente')>0 || cad.indexOf('departamento')>0 )
     {
         var arr= cad.split(':')
         infott=infott+ arr[2] ;
+        if(infott==='undefined')
+        { infott=''
+            infott=infott+ arr[1] ;
+
+        }
+
+        infott=infott.replace('undefined','')
     }
 //  infott=infott+ '<ion-chip  color="primary" item-content style="margin-left: 10px;"> <ion-label >' + cad + '</ion-label></ion-chip>';
 
@@ -1949,20 +1967,23 @@ break;
 
   case 'todasordenes1filtro':
     var arrr=req.params.id.split('°')
+    console.log(arrr)
 
     var filtro={salioorden:1,createdAt:{"$gte": new Date(arrr[1]+'T00:00:00.000Z'),"$lt": new Date(arrr[2] +'T24:00:00.000Z')}}
 
-if(arrr[0]!==undefined && arrr[0]!=='' && arrr[0]!=='null' && arrr[0]!==null)
+if(arrr[0]!==undefined && arrr[0]!=='undefined' && arrr[0]!=='' && arrr[0]!=='null' && arrr[0]!==null)
 {
 filtro={salioorden:1,createdAt:{"$gte": new Date(arrr[1]+'T00:00:00.000Z'),"$lt": new Date(arrr[2] +'T24:00:00.000Z')},sequenciag:functool.padLeadingZeros(arrr[0],7)}
 
 }
 
-if(arrr[3]!==undefined && arrr[3]!=='' && arrr[3]!=='null' && arrr[3]!==null)
+
+if(arrr[3]!==undefined && arrr[3]!=='undefined' && arrr[3]!=='' && arrr[3]!=='null' && arrr[3]!==null)
 {
     filtro['info']={ "$regex" : arrr[3], "$options" : "i" } 
 }
 
+console.log(filtro)
     formulariotrayectoria.aggregate( [
         { $match:filtro},
         { 
@@ -1997,12 +2018,12 @@ if(arrr[3]!==undefined && arrr[3]!=='' && arrr[3]!=='null' && arrr[3]!==null)
 break;
 
 
-      case 'trayectoriaordencomentario':
-                formulariotrayectoria.find({idorden:req.params.id,idempresa:req.params.id3},function(err, todos) {
+              case 'trayectoriaordencomentario':
+                formulariotrayectoria.find({idorden:req.params.id,idempresa:req.params.id3}).sort({createdAt:-1}).exec(function(err, todos) {
                     if (err){  res.send(err);  }
 
 
-                    formulariocomentarios.find({idpapa:req.params.id,idempresa:req.params.id3},function(err, todos10) {
+                    formulariocomentarios.find({idpapa:req.params.id,idempresa:req.params.id3}).sort({createdAt:-1}).exec(function(err, todos10) {
                         if (err){  res.send(err);  }
     
     
@@ -2025,7 +2046,6 @@ break;
                     }
                     trayecto.sort(functool.sortByProperty("fechaingreso"));
                     trayecto.reverse()
-
                         res.json(trayecto);
                         
                     });
@@ -2221,10 +2241,16 @@ break;
                     var usuarito=''
                     var tieneactividadasignacion=arrtodos[5]
                     usuarioup=arrtodos[4]
+                 
                     var actividadt=[]
                     actividadt=req.params.id.split('¬')[0].split(',')
                     var grupot=[]
-                    grupot=req.params.id.split('¬')[1].split('°')
+                    var grupot0=req.params.id.split('¬')[1].split('°')
+                    for(var i = 0; i < grupot0.length;i++){
+                        if(grupot0[i]!=='' && grupot0[i]!==undefined)
+                        {grupot.push([grupot0[i]])}
+                        
+                    }
                     var namess=arrtodos[3]
                     var filtro
                         if(arrtodos[1]==='todos')
@@ -2330,7 +2356,7 @@ break;
                                 var vall=masfiltro[i].split(':')
                                 if(vall[2]==='like')
                                 {
-                                     var cadtt=vall[1]
+                                    var cadtt=vall[1]
                                     
                                     if(cadtt.indexOf('|')>=0)
                                     {
@@ -2340,6 +2366,11 @@ break;
                                     {
                                         filtro[vall[0]] ={'$regex': vall[1], '$options': 'i'}
                                     }
+
+                              
+
+
+
                                 }
                                 else
                                 {
@@ -2368,7 +2399,7 @@ break;
                           
 
 
-                            if(req.params.id==='5fc01bbba8d0a14888774579')
+                            if(req.params.id.split('¬')[0]==='5fc01bbba8d0a14888774579')
                             {
                                 stype = 'categoria';
                                 sdir = '1';
@@ -2428,16 +2459,18 @@ break;
                                                        
                                                          if(todos2.length>0)
                                                          {
+
                                                             var datafinal = []
-                                                            if(arrtodos[7]==='1')
-                                                            {
-                                                             datafinal = functool.procesatablauirecord(objetox,todos2,'no')
-                                                            }
-                                                            else
-                                                            {
-                                                             datafinal = functool.procesatablauirecordfila(objetox,todos2,'no')
-                                                            }
-                                                             res.json(datafinal);
+                                                           if(arrtodos[7]==='1')
+                                                           {
+                                                            datafinal = functool.procesatablauirecord(objetox,todos2,'no')
+                                                           }
+                                                           else
+                                                           {
+                                                            datafinal = functool.procesatablauirecordfila(objetox,todos2,'no')
+                                                           }
+                                                            res.json(datafinal);
+                                                        
                                                          }
                                                          else
                                                          {
@@ -2619,7 +2652,7 @@ break;
                                       
                                             cad=cad3[0]
                                             cadxx='{'+ cad3[1] + '}'
-                                            cad=cad + '"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" },   "usuarionew":{"type":"String"},"usuarioup":{"type":"String"},      "idpapa"	: { "type" : "String" },      "idempresa"	: { "type" : "String" },"idusuariosasigna":{"type":"Array"}, "geoposicionxxx":{"type":"String"},"comentarioanulado"	: { "type" : "String" },"comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno":{"type":"String"},"idactividadxxx":{"type":"String"},"estadoxxx":{"type":"String"},"actividadxxx":{"type":"String"},"idaccionxxx":{"type":"String"},"accionxxx":{"type":"String"},"tipoaccionxxx":{"type":"String"},"subtipoaccionxxx":{"type":"String"},"idactorxxx":{"type":"String"},"ejecutainicio":{"type":"String"},"ejecutafinal":{"type":"String"},"actorxxx":{"type":"String"},"actividadclasexxx":{"type":"String"},"actividadtipoxxx":{"type":"String"},"leidoxxx":{"type":"Boolean"},"asignadoxxx":{"type":"String"},"grupoasignado":{ "type" :"Array"},"enviadoporxxx":{"type":"String"},"estadoordenxxx":{"type":"String"},  "secuenciagants": { "type" :"Array"},"idanst": { "type" :"Array"},  "pmodulo": { "type" :"Array"}'
+                                            cad=cad + '    "sequencia"	: { "type" : "String" },"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" }, "comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno"	: { "type" : "String" },  "geoposicionxxx"	: { "type" : "String" },  "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
                                             cad='{' + cad + '}'
                                             cadxx='{' + cadxx + '}'
                                          
@@ -2670,17 +2703,21 @@ break;
             
            
   break;
-  
+
   case 'formularioprocesodash':
     var arrtodos=req.params.id3.split('°')
     var usuarito=''
     var tieneactividadasignacion=arrtodos[5]
     usuarioup=arrtodos[4]
     var actividadt=[]
-            actividadt=req.params.id.split('¬')[0].split(',')
-            var grupot=[]
-            grupot=req.params.id.split('¬')[1].split('°')
-
+        actividadt=req.params.id.split('¬')[0].split(',')
+        var grupot=[]
+        var grupot0=req.params.id.split('¬')[1].split('°')
+        for(var i = 0; i < grupot0.length;i++){
+            if(grupot0[i]!=='' && grupot0[i]!==undefined)
+            {grupot.push([grupot0[i]])}
+            
+        }
     var namess=arrtodos[3]
     var estadoxxx=arrtodos[2];
     var filtroestado={}
@@ -2929,10 +2966,14 @@ break;
     var tieneactividadasignacion=arrtodos[5]
     usuarioup=arrtodos[4]
     var actividadt=[]
-    actividadt=req.params.id.split('¬')[0].split(',')
-    var grupot=[]
-    grupot=req.params.id.split('¬')[1].split('°')
-
+        actividadt=req.params.id.split('¬')[0].split(',')
+        var grupot=[]
+        var grupot0=req.params.id.split('¬')[1].split('°')
+        for(var i = 0; i < grupot0.length;i++){
+            if(grupot0[i]!=='' && grupot0[i]!==undefined)
+            {grupot.push([grupot0[i]])}
+            
+        }
     var namess=arrtodos[3]
     var estadoxxx=arrtodos[2];
     var filtroestado={}
@@ -3177,17 +3218,22 @@ break;
     break;
 
 
+
        
     case 'formularioprocesosolouna':
         var arrtodos=req.params.id3.split('°')
         var usuarito=''
         var tieneactividadasignacion=arrtodos[5]
         usuarioup=arrtodos[4]
-    var actividadt=[]
-            actividadt=req.params.id.split('¬')[0].split(',')
-            var grupot=[]
-            grupot=req.params.id.split('¬')[1].split('°')
-
+        var actividadt=[]
+        actividadt=req.params.id.split('¬')[0].split(',')
+        var grupot=[]
+        var grupot0=req.params.id.split('¬')[1].split('°')
+        for(var i = 0; i < grupot0.length;i++){
+            if(grupot0[i]!=='' && grupot0[i]!==undefined)
+            {grupot.push([grupot0[i]])}
+            
+        }
         var pagex=arrtodos[7]
         var lastid=arrtodos[8]
         var limitx=arrtodos[6]
@@ -3344,7 +3390,7 @@ break;
        
 
      
-console.log(filtro)
+
 
                 Frmmovild.find({idmovil:arrtodos[3], display : "true",idempresa:arrtodos[0]}).exec(function(err, todos) {
                     if (err){ res.send(err); }
@@ -3418,6 +3464,7 @@ console.log(filtro)
         
         break;
 
+
        
         case 'formularioprocesosololike':
             var arrtodos=req.params.id3.split('°')
@@ -3427,7 +3474,12 @@ console.log(filtro)
             var actividadt=[]
             actividadt=req.params.id.split('¬')[0].split(',')
             var grupot=[]
-            grupot=req.params.id.split('¬')[1].split('°')
+            var grupot0=req.params.id.split('¬')[1].split('°')
+            for(var i = 0; i < grupot0.length;i++){
+                if(grupot0[i]!=='' && grupot0[i]!==undefined)
+                {grupot.push([grupot0[i]])}
+                
+            }
     
             var pagex=arrtodos[7]
             var lastid=arrtodos[8]
@@ -3700,8 +3752,6 @@ console.log(filtro)
     
     
     
-        
-    
     case 'formularioproceso':
         var arrtodos=req.params.id3.split('°')
         var usuarito=''
@@ -3710,7 +3760,12 @@ console.log(filtro)
         var actividadt=[]
         actividadt=req.params.id.split('¬')[0].split(',')
         var grupot=[]
-        grupot=req.params.id.split('¬')[1].split('°')
+        var grupot0=req.params.id.split('¬')[1].split('°')
+        for(var i = 0; i < grupot0.length;i++){
+            if(grupot0[i]!=='' && grupot0[i]!==undefined)
+            {grupot.push([grupot0[i]])}
+            
+        }
 
         var pagex=arrtodos[7]
         var lastid=arrtodos[8]
@@ -4621,9 +4676,6 @@ exports.creaFrmmovil3s = async function(req, res, next){
             Number(req.body.sequenciag ),functool.daconectasql(req.body.formulario),null)
         }
 
-
-        
-
         res.json({estado:'ok'});
 
     }
@@ -4859,8 +4911,8 @@ if(req.params.recordID!=='crea')
                                                   usuariocreador		: req.body.trayectoria.usuariocreador,
                                                   procedimiento		: req.body.trayectoria.procedimiento,
                                                   estadoxxx		: req.body.trayectoria.estadoxxx,
-                                                  asignadoxxx	: req.body.trayectoria.asignadoxxx,
                                                   fecha		: req.body.trayectoria.fecha,
+                                                  asignadoxxx	: req.body.trayectoria.asignadoxxx,
                                                   enviadoporxxx		: req.body.trayectoria.enviadoporxxx,
                                                   info		: req.body.trayectoria.info,
                                                     email:req.body.trayectoria.email,
@@ -5015,16 +5067,17 @@ if(req.params.recordID!=='crea')
                                                registrorep=''
                                            }
    
-                                           if(todos2a.length>0 && cadrrr.estado==='false')
-                                           {
-                                              
-                                               res.status(500).send('Registro ya existe en base de datos, este formulario tiene llaves unicas: ' + registrorep) 
-                                            
-                                           }
-                                           else
-                                           {
+                                           
+                                          if(todos2a.length>0 && cadrrr.estado==='false')
+                                          {
+                                             
+                                              res.status(500).send('Registro ya existe en base de datos, este formulario tiene llaves unicas: ' + registrorep) 
+                                           
+                                          }
+                                          else
+                                          {
                                             if(cadrrr.estado==='false'){cadrrr.estado='nada'}
-                           
+                          
                                                 var  frmtt=  mongoose.model(namess,tt);
                                                 
                                                 frmtt.updateMany({ _id: req.params.recordID }, req.body.estructura, function(err, todo3) {
@@ -5076,18 +5129,16 @@ if(req.params.recordID!=='crea')
                                                     {
                                                         (async () => {    
                                                         respuesta = await frmejecuta.formularioejecutaactualiza(req, res, next,[]);
-                                                       
-                                                       
-                                                if(cadrrr.estado==='nada')  {      res.json(todo330);}
+                                                        console.log(respuesta)
+                                                        if(cadrrr.estado==='nada')  {      res.json(todo330);}
                                                 else{        res.status(500).send('Precaución registro ya existe en base de datos, este formulario tiene llaves unicas: ' + registrorep) }
                                                         })();
                                                 
                                                     }
                                                     else
                                                     {
-                                                       
-                                                if(cadrrr.estado==='nada')  {      res.json(todo330);}
-                                                else{        res.status(500).send('Precaución registro ya existe en base de datos, este formulario tiene llaves unicas: ' + registrorep) }
+                                                        if(cadrrr.estado==='nada')  {      res.json(todo330);}
+                                                        else{        res.status(500).send('Precaución registro ya existe en base de datos, este formulario tiene llaves unicas: ' + registrorep) }
                                                     }
                                                    });
                                             
@@ -5101,16 +5152,14 @@ if(req.params.recordID!=='crea')
                                                     (async () => {    
                                                     respuesta = await frmejecuta.formularioejecutaactualiza(req, res, next,[]);
                                                     console.log(respuesta)
-                                                   
-                                                if(cadrrr.estado==='nada')  {      res.json(todo3);}
-                                                else{        res.status(500).send('Precaución registro ya existe en base de datos, este formulario tiene llaves unicas: ' + registrorep) }
+                                                    if(cadrrr.estado==='nada')  {      res.json(todo3);}
+                                                    else{        res.status(500).send('Precaución registro ya existe en base de datos, este formulario tiene llaves unicas: ' + registrorep) }
                                                     })();
                                             
                                                 }
                                                 else
                                                 {
-                                                  
-                                                if(cadrrr.estado==='nada')  {      res.json(todo3);}
+                                                    if(cadrrr.estado==='nada')  {      res.json(todo3);}
                                                 else{        res.status(500).send('Precaución registro ya existe en base de datos, este formulario tiene llaves unicas: ' + registrorep) }
                                                 }
                                                     }
@@ -5258,7 +5307,6 @@ if(req.body.tipo2==='Formulario'){
                                                     procedimiento		: req.body.trayectoria.procedimiento,
                                                     fecha		: todo3.createdAt,
                                                     estadoxxx		: req.body.trayectoria.estadoxxx,
-                                                    
                                                     asignadoxxx	: req.body.trayectoria.asignadoxxx,
                                                     enviadoporxxx		: req.body.trayectoria.enviadoporxxx,
                                                     info		: req.body.trayectoria.info,
@@ -5344,6 +5392,7 @@ if(req.body.tipo2==='Formulario'){
                                                         else
                                                         {
                                                             res.json(todo3);
+                                                            
                                                         }
                                                         
                                                        
@@ -5367,7 +5416,7 @@ if(req.body.tipo2==='Formulario'){
 
                                 var cad=''
                                 var cad3=(functool.dafiltrocad(todos,'','',req.body.norequeridospp)).split('°')
-                                    cad=cad3[0]
+                                cad=cad3[0]
                                 if(req.body.idpapa)
                                 {
                                     if(req.body.tipo==='proceso')
@@ -5408,7 +5457,8 @@ if(req.body.tipo2==='Formulario'){
            
                                    frmbusca.find(JSON.parse(filtrovalida) ,function(err, todos2a) {
                                        if (err){  res.send(err);  }
-                                        var cadrrr=functool.validawarning(todos)
+                               
+                                       var cadrrr=functool.validawarning(todos)
                                         if(cadrrr.estado==='false')
                                         {
                                             registrorep=cadrrr.llave+ ' '+filtrovalida
@@ -5432,8 +5482,8 @@ if(req.body.tipo2==='Formulario'){
                                        }
                                        else
                                        {
-                                           if(cadrrr.estado==='false'){cadrrr.estado='nada'}
                        
+                                        if(cadrrr.estado==='false'){cadrrr.estado='nada'}
                                             var  frmtt=  mongoose.model(namess,tt);
                                             
                                             frmtt.create(req.body.estructura
@@ -5449,7 +5499,6 @@ if(req.body.tipo2==='Formulario'){
                                                         sequenciag:todo3.sequenciag,
                                                         usuariocreador		: req.body.trayectoria.usuariocreador,
                                                         procedimiento		: req.body.trayectoria.procedimiento,
-                                                        
                                                       fecha		: todo3.createdAt,
                                                         estadoxxx		: req.body.trayectoria.estadoxxx,
                                                         asignadoxxx	: req.body.trayectoria.asignadoxxx,
@@ -5497,12 +5546,8 @@ if(req.body.tipo2==='Formulario'){
                                                     res.status(500).send(respuesta.estado) 
                                                     return;
                                                 }   
-
-
-                                        
                                                 if(cadrrr.estado==='nada')  {      res.json(todo3);}
                                                 else{        res.status(500).send('Precaución registro ya existe en base de datos, este formulario tiene llaves unicas: ' + registrorep) }
-
                                             })();
                                                 }
                                                 else
@@ -5518,25 +5563,15 @@ if(req.body.tipo2==='Formulario'){
                                                                 res.status(500).send(respuesta.estado) 
                                                                 return;
                                                             }   
-                                                            
-                                                if(cadrrr.estado==='nada')  {      res.json(todo3);}
+                                                            if(cadrrr.estado==='nada')  {      res.json(todo3);}
                                                 else{        res.status(500).send('Precaución registro ya existe en base de datos, este formulario tiene llaves unicas: ' + registrorep) }
                                                         })();
                                                     
                                                         }
                                                         else
-                                                        { if(cadrrr==='true')
-                                                        {res.status(500).send('Precaución campo ya existe en base de datos') 
-                                                            return;
-
-                                                        }
-                                                        else
                                                         {
-                                                            
-                                                if(cadrrr.estado==='nada')  {      res.json(todo3);}
-                                                else{        res.status(500).send('Precaución registro ya existe en base de datos, este formulario tiene llaves unicas: ' + registrorep) }
-                                                        }
-                                                           
+                                                            if(cadrrr.estado==='nada')  {      res.json(todo3);}
+                                                            else{        res.status(500).send('Precaución registro ya existe en base de datos, este formulario tiene llaves unicas: ' + registrorep) }
                                                         }
                                                         
                                                        
@@ -5550,8 +5585,7 @@ if(req.body.tipo2==='Formulario'){
                                                 }
                                                 else
                                                 {
-                                                   
-                                                if(cadrrr.estado==='nada')  {      res.json(todo3);}
+                                                    if(cadrrr.estado==='nada')  {      res.json(todo3);}
                                                 else{        res.status(500).send('Precaución registro ya existe en base de datos, este formulario tiene llaves unicas: ' + registrorep) }
                                                 }
                                             
@@ -5599,11 +5633,11 @@ if(req.params.recordID!=='crea')
             todo.tipo2    	=	req.body.tipo2    	||	todo.tipo2    	;
             todo.ejecuta    	=	req.body.ejecuta    	 	;
             todo.ejecutainicio    	=	req.body.ejecutainicio    	   	;
+            todo.descripciong	= req.body.descripciong	,
             todo.ejecutaactualiza    	=	req.body.ejecutaactualiza    	  	;
             todo.ejecutaelimina    	=	req.body.ejecutaelimina   		;
             todo.foto    	=	req.body.foto    	||	todo.foto    	;
             todo.geoposicion    	=	req.body.geoposicion      	;
-            todo.descripciong	= req.body.descripciong	,
            
        //     todo.idformdetalle   		 ={id:req.body.idformdetalle.id,nombre:req.body.idformdetalle.nombre   }   	;
 
@@ -5642,12 +5676,12 @@ else{
                     iniciocorrelativo: req.body.iniciocorrelativo,
                     publico        	: req.body.publico        	,
                     idpapa        	: req.body.idpapa        	,
-                    descripciong	: req.body.descripciong	,
                     ejecuta        	: req.body.ejecuta        	,
                     ejecutainicio: req.body.ejecutainicio,
                     ejecutaactualiza: req.body.ejecutaactualiza,
                     ejecutaelimina: req.body.ejecutaelimina,
                     categoria        	: req.body.categoria        	,
+                    descripciong	: req.body.descripciong	,
                     nombre        	: req.body.nombre        	,
                     foto    	: req.body.foto    	,
                 //    idformdetalle:   req.body.idformdetalle,
@@ -5685,8 +5719,8 @@ else{
                     publico        	: req.body.publico        	,
                     ejecuta        	: req.body.ejecuta        	,
                     ejecutainicio: req.body.ejecutainicio,
-                    ejecutaactualiza: req.body.ejecutaactualiza,
                     descripciong	: req.body.descripciong	,
+                    ejecutaactualiza: req.body.ejecutaactualiza,
                     ejecutaelimina: req.body.ejecutaelimina,
                     foto    	: req.body.foto    	,
               //      idformdetalle:   req.body.idformdetalle,

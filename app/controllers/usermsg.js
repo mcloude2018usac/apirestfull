@@ -136,23 +136,12 @@ exports.getUsermsg = function(req, res, next){
                 }
                 else{
       console.log('entra aquiii')
-                  Usermsg.find(  { "status" : "Pendiente", $or : [
+                  Usermsg.find(  {  $or : [
                       { $and : [ { userId:req.params.id,toUserId:req.params.id2}] },
                       { $and : [ { toUserId:req.params.id,userId:req.params.id2 }] }]
                               }).sort([['createdAt', 1]]).exec(function(err, todos) {
                       if (err){ res.send(err); }
-
-                      Usermsg.updateMany(  { "status" : "Pendiente", $or : [
-                        { $and : [ { userId:req.params.id,toUserId:req.params.id2}] },
-                        { $and : [ { toUserId:req.params.id,userId:req.params.id2 }] }]
-                                }, {"status" : "Leido",}, function(err, todo3) {
-                        if (err){       res.status(500).send(err.message)    }
-
-                        res.json(todos);
-                      });
-
-
-                     
+                      res.json(todos);
                   });
                 }
 

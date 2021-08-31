@@ -58,8 +58,11 @@ if(req.params.recordID!=='crea')
     });
 }
 else{
-    formulariofotos.find({  idempresa     	: req.body.idempresa    	,
-        idpapa     	: req.body.idpapa    	 },function(err, todos) {
+    formulariofotos.find(
+        {  idempresa     	: "9999"
+            //req.body.idempresa    	,
+            //idpapa     	: req.body.idpapa    	 
+        },function(err, todos) {
         if (err){ res.send(err); }
         if(todos.length>0)   {    res.status(500).send('Ya existe un formulariofotos en plataforma'); }
         else
@@ -71,7 +74,7 @@ else{
   actividad	: req.body.actividad    	,
   nombrealiasnew	: req.body.nombrealias	,
   foto     	: req.body.foto    	,
-                usuarionew:req.body.bitacora.email,
+                usuarionew:req.body.bitacora.email
               }
                 , function(err, todo) {
                 if (err){ 

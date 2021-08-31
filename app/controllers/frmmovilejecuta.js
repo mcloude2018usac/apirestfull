@@ -425,25 +425,28 @@ var visitas_programadas=async  function(req, res, next){
                     clientet = await functool.dadatosformularioidfinal('605a1f506886480f70f6ec12',{ _id:cliente}
                     ,req.body.estructura.idempresa,'605a1f506886480f70f6ec12'); 
                     var cctemp=''
+                    var codigo=''
                     if(est.empresa==='Sertobar')
                     {
                       cctemp=conecta1
+                      codigo= clientet.codigos
                     }
                     if(est.empresa==='Cielomar')
                     {
                       cctemp=conecta2
+                      codigo= clientet.codigoc
                     }
                     if(est.empresa==='Agencias Campos')
                     {
                       cctemp=conecta3
+                      codigo= clientet.codigoa
                     }
                     var cad="insert into ticket values("+ Number(est.sequenciag) +",'',"+ 
-                    clientet.codigoa +",getdate(),1,'',0,"+functool.daconectaorden(req.body.idform)+ ",'"+ est.referencia +"',0,0,0,0,0,0,0,"+ aduanat.idcig +",0,'',0,'"+ 
+                   codigo+",getdate(),1,'',0,"+functool.daconectaorden(req.body.idform)+ ",'"+ est.referencia +"',0,0,0,0,0,0,0,"+ aduanat.idcig +",0,'',0,'"+ 
                     aduanat.nombre +"',null,'"+ clientet.nombre +"','','',0,0,0,0,0,'',"+ est.sequenciag +",'','',1,'0','"+ est.master +"','"+ est.contenedor +"')"
-                    Bitacoraxxx.create({accion:'inserta sql',texto:cad,conecta:cctemp});
-  
+                    Bitacoraxxx.create({accion:'inserta sql',texto:cad,doc:Number(est.sequenciag),conecta:cctemp});
                     var ejecuta1=await  functool.ejecutasql( cad,cctemp)
-               
+            
   
   
                     console.log('listo')
@@ -465,20 +468,30 @@ var visitas_programadas=async  function(req, res, next){
   
                     aduanat = await functool.dadatosformularioidfinal('605a21c86886480f70f6ec2d',{ _id:aduana}
                     ,req.body.estructura.idempresa,'605a21c86886480f70f6ec2ds'); 
-  
+                    
+            
                     
                     clientet = await functool.dadatosformularioidfinal('605a1f506886480f70f6ec12',{ _id:cliente}
                     ,req.body.estructura.idempresa,'605a1f506886480f70f6ec12'); 
+                      var codigo='0'
+                    if(functool.dacodigocliente(req.body.idform)==='codigos')
+                    {
+                        codigo= clientet.codigos
+                    }
   
+                    
+                    if(functool.dacodigocliente(req.body.idform)==='codigoc')
+                    {
+                      codigo= clientet.codigoc
+                    }
                     var cad="insert into ticket values("+ Number(est.sequenciag) +",'',"+ 
-                    clientet.codigoa +",getdate(),1,'',0,"+functool.daconectaorden(req.body.idform)+ ",'"+ est.referencia +"',0,0,0,0,0,0,0,"+ aduanat.idcig +",0,'',0,'"+ 
+                   codigo +",getdate(),1,'',0,"+functool.daconectaorden(req.body.idform)+ ",'"+ est.referencia +"',0,0,0,0,0,0,0,"+ aduanat.idcig +",0,'',0,'"+ 
                     aduanat.nombre +"',null,'"+ clientet.nombre +"','','',0,0,0,0,0,'',"+ est.sequenciag +",'','',1,'0','"+ est.master +"','"+ est.contenedor +"')"
+  
 
-                    Bitacoraxxx.create({accion:'inserta sql',texto:cad,conecta:conecta1});
-  
+                    Bitacoraxxx.create({accion:'inserta sql',texto:cad,doc:Number(est.sequenciag),conecta:conecta1});
                     var ejecuta1=await  functool.ejecutasql( cad,conecta1)
-               
-  
+      
   
   
                     console.log('listo')
@@ -629,40 +642,6 @@ var visitas_programadas=async  function(req, res, next){
               console.log('ejecuta al inicio crea:' + req.body.ejecutainicio)
              
               switch(req.body.ejecutainicio) {
-                case '1_verificainvrequisicion': 
-
-                (async () => {
-                  var ingreso=0
-                  var salida=0
-                  var saldoactual=0
-                  var total=0
-                  var existenciaactual=0
-                  var cantidadingreso=0
-                  var idproducto=req.body.estructura.articulo.split('¬')[1]
-
-                 
-
-                  producto = await functool.dadatosformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579'); 
-
-            
-
-              
-                  if(Number(producto.existenciaactual)<Number(req.body.estructura.cantidaddespachada))
-                  { resolve({estado:'No se puede despachar ' + req.body.estructura.cantidaddespachada + ' articulos, ya que solo se cuenta con una existencia = ' + producto.existenciaactual}); }
-                  else
-                  {
-                    resolve({estado:'exito'}); 
-                  }
-              
-             })();
-
-
-                
-/*
-              
-                */
-               
-                break;
                 
                   case '1_actualizainventarioaj': 
 
@@ -736,16 +715,10 @@ var visitas_programadas=async  function(req, res, next){
                     precio		: Number(producto.precioporunidad),
                     total		: total,
                   });
-
-                  var preciofinal= producto.precioporunidad
-                  if(saldoactual<=0)
-                  {preciofinal='0'
-
-                  }
                   var estructura={
-                    "precioporunidad" :preciofinal.toString(),
+                    "precioporunidad" : producto.precioporunidad.toString(),
                     "existenciaactual" : saldoactual.toString(),
-                    "total" :( saldoactual*Number(preciofinal)).toString()
+                    "total" :( saldoactual*Number(producto.precioporunidad)).toString()
                    
                 }
                   producto = await functool.actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579',estructura); 
@@ -932,16 +905,10 @@ var visitas_programadas=async  function(req, res, next){
                         precio		: Number(producto.precioporunidad),
                         total		: total,
                       });
-                      var preciofinal= producto.precioporunidad
-                      if(saldoactual<=0)
-                      {preciofinal='0'
-    
-                      }
-
                       var estructura={
-                        "precioporunidad" : preciofinal.toString(),
+                        "precioporunidad" : producto.precioporunidad.toString(),
                         "existenciaactual" : saldoactual.toString(),
-                        "total" :( saldoactual*Number(preciofinal)).toString()
+                        "total" :( saldoactual*Number(producto.precioporunidad)).toString()
                       
                     }
                       producto = await functool.actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579',estructura); 
@@ -1006,14 +973,7 @@ var visitas_programadas=async  function(req, res, next){
                       
                         ingreso=cantidadingreso
                         saldoactual=existenciaactual+ingreso
-                        if(Number(producto.precioporunidad)===0)
-                        {
-                          preciomedio=precioingreso
-                        }
-                        else{
-                          preciomedio=(precioingreso+Number(producto.precioporunidad))/2
-                        }
-                        
+                        preciomedio=(precioingreso+Number(producto.precioporunidad))/2
 
                         precioproducto=Number(producto.precioporunidad)
     
@@ -1151,17 +1111,10 @@ var visitas_programadas=async  function(req, res, next){
                             precio		: Number(producto.precioporunidad),
                             total		: total,
                           });
-
-                          var preciofinal= producto.precioporunidad
-                          if(saldoactual<=0)
-                          {preciofinal='0'
-        
-                          }
-
                           var estructura={
-                            "precioporunidad" : preciofinal.toString(),
+                            "precioporunidad" : producto.precioporunidad.toString(),
                             "existenciaactual" : saldoactual.toString(),
-                            "total" :( saldoactual*Number(preciofinal)).toString()
+                            "total" :( saldoactual*Number(producto.precioporunidad)).toString()
                           
                         }
                           producto = await functool.actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},detalle[i].idempresa,'5fc01bbba8d0a14888774579',estructura); 
@@ -1244,17 +1197,10 @@ var visitas_programadas=async  function(req, res, next){
                             precio		: Number(producto.precioporunidad),
                             total		: total,
                           });
-
-                          var preciofinal= producto.precioporunidad
-                          if(saldoactual<=0)
-                          {preciofinal='0'
-        
-                          }
-
                           var estructura={
-                            "precioporunidad" :preciofinal.toString(),
+                            "precioporunidad" : producto.precioporunidad.toString(),
                             "existenciaactual" : saldoactual.toString(),
-                            "total" :( saldoactual*Number(preciofinal)).toString()
+                            "total" :( saldoactual*Number(producto.precioporunidad)).toString()
                           
                         }
                           producto = await functool.actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},detalle[i].idempresa,'5fc01bbba8d0a14888774579',estructura); 
@@ -1282,7 +1228,55 @@ var visitas_programadas=async  function(req, res, next){
           return new Promise(resolve => {
             console.log('ejecuta al inicio actualiza:' + req.body.ejecutainicio)
               switch(req.body.ejecutaactualiza) {
+                case '1_actualizadbsql22':
+
+
+                
+                  (async () => {
+                    var est=req.body.estructura
+                    var aduana=est.aduana.split('¬')[1]
+                    var cliente=est.cliente.split('¬')[1]
+  
+                    aduanat = await functool.dadatosformularioidfinal('605a21c86886480f70f6ec2d',{ _id:aduana}
+                    ,req.body.estructura.idempresa,'605a21c86886480f70f6ec2ds'); 
+                    
+            
+                    
+                    clientet = await functool.dadatosformularioidfinal('605a1f506886480f70f6ec12',{ _id:cliente}
+                    ,req.body.estructura.idempresa,'605a1f506886480f70f6ec12'); 
+var codigo='0'
+                    if(functool.dacodigocliente(req.body.idform)==='codigos')
+                    {
+codigo= clientet.codigos
+                    }
+  
+                    
+                    if(functool.dacodigocliente(req.body.idform)==='codigoc')
+                    {
+                      codigo= clientet.codigoc
+                    }
+                    var cad="update ticket set  idcliente="+  codigo +",libretexto='"+ est.referencia +"',filial="+ aduanat.idcig +",aduana='"+ 
+                    aduanat.nombre +"',nombreinteresado='"+ clientet.nombre +"',enbarquemaster='"+ est.master +"',contenedor='"+ est.contenedor +"' "+
+                    ' where noticket=' + Number(req.body.sequenciag) + ' and estadoticket<>0 '
                  
+                    Bitacoraxxx.create({accion:'inserta sql',texto:cad,doc:Number(req.body.sequenciag),conecta:conecta1});
+                   
+                   
+                   
+                    var ejecuta1=await  functool.ejecutasql( cad,conecta1)
+      
+  
+  
+                    console.log('listo')
+     
+  
+  
+  
+                    resolve({estado:'exito'}); 
+                  })();
+                  break;
+         
+            
                   case '2_actualizacliente': 
 
                //insert into clientes values (#codigota#,'#PNIT#','#PNOMBRE#','#PDIRECCION#','0','','GUATEMALA','#PTELEFONO#',0,0,999999,'120101',1,30,0,'#PRL#','#PDPI#','','','GUATEMALA','','#PRL#','#PCORREO#','',0,null)

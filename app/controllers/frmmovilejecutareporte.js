@@ -335,152 +335,196 @@ jsonx.push({	text: [{text:'Recibido por: ', bold: true,fontSize:10},{text: '____
                 
             })();
               break;
-              case '5ff67ee82977bb360c526f8a': //REQUISICION
+                case '5ff67ee82977bb360c526f8a': //REQUISICION
 
-              (async () => {
-  
-  
-                  var markup =  '';
-                  let jsonx= [];
-  
-                  master = await functool.dadatosformularioidfinal(reportefrm[1],{ _id:req.params.id2},req.params.id3,reportefrm[1]); 
-       
-               
-                  if(master)
-                  {
-                      
-                      jsonx.push( [
-                          { 
-                              columns: [
-                                {
-                                  // auto-sized columns have their widths based on their content
-                                  width: 380,
-                                 
-                                  text:  master.departamento ,
-                                 
-                                },
-                                {
-                                  // star-sized columns fill the remaining space
-                                  // if there's more than one star-column, available width is divided equally
-                                  width: 150,
-                                 
-                                  text: master.nombrejefesolicitante,
-                                 
-                                },
-                               
-                              ],
-                              // optional space between columns
-                              columnGap: 1,
-                              margin: [ 25, 85, 10, 1 ] ,
-                            
-                             
-                              fontSize: 8
-                            }
-                          
-                      ]);
-  
-                      jsonx.push( [
-                          { 
-                              columns: [
-                                {
-                                  // auto-sized columns have their widths based on their content
-                                  width: 100,
-                                 
-                                  text:  master.cargodelsolicitante ,
-                                 
-                                },
-                                {
-                                  // auto-sized columns have their widths based on their content
-                                  width: 280,
-                                 
-                                  text:  ' ' ,
-                                 
-                                },
-                                {
-                                  // star-sized columns fill the remaining space
-                                  // if there's more than one star-column, available width is divided equally
-                                  width: 150,
-                                 
-                                  text: master.nombresolicitante ,
-                                 
-                                },
-                               
-                              ],
-                              // optional space between columns
-                              columnGap: 1,
-                              margin: [ 25, 40, 10, 1 ] ,
-                             
-                             
-                              fontSize: 8
-                            }
-                          
-                      ]);
-  
-                      jsonx.push( [
-                          { 
-                              columns: [
-                                {
-                                  // auto-sized columns have their widths based on their content
-                                  width: 360,
-                                 
-                                  text: functool.dafechatodate( master.fecha) ,
-                                 
-                                },
-                                {
-                                  // star-sized columns fill the remaining space
-                                  // if there's more than one star-column, available width is divided equally
-                                  width: 150,
-                               
-                                  text: master.personaquerecibe ,
-                                 
-                                },
-                               
-                              ],
-                              // optional space between columns
-                              columnGap: 1,
-                              margin: [ 45, 45, 10, 1 ] ,
-                              
-                             
-                              fontSize: 8
-                            }
-                          
-                      ]);
-  
-                      jsonx.push( [
+            (async () => {
+
+
+                var markup =  '';
+                let jsonx= [];
+
+                master = await functool.dadatosformularioidfinal(reportefrm[1],{ _id:req.params.id2},req.params.id3,reportefrm[1]); 
+                if(master)
+                {
+                    
+                    jsonx.push( [
+                        { 
+                            columns: [
+                              {
+                                // auto-sized columns have their widths based on their content
+                                width: 380,
+                                text:  master.departamento ,
+
+                              },
+                              {
+                                // star-sized columns fill the remaining space
+                                // if there's more than one star-column, available width is divided equally
+                                width: 150,
+                                text: master.nombrejefesolicitante,
+                              },
+                            ],
+                            // optional space between columns
+                            columnGap: 1,
+                            margin: [ 25, 75, 10, 1 ] ,
+                            fontSize: 8
+                          }
+                        
+                    ]);
+
+                    jsonx.push( [
+                        { 
+                            columns: [
+                              {
+                                // auto-sized columns have their widths based on their content
+                                width: 100,
+                                text:  master.cargodelsolicitante ,
+                              },
+                              {
+                                // auto-sized columns have their widths based on their content
+                                width: 280,
+                                text:  ' ' ,
+                              },
+                              {
+                                // star-sized columns fill the remaining space
+                                // if there's more than one star-column, available width is divided equally
+                                width: 150,
+                                text: master.nombresolicitante ,
+                              },
+                            ],
+                            // optional space between columns
+                            columnGap: 1,
+                            margin: [ 25, 40, 10, 1 ] ,
+                            fontSize: 8
+                          }
+                        
+                    ]);
+
+                    jsonx.push( [
                         { 
                             columns: [
                               {
                                 // auto-sized columns have their widths based on their content
                                 width: 360,
                                
-                                text: '' ,
+                                text: functool.dafechatodate( master.fecha) ,
                                
-                              }
+                              },
+                              {
+                                // star-sized columns fill the remaining space
+                                // if there's more than one star-column, available width is divided equally
+                                width: 150,
                              
+                                text: master.personaquerecibe ,
+                               
+                              },
                              
                             ],
                             // optional space between columns
                             columnGap: 1,
-                            margin: [ 45, 83, 10, 1 ] ,
+                            margin: [ 45, 45, 10, 1 ] ,
                             
                            
                             fontSize: 8
                           }
                         
                     ]);
-  
-                   
-  
-                      detalle = await functool.dadatosformulariofinal('5fc03c79ab0f6448b877eb5c',{idpapa:'' + master._id},req.params.id3,'5fc03c79ab0f6448b877eb5cs'); 
-  
-                      markup=markup+''
-  
-                      var cuantosreg=detalle.length;
-  
-                  for(var i = 0; i < detalle.length;i++){
-                      var articulon=detalle[i].articulo.split('<br>')
-                    if(articulon[1].split(':')[1].trim()==='VIENEN DE LA')
+
+                    jsonx.push( [
+                      { 
+                          columns: [
+                            {
+                              // auto-sized columns have their widths based on their content
+                              width: 360,
+                             
+                              text: '' ,
+                             
+                            }
+                           
+                           
+                          ],
+                          // optional space between columns
+                          columnGap: 1,
+                          margin: [ 45, 83, 10, 1 ] ,
+                          
+                         
+                          fontSize: 8
+                        }
+                      
+                  ]);
+
+                 
+
+                    detalle = await functool.dadatosformulariofinal('5fc03c79ab0f6448b877eb5c',{idpapa:'' + master._id},req.params.id3,'5fc03c79ab0f6448b877eb5cs'); 
+
+                    markup=markup+''
+
+                    var cuantosreg=detalle.length;
+
+                for(var i = 0; i < detalle.length;i++){
+                    var articulon=detalle[i].articulo.split('<br>')
+                  if(articulon[1].split(':')[1].trim()==='VIENEN DE LA')
+                  {
+                    jsonx.push( [
+                      { 
+                          columns: [
+                            {
+                              // auto-sized columns have their widths based on their content
+                              width: 70,
+                            
+                              text:  '',
+                             
+                            },
+                          
+                            {
+                              // auto-sized columns have their widths based on their content
+                              width: 50,
+                             
+                              text:  '',
+                             
+                            },
+                            {
+                              // auto-sized columns have their widths based on their content
+                              width: 60,
+                             
+                              text: '',
+                             
+                            },
+
+                            {
+                              // auto-sized columns have their widths based on their content
+                              width: 255,
+                             
+                              text:  articulon[1].split(':')[1].trim() + ' ' + detalle[i].notarjeta,
+                             
+                            },
+                            {
+                              // auto-sized columns have their widths based on their content
+                              width: 50,
+                             
+                              text:  '',
+                             
+                            },
+
+                         
+                           
+                          ],
+                          // optional space between columns
+                          columnGap: 1,
+                          margin: [ 30, 0, 10, 6 ] ,
+                         
+                         
+                          fontSize: 8
+                        }
+                      
+                  ]);
+            
+
+                  }
+                  else
+                  {
+                    if(articulon[1].split(':')[1].trim()==='ULTIMA LINEA')
                     {
+
                       jsonx.push( [
                         { 
                             columns: [
@@ -506,12 +550,12 @@ jsonx.push({	text: [{text:'Recibido por: ', bold: true,fontSize:10},{text: '____
                                 text: '',
                                
                               },
-  
+
                               {
                                 // auto-sized columns have their widths based on their content
                                 width: 255,
                                
-                                text:  articulon[1].split(':')[1].trim() + ' ' + detalle[i].notarjeta,
+                                text:  articulon[1].split(':')[1].trim(),
                                
                               },
                               {
@@ -521,7 +565,7 @@ jsonx.push({	text: [{text:'Recibido por: ', bold: true,fontSize:10},{text: '____
                                 text:  '',
                                
                               },
-  
+
                            
                              
                             ],
@@ -535,182 +579,56 @@ jsonx.push({	text: [{text:'Recibido por: ', bold: true,fontSize:10},{text: '____
                         
                     ]);
               
-  
                     }
                     else
                     {
-                      if(articulon[1].split(':')[1].trim()==='ULTIMA LINEA')
-                      {
-  
-                        jsonx.push( [
-                          { 
-                              columns: [
-                                {
-                                  // auto-sized columns have their widths based on their content
-                                  width: 70,
-                                
-                                  text:  '',
-                                 
-                                },
-                              
-                                {
-                                  // auto-sized columns have their widths based on their content
-                                  width: 50,
-                                 
-                                  text:  '',
-                                 
-                                },
-                                {
-                                  // auto-sized columns have their widths based on their content
-                                  width: 60,
-                                 
-                                  text: '',
-                                 
-                                },
-  
-                                {
-                                  // auto-sized columns have their widths based on their content
-                                  width: 255,
-                                 
-                                  text:  articulon[1].split(':')[1].trim(),
-                                 
-                                },
-                                {
-                                  // auto-sized columns have their widths based on their content
-                                  width: 50,
-                                 
-                                  text:  '',
-                                 
-                                },
-  
-                             
-                               
-                              ],
-                              // optional space between columns
-                              columnGap: 1,
-                              margin: [ 30, 0, 10, 6 ] ,
-                             
-                             
-                              fontSize: 8
-                            }
-                          
-                      ]);
-                
-                      }
-                      else
-                      {
-                        jsonx.push( [
-                          { 
-                              columns: [
-                                {
-                                  // auto-sized columns have their widths based on their content
-                                  width: 70,
-                                
-                                  text:  detalle[i].cantidadsolicitada ,
-                                 
-                                },
-                              
-                                {
-                                  // auto-sized columns have their widths based on their content
-                                  width: 50,
-                                 
-                                  text:  detalle[i].cantidaddespachada,
-                                 
-                                },
-                                {
-                                  // auto-sized columns have their widths based on their content
-                                  width: 60,
-                                 
-                                  text: articulon[3].split(':')[1].trim(),
-                                 
-                                },
-  
-                                {
-                                  // auto-sized columns have their widths based on their content
-                                  width: 255,
-                                 
-                                  text:  articulon[1].split(':')[1].trim(),
-                                 
-                                },
-                                {
-                                  // auto-sized columns have their widths based on their content
-                                  width: 50,
-                                 
-                                  text:  detalle[i].notarjeta,
-                                 
-                                },
-  
-                             
-                               
-                              ],
-                              // optional space between columns
-                              columnGap: 1,
-                              margin: [ 30, 0, 10, 6 ] ,
-                             
-                             
-                              fontSize: 8
-                            }
-                          
-                      ]);
-                
-                        
-                      }
-  
-                    }
-                      
-  
-                    
-                      
-                  
-                  }
-  
-                  if(cuantosreg<14)
-                  {
-  
-                    
-                  for(var i = cuantosreg; i < 15;i++){
-                  
-  
-                    jsonx.push( [
+                      jsonx.push( [
                         { 
                             columns: [
                               {
                                 // auto-sized columns have their widths based on their content
-                                width: 75,
+                                width: 70,
                               
-                                text:  '',
+                                text:  detalle[i].cantidadsolicitada ,
                                
                               },
                             
                               {
                                 // auto-sized columns have their widths based on their content
-                                width: 40,
+                                width: 50,
                                
-                                text:  '',
+                                text:  detalle[i].cantidaddespachada,
                                
                               },
                               {
                                 // auto-sized columns have their widths based on their content
-                                width: 80,
+                                width: 60,
                                
-                                text:'',
+                                text: articulon[3].split(':')[1].trim(),
                                
                               },
-  
+
                               {
                                 // auto-sized columns have their widths based on their content
-                                width: 250,
+                                width: 255,
                                
-                                text:  '  ',
+                                text:  articulon[1].split(':')[1].trim(),
                                
                               },
-  
+                              {
+                                // auto-sized columns have their widths based on their content
+                                width: 50,
+                               
+                                text:  detalle[i].notarjeta,
+                               
+                              },
+
                            
                              
                             ],
                             // optional space between columns
                             columnGap: 1,
-                            margin: [ 45, 0, 10, 6 ] ,
+                            margin: [ 30, 0, 10, 6 ] ,
                            
                            
                             fontSize: 8
@@ -718,182 +636,224 @@ jsonx.push({	text: [{text:'Recibido por: ', bold: true,fontSize:10},{text: '____
                         
                     ]);
               
-  
+                      
+                    }
+
+                  }
+                    
+
                   
                     
                 
                 }
-  
-                  }
-  
-  
-                  jsonx.push( [
-                    { 
-                        columns: [
-                          {
-                            // auto-sized columns have their widths based on their content
-                            width: 350,
-                           
-                            text:  master.justificaciondeuso ,
-                           
-                          },
-                        
-                        ],
-                        // optional space between columns
-                        columnGap: 1,
-                        margin: [ 120, 10, 10, 6 ] ,
-                        
-                       
-                        fontSize: 8
-                      }
-                    
-                ]);
-  
+
+                if(cuantosreg<14)
+                {
+
+                  
+                for(var i = cuantosreg; i < 15;i++){
                 
+
+                  jsonx.push( [
+                      { 
+                          columns: [
+                            {
+                              // auto-sized columns have their widths based on their content
+                              width: 75,
+                            
+                              text:  '',
+                             
+                            },
+                          
+                            {
+                              // auto-sized columns have their widths based on their content
+                              width: 40,
+                             
+                              text:  '',
+                             
+                            },
+                            {
+                              // auto-sized columns have their widths based on their content
+                              width: 80,
+                             
+                              text:'',
+                             
+                            },
+
+                            {
+                              // auto-sized columns have their widths based on their content
+                              width: 250,
+                             
+                              text:  '  ',
+                             
+                            },
+
+                         
+                           
+                          ],
+                          // optional space between columns
+                          columnGap: 1,
+                          margin: [ 45, 0, 10, 6 ] ,
+                         
+                         
+                          fontSize: 8
+                        }
+                      
+                  ]);
+            
+
+                
+                  
+              
+              }
+
+                }
+
+
                 jsonx.push( [
                   { 
                       columns: [
                         {
                           // auto-sized columns have their widths based on their content
-                          width: 400,
+                          width: 350,
                          
-                          text:  master.observaciones ,
+                          text:  master.justificaciondeuso ,
                          
                         },
                       
                       ],
                       // optional space between columns
                       columnGap: 1,
-                      margin: [ 45, 10, 10, 6 ] ,
+                      margin: [ 120, 10, 10, 6 ] ,
                       
                      
                       fontSize: 8
                     }
                   
               ]);
-  
-                  }
-                  
-  
-                
-                  resolve({estado:jsonx}); 
-  
-                  
-              })();
-                  break;
-                  case '5fc02f572fc3552d1014792f': //FORMULARIO 1-H
-  
-                  (async () => {
-      
-      
-                      var markup =  '';
-      
-                      master = await functool.dadatosformularioidfinal(reportefrm[1],{ _id:req.params.id2},req.params.id3,reportefrm[1]); 
-           
-                      let jsonx= [];
-  
-          
-                      
-                      if(master)
-                      {//border: [true, true, false, false],  width: 100,
-                          /*
-    {
-        style: 'tableExample',
-        table: {
-          heights: [20, 50, 70],
-          body: [
-            ['row 1 with height 20', 'column B'],
-            ['row 2 with height 50', 'column B'],
-            ['row 3 with height 70', 'column B']
-          ]
-        }
-          },
-          
-          margin: [left, top, right, bottom]
-                          */
-  
-                          var fechat=''
-                          fechat=master.fecha
-  
-                          jsonx.push( [
-                            {     text: '   ',   fontSize: 8,  colSpan: 1       }, 
-                              {     text: '',   fontSize: 9,  colSpan: 1       }, 
-                              {     text: '',   fontSize: 9,  colSpan: 1       }, 
-                              { margin: [ 58, 40, 10, 1 ] ,
-                                  text: master.dependencia,
-                                  bold: true,
-                                  colSpan: 5,
-                                  fontSize: 10
-                                
-                              }
-                              
-                          ]);
-  
-                      
-  
-  
-                          jsonx.push( [
-                              { 
-                                  columns: [
-                                    {
-                                      // auto-sized columns have their widths based on their content
-                                      width: 300,
-                                      bold: true,
-                                      text: master.programa,
-                                     
-                                    },
-                                    {
-                                      // star-sized columns fill the remaining space
-                                      // if there's more than one star-column, available width is divided equally
-                                      width: 150,
-                                      bold: true,
-                                      text:functool.dafechatodate(fechat),
-                                      margin: [ 90, 0, 0, 0 ] ,
-                                     
-                                    },
-                                   
-                                  ],
-                                  // optional space between columns
-                                  columnGap: 1,
-                                  margin: [ 58, 5, 10, 1 ] ,
-                                  bold: true,
-                                 
-                                  fontSize: 10
-                                }
-                              
-                          ]);
-  
-                          jsonx.push( [
-                              { 
-                                  columns: [
-                                    {
-                                      // auto-sized columns have their widths based on their content
-                                      width: 350,
-                                      bold: true,
-                                      text:  master.proveedor.split('<br>')[1].split(':')[1].trim(),
-                                     
-                                    },
-                                  
-                                   
-                                  ],
-                                  // optional space between columns
-                                  columnGap: 1,
-                                  margin: [ 58, 5, 10, 1 ] ,
-                                  bold: true,
-                                 
-                                  fontSize: 10
-                                }
-                              
-                          ]);
+
+              
+              jsonx.push( [
+                { 
+                    columns: [
+                      {
+                        // auto-sized columns have their widths based on their content
+                        width: 400,
+                       
+                        text:  master.observaciones ,
+                       
+                      },
+                    
+                    ],
+                    // optional space between columns
+                    columnGap: 1,
+                    margin: [ 45, 10, 10, 6 ] ,
+                    
                    
-                          jsonx.push( [
+                    fontSize: 8
+                  }
+                
+            ]);
+
+                }
+                
+
+              
+                resolve({estado:jsonx}); 
+
+                
+            })();
+                break;
+                case '5fc02f572fc3552d1014792f': //FORMULARIO 1-H
+
+                (async () => {
+    
+    
+                    var markup =  '';
+    
+                    master = await functool.dadatosformularioidfinal(reportefrm[1],{ _id:req.params.id2},req.params.id3,reportefrm[1]); 
+         
+                    let jsonx= [];
+
+        
+                    
+                    if(master)
+                    {//border: [true, true, false, false],  width: 100,
+                        /*
+	{
+			style: 'tableExample',
+			table: {
+				heights: [20, 50, 70],
+				body: [
+					['row 1 with height 20', 'column B'],
+					['row 2 with height 50', 'column B'],
+					['row 3 with height 70', 'column B']
+				]
+			}
+        },
+        
+        margin: [left, top, right, bottom]
+                        */
+
+                        var fechat=''
+                        fechat=master.fecha
+
+                        jsonx.push( [
+                          {     text: '   ',   fontSize: 8,  colSpan: 1       }, 
+                            {     text: '',   fontSize: 9,  colSpan: 1       }, 
+                            {     text: '',   fontSize: 9,  colSpan: 1       }, 
+                            { margin: [ 58, 40, 10, 1 ] ,
+                                text: master.dependencia,
+                                bold: true,
+                                colSpan: 5,
+                                fontSize: 10
+                              
+                            }
+                            
+                        ]);
+
+                    
+
+
+                        jsonx.push( [
+                            { 
+                                columns: [
+                                  {
+                                    // auto-sized columns have their widths based on their content
+                                    width: 300,
+                                    bold: true,
+                                    text: master.programa,
+                                   
+                                  },
+                                  {
+                                    // star-sized columns fill the remaining space
+                                    // if there's more than one star-column, available width is divided equally
+                                    width: 150,
+                                    bold: true,
+                                    text:functool.dafechatodate(fechat),
+                                    margin: [ 90, 0, 0, 0 ] ,
+                                   
+                                  },
+                                 
+                                ],
+                                // optional space between columns
+                                columnGap: 1,
+                                margin: [ 58, 5, 10, 1 ] ,
+                                bold: true,
+                               
+                                fontSize: 10
+                              }
+                            
+                        ]);
+
+                        jsonx.push( [
                             { 
                                 columns: [
                                   {
                                     // auto-sized columns have their widths based on their content
                                     width: 350,
                                     bold: true,
-                                    text:  '',
+                                    text:  master.proveedor.split('<br>')[1].split(':')[1].trim(),
                                    
                                   },
                                 
@@ -901,7 +861,7 @@ jsonx.push({	text: [{text:'Recibido por: ', bold: true,fontSize:10},{text: '____
                                 ],
                                 // optional space between columns
                                 columnGap: 1,
-                                margin: [ 80, 32, 10, 1 ] ,
+                                margin: [ 58, 5, 10, 1 ] ,
                                 bold: true,
                                
                                 fontSize: 10
@@ -909,206 +869,171 @@ jsonx.push({	text: [{text:'Recibido por: ', bold: true,fontSize:10},{text: '____
                             
                         ]);
                  
-    
-  
-      
-                          detalle = await functool.dadatosformulariofinal('5fc0308c2fc3552d10147947',{idpapa:'' + master._id},req.params.id3,'5fc0308c2fc3552d10147947'); 
-  
-                          markup=markup+''
-  
-                          var grantotal=0
-      
-                      for(var i = 0; i < detalle.length;i++){
-                          var articulon=detalle[i].articulo.split('<br>')
-                          var preciou=0
-                         
-                          if(detalle[i].precioporunidadsegunfactura===undefined)
-                          {
-                              preciou=0
-                          }
-                          else
-                          {
-                               preciou=detalle[i].precioporunidadsegunfactura
-                          }
-                          
-  
-                          var tottal=0
-                          total=preciou*detalle[i].unidadessegunfactura
-                          jsonx.push( [
-                              { 
-                                  columns: [
-                                    {
-                                      // auto-sized columns have their widths based on their content
-                                      width: 35,
-                                   
-                                      text:  detalle[i].unidadessegunfactura,
-                                     
-                                    },
-                                  
-                                    {
-                                      // auto-sized columns have their widths based on their content
-                                      width: 175,
-                                    
-                                      text:  detalle[i].descripciondelarticulaenfactura,
-                                     
-                                    },
-                                    {
-                                      // auto-sized columns have their widths based on their content
-                                      width: 20,
-                                    
-                                      text: ' ',
-                                     
-                                    },
-                                    {
-                                      // auto-sized columns have their widths based on their content
-                                      width: 58,
-                                    
-                                      text: detalle[i].codigogastoreglon,
-                                     
-                                    },
-  
-                                    {
-                                      // auto-sized columns have their widths based on their content
-                                      width: 30,
-                                    
-                                      text:   master.foliolibroalmacen,
-                                     
-                                    },
-  
-                                    {
-                                      // auto-sized columns have their widths based on their content
-                                      width: 60,
-                                     
-                                      text:  functool.numberWithCommas(preciou) ,
-                                     
-                                    },
-                                    {
-                                      // auto-sized columns have their widths based on their content
-                                      width: 50,
-                                    
-                                      text: functool.numberWithCommas(total) ,
-                                     
-                                    }
-                                   
-                                  ],
-                                  // optional space between columns
-                                  columnGap: 1,
-                                  margin: [ -10, 0, 1, 1 ] ,
-                                 
-                                 
-                                  fontSize: 8
-                                }
-                              
-                          ]);
-                   
-  
-  
-      
-                  
-                      
-                        
-                          grantotal=grantotal+total
-      
-                          
-                      
-                      }
-      
-  
-                      jsonx.push( [
+                        jsonx.push( [
                           { 
                               columns: [
                                 {
                                   // auto-sized columns have their widths based on their content
-                                  width: 35,
-                                
-                                  text: ''
+                                  width: 350,
+                                  bold: true,
+                                  text:  '',
                                  
                                 },
-                                {
-                                  // auto-sized columns have their widths based on their content
-                                  width: 175,
-                                
-                                  text: 'TOTAL'
-                                 
-                                }, 
-                                {
-                                  // auto-sized columns have their widths based on their content
-                                  width: 20,
-                                
-                                  text: ' ',
-                                 
-                                },
-                                {
-                                  // auto-sized columns have their widths based on their content
-                                  width: 58,
-                                 
-                                  text: ''
-                                 
-                                }, {
-                                  // auto-sized columns have their widths based on their content
-                                  width: 30,
-                                 
-                                  text: ''
-                                 
-                                }, {
-                                  // auto-sized columns have their widths based on their content
-                                  width: 60,
-                                 
-                                  text: ''
-                                 
-                                }, {
-                                  // auto-sized columns have their widths based on their content
-                                  width: 50,
-                                  decoration:'overline',
-                                 
-                                  bold:true,
-                                  text: functool.numberWithCommas(grantotal)
-                                 
-                                },
-                                  ///hhhhh
+                              
+                               
                               ],
                               // optional space between columns
                               columnGap: 1,
-                              margin: [ -10, 0, 1, 1 ] ,
-                            
+                              margin: [ 80, 32, 10, 1 ] ,
+                              bold: true,
                              
-                              fontSize: 8
+                              fontSize: 10
                             }
                           
                       ]);
                
-              
-                      jsonx.push( [
+  
+
+    
+                        detalle = await functool.dadatosformulariofinal('5fc0308c2fc3552d10147947',{idpapa:'' + master._id},req.params.id3,'5fc0308c2fc3552d10147947'); 
+
+                        markup=markup+''
+
+                        var grantotal=0
+    
+                    for(var i = 0; i < detalle.length;i++){
+                        var articulon=detalle[i].articulo.split('<br>')
+                        var preciou=0
+                       
+                        if(detalle[i].precioporunidadsegunfactura===undefined)
+                        {
+                            preciou=0
+                        }
+                        else
+                        {
+                             preciou=detalle[i].precioporunidadsegunfactura
+                        }
+                        
+
+                        var tottal=0
+                        total=preciou*detalle[i].unidadessegunfactura
+                        jsonx.push( [
+                            { 
+                                columns: [
+                                  {
+                                    // auto-sized columns have their widths based on their content
+                                    width: 35,
+                                 
+                                    text:  detalle[i].unidadessegunfactura,
+                                   
+                                  },
+                                
+                                  {
+                                    // auto-sized columns have their widths based on their content
+                                    width: 175,
+                                  
+                                    text:  detalle[i].descripciondelarticulaenfactura,
+                                   
+                                  },
+                                  {
+                                    // auto-sized columns have their widths based on their content
+                                    width: 20,
+                                  
+                                    text: ' ',
+                                   
+                                  },
+                                  {
+                                    // auto-sized columns have their widths based on their content
+                                    width: 58,
+                                  
+                                    text: detalle[i].codigogastoreglon,
+                                   
+                                  },
+
+                                  {
+                                    // auto-sized columns have their widths based on their content
+                                    width: 30,
+                                  
+                                    text:   master.foliolibroalmacen,
+                                   
+                                  },
+
+                                  {
+                                    // auto-sized columns have their widths based on their content
+                                    width: 60,
+                                   
+                                    text:  functool.numberWithCommas(preciou) ,
+                                   
+                                  },
+                                  {
+                                    // auto-sized columns have their widths based on their content
+                                    width: 50,
+                                  
+                                    text: functool.numberWithCommas(total) ,
+                                   
+                                  }
+                                 
+                                ],
+                                // optional space between columns
+                                columnGap: 1,
+                                margin: [ -10, 0, 1, 1 ] ,
+                               
+                               
+                                fontSize: 8
+                              }
+                            
+                        ]);
+                 
+
+
+    
+                
+                    
+                      
+                        grantotal=grantotal+total
+    
+                        
+                    
+                    }
+    
+
+                    jsonx.push( [
                         { 
                             columns: [
                               {
                                 // auto-sized columns have their widths based on their content
                                 width: 35,
                               
-                                text: '      '
+                                text: ''
                                
                               },
                               {
                                 // auto-sized columns have their widths based on their content
                                 width: 175,
                               
-                                text: '        '
+                                text: 'TOTAL'
                                
-                              }, {
-                                // auto-sized columns have their widths based on their content
-                                width: 58,
-                               
-                                text: ''
-                               
-                              },
+                              }, 
                               {
                                 // auto-sized columns have their widths based on their content
                                 width: 20,
                               
                                 text: ' ',
                                
-                              }, 
+                              },
                               {
+                                // auto-sized columns have their widths based on their content
+                                width: 58,
+                               
+                                text: ''
+                               
+                              }, {
+                                // auto-sized columns have their widths based on their content
+                                width: 30,
+                               
+                                text: ''
+                               
+                              }, {
                                 // auto-sized columns have their widths based on their content
                                 width: 60,
                                
@@ -1116,20 +1041,14 @@ jsonx.push({	text: [{text:'Recibido por: ', bold: true,fontSize:10},{text: '____
                                
                               }, {
                                 // auto-sized columns have their widths based on their content
-                                width:80,
-                               
-                                text: '  '
-                               
-                              }, {
-                                // auto-sized columns have their widths based on their content
                                 width: 50,
                                 decoration:'overline',
-                                decorationStyle:'double',
+                               
                                 bold:true,
-                                text: '                            '
+                                text: functool.numberWithCommas(grantotal)
                                
                               },
-                             
+                                ///hhhhh
                             ],
                             // optional space between columns
                             columnGap: 1,
@@ -1141,115 +1060,177 @@ jsonx.push({	text: [{text:'Recibido por: ', bold: true,fontSize:10},{text: '____
                         
                     ]);
              
-                     
-                      jsonx.push( [
-                          { 
-                              columns: [
-                                {
-                                  // auto-sized columns have their widths based on their content
-                                  width: 300,
-                                 
-                                  text:   master.tipodefactura,
-                                 
-                                },
-                              
+            
+                    jsonx.push( [
+                      { 
+                          columns: [
+                            {
+                              // auto-sized columns have their widths based on their content
+                              width: 35,
+                            
+                              text: '      '
+                             
+                            },
+                            {
+                              // auto-sized columns have their widths based on their content
+                              width: 175,
+                            
+                              text: '        '
+                             
+                            }, {
+                              // auto-sized columns have their widths based on their content
+                              width: 58,
+                             
+                              text: ''
+                             
+                            },
+                            {
+                              // auto-sized columns have their widths based on their content
+                              width: 20,
+                            
+                              text: ' ',
+                             
+                            }, 
+                            {
+                              // auto-sized columns have their widths based on their content
+                              width: 60,
+                             
+                              text: ''
+                             
+                            }, {
+                              // auto-sized columns have their widths based on their content
+                              width:80,
+                             
+                              text: '  '
+                             
+                            }, {
+                              // auto-sized columns have their widths based on their content
+                              width: 50,
+                              decoration:'overline',
+                              decorationStyle:'double',
+                              bold:true,
+                              text: '                            '
+                             
+                            },
+                           
+                          ],
+                          // optional space between columns
+                          columnGap: 1,
+                          margin: [ -10, 0, 1, 1 ] ,
+                        
+                         
+                          fontSize: 8
+                        }
+                      
+                  ]);
+           
+                   
+                    jsonx.push( [
+                        { 
+                            columns: [
+                              {
+                                // auto-sized columns have their widths based on their content
+                                width: 300,
                                
-                              ],
-                              // optional space between columns
-                              columnGap: 1,
-                              margin: [ 35, 30, 10, 1 ] ,
+                                text:   master.tipodefactura,
+                               
+                              },
                             
                              
-                              fontSize: 10
-                            }
+                            ],
+                            // optional space between columns
+                            columnGap: 1,
+                            margin: [ 35, 30, 10, 1 ] ,
                           
-                      ]);
-  
-  
-  
-                      jsonx.push( [
-                          { 
-                              columns: [
-                                {
-                                  // auto-sized columns have their widths based on their content
-                                  width: 300,
-                                
-                                  text:  'SERIE:'+ master.seriefactura,
-                                 
-                                },
-                              
-                               
-                              ],
-                              // optional space between columns
-                              columnGap: 1,
-                              margin: [ 35, 2, 10, 1 ] ,
                            
-                             
-                              fontSize: 10
-                            }
-                          
-                      ]);
-  
-                      jsonx.push( [
-                          { 
-                              columns: [
-                                {
-                                  // auto-sized columns have their widths based on their content
-                                  width: 300,
-                                 
-                                  text:  'No.'+master.nofactura,
-                                 
-                                },
-                              
-                               
-                              ],
-                              // optional space between columns
-                              columnGap: 1,
-                              margin: [ 35, 2, 10, 1 ] ,
-                             
-                             
-                              fontSize: 10
-                            }
-                          
-                      ]);
-  
-                      jsonx.push( [
-                          { 
-                              columns: [
-                                {
-                                  // auto-sized columns have their widths based on their content
-                                  width: 300,
-                                 
-                                  text: ' NIT:'+ master.proveedor.split('<br>')[2].split(':')[1].trim() +' FECHA:'+ functool.dafechatodate(master.fechafactura),
-                                 
-                                },
-                              
-                               
-                              ],
-                              // optional space between columns
-                              columnGap: 1,
-                              margin: [ 35, 2, 10, 1 ] ,
-                             
-                             
-                              fontSize: 10
-                            }
-                          
-                      ]);
-  
-  
-                   
-      
-                      }
-                      
-      
-                    
-                      resolve({estado:jsonx}); 
-      
-                      
-                  })();
-                      break;
+                            fontSize: 10
+                          }
+                        
+                    ]);
 
-                
+
+
+                    jsonx.push( [
+                        { 
+                            columns: [
+                              {
+                                // auto-sized columns have their widths based on their content
+                                width: 300,
+                              
+                                text:  'SERIE:'+ master.seriefactura,
+                               
+                              },
+                            
+                             
+                            ],
+                            // optional space between columns
+                            columnGap: 1,
+                            margin: [ 35, 2, 10, 1 ] ,
+                         
+                           
+                            fontSize: 10
+                          }
+                        
+                    ]);
+
+                    jsonx.push( [
+                        { 
+                            columns: [
+                              {
+                                // auto-sized columns have their widths based on their content
+                                width: 300,
+                               
+                                text:  'No.'+master.nofactura,
+                               
+                              },
+                            
+                             
+                            ],
+                            // optional space between columns
+                            columnGap: 1,
+                            margin: [ 35, 2, 10, 1 ] ,
+                           
+                           
+                            fontSize: 10
+                          }
+                        
+                    ]);
+
+                    jsonx.push( [
+                        { 
+                            columns: [
+                              {
+                                // auto-sized columns have their widths based on their content
+                                width: 300,
+                               
+                                text: ' NIT:'+ master.proveedor.split('<br>')[2].split(':')[1].trim() +' FECHA:'+ functool.dafechatodate(master.fechafactura),
+                               
+                              },
+                            
+                             
+                            ],
+                            // optional space between columns
+                            columnGap: 1,
+                            margin: [ 35, 2, 10, 1 ] ,
+                           
+                           
+                            fontSize: 10
+                          }
+                        
+                    ]);
+
+
+                 
+    
+                    }
+                    
+    
+                  
+                    resolve({estado:jsonx}); 
+    
+                    
+                })();
+                    break;
                 default:
                   // code block
                   resolve({estado:'exito'}); 

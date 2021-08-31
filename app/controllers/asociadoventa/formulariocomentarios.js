@@ -56,29 +56,44 @@ if(req.params.recordID!=='crea')
         }
     });
 }
-else{
-    formulariocomentarios.find({ idempresa     	: req.body.idempresa    	,
-        idpapa     	: req.body.idpapa    	,
-        actividad	: req.body.actividad    	 },function(err, todos) {
-        if (err){ res.send(err); }
-        if(todos.length>0)   {    res.status(500).send('Ya existe un formulariocomentarios en plataforma'); }
-        else
-        {   
-            formulariocomentarios.create({ 
-  idempresa     	: req.body.idempresa    	,
-  idpapa     	: req.body.idpapa    	,
-  nombrealiasnew	: req.body.nombrealias	,
-  actividad	: req.body.actividad    	,
-  nombre     	: req.body.nombre    	,
-  
-                usuarionew:req.body.bitacora.email,
-              }
-                , function(err, todo) {
-                if (err){ 
-                    res.status(500).send(err.message)    }
-                res.json(todo);
-            });
-             }
-    });
+else
+{
+    formulariocomentarios.find
+    (
+        { 
+            idempresa: "9999"
+            //req.body.idempresa,        
+            //idpapa: req.body.idpapa,        
+            //actividad: req.body.actividad
+        },
+        function(err, todos) 
+        {
+            if (err)
+            { 
+                res.send(err); 
+            }
+            if(todos.length>0)   
+            {    
+                res.status(500).send('Ya existe un formulariocomentarios en plataforma'); 
+            }
+            else
+            {   
+                formulariocomentarios.create(
+                    { 
+                    idempresa: req.body.idempresa,
+                    idpapa: req.body.idpapa,
+                    actividad: req.body.actividad,
+                    nombrealiasnew: req.body.nombrealias,
+                    nombre: req.body.nombre,
+                    usuarionew:req.body.bitacora.email
+                },
+                    function(err, todo) {
+                    if (err){ 
+                        res.status(500).send(err.message)    }
+                    res.json(todo);
+                });
+            }
+        }
+    );
 }
 }

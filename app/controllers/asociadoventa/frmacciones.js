@@ -116,8 +116,8 @@ if(req.params.recordID!=='crea')
  todo.tipo       	=	req.body.tipo        	||	todo.tipo;
  todo.mandacorreo	=	req.body.mandacorreo  ;
  todo.ejecuta       	=	req.body.ejecuta        ;   
- todo.ejecutainicio       	=	req.body.ejecutainicio      ;   
  todo.descripciong	= req.body.descripciong	,
+ todo.ejecutainicio       	=	req.body.ejecutainicio      ;   
  todo.subtipo       	=	req.body.subtipo        	||	todo.subtipo;   
  todo.nombre       	=	req.body.nombre        	||	todo.nombre;   
  todo.estado       	=	req.body.estado        	||	todo.estado;   
@@ -146,13 +146,13 @@ else{
   tipo     	: req.body.tipo    	,
   mandacorreo	: req.body.mandacorreo	,
   ejecuta     	: req.body.ejecuta    	,
-  descripciong	: req.body.descripciong	,
   ejecutainicio     	: req.body.ejecutainicio    	,
   subtipo     	: req.body.subtipo    	,
   nombre     	: req.body.nombre    	,
   estado     	: req.body.estado    	,
   actividadsiguiente     	: req.body.actividadsiguiente    	,
   notificacionmsm     	: req.body.notificacionmsm    	,
+  descripciong	: req.body.descripciong	,
   notificacionemail     	: req.body.notificacionemail    	,
                 usuarionew:req.body.bitacora.email,
               }

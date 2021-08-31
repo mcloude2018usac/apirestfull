@@ -45,11 +45,12 @@ if(req.params.recordID!=='crea')
  todo.idempresa       	=	req.body.idempresa        	||	todo.idempresa;   
  
  todo.orden       	=	req.body.orden        	||	todo.orden;   
-  todo.campo	={id: req.body.campo.id, nombre: req.body.campo.nombre}    	,
+ todo.tipo	=	req.body.tipo        	||	todo.tipo;   
+  
   	
  todo.nombre       	=	req.body.nombre        	||	todo.nombre;   
   
- todo.camposlectura		=	req.body.camposlectura        	||	todo.camposlectura;   
+ 
  todo.camposmodificables		=	req.body.camposmodificables        	||	todo.camposmodificables;   
  todo.camposimprime		=	req.body.camposimprime        	||	todo.camposimprime;   
  
@@ -76,11 +77,11 @@ else{
   idempresa     	: req.body.idempresa    	,
   idpapa     	: req.body.idpapa    	,
   orden     	: req.body.orden    	,
-  campo	: req.body.campo	,
-  
+
+  tipo	: req.body.tipo	,
   nombre     	: req.body.nombre    	,
   
-  camposlectura		: req.body.camposlectura   	,
+  
   camposmodificables	: req.body.camposmodificables   	,
   camposimprime	: req.body.camposimprime   	,
   

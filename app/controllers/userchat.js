@@ -1,6 +1,5 @@
 var Userchat = require('../models/userchat');
 var Bitacora = require('../models/bitacora');
-var Usermsg = require('../models/usermsg');
 
 
 function roundxx(value, decimals) {
@@ -19,82 +18,7 @@ exports.getUserchat = function(req, res, next){
             Userchat.find({usuarionew:req.params.id,idempresa:req.params.id3}).populate('idsuscriptor.id')
             .exec(function(err, todos) {
                 if (err){ res.send(err); }
-                var msguser=[]
-                for(var i = 0; i < todos.length;i++){
-                    var cadtt=String(todos[i].idsuscriptor.id._id)
-msguser.push(cadtt)
-                }
-
-                Usermsg.aggregate( [
-                    { $match: { "status" : "Pendiente",userId:{$in:msguser}}},
-                    { 
-                        "$group" : {
-                            "_id" : {
-                                "toUserId" : "$toUserId"
-                            }, 
-                            "COUNT(*)" : {
-                                "$sum" : 1
-                            }
-                        }
-                    }, 
-                    { 
-                        "$project" : {
-                            "toUserId" : "$_id.toUserId", 
-                            "cantidad" : "$COUNT(*)", 
-                            "_id" :0
-                        }
-                    }
-                ]).exec(function(err, todos2) {
-     var datat=[]
-                    for(var i = 0; i < todos.length;i++){
-                        var encuentra=0
-                        for(var ii = 0; ii < todos2.length;ii++){
-                            var cadtt=String(todos[i].idsuscriptor.id._id)
-                            if(cadtt===todos2[ii].toUserId)
-                            {
-                                datat.push({ "_id" : todos[i]._id,
-                                "idsuscriptor" : {
-                                    "id" : todos[i].idsuscriptor.id,
-                                    "nombre" : todos[i].idsuscriptor.nombre
-                                },
-                                "nombre" : todos[i].nombre,
-                                "idempresa" : todos[i].idempresa,
-                                "usuarionew" : todos[i].usuarionew,
-                                "estado" : todos[i].estado,
-                                "nota" : todos[i].nota,
-                                "cantidad":Number(todos2[ii].cantidad)})
-                                encuentra=1;
-                                break;
-                            }
-
-                        }
-                        if(encuentra===0)
-                        {
-                            datat.push({ "_id" : todos[i]._id,
-                            "idsuscriptor" : {
-                                "id" : todos[i].idsuscriptor.id,
-                                "nombre" : todos[i].idsuscriptor.nombre
-                            },
-                            "nombre" : todos[i].nombre,
-                            "idempresa" : todos[i].idempresa,
-                            "usuarionew" : todos[i].usuarionew,
-                            "estado" : todos[i].estado,
-                            "nota" : todos[i].nota,
-                            "cantidad":0})
-
-                        }
-
-                     
-                    }
-                    res.json(datat);
-
-
-                });
-                
-
-
-
-               
+                res.json(todos);
                 
             });
       
