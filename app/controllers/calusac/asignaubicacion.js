@@ -1,6 +1,7 @@
 
 var mailt = require('../../controllers/mail');
 var Tipounidad3 = require('../../models/calusac/tipounidad3');
+var unidadperiodo4 = require('../../models/calusac/unidadperiodo4');
 var Asignaubicacion = require('../../models/calusac/asignaubicacion');
 var Bitacora = require('../../models/bitacora');
 var Facplan3 = require('../../models/calusac/unidadplan3');
@@ -791,25 +792,50 @@ console.log({
     case 'tipoasignado':
             
       
-
-        Facplan4.aggregate(   [
-           
-            { 
-                "$group" : {
-                    "_id" : {
-                        "idtipo" : "$idtipo"
-                      
-                    }
-                }
-            }, 
-            { 
-                "$project" : {
-                    "idtipo" : "$_id.idtipo", 
-                
-                    "_id" :0
-                }
+        unidadperiodo4.find({"estado" : "Activo"}  ).exec(function(err, todos10) {
+  
+            if (err){ res.send(err); }
+    
+            var duplicates = [];
+            todos10.forEach(function (doc) {duplicates.push('' + doc._id);  });
+          //  res.json(duplicates);
+    
+          var projectDataForMatch = {
+            $project : {
+              
+               idtipo:1,
+               idtipounidad:1,
+               idperiodo:1,
+               
+           //list all fields needed here
+          
+                filterThisDoc : {
+                    $cond : {
+                        if  : {
+                            $lt : ["$asignados", "$capacidad"]
+                        },
+                    then : 1,
+                    else  : 0
+                } //or use compare operator $cmp
             }
-        ]).exec(function(err, todos10a) {
+        }
+        }
+        
+        var match = {
+            $match : {
+                filterThisDoc : 1,
+              
+                "idtipounidad.id" :req.params.id,
+                "idperiodo.id": {$in: duplicates}   
+                   
+            }
+        }
+
+
+
+         
+          Facplan4.aggregate(  [ projectDataForMatch, match]
+            ).exec(function(err, todos10a) {
             if (err){ res.send(err); }
 
             var duplicates = [];
@@ -817,7 +843,10 @@ console.log({
 
             for(var i = 0; i < todos10a.length;i++){
               
-                duplicates.push(todos10a[i].idtipo);
+                //if(Number(todos10a[i].capacidad) > Number(todos10a[i].asignados))                {
+                    duplicates.push(todos10a[i].idtipo);
+                //}
+                
              
             
             }
@@ -827,7 +856,7 @@ console.log({
 
                    if(todos.length>0)   {    res.json(todos);   }
                    else
-                   {  res.status(500).send('NO EXISTE REGISTRO');      }
+                   {   res.json([]);      }
 
 
 
@@ -841,6 +870,11 @@ console.log({
                 
         });
      
+      
+        
+        });
+
+
 
        
              
@@ -848,36 +882,13 @@ console.log({
 break;
 case 'tipounidad':
             
-      
-    var projectDataForMatch = {
-        $project : {
-        
-          idtipounidad:1,
-         
-            filterThisDoc : {
-                $cond : {
-                    if  : {
-                        $lt : ["$asignados", "$capacidad"]
-                    },
-                then : 1,
-                else  : 0
-            } //or use compare operator $cmp
-        }
-    }
-    }
-    var match = {
-        $match : {
-            filterThisDoc : 1
-            
-        }
-    }
-
-    Facplan4.aggregate([ projectDataForMatch, match]  ).exec(function(err, todos10) {
+ 
+unidadperiodo4.find({"estado" : "Activo"}  ).exec(function(err, todos10) {
   
         if (err){ res.send(err); }
 
         var duplicates = [];
-        todos10.forEach(function (doc) {duplicates.push(doc.idtipounidad.id);  });
+        todos10.forEach(function (doc) {duplicates.push(doc.idtipounidad);  });
       //  res.json(duplicates);
 
   
@@ -915,31 +926,46 @@ case 'tipoidioma':
          
          }
 
-    Facplan4.aggregate(   [
-       { $match : {
-            'idperiodo.id' : {$in:duplicates2}
-       }},
-       
-        { 
-            "$group" : {
-                "_id" : {
-                    "ididioma" : "$ididioma"
-                  
-                }
-            }
-        }, 
-        { 
-            "$project" : {
-                "ididioma" : "$_id.ididioma", 
-            
-                "_id" :0
+         var projectDataForMatch = {
+            $project : {
+              
+                ididioma:1,
+               idtipounidad:1,
+               idperiodo:1,
+               
+           //list all fields needed here
+          
+                filterThisDoc : {
+                    $cond : {
+                        if  : {
+                            $lt : ["$asignados", "$capacidad"]
+                        },
+                    then : 1,
+                    else  : 0
+                } //or use compare operator $cmp
             }
         }
-    ]).exec(function(err, todos10a) {
+        }
+        
+        var match = {
+            $match : {
+                filterThisDoc : 1,
+              
+                "idtipounidad.id" :req.params.id,
+                "idperiodo.id": {$in: duplicates2}   
+                   
+            }
+        }
+
+
+
+         
+          Facplan4.aggregate(  [ projectDataForMatch, match]
+            ).exec(function(err, todos10a) {
         if (err){ res.send(err); }
 
         var duplicates = [];
-        var duplicates2 = [];
+        
 
         for(var i = 0; i < todos10a.length;i++){
           
