@@ -226,7 +226,7 @@ exports.getsiif = function(req, res, next){
             case 'calusacmoodle2a':
                 var options = {
                     'method': 'POST',
-                    'url': 'http://calusacvirtual.usac.edu.gt/app/api/api.php?apicall=matricular_usuario',
+                    'url': 'https://calusacvirtual.usac.edu.gt/app/api/api.php?apicall=matricular_usuario',
                     'headers': {
                     },
                     formData: {
@@ -324,7 +324,7 @@ exports.getsiif = function(req, res, next){
                         console.log('NOOOOOOOOOOO encuentra encuentra usuario lo crea todo')    
                         var options = {
                             'method': 'POST',
-                            'url': 'http://calusacvirtual.usac.edu.gt/app/api/api.php?apicall=matricular_usuario',
+                            'url': 'https://calusacvirtual.usac.edu.gt/app/api/api.php?apicall=matricular_usuario',
                             'headers': {
                             },
                             formData: {
@@ -471,7 +471,7 @@ Asignacalusac.find({ correo:  req.params.id }, function (err, todo100aaa)  {
             
             var options = {
                 'method': 'POST',
-                'url': 'http://calusacvirtual.usac.edu.gt/app/api/api.php?apicall=asignar_usuario',
+                'url': 'https://calusacvirtual.usac.edu.gt/app/api/api.php?apicall=asignar_usuario',
                 'headers': {
                 },
                 formData: {
@@ -496,7 +496,7 @@ Asignacalusac.find({ correo:  req.params.id }, function (err, todo100aaa)  {
             console.log('NOOOOOOOOOOO encuentra encuentra usuario lo crea todo')    
             var options = {
                 'method': 'POST',
-                'url': 'http://calusacvirtual.usac.edu.gt/app/api/api.php?apicall=crear_usuario',
+                'url': 'https://calusacvirtual.usac.edu.gt/app/api/api.php?apicall=crear_usuario',
                 'headers': {
                 },
                 formData: {
@@ -546,7 +546,7 @@ Asignacalusac.find({ correo:  req.params.id }, function (err, todo100aaa)  {
           
                               var options = {
                                   'method': 'POST',
-                                  'url': 'http://calusacvirtual.usac.edu.gt/app/api/api.php?apicall=asignar_usuario',
+                                  'url': 'https://calusacvirtual.usac.edu.gt/app/api/api.php?apicall=asignar_usuario',
                                   'headers': {
                                   },
                                   formData: {
@@ -625,7 +625,7 @@ console.log(todo100aaa.length)
                     var options = {
                         'method': 'POST',
                         gzip: true,
-                        'url': 'http://calusacvirtual.usac.edu.gt/app/api/order_new.php',
+                        'url': 'https://calusacvirtual.usac.edu.gt/app/api/order_new.php',
                         'headers': {
                         'Content-Type': 'text/xml;charset=UTF-8',
                         'User-Agent': 'PostmanRuntime/7.22.0',
@@ -664,7 +664,7 @@ console.log(todo100aaa.length)
                     var options = {
                         'method': 'POST',
                         gzip: true,
-                        'url': 'http://calusacvirtual.usac.edu.gt/app/api/order.php',
+                        'url': 'https://calusacvirtual.usac.edu.gt/app/api/order.php',
                         'headers': {
                         'Content-Type': 'text/xml;charset=UTF-8',
                         'User-Agent': 'PostmanRuntime/7.22.0',
@@ -710,7 +710,7 @@ console.log(todo100aaa.length)
                     var options = {
                         'method': 'POST',
                         gzip: true,
-                        'url': 'http://calusacvirtual.usac.edu.gt/app/api/order.php',
+                        'url': 'https://calusacvirtual.usac.edu.gt/app/api/order.php',
                         'headers': {
                         'Content-Type': 'text/xml;charset=UTF-8',
                         'User-Agent': 'PostmanRuntime/7.22.0',
@@ -770,7 +770,7 @@ res.send({cadena:'Orden pago ya ha sido utilizada en el sistema.'});
                                     console.log(myXMLText)
 
                                     request({
-                                        url: "http://calusacvirtual.usac.edu.gt/app/api/validate_order.php",
+                                        url: "https://calusacvirtual.usac.edu.gt/app/api/validate_order.php",
                                         method: "POST",
                                         gzip: true,
                                         headers: {
@@ -823,7 +823,7 @@ res.send({cadena:'Orden pago ya ha sido utilizada en el sistema.'});
                                     console.log(myXMLText)
 
                                     request({
-                                        url: "http://calusacvirtual.usac.edu.gt/app/api/validate_order.php",
+                                        url: "https://calusacvirtual.usac.edu.gt/app/api/validate_order.php",
                                         method: "POST",
                                         gzip: true,
                                         headers: {
@@ -864,7 +864,7 @@ res.send({cadena:'Orden pago ya ha sido utilizada en el sistema.'});
      
 
             request({
-                url: "http://calusacvirtual.usac.edu.gt/app/api/order.php",
+                url: "https://calusacvirtual.usac.edu.gt/app/api/order.php",
                 method: "POST",
                 gzip: true,
                 headers: {
