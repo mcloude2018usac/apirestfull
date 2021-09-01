@@ -2,6 +2,7 @@
 var request = require('request');
 var xml2js = require ('xml2js'); 
 var Asignacalusac = require('../models/calusac/asignacalusac');
+var calusacestexonera = require('../models/calusac/calusacestexonera');
 var generator = require('generate-password');
 var Facplan3 = require('../models/calusac/unidadplan3');
 var Operadores = require('../models/calusac/operadores');
@@ -599,7 +600,10 @@ Asignacalusac.find({ correo:  req.params.id }, function (err, todo100aaa)  {
                
             var arr= req.params.id6.split('°')
            
-              Asignacalusac.find({ ano: req.params.id5,cui:req.params.id.trim() ,estadopago:'Asignación exitosa'}, function (err, todo100aaa)  {
+            calusacestexonera.find({  $or : [
+              { $and : [ { cui:req.params.id.trim() }] },
+              { $and : [ { correo:arr[2].trim()}] }]
+           }, function (err, todo100aaa)  {
                 if (err) {  res.send(err);  }
                 else
                 { 

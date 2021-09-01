@@ -10,6 +10,9 @@ var BitacoraxxxSchema = new mongoose.Schema({
     texto: {
         type: String
     },
+    doc: {
+        type: String
+    },
     conecta: {
         type: String
     },
