@@ -1,13 +1,13 @@
 var mongoose =require("mongoose");
 var Asignacalusac2sSchema = new mongoose.Schema({
     
-    foto1:{        type: String},
+    foto1:{        type: Buffer},
 
  
-    foto2:{        type: String},
-    foto3:{        type: String},
-    foto4:{        type: String},
-     foto5:{        type: String},
+    foto2:{        type: Buffer},
+    foto3:{        type: Buffer},
+    foto4:{        type: Buffer},
+     foto5:{        type: Buffer},
      correo:{        type: String},
 
      date 		: { type: Date, default: Date.now }

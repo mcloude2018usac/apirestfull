@@ -22,6 +22,22 @@ var xml2js = require ('xml2js');
 
 var Calusaccarnet = require('../../models/calusac/calusaccarnets');
 
+
+
+
+function dabinstring64(im)
+{
+    if(im===null)
+    {return ''}
+    else
+    {
+    let buff = new Buffer(im);
+    let base64data = buff. toString('base64');
+    return 'data:image/jpeg;base64,' + base64data
+    }
+}
+
+
 function getUNA(ID){
 
     Asignacalusac2.findById({_id:ID}).lean().exec(function(err, todos) {
@@ -136,6 +152,33 @@ function getNextSequenceValue2aaa(req,res,cant,codf){
                 }
             });
 
+
+}
+
+function daimagen64(imgtt){
+
+
+    const img = imgtt;
+    const data = imgtt;
+    const buffert=null;
+    if(data.indexOf(',')>=0)
+    {
+
+        const split = data.split(','); 
+        const base64string = split[1];
+        var tipoimg =(split[0]).split(';')
+        const tipoimg2 =(tipoimg[0]).split(':')
+      return  Buffer.from(base64string, 'base64');
+     
+
+    }else
+    {
+        return null
+    }
+  
+  
+  
+   
 
 }
 
@@ -686,8 +729,18 @@ break;
                       
                             Asignacalusac2.findById({_id:req.params.id   })  .populate('horario').populate('profesor').exec(function(err, todos2) {
                                 if (err){ res.send(err); console.log(err) }
+
+
+             
                               
-                                         res.json({tt:todos,tt2:todos2});  
+                                         res.json({tt:todos,tt2:{_id:todos2._id,
+                                             foto1:dabinstring64(todos2.foto1)
+                                            ,foto2:dabinstring64(todos2.foto2)
+                                            ,foto3:dabinstring64(todos2.foto3)
+                                            ,foto4:dabinstring64(todos2.foto4)
+                                            
+
+                                         }});  
                          }); 
                         
                         }); 
@@ -1149,10 +1202,10 @@ if(req.params.recordID!=='crea')
                         if (err) {  res.send(err);  }
                         else
                         { 
-                            todo100.foto1        	=		req.body.foto1   	;
-                            todo100.foto2        	=		req.body.foto2   	;
-                            todo100.foto3        	=		req.body.foto3   	;
-                            todo100.foto4        	=		req.body.foto4   	;
+                            todo100.foto1        	=	daimagen64(req.body.foto1)	   	;
+                            todo100.foto2        	=		daimagen64(req.body.foto2)   	;
+                            todo100.foto3        	=		daimagen64(req.body.foto3)   	;
+                            todo100.foto4        	=		daimagen64(req.body.foto4 )  	;
             
                          
                 
@@ -1776,10 +1829,10 @@ console.log(filtro)
 
                               
                                     Asignacalusac2.create({ _id:todo._id,
-                                        foto1      	: req.body.foto1        	,
-                                        foto2      	: req.body.foto2        	,
-                                        foto3      	: req.body.foto3        	,
-                                        foto4      	: req.body.foto4        	,
+                                        foto1      	: daimagen64(req.body.foto1 )       	,
+                                        foto2      	: daimagen64(req.body.foto2 )       	,
+                                        foto3      	: daimagen64(req.body.foto3 )       	,
+                                        foto4      	: daimagen64(req.body.foto4)        	,
                                         correo:req.body.correo
                                       
                                         }
@@ -1894,10 +1947,10 @@ console.log(filtro)
 
                                       
                                             Asignacalusac2.create({ _id:todo._id,
-                                            foto1      	: req.body.foto1        	,
-                                            foto2      	: req.body.foto2        	,
-                                            foto3      	: req.body.foto3        	,
-                                            foto4      	: req.body.foto4        	,
+                                            foto1      	: daimagen64(req.body.foto1 )       	,
+                                            foto2      	: daimagen64(req.body.foto2  )      	,
+                                            foto3      	:daimagen64( req.body.foto3  )      	,
+                                            foto4      	:daimagen64( req.body.foto4  )      	,
                                             correo:req.body.correo
                                           
                                             }
