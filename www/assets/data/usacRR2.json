@@ -117,14 +117,19 @@
           "name": "CALUSAC",
           "icon": "home",
           "children": [
-
+            {
+              "name": "Inscripción CALUSAC",
+              "icon": "checkbox",
+              "information": "Inscripción CALUSAC",
+              "modulo": "otro°AsignacioncalusacPage"
+          },
               {
                 "name": "Examen ubicación CALUSAC",
                 "icon": "checkbox",
                 "information": "Examen de ubicación CALUSAC",
                 "modulo": "otro°Asignacioncalusac100Page"
             }
-         
+
           ]
       }
 
