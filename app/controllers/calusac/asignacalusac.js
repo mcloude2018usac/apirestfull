@@ -727,20 +727,33 @@ break;
                             if (err){ res.send(err); console.log(err) }
                             console.log(todos)
                       
-                            Asignacalusac2.findById({_id:req.params.id   })  .populate('horario').populate('profesor').exec(function(err, todos2) {
+                            Asignacalusac2.findById({_id:req.params.id   }).exec(function(err, todos2) {
                                 if (err){ res.send(err); console.log(err) }
 
 
-             
+                                    if(todos2===null)
+                                    {
+                                        res.json({tt:todos,tt2:{_id:'',
+                                            foto1:''
+                                           ,foto2:''
+                                           ,foto3:''
+                                           ,foto4:''}});
+                                       
+                                    }
+                                    else
+                                    {
+                                        res.json({tt:todos,tt2:{_id:todos2._id,
+                                            foto1:dabinstring64(todos2.foto1)
+                                           ,foto2:dabinstring64(todos2.foto2)
+                                           ,foto3:dabinstring64(todos2.foto3)
+                                           ,foto4:dabinstring64(todos2.foto4)
+                                       
+                                    
                               
-                                         res.json({tt:todos,tt2:{_id:todos2._id,
-                                             foto1:dabinstring64(todos2.foto1)
-                                            ,foto2:dabinstring64(todos2.foto2)
-                                            ,foto3:dabinstring64(todos2.foto3)
-                                            ,foto4:dabinstring64(todos2.foto4)
                                             
 
                                          }});  
+                                        }
                          }); 
                         
                         }); 
