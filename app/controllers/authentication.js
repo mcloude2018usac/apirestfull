@@ -115,7 +115,7 @@ if(cuiiii==='' || cuiiii===undefined)
             nombre        	: req.body.nombre        	,
             nombrealias        	: req.body.nombrealias        	,
             nombrealias        	: req.body.nombrealias        	,
-            cui 	: '-',
+            cui 	: cuiiii,
             foto 	: req.body.foto 	,
             direccion   	: req.body.direccion   	,
             telefono    	: req.body.telefono    	,
