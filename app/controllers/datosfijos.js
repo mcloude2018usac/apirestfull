@@ -1965,12 +1965,33 @@ break;
                  
                                                        },
                                "montoasignacion" : { '$sum': { '$toInt': '$monto' }    },
-                               "montoincripcionanual" : { '$sum': { '$toInt': '$monto2' }    }
+                               "montoincripcionanual" : { '$sum': { '$toInt': '$monto2' }    },
+                               "cantidadasignados" : { '$sum':1   }
                                                        
                                                         
                                
                            }
-                }
+                },
+                { 
+                        "$project" : {
+                                tipounidad : "$tipounidad",
+                                   
+                                curso : "$curso",
+                                periodo : "$periodo",
+                                anio : "$anio",
+                                tipoasignacion : "$tipoasignacion",
+                                
+                                estadooperador : "$estadooperador",
+                                estadopago : "$estadopago",
+
+                                montoasignacion: "$montoasignacion",
+                                montoincripcionanual : "$montoincripcionanual",
+                                cantidadasignados : "$cantidadasignados",
+                    
+
+                            "_id" :0
+                        }
+                    }
             ]).exec(function(err, todos) {
 
               //  let stream = compressor.compressJson(todos);
