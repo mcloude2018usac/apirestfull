@@ -1941,12 +1941,7 @@ break;
 
                 console.log('entra')
         Asignacalusac.aggregate( [
-                { 
-                    "$match" : { 
-                        "estadopago" : "Asignación exitosa",
-"ano":'2021'
-                     }
-                }, 
+           
                 {    
                   
                         "$group" : {
