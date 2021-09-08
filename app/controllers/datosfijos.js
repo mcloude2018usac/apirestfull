@@ -1951,7 +1951,7 @@ break;
                                    
                                    curso : "$idunidadacademica.nombre",
                                    periodo : "$idperiodo.nombre",
-                                   anio : "$anio",
+                                   anio : "$ano",
                                    tipoasignacion : "$tipoa",
                                    
                                    estadooperador : "$estadooperador",
