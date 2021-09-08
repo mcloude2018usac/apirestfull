@@ -1952,12 +1952,12 @@ break;
                         "$group" : {
                                 "_id" : {
                                   
-                                   tipounidad : "$idtipounidad.nombre",
+                                        'idtipounidad.nombre' : "$idtipounidad.nombre",
                                    
-                                   curso : "$idunidadacademica.nombre",
-                                   periodo : "$idperiodo.nombre",
+                                   'idunidadacademica.nombre' : "$idunidadacademica.nombre",
+                                   'idperiodo.nombre' : "$idperiodo.nombre",
                                    anio : "$anio",
-                                   tipoasignacion : "$tipoa",
+                                   tipoa : "$tipoa",
                                    
                                    estadooperador : "$estadooperador",
                                    estadopago : "$estadopago",
@@ -1974,15 +1974,15 @@ break;
                 },
                 { 
                         "$project" : {
-                                tipounidad : "$tipounidad",
+                                tipounidad : "$id.tipounidad.nombre",
                                    
-                                curso : "$curso",
-                                periodo : "$periodo",
-                                anio : "$anio",
-                                tipoasignacion : "$tipoasignacion",
+                                curso : "$id.unidadacademica.nombre",
+                                periodo : "$id.idperiodo.nombre",
+                                anio : "$id.anio",
+                                tipoasignacion : "$id.tipoa",
                                 
-                                estadooperador : "$estadooperador",
-                                estadopago : "$estadopago",
+                                estadooperador : "$id.estadooperador",
+                                estadopago : "$id.estadopago",
 
                                 montoasignacion: "$montoasignacion",
                                 montoincripcionanual : "$montoincripcionanual",
