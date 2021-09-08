@@ -1949,51 +1949,27 @@ break;
                 }, 
                 {    
                   
-                
-                    "$group" : { 
-                      
-                        "_id" : { 
-                            "tipoa" : "$tipoa",
-                            "unidad" : "$idtipounidad.nombre",
-                           // "sexo" : "$sexo",
-                          //  "ano" : "$ano",
-                           // "curso" : "$idunidadacademica.nombre",
-                            "periodo" : "$idperiodo.nombre",
-                        //    "mes": { $substr: [ "$fechasiif", 0, 8 ] },
-                            "monto":"$monto",
-                         //   "operador":"$userasignadoemail",
-                         //   "estadooperador":"$estadooperador",
-                    //        "edad":{$round: [ {  
-                // $divide: [{$subtract: [ new Date(), "$fechanac" ] },(365 * 24*60*60*1000)]
-                  //       
-                    //        }  ,0  ]
-                      //  }
-
-                        }, 
-                        "COUNT(*)" : { 
-                            "$sum" :(1)
-                        }, 
-                        "SUM(monto)" : { 
-                             '$sum': { '$toInt': '$monto' } 
-                        }
-                    }
-                }, 
-                { 
-                    "$project" : { 
-                        "tipoa" : "$_id.tipoa", 
-                        "unidad": "$_id.unidad", 
-                       // "sexo": "$_id.sexo", 
-                      //  "ano": "$_id.ano", 
-                     //   "curso": "$_id.curso", 
-                        "periodo": "$_id.periodo", 
-                      //  "mes": "$_id.mes", 
-                      //  "edad": "$_id.edad", 
-                       // "operador":"$_id.operador",
-                       // "estadooperador":"$_id.estadooperador",
-                        "cantidad" : "$COUNT(*)", 
-                        "monto" : "$SUM(monto)", 
-                        "_id" : (0)
-                    }
+                        "$group" : {
+                                "_id" : {
+                                  
+                                   tipounidad : "$idtipounidad.nombre",
+                                   
+                                   curso : "$idunidadacademica.nombre",
+                                   periodo : "$idperiodo.nombre",
+                                   anio : "$anio",
+                                   tipoasignacion : "$tipoa",
+                                   
+                                   estadooperador : "$estadooperador",
+                                   estadopago : "$estadopago",
+                       
+                 
+                                                       },
+                               "montoasignacion" : { '$sum': { '$toInt': '$monto' }    },
+                               "montoincripcionanual" : { '$sum': { '$toInt': '$monto2' }    }
+                                                       
+                                                        
+                               
+                           }
                 }
             ]).exec(function(err, todos) {
 
