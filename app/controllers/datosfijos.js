@@ -1952,12 +1952,12 @@ break;
                         "$group" : {
                                 "_id" : {
                                   
-                                        'idtipounidad.nombre' : "$idtipounidad.nombre",
+                                   tipounidad : "$idtipounidad.nombre",
                                    
-                                   'idunidadacademica.nombre' : "$idunidadacademica.nombre",
-                                   'idperiodo.nombre' : "$idperiodo.nombre",
+                                   curso : "$idunidadacademica.nombre",
+                                   periodo : "$idperiodo.nombre",
                                    anio : "$anio",
-                                   tipoa : "$tipoa",
+                                   tipoasignacion : "$tipoa",
                                    
                                    estadooperador : "$estadooperador",
                                    estadopago : "$estadopago",
@@ -1974,15 +1974,15 @@ break;
                 },
                 { 
                         "$project" : {
-                                tipounidad : "$id.tipounidad.nombre",
+                                tipounidad : "$_id.tipounidad",
                                    
-                                curso : "$id.unidadacademica.nombre",
-                                periodo : "$id.idperiodo.nombre",
-                                anio : "$id.anio",
-                                tipoasignacion : "$id.tipoa",
+                                curso : "$_id.curso",
+                                periodo : "$_id.periodo",
+                                anio : "$_id.anio",
+                                tipoasignacion : "$_id.tipoasignacion",
                                 
-                                estadooperador : "$id.estadooperador",
-                                estadopago : "$id.estadopago",
+                                estadooperador : "$_id.estadooperador",
+                                estadopago : "$_id.estadopago",
 
                                 montoasignacion: "$montoasignacion",
                                 montoincripcionanual : "$montoincripcionanual",
