@@ -55,7 +55,7 @@ exports.getUnidadplan3 = function(req, res, next){
             Asignacalusac.aggregate( [
                 { 
                     "$match" : 
-                        {'idtipounidad.id':req.params.id, 'idunidadacademica.id':req.params.id2,'idperiodo.nombre':req.params.id3}
+                        { "ano":req.params.id4,'idtipounidad.id':req.params.id, 'idunidadacademica.id':req.params.id2,'idperiodo.nombre':req.params.id3}
                     
                 }, 
                 { 
@@ -115,7 +115,7 @@ case 'horariocalusac22aa':
 })
     Asignacalusac.aggregate( [
         { 
-            "$match" : { 
+            "$match" : {  "ano":req.params.id4,
                 "estadopago" : "Asignación exitosa",
                 'idtipounidad.id':req.params.id, 'idunidadacademica.id':req.params.id2,'idperiodo.nombre':req.params.id3
             }
@@ -207,7 +207,7 @@ console.log({'idtipounidad':req.params.id, 'idunidadacademica':req.params.id2
             Asignacalusac.aggregate( 
                 [
                     { 
-                        "$match" : {  "estadopago" : "Asignación exitosa",'idtipounidad.id':req.params.id, 'idunidadacademica.id':req.params.id2 ,  'idperiodo.id': {$in: duplicates}   }
+                        "$match" : { "ano":req.params.id4, "estadopago" : "Asignación exitosa",'idtipounidad.id':req.params.id, 'idunidadacademica.id':req.params.id2 ,  'idperiodo.id': {$in: duplicates}   }
                     }, 
                     { 
                         "$group" : { 

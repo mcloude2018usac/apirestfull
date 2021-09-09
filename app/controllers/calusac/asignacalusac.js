@@ -18,6 +18,7 @@ var Operadores = require('../../models/calusac/operadores');
 var Asignaubicacion = require('../../models/calusac/asignaubicacion');
 var request = require('request');
 var xml2js = require ('xml2js'); 
+var Unidadperiodo3 = require('../../models/calusac/unidadperiodo3');
 
 
 var Calusaccarnet = require('../../models/calusac/calusaccarnets');
@@ -195,9 +196,17 @@ exports.getAsignacalusac = function(req, res, next){
         switch(req.params.id3) {
             case 'componesaloncalusac':
                 //http://127.0.0.1:9090/api/asignacalusacs/1/2/componesaloncalusac
+                Unidadperiodo3.find({estado:'Activo'})
+                .find({}).exec(function(err, todos22) {
+                if (err){  res.send(err);  }
+                              
+                var duplicates = [];
+                  console.log(todos22)
+                todos22.forEach(function (doc) {duplicates.push('' + doc._id + '');  });
 
+                
                 Asignacalusac.aggregate([
-                    { $match: {estadoacta : "Grabación",
+                    { $match: {  'idperiodo.id': {$in: duplicates} ,
                 estadopago:'Asignación exitosa' }
                 },
                     { 
@@ -226,7 +235,7 @@ exports.getAsignacalusac = function(req, res, next){
                           }
                   res.json(todos); 
                 });
-    
+            });
 
             break;
             case 'nivelcalusac':
@@ -768,7 +777,7 @@ break;
                     {console.log({userasignadoemail:req.params.id2,estadooperador:req.params.id   })
                         Asignacalusac.find({userasignadoemail:req.params.id2,estadooperador:req.params.id   })
                         .populate('ididioma').populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia')
-                        .exec(function(err, todos) {
+                        .sort({_id:-1}).exec(function(err, todos) {
                             if (err){ res.send(err); console.log(err) }
                    
                         res.json(todos);  
@@ -779,7 +788,7 @@ break;
                     {
                         Asignacalusac.find({userasignadoemail:req.params.id2,estadooperador:req.params.id ,estadopago:{ $in: [ 'Pendiente de pago','Orden de pago actualizada exitosamente' ]}  })
                         .populate('ididioma').populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia')
-                .exec(function(err, todos) {
+                        .sort({_id:-1}).exec(function(err, todos) {
                             if (err){ res.send(err); console.log(err) }
                      
                         res.json(todos);   

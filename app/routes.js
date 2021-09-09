@@ -72,6 +72,7 @@ var AuthenticationController = require('./controllers/authentication'),
     FrmcatController = require('./controllers/formcat'),
     Frmcat2Controller = require('./controllers/frmcat2'),
     FrmmovildController = require('./controllers/frmmovild'),
+    FrmmovildreportesController = require('./controllers/frmmovildreportes'),
     PerfilController = require('./controllers/perfil'),
     RolController = require('./controllers/rol'),
     EmpresaController = require('./controllers/empresa'),
@@ -264,6 +265,7 @@ module.exports = function(app){
         frmcatRoutes = express.Router(),
         frmcat2Routes = express.Router(),
         frmmovildRoutes = express.Router(),
+        frmmovilreportesRoutes = express.Router(),
         perfilRoutes = express.Router(),
         rolRoutes = express.Router(),
         mailRoutes = express.Router(),
@@ -1105,6 +1107,17 @@ frmmovildRoutes.get('/:id/:id2/:id3/:id4',requireAuth,  FrmmovildController.getF
 frmmovildRoutes.post('/:id',requireAuth,  FrmmovildController.creaFrmmovild2s);
 frmmovildRoutes.post('/:id/:id2',requireAuth,  FrmmovildController.creaFrmmovild3s);
 frmmovildRoutes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth, FrmmovildController.deleteFrmmovild);
+
+
+//-----------------------------------FRMMOVILD
+apiRoutes.use('/frmmovildreportess', frmmovilreportesRoutes);
+frmmovilreportesRoutes.get('/:id',requireAuth,  FrmmovildreportesController.getFrmmovildreportes);
+frmmovilreportesRoutes.get('/:id/:id2',requireAuth,  FrmmovildreportesController.getFrmmovildreportes);
+frmmovilreportesRoutes.get('/:id/:id2/:id3',requireAuth,  FrmmovildreportesController.getFrmmovildreportes);
+frmmovilreportesRoutes.get('/:id/:id2/:id3/:id4',requireAuth,  FrmmovildreportesController.getFrmmovildreportes);
+frmmovilreportesRoutes.post('/:id',requireAuth,  FrmmovildreportesController.creaFrmmovildreportes2s);
+frmmovilreportesRoutes.post('/:id/:id2',requireAuth,  FrmmovildreportesController.creaFrmmovildreportes3s);
+frmmovilreportesRoutes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth, FrmmovildreportesController.deleteFrmmovildreportes);
 
 
 //-----------------------------------CONFERENCIAS

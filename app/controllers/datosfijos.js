@@ -10,6 +10,7 @@ var Permison2 = require('../models/permison2');
 var Area_evento = require('../models/aread_evento');
 var Aread_evento = require('../models/aread_evento');
 var functool = require('../controllers/funcionesnode');
+var Unidadperiodo3 = require('../models/calusac/unidadperiodo3');
 var csv      = require('csv-express');
 var Evento = require('../models/eventos');
 var Pagopap = require('../models/pagospap');
@@ -2839,40 +2840,57 @@ break;
         case 'excel-calusaccursos':
                 console.log('entyra excel-calusaccursos')
 
-                Asignacalusac.find({'idtipounidad.id':'5e9735eec37fcd001eeb1d19', estadopago:'Asignación exitosa'})
+                Unidadperiodo3.find({estado:'Activo'})
+                .find({}).exec(function(err, todos22) {
+                if (err){  res.send(err);  }
+                              
+                var duplicates = [];
+                
+                todos22.forEach(function (doc) {duplicates.push('' + doc._id + '');  });
+
+                
+
+                Asignacalusac.find({  'idperiodo.id': {$in: duplicates} ,estadopago:'Asignación exitosa'})
                 .select({cui:1,nombre:1,idplanifica:1,noboletapago:1,monto:1,carnecalusac:1}).exec(function(err, todos10) {
                     if (err){ res.send(err); console.log(err) }
         
                     if(todos10.length>0)   {  
-                            console.log(todos10.length)
+                           
 
-                        Facplan3.find({'idtipounidad.id':'5e9735eec37fcd001eeb1d19'})
+                        Facplan3.find({ 'idperiodo.id': {$in: duplicates} })
                         .populate('idnivel').populate('idjornada').populate('idhorario').populate('idprofesor').exec(function(err, todos) {
                         if (err){  res.send(err);  }
                                        
 
                         var myData = [];
                  
-               
+                        myData.push({sede:'SEDE',curso:'CURSO'
+                        ,jornada:'JORNADA',
+                        horario:'HORARIO',
+                       // nivel:todos[i].idnivel.nombre,
+                        profesor:'PROFESOR',capacidad:'CAPACIDAD',asignados:'ASIGNADOS'});
 
                         for(var i = 0; i < todos.length;i++){
 
+                                var cont=0
+
                                 for(var ii = 0; ii < todos10.length;ii++){
-                                        console.log(todos10[ii])
+                                    
                                         if(todos10[ii].idplanifica==todos[i]._id)
                                         {
-                                                myData.push({sede:todos[i].idtipounidad.nombre,curso:todos[i].idunidadacademica.nombre + '.' +todos[i].idperiodo.nombre
-                                                ,jornada:todos[i].idjornada.nombre,horario:todos[i].idhorario.nombre,nivel:todos[i].idnivel.nombre
-                                                ,profesor:todos[i].idprofesor.nombre,capacidad:todos[i].capacidad,cui:'_'+ todos10[ii].cui + ' ',
-                                                nombre:todos10[ii].nombre,noboletapago:todos10[ii].noboletapago,
-                                                monto:todos10[ii].monto,carnecalusac:todos10[ii].carnecalusac });
-                                                }
+                                               cont=cont+1;
 
                                         }
                                 }
-                        
+
+                                myData.push({sede:todos[i].idtipounidad.nombre,curso:todos[i].idunidadacademica.nombre + '.' +todos[i].idperiodo.nombre
+                                ,jornada:todos[i].idjornada.nombre,
+                                horario:todos[i].idhorario.nombre + '-' + todos[i].idhorario.nombre2,
+                               // nivel:todos[i].idnivel.nombre,
+                                profesor:todos[i].idprofesor.nombre,capacidad:todos[i].capacidad,asignados:cont});
+                             
         
-                      
+                        }
                         var filename   = "sedecursoscalusac.csv";
                         res.statusCode = 200;
                         var BOM = "\uFEFF"; 
@@ -2894,6 +2912,8 @@ break;
         
         
                 });
+
+        });
                 break
 
                 case 'excel-calusaccursos2':
