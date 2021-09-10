@@ -777,7 +777,7 @@ break;
                     {console.log({userasignadoemail:req.params.id2,estadooperador:req.params.id   })
                         Asignacalusac.find({userasignadoemail:req.params.id2,estadooperador:req.params.id   })
                         .populate('ididioma').populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia')
-                        .sort({_id:-1}).exec(function(err, todos) {
+                        .sort({_id:1}).exec(function(err, todos) {
                             if (err){ res.send(err); console.log(err) }
                    
                         res.json(todos);  
@@ -788,7 +788,7 @@ break;
                     {
                         Asignacalusac.find({userasignadoemail:req.params.id2,estadooperador:req.params.id ,estadopago:{ $in: [ 'Pendiente de pago','Orden de pago actualizada exitosamente' ]}  })
                         .populate('ididioma').populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia')
-                        .sort({_id:-1}).exec(function(err, todos) {
+                        .sort({_id:1}).exec(function(err, todos) {
                             if (err){ res.send(err); console.log(err) }
                      
                         res.json(todos);   
@@ -1136,6 +1136,31 @@ exports.creaAsignacalusac2s = function(req, res, next){
   
 if(req.params.recordID!=='crea')
 { 
+    if( req.body.operacion==='actualizarinfor300')
+    {
+
+  
+
+        Asignacalusac.findById({ _id: req.params.recordID }, function (err, todo100)  {
+            if (err) {  res.send(err);  }
+            else
+            { 
+              
+
+                todo100.monto2        	=		req.body.monto2	;
+                          
+    
+                todo100.save(function (err, todo200){
+                    if (err)     {  console.log(err.message)   }
+                    res.json(todo200);
+            });
+
+   
+        }
+    })
+
+    }
+    else{
     if( req.body.operacion=='actualizarinfor2')
     {
 
@@ -1712,7 +1737,7 @@ console.log( req.params.recordID + ' ' + req.body.noorden + ' ' +req.body.identi
 
     }
     }}}}
-    }}
+    }}}
 }
 else{
     Bitacora.create(req.body.bitacora);
