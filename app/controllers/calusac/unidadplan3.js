@@ -195,7 +195,7 @@ break;
         case 'horariocalusac':
 console.log({'idtipounidad':req.params.id, 'idunidadacademica':req.params.id2
 ,nombre:String(req.params.id3).toUpperCase()})
-            Unidadperiodo3.find({'idtipounidad':req.params.id, 'idunidadacademica':req.params.id2
+            Unidadperiodo3.find({"ano":req.params.id4,'idtipounidad':req.params.id, 'idunidadacademica':req.params.id2
             ,nombre:String(req.params.id3).toUpperCase()})
             .find({}).exec(function(err, todos22) {
             if (err){  res.send(err);  }
