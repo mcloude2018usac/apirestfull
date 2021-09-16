@@ -2867,7 +2867,7 @@ break;
                         myData.push({sede:'SEDE',curso:'CURSO'
                         ,jornada:'JORNADA',
                         horario:'HORARIO',
-                       // nivel:todos[i].idnivel.nombre,
+                        nivel:'NIVEL',
                         profesor:'PROFESOR',capacidad:'CAPACIDAD',asignados:'ASIGNADOS'});
 
                         for(var i = 0; i < todos.length;i++){
@@ -2886,7 +2886,7 @@ break;
                                 myData.push({sede:todos[i].idtipounidad.nombre,curso:todos[i].idunidadacademica.nombre + '.' +todos[i].idperiodo.nombre
                                 ,jornada:todos[i].idjornada.nombre,
                                 horario:todos[i].idhorario.nombre + '-' + todos[i].idhorario.nombre2,
-                               // nivel:todos[i].idnivel.nombre,
+                                nivel:todos[i].idnivel.nombre,
                                 profesor:todos[i].idprofesor.nombre,capacidad:todos[i].capacidad,asignados:cont});
                              
         
