@@ -115,6 +115,41 @@ exports.deleteSuscriptorsaldo = function(req, res, next){
 
 exports.creaSuscriptorsaldo2s = function(req, res, next){
 
+
+    if(req.body.operacion==='eliminadisp')
+    {
+
+        Suscriptorsaldo.findById({ '_id': req.params.id}, function (err, todo)  {
+            if (err) {  res.send(err);  }
+            else
+            {  
+             
+                todo.codigo1        	=	req.body.codigo1        		;
+                todo.codigo2        	=	req.body.codigo2        	       	;
+                todo.codigo3        	=	req.body.codigo3        	       	;
+                todo.codigo4        	=	req.body.codigo4        	        	;
+                todo.codigo5        	=	req.body.codigo5        	       	;
+                todo.dispositivo1        	=	req.body.dispositivo1               	;
+                todo.dispositivo2        	=	req.body.dispositivo2        	     	;
+                todo.dispositivo3        	=	req.body.dispositivo3        	     	;
+                todo.dispositivo4        	=	req.body.dispositivo4             	;
+                todo.dispositivo5        	=	req.body.dispositivo5              	;
+              
+                todo.save(function (err, todo){
+                    if (err)     {  res.status(500).send(err.message)   }
+                
+                    res.json(todo);
+                    
+                    
+                    
+                  
+                });
+            }
+        });
+
+    }
+    else
+    {
     if(req.params.id!=='crea')
     {  Bitacora.create(req.body.bitacora);
     
@@ -235,7 +270,7 @@ exports.creaSuscriptorsaldo2s = function(req, res, next){
         
 
     });
-}
+}}
 
 
 }

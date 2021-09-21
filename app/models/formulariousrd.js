@@ -14,6 +14,15 @@ idusuario		: { type : String },
  actualizacion		: { type : String },  
  filtro		: { type : String },  
  reporte		: { type : String },  
+ reporte2		: { type : String },  
+ 
+ camposreporte:{
+  id	: { type : String },
+  nombre		: { type : String },
+
+ 
+
+},
 
  imprimeorden		: { type : String },  
  imprimeorden2		: { type : String },  

@@ -17,8 +17,6 @@ var util = require('util');
 var log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'a'});
 
 
-//const odbc = require('odbc');
-
 const connectionConfig = {   connectionString: 'DSN=OTRO',    connectionTimeout: 10,    loginTimeout: 10,}
 
 
@@ -29,7 +27,7 @@ function  ejecutaaccess  (cad)
 {
 
     return new Promise(resolve => {
-resolve({estado:'exito',datat:[]}); 
+   resolve({estado:'exito',datat:[]}); 
 });
 }
 
@@ -2177,6 +2175,152 @@ data[aa].replace('¬', ',') + '" target="_blank">https://www.google.com/maps/sea
        return datafinal;
     }
 
+    var procesatablauirecordpdf = function(objetox,todos2,sicampovalida)
+    {
+        var keys = Object.keys(objetox);
+        var datafinal=[]
+        var cad=''
+        var cad2=''
+        var cad3=''
+        let jsonx= [];
+
+
+
+var autox=[]
+
+autox.push('auto')
+for (let ii = 0; ii < keys.length; ii++) {
+    var arreglo=(objetox[keys[ii]] ).split('°')
+autox.push('auto')
+
+}
+
+jsonx.push({text:'   '})
+
+
+
+
+            for(var i = 0; i < todos2.length;i++){
+            //console.log(todos2[i])
+            var regt0=[];   
+            var regt=[]; 
+
+            regt.push({text:i,fontSize: 10});
+            if(i===0){ regt0.push( {rowSpan: 2, text: 'No.', style: 'tableHeader', alignment: 'center',fontSize: 10})}
+            
+
+           for (let ii = 0; ii < keys.length; ii++) {
+               var arreglo=(objetox[keys[ii]] ).split('°')
+
+              
+               
+               var valorxx=todos2[i][keys[ii]]
+               var validacampo=arreglo[2]
+               if(sicampovalida==='si')
+               {
+                validacampo='true'
+               }
+
+               if(valorxx===undefined)
+               {
+                   valorxx=''
+               }
+          
+               if(arreglo[1]==='Fecha')
+               {
+                regt.push({text:dafechastring(valorxx),fontSize: 10});
+                if(i===0){ regt0.push( {rowSpan: 2, text: arreglo[0], style: 'tableHeader', alignment: 'center',fontSize: 10})}
+                  
+               }
+               else
+               {
+                   if(arreglo[1]==='Fecha y Hora')
+                   {
+                      
+                    regt.push( {text:dafechacompleta(valorxx),fontSize: 10} )
+                    if(i===0){ regt0.push( {rowSpan: 2, text: arreglo[0], style: 'tableHeader', alignment: 'center',fontSize: 10})}
+                   }
+                   else
+                   {
+                       if(arreglo[1]==='Hora')
+                   {
+                      
+                    regt.push({text:dahora(valorxx),fontSize: 10}  )
+                    if(i===0){ regt0.push( {rowSpan: 2, text: arreglo[0], style: 'tableHeader', alignment: 'center',fontSize: 10})}
+                   }
+                   else
+                   {
+                   if(arreglo[1]==='Lista de valores')
+                   {
+                       if (valorxx.indexOf('°') > 0) {
+                        regt.push({text:getKeyssrthtml(valorxx),fontSize: 10} )
+                        if(i===0){ regt0.push( {rowSpan: 2, text: arreglo[0], style: 'tableHeader', alignment: 'center',fontSize: 10})}
+                          
+                       }
+                       else
+                       {
+                           if (valorxx.indexOf('¬') > 0) {
+
+                            regt.push( {text:valorxx.split('¬')[0],fontSize: 10} )
+                            if(i===0){ regt0.push( {rowSpan: 2, text: arreglo[0], style: 'tableHeader', alignment: 'center',fontSize: 10})}
+                              
+                           }
+                           else
+                           {
+                            regt.push({text:valorxx,fontSize: 10})
+                            if(i===0){ regt0.push( {rowSpan: 2, text: arreglo[0], style: 'tableHeader', alignment: 'center',fontSize: 10})}
+                              
+                           }
+
+                       }
+
+                      
+                   }
+                   else
+                   {
+
+                    regt.push({text:valorxx,fontSize: 10});
+                    if(i===0){ regt0.push( {rowSpan: 2, text: arreglo[0], style: 'tableHeader', alignment: 'center',fontSize: 10})}
+                       
+                       
+                   }}}
+               }
+           
+                  
+                               
+                       
+                   
+               }
+
+               /*
+                cadurs3 = cadurs3 + ' <a href="https://www.google.com/maps/search/?api=1&query=' +
+data[aa].replace('¬', ',') + '" target="_blank">https://www.google.com/maps/search/?api=1&query=' + data[aa].replace('¬', ',')
++ '</a> ' ;  break;
+               */
+              if(i===0){datafinal.push(regt0)}
+              datafinal.push(regt)
+           
+
+
+                 
+           }
+
+           jsonx.push
+           (
+             {
+               table: 
+               {
+                 widths: autox,
+                 headerRows: 2,
+                 body: 
+                datafinal
+               }
+              }
+           );
+
+
+       return jsonx;
+    }
     var procesatablauirecord = function(objetox,todos2,sicampovalida)
     {
         var keys = Object.keys(objetox);
@@ -4164,6 +4308,7 @@ daconectaorden:daconectaorden,
     stringToObject:stringToObject,
     aplicacampo:aplicacampo,
     daconectasql:daconectasql,
+    procesatablauirecordpdf:procesatablauirecordpdf,
     davalorvv:davalorvv,
     validawarning:validawarning,
     creatrayectoriatoid:creatrayectoriatoid,

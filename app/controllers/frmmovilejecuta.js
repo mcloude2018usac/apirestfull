@@ -14,7 +14,15 @@ var conecta1 = 'mssql://sa:$ertobar@192.168.34.5/stbd'
 var conecta2 = 'mssql://sa:$ertobar@192.168.34.5/cielomarbd'
 var conecta3 = 'mssql://sa:$ertobar@192.168.34.5/camposbd'
 
+var oracledb = require('oracledb');
 
+
+var connAttrs = {
+    "user": "dbprocessges",
+    "password": "S1t13n3$",
+    "connectString": "192.168.34.4/xe"
+}
+    
     
 
 
@@ -641,7 +649,41 @@ var visitas_programadas=async  function(req, res, next){
           return new Promise(resolve => {
               console.log('ejecuta al inicio crea:' + req.body.ejecutainicio)
              
-              switch(req.body.ejecutainicio) {
+               switch(req.body.ejecutainicio) {
+                case '1_verificainvrequisicion': 
+
+                (async () => {
+                  var ingreso=0
+                  var salida=0
+                  var saldoactual=0
+                  var total=0
+                  var existenciaactual=0
+                  var cantidadingreso=0
+                  var idproducto=req.body.estructura.articulo.split('¬')[1]
+
+                 
+
+                  producto = await functool.dadatosformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579'); 
+
+            
+
+              
+                  if(Number(producto.existenciaactual)<Number(req.body.estructura.cantidaddespachada))
+                  { resolve({estado:'No se puede despachar ' + req.body.estructura.cantidaddespachada + ' articulos, ya que solo se cuenta con una existencia = ' + producto.existenciaactual}); }
+                  else
+                  {
+                    resolve({estado:'exito'}); 
+                  }
+              
+             })();
+
+
+                
+/*
+              
+                */
+               
+                break;
                 
                   case '1_actualizainventarioaj': 
 
@@ -715,10 +757,16 @@ var visitas_programadas=async  function(req, res, next){
                     precio		: Number(producto.precioporunidad),
                     total		: total,
                   });
+
+                  var preciofinal= producto.precioporunidad
+                  if(saldoactual<=0)
+                  {preciofinal='0'
+
+                  }
                   var estructura={
-                    "precioporunidad" : producto.precioporunidad.toString(),
+                    "precioporunidad" :preciofinal.toString(),
                     "existenciaactual" : saldoactual.toString(),
-                    "total" :( saldoactual*Number(producto.precioporunidad)).toString()
+                    "total" :( saldoactual*Number(preciofinal)).toString()
                    
                 }
                   producto = await functool.actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579',estructura); 
@@ -780,63 +828,95 @@ var visitas_programadas=async  function(req, res, next){
                 switch(req.body.ejecuta) {
                   case '1_creacliente':
 
-                          //
-               (async () => {   
-                 
-                var est=req.body.estructura
-            
-                var ejecuta2=await  functool.ejecutasql('select max(codigo)+1 as codigo  from clientes',conecta2)
-                var codigoc=ejecuta2.datat.recordset[0].codigo 
-                var cad2=''//codigoc  codigos
-                cad2="insert into clientes values ("+ codigoc+",'"+ est.nit +"','"+ est.nombre +"','"+ est.direccion +"','0','','GUATEMALA','"+ est.telefono +"',0,0,999999,'120101',1,30,0,'"+ est.representantelegal +"','"+ est.dpi +"','','','GUATEMALA','','"+ est.representantelegal +"','"+ est.correo +"','',0,null)"
-                var ejecuta2=await  functool.ejecutasql(cad2,conecta2)
-
-                var ejecuta1=await  functool.ejecutasql('select max(codigo)+1 as codigo  from clientes',conecta1)
-                var codigos=ejecuta1.datat.recordset[0].codigo 
-                var cad1=''//codigoc  codigos
-                cad1="insert into clientes values ("+ codigos +",'"+ est.nit +"','"+ est.nombre +"','"+ est.direccion +"','0','','GUATEMALA','"+ est.telefono +"',0,0,999999,'120101',1,30,0,'"+ est.representantelegal +"','"+ est.dpi +"','','','GUATEMALA','','"+ est.representantelegal +"','"+ est.correo +"','',0,null)"
-                var ejecuta1=await  functool.ejecutasql(cad1,conecta1)
- 
-                
+                    //
+         (async () => {   
+           
+          var est=req.body.estructura
       
+          var ejecuta2=await  functool.ejecutasql('select max(codigo)+1 as codigo  from clientes',conecta2)
+          var codigoc=ejecuta2.datat.recordset[0].codigo 
+          var cad2=''//codigoc  codigos
+          cad2="insert into clientes values ("+ codigoc+",'"+ est.nit +"','"+ est.nombre +"','"+ est.direccion +"','0','','GUATEMALA','"+ est.telefono +"',0,0,999999,'120101',1,30,0,'"+ est.representantelegal +"','"+ est.dpi +"','','','GUATEMALA','','"+ est.representantelegal +"','"+ est.correo +"','',0,null)"
+          var ejecuta2=await  functool.ejecutasql(cad2,conecta2)
+
+          var ejecuta1=await  functool.ejecutasql('select max(codigo)+1 as codigo  from clientes',conecta1)
+          var codigos=ejecuta1.datat.recordset[0].codigo 
+          var cad1=''//codigoc  codigos
+          cad1="insert into clientes values ("+ codigos +",'"+ est.nit +"','"+ est.nombre +"','"+ est.direccion +"','0','','GUATEMALA','"+ est.telefono +"',0,0,999999,'120101',1,30,0,'"+ est.representantelegal +"','"+ est.dpi +"','','','GUATEMALA','','"+ est.representantelegal +"','"+ est.correo +"','',0,null)"
+          var ejecuta1=await  functool.ejecutasql(cad1,conecta1)
+
+                    
+         var ejecuta3=await  functool.ejecutasql('select max(codigo)+1 as codigo  from clientes',conecta3)
+         var codigoa=ejecuta3.datat.recordset[0].codigo 
+         var cad3=''//codigoc  codigos
+         cad3="insert into clientes values ("+codigoa+",'"+ est.nit +"','"+ est.nombre +"','"+ est.direccion +"','0','','GUATEMALA','"+ est.telefono +"',0,0,999999,'120101',1,30,0,'"+ est.representantelegal +"','"+ est.dpi +"','','','GUATEMALA','','"+ est.representantelegal +"','"+ est.correo +"','',0,null)"
+         var ejecuta3=await  functool.ejecutasql(cad3,conecta3)
 
 
-                          
-               var ejecuta3=await  functool.ejecutasql('select max(codigo)+1 as codigo  from clientes',conecta3)
-               var codigoa=ejecuta3.datat.recordset[0].codigo 
-               var cad3=''//codigoc  codigos
-               cad3="insert into clientes values ("+codigoa+",'"+ est.nit +"','"+ est.nombre +"','"+ est.direccion +"','0','','GUATEMALA','"+ est.telefono +"',0,0,999999,'120101',1,30,0,'"+ est.representantelegal +"','"+ est.dpi +"','','','GUATEMALA','','"+ est.representantelegal +"','"+ est.correo +"','',0,null)"
-               var ejecuta3=await  functool.ejecutasql(cad3,conecta3)
+         //actualizar codigos en el formulario
+
+         
+         var estructura={
+          "codigos" : codigos,
+          "codigoc" : codigoc,
+          "codigoa" : codigoa,
+       
+      }
+
+        detalle = await functool.actualizaformularioidfinal('605a1f506886480f70f6ec12',{ _id:dataanterior._id.toString()},
+        req.body.estructura.idempresa,'605a1f506886480f70f6ec12',estructura); 
+        
 
 
-               //actualizar codigos en el formulario
-
-               
-               var estructura={
-                "codigos" : codigos,
-                "codigoc" : codigoc,
-                "codigoa" : codigoa,
-             
-            }
-
-              detalle = await functool.actualizaformularioidfinal('605a1f506886480f70f6ec12',{ _id:dataanterior._id.toString()},
-              req.body.estructura.idempresa,'605a1f506886480f70f6ec12',estructura); 
-              
+ var cadoo="Insert into  wordenforma (IDEMPRESA,IDBODEGA,IDWORDENFORMA,IDWTORDENC,FECHACREACION,FECHAREALIZADA,USUARIOCREADOR,  USUARIOMODIFICA,NOTAS,ESTADO, VALOR1,VALOR2,VALOR3,VALOR4,VALOR5,VALOR6,VALOR7,VALOR8,VALOR9,VALOR10,VALOR11          ,CAMPITOS,IDGTRABAJO,IDTGTRABAJO,TIPO,LLAVE,LLAVE2,IDGTRABAJO2,BORRA) "+
+"values ('939',957,SWORDENFORMA.nextval,1741,trunc(sysdate),trunc(sysdate),'jortiz','jortiz',null,'CREADA',"
++"'" + est.nombre+"',"+"'" + est.nit+"',"+"'" + est.direccion+"',"+"'" + est.telefono+"',"+"'" + est.correo+"',"+"'" + est.representantelegal+"',"+"'" + est.dpi+"',"+"'" + codigos+"',"
++"'" + codigoc+"',"+"'" + codigoa+"',''"+",'3521°3522°3523°3524°3525°3962°3963°3582°3663°3922°3822°3942°',null,null,'1','1462°0°','1462°0°',1,null)"
 
 
-              
+"use strict";
+oracledb.getConnection(connAttrs, function (err, connection) {
+if (err) {
+// Error connecting to DB
+res.set('Content-Type', 'application/json');
+res.status(500).send(JSON.stringify({
+    status: 500,
+    message: "Error connecting to DB",
+    detailed_message: err.message
+}));
+return;
+}
+
+var qry=cadoo
+
+
+connection.execute(qry, {},  {
+outFormat: oracledb.OBJECT // Return the result as Object
+}, function (err, result) {
+if (err ) {
+res.set('Content-Type', 'application/json');
+var status = err ? 500 : 404;
+
+res.status(500).send('Error al insertar en oracle')  
+
+
+} else {
+connection.commit(); 
+resolve({estado:'exito'}); 
+}
+});
+
+});
 
 
 
-
-
-               resolve({estado:'exito'}); 
-              })();
+       
+        })();
 
 
 
-               
-                  break;
+         
+            break;
                   case '1_actualizainvrequisicion':
                     (async () => {
                         var ingreso=0
@@ -905,10 +985,16 @@ var visitas_programadas=async  function(req, res, next){
                         precio		: Number(producto.precioporunidad),
                         total		: total,
                       });
+                      var preciofinal= producto.precioporunidad
+                      if(saldoactual<=0)
+                      {preciofinal='0'
+    
+                      }
+
                       var estructura={
-                        "precioporunidad" : producto.precioporunidad.toString(),
+                        "precioporunidad" : preciofinal.toString(),
                         "existenciaactual" : saldoactual.toString(),
-                        "total" :( saldoactual*Number(producto.precioporunidad)).toString()
+                        "total" :( saldoactual*Number(preciofinal)).toString()
                       
                     }
                       producto = await functool.actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},req.body.estructura.idempresa,'5fc01bbba8d0a14888774579',estructura); 
@@ -973,7 +1059,14 @@ var visitas_programadas=async  function(req, res, next){
                       
                         ingreso=cantidadingreso
                         saldoactual=existenciaactual+ingreso
-                        preciomedio=(precioingreso+Number(producto.precioporunidad))/2
+                        if(Number(producto.precioporunidad)===0)
+                        {
+                          preciomedio=precioingreso
+                        }
+                        else{
+                          preciomedio=(precioingreso+Number(producto.precioporunidad))/2
+                        }
+                        
 
                         precioproducto=Number(producto.precioporunidad)
     
@@ -1041,184 +1134,198 @@ var visitas_programadas=async  function(req, res, next){
         var formularioanula= async function(req, res, next,dataanterior){
             console.log(req.body)
             return new Promise(resolve => {
-                switch(req.body.idformulario) {//REQUISICION
-                    case '5ff67ee82977bb360c526f8a':
+              switch(req.body.idformulario) {//REQUISICION
+                case '5ff67ee82977bb360c526f8a':
+                    (async () => {
+
+                        
+                        detalle = await functool.dadatosformulario('5fc03c79ab0f6448b877eb5c',{ idpapa:req.body.idform},req.body.idempresa); 
                         (async () => {
+                        for(var i = 0; i < detalle.length;i++){
 
-                            
-                            detalle = await functool.dadatosformulario('5fc03c79ab0f6448b877eb5c',{ idpapa:req.body.idform},req.body.idempresa); 
-                            (async () => {
-                            for(var i = 0; i < detalle.length;i++){
-
-                            //    (async () => {
-                            var ingreso=0
-                            var salida=0
-                            var saldoactual=0
-                            var total=0
-                            var existenciaactual=0
-                            var cantidadingreso=0
-                            var idproducto=detalle[i].articulo.split('¬')[1]
-        
-             
-                            producto = await functool.dadatosformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},detalle[i].idempresa,'5fc01bbba8d0a14888774579'); 
-                        
-                            if(producto.existenciaactual)
-                            {existenciaactual=Number(producto.existenciaactual)}
-                            else{existenciaactual=0}
-        
-                            if(detalle[i].cantidaddespachada)
-                            {
-                                cantidadingreso=Number(detalle[i].cantidaddespachada)
-                            }
-                            else
-                            {
-                                cantidadingreso=0;
-                            }
-        
+                        //    (async () => {
+                        var ingreso=0
+                        var salida=0
+                        var saldoactual=0
+                        var total=0
+                        var existenciaactual=0
+                        var cantidadingreso=0
+                        var idproducto=detalle[i].articulo.split('¬')[1]
+    
+         
+                        producto = await functool.dadatosformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},detalle[i].idempresa,'5fc01bbba8d0a14888774579'); 
                     
-                              salida=0
-                          
-                            ingreso=cantidadingreso
-                            saldoactual=existenciaactual+ingreso
-
-                        
-                          total=saldoactual*Number(producto.precioporunidad)
-                          kardex.create({
-                            idempresa		: detalle[i].idempresa,  
-                            fecha		: req.body.papaitem.fecha,  
-                            tipo		: 'Entrada',  
-                            accion		: 'Anula Salida requisición',  
-                            proveedor		: req.body.papaitem.departamento,  
-                            nodoc		: req.body.papaitem.nodocumento.toString(),  
-                            iddocumento		: detalle[i]._id.toString(),  
-                            categoria		:producto.categoria,
-                            producto		: producto.codigoarticulo,  
-                                    
-                            nodockardex		: '',  
-                            nodockardexlinea		: '',  
-                            tarjetasanuladas: '',
-                            estadoprint:'No impreso',
-                            anulacion:'',
-                            idproducto:producto._id,
-                            producton		: producto.descripciondelarticulo,
-                            unidad: producto.unidaddemedida,
-                            saldoanterior		: existenciaactual,
-                            ingreso		: ingreso,
-                            obs:'',
-                            egreso		: salida,
-                            saldoactual		: saldoactual,
-                            precioanterior:Number(producto.precioporunidad),
-                            precio		: Number(producto.precioporunidad),
-                            total		: total,
-                          });
-                          var estructura={
-                            "precioporunidad" : producto.precioporunidad.toString(),
-                            "existenciaactual" : saldoactual.toString(),
-                            "total" :( saldoactual*Number(producto.precioporunidad)).toString()
-                          
+                        if(producto.existenciaactual)
+                        {existenciaactual=Number(producto.existenciaactual)}
+                        else{existenciaactual=0}
+    
+                        if(detalle[i].cantidaddespachada)
+                        {
+                            cantidadingreso=Number(detalle[i].cantidaddespachada)
                         }
-                          producto = await functool.actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},detalle[i].idempresa,'5fc01bbba8d0a14888774579',estructura); 
-                    //})();
+                        else
+                        {
+                            cantidadingreso=0;
+                        }
+    
+                
+                          salida=0
+                      
+                        ingreso=cantidadingreso
+                        saldoactual=existenciaactual+ingreso
 
+                    
+                      total=saldoactual*Number(producto.precioporunidad)
+                      kardex.create({
+                        idempresa		: detalle[i].idempresa,  
+                        fecha		: req.body.papaitem.fecha,  
+                        tipo		: 'Entrada',  
+                        accion		: 'Anula Salida requisición',  
+                        proveedor		: req.body.papaitem.departamento,  
+                        nodoc		: req.body.papaitem.nodocumento.toString(),  
+                        iddocumento		: detalle[i]._id.toString(),  
+                        categoria		:producto.categoria,
+                        producto		: producto.codigoarticulo,  
+                                
+                        nodockardex		: '',  
+                        nodockardexlinea		: '',  
+                        tarjetasanuladas: '',
+                        estadoprint:'No impreso',
+                        anulacion:'',
+                        idproducto:producto._id,
+                        producton		: producto.descripciondelarticulo,
+                        unidad: producto.unidaddemedida,
+                        saldoanterior		: existenciaactual,
+                        ingreso		: ingreso,
+                        obs:'',
+                        egreso		: salida,
+                        saldoactual		: saldoactual,
+                        precioanterior:Number(producto.precioporunidad),
+                        precio		: Number(producto.precioporunidad),
+                        total		: total,
+                      });
+
+                      var preciofinal= producto.precioporunidad
+                      if(saldoactual<=0)
+                      {preciofinal='0'
+    
+                      }
+
+                      var estructura={
+                        "precioporunidad" : preciofinal.toString(),
+                        "existenciaactual" : saldoactual.toString(),
+                        "total" :( saldoactual*Number(preciofinal)).toString()
+                      
+                    }
+                      producto = await functool.actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},detalle[i].idempresa,'5fc01bbba8d0a14888774579',estructura); 
+                //})();
+
+                }
+            })();
+                      resolve({estado:'exito'}); 
+                   })();
+    
+    
+                  
+                   
+                 
+                    break;//H-1
+                    case '5fc02f572fc3552d1014792f': 
+                    (async () => {
+
+                        detalle = await functool.dadatosformulario('5fc0308c2fc3552d10147947',{ idpapa:req.body.idform},req.body.idempresa); 
+                        (async () => {
+                        for(var i = 0; i < detalle.length;i++){
+
+                        var ingreso=0
+                        var salida=0
+                        var saldoactual=0
+                        var total=0
+                        var existenciaactual=0
+                        var cantidadingreso=0
+                        var idproducto=detalle[i].articulo.split('¬')[1]
+    
+         
+                        producto = await functool.dadatosformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},detalle[i].idempresa,'5fc01bbba8d0a14888774579'); 
+                    
+                        if(producto.existenciaactual)
+                        {existenciaactual=Number(producto.existenciaactual)}
+                        else{existenciaactual=0}
+    
+                        if(detalle[i].cantidad)
+                        {
+                            cantidadingreso=Number(detalle[i].cantidad)
+                        }
+                        else
+                        {
+                            cantidadingreso=0;
+                        }
+    
+                
+                          entrada=0
+                      
+                        salida=cantidadingreso
+                        saldoactual=existenciaactual-salida
+                      
+    
+                      total=saldoactual*Number(producto.precioporunidad)
+                      kardex.create({
+                        idempresa		: detalle[i].idempresa,  
+                        fecha		: req.body.papaitem.fecha,  
+                        tipo		: 'Salida',  
+                        accion		: 'Anula Ingreso formulario 1-H',  
+                        proveedor		: req.body.papaitem.proveedor,  
+                        nodoc		: req.body.papaitem.codigo.toString(),  
+                        iddocumento		: detalle[i]._id.toString(),  
+                        categoria		:producto.categoria,
+                        producto		: producto.codigoarticulo,  
+                        unidad: producto.unidaddemedida,
+                        
+                nodockardex		: '',  
+                nodockardexlinea		: '',  
+                tarjetasanuladas: '',
+                estadoprint:'No impreso',
+                anulacion:'',
+                        idproducto:producto._id,
+                        producton		: producto.descripciondelarticulo,
+                        saldoanterior		: existenciaactual,
+                        ingreso		: ingreso,
+                        obs:'',
+                        egreso		: salida,
+                        saldoactual		: saldoactual,
+                        precioanterior:Number(producto.precioporunidad),
+                        precio		: Number(producto.precioporunidad),
+                        total		: total,
+                      });
+
+                      var preciofinal= producto.precioporunidad
+                      if(saldoactual<=0)
+                      {preciofinal='0'
+    
+                      }
+
+                      var estructura={
+                        "precioporunidad" :preciofinal.toString(),
+                        "existenciaactual" : saldoactual.toString(),
+                        "total" :( saldoactual*Number(preciofinal)).toString()
+                      
+                    }
+                      producto = await functool.actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},detalle[i].idempresa,'5fc01bbba8d0a14888774579',estructura); 
                     }
                 })();
-                          resolve({estado:'exito'}); 
-                       })();
-        
-        
-                      
-                       
-                     
-                        break;//H-1
-                        case '5fc02f572fc3552d1014792f': 
-                        (async () => {
-
-                            detalle = await functool.dadatosformulario('5fc0308c2fc3552d10147947',{ idpapa:req.body.idform},req.body.idempresa); 
-                            (async () => {
-                            for(var i = 0; i < detalle.length;i++){
-
-                            var ingreso=0
-                            var salida=0
-                            var saldoactual=0
-                            var total=0
-                            var existenciaactual=0
-                            var cantidadingreso=0
-                            var idproducto=detalle[i].articulo.split('¬')[1]
-        
-             
-                            producto = await functool.dadatosformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},detalle[i].idempresa,'5fc01bbba8d0a14888774579'); 
-                        
-                            if(producto.existenciaactual)
-                            {existenciaactual=Number(producto.existenciaactual)}
-                            else{existenciaactual=0}
-        
-                            if(detalle[i].cantidad)
-                            {
-                                cantidadingreso=Number(detalle[i].cantidad)
-                            }
-                            else
-                            {
-                                cantidadingreso=0;
-                            }
-        
-                    
-                              entrada=0
-                          
-                            salida=cantidadingreso
-                            saldoactual=existenciaactual-salida
-                          
-        
-                          total=saldoactual*Number(producto.precioporunidad)
-                          kardex.create({
-                            idempresa		: detalle[i].idempresa,  
-                            fecha		: req.body.papaitem.fecha,  
-                            tipo		: 'Salida',  
-                            accion		: 'Anula Ingreso formulario 1-H',  
-                            proveedor		: req.body.papaitem.proveedor,  
-                            nodoc		: req.body.papaitem.codigo.toString(),  
-                            iddocumento		: detalle[i]._id.toString(),  
-                            categoria		:producto.categoria,
-                            producto		: producto.codigoarticulo,  
-                            unidad: producto.unidaddemedida,
-                            
-                    nodockardex		: '',  
-                    nodockardexlinea		: '',  
-                    tarjetasanuladas: '',
-                    estadoprint:'No impreso',
-                    anulacion:'',
-                            idproducto:producto._id,
-                            producton		: producto.descripciondelarticulo,
-                            saldoanterior		: existenciaactual,
-                            ingreso		: ingreso,
-                            obs:'',
-                            egreso		: salida,
-                            saldoactual		: saldoactual,
-                            precioanterior:Number(producto.precioporunidad),
-                            precio		: Number(producto.precioporunidad),
-                            total		: total,
-                          });
-                          var estructura={
-                            "precioporunidad" : producto.precioporunidad.toString(),
-                            "existenciaactual" : saldoactual.toString(),
-                            "total" :( saldoactual*Number(producto.precioporunidad)).toString()
-                          
-                        }
-                          producto = await functool.actualizaformularioidfinal('5fc01bbba8d0a14888774579',{ _id:idproducto},detalle[i].idempresa,'5fc01bbba8d0a14888774579',estructura); 
-                        }
-                    })();
-                          resolve({estado:'exito'}); 
-                       })();
-        
-        
-                      
-                       
-                     
-                        break;
-                        default:
-                          // code block
-                          resolve({estado:'exito'}); 
+                      resolve({estado:'exito'}); 
+                   })();
+    
+    
                   
-                  }
+                   
+                 
+                    break;
+                    default:
+                      // code block
+                      resolve({estado:'exito'}); 
+              
+              }
             });
         }
 

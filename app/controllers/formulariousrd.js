@@ -84,7 +84,9 @@ if(req.params.recordID!=='crea')
  todo.creacion       	=	req.body.creacion        	;   
  todo.actualizacion       	=	req.body.actualizacion       ;   
  todo.filtro       	=	req.body.filtro        ;   
- todo.reporte       	=	req.body.reporte        ;   
+ todo.reporte       	=	req.body.reporte        ; 
+ todo.camposreporte	=	req.body.camposreporte        	||	todo.camposreporte;   
+ todo.reporte2       	=	req.body.reporte2        ;   
 
  todo.comandos       	=	req.body.comandos        	;  
  todo.correocomandos	=	req.body.correocomandos; 
@@ -142,6 +144,8 @@ else{
   nombre     	: req.body.nombre    	,
   orden     	: req.body.orden    	,
   tipo     	: req.body.tipo    	,
+ camposreporte	:	req.body.camposreporte  ,
+
   idformulario     	: req.body.idformulario    	,
   formulario     	: req.body.formulario    	,
   consulta     	: req.body.consulta    	,
@@ -150,6 +154,7 @@ else{
   actualizacion     	: req.body.actualizacion    	,
   filtro     	: req.body.filtro    	,
   reporte     	: req.body.reporte    	,
+  reporte2     	: req.body.reporte2    	,
   estado     	: req.body.estado    	,
   verregistros	: req.body.verregistros	,
   generareporte:req.body.generareporte	,

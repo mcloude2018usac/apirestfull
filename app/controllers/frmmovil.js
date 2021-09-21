@@ -1420,7 +1420,7 @@ exports.getFrmmovil = async function(req, res, next){
                                                 comandos:todos[i].comandos, 
                                                 generareporte:todos[i].generareporte,comandos:todos[i].comandos, 
                                                 activas:todos[i].activas,cerradas:todos[i].cerradas,ejecutadas:todos[i].ejecutadas,
-                                                filtrarordentipo:todos[i].filtrarordentipo, filtrarorden:todos[i].filtrarorden,pcreacion:todos[i].creacion, peliminacion:todos[i].eliminacion,  pfiltro:todos[i].filtro, pingreso:'true', preporte:todos[i].reporte,  potros1:'', imprimeorden	:todos[i].imprimeorden, 
+                                                filtrarordentipo:todos[i].filtrarordentipo, filtrarorden:todos[i].filtrarorden,pcreacion:todos[i].creacion, peliminacion:todos[i].eliminacion,  pfiltro:todos[i].filtro, pingreso:'true', preporte:todos[i].reporte, preporte2:todos[i].reporte2,camposreporte:todos[i].camposreporte,  potros1:'', imprimeorden	:todos[i].imprimeorden, 
                                                         cancelarorden:todos[i].cancelarorden,reasignarorden:todos[i].reasignarorden,bitacoraorden:todos[i].bitacoraorden,papaorden:todos[i].papaorden,imprimeorden2	:todos[i].imprimeorden2,  finalizaorden :todos[i].finalizaorden,  eliminaorden  :todos[i].eliminaorden, dashboard  :todos[i].dashboard, filtrocampo  :todos[i].filtrocampo,  trayectoriaorden:todos[i].trayectoriaorden,  documentacionorden:todos[i].documentacionorden,  pausarorden  :todos[i].pausarorden,  anularorden  :todos[i].anularorden,  fotosorden:todos[i].fotosorden, comentariosorden:todos[i].comentariosorden,  documentosorden :todos[i].documentosorden,  tareasorden  :todos[i].tareasorden,acciones:todos[i].acciones,publico:todos[i].idformulario.publico}});
                                         }
 
@@ -1483,7 +1483,7 @@ exports.getFrmmovil = async function(req, res, next){
                                                             pactualizacion:todos[i].actualizacion,  pconsulta:todos[i].consulta, 
                                                             activas:todos[i].activas,cerradas:todos[i].cerradas,ejecutadas:todos[i].ejecutadas,
                                                             generareporte:todos[i].generareporte, 
-                                                            filtrarordentipo:todos[i].filtrarordentipo, filtrarorden:todos[i].filtrarorden,pcreacion:todos[i].creacion, peliminacion:todos[i].eliminacion,  pfiltro:todos[i].filtro, pingreso:'true', preporte:todos[i].reporte,  potros1:'', imprimeorden	:todos[i].imprimeorden,  
+                                                            filtrarordentipo:todos[i].filtrarordentipo, filtrarorden:todos[i].filtrarorden,pcreacion:todos[i].creacion, peliminacion:todos[i].eliminacion,  pfiltro:todos[i].filtro, pingreso:'true', preporte:todos[i].reporte, preporte2:todos[i].reporte2,camposreporte:todos[i].camposreporte,  potros1:'', imprimeorden	:todos[i].imprimeorden,  
                                                                     imprimeorden2	:todos[i].imprimeorden2,  finalizaorden :todos[i].finalizaorden,  
                                                                     comandos :todos[i].comandos,  
                                                                     cancelarorden:todos[i].cancelarorden,reasignarorden:todos[i].reasignarorden,bitacoraorden:todos[i].bitacoraorden,papaorden:todos[i].papaorden,eliminaorden  :todos[i].eliminaorden, dashboard  :todos[i].dashboard, filtrocampo  :todos[i].filtrocampo,  trayectoriaorden:todos[i].trayectoriaorden,  documentacionorden:todos[i].documentacionorden,  pausarorden  :todos[i].pausarorden,  anularorden  :todos[i].anularorden,  fotosorden:todos[i].fotosorden, comentariosorden:todos[i].comentariosorden,  documentosorden :todos[i].documentosorden,  tareasorden  :todos[i].tareasorden,acciones:todos[i].acciones,publico:todos[i].idformulario.publico});
@@ -2618,6 +2618,126 @@ break;
                     
                    
           break;
+
+          case 'formulariogeneralpdf':
+         
+            var namess=req.params.id
+            var arrtodos=req.params.id3.split('°')
+            var campos=arrtodos[2]
+            var filtro
+            if(arrtodos[1]==='todos')
+            {
+                filtro={idempresa:arrtodos[0]}
+            }
+            else
+            {
+                filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1]}
+            }
+  
+  
+                Frmmovild.find({idmovil:req.params.id, idempresa:arrtodos[0]}).sort([['order', 1]]).exec(function(err, todos) {
+                    if (err){ res.send(err); }
+                    var todospp=[]
+                    var todosxx=campos.split(',')
+
+                    var sortObject = {};
+                    var stype = '_id';
+                    var sdir = '-1';
+                  
+
+
+                    if(req.params.id==='5fc01bbba8d0a14888774579')
+                    {
+                        stype = 'categoria';
+                        sdir = '1';
+                        for(var i = 0; i < todosxx.length;i++){
+                            for(var ii = 0; ii < todos.length;ii++){
+                               if(todos[ii].name===todosxx[i].trim())
+                               {
+                                   todospp.push(todos[ii])
+                               }
+
+                            }
+
+                        }
+
+                    }
+                    else
+                    {
+                    stype = '_id';
+                sdir = '-1';
+                      
+                        todospp=todos
+                    }
+                 
+                  
+                    var objetox = {};
+                    for(var i = 0; i < todospp.length;i++){
+                        objetox[todospp[i].name] =todospp[i].title + '°' + todospp[i].type + '°'+ todospp[i].display;
+                    }
+
+
+
+               
+                                        if(todospp.length>0)   {  
+                                       
+                                            var cad=''
+                                            var cadxx=''
+                                            var cad3=(functool.dafiltrocad(todos,'','','')).split('°')
+                                      
+                                            cad=cad3[0]
+                                            cadxx='{'+ cad3[1] + '}'
+                                            cad=cad + '"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" }, "comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno"	: { "type" : "String" },  "geoposicionxxx"	: { "type" : "String" },  "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                            cad='{' + cad + '}'
+                                            cadxx='{' + cadxx + '}'
+                                         
+                                            var jsonObject = functool.stringToObject(cad);
+                                          
+                                            var mongoose = require("mongoose");
+                                            delete mongoose.connection.models[namess];
+                                            var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                                            sortObject[stype] = sdir;
+                                            
+                                        
+                                            try {
+                                                var  frmtt= mongoose.model(namess,tt);
+                                                frmtt.find(filtro).sort(sortObject).exec(function(err, todos2) {
+                                                    if (err){  res.send(err); }
+                                               
+                                                 if(todos2.length>0)
+                                                 {
+                                                    var datafinal = functool.procesatablauirecordpdf(objetox,todos2,'no')
+                                                   
+                                                    res.json(datafinal);
+                                                
+                                                 }
+                                                 else
+                                                 {
+                                                    res.json([]);
+                                                 }
+                                                  
+                                                });
+                                              } catch(e) {
+                                                
+                                                var  frmtt= mongoose.model(namess);
+                                      
+                                                frmtt.find( filtro).sort(sortObject).exec(function(err, todos2) {
+                                                     if (err){  res.send(err);
+                                                    }
+                                                   
+                                                     res.json(todos2);
+                                                 
+                                                 });
+                                              }
+    
+    
+                                         
+                            
+                    }
+                });
+            
+           
+  break;
                   
             case 'formulario':
          
