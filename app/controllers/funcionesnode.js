@@ -11,11 +11,14 @@ var conecta3 = 'mssql://sa:$ertobar@192.168.34.5/camposbd'
 var sql = require("mssql")
 var sql2 = require("mssql")
 var sql3 = require("mssql")
-var fs = require('fs');
+var fs = require('fs');  
 var util = require('util');
+const imageToBase64 = require('image-to-base64');
 
 var log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'a'});
 
+
+const odbc = require('odbc');
 
 const connectionConfig = {   connectionString: 'DSN=OTRO',    connectionTimeout: 10,    loginTimeout: 10,}
 
@@ -27,7 +30,24 @@ function  ejecutaaccess  (cad)
 {
 
     return new Promise(resolve => {
-   resolve({estado:'exito',datat:[]}); 
+const connection = odbc.connect(connectionConfig, (error, connection) => {
+  connection.query(cad, (error, result) => {
+      if (error) {  
+        log_file.write(util.format(cad) + '\r\n');  
+        resolve({estado:'exito',datat:[]}); 
+     
+    }
+      else
+      { resolve({estado:'exito',datat:result}); 
+
+      }
+
+      
+       
+
+
+  });
+});
 });
 }
 
@@ -289,6 +309,10 @@ function datipo(value) {
    case 'Codigo Qr':   tt='String';   break;
    case 'Firma Digital':   tt='String';   break;
    case 'Geoposicionamiento automatico':   tt='String';   break;
+   case 'Pais':   tt='String';   break;
+   case 'Tarjeta de credito':   tt='String';   break;
+   case 'Telefono':   tt='String';   break;
+   case 'Correo electronico':   tt='String';   break;
         default:
           // code block
       }
@@ -320,6 +344,10 @@ function datipo(value) {
            case 'Codigo Qr':   tt='codigoqr';   break;
            case 'Firma Digital':   tt='firmadigital';   break;
            case 'Geoposicionamiento automatico':   tt='geoautomatico';   break;
+           case 'Pais':   tt='pais';   break;
+           case 'Tarjeta de credito':   tt='tarjeta';   break;
+           case 'Telefono':   tt='telefono';   break;
+           case 'Correo electronico':   tt='correo';   break;
             default:
               // code block
           }
@@ -1407,6 +1435,57 @@ function dafiltrocad(todos,id2,id3,norequerido) {
                 cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
             }
              break;
+
+             case 'Pais': 
+             if(todos[i].name==id2){cadxxx=id2+'¬' +id3 + '¬';if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+             else{cadxxx=cadxxx + 'like';cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+             if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+             {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+             }
+             else
+             {
+                
+                 cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+             }
+              break;
+             case 'Tarjeta de credito': 
+             if(todos[i].name==id2){cadxxx=id2+'¬' +id3 + '¬';if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+             else{cadxxx=cadxxx + 'like';cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+             if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+             {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+             }
+             else
+             {
+                
+                 cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+             }
+              break;
+             case 'Telefono':  
+             if(todos[i].name==id2){cadxxx=id2+'¬' +id3 + '¬';if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+             else{cadxxx=cadxxx + 'like';cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+             if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+             {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+             }
+             else
+             {
+                
+                 cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+             }
+              break;
+             case 'Correo electronico':  
+             if(todos[i].name==id2){cadxxx=id2+'¬' +id3 + '¬';if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+             else{cadxxx=cadxxx + 'like';cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+             if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+             {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+             }
+             else
+             {
+                
+                 cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+             }
+              break;
+
+
         case 'Lista de valores': 
         if(todos[i].name==id2){cadxxx=id2+'¬' +id3 + '¬';if(todos[i].blike=='false') {cadxx='"' +id2 + '.label":"' +id3 + '"' }
          else{cadxxx=cadxxx + 'like';cadxx='"' +id2 + '.label": { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
@@ -1539,7 +1618,7 @@ var dahora= function(data) {
      return re;
     }
 
-    var  daimagen= function(data) {
+    var  daimagen=  function(data) {
         let  re = '';
        var fecha=data
           const aa = fecha
@@ -1556,6 +1635,17 @@ var dahora= function(data) {
       
      return re;
     }
+
+    var  dafalso= function(data) {
+        let  re = '';
+if(data==='true')
+{re='Si'}
+else
+{
+    re='No'
+}
+         return re;
+        }
     var cuantasVecesAparece= function(cadena, caracter){
         var indices = [];
         for(var i = 0; i < cadena.length; i++) {
@@ -1621,6 +1711,29 @@ var dahora= function(data) {
                      }
                      else
                      {
+                        if(arreglo[1]==='Check List')
+                        {
+                            if (valorxx.indexOf('¬') > 0) {
+                                cad=cad + '<br><strong>' +  arreglo[0] + '</strong>: ' + getKeyssrthtml(valorxx.split('¬')[1]) + ''
+                            }
+                            else
+                            {
+                                if (valorxx.indexOf('¬') > 0) {
+     
+                                  
+                                    cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + valorxx.split('¬')[0]  + '<br>'
+                                }
+                                else
+                                {
+                                    cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + valorxx + '<br>'
+                                }
+     
+                            }
+     
+                           
+                        }
+                        else
+                        {
                      if(arreglo[1]==='Lista de valores')
                      {
                          if (valorxx.indexOf('°') > 0) {
@@ -1665,7 +1778,7 @@ var dahora= function(data) {
                              
                          }
                          
-                     }}}
+                     }}}}
                  }
              } 
                     
@@ -1814,6 +1927,30 @@ var dahora= function(data) {
                    }
                    else
                    {
+
+                    if(arreglo[1]==='Check List')
+                    {
+                        if (valorxx.indexOf('¬') > 0) {
+                            cad=cad + '<br><strong>' +  arreglo[0] + '</strong>: ' + getKeyssrthtml(valorxx.split('¬')[1]) + ''
+                        }
+                        else
+                        {
+                            if (valorxx.indexOf('¬') > 0) {
+ 
+                              
+                                cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + valorxx.split('¬')[0]  + '<br>'
+                            }
+                            else
+                            {
+                                cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + valorxx + '<br>'
+                            }
+ 
+                        }
+ 
+                       
+                    }
+                    else
+                    {
                        if(arreglo[1]==='Moneda')
                        {
                            cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + numberWithCommas(valorxx) + '<br>'
@@ -1835,7 +1972,7 @@ var dahora= function(data) {
                            
                        }
                        
-                   }}}
+                   }}}}
                }
            } 
                   
@@ -2321,6 +2458,670 @@ data[aa].replace('¬', ',') + '" target="_blank">https://www.google.com/maps/sea
 
        return jsonx;
     }
+
+    
+
+    
+var daimagenxxx =  function(ruta,img)
+{
+    return new Promise(resolve => {
+
+
+        var ii='iVBORw0KGgoAAAANSUhEUgAAABcAAAAZCAIAAABVQiKHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAAkSURBVDhP7cwxAQAADIOw+TfNDHD2JAJyLLS4FtfiWlyLazHwVgW2nh0VrZ4AAAAASUVORK5CYII='
+
+        imageToBase64(ruta) // Image URL
+        .then(
+            (response) => {
+              
+    
+    
+    if(img==='')
+    {
+        resolve(ii); 
+    }
+    else
+    {
+        resolve(response); 
+    }
+          
+            //resolve(todos2); 
+            
+    
+            }
+        )
+        .catch(
+            (error) => {
+                resolve([]); 
+            }
+        )
+
+    });
+}
+
+
+var procesatablauirecordpdfuno =  function(objetox,todos2,sicampovalida,formulario)
+{
+
+    return new Promise(resolve => {
+
+    var keys = Object.keys(objetox);
+    var datafinal=[]
+    var cad=''
+    var cad2=''
+    var cad3=''
+    let jsonx= [];
+
+
+
+var autox=[]
+
+autox.push('auto')
+for (let ii = 0; ii < keys.length; ii++) {
+var arreglo=(objetox[keys[ii]] ).split('°')
+autox.push('auto')
+
+}
+
+jsonx.push({text:'   '})
+
+if(formulario==='6088435ae75c6616505521f0')
+{
+    (async () => {  
+    
+    jsonx.push({ text: 'Formulario', 	 italics: true,style: 'header', fontSize: 25 });
+    jsonx.push({ text: 'Grupo Estratégico de Servicios  ', 	 italics: true,style: 'header', fontSize: 18  });
+    
+    jsonx.push({
+		    
+        table: {
+            widths: [100,0,100,0,150,0,'*'],
+         
+            
+            body: [
+                [{ bold: true,text : 'Fecha'},	
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                { bold: true,text : 'Hora inicio'}, 
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                { bold: true,text : 'No. poliza'}, 
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                { bold: true,text : 'Consignatario'}
+                
+                 ],
+                [ {fillColor: '#eeeeee',text : dafechastring(todos2.fecha)},
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                {	 	fillColor: '#eeeeee',text : dahorautf(todos2.horadeinicio)}, 
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                {	fillColor: '#eeeeee',text : todos2.nopoliza}, 
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                {	fillColor: '#eeeeee',text : String(todos2.consignatario).replaceAll('<strong>','').replaceAll('</strong>','').replaceAll('<br>','').split('Nit:')[0]}
+                ],
+            ]
+        }
+        ,layout: 'noBorders',
+        margin: [0, 5, 0, 20]	
+        
+    });
+
+    jsonx.push({
+		    
+        table: {
+            widths: ['*',0,'*',0,'*',0,'*'],
+             headerRows: 1,
+            
+            body: [
+                [{ bold: true,text : 'Marchamo Origen'},	
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                { bold: true,text : 'Marchamo SAT'}, 
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                { bold: true,text : 'Marchamo Nuevo'}, 
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                { bold: true,text : 'Tipo de Mercancía'}
+                
+                 ],
+                [ {fillColor: '#eeeeee',text : todos2.marchamoorigen},
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                {	 	fillColor: '#eeeeee',text : todos2.marchamosat}, 
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                {	fillColor: '#eeeeee',text : todos2.marchamonuevo}, 
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                {	fillColor: '#eeeeee',text : todos2.tipodemercancia}
+                ],
+            ]
+        }
+        ,layout: 'noBorders',
+        margin: [0, 5, 0, 20],	columnGap: 20,
+        
+    });
+
+
+
+    jsonx.push({
+		    
+        table: {
+            widths: ['*',0,'*'],
+             headerRows: 1,
+            
+            body: [
+                [{ bold: true,text : 'Número de Bultos'},	
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                { bold: true,text : 'Documento de Embarque'}, 
+               
+                
+                 ],
+                [ {fillColor: '#eeeeee',text : todos2.bultos},
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                {	 	fillColor: '#eeeeee',text : todos2.documentodeembarque}
+             
+               
+                ],
+            ]
+        }
+        ,layout: 'noBorders',
+        margin: [0, 5, 0, 20],	columnGap: 20,
+        
+    });
+
+    jsonx.push({ text: 'Revisión SAT', 	 italics: true,style: 'header', fontSize: 18  });
+
+
+    jsonx.push({
+		    
+        table: {
+            widths: ['*'],
+             headerRows: 1,
+            
+            body: [
+                [{ bold: true,text : 'Tipo de Revisión'}	
+              
+             
+               
+                
+                 ],
+                 [ {fillColor: '#eeeeee',text : todos2.tipoderevision}
+                
+               
+                 ],
+           
+            ]
+        }
+        ,layout: 'noBorders',
+        margin: [0, 5, 0, 20],	columnGap: 20,
+        
+    });
+
+
+
+    jsonx.push({
+		    
+        table: {
+            widths: ['*',0,'*',0,'*',0],
+             headerRows: 1,
+            
+            body: [
+                [{ bold: true,text : 'Se tomaron muestras?'},	
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                { bold: true,text : 'Cantidad de muestras SAT'}, 
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                { bold: true,text : 'Nombre de persona que efectuó la revisión SAT'}, 
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] }
+              
+                
+                 ],
+                [ {fillColor: '#eeeeee',text : dafalso(todos2.setomaronmuestras)},
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                {	 	fillColor: '#eeeeee',text : todos2.cantidaddemuestrassat}, 
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                {	fillColor: '#eeeeee',text : todos2.nombresat}, 
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] }
+              
+                ],
+            ]
+        }
+        ,layout: 'noBorders',
+        margin: [0, 5, 0, 20],	columnGap: 20,
+        
+    });
+
+
+    jsonx.push({ text: 'Revisión MAGA', 	 italics: true,style: 'header', fontSize: 18  });
+
+
+
+    jsonx.push({
+		    
+        table: {
+            widths: ['*'],
+             headerRows: 1,
+            
+            body: [
+                [{ bold: true,text : 'Tipo de Revisión'}	
+               
+             
+               
+                
+                 ],
+                 [ {fillColor: '#eeeeee',text : todos2.tipoderevision2}
+                 
+               
+                 ]
+           
+            ]
+        }
+        ,layout: 'noBorders',
+        margin: [0, 5, 0, 20],	columnGap: 20,
+        
+    });
+
+
+    jsonx.push({
+		    
+        table: {
+            widths: ['*',0,'*',0,'*',0,'*'],
+             headerRows: 1,
+            
+            body: [
+                [{ bold: true,text : 'Se tomaron muestras?'},	
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                { bold: true,text : 'Cantidad de muestras MAGA'}, 
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                { bold: true,text : 'Se encontró plaga?'}, 
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                { bold: true,text : 'Tarimas con sello de fumigación de origen?'}
+                
+                 ],
+                [ {fillColor: '#eeeeee',text :  todos2.setomaronmuestras2},
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                {	 	fillColor: '#eeeeee',text :  todos2.cantidaddemuestrasmaga}, 
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                {	fillColor: '#eeeeee',text :  todos2.seencontroplaga}, 
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                {	fillColor: '#eeeeee',text :  todos2.tarimasconsello}
+                ],
+            ]
+        }
+        ,layout: 'noBorders',
+        margin: [0, 5, 0, 20],	columnGap: 20,
+        
+    });
+
+
+    
+    jsonx.push({
+		    
+        table: {
+            widths: ['*'],
+             headerRows: 1,
+            
+            body: [
+                [{ bold: true,text : 'Nombre de persona que efectuó la revisión MAGA'}	
+                
+             
+               
+                
+                 ],
+                 [ {fillColor: '#eeeeee',text :  todos2.nombredepersonalges}
+                 
+               
+                 ],
+           
+            ]
+        }
+        ,layout: 'noBorders',
+        margin: [0, 5, 0, 20],	columnGap: 20,
+        
+    });
+
+
+    jsonx.push({ text: 'Revisión Antinarcoticos', 	 italics: true,style: 'header', fontSize: 18  });
+
+
+
+    jsonx.push({
+		    
+        table: {
+            widths: ['*'],
+             headerRows: 1,
+            
+            body: [
+                [{ bold: true,text : 'Tipo de Revisión'}	
+               
+             
+               
+                
+                 ],
+                 [ {fillColor: '#eeeeee',text :  todos2.tipoderevision3}
+                 
+               
+                 ],
+           
+            ]
+        }
+        ,layout: 'noBorders',
+        margin: [0, 5, 0, 20],	columnGap: 20,
+        
+    });
+
+
+
+    jsonx.push({
+		    
+        table: {
+            widths: ['*',0,'*',0,'*'],
+             headerRows: 1,
+            
+            body: [
+                [{ bold: true,text : 'Se tomaron muestras?'},	
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                { bold: true,text : 'Cantidad de muestras Antinarcoticos'}, 
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                { bold: true,text : 'Nombre de persona que efectuó la revisión Antinarcoticos'}
+              
+                
+                 ],
+                [ {fillColor: '#eeeeee',text : todos2.setomaronmuestras3},
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                {	 	fillColor: '#eeeeee',text : todos2.cantidaddemuestrasantinarcoticos}, 
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                {	fillColor: '#eeeeee',text : todos2.nombredepersonalges}, 
+              
+                ],
+            ]
+        }
+        ,layout: 'noBorders',
+        margin: [0, 5, 0, 20],	columnGap: 20,
+        
+    });
+
+
+    jsonx.push({ text: 'FOTOS', 	 italics: true,style: 'header', fontSize: 18  });
+
+
+    jsonx.push({ text: 'Apertura', 	 italics: true,style: 'header', fontSize: 18  });
+
+
+    var ape1=await daimagenxxx('http://127.0.0.1:9090' + todos2.apertura01,todos2.apertura01)
+    var ape2=await daimagenxxx('http://127.0.0.1:9090' + todos2.apertura02,todos2.apertura02)
+    var ape3=await daimagenxxx('http://127.0.0.1:9090' + todos2.apertura03,todos2.apertura03)
+    var ape4=await daimagenxxx('http://127.0.0.1:9090' + todos2.apertura04,todos2.apertura04)
+    var ape5=await daimagenxxx('http://127.0.0.1:9090' + todos2.apertura05,todos2.apertura05)
+
+    
+    jsonx.push({
+		    
+        table: {
+            widths: ['30%','1%','30%','1%','30%'],
+             headerRows: 1,
+            
+            body: [
+                [{ bold: true,text : 'apertura01'},	
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                { bold: true,text : 'apertura02'}, 
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                { bold: true,text : 'apertura03'}
+              
+                
+                 ],
+                [ { image: 'data:image/jpeg;base64,'+ ape1 ,fit:[160,160]  },
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                {	 image: 'data:image/jpeg;base64,'+ ape2  ,fit:[160,160]  }, 
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                {	 image: 'data:image/jpeg;base64,'+ ape3  ,fit:[160,160]  }, 
+              
+                ],
+            ]
+        }
+        ,layout: 'noBorders',
+        margin: [0, 5, 0, 20],	columnGap: 20,
+        
+    });
+
+
+    jsonx.push({
+		    
+        table: {
+            widths: ['30%','1%','30%'],
+             headerRows: 1,
+            
+            body: [
+                [{ bold: true,text : 'apertura04'},	
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                { bold: true,text : 'apertura05'} 
+               
+                
+                 ],
+                [ { image: 'data:image/jpeg;base64,'+ ape4   ,fit:[160,160] },
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                {	 image: 'data:image/jpeg;base64,'+ ape5  ,fit:[160,160]  }, 
+              
+              
+                ],
+            ]
+        }
+        ,layout: 'noBorders',
+        margin: [0, 5, 0, 20],	columnGap: 20,
+        
+    });
+
+    jsonx.push({ text: 'Mercancia', 	 italics: true,style: 'header', fontSize: 18  });
+    
+    var mer1=await daimagenxxx('http://127.0.0.1:9090' + todos2.mercancia01,todos2.mercancia01)
+    var mer2=await daimagenxxx('http://127.0.0.1:9090' + todos2.mercancia02,todos2.mercancia02)
+    var mer3=await daimagenxxx('http://127.0.0.1:9090' + todos2.mercancia03,todos2.mercancia03)
+    var mer4=await daimagenxxx('http://127.0.0.1:9090' + todos2.mercancia04,todos2.mercancia04)
+    var mer5=await daimagenxxx('http://127.0.0.1:9090' + todos2.mercancia05,todos2.mercancia05)
+    
+
+    jsonx.push({
+		    
+        table: {
+            widths: ['30%','1%','30%','1%','30%'],
+             headerRows: 1,
+            
+            body: [
+                [{ bold: true,text : 'mercancia01'},	
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                { bold: true,text : 'mercancia02'}, 
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                { bold: true,text : 'mercancia03'}
+              
+                
+                 ],
+                [ { image: 'data:image/jpeg;base64,'+ mer1  ,fit:[160,160]  },
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                {	 image: 'data:image/jpeg;base64,'+ mer2   ,fit:[160,160] }, 
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                {	 image: 'data:image/jpeg;base64,'+ mer3   ,fit:[160,160] }, 
+              
+                ],
+            ]
+        }
+        ,layout: 'noBorders',
+        margin: [0, 5, 0, 20],	columnGap: 20,
+        
+    });
+
+    
+    jsonx.push({
+		    
+        table: {
+            widths: ['30%','1%','30%'],
+             headerRows: 1,
+            
+            body: [
+                [{ bold: true,text : 'mercancia04'},	
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                { bold: true,text : 'mercancia05'}, 
+              
+                
+                 ],
+                [ { image: 'data:image/jpeg;base64,'+ mer4   },
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                {	 image: 'data:image/jpeg;base64,'+ mer5   }, 
+              
+                ],
+            ]
+        }
+        ,layout: 'noBorders',
+        margin: [0, 5, 0, 20],	columnGap: 20,
+        
+    });
+
+
+    jsonx.push({ text: 'Cierre', 	 italics: true,style: 'header', fontSize: 18  });
+    
+
+    var cierr1=await daimagenxxx('http://127.0.0.1:9090' + todos2.cierre01,todos2.cierre01)
+    var cierr2=await daimagenxxx('http://127.0.0.1:9090' + todos2.cierre02,todos2.cierre02)
+    var cierr3=await daimagenxxx('http://127.0.0.1:9090' + todos2.cierre03,todos2.cierre03)
+    var cierr4=await daimagenxxx('http://127.0.0.1:9090' + todos2.cierre04,todos2.cierre04)
+    var cierr5=await daimagenxxx('http://127.0.0.1:9090' + todos2.cierre05,todos2.cierre05)
+
+
+    
+    jsonx.push({
+		    
+        table: {
+            widths: ['30%','1%','30%','1%','30%'],
+             headerRows: 1,
+            
+            body: [
+                [{ bold: true,text : 'cierre01'},	
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                { bold: true,text : 'cierre02'}, 
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                { bold: true,text : 'cierre03'}
+              
+                
+                 ],
+                [ { image: 'data:image/jpeg;base64,'+ cierr1  ,fit:[160,160]  },
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                {	 image: 'data:image/jpeg;base64,'+ cierr2  ,fit:[160,160]  }, 
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                {	 image: 'data:image/jpeg;base64,'+ cierr3   ,fit:[160,160] }, 
+              
+                ],
+            ]
+        }
+        ,layout: 'noBorders',
+        margin: [0, 5, 0, 20],	columnGap: 20,
+        
+    });
+
+    jsonx.push({
+		    
+        table: {
+            widths: ['30%','1%','30%'],
+             headerRows: 1,
+            
+            body: [
+                [{ bold: true,text : 'cierre04'},	
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                { bold: true,text : 'cierre05'}
+      
+              
+                
+                 ],
+                [ { image: 'data:image/jpeg;base64,'+ cierr4 ,fit:[160,160]   },
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                {	 image: 'data:image/jpeg;base64,'+ cierr5   ,fit:[160,160] }
+              
+              
+                ],
+            ]
+        }
+        ,layout: 'noBorders',
+        margin: [0, 5, 0, 20],	columnGap: 20,
+        
+    });
+
+
+    jsonx.push({
+		    
+        table: {
+            widths: ['30%','1%','30%','1%','30%'],
+             headerRows: 1,
+            
+            body: [
+                [{ bold: true,text : 'Comentarios'},	
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                { bold: true,text : 'Nombre de personal GES'}, 
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                { bold: true,text : 'Hora de Finalización'}
+              
+                
+                 ],
+                [ {fillColor: '#eeeeee',text : todos2.comentarios},
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                {	 	fillColor: '#eeeeee',text : todos2.nombredepersonalges}, 
+                { text: ' ', borderColor: ['#fff','#fff', '#3c8f57', '#fff'] },
+                {	fillColor: '#eeeeee',text : todos2.horadefinalizacion}, 
+              
+                ],
+            ]
+        }
+        ,layout: 'noBorders',
+        margin: [0, 5, 0, 20],	columnGap: 20,
+        
+    });
+
+
+    
+    var firma=await daimagenxxx('http://127.0.0.1:9090' + todos2.firma, todos2.firma)
+
+   jsonx.push({    image: 'data:image/jpeg;base64,'+ firma     });
+
+      
+   //resolve(todos2); 
+   resolve(jsonx); 
+ })();
+   /*
+    imageToBase64('http://127.0.0.1:9090' + todos2.apertura01) // Image URL
+    .then(
+        (response) => {
+          
+
+
+        jsonx.push({    image: 'data:image/jpeg;base64,'+ response     });
+
+      
+        //resolve(todos2); 
+        resolve(jsonx); 
+
+        }
+    )
+    .catch(
+        (error) => {
+            console.log(error); // Logs an error if there was one
+        }
+    )
+
+*/
+
+   
+
+    }
+
+
+/*
+
+       jsonx.push
+       (
+         {
+           table: 
+           {
+             widths: autox,
+             headerRows: 2,
+             body: 
+            regt
+           }
+          }
+       );
+       */
+ 
+
+        
+    });
+}
     var procesatablauirecord = function(objetox,todos2,sicampovalida)
     {
         var keys = Object.keys(objetox);
@@ -4010,6 +4811,55 @@ function dafiltrocadsolouno(todos,id2,id3,norequerido) {
              cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
          }
           break;
+          case 'Pais':  
+          if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+          else{cadxxx=cadxxx+'like';cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+          if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+          {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+          }
+          else
+          {
+             
+              cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+          }
+           break;
+          case 'Tarjeta de credito': 
+          if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+          else{cadxxx=cadxxx+'like';cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+          if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+          {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+          }
+          else
+          {
+             
+              cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+          }
+           break; 
+          case 'Telefono':  
+          if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+          else{cadxxx=cadxxx+'like';cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+          if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+          {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+          }
+          else
+          {
+             
+              cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+          }
+           break;
+          case 'Correo electronico': 
+          if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
+          else{cadxxx=cadxxx+'like';cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
+          if(todos[i].required=='false' || norequerido2.indexOf(todos[i].name+'°')>=0)
+          {cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '"},';
+          }
+          else
+          {
+             
+              cad=cad+'"'+todos[i].name+'":{"type":"'+ datipo(todos[i].type) + '","required":"' + todos[i].required +'"},';
+          }
+           break;
+
           case 'Codigo Qr': 
           if(todos[i].name==id2){if(todos[i].blike=='false') {cadxx='"' +id2 + '":"' +id3 + '"' } 
           else{cadxxx=cadxxx+'like';cadxx='"' +id2 + '":: { "$regex" : "' +id3 + '", "$options" : "i" } ' } }
@@ -4278,6 +5128,7 @@ module.exports = {
     dadatosformulariofinal:dadatosformulariofinal,
     dafechapago1:dafechapago1,
     dafechapago2:dafechapago2,
+    procesatablauirecordpdfuno:procesatablauirecordpdfuno,
     onlyUnique:onlyUnique,
 daconectaorden:daconectaorden,
     dahora:dahora,

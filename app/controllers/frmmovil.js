@@ -2738,8 +2738,94 @@ break;
             
            
   break;
-                  
-            case 'formulario':
+
+  case 'formulariogeneralpdfsolo':
+         
+    
+    
+    var arrtodos=req.params.id3.split('°')
+    var namess=arrtodos[1]
+  
+    var filtro
+
+        filtro={_id:req.params.id}
+ 
+
+
+        Frmmovild.find({idmovil:arrtodos[1], idempresa:arrtodos[0]}).sort([['order', 1]]).exec(function(err, todos) {
+            if (err){ res.send(err); }
+      
+ 
+            var objetox = {};
+            for(var i = 0; i < todos.length;i++){
+                objetox[todos[i].name] =todos[i].title + '°' + todos[i].type + '°'+ todos[i].display;
+            }
+
+
+       
+                                if(todos.length>0)   {  
+                               
+                                    var cad=''
+                                    var cadxx=''
+                                    var cad3=(functool.dafiltrocad(todos,'','','')).split('°')
+                              
+                                    cad=cad3[0]
+                                    cadxx='{'+ cad3[1] + '}'
+                                    cad=cad + '"usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" }, "comentarioanulado"	: { "type" : "String" },"comentariocerrado"	: { "type" : "String" },"comentarioorden"	: { "type" : "String" },"estadointerno"	: { "type" : "String" },  "geoposicionxxx"	: { "type" : "String" },  "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                    cad='{' + cad + '}'
+                                    cadxx='{' + cadxx + '}'
+                                 
+                                    var jsonObject = functool.stringToObject(cad);
+                                  
+                                    var mongoose = require("mongoose");
+                                    delete mongoose.connection.models[namess];
+                                    var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                                    
+                                
+                                    try {
+                                        var  frmtt= mongoose.model(namess,tt);
+                                        frmtt.findById(filtro).exec(function(err, todos2) {
+                                            if (err){  res.send(err); }
+                                            
+                                       
+                                            (async () => {  
+                                                var reg=[]
+                                                reg=todos2
+                                            var datafinal = await functool.procesatablauirecordpdfuno(objetox,reg,'no',namess)
+                                           
+                                            res.json(datafinal);
+                                                })();
+
+
+                                  
+                                        
+                                       
+                                          
+                                        });
+                                      } catch(e) {
+                                        
+                                        var  frmtt= mongoose.model(namess);
+                              
+                                        frmtt.findById( filtro).exec(function(err, todos2) {
+                                             if (err){  res.send(err);
+                                            }
+                                           
+                                             res.json(todos2);
+                                         
+                                         });
+                                      }
+
+
+                                 
+                    
+            }
+        });
+    
+   
+break;
+      
+ 
+  case 'formulario':
          
             var namess=req.params.id
             var arrtodos=req.params.id3.split('°')

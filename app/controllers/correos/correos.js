@@ -308,7 +308,7 @@ requi1b = await functool.dadatosformulariogruposuma('5fc03c79ab0f6448b877eb5c',f
 
                         if(todos[i].tipo==='Salida')
                         {
-                            if(todos[i].accion==='Elimina Ingreso formulario 1-H')
+                            if(todos[i].accion==='Elimina Ingreso formulario 1-H' || todos[i].accion==='Anula Ingreso formulario 1-H')
                             {
                                 datat.push({  "_id" : todos[i]._id,"idempresa" : todos[i].idempresa,                     "fecha" : todos[i].fecha,   "tipo" : todos[i].tipo,  "accion" : todos[i].accion,
                                 "proveedor" : prov,     "nodoc" : todos[i].nodoc,
@@ -348,7 +348,7 @@ requi1b = await functool.dadatosformulariogruposuma('5fc03c79ab0f6448b877eb5c',f
                         {
 
                            
-                            if(todos[i].accion==='Elimina Salida requisición')
+                            if(todos[i].accion==='Elimina Salida requisición' || todos[i].accion==='Anula Salida requisición')
                             {
                                 datat.push({  "_id" : todos[i]._id,"idempresa" : todos[i].idempresa,                     "fecha" : todos[i].fecha,   "tipo" : todos[i].tipo,  "accion" : todos[i].accion,
                                 "proveedor" : prov,     "nodoc" : todos[i].nodoc,
