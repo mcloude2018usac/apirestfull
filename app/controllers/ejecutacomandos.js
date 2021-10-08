@@ -285,26 +285,7 @@ function dadatosformularioispapaarray(namess,idpapa,idempresa)
                                 });
 
 }
-function datipo(value) {
-var tt='';
-switch(value) {
-    case 'Alfanumerico':  tt='String';   break;
-   case 'Numerico':  tt='Number';   break;
-   case 'Moneda':  tt='Number';   break;
-   case 'TextArea':   tt='String';   break;
-   case 'Etiqueta':   tt='String';   break;
-   case 'Rango':   tt='Number';   break;
-   case 'Fecha':   tt='Date';   break;
-   case 'Fecha y Hora':   tt='Date';   break;
-   case 'Hora':   tt='Date';   break;
-   case 'Check':   tt='String';   break;
-   case 'Imagen':   tt='String';   break;
-   
-    default:
-      // code block
-  }
-    return tt;
-  }
+
 
   function datipo2(value) {
     var tt='';
