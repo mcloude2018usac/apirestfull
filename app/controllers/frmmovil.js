@@ -218,6 +218,19 @@ exports.getFrmmovil = async function(req, res, next){
     
     if(req.params.id5)
     {
+        if(req.params.id4=='frmmovilpreportepdfgeneral')
+        {
+
+            (async () => {  
+                respuesta = await frmmovilejecutareporte.dareportepdf(req, res, next,[]);
+               
+                    res.json(respuesta);
+                })();
+
+
+        }
+        else
+        {
         if(req.params.id4=='frmmovilpreportepdf')
         {
 
@@ -293,7 +306,7 @@ exports.getFrmmovil = async function(req, res, next){
             
             
 
-        }}}
+        }}}}
     }
     else
     {    
@@ -2640,15 +2653,15 @@ break;
                     var todospp=[]
                     var todosxx=campos.split(',')
 
-                    var sortObject = {};
-                    var stype = '_id';
-                    var sdir = '-1';
+                    var sortObject = {_id:-1};
+                 
                   
 
 
                     if(req.params.id==='5fc01bbba8d0a14888774579')
                     {
-                        stype = 'categoria';
+                        stype = 'categoria'
+                        sortObject = {categoria:1,codigoarticulo:1};
                         sdir = '1';
                         for(var i = 0; i < todosxx.length;i++){
                             for(var ii = 0; ii < todos.length;ii++){
@@ -2664,8 +2677,7 @@ break;
                     }
                     else
                     {
-                    stype = '_id';
-                sdir = '-1';
+                  
                       
                         todospp=todos
                     }
@@ -2696,7 +2708,7 @@ break;
                                             var mongoose = require("mongoose");
                                             delete mongoose.connection.models[namess];
                                             var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
-                                            sortObject[stype] = sdir;
+                                         //   sortObject[stype] = sdir;
                                             
                                         
                                             try {
@@ -2791,9 +2803,18 @@ break;
                                             (async () => {  
                                                 var reg=[]
                                                 reg=todos2
-                                            var datafinal = await functool.procesatablauirecordpdfuno(objetox,reg,'no',namess)
+                                                var otro={objetox:objetox,todos2:todos2,sicampovalida:'no',formulario:namess}
+                                        
+                                                    respuesta = await frmmovilejecutareporte.dareportepdfsolo(req, res, next,otro);
+                                                   
+                                                        res.json(respuesta);
+                                            
+
+                                                    
+
+                                     //       var datafinal = await functool.procesatablauirecordpdfuno(objetox,reg,'no',namess)
                                            
-                                            res.json(datafinal);
+                                            res.json(respuesta);
                                                 })();
 
 

@@ -30,7 +30,7 @@ function  ejecutaaccess  (cad)
 {
 
     return new Promise(resolve => {
- resolve({estado:'exito',datat:[]}); 
+        resolve({estado:'exito',datat:[]});
 });
 }
 
@@ -5240,6 +5240,7 @@ module.exports = {
     dafecha:dafecha,
     dafiltrocad:dafiltrocad,
     datipo2:datipo2,
+    dahorautf:dahorautf,
     datipo:datipo,
     dadatosformulariogruposuma:dadatosformulariogruposuma,
     dadatosformulariogruposuma0:dadatosformulariogruposuma0,
@@ -5290,6 +5291,8 @@ daconectaorden:daconectaorden,
     dadatosformularioidfinal: dadatosformularioidfinal,
     dadatosformulariocombo:dadatosformulariocombo,
     eliminaformulario:eliminaformulario,
+    dafalso:dafalso,
+    daimagenxxx:daimagenxxx,
     dadatosformularioproceso:dadatosformularioproceso
    
       }
