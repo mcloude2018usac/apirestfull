@@ -26,11 +26,49 @@ const connectionConfig = {   connectionString: 'DSN=OTRO',    connectionTimeout:
 
 const { getGaleriaimg } = require('./galeriaimg');
 
+var daimagenxxx =  function(ruta,img)
+{
+    return new Promise(resolve => {
+
+
+        var ii='iVBORw0KGgoAAAANSUhEUgAAABcAAAAZCAIAAABVQiKHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAAkSURBVDhP7cwxAQAADIOw+TfNDHD2JAJyLLS4FtfiWlyLazHwVgW2nh0VrZ4AAAAASUVORK5CYII='
+
+        imageToBase64(ruta) // Image URL
+        .then(
+            (response) => {
+              
+    
+    
+    if(img==='')
+    {
+        resolve(ii); 
+    }
+    else
+    {
+        resolve(response); 
+    }
+          
+            //resolve(todos2); 
+            
+    
+            }
+        )
+        .catch(
+            (error) => {
+                resolve([]); 
+            }
+        )
+
+    });
+}
+
+
+
 function  ejecutaaccess  (cad)
 {
 
     return new Promise(resolve => {
-        resolve({estado:'exito',datat:[]});
+ resolve({estado:'exito',datat:[]}); 
 });
 }
 
@@ -2521,41 +2559,6 @@ data[aa].replace('¬', ',') + '" target="_blank">https://www.google.com/maps/sea
     
 
     
-var daimagenxxx =  function(ruta,img)
-{
-    return new Promise(resolve => {
-
-
-        var ii='iVBORw0KGgoAAAANSUhEUgAAABcAAAAZCAIAAABVQiKHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAAkSURBVDhP7cwxAQAADIOw+TfNDHD2JAJyLLS4FtfiWlyLazHwVgW2nh0VrZ4AAAAASUVORK5CYII='
-
-        imageToBase64(ruta) // Image URL
-        .then(
-            (response) => {
-              
-    
-    
-    if(img==='')
-    {
-        resolve(ii); 
-    }
-    else
-    {
-        resolve(response); 
-    }
-          
-            //resolve(todos2); 
-            
-    
-            }
-        )
-        .catch(
-            (error) => {
-                resolve([]); 
-            }
-        )
-
-    });
-}
 
 
 var procesatablauirecordpdfuno =  function(objetox,todos2,sicampovalida,formulario)

@@ -98,6 +98,7 @@ if(req.params.recordID!=='crea')
         {   
             todo.usuarioup=req.body.bitacora.email;
             todo.inicio       	=	req.body.inicio        	||	todo.inicio;  
+            todo.pagina0       	=	req.body.pagina0        	||	todo.pagina0;  
             todo.siregister	=	req.body.siregister        ;  
             todo.pinicio       	=	req.body.pinicio        	||	todo.pinicio;  
             todo.nombre       	=	req.body.nombre        	||	todo.nombre;   
@@ -171,6 +172,7 @@ else{
          moneda     	: req.body.moneda    	,
          sicodigointerno  :  req.body.sicodigointerno,
          inicio     	: req.body.inicio ,
+         pagina0     	: req.body.pagina0 ,
          siregister: req.body.inicio ,
          pinicio     	: req.body.pinicio   || 'app/billetera-list'  	,
          nit     	: req.body.nit    	,
