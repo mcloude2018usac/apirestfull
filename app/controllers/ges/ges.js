@@ -14,6 +14,35 @@ var formulariocomentarios = require('../../models/asociadoventa/formulariocoment
 exports.getGes = async function(req, res, next){
     if(req.params.id3)
     { 
+        if(req.params.id2==='reportepropietarios')
+        { 
+            (async () => {
+     
+
+            
+                propietario = await functool.dadatosformulariofinal('615b412b8cbe6d05e0a83321',{cui:req.params.id},req.params.id3,'615b412b8cbe6d05e0a83321' ); 
+                var duplicates = [];
+                propietario.forEach(function (doc) {duplicates.push(doc._id);  });
+
+                viviendas = await functool.dadatosformulariofinal('615b4b118cbe6d05e0a8335a',{idpapa: {$in: duplicates}},req.params.id3,'615b4b118cbe6d05e0a8335as' ); 
+                
+
+                var duplicates = [];
+                viviendas.forEach(function (doc) {duplicates.push(doc._id);  });
+
+                componentes = await functool.dadatosformulariofinal('615e27b071a5166c08305cd4',{idpapa: {$in: duplicates}},req.params.id3,'615e27b071a5166c08305cd4' ); 
+
+               
+                var data=[]
+                data.push({p:propietario,v:viviendas,c:componentes})
+                res.json(data)
+                
+            })();
+             
+
+        }
+        else
+        {
         if(req.params.id2==='reporteclientes')
         { 
             (async () => {
@@ -272,7 +301,7 @@ cad5=cad5+" union all SELECT '','','','','TOTAL',SUM(COSTO),SUM(VENTA),''  FROM 
     
             }
 
-        }}
+        }}}
        
       
     }

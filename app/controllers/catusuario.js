@@ -27,7 +27,14 @@ exports.getCatusuario = function(req, res, next){
         {
             if(req.params.id2=='categoriausrmoviladmin')
             {
-                frmmovil.find({idempresa:req.params.id,tipo:req.params.id4,publico:'Si'}).
+
+                var filtrott=req.params.id4
+
+                if(req.params.id4==='formulario')
+                {
+                    filtrott={$in:[req.params.id4,'paginas']};
+                }
+                frmmovil.find({idempresa:req.params.id,tipo:filtrott,publico:'Si'}).
                 exec(function(err, todosa) {
                  
                     if (err){  res.send(err);  }
@@ -36,7 +43,36 @@ exports.getCatusuario = function(req, res, next){
                     formulariousrd.find({idempresa:req.params.id,tipo:req.params.id4,idusuario:req.params.id3}).populate('idpapa').populate('idformulario').exec(function(err, todos) {
 
                         if(todos.length===0)
-                        {res.json([]);}
+                        {
+                            
+                            
+                            if(todosa.length===0)//no existen procesos publicos
+                            {res.json([]);}
+                            else
+                            {
+                                for(var i = 0; i< todosa.length; i++){    
+                                    if(todosa[i].categoria && todosa[i].categoria!==null)
+                                    {
+                                    if(uniqueNames.indexOf(todosa[i].categoria+ '°' + todosa[i].tipo) === -1){
+                                        uniqueNames.push(todosa[i].categoria+ '°' + todosa[i].tipo);        
+                                    }        }
+                                }
+            
+                                for(var i = 0; i< uniqueNames.length; i++){    
+                                    myData.push({nombre: uniqueNames[i].split('0') ,tipo: uniqueNames[i].split('1')});
+                                  
+                                }
+            
+                           
+            
+                                
+                                res.json(myData);
+        
+        
+                            }
+                            
+                        
+                        }
                         else
                         {
                         if (err){  res.send(err);  }
@@ -44,19 +80,20 @@ exports.getCatusuario = function(req, res, next){
                       
                         var uniqueNames = [];
                         for(var i = 0; i< todos.length; i++){    
-                            if(todos[i].idformulario && todos[i].idformulario !==null)
+                            if(todos[i].idformulario && todos[i].idformulario !==null&& todos[i].tipo!=='paginas')
                             {
-                            if(uniqueNames.indexOf(todos[i].idformulario.categoria) === -1){
-                                uniqueNames.push(todos[i].idformulario.categoria);        
+                            if(uniqueNames.indexOf(todos[i].idformulario.categoria ) === -1){
+
+                                uniqueNames.push(todos[i].idformulario.categoria );        
                             }        
                         }
                         }
     
                         for(var i = 0; i< todosa.length; i++){    
-                            if(todosa[i].categoria && todosa[i].categoria!==null)
+                            if(todosa[i].categoria && todosa[i].categoria!==null && todosa[i].tipo!=='paginas')
                             {
                                 if(uniqueNames.indexOf(todosa[i].categoria) === -1){
-                                    uniqueNames.push(todosa[i].categoria);        
+                                    uniqueNames.push(todosa[i].categoria );        
                                 } 
 
                             }
@@ -64,9 +101,17 @@ exports.getCatusuario = function(req, res, next){
                         }
     
                         for(var i = 0; i< uniqueNames.length; i++){    
-                            myData.push({nombre: uniqueNames[i] });
+                            myData.push({nombre: uniqueNames[i],tipo: 'na',link:'na'});
                           
                         }
+
+                        for(var i = 0; i< todosa.length; i++){    
+                            if( todosa[i].tipo==='paginas')
+                            {
+                                myData.push({nombre: todosa[i].nombre,tipo: todosa[i].tipo,link:todosa[i].descripciong});
+                        }
+                        }
+
     
                         res.json(myData);
                     }
@@ -83,23 +128,65 @@ exports.getCatusuario = function(req, res, next){
             {
             if(req.params.id2=='categoriausrmovil')
             {
-                frmmovil.find({idempresa:req.params.id,tipo:req.params.id4,publico:'Si'}).
+
+
+                var filtrott=req.params.id4
+
+                if(req.params.id4==='formulario')
+                {
+                    filtrott={$in:[req.params.id4,'paginas']};
+                }
+                frmmovil.find({idempresa:req.params.id,tipo:filtrott,publico:'Si'}).
                 exec(function(err, todosa) {
 
-             
-                    if (err){  res.send(err);  }
-                formulariousrd.find({idempresa:req.params.id,tipo:req.params.id4,idusuario:req.params.id3}).populate('idpapa').populate('idformulario').exec(function(err, todos) {
-                    if (err){  res.send(err);  }
-                    if(todos.length===0)
-                    {res.json([]);}
-                    else
-                    {    
                     var myData = [];
                   
                          
                     var uniqueNames = [];
+               
+                    if (err){  res.send(err);  }
+                formulariousrd.find({idempresa:req.params.id,tipo:req.params.id4,idusuario:req.params.id3}).populate('idpapa').populate('idformulario').exec(function(err, todos) {
+                    if (err){  res.send(err);  }
+                    if(todos.length===0)
+                    {
+                        
+                        
+                    if(todosa.length===0)//no existen procesos publicos
+                    {res.json([]);}
+                    else
+                    {
+                        for(var i = 0; i< todosa.length; i++){    
+                            if(todosa[i].categoria && todosa[i].categoria!==null && todosa[i].tipo!=='paginas')
+                            {
+                            if(uniqueNames.indexOf(todosa[i].categoria) === -1){
+                                uniqueNames.push(todosa[i].categoria);        
+                            }        }
+                        }
+    
+                        for(var i = 0; i< uniqueNames.length; i++){    
+                            myData.push({nombre: uniqueNames[i] });
+                          
+                        }
+    
+                        for(var i = 0; i< todosa.length; i++){    
+                            if( todosa[i].tipo==='paginas')
+                            {
+                                myData.push({nombre: todosa[i].nombre,tipo: todosa[i].tipo,link:todosa[i].descripciong});
+                        }
+                        }
+
+    
+                        
+                        res.json(myData);
+
+
+                    }
+                    
+                    }
+                    else
+                    {    
                     for(var i = 0; i< todos.length; i++){    
-                        if(todos[i].idformulario && todos[i].idformulario !==null)
+                        if(todos[i].idformulario && todos[i].idformulario !==null && todos[i].tipo!=='paginas')
                         {
                         if(uniqueNames.indexOf(todos[i].idformulario.categoria) === -1){
                             uniqueNames.push(todos[i].idformulario.categoria);        
@@ -108,7 +195,7 @@ exports.getCatusuario = function(req, res, next){
                     }
 
                     for(var i = 0; i< todosa.length; i++){    
-                        if(todosa[i].categoria && todosa[i].categoria!==null)
+                        if(todosa[i].categoria && todosa[i].categoria!==null && todosa[i].tipo!=='paginas') 
                         {
                         if(uniqueNames.indexOf(todosa[i].categoria) === -1){
                             uniqueNames.push(todosa[i].categoria);        
@@ -121,6 +208,12 @@ exports.getCatusuario = function(req, res, next){
                     }
 
                
+                    for(var i = 0; i< todosa.length; i++){    
+                        if( todosa[i].tipo==='paginas')
+                        {
+                            myData.push({nombre: todosa[i].nombre,tipo: todosa[i].tipo,link:todosa[i].descripciong});
+                    }
+                    }
 
                     
                     res.json(myData);
