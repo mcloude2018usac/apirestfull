@@ -7,7 +7,7 @@ var AuthenticationController = require('./controllers/authentication'),
     Image2frmController = require('./controllers/image2frm'),
     Imagessl2Controller = require('./controllers/imagessl2'),
     CorreosController = require('./controllers/correos/correos'),
-    DriveController = require('./controllers/gdrive/drive'),
+    
     tarifaController = require('./controllers/asociadoventa/tarifa'),
     dispositivoController = require('./controllers/asociadoventa/dispositivo'),
     frmaccionesController = require('./controllers/asociadoventa/frmacciones'),
