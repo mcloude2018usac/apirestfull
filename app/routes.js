@@ -7,6 +7,7 @@ var AuthenticationController = require('./controllers/authentication'),
     Image2frmController = require('./controllers/image2frm'),
     Imagessl2Controller = require('./controllers/imagessl2'),
     CorreosController = require('./controllers/correos/correos'),
+    DriveController = require('./controllers/gdrive/drive'),
     tarifaController = require('./controllers/asociadoventa/tarifa'),
     dispositivoController = require('./controllers/asociadoventa/dispositivo'),
     frmaccionesController = require('./controllers/asociadoventa/frmacciones'),
@@ -214,6 +215,7 @@ module.exports = function(app){
         formulariofotosRoutes = express.Router(),
         formulariofotos2Routes = express.Router(),
         correosRoutes = express.Router(),
+        drivesRoutes = express.Router(),
         gesRoutes = express.Router(),
         formulariotareasRoutes = express.Router(),
         formulariotareasdocRoutes = express.Router(),
@@ -392,6 +394,10 @@ SINNNNNNNNNNNNNN AUTORIZACION
   correosRoutes.post('/:recordID',requireAuth,  CorreosController.creacorreos2s);
   correosRoutes.get('/:id/:id2/:id3',requireAuth,  CorreosController.getCorreos);
 
+  apiRoutes.use('/drives', drivesRoutes);
+  drivesRoutes.get('/:recordID', DriveController.getIDrives);
+  drivesRoutes.post('/:recordID',  DriveController.putDrives);
+  
 
   apiRoutes.use('/Image2s', image2Routes);
   image2Routes.get('/:id',  Image2Controller.getImage2s);
@@ -1112,7 +1118,7 @@ frmmovildRoutes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth, Frmmov
 //-----------------------------------FRMMOVILD
 apiRoutes.use('/frmmovildreportess', frmmovilreportesRoutes);
 frmmovilreportesRoutes.get('/:id',requireAuth,  FrmmovildreportesController.getFrmmovildreportes);
-frmmovilreportesRoutes.get('/:id/:id2',requireAuth,  FrmmovildreportesController.getFrmmovildreportes);
+frmmovilreportesRoutes.get('/:id/:id2',  FrmmovildreportesController.getFrmmovildreportes);
 frmmovilreportesRoutes.get('/:id/:id2/:id3',requireAuth,  FrmmovildreportesController.getFrmmovildreportes);
 frmmovilreportesRoutes.get('/:id/:id2/:id3/:id4',requireAuth,  FrmmovildreportesController.getFrmmovildreportes);
 frmmovilreportesRoutes.post('/:id',requireAuth,  FrmmovildreportesController.creaFrmmovildreportes2s);

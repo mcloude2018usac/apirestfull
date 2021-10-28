@@ -12,39 +12,30 @@ var mongoose =require("mongoose");
 
  
       
-      formulario		: { type : String, required : true }, 
-      tipo	: { type : String, required : true },  
+      formulario		: { type : String}, 
+      tipo	: { type : String },  
       idformulario		: { type : String  , ref:'Frmmovil' },  
 
-      camposfiltro		: { id	: { type : String },   nombre	: { type : String }   },
+      
       funcionget   		: { type : String},
       filtroextra:  { type : String},
 
 
 
         typegraf   		: { type : String },
-  
-        camposreporte:[{
-            idcampo	: { type : String, required : true },
-            nombre		: { type : String, required : true },
-         
-           
-         
-         }],
-         campox:{
-            idcampo	: { type : String, required : true },
-            nombre		: { type : String, required : true },
-         
-           
-         
-         },
-         campoy:{
-            idcampo	: { type : String, required : true },
-            nombre		: { type : String, required : true },
-         
-           
-         
-         },
+        typegraf   		: { type : String },
+        ordentipo: { type : String },
+        colores1: { type : String },
+        colores2: { type : String },
+        camposfiltro		: { id	: { type : String },   nombre	: { type : String }   },
+        camposreporte:{    id	: { type : String},   nombre		: { type : String }, },
+
+
+        campox:{    id	: { type : String},   nombre		: { type : String }, },
+        campoy:{    id	: { type : String},   nombre		: { type : String }, },
+
+
+
          nombrex:  { type : String},
          nombrey:  { type : String},
   

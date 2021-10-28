@@ -149,19 +149,130 @@ exports.getFrmmovild = function(req, res, next){
                 
             });
             case 'camposformulario':
-                
-                Frmmovild.find({idmovil:req.params.id}).sort([['order', 1]]).exec(function(err, todos) {
-                  if (err){ res.send(err); }
-              
-                  var myData = [];
-                  for(var i = 0; i < todos.length;i++){
-                    myData.push({_id:todos[i]._id ,nombre:todos[i].name  })
-                  }
+                var idform=req.params.id
+                var sicampos=''
+                if(String(req.params.id).indexOf('°')>0)
+                {
+                    idform=req.params.id.split('°')[0]
+                    sicampos=req.params.id.split('°')[1]
+                   
+                }
+                if(sicampos==='camposotros' || sicampos==='camposotrosenteros')
+                {
 
-                 res.json(myData);   
-                 
                   
-              });
+
+                    Frmmovil.findById({_id:idform}).exec(function(err, todos2) {
+                        if (err){ res.send(err); }
+
+                      
+                       
+                        var filtt={idmovil:idform}
+
+                        if(sicampos==='camposotrosenteros')
+                        {
+                            filtt={idmovil:idform,type:{$in:['Numerico','Moneda']}}
+                        }
+
+                        Frmmovild.find(filtt).sort([['order', 1]]).exec(function(err, todos) {
+                            if (err){ res.send(err); }
+                        
+                            var myData = [];
+                           
+                            if(sicampos==='camposotrosenteros')
+                                {
+                                    myData.push({_id:'contar registros',nombre:'contar registros:sum'})
+
+                                    for(var i = 0; i < todos.length;i++){
+                                        myData.push({_id:todos[i]._id ,nombre:todos[i].name +':sum' + ':'+ todos[i].title  })
+                                      }
+          
+                                      for(var i = 0; i < todos.length;i++){
+                                        myData.push({_id:todos[i]._id ,nombre:todos[i].name +':avg' + ':'+ todos[i].title  })
+                                      }
+                            
+                                      
+
+                                }
+                                else
+{
+    for(var i = 0; i < todos.length;i++){
+        myData.push({_id:todos[i]._id ,nombre:todos[i].name  })
+      }
+
+      
+
+                          
+                            if(todos2.tipo==='Formulario')
+                            {
+                                myData.push({_id:'usuarionew',nombre:'usuarionew'})
+                                myData.push({_id:'usuarioup',nombre:'usuarioup'})
+                                myData.push({_id:'usuarioup2',nombre:'usuarioup2'})
+                                myData.push({_id:'usuarionew2',nombre:'usuarionew2'})
+                                myData.push({_id:'estadointerno',nombre:'estadointerno'})
+                                myData.push({_id:'createdAt',nombre:'createdAt'})
+                                myData.push({_id:'updatedAt',nombre:'updatedAt'})
+                              
+                                
+
+                            }
+                            else
+                            {
+                                
+                                myData.push({_id:'usuarionew',nombre:'usuarionew'})
+                                myData.push({_id:'usuarioup',nombre:'usuarioup'})
+                                myData.push({_id:'usuarioup2',nombre:'usuarioup2'})
+                                myData.push({_id:'usuarionew2',nombre:'usuarionew2'})
+                                myData.push({_id:'estadointerno',nombre:'estadointerno'})
+                                myData.push({_id:'createdAt',nombre:'createdAt'})
+                                myData.push({_id:'updatedAt',nombre:'updatedAt'})
+                                myData.push({_id:'geoposicionxxx',nombre:'geoposicionxxx'})
+                                
+                                myData.push({_id:'estadoxxx',nombre:'estadoxxx'})
+                                myData.push({_id:'actividadxxx',nombre:'actividadxxx'})
+                                myData.push({_id:'accionxxx',nombre:'accionxxx'})
+                            //    myData.push({_id:'tipoaccionxxx',nombre:'tipoaccionxxx'})
+                             //   myData.push({_id:'subtipoaccionxxx',nombre:'subtipoaccionxxx'})
+                                myData.push({_id:'actorxxx',nombre:'actorxxx'})
+                                myData.push({_id:'asignadoxxx',nombre:'asignadoxxx'})
+                            //    myData.push({_id:'actividadclasexxx',nombre:'actividadclasexxx'})
+                            //    myData.push({_id:'actividadtipoxxx',nombre:'actividadtipoxxx'})
+                                myData.push({_id:'enviadoporxxx',nombre:'enviadoporxxx'})
+                                myData.push({_id:'estadoordenxxx',nombre:'estadoordenxxx'})
+                                myData.push({_id:'sequenciag',nombre:'sequenciag'})
+                                myData.push({_id:'sequencia',nombre:'sequencia'})
+                              
+                            }}
+          
+                           res.json(myData);   
+                           
+    
+                    });
+                });
+                    
+                }
+                else
+                {
+                      
+                Frmmovild.find({idmovil:idform}).sort([['order', 1]]).exec(function(err, todos) {
+                    if (err){ res.send(err); }
+                
+                    var myData = [];
+                    for(var i = 0; i < todos.length;i++){
+                      myData.push({_id:todos[i]._id ,nombre:todos[i].name  })
+                    }
+  
+                   res.json(myData);   
+                   
+                    
+                });
+
+                }
+             
+                
+               
+                  
+            
             break;
             case 'tipofrmorden':
             Frmmovild.find({idmovil:req.params.id}).sort([['order', -1]]).exec(function(err, todos) {

@@ -234,12 +234,7 @@ exports.getFrmmovil = async function(req, res, next){
         if(req.params.id4=='frmmovilpreportepdf')
         {
 
-            (async () => {  
-                respuesta = await frmmovilejecutareporte.dareportepdf(req, res, next,[]);
-               
-                    res.json(respuesta);
-                })();
-
+           
 
         }
         else
@@ -4837,6 +4832,18 @@ tipoaccion: "EJECUCIÓN"
 */
 exports.creaFrmmovil3s = async function(req, res, next){
 
+    
+    if(req.body.operacion==='pdfprocesosdefault')
+    {
+        (async () => {  
+            respuesta = await frmmovilejecutareporte.dareportepdf(req, res, next,[]);
+           
+                res.json(respuesta);
+            })();
+
+    }
+    else
+    {
     if(req.body.operacion==='anulaorden')
     {
 
@@ -5834,7 +5841,7 @@ if(req.body.tipo2==='Formulario'){
 
 
 
-}}}}}}}}
+}}}}}}}}}
 }
 
 

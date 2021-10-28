@@ -26,15 +26,23 @@ exports.getGes = async function(req, res, next){
 
                 viviendas = await functool.dadatosformulariofinal('615b4b118cbe6d05e0a8335a',{idpapa: {$in: duplicates}},req.params.id3,'615b4b118cbe6d05e0a8335as' ); 
                 
-
+                var proy=[]
+                for(var i = 0; i < viviendas.length;i++){
+                    var idpp=viviendas[i].proyecto.split('¬')[1]
+                    proy.push(idpp)
+                }
                 var duplicates = [];
                 viviendas.forEach(function (doc) {duplicates.push(doc._id);  });
 
                 componentes = await functool.dadatosformulariofinal('615e27b071a5166c08305cd4',{idpapa: {$in: duplicates}},req.params.id3,'615e27b071a5166c08305cd4' ); 
 
-               
+                if(proy.length>0)
+                {
+                reglamentos = await functool.dadatosformulariofinal('615b3f618cbe6d05e0a83308',{idpapa: {$in: proy}},req.params.id3,'615b3f618cbe6d05e0a83308' ); 
+
+                }
                 var data=[]
-                data.push({p:propietario,v:viviendas,c:componentes})
+                data.push({p:propietario,v:viviendas,c:componentes,r:reglamentos})
                 res.json(data)
                 
             })();

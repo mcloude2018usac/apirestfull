@@ -13,7 +13,7 @@ var sql2 = require("mssql")
 var sql3 = require("mssql")
 var fs = require('fs');  
 var util = require('util');
-const imageToBase64 = require('image-to-base64');
+//const imageToBase64 = require('image-to-base64');
 
 var log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'a'});
 
@@ -68,7 +68,9 @@ function  ejecutaaccess  (cad)
 {
 
     return new Promise(resolve => {
-        resolve({estado:'exito',datat:[]}); 
+const connection = odbc.connect(connectionConfig, (error, connection) => {
+    resolve({estado:'exito',datat:[]}); 
+});
 });
 }
 
@@ -334,6 +336,10 @@ function datipo(value) {
    case 'Tarjeta de credito':   tt='String';   break;
    case 'Telefono':   tt='String';   break;
    case 'Fecha nacimiento':   tt='String';   break;
+   case 'Pais':   tt='String';   break;
+   case 'Tarjeta de credito':   tt='String';   break;
+   case 'Telefono':   tt='String';   break;
+   case 'Correo electronico':   tt='String';   break;
    case 'Otros ckeck':   tt='String';   break;
    case 'Sexo covid':   tt='String';   break;
    case 'Contasena':   tt='String';   break;
@@ -385,6 +391,375 @@ function datipo(value) {
           }
 
 
+          function dagrupograf(op)
+          {
+              var re=''
+              var gg=op
+              var gg2=op
+              if(gg.indexOf(':')>0)
+              {
+
+                  gg2=gg.split(':')[1].trim()
+                  if(gg2.indexOf('<br>')>=0)
+                  {
+
+                    if(gg2.indexOf('null <br>')>=0 || gg2==='<br>')
+                    {   re='NA'
+                }
+                    else
+                    {
+                        re=gg2.split('<br>')[0]
+                    }
+                   
+                  }
+                  else
+                  {
+                      if(gg2.indexOf('<strom>')>0)
+                      {
+                          re=gg2.split('<strom>')[0]
+                      }
+                      else
+                      {
+                          if(gg2.indexOf('¬')>0)
+                          {
+                              re=gg2.split('¬')[0]
+                          }
+                          else
+                          {
+  
+                          }
+                      }
+
+                  }
+                  
+                  
+
+             
+             
+              }
+              else
+              {
+                if(gg.indexOf('<br><strong>na</strong><br>')>=0 || gg.indexOf('null ')>=0  || gg==='0' || gg==='' || gg.indexOf('null ')>=0)
+                {
+                    re='NA'
+                }
+                else
+                {
+                    re=gg2
+                }
+              
+            
+            }
+             
+
+              return re;
+          }
+
+          function GetSortOrder(prop,asc) {    
+              if(asc===1)
+              {  return function(a, b) {    
+                if (a[prop] > b[prop]) {    
+                    return 1;    
+                } else if (a[prop] < b[prop]) {    
+                    return -1;    
+                }    
+                return 0;    
+            }    
+
+              }
+              else
+              {
+                return function(a, b) {    
+                    if (a[prop] > b[prop]) {    
+                        return -1;    
+                    } else if (a[prop] < b[prop]) {    
+                        return 1;    
+                    }    
+                    return 0;    
+                }    
+
+              }
+          
+        } 
+
+          function graficasolotipocantidad(todos2,op,arrop,dataset) {
+               
+            var myData2 = [];
+            var myData3 = [];
+            var myData = [];
+            var tablat=[];
+
+      //      console.log(todos2)
+
+//arrop[7] orden  arrop[8] colores arrop[9] los colores
+          
+    
+         
+    
+            var colorArray = [];
+          
+
+            if(todos2.length==0)
+            {
+              return {labels:[],dataset:[],tabla:[]}
+            }
+            else
+            {
+            if(op==='')
+            {
+                for(var i = 0; i < todos2.length;i++){ 
+                   
+                    var gg2=dagrupograf(todos2[i].grupo)
+                    myData.push(gg2) ;  todos2[i].exito=0
+                    colorArray.push('#' + Math.floor(Math.random() * 16777215).toString(16));
+                
+                
+                }
+            }
+            else
+            {
+                
+                for(var i = 0; i < todos2.length;i++){  
+                    if(todos2[i].grupo0!==undefined && todos2[i].grupo0!==''){
+                        myData.push(todos2[i].grupo+'-' + todos2[i].grupo0) ; 
+                    }
+                    else
+                    {
+                        myData.push(todos2[i].grupo) ; 
+                    }
+                    todos2[i].exito=0
+                }
+            }            
+            
+            // console.log(myData)
+    
+        myData=removeDups(myData);
+   //     myData.sort()
+        var total=0
+         
+
+            if(todos2.length>0){
+                var algo=Object.keys(todos2[0]);
+
+                        for(var jj = 0; jj < algo.length;jj++){
+                            if(algo[jj]!=='grupo' && algo[jj]!=='exito')
+                            {
+
+                          var arr=[]
+                            for(var r = 0; r <myData.length;r++){   
+                                arr[r]=0
+                            }
+                            myData3.push({item:algo[jj],arr:arr,total:0})
+
+                                 
+                              
+                        }
+
+                           
+                        }
+            
+
+
+
+          }
+
+         var grupo=todos2[0].subgrupo
+         var ncolor=0;
+         var j=0;
+         var grupott=''
+         for(var i = 0; i <todos2.length;i++){
+            
+             if( todos2[i].exito===0)
+             {
+             if(grupo==todos2[i].subgrupo)     {   
+                 for(var r = 0; r < myData.length;r++){
+                     if(op==='')
+                     {grupott=dagrupograf(todos2[i].grupo)}
+                     else
+                     {
+                        if(todos2[i].grupo0!==undefined && todos2[i].grupo0!==''){
+                            grupott=todos2[i].grupo+'-' + todos2[i].grupo0
+                        }
+                        else
+                        {
+                            grupott=dagrupograf(todos2[i].grupo)
+                        }
+                        
+                     }
+                     if(myData[r]==grupott)
+                     {
+
+                        var algo=Object.keys(todos2[i]);
+
+                        for(var jj = 0; jj < algo.length;jj++){
+                            if(algo[jj]!=='grupo' && algo[jj]!=='exito')
+                            {
+
+                                for(var jj2 = 0; jj2 < myData3.length;jj2++){
+                                    if(myData3[jj2].item=== algo[jj])
+                                    {
+                                        myData3[jj2].arr[r]=Number(todos2[i][algo[jj]])
+                                        myData3[jj2].total= myData3[jj2].total+Number(todos2[i][algo[jj]])
+                                    }
+                                    }
+                               // myData3[algo[jj]][r]=Number(todos2[i][algo[jj]]);      
+                         //       total=total+Number(todos2[i].cantidadxx)
+                               
+
+                            }
+                        }
+                        todos2[i].exito=1
+                        
+    
+                     }
+                 }
+    
+                   
+                 
+                 }
+             else{
+    
+            
+                     myData2.push({ label: grupo,   data: myData3,  fill: false,backgroundColor:arre[ncolor],  borderColor: arre2[ncolor], borderWidth: 1  });
+           
+                 
+    
+                      ncolor=ncolor+1;
+                      myData3 = [];
+                     j=0;
+                     for(var ii = 0; ii <  myData.length;ii++){
+                         myData3.push(null)
+                     }
+                     grupo=todos2[i].subgrupo
+    
+                     for(var r = 0; r < myData.length;r++){
+                        if(op==='')
+                        {grupott=dagrupograf(todos2[i].grupo)}
+                        else
+                        {
+                            if(todos2[i].grupo0!==undefined && todos2[i].grupo0!==''){
+                                grupott=todos2[i].grupo+'-' + todos2[i].grupo0
+                            }
+                            else
+                            {
+                                grupott=dagrupograf(todos2[i].grupo)
+                            }
+                        }
+                         if(myData[r]==grupott)
+                         {
+                    
+                            var algo=Object.keys(todos2[i]);
+
+                            for(var jj = 0; jj < algo.length;jj++){
+                                if(algo[jj]!=='grupo' && algo[jj]!=='exito')
+                                {
+    
+                                    for(var jj2 = 0; jj2 < myData3.length;jj2++){
+                                        if(myData3[jj2].item=== algo[jj])
+                                        {
+                                            myData3[jj2].arr[r]=Number(todos2[i][algo[jj]])
+                                            myData3[jj2].total= myData3[jj2].total+Number(todos2[i][algo[jj]])
+                                        }
+                                        }
+                                   // myData3[algo[jj]][r]=Number(todos2[i][algo[jj]]);      
+                             //       total=total+Number(todos2[i].cantidadxx)
+                                   
+    
+                                }
+                            }
+                            todos2[i].exito=1
+    
+                         }
+                     }
+    
+                 
+                 //    myData3[j]=result.rows[i].VALOR
+                 //    j=j+1;
+                
+                    
+             }
+            
+            }
+    
+         }
+    
+  var colores=[]
+      if(arrop[8]==='generarcolores')
+      {colores=colorArray
+    }
+      else
+      {
+       
+        if(arrop[9].indexOf('¬')>=0)
+        {
+            colorArray=[]
+            var vv=arrop[9].split('¬')
+            for(var r = 0; r < myData.length;r++){
+                for(var r2 = 0; r2 < vv.length;r2++){
+                    if(String(myData[r]).trim()===vv[r2].split(':')[0])
+                    {
+                        colorArray.push('#' +vv[r2].split(':')[1]);
+                    
+                        break;
+                    }
+                }
+            }
+        }
+        
+   
+        colores=colorArray
+
+      }
+
+
+      for(var r2 = 0; r2 < myData3.length;r2++){
+          if(myData3[r2].item==='cantidadxx')
+          {
+            myData2.push({ label: myData3[r2].item,  data: myData3[r2].arr, fill: false, backgroundColor: colores,  borderColor: colores, borderWidth: 1  });
+            total=myData3[r2].total
+          }
+          else
+          {      myData2.push({ label: myData3[r2].item,  data: myData3[r2].arr, fill: false, backgroundColor: colores,  borderColor: colores, borderWidth: 1  });
+        }
+       
+      
+      }
+    
+   
+             if(op==='')
+             {
+                for(var r = 0; r < myData.length;r++){
+                    tablat.push({grupo:myData[r],cantidadxx:myData2[0].data[r]})
+                }
+
+                if(arrop[7]==='1')
+                {tablat.sort(GetSortOrder("cantidadxx"),1);}
+                else
+                {
+                    tablat.sort(GetSortOrder("cantidadxx"),0);
+                }
+                myData=[]
+                myData2[0].data=[]
+
+                for(var r = 0; r < tablat.length;r++){
+                    myData.push(tablat[r].grupo)
+                    myData2[0].data.push(tablat[r].cantidadxx)
+                }
+
+                
+                return {labels:myData,dataset:myData2,total:total,tabla:tablat};
+             }
+             else
+             {
+                return {labels:myData,dataset:myData2,total:total,tabla:todos2};
+             }
+    
+         
+        }
+        
+        }
+
+  
 
           function graficatiposubtipocantidad(todos2,op) {
                
@@ -1915,10 +2290,10 @@ else
                   {
                       datafinal.push({item:todos2[i],_id:todos2[i]._id,          nombre2:cad+ '<div style="font-size: 10px;text-transform: capitalize;">Crea: [' +
                       dafechastring(todos2[i]['createdAt'])+','  + dausuariobita(todos2[i]['usuarionew'],todos2[i]['usuarionew2']) + ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +  
-                       dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) + '] <br> </div><div style="font-size: 14px;text-transform: capitalize;color:blue;">Estado interno: '+ todos2[i].estadointerno + comt + comt2 +'</div>',
+                       dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) + '] <br> </div><div style="font-size: 14px;text-transform: capitalize;color:secondary;">Estado interno: '+ todos2[i].estadointerno + comt + comt2 +'</div>',
                       nombre:cad+ ' ' +cadenabusqueda +  ' <div style="font-size: 10px;text-transform: capitalize;">Crea: [' +
                        dafechastring(todos2[i]['createdAt'])+','  + dausuariobita(todos2[i]['usuarionew'],todos2[i]['usuarionew2']) + ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +  
-                        dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) + '] <br> </div><div style="font-size: 14px;text-transform: capitalize;color:blue;">Estado interno: '+ todos2[i].estadointerno + comt + comt2 +'</div>'
+                        dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) + '] <br> </div><div style="font-size: 14px;text-transform: capitalize;color:secondary;">Estado interno: '+ todos2[i].estadointerno + comt + comt2 +'</div>'
                         ,item:todos2[i],usuario:''})
                   }
                   else
@@ -2114,10 +2489,10 @@ if(todos2[i].geoposicionxxx)
                 {
                     datafinal.push({item:todos2[i],_id:todos2[i]._id,          nombre2:cad+ '<div style="font-size: 10px;text-transform: capitalize;">Crea: [' +
                     dafechastring(todos2[i]['createdAt'])+','  + dausuariobita(todos2[i]['usuarionew'],todos2[i]['usuarionew2']) + ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +  
-                     dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) + '] <br> </div><div style="font-size: 14px;text-transform: capitalize;color:blue;">Estado interno: '+ todos2[i].estadointerno + comt + comt2 +'</div>',
+                     dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) + '] <br> </div><div style="font-size: 14px;text-transform: capitalize;color:secondary;">Estado interno: '+ todos2[i].estadointerno + comt + comt2 +'</div>',
                     nombre:cad+ ' ' +cadenabusqueda +  ' <div style="font-size: 10px;text-transform: capitalize;">Crea: [' +
                      dafechastring(todos2[i]['createdAt'])+','  + dausuariobita(todos2[i]['usuarionew'],todos2[i]['usuarionew2']) + ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +  
-                      dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) + '] <br> </div><div style="font-size: 14px;text-transform: capitalize;color:blue;">Estado interno: '+ todos2[i].estadointerno + comt + comt2 +'</div>'
+                      dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) + '] <br> </div><div style="font-size: 14px;text-transform: capitalize;color:secondary;">Estado interno: '+ todos2[i].estadointerno + comt + comt2 +'</div>'
                       ,item:todos2[i],usuario:''})
                 }
                 else
@@ -2289,7 +2664,7 @@ data[aa].replace('¬', ',') + '" target="_blank">https://www.google.com/maps/sea
                   {
                     datafinal.push({_id:todos2[i]._id,nombre2:'tico',nombre:cad+ '<div style="font-size: 10px;text-transform: capitalize;">Crea: [' + dafechastring(todos2[i]['createdAt'])+',' + 
                     dausuariobita(todos2[i]['usuarionew'],todos2[i]['usuarionew2']) +  ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' 
-                   + dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) + '] <br></div> <div style="font-size: 14px;text-transform: capitalize;color:blue;">Estado interno: '+ todos2[i].estadointerno +'</div>',item:todos2[i],usuario:''})
+                   + dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) + '] <br></div> <div style="font-size: 14px;text-transform: capitalize;color:secondary;">Estado interno: '+ todos2[i].estadointerno +'</div>',item:todos2[i],usuario:''})
                   }
                   else
                   {
@@ -5294,6 +5669,7 @@ daconectaorden:daconectaorden,
     dadatosformularioidfinal: dadatosformularioidfinal,
     dadatosformulariocombo:dadatosformulariocombo,
     eliminaformulario:eliminaformulario,
+    graficasolotipocantidad:graficasolotipocantidad,
     dafalso:dafalso,
     daimagenxxx:daimagenxxx,
     dadatosformularioproceso:dadatosformularioproceso

@@ -212,8 +212,18 @@ var kardexproducto = require('../models/asociadoventa/kardexcorreosproducto');
 
     var dareportepdf= async function(req, res, next,dataanterior){
         console.log(req.params)
+        var reportefrm=''
+       
         return new Promise(resolve => {
-            var reportefrm=req.params.id.split('°')
+          if(req.params.recordID==='moviltodo')
+          {
+            reportefrm=req.body.id.split('°')
+          }
+          else
+          {
+            reportefrm=req.params.id.split('°')
+          }
+            
             //reportefrm this.nidformulario + '°' + this.idformulario  + '°'+item._id 
             console.log('clase frmmovilejecutareporte --> add en la funcion dareportepdf  case ' + reportefrm[1] + ':(async () => { })();')
             switch(reportefrm[1]) {
@@ -223,8 +233,9 @@ var kardexproducto = require('../models/asociadoventa/kardexcorreosproducto');
 (async () => {
 
 
-  var jsonObject = functool.stringToObject( functool.replaceAll( req.params.id5 ,'ë','/'));
-  var jsonObject2 = functool.stringToObject( functool.replaceAll( req.params.id2 ,'ë','/'));
+  var jsonObject = req.body.id5 
+  var jsonObject2 = req.body.id2 
+  
 
   let jsonx= [];
 
@@ -234,20 +245,7 @@ var kardexproducto = require('../models/asociadoventa/kardexcorreosproducto');
 jsonx.push(jsonObject)
 
 jsonx.push({text:'   '})
-//BUENO
-jsonx.push({
-  style: 'tableExample',
-  fontSize: 10,
-  table: 
-  {
-    widths: ['auto', 150],
-    heights: [15, 15],
-    body: [
-      ['No. Póliza', {text: ''}],
-      ['Clase 36/37 ', '']
-    ]
-  }
-});
+
 
 jsonx.push({text:'   '})
 
@@ -272,62 +270,8 @@ layout:
 
 //BUENO
 jsonx.push({text:'   '})
-jsonx.push
-(
-  {
-    table: 
-    {
-      widths: ['auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto'],
-      headerRows: 2,
-      body: 
-      [
-        [
-          {rowSpan: 2, text: 'STATUS', style: 'tableHeader', alignment: 'center',fontSize: 10}, 
-          {text: 'INICIAL', style: 'tableHeader',colSpan: 2,  alignment: 'center',fontSize: 10},
-          {},
-          {text: '2DA REV', style: 'tableHeader',colSpan: 2,  alignment: 'center',fontSize: 10},
-          {},
-          {text: 'CLASE 36 / 37', style: 'tableHeader',colSpan: 2,  alignment: 'center',fontSize: 10},
-          {}
-        ],
-        [
-          {text: '', style: 'tableHeader', alignment: 'center',fontSize: 10}, 
-          {text: ' HORA ', style: 'tableHeader', alignment: 'center',fontSize: 10}, 
-          {text: 'FECHA', style: 'tableHeader', alignment: 'center',fontSize: 10}, 
-          {text: ' HORA ', style: 'tableHeader', alignment: 'center',fontSize: 10}, 
-          {text: 'FECHA', style: 'tableHeader', alignment: 'center',fontSize: 10}, 
-          {text: ' HORA ', style: 'tableHeader', alignment: 'center',fontSize: 10},
-          {text: 'FECHA',  style: 'tableHeader', alignment: 'center',fontSize: 10},
-        ],
-        [{text:'RECIBIDO DE SERVICIO AL CLIENTE',fontSize: 10}, '', '','', '', '',''],
-        [{text:'ENTREGA A CONTROL DE CALIDAD',fontSize: 10}, '', '','', '', '',''],
-        [{text:'RECIBIDA DE CONTROL DE CALIDAD',fontSize: 10}, '', '','', '', '',''],
-        [{text:'PREPOLIZA DE SERVICIO AL CLIENTE',fontSize: 10}, '', '','', '', '',''],
-        [{text:'CONFIRMA A  SERVICIO AL CLIENTE',fontSize: 10}, '', '','', '', '',''],
-        [{text:'A TRÁMITE',fontSize: 10}, '', '','', '', '',''],
-      
-      ]
-    }
-   }
-);
 
-jsonx.push({text:'   '})
 
-jsonx.push({
-  style: 'tableExample', 
-  fontSize: 10,
-  table: 
-  {
-    widths: ['auto', 50],
-    heights: [25, 25, 25],
-    body: 
-    [
-      ['Regimen', ''],
-      ['Aduana Entrada ', ''],
-      ['Aduana Salida', '']
-    ]
-  }
-});
 jsonx.push({text:'   '})
 
 jsonx.push({	text: [{text:'Recibido por: ', bold: true,fontSize:10},{text: '______________________________'}	],  alignment: 'right'})
