@@ -532,7 +532,7 @@ var ejecuta1=await  functool.ejecutasql(cad ,'mssql://sa:$ertobar@192.168.34.5/D
        
             default:
               // code block
-              resolve({estado:'exito'}); 
+              resolve({estado:'exito',data:''}); 
           }
     });
 }

@@ -58,9 +58,52 @@ exports.getFrmmovildreportes = function(req, res, next){
                
 
                 
-            Frmmovild.find({idmovil:arrr[1], display : "true",idempresa:arrr[1]}).exec(function(err, todos) {
+            Frmmovild.find({idmovil:arrr[0], display : "true",idempresa:arrr[1]}).exec(function(err, todos) {
                 if (err){ res.send(err); }
             
+                var todosxx=arrr[5].split(',')
+                var todospp=[]
+            
+
+                var filtroff={}
+                var fechasfiltro=arrr[2]
+                var filtroextra=arrr[3]
+                if(fechasfiltro!==undefined && fechasfiltro!=='')
+                {
+                   filtroff={
+                   "createdAt": {"$gte": new Date(functool.dafecha(fechasfiltro.split('¬')[0]) +'T00:00:00.000Z'),
+                   "$lt": new Date(functool.dafecha(fechasfiltro.split('¬')[1]) +'T24:00:00.000Z')}
+               };
+                  
+                }
+
+        
+                    var subff=filtroextra.split('¬')
+                    for(var i = 0; i < subff.length;i++){
+                        if(subff[i]!=='undefined')
+                        {
+                           var oo= JSON.parse('{'+subff[i]+'}')
+                           Object.assign(filtroff, oo);
+                         
+                        }
+                        
+                        }
+
+
+
+                for(var i = 0; i < todosxx.length;i++){
+                    for(var ii = 0; ii < todos.length;ii++){
+                       if(todos[ii].name===todosxx[i].trim())
+                       {
+                           todospp.push(todos[ii])
+                       }
+
+                    }
+
+                }
+
+                todos=todospp
+
                 var objetox = {};
             for(var i = 0; i < todos.length;i++){
                 objetox[todos[i].name] =todos[i].title + '°' + todos[i].type + '°'+ todos[i].display;
@@ -91,10 +134,10 @@ exports.getFrmmovildreportes = function(req, res, next){
                                             var  frmtt= mongoose.model(namess);
                                             frmtt.find(filtroff).exec(function(err, todos2) {
                                                 if (err){  res.send(err); }
-                                            console.log(todos2)
-                                                var rr=functool.graficasolotipocantidad(todos2,'',arrr,datasets)
-                                                console.log(rr)
-                                                res.json(rr);
+                                                var datafinal = functool.procesatablauirecord(objetox,todos2,'no')
+                                                   
+                                                res.json(datafinal);
+                                            
                                             
                                             });
                                         } catch(e) {
@@ -104,9 +147,10 @@ exports.getFrmmovildreportes = function(req, res, next){
                                                 if (err){  res.send(err);
                                                 }
                                                 //grupo+grupo0
-                                                var rr=functool.graficasolotipocantidad(todos2,'',arrr,datasets)
-                                                console.log(rr)
-                                                res.json(rr);
+                                                var datafinal = functool.procesatablauirecord(objetox,todos2,'no')
+                                                   
+                                                res.json(datafinal);
+                                            
                                             
                                             });
                                         }

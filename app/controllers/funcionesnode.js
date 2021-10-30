@@ -13,7 +13,7 @@ var sql2 = require("mssql")
 var sql3 = require("mssql")
 var fs = require('fs');  
 var util = require('util');
-//const imageToBase64 = require('image-to-base64');
+const imageToBase64 = require('image-to-base64');
 
 var log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'a'});
 
@@ -68,9 +68,7 @@ function  ejecutaaccess  (cad)
 {
 
     return new Promise(resolve => {
-const connection = odbc.connect(connectionConfig, (error, connection) => {
-    resolve({estado:'exito',datat:[]}); 
-});
+ resolve({estado:'exito',datat:[]}); 
 });
 }
 
@@ -2288,23 +2286,34 @@ else
                   
                   if(todos2[i].estadointerno ==='activo')
                   {
-                      datafinal.push({item:todos2[i],_id:todos2[i]._id,          nombre2:cad+ '<div style="font-size: 10px;text-transform: capitalize;">Crea: [' +
+                      /*
+                      Crea: [' +
                       dafechastring(todos2[i]['createdAt'])+','  + dausuariobita(todos2[i]['usuarionew'],todos2[i]['usuarionew2']) + ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +  
                        dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) + '] <br> </div><div style="font-size: 14px;text-transform: capitalize;color:secondary;">Estado interno: '+ todos2[i].estadointerno + comt + comt2 +'</div>',
                       nombre:cad+ ' ' +cadenabusqueda +  ' <div style="font-size: 10px;text-transform: capitalize;">Crea: [' +
                        dafechastring(todos2[i]['createdAt'])+','  + dausuariobita(todos2[i]['usuarionew'],todos2[i]['usuarionew2']) + ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +  
-                        dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) + '] <br> </div><div style="font-size: 14px;text-transform: capitalize;color:secondary;">Estado interno: '+ todos2[i].estadointerno + comt + comt2 +'</div>'
-                        ,item:todos2[i],usuario:''})
+                        dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) + '] <br> </div><div style="font-size: 14px;text-transform: capitalize;color:secondary;">Estado interno:
+                      */
+
+                       // despues del capitalize;">   quita la '
+                      datafinal.push({item:todos2[i],_id:todos2[i]._id,          nombre2:cad+ '<div style="font-size: 10px;text-transform: capitalize;"> '+ todos2[i].estadointerno + comt + comt2 +'</div>'
+                        ,nombre:cad+ ' ' +cadenabusqueda,item:todos2[i],usuario:''})
                   }
                   else
                   {
-                      datafinal.push({item:todos2[i],_id:todos2[i]._id,    nombre2:cad + ' ' +cadenabusqueda + ' <div style="font-size: 10px;text-transform: capitalize;">Crea: [' + 
+                      /*
+                      Crea: [' + 
                       dafechastring(todos2[i]['createdAt'])+',' +      dausuariobita(todos2[i]['usuarionew'],todos2[i]['usuarionew2'])+ ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +  
-                       dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) +  '] <br> </div><div style="font-size: 14px;text-transform: capitalize;color:red;">Estado interno: '+ todos2[i].estadointerno + comt + comt2 +'</div>'
+                       dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) +  '] <br> </div><div style="font-size: 14px;text-transform: capitalize;color:red;">Estado interno: '+ todos2[i].estadointerno
+                      */
+                      datafinal.push({item:todos2[i],_id:todos2[i]._id,    nombre2:cad + ' ' +cadenabusqueda + ' <div style="font-size: 10px;text-transform: capitalize;">' + comt + comt2 +'</div>'
                   ,
-                      nombre:cad+ '<div style="font-size: 10px;text-transform: capitalize;">Crea: [' + 
+                  /*
+                  Crea: [' + 
                       dafechastring(todos2[i]['createdAt'])+',' +      dausuariobita(todos2[i]['usuarionew'],todos2[i]['usuarionew2'])+ ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +  
-                       dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) +  '] <br> </div><div style="font-size: 14px;text-transform: capitalize;color:red;">Estado interno: '+ todos2[i].estadointerno + comt + comt2 +'</div>'
+                       dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) +  '] <br> </div><div style="font-size: 14px;text-transform: capitalize;color:red;">Estado interno: '+ todos2[i].estadointerno +
+                       */
+                      nombre:cad+ '<div style="font-size: 10px;text-transform: capitalize;">' +comt + comt2 +'</div>'
                        ,item:todos2[i],usuario:''}) 
                   }
                    cad='';
