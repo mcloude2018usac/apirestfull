@@ -68,7 +68,7 @@ function  ejecutaaccess  (cad)
 {
 
     return new Promise(resolve => {
- resolve({estado:'exito',datat:[]}); 
+        resolve({estado:'exito',datat:[]}); 
 });
 }
 
@@ -2296,7 +2296,7 @@ else
                       */
 
                        // despues del capitalize;">   quita la '
-                      datafinal.push({item:todos2[i],_id:todos2[i]._id,          nombre2:cad+ '<div style="font-size: 10px;text-transform: capitalize;"> '+ todos2[i].estadointerno + comt + comt2 +'</div>'
+                      datafinal.push({item:todos2[i],_id:todos2[i]._id,          nombre2:cad+ '<div style="font-size: 10px;text-transform: capitalize;"> '+ comt + comt2 +'</div><br>'
                         ,nombre:cad+ ' ' +cadenabusqueda,item:todos2[i],usuario:''})
                   }
                   else
@@ -2306,7 +2306,7 @@ else
                       dafechastring(todos2[i]['createdAt'])+',' +      dausuariobita(todos2[i]['usuarionew'],todos2[i]['usuarionew2'])+ ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +  
                        dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) +  '] <br> </div><div style="font-size: 14px;text-transform: capitalize;color:red;">Estado interno: '+ todos2[i].estadointerno
                       */
-                      datafinal.push({item:todos2[i],_id:todos2[i]._id,    nombre2:cad + ' ' +cadenabusqueda + ' <div style="font-size: 10px;text-transform: capitalize;">' + comt + comt2 +'</div>'
+                      datafinal.push({item:todos2[i],_id:todos2[i]._id,    nombre2:cad + ' ' +cadenabusqueda + ' <div style="font-size: 10px;text-transform: capitalize;">' + comt + comt2 +'</div><br>'
                   ,
                   /*
                   Crea: [' + 
