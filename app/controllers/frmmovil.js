@@ -222,7 +222,7 @@ exports.getFrmmovil = async function(req, res, next){
         {
 
             (async () => {  
-                respuesta = await frmmovilejecutareporte.dareportepdf(req, res, next,[]);
+                respuesta = await frmmovilejecutareporte.dareportepdfgeneral(req, res, next,[]);
                
                     res.json(respuesta);
                 })();
@@ -234,7 +234,11 @@ exports.getFrmmovil = async function(req, res, next){
         if(req.params.id4=='frmmovilpreportepdf')
         {
 
-           
+            (async () => {  
+                respuesta = await frmmovilejecutareporte.dareportepdf(req, res, next,[]);
+               
+                    res.json(respuesta);
+                })();
 
         }
         else
@@ -1428,7 +1432,7 @@ exports.getFrmmovil = async function(req, res, next){
                                                 comandos:todos[i].comandos, 
                                                 generareporte:todos[i].generareporte,comandos:todos[i].comandos, 
                                                 activas:todos[i].activas,cerradas:todos[i].cerradas,ejecutadas:todos[i].ejecutadas,
-                                                filtrarordentipo:todos[i].filtrarordentipo, filtrarorden:todos[i].filtrarorden,pcreacion:todos[i].creacion, peliminacion:todos[i].eliminacion,  pfiltro:todos[i].filtro, pingreso:'true', preporte:todos[i].reporte, preporte2:todos[i].reporte2,camposreporte:todos[i].camposreporte,  potros1:'', imprimeorden	:todos[i].imprimeorden, 
+                                                filtrarordentipo:todos[i].filtrarordentipo, filtrarorden:todos[i].filtrarorden,pcreacion:todos[i].creacion, peliminacion:todos[i].eliminacion,  pfiltro:todos[i].filtro, pingreso:'true', preporte:todos[i].reporte, preporte2:todos[i].reporte2,reporteencabezado:todos[i].reporteencabezado,camposreporte:todos[i].camposreporte,  potros1:'', imprimeorden	:todos[i].imprimeorden, 
                                                         cancelarorden:todos[i].cancelarorden,reasignarorden:todos[i].reasignarorden,bitacoraorden:todos[i].bitacoraorden,papaorden:todos[i].papaorden,imprimeorden2	:todos[i].imprimeorden2,  finalizaorden :todos[i].finalizaorden,  eliminaorden  :todos[i].eliminaorden, dashboard  :todos[i].dashboard, filtrocampo  :todos[i].filtrocampo,  trayectoriaorden:todos[i].trayectoriaorden,  documentacionorden:todos[i].documentacionorden,  pausarorden  :todos[i].pausarorden,  anularorden  :todos[i].anularorden,  fotosorden:todos[i].fotosorden, comentariosorden:todos[i].comentariosorden,  documentosorden :todos[i].documentosorden,  tareasorden  :todos[i].tareasorden,acciones:todos[i].acciones,publico:todos[i].idformulario.publico}});
                                         }
 
@@ -1491,7 +1495,7 @@ exports.getFrmmovil = async function(req, res, next){
                                                             pactualizacion:todos[i].actualizacion,  pconsulta:todos[i].consulta, 
                                                             activas:todos[i].activas,cerradas:todos[i].cerradas,ejecutadas:todos[i].ejecutadas,
                                                             generareporte:todos[i].generareporte, 
-                                                            filtrarordentipo:todos[i].filtrarordentipo, filtrarorden:todos[i].filtrarorden,pcreacion:todos[i].creacion, peliminacion:todos[i].eliminacion,  pfiltro:todos[i].filtro, pingreso:'true', preporte:todos[i].reporte, preporte2:todos[i].reporte2,camposreporte:todos[i].camposreporte,  potros1:'', imprimeorden	:todos[i].imprimeorden,  
+                                                            filtrarordentipo:todos[i].filtrarordentipo, filtrarorden:todos[i].filtrarorden,pcreacion:todos[i].creacion, peliminacion:todos[i].eliminacion,  pfiltro:todos[i].filtro, pingreso:'true', preporte:todos[i].reporte, preporte2:todos[i].reporte2,reporteencabezado:todos[i].reporteencabezado,camposreporte:todos[i].camposreporte,  potros1:'', imprimeorden	:todos[i].imprimeorden,  
                                                                     imprimeorden2	:todos[i].imprimeorden2,  finalizaorden :todos[i].finalizaorden,  
                                                                     comandos :todos[i].comandos,  
                                                                     cancelarorden:todos[i].cancelarorden,reasignarorden:todos[i].reasignarorden,bitacoraorden:todos[i].bitacoraorden,papaorden:todos[i].papaorden,eliminaorden  :todos[i].eliminaorden, dashboard  :todos[i].dashboard, filtrocampo  :todos[i].filtrocampo,  trayectoriaorden:todos[i].trayectoriaorden,  documentacionorden:todos[i].documentacionorden,  pausarorden  :todos[i].pausarorden,  anularorden  :todos[i].anularorden,  fotosorden:todos[i].fotosorden, comentariosorden:todos[i].comentariosorden,  documentosorden :todos[i].documentosorden,  tareasorden  :todos[i].tareasorden,acciones:todos[i].acciones,publico:todos[i].idformulario.publico});

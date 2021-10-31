@@ -12,6 +12,7 @@ var User = require('../models/user');
 var Bus = require('../models/bus');
 var tarifa = require('../models/tarifa');
 var mailt = require('../controllers/mailprueba');
+var empresa = require('../models/empresa');
 
 
 var cleanName = function(str) {
@@ -74,6 +75,7 @@ exports.getCombofijo = function(req, res, next){
 
 {
         switch(req.params.id4) {
+               
                 case 'correpueba':
                         mailt.mandacorreoprueba2(['eveready11p@gmail.com','ambrosioaleman07@gmail.com','mario.morales@mcloude.com'],'Solicitando salon para Unidad academica:', 'Solicitud de nuevo salon',['mario.morales@mcloude.com'])
 break;
@@ -802,7 +804,13 @@ else
 else{
        switch(req.params.id) {
     
-      
+        case 'empresalenguaje':
+                       
+                empresa.findById({_id:req.params.id2}).exec(function(err, todos) {
+                        if (err){  res.send(err);  }
+                        res.json(todos.lenguaje);
+                });
+break;
         case 'catalogo-tipo':
                 if(req.params.id2=='WebApp Usacenlinea')
                 {

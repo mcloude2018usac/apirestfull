@@ -15,7 +15,7 @@ idusuario		: { type : String },
  filtro		: { type : String },  
  reporte		: { type : String },  
  reporte2		: { type : String },  
- 
+ reporteencabezado: { type : String },  
  camposreporte:{
   id	: { type : String },
   nombre		: { type : String },

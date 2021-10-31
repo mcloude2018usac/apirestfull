@@ -394,6 +394,7 @@ SINNNNNNNNNNNNNN AUTORIZACION
   correosRoutes.post('/:recordID',requireAuth,  CorreosController.creacorreos2s);
   correosRoutes.get('/:id/:id2/:id3',requireAuth,  CorreosController.getCorreos);
 
+
   apiRoutes.use('/Image2s', image2Routes);
   image2Routes.get('/:id',  Image2Controller.getImage2s);
   image2Routes.post('/:recordID',requireAuth,  Image2Controller.createImage2);

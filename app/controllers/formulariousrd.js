@@ -84,6 +84,11 @@ if(req.params.recordID!=='crea')
  todo.creacion       	=	req.body.creacion        	;   
  todo.actualizacion       	=	req.body.actualizacion       ;   
  todo.filtro       	=	req.body.filtro        ;   
+
+ todo.reporteencabezado	=	req.body.reporteencabezado        ;   
+ 
+
+
  todo.reporte       	=	req.body.reporte        ; 
  todo.camposreporte	=	req.body.camposreporte        	||	todo.camposreporte;   
  todo.reporte2       	=	req.body.reporte2        ;   
@@ -146,6 +151,10 @@ else{
   tipo     	: req.body.tipo    	,
  camposreporte	:	req.body.camposreporte  ,
 
+
+ reporteencabezado	:	req.body.reporteencabezado  ,
+
+ 
   idformulario     	: req.body.idformulario    	,
   formulario     	: req.body.formulario    	,
   consulta     	: req.body.consulta    	,

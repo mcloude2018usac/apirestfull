@@ -109,6 +109,7 @@ if(req.params.recordID!=='crea')
             todo.horario       	=	req.body.horario        	||	todo.horario;  
             todo.pmodulo       	=	req.body.pmodulo        	||	todo.pmodulo;   
              todo.moneda     	= req.body.moneda    	;
+             todo.lenguaje	= req.body.lenguaje	;
 
              todo.simarca	=	req.body.simarca        ;  
              todo.siexporta	=	req.body.siexporta        ;  
@@ -174,6 +175,7 @@ else{
          inicio     	: req.body.inicio ,
          pagina0     	: req.body.pagina0 ,
          siregister: req.body.inicio ,
+         lenguaje: req.body.lenguaje,
          pinicio     	: req.body.pinicio   || 'app/billetera-list'  	,
          nit     	: req.body.nit    	,
          razon     	: req.body.razon    	,
