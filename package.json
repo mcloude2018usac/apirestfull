@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "\"# apirest\"",
   "main": "server.js",
-  "engines": { "node": "14.15.4", "npm": "7.1.1" },
+  "engines": {  "npm": ">=7.1.1" },
   "dependencies": {
     "@google-cloud/storage": "^5.15.3",
     "async": "^3.2.0",
