@@ -7,14 +7,6 @@ const fs = require('fs');
 const SCOPES = ['https://www.googleapis.com/auth/drive.metadata.readonly'];
 const TOKEN_PATH = 'drive.json';
 const { Storage } = require('@google-cloud/storage');
-const AWS = require('aws-sdk');
-
-const s3 = new AWS.S3({
-    accessKeyId: 'AKIAU4LAKYYRT7SWLZNF',
-    secretAccessKey: '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'
-});
-
-
 
 //req.params.id   es el id de la orden se vuelve directorio  y id2  nombre file
 
