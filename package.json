@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "description": "\"# apirest\"",
   "main": "server.js",
-  "engines": {  "npm": ">=7.1.1" },
-  "dependencies": {
+   "dependencies": {
     "@google-cloud/storage": "^5.15.3",
     "async": "^3.2.0",
     "aws-sdk": "^2.521.0",
