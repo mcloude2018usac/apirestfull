@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "\"# apirest\"",
   "main": "server.js",
+  "engines": { "node": "16.0.0", "npm": "7.1.1" },
   "dependencies": {
     "@google-cloud/storage": "^5.15.3",
     "async": "^3.2.0",
@@ -32,6 +33,7 @@
     "node-fetch": "^2.6.0",
     "nodemailer": "^6.3.0",
     "nodemailer-smtp-transport": "^2.7.4",
+    "odbc": "^2.3.6",
     "oracledb": "^4.0.1",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",

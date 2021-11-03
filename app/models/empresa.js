@@ -18,6 +18,7 @@ var mongoose =require("mongoose");
         foto2	: { type : String },
         lenguaje	: { type : String },
         pagina0: { type : String },
+        pagina10: { type : String },
         logo1	: { type : String },
         logo2	: { type : String },
         color1	: { type : String },
