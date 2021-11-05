@@ -3,6 +3,14 @@ var Bitacora = require('../../models/bitacora');
 var Image = require('../../models/image2');
 var functool = require('../../controllers/funcionesnode');
 exports.getformulariotareas = function(req, res, next){
+    if(req.params.id3)
+    {    if(req.params.id==='tareasusuario2')
+    { 
+        res.json([]);
+      
+    }
+}
+    else{
     if(req.params.id4)
     {    if(req.params.id==='tareasusuario2')
     { 
@@ -62,7 +70,7 @@ exports.getformulariotareas = function(req, res, next){
             else
             {  res.status(500).send('NO EXISTE REGISTRO');      }
         });
-    }
+    }}
 }
 exports.deleteformulariotareas = function(req, res, next){
     Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina formulariotareas '});

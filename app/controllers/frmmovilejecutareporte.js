@@ -247,7 +247,7 @@ jsonx.push(jsonObject)
 jsonx.push({text:'   '})
 
 
-jsonx.push({text:'   '})
+
 
 
 jsonx.push( {
