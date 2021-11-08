@@ -78,7 +78,7 @@ exports.getFrmmovild = function(req, res, next){
                
                       var myData = [];
                       for(var i = 0; i < todos.length;i++){
-                        myData.push({_id:todos[i].idformdetalle.id ,nombre:todos[i].idformdetalle.nombre  })
+                        myData.push({_id:todos[i].idformdetalle.id ,nombre:todos[i].idformdetalle.nombre,nombre2:todos[i].idformdetalle.nombre2  })
                       }
     
                      res.json(myData);   
@@ -330,13 +330,17 @@ if(req.params.id!=='crea')
            
             var rr= req.body.display 
             var rr2= req.body.required
+          
             if(req.body.tipo=="Etiqueta")
             {rr='false';rr2='false'}
 
 
+
+
           
             todo.required		=	rr2         	    	;
-            todo.placeholder		=	  'Ingrese '+ req.body.title+''     	;
+            todo.placeholder		=	 'Ingrese '+ req.body.title+''     	;
+            todo.placeholder2		=	 'Please enter '+ req.body.title2+''     	;
             todo.display		=	    rr        	    	;
             todo.selected		=	req.body.selected           	;
             todo.default		=	req.body.default        	||	todo.default        	;
@@ -421,9 +425,10 @@ else{
                         idmovil	:req.body.idmovil 	,
                         type   	:req.body.type 	,
                         name   	:nombret 	,
-                        nombre:	nombret  + ' ' + req.body.title  + ' ' +req.body.type	,
+                        nombre:	nombret  + ' ' + req.body.title  + ' ' + req.body.title2 + ' ' +req.body.type	,
                         order   :req.body.order 	,
                         title :req.body.title 	,
+                        title2 :req.body.title2 	,
                         estado 	: req.body.estado 	,
                         default 	: '' 	,
                         default2 	: '' 	,
@@ -438,7 +443,8 @@ else{
                         idfrmconsulta2:req.body.idfrmconsulta2,
                         nombreconsulta2:'',
                         required :req.body.required	,
-                        placeholder :'Ingrese '+ req.body.title+''	,
+                        placeholder : 'Ingrese '+ req.body.title+''    	,
+                        placeholder2 : 'Please enter '+ req.body.title2+'' 	,
                         display :req.body.display,
                         selected :true 	,
                         disabled :'false' 	,
@@ -493,19 +499,22 @@ exports.creaFrmmovild3s = function(req, res, next){
   
 if(req.params.id!=='crea')
 { 
-   
+  
+
     Frmmovild.findById({ _id: req.params.id }, function (err, todo)  {
         if (err) {  res.send(err);  }
         else
         { 
         
             todo.name       	=	req.body.name        	||	todo.name;    
-            todo.nombre       	=	req.body.name + ' '+  req.body.title   + ' '+req.body.type;    
-            todo.placeholder ='Ingrese '+ req.body.title+''	;
+            todo.nombre       	=	req.body.name + ' '+  req.body.title  + ' '+  req.body.title2   + ' '+req.body.type;    
+            todo.placeholder		=	 'Ingrese '+ req.body.title+''     	;
+            todo.placeholder2		=	 'Please enter '+ req.body.title2+''     	;
             todo.order       	=	req.body.order        	||	todo.order;   
             todo.display	=	req.body.display        ;    
             todo.required	=	req.body.required        ;    
             todo.title       	=	req.body.title        	||	todo.title;    
+            todo.title2       	=req.body.title2;    
             todo.estado       	=	req.body.estado        	||	todo.estado;    
             todo.type       	=	req.body.type        	||	todo.type;    
             todo.usuarioup=req.body.bitacora.email;
@@ -543,14 +552,16 @@ else{
                         idmovil	:req.body.idmovil 	,
                         type   	:req.body.type 	,
                         name   	:nombret 	,
-                        nombre:	nombret  + ' ' + req.body.title  + ' ' +req.body.type	,
+                        nombre:	nombret  + ' ' + req.body.title  + ' ' + req.body.title2  + ' ' +req.body.type	,
                         order   :req.body.order 	,
                         title :req.body.title 	,
+                        title2 :req.body.title2 	,
                         estado 	: req.body.estado 	,
                         default 	: '' 	,
                         copiarencampo:'',
                         required :rr	,
-                        placeholder :'Ingrese '+ req.body.title + ''	,
+                        placeholder : 'Ingrese '+ req.body.title+''    	,
+                        placeholder2 : 'Please enter '+ req.body.title2+'' 	,
                         display :req.body.display,
                         required :req.body.required,
                         
