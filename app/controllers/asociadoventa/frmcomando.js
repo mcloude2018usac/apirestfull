@@ -139,6 +139,7 @@ if(req.params.recordID!=='crea')
  todo.idempresa       	=	req.body.idempresa        	||	todo.idempresa;   
  todo.idpapa       	=	req.body.idpapa        	||	todo.idpapa;   
  todo.nombre       	=	req.body.nombre        	||	todo.nombre; 
+ todo.nombre2       	=	req.body.nombre2       ; 
  todo.comando       	=	req.body.comando        	||	todo.comando;   
  
  todo.estado       	=	req.body.estado        	||	todo.estado;   
@@ -160,6 +161,7 @@ else{
   idempresa     	: req.body.idempresa    	,
   idpapa     	: req.body.idpapa    	,
   nombre     	: req.body.nombre    	,
+  nombre2     	: req.body.nombre2    	,
   comando     	: req.body.comando    	,
   
   estado     	: req.body.estado    	,

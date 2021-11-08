@@ -35,6 +35,7 @@ function creactores(req,res,idactor,todos2,nombreactor ){
                                 idclona     	: todos2[ii]._id    	,
                                 idpapa0     	: req.body.idpapa    	,
                                 nombre     	: todos2[ii].nombre    	,
+                                nombre2     	: todos2[ii].nombre2    	,
                                 usuarios     	: todos2[ii].usuarios    	,
                                 nombreusuarios	: todos2[ii].nombreusuarios	,
                                 correousuarios	: todos2[ii].correousuarios	,
@@ -100,6 +101,7 @@ exports.getfrmactor = function(req, res, next){
                                       
                                         idpapa0:todos[i].idpapa0,
                                         nombre:todos[i].nombre,
+                                        nombre2:todos[i].nombre2,
 
                                         usuarios:todos[i].usuarios,
                                         nombreusuarios:todos[i].nombreusuarios,
@@ -142,7 +144,7 @@ exports.getfrmactor = function(req, res, next){
                          
                         if(String(todos10[ii]._id)===todos[i].idpapa)
                         {
-                            myData.push({_id:todos[i]._id,nombre:todos[i].nombre + ' (' + todos10[ii].nombre + ')'})
+                            myData.push({_id:todos[i]._id,nombre:todos[i].nombre + ' (' + todos10[ii].nombre + ')',nombre:todos[i].nombre2 + ' (' + todos10[ii].nombre2 + ')'})
                             break;
                         }    
                         
@@ -209,7 +211,7 @@ console.log(vector1)
 
         for(var i = 0; i < todos.length;i++){
 
-            creactores(req, res,'' + todos[i]._id,todos2,todos[i].nombre);
+            creactores(req, res,'' + todos[i]._id,todos2,todos[i].nombre,todos[i].nombre2);
            
         
 
@@ -246,6 +248,7 @@ if(req.params.recordID!=='crea')
  todo.idempresa       	=	req.body.idempresa        	||	todo.idempresa;   
  todo.idpapa       	=	req.body.idpapa        	||	todo.idpapa;   
  todo.nombre       	=	req.body.nombre        	||	todo.nombre;   
+ todo.nombre2       	=	req.body.nombre2  ;
  todo.descripciong	= req.body.descripciong	,
  todo.actores       	=	req.body.actores        	||	todo.actores;   
  todo.estado       	=	req.body.estado        	||	todo.estado;   
@@ -267,6 +270,7 @@ else{
   idempresa     	: req.body.idempresa    	,
   idpapa     	: req.body.idpapa    	,
   nombre     	: req.body.nombre    	,
+  nombre2     	: req.body.nombre2    	,
   descripciong	: req.body.descripciong	,
   actores     	: req.body.actores    	,
   estado     	: req.body.estado    	,

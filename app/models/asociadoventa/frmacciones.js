@@ -11,6 +11,7 @@
   descripciong		: { type : String },  
   mandacorreo	: { type : String },  
   nombre		: { type : String, required : true },  
+  nombre2		: { type : String},  
   estado		: { type : String, required : true },  
   actividadsiguiente		:  { id	: { type : String },   nombre	: { type : String }   },
   notificacionmsm		: { type : String, required : true },  

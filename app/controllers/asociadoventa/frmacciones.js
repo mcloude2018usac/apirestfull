@@ -120,6 +120,7 @@ if(req.params.recordID!=='crea')
  todo.ejecutainicio       	=	req.body.ejecutainicio      ;   
  todo.subtipo       	=	req.body.subtipo        	||	todo.subtipo;   
  todo.nombre       	=	req.body.nombre        	||	todo.nombre;   
+ todo.nombre2       	=	req.body.nombre2 ;   
  todo.estado       	=	req.body.estado        	||	todo.estado;   
  todo.actividadsiguiente       	=	req.body.actividadsiguiente        	||	todo.actividadsiguiente;   
  todo.notificacionmsm       	=	req.body.notificacionmsm        	||	todo.notificacionmsm;   
@@ -149,6 +150,7 @@ else{
   ejecutainicio     	: req.body.ejecutainicio    	,
   subtipo     	: req.body.subtipo    	,
   nombre     	: req.body.nombre    	,
+  nombre2     	: req.body.nombre2    	,
   estado     	: req.body.estado    	,
   actividadsiguiente     	: req.body.actividadsiguiente    	,
   notificacionmsm     	: req.body.notificacionmsm    	,

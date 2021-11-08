@@ -67,7 +67,7 @@ exports.getfrmactividad = function(req, res, next){
 
             var dadat = [];
             for(var i = 0; i< todos.length; i++){    
-                dadat.push({_id:todos[i]._id,nombre:todos[i].nombre })
+                dadat.push({_id:todos[i]._id,nombre:todos[i].nombre, nombre2:todos[i].nombre2 })
 
             }
              res.json(dadat);
@@ -127,6 +127,7 @@ exports.getfrmactividad = function(req, res, next){
                                         actor:	todos[i].actor,
                                         clase  :todos[i].clase,	
                                         nombre	:todos[i].nombre,	
+                                        nombre2	:todos[i].nombre2,	
                                         tipo	:todos[i].tipo,	
                                         etapa	:todos[i].etapa,	
                                         conector:todos[i].conector,	
@@ -197,6 +198,7 @@ exports.getfrmactividad = function(req, res, next){
                                                 actor:	todos[i].actor,
                                                 clase  :todos[i].clase,	
                                                 nombre	:todos[i].nombre,	
+                                                nombre2	:todos[i].nombre2,	
                                                 tipo	:todos[i].tipo,	
                                                 etapa	:todos[i].etapa,	
                                                 conector:todos[i].conector,	
@@ -256,6 +258,7 @@ if(req.params.recordID!=='crea')
   todo.actor     	={id: req.body.actor.id, nombre: req.body.actor.nombre}    	,
   todo.clase     	= req.body.clase    	,
  todo.nombre       	=	req.body.nombre        	||	todo.nombre;   
+ todo.nombre2       	=	req.body.nombre2       ;   
  todo.tipo     	= req.body.tipo    	,
  todo.etapa     	= req.body.etapa    	,
  todo.conector     	= req.body.conector    	,
@@ -303,6 +306,7 @@ else{
   actor     	: req.body.actor   	,
   clase     	: req.body.clase    	,
   nombre     	: req.body.nombre    	,
+  nombre2     	: req.body.nombre2    	,
   tipo     	: req.body.tipo	,
   etapa     	: req.body.etapa    	,
   descripciong	: req.body.descripciong	,

@@ -1425,7 +1425,7 @@ exports.getFrmmovil = async function(req, res, next){
                                     
                                         if(todos[i].idformulario.categoria==req.params.id)
                                         {
-                                            myData.push({_id:todos[i].idformulario._id,categoria:todos[i].idformulario.categoria,nombre:todos[i].idformulario.nombre,foto:todos[i].idformulario.foto,estado:todos[i].idformulario.estado ,verregistros:todos[i].verregistros,geoposicion:todos[i].idformulario.geoposicion ,tipo2:todos[i].idformulario.tipo2,ejecuta:todos[i].idformulario.ejecuta  ,
+                                            myData.push({_id:todos[i].idformulario._id,categoria:todos[i].idformulario.categoria,nombre2:todos[i].idformulario.nombre2,nombre:todos[i].idformulario.nombre,foto:todos[i].idformulario.foto,estado:todos[i].idformulario.estado ,verregistros:todos[i].verregistros,geoposicion:todos[i].idformulario.geoposicion ,tipo2:todos[i].idformulario.tipo2,ejecuta:todos[i].idformulario.ejecuta  ,
                                                 ejecutainicio:todos[i].idformulario.ejecutainicio,
                                                 ejecutaelimina:todos[i].idformulario.ejecutaelimina,ejecutaactualiza:todos[i].idformulario.ejecutaactualiza  ,tipo:todos[i].idformulario.tipo,permisos:{
                                                 pactualizacion:todos[i].actualizacion,  pconsulta:todos[i].consulta, 
@@ -1459,13 +1459,13 @@ exports.getFrmmovil = async function(req, res, next){
                                     for(var i = 0; i < todosa.length;i++){
                                         if(todosa[i].categoria==req.params.id)
                                         {
-                                            myData.push({_id:todosa[i]._id,categoria:todosa[i].categoria,nombre:todosa[i].nombre,foto:todosa[i].foto,estado:todosa[i].estado ,verregistros:todosa[i].verregistros,geoposicion:todosa[i].geoposicion ,tipo2:todosa[i].tipo2,ejecuta:todosa[i].ejecuta  ,tipo:todosa[i].tipo,publico:todosa[i].publico});
+                                            myData.push({_id:todosa[i]._id,categoria:todosa[i].categoria,nombre:todosa[i].nombre,nombre2:todosa[i].nombre2,foto:todosa[i].foto,estado:todosa[i].estado ,verregistros:todosa[i].verregistros,geoposicion:todosa[i].geoposicion ,tipo2:todosa[i].tipo2,ejecuta:todosa[i].ejecuta  ,tipo:todosa[i].tipo,publico:todosa[i].publico});
                                         }
                                     }
                                     var unique =   myData.filter( functool.onlyUnique );
                                     var myData2 = [];
                                                   for(var i = 0; i < unique.length;i++){
-                                                     myData2.push({_id:unique[i]._id,tipo:unique[i].tipo,ejecuta:unique[i].ejecuta,tipo2:unique[i].tipo2,geoposicion:unique[i].geoposicion ,categoria:unique[i].categoria,nombre:unique[i].nombre,foto:unique[i].foto,estado:unique[i].estado ,verregistros:unique[i].verregistros,permisos:{pactualizacion:'true',  pconsulta:'true', pcreacion:'true', peliminacion:'true',  pfiltro:'true', pingreso:'true', reporte:'true',  potros1:'',comandos:[], 
+                                                     myData2.push({_id:unique[i]._id,tipo:unique[i].tipo,ejecuta:unique[i].ejecuta,tipo2:unique[i].tipo2,geoposicion:unique[i].geoposicion ,categoria:unique[i].categoria,nombre2:unique[i].nombre2,nombre:unique[i].nombre,foto:unique[i].foto,estado:unique[i].estado ,verregistros:unique[i].verregistros,permisos:{pactualizacion:'true',  pconsulta:'true', pcreacion:'true', peliminacion:'true',  pfiltro:'true', pingreso:'true', reporte:'true',  potros1:'',comandos:[], 
                                                      generareporte:'', 
                                                      activas:'true',cerradas:'true',ejecutadas:'false',
                                                      filtrarorden:'false', filtrarordentipo:'false',
@@ -1491,7 +1491,7 @@ exports.getFrmmovil = async function(req, res, next){
                                                 
                                                     if(todos[i].idformulario.categoria==req.params.id)
                                                     { 
-                                                        myData.push({_id:todos[i].idformulario._id,categoria:todos[i].idformulario.categoria,nombre:todos[i].idformulario.nombre,foto:todos[i].idformulario.foto,estado:todos[i].idformulario.estado ,verregistros:todos[i].verregistros,geoposicion:todos[i].idformulario.geoposicion ,tipo2:todos[i].idformulario.tipo2,ejecuta:todos[i].idformulario.ejecuta  ,ejecutainicio:todos[i].idformulario.ejecutainicio ,ejecutaelimina:todos[i].idformulario.ejecutaelimina,ejecutaactualiza:todos[i].idformulario.ejecutaactualiza ,tipo:todos[i].idformulario.tipo,
+                                                        myData.push({_id:todos[i].idformulario._id,categoria:todos[i].idformulario.categoria,nombre2:todos[i].idformulario.nombre2,nombre:todos[i].idformulario.nombre,foto:todos[i].idformulario.foto,estado:todos[i].idformulario.estado ,verregistros:todos[i].verregistros,geoposicion:todos[i].idformulario.geoposicion ,tipo2:todos[i].idformulario.tipo2,ejecuta:todos[i].idformulario.ejecuta  ,ejecutainicio:todos[i].idformulario.ejecutainicio ,ejecutaelimina:todos[i].idformulario.ejecutaelimina,ejecutaactualiza:todos[i].idformulario.ejecutaactualiza ,tipo:todos[i].idformulario.tipo,
                                                             pactualizacion:todos[i].actualizacion,  pconsulta:todos[i].consulta, 
                                                             activas:todos[i].activas,cerradas:todos[i].cerradas,ejecutadas:todos[i].ejecutadas,
                                                             generareporte:todos[i].generareporte, 
@@ -1518,7 +1518,7 @@ exports.getFrmmovil = async function(req, res, next){
                                                         }
                                                         if(encuentra==0)
                                                         {
-                                                        myData.push({_id:todosa[i]._id,categoria:todosa[i].categoria,nombre:todosa[i].nombre,foto:todosa[i].foto,estado:todosa[i].estado ,verregistros:todosa[i].verregistros,geoposicion:todosa[i].geoposicion ,tipo2:todosa[i].tipo2,ejecuta:todosa[i].ejecuta  ,ejecutainicio:todosa[i].ejecutainicio,ejecutaelimina:todosa[i].ejecutaelimina,ejecutaactualiza:todosa[i].ejecutaactualiza  ,tipo:todosa[i].tipo,
+                                                        myData.push({_id:todosa[i]._id,categoria:todosa[i].categoria,nombre2:todosa[i].nombre2,nombre:todosa[i].nombre,foto:todosa[i].foto,estado:todosa[i].estado ,verregistros:todosa[i].verregistros,geoposicion:todosa[i].geoposicion ,tipo2:todosa[i].tipo2,ejecuta:todosa[i].ejecuta  ,ejecutainicio:todosa[i].ejecutainicio,ejecutaelimina:todosa[i].ejecutaelimina,ejecutaactualiza:todosa[i].ejecutaactualiza  ,tipo:todosa[i].tipo,
                                                             pactualizacion:'true',  pconsulta:'true', pcreacion:'true', peliminacion:'true',  pfiltro:'true', pingreso:'true', reporte:'true',
                                                             generareporte:'', 
                                                             activas:'true',cerradas:'true',ejecutadas:'false',
@@ -1533,7 +1533,7 @@ exports.getFrmmovil = async function(req, res, next){
                                             
                                                 var myData2 = [];
                                                             for(var i = 0; i < unique.length;i++){
-                                                                myData2.push({_id:unique[i]._id,tipo:unique[i].tipo,ejecuta:unique[i].ejecuta,ejecutainicio:unique[i].ejecutainicio ,ejecutaelimina:unique[i].ejecutaelimina ,ejecutaactualiza:unique[i].ejecutaactualiza  ,tipo2:unique[i].tipo2,geoposicion:unique[i].geoposicion ,categoria:unique[i].categoria,nombre:unique[i].nombre,foto:unique[i].foto,estado:unique[i].estado ,verregistros:unique[i].verregistros,permisos:{pactualizacion:unique[i].pactualizacion, 
+                                                                myData2.push({_id:unique[i]._id,tipo:unique[i].tipo,ejecuta:unique[i].ejecuta,ejecutainicio:unique[i].ejecutainicio ,ejecutaelimina:unique[i].ejecutaelimina ,ejecutaactualiza:unique[i].ejecutaactualiza  ,tipo2:unique[i].tipo2,geoposicion:unique[i].geoposicion ,categoria:unique[i].categoria,nombre2:unique[i].nombre2,nombre:unique[i].nombre,foto:unique[i].foto,estado:unique[i].estado ,verregistros:unique[i].verregistros,permisos:{pactualizacion:unique[i].pactualizacion, 
                                                                     comandos:unique[i].comandos,
                                                                     activas:unique[i].activas,cerradas:unique[i].cerradas,ejecutadas:unique[i].ejecutadas,
                                                                     generareporte:unique[i].generareporte, 
@@ -2173,7 +2173,7 @@ break;
                     var data=[]
                     for(var i = 0; i < todos.length;i++){
                         
-                            data.push({name:todos[i].name,nombre:todos[i].title})
+                            data.push({name:todos[i].name,nombre:todos[i].title,nombre2:todos[i].title2})
                         
                         
                     }
@@ -2193,11 +2193,11 @@ break;
                 {
                     if(todos[i].type==='Numerico')
                     {
-                        data.push({_id:todos[i].name,nombre:todos[i].title,tipo:'number'})
+                        data.push({_id:todos[i].name,nombre:todos[i].title,tipo:'number',nombre2:todos[i].title2})
                     }
                     else
                     {
-                        data.push({_id:todos[i].name,nombre:todos[i].title,tipo:'text'})
+                        data.push({_id:todos[i].name,nombre:todos[i].title,tipo:'text',nombre2:todos[i].title2})
                     }
                    
 
@@ -2218,7 +2218,7 @@ break;
                 for(var i = 0; i < todos.length;i++){
                     if( todos[i].type!='Formulario detalle')
                     {
-                        data.push({_id:todos[i]._id,nombre:todos[i].title,name:todos[i].name})
+                        data.push({_id:todos[i]._id,nombre:todos[i].title,name:todos[i].name,nombre2:todos[i].title2})
     
                     }
                         
@@ -2237,7 +2237,7 @@ break;
                     for(var i = 0; i < todos.length;i++){
                         if(todos[i].type!='Imagen' && todos[i].type!='Formulario detalle')
                         {
-                            data.push({_id:todos[i]._id,nombre:todos[i].name,name:todos[i].name})
+                            data.push({_id:todos[i]._id,nombre:todos[i].name,name:todos[i].name,nombre2:todos[i].title2})
         
                         }
                             
@@ -2438,7 +2438,7 @@ break;
                           
                             var objetox = {};
                             for(var i = 0; i < todospp.length;i++){
-                                objetox[todospp[i].name] =todospp[i].title + '°' + todospp[i].type + '°'+ todospp[i].display;
+                                objetox[todospp[i].name] =todospp[i].title + '°' + todospp[i].type + '°'+ todospp[i].display+'°'+todospp[i].title2 ;
                             }
 
 
@@ -2473,13 +2473,13 @@ break;
                                                          {
 
                                                             var datafinal = []
-                                                           if(arrtodos[7]==='1')
+                                                           if(arrtodos[8]==='1')
                                                            {
-                                                            datafinal = functool.procesatablauirecord(objetox,todos2,'no')
+                                                            datafinal = functool.procesatablauirecord(objetox,todos2,'no',arrtodos[7])
                                                            }
                                                            else
                                                            {
-                                                            datafinal = functool.procesatablauirecordfila(objetox,todos2,'no')
+                                                            datafinal = functool.procesatablauirecordfila(objetox,todos2,'no',arrtodos[7])
                                                            }
                                                             res.json(datafinal);
                                                         
@@ -2565,7 +2565,7 @@ break;
                           
                             var objetox = {};
                             for(var i = 0; i < todospp.length;i++){
-                                objetox[todospp[i].name] =todospp[i].title + '°' + todospp[i].type + '°'+ todospp[i].display;
+                                objetox[todospp[i].name] =todospp[i].title + '°' + todospp[i].type + '°'+ todospp[i].display + '°' + todospp[i].title2 ;
                             }
 
 
@@ -2598,7 +2598,7 @@ break;
                                                        
                                                          if(todos2.length>0)
                                                          {
-                                                            var datafinal = functool.procesatablauirecord(objetox,todos2,'no')
+                                                            var datafinal = functool.procesatablauirecord(objetox,todos2,'no',arrtodos[2])
                                                            
                                                             res.json(datafinal);
                                                         
@@ -2617,7 +2617,17 @@ break;
                                                              if (err){  res.send(err);
                                                             }
                                                            
-                                                             res.json(todos2);
+                                                            if(todos2.length>0)
+                                                            {
+                                                               var datafinal = functool.procesatablauirecord(objetox,todos2,'no',arrtodos[2])
+                                                              
+                                                               res.json(datafinal);
+                                                           
+                                                            }
+                                                            else
+                                                            {
+                                                               res.json([]);
+                                                            }
                                                          
                                                          });
                                                       }
@@ -2769,7 +2779,7 @@ break;
  
             var objetox = {};
             for(var i = 0; i < todos.length;i++){
-                objetox[todos[i].name] =todos[i].title + '°' + todos[i].type + '°'+ todos[i].display;
+                objetox[todos[i].name] =todos[i].title + '°' + todos[i].type + '°'+ todos[i].display + '°' + todos[i].title2;
             }
 
 
@@ -2804,7 +2814,7 @@ break;
                                                 reg=todos2
                                                 var otro={objetox:objetox,todos2:todos2,sicampovalida:'no',formulario:namess}
                                         
-                                                    respuesta = await frmmovilejecutareporte.dareportepdfsolo(req, res, next,otro);
+                                                    respuesta = await frmmovilejecutareporte.dareportepdfsolo(req, res, next,otro,arrtodos[3]);
                                                    
                                                         res.json(respuesta);
                                             
@@ -2850,6 +2860,8 @@ break;
             var namess=req.params.id
             var arrtodos=req.params.id3.split('°')
             var filtro
+
+
             if(arrtodos[1]==='todos')
             {
                 filtro={idempresa:arrtodos[0]}
@@ -2866,7 +2878,7 @@ break;
               
                     var objetox = {};
                     for(var i = 0; i < todos.length;i++){
-                        objetox[todos[i].name] =todos[i].title + '°' + todos[i].type + '°'+ todos[i].display;
+                        objetox[todos[i].name] =todos[i].title + '°' + todos[i].type + '°'+ todos[i].display +'°' + todos[i].title2;
                     }
           
                
@@ -2897,7 +2909,7 @@ break;
                                                
                                                  if(todos2.length>0)
                                                  {
-                                                    var datafinal = functool.procesahtmlrecord(objetox,todos2,'no')
+                                                    var datafinal = functool.procesahtmlrecord(objetox,todos2,'no',arrtodos[2])
                                                    
                                                     res.json(datafinal);
                                                 
@@ -2916,7 +2928,17 @@ break;
                                                      if (err){  res.send(err);
                                                     }
                                                    
-                                                     res.json(todos2);
+                                                    if(todos2.length>0)
+                                                    {
+                                                       var datafinal = functool.procesahtmlrecord(objetox,todos2,'no',arrtodos[2])
+                                                      
+                                                       res.json(datafinal);
+                                                   
+                                                    }
+                                                    else
+                                                    {
+                                                       res.json([]);
+                                                    }
                                                  
                                                  });
                                               }
@@ -3464,8 +3486,8 @@ break;
         var lastid=arrtodos[8]
         var limitx=arrtodos[6]
         var namess=arrtodos[3]
-        var noorden=functool.padLeadingZeros(arrtodos[10],7)
-        var sisequencia=arrtodos[11]
+        var noorden=functool.padLeadingZeros(arrtodos[11],7)
+        var sisequencia=arrtodos[12]
         var estadoxxx=arrtodos[2];
         var filtroestado={}
         if(estadoxxx==='activa' || estadoxxx==='ejecutadas')
@@ -3623,7 +3645,7 @@ break;
                 
                     var objetox = {};
                 for(var i = 0; i < todos.length;i++){
-                    objetox[todos[i].name] =todos[i].title + '°' + todos[i].type + '°'+ todos[i].display;
+                    objetox[todos[i].name] =todos[i].title + '°' + todos[i].type + '°'+ todos[i].display + '°' + todos[i].title2;
                 }
       
                                     //    if(todos.length>0)   {  "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },   
@@ -3659,7 +3681,7 @@ break;
                                                 frmtt.find( filtro ).sort([['_id', -1]]).limit(skips).exec(function(err, todos2) {
                                                     if (err){  res.send(err); }
                                                 
-                                                    var datafinal = functool.procesahtmlrecordproceso(objetox,todos2,'no')
+                                                    var datafinal = functool.procesahtmlrecordproceso(objetox,todos2,'no',arrtodos[10])
                                                
                                                     res.json(datafinal);
                                                 
@@ -3673,7 +3695,7 @@ break;
                                                 frmtt.find( filtro ).sort([['_id', -1]]).exec(function(err, todos2) {
                                                     if (err){  res.send(err);
                                                     }
-                                                    var datafinal = functool.procesahtmlrecordproceso(objetox,todos2,'no')
+                                                    var datafinal = functool.procesahtmlrecordproceso(objetox,todos2,'no',arrtodos[10])
                                                
                                                     res.json(datafinal);
                                                   //  res.json(todos2);
@@ -3881,7 +3903,7 @@ break;
                     
                         var objetox = {};
                     for(var i = 0; i < todos.length;i++){
-                        objetox[todos[i].name] =todos[i].title + '°' + todos[i].type + '°'+ todos[i].display;
+                        objetox[todos[i].name] =todos[i].title + '°' + todos[i].type + '°'+ todos[i].display+ '°' + todos[i].title2;
                     }
                   
                
@@ -3947,7 +3969,7 @@ break;
                                                     
                                                         var datafinal = functool.procesahtmlrecordproceso(objetox,todos2,'no')
                                                    
-                                                        res.json(datafinal);
+                                                        res.json(datafinal,arrtodos[10]);
                                                     
                                                        // res.json(todos2);
                                                     
@@ -3959,7 +3981,7 @@ break;
                                                     frmtt.find( filtro ).sort([['_id', -1]]).exec(function(err, todos2) {
                                                         if (err){  res.send(err);
                                                         }
-                                                        var datafinal = functool.procesahtmlrecordproceso(objetox,todos2,'no')
+                                                        var datafinal = functool.procesahtmlrecordproceso(objetox,todos2,'no',arrtodos[10])
                                                    
                                                         res.json(datafinal);
                                                       //  res.json(todos2);
@@ -4148,7 +4170,7 @@ console.log(filtro)
                 
                     var objetox = {};
                 for(var i = 0; i < todos.length;i++){
-                    objetox[todos[i].name] =todos[i].title + '°' + todos[i].type + '°'+ todos[i].display;
+                    objetox[todos[i].name] =todos[i].title + '°' + todos[i].type + '°'+ todos[i].display + '°' + todos[i].title2;
                 }
       
                                     //    if(todos.length>0)   {  "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },   
@@ -4184,7 +4206,7 @@ console.log(filtro)
                                                 frmtt.find( filtro ).sort([['_id', -1]]).limit(skips).exec(function(err, todos2) {
                                                     if (err){  res.send(err); }
                                                 
-                                                    var datafinal = functool.procesahtmlrecordproceso(objetox,todos2,'no')
+                                                    var datafinal = functool.procesahtmlrecordproceso(objetox,todos2,'no',arrtodos[10])
                                                
                                                     res.json(datafinal);
                                                 
@@ -4198,7 +4220,7 @@ console.log(filtro)
                                                 frmtt.find( filtro ).sort([['_id', -1]]).exec(function(err, todos2) {
                                                     if (err){  res.send(err);
                                                     }
-                                                    var datafinal = functool.procesahtmlrecordproceso(objetox,todos2,'no')
+                                                    var datafinal = functool.procesahtmlrecordproceso(objetox,todos2,'no',arrtodos[10])
                                                
                                                     res.json(datafinal);
                                                   //  res.json(todos2);
@@ -4238,7 +4260,7 @@ console.log(filtro)
                  
                     for(var i = 0; i < todos.length;i++){
                        
-                        objetox[todos[i].name] =todos[i].title + '°' + todos[i].type + '°'+ todos[i].display;
+                        objetox[todos[i].name] =todos[i].title + '°' + todos[i].type + '°'+ todos[i].display + '°' +todos[i].title2;
                     }
           
                     
@@ -4267,7 +4289,7 @@ console.log(filtro)
                                                     frmtt.find(filtro).sort({_id:-1}).exec(function(err, todos2) {
                                                         if (err){  res.send(err); }
                                                     
-                                                        var datafinal = functool.procesahtmlrecord(objetox,todos2,'no')
+                                                        var datafinal = functool.procesahtmlrecord(objetox,todos2,'no',arrtodos[3])
                                                     res.json(datafinal);
                                                     
                                                     });
@@ -4279,7 +4301,9 @@ console.log(filtro)
                                                         if (err){  res.send(err);
                                                         }
                                                     
-                                                        res.json(todos2);
+                                                       
+                                                        var datafinal = functool.procesahtmlrecord(objetox,todos2,'no',arrtodos[3])
+                                                    res.json(datafinal);
                                                     
                                                     });
                                                 }
@@ -4404,6 +4428,7 @@ console.log(filtro)
                                                                 nombre   		:  todos[i].nombre,
                                                                 order:	  todos[i].order,
                                                                 title:   todos[i].title,
+                                                                title2:   todos[i].title2,
                                                                 estado	:  todos[i].estado,
                                                                 required: 	 todos[i].required,
                                                                 placeholder:  todos[i].placeholder,
@@ -4485,6 +4510,7 @@ console.log(filtro)
                                                                     nombre   		:  todos[i].nombre,
                                                                     order:	  todos[i].order,
                                                                     title:   todos[i].title,
+                                                                    title2:   todos[i].title2,
                                                                     estado	:  todos[i].estado,
                                                                     required: 	 todos[i].required,
                                                                     placeholder:  todos[i].placeholder,
@@ -5866,6 +5892,7 @@ if(req.params.recordID!=='crea')
         {   todo.idempresa       	=	req.body.idempresa        	||	todo.idempresa;   
             todo.categoria        	=	req.body.categoria        	||	todo.categoria        	;
             todo.nombre        	=	req.body.nombre        	||	todo.nombre        	;
+            todo.nombre2        	=	req.body.nombre2   	;
             todo.tipo    	=	req.body.tipo    	||	todo.tipo    	;
             todo.publico    	=	req.body.publico    	||	todo.publico    	;
             todo.tipo2    	=	req.body.tipo2    	||	todo.tipo2    	;
@@ -5921,6 +5948,7 @@ else{
                     categoria        	: req.body.categoria        	,
                     descripciong	: req.body.descripciong	,
                     nombre        	: req.body.nombre        	,
+                    nombre2        	: req.body.nombre2        	,
                     foto    	: req.body.foto    	,
                 //    idformdetalle:   req.body.idformdetalle,
                     estado 	: req.body.estado 	,
@@ -5954,6 +5982,7 @@ else{
                     categoria        	: req.body.categoria        	,
                     iniciocorrelativo: req.body.iniciocorrelativo,
                     nombre        	: req.body.nombre        	,
+                    nombre2        	: req.body.nombre2        	,
                     publico        	: req.body.publico        	,
                     ejecuta        	: req.body.ejecuta        	,
                     ejecutainicio: req.body.ejecutainicio,

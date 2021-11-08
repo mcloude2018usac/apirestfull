@@ -4,7 +4,7 @@
   idpapa		: { type : String, required : true,ref:'' },  
   idpapa0		: { type : String, required : true,ref:'' },  
   nombre		: { type : String, required : true },  
-  
+  nombre2		: { type : String },  
   usuarios:[{
     email	: { type : String, required : true },
     nombre		: { type : String, required : true },

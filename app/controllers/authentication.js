@@ -18,6 +18,7 @@ function setUserInfo(request){
             _id: request._id,
             email: request.email,
             nombrealias: request.nombrealias,
+            lenguaje: request.lenguaje,
             role: request.role,
             password:request.password,
             estadoemail:request.estadoemail,

@@ -18,7 +18,7 @@ const imageToBase64 = require('image-to-base64');
 var log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'a'});
 
 
-//const odbc = require('odbc');
+const odbc = require('odbc');
 
 const connectionConfig = {   connectionString: 'DSN=OTRO',    connectionTimeout: 10,    loginTimeout: 10,}
 
@@ -68,7 +68,7 @@ function  ejecutaaccess  (cad)
 {
 
     return new Promise(resolve => {
-        resolve({estado:'exito',datat:[]}); 
+ resolve({estado:'exito',datat:[]}); 
 });
 }
 
@@ -2134,7 +2134,7 @@ else
       }
 
 
-      var procesahtmlrecordproceso = function(objetox,todos2,sicampovalida)
+      var procesahtmlrecordproceso = function(objetox,todos2,sicampovalida,lenguaje)
       {
           var keys = Object.keys(objetox);
           var datafinal=[]
@@ -2148,7 +2148,13 @@ else
              for (let ii = 0; ii < keys.length; ii++) {
                  var arreglo=(objetox[keys[ii]] ).split('°')
   
-                
+                 var campotxt=arreglo[0]
+
+                 if(lenguaje!=='es' && lenguaje!=='undefined' && lenguaje!==undefined && arreglo[3]!=='undefined')
+                 {
+                   campotxt=arreglo[3]
+                 }
+               
                  
                  var valorxx=todos2[i][keys[ii]]
                  var validacampo=arreglo[2]
@@ -2165,37 +2171,37 @@ else
                {
                  if(arreglo[1]==='Fecha')
                  {
-                     cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + dafechastring(valorxx) + '<br>'
+                     cad=cad + '<strong>' + campotxt + '</strong>: ' + dafechastring(valorxx) + '<br>'
                  }
                  else
                  {
                      if(arreglo[1]==='Fecha y Hora')
                      {
-                         cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + dafechacompleta(valorxx) + '<br>'
+                         cad=cad + '<strong>' + campotxt + '</strong>: ' + dafechacompleta(valorxx) + '<br>'
                      }
                      else
                      {
                          if(arreglo[1]==='Hora')
                      {
-                         cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + dahora(valorxx) + '<br>'
+                         cad=cad + '<strong>' + campotxt + '</strong>: ' + dahora(valorxx) + '<br>'
                      }
                      else
                      {
                         if(arreglo[1]==='Check List')
                         {
                             if (valorxx.indexOf('¬') > 0) {
-                                cad=cad + '<br><strong>' +  arreglo[0] + '</strong>: ' + getKeyssrthtml(valorxx.split('¬')[1]) + ''
+                                cad=cad + '<br><strong>' + campotxt + '</strong>: ' + getKeyssrthtml(valorxx.split('¬')[1]) + ''
                             }
                             else
                             {
                                 if (valorxx.indexOf('¬') > 0) {
      
                                   
-                                    cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + valorxx.split('¬')[0]  + '<br>'
+                                    cad=cad + '<strong>' + campotxt + '</strong>: ' + valorxx.split('¬')[0]  + '<br>'
                                 }
                                 else
                                 {
-                                    cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + valorxx + '<br>'
+                                    cad=cad + '<strong>' + campotxt + '</strong>: ' + valorxx + '<br>'
                                 }
      
                             }
@@ -2207,18 +2213,18 @@ else
                      if(arreglo[1]==='Lista de valores')
                      {
                          if (valorxx.indexOf('°') > 0) {
-                             cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + getKeyssrthtml(valorxx) + ''
+                             cad=cad + '<strong>' + campotxt + '</strong>: ' + getKeyssrthtml(valorxx) + ''
                          }
                          else
                          {
                              if (valorxx.indexOf('¬') > 0) {
   
                                
-                                 cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + valorxx.split('¬')[0]  + '<br>'
+                                 cad=cad + '<strong>' + campotxt + '</strong>: ' + valorxx.split('¬')[0]  + '<br>'
                              }
                              else
                              {
-                                 cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + valorxx + '<br>'
+                                 cad=cad + '<strong>' + campotxt + '</strong>: ' + valorxx + '<br>'
                              }
   
                          }
@@ -2229,7 +2235,7 @@ else
                      {
                          if(arreglo[1]==='Moneda')
                          {
-                             cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + numberWithCommas(valorxx) + '<br>'
+                             cad=cad + '<strong>' + campotxt + '</strong>: ' + numberWithCommas(valorxx) + '<br>'
                          }
                          else
                          {
@@ -2238,12 +2244,12 @@ else
                                  /*
                                  keyst.push('<strong>' +  this.getKeys3(this.cmpver, aa,0)  + '</strong> :  <img src="' + this.apifoto +  this.getKeys2(data[aa]) + '"   class="circle-pic"  height="50 px" width="50 px"> '  );
                                  */
-                               //  cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + //daimagen(todos2[i][keys[ii]]) + '<br>'
+                               //  cad=cad + '<strong>' + campotxt + '</strong>: ' + //daimagen(todos2[i][keys[ii]]) + '<br>'
   
                              }
                              else
                              {
-                                 cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + valorxx + '<br>'
+                                 cad=cad + '<strong>' + campotxt + '</strong>: ' + valorxx + '<br>'
                              }
                              
                          }
@@ -2338,7 +2344,7 @@ else
           }
           
       }
-    var procesahtmlrecord = function(objetox,todos2,sicampovalida)
+    var procesahtmlrecord = function(objetox,todos2,sicampovalida,lenguaje)
     {
         var keys = Object.keys(objetox);
         var datafinal=[]
@@ -2351,8 +2357,13 @@ else
        //     cad=cad + '<strong>Codigo interno</strong>: ' +todos2[i].sequencia+ '<br>'
            for (let ii = 0; ii < keys.length; ii++) {
                var arreglo=(objetox[keys[ii]] ).split('°')
+               var campotxt=arreglo[0]
 
-              
+              if(lenguaje!=='es' && lenguaje!=='undefined' && lenguaje!==undefined && arreglo[3]!=='undefined')
+              {
+                campotxt=arreglo[3]
+              }
+            
                
                var valorxx=todos2[i][keys[ii]]
                var validacampo=arreglo[2]
@@ -2369,37 +2380,37 @@ else
              {
                if(arreglo[1]==='Fecha')
                {
-                   cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + dafechastring(valorxx) + '<br>'
+                   cad=cad + '<strong>' +  campotxt + '</strong>: ' + dafechastring(valorxx) + '<br>'
                }
                else
                {
                    if(arreglo[1]==='Fecha y Hora')
                    {
-                       cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + dafechacompleta(valorxx) + '<br>'
+                       cad=cad + '<strong>' + campotxt + '</strong>: ' + dafechacompleta(valorxx) + '<br>'
                    }
                    else
                    {
                        if(arreglo[1]==='Hora')
                    {
-                       cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + dahorautf(valorxx) + '<br>'
+                       cad=cad + '<strong>' + campotxt + '</strong>: ' + dahorautf(valorxx) + '<br>'
                    }
                    else
                    {
                    if(arreglo[1]==='Lista de valores')
                    {
                        if (valorxx.indexOf('°') > 0) {
-                           cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + getKeyssrthtml(valorxx) + ''
+                           cad=cad + '<strong>' + campotxt + '</strong>: ' + getKeyssrthtml(valorxx) + ''
                        }
                        else
                        {
                            if (valorxx.indexOf('¬') > 0) {
 
                              
-                               cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + valorxx.split('¬')[0]  + '<br>'
+                               cad=cad + '<strong>' + campotxt + '</strong>: ' + valorxx.split('¬')[0]  + '<br>'
                            }
                            else
                            {
-                               cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + valorxx + '<br>'
+                               cad=cad + '<strong>' + campotxt + '</strong>: ' + valorxx + '<br>'
                            }
 
                        }
@@ -2412,18 +2423,18 @@ else
                     if(arreglo[1]==='Check List')
                     {
                         if (valorxx.indexOf('¬') > 0) {
-                            cad=cad + '<br><strong>' +  arreglo[0] + '</strong>: ' + getKeyssrthtml(valorxx.split('¬')[1]) + ''
+                            cad=cad + '<br><strong>' + campotxt + '</strong>: ' + getKeyssrthtml(valorxx.split('¬')[1]) + ''
                         }
                         else
                         {
                             if (valorxx.indexOf('¬') > 0) {
  
                               
-                                cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + valorxx.split('¬')[0]  + '<br>'
+                                cad=cad + '<strong>' + campotxt + '</strong>: ' + valorxx.split('¬')[0]  + '<br>'
                             }
                             else
                             {
-                                cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + valorxx + '<br>'
+                                cad=cad + '<strong>' + campotxt + '</strong>: ' + valorxx + '<br>'
                             }
  
                         }
@@ -2434,7 +2445,7 @@ else
                     {
                        if(arreglo[1]==='Moneda')
                        {
-                           cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + numberWithCommas(valorxx) + '<br>'
+                           cad=cad + '<strong>' + campotxt + '</strong>: ' + numberWithCommas(valorxx) + '<br>'
                        }
                        else
                        {
@@ -2443,12 +2454,12 @@ else
                                /*
                                keyst.push('<strong>' +  this.getKeys3(this.cmpver, aa,0)  + '</strong> :  <img src="' + this.apifoto +  this.getKeys2(data[aa]) + '"   class="circle-pic"  height="50 px" width="50 px"> '  );
                                */
-                             //  cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + //daimagen(todos2[i][keys[ii]]) + '<br>'
+                             //  cad=cad + '<strong>' + campotxt + '</strong>: ' + //daimagen(todos2[i][keys[ii]]) + '<br>'
 
                            }
                            else
                            {
-                               cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + valorxx + '<br>'
+                               cad=cad + '<strong>' + campotxt + '</strong>: ' + valorxx + '<br>'
                            }
                            
                        }
@@ -2486,53 +2497,80 @@ if(todos2[i].geoposicionxxx)
                   var comt=''
                 if(todos2[i].comentariocerrado!=='' && todos2[i].comentariocerrado!==undefined)
                 {
-                    comt='<br> Comentario cerrado: ' + todos2[i].comentariocerrado
+                    if(lenguaje==='es')
+                    {  comt='<br> Comentario cerrado: ' + todos2[i].comentariocerrado}
+                    else
+                    {  comt='<br> Comment closed: ' + todos2[i].comentariocerrado}
+                  
                 }
                 if(todos2[i].comentarioanulado!=='' && todos2[i].comentarioanulado!==undefined)
                 {
-                    comt2='<br> Comentario anulado: ' + todos2[i].comentarioanulado
+                    if(lenguaje==='es')
+                    {comt2='<br> Comentario anulado: ' + todos2[i].comentarioanulado}
+                    else
+                    {comt2='<br> Comment canceled: ' + todos2[i].comentarioanulado}
+                    
                 }
                 var cadenabusqueda=todos2[i].actorxxx + ' ' + todos2[i].sequenciag+ ' ' + todos2[i].sequencia+ ' ' + todos2[i].actividadxxx+ ' ' + todos2[i].enviadoporxxx
                 if(cadenabusqueda.indexOf('undefined')>=0){cadenabusqueda=''}
                 if(todos2[i].estadointerno ==='activo')
                 {
-                    datafinal.push({item:todos2[i],_id:todos2[i]._id,          nombre2:cad+ '<div style="font-size: 10px;text-transform: capitalize;">Crea: [' +
-                    dafechastring(todos2[i]['createdAt'])+','  + dausuariobita(todos2[i]['usuarionew'],todos2[i]['usuarionew2']) + ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +  
-                     dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) + '] <br> </div><div style="font-size: 14px;text-transform: capitalize;color:secondary;">Estado interno: '+ todos2[i].estadointerno + comt + comt2 +'</div>',
-                    nombre:cad+ ' ' +cadenabusqueda +  ' <div style="font-size: 10px;text-transform: capitalize;">Crea: [' +
-                     dafechastring(todos2[i]['createdAt'])+','  + dausuariobita(todos2[i]['usuarionew'],todos2[i]['usuarionew2']) + ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +  
-                      dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) + '] <br> </div><div style="font-size: 14px;text-transform: capitalize;color:secondary;">Estado interno: '+ todos2[i].estadointerno + comt + comt2 +'</div>'
-                      ,item:todos2[i],usuario:''})
-                }
-                else
-                {
-                    datafinal.push({item:todos2[i],_id:todos2[i]._id,    nombre2:cad + ' ' +cadenabusqueda + ' <div style="font-size: 10px;text-transform: capitalize;">Crea: [' + 
-                    dafechastring(todos2[i]['createdAt'])+',' +      dausuariobita(todos2[i]['usuarionew'],todos2[i]['usuarionew2'])+ ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +  
-                     dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) +  '] <br> </div><div style="font-size: 14px;text-transform: capitalize;color:red;">Estado interno: '+ todos2[i].estadointerno + comt + comt2 +'</div>'
-                ,
-                    nombre:cad+ '<div style="font-size: 10px;text-transform: capitalize;">Crea: [' + 
-                    dafechastring(todos2[i]['createdAt'])+',' +      dausuariobita(todos2[i]['usuarionew'],todos2[i]['usuarionew2'])+ ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +  
-                     dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) +  '] <br> </div><div style="font-size: 14px;text-transform: capitalize;color:red;">Estado interno: '+ todos2[i].estadointerno + comt + comt2 +'</div>'
-                     ,item:todos2[i],usuario:''}) 
-                }
+                    if(lenguaje==='es')
+                    {
 
-/*
-                if(todos2[i].estadointerno ==='activo')
-                {
-                    datafinal.push({_id:todos2[i]._id,nombre2:'tico',nombre:cad+ '<div style="font-size: 10px;text-transform: capitalize;">Crea: [' + dafechastring(todos2[i]['createdAt'])+',' 
-                    + dausuariobita(todos2[i]['usuarionew'],todos2[i]['usuarionew2']) +  ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +   
-                    dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) + '] <br></div><div style="font-size: 14px;text-transform: capitalize;color:blue;"> Estado interno: '+ todos2[i].estadointerno + comt + comt2 + geopp + '</div>',item:todos2[i],usuario:''})
+                        datafinal.push({item:todos2[i],_id:todos2[i]._id,          nombre2:cad+ '<div style="font-size: 10px;text-transform: capitalize;">Crea: [' +
+                        dafechastring(todos2[i]['createdAt'])+','  + dausuariobita(todos2[i]['usuarionew'],todos2[i]['usuarionew2']) + ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +  
+                         dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) + '] <br> </div><div style="font-size: 14px;text-transform: capitalize;color:secondary;">Estado interno: '+ todos2[i].estadointerno + comt + comt2 +'</div>',
+                        nombre:cad+ ' ' +cadenabusqueda +  ' <div style="font-size: 10px;text-transform: capitalize;">Crea: [' +
+                         dafechastring(todos2[i]['createdAt'])+','  + dausuariobita(todos2[i]['usuarionew'],todos2[i]['usuarionew2']) + ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +  
+                          dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) + '] <br> </div><div style="font-size: 14px;text-transform: capitalize;color:secondary;">Estado interno: '+ todos2[i].estadointerno + comt + comt2 +'</div>'
+                          ,item:todos2[i],usuario:''})
+                    }
+                    else
+                    {
+
+                        datafinal.push({item:todos2[i],_id:todos2[i]._id,          nombre2:cad+ '<div style="font-size: 10px;text-transform: capitalize;">Creates: [' +
+                        dafechastring(todos2[i]['createdAt'])+','  + dausuariobita(todos2[i]['usuarionew'],todos2[i]['usuarionew2']) + ']<br> Update: [' +dafechastring(todos2[i]['updatedAt']) +',' +  
+                         dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) + '] <br> </div><div style="font-size: 14px;text-transform: capitalize;color:secondary;">Internal state: '+ todos2[i].estadointerno + comt + comt2 +'</div>',
+                        nombre:cad+ ' ' +cadenabusqueda +  ' <div style="font-size: 10px;text-transform: capitalize;">Creates: [' +
+                         dafechastring(todos2[i]['createdAt'])+','  + dausuariobita(todos2[i]['usuarionew'],todos2[i]['usuarionew2']) + ']<br> Update: [' +dafechastring(todos2[i]['updatedAt']) +',' +  
+                          dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) + '] <br> </div><div style="font-size: 14px;text-transform: capitalize;color:secondary;">Internal state: '+ todos2[i].estadointerno + comt + comt2 +'</div>'
+                          ,item:todos2[i],usuario:''})
+                    }
 
                 }
                 else
                 {
-                    datafinal.push({_id:todos2[i]._id,nombre2:'tico',nombre:cad+ '<div style="font-size: 10px;text-transform: capitalize;">Crea: [' + dafechastring(todos2[i]['createdAt'])+',' 
-                    + dausuariobita(todos2[i]['usuarionew'],todos2[i]['usuarionew2']) +  ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +  
-                    dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) + '] <br></div><div style="font-size: 14px;text-transform: capitalize;color:red;"> Estado interno: '+ todos2[i].estadointerno + comt + comt2 + geopp+'</div>',item:todos2[i],usuario:''})
+                    if(lenguaje==='es')
+                    {
+                        datafinal.push({item:todos2[i],_id:todos2[i]._id,    nombre2:cad + ' ' +cadenabusqueda + ' <div style="font-size: 10px;text-transform: capitalize;">Crea: [' + 
+                        dafechastring(todos2[i]['createdAt'])+',' +      dausuariobita(todos2[i]['usuarionew'],todos2[i]['usuarionew2'])+ ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +  
+                         dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) +  '] <br> </div><div style="font-size: 14px;text-transform: capitalize;color:red;">Estado interno: '+ todos2[i].estadointerno + comt + comt2 +'</div>'
+                    ,
+                        nombre:cad+ '<div style="font-size: 10px;text-transform: capitalize;">Crea: [' + 
+                        dafechastring(todos2[i]['createdAt'])+',' +      dausuariobita(todos2[i]['usuarionew'],todos2[i]['usuarionew2'])+ ']<br> Actualiza: [' +dafechastring(todos2[i]['updatedAt']) +',' +  
+                         dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) +  '] <br> </div><div style="font-size: 14px;text-transform: capitalize;color:red;">Estado interno: '+ todos2[i].estadointerno + comt + comt2 +'</div>'
+                         ,item:todos2[i],usuario:''}) 
 
+                    }
+                    else
+                    {
+                        datafinal.push({item:todos2[i],_id:todos2[i]._id,    nombre2:cad + ' ' +cadenabusqueda + ' <div style="font-size: 10px;text-transform: capitalize;">Creates: [' + 
+                        dafechastring(todos2[i]['createdAt'])+',' +      dausuariobita(todos2[i]['usuarionew'],todos2[i]['usuarionew2'])+ ']<br> Update: [' +dafechastring(todos2[i]['updatedAt']) +',' +  
+                         dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) +  
+                         '] <br> </div><div style="font-size: 14px;text-transform: capitalize;color:red;">'
+                         + 'Internal state: '+ todos2[i].estadointerno + comt + comt2 +'</div>'
+                    ,
+                        nombre:cad+ '<div style="font-size: 10px;text-transform: capitalize;">Creates: [' + 
+                        dafechastring(todos2[i]['createdAt'])+',' +      dausuariobita(todos2[i]['usuarionew'],todos2[i]['usuarionew2'])+ ']<br> Update: [' +dafechastring(todos2[i]['updatedAt']) +',' +  
+                         dausuariobita(todos2[i]['usuarioup'],todos2[i]['usuarioup2']) +  '] <br> </div><div style="font-size: 14px;text-transform: capitalize;color:red;">'
+                         +'Internal state: '+ todos2[i].estadointerno + comt + comt2 +'</div>'
+                         ,item:todos2[i],usuario:''}) 
+                    }
+
+                   
                 }
 
-*/
 
                cad='';
 
@@ -2557,7 +2595,7 @@ var sortByProperty= function(property){
  }
 
 
-    var procesaexcelrecord = function(objetox,todos2,sicampovalida)
+    var procesaexcelrecord = function(objetox,todos2,sicampovalida,lenguaje)
     {
         var keys = Object.keys(objetox);
         var datafinal=[]
@@ -2571,7 +2609,13 @@ var sortByProperty= function(property){
            for (let ii = 0; ii < keys.length; ii++) {
                var arreglo=(objetox[keys[ii]] ).split('°')
 
-              
+               var campotxt=arreglo[0]
+
+               if(lenguaje!=='es' && lenguaje!=='undefined' && lenguaje!==undefined && arreglo[3]!=='undefined')
+               {
+                 campotxt=arreglo[3]
+               }
+             
                
                var valorxx=todos2[i][keys[ii]]
                var validacampo=arreglo[2]
@@ -2588,37 +2632,37 @@ var sortByProperty= function(property){
              {
                if(arreglo[1]==='Fecha')
                {
-                   cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + dafechastring(valorxx) + '<br>'
+                   cad=cad + '<strong>' + campotxt + '</strong>: ' + dafechastring(valorxx) + '<br>'
                }
                else
                {
                    if(arreglo[1]==='Fecha y Hora')
                    {
-                       cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + dafechacompleta(valorxx) + '<br>'
+                       cad=cad + '<strong>' + campotxt + '</strong>: ' + dafechacompleta(valorxx) + '<br>'
                    }
                    else
                    {
                        if(arreglo[1]==='Hora')
                    {
-                       cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + dahorautf(valorxx) + '<br>'
+                       cad=cad + '<strong>' + campotxt + '</strong>: ' + dahorautf(valorxx) + '<br>'
                    }
                    else
                    {
                    if(arreglo[1]==='Lista de valores')
                    {
                        if (valorxx.indexOf('°') > 0) {
-                           cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + getKeyssrthtml(valorxx) + ''
+                           cad=cad + '<strong>' + campotxt + '</strong>: ' + getKeyssrthtml(valorxx) + ''
                        }
                        else
                        {
                            if (valorxx.indexOf('¬') > 0) {
 
                              
-                               cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + valorxx.split('¬')[0]  + '<br>'
+                               cad=cad + '<strong>' + campotxt + '</strong>: ' + valorxx.split('¬')[0]  + '<br>'
                            }
                            else
                            {
-                               cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + valorxx + '<br>'
+                               cad=cad + '<strong>' + campotxt + '</strong>: ' + valorxx + '<br>'
                            }
 
                        }
@@ -2629,7 +2673,7 @@ var sortByProperty= function(property){
                    {
                        if(arreglo[1]==='Moneda')
                        {
-                           cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + valorxx + '<br>'
+                           cad=cad + '<strong>' + campotxt + '</strong>: ' + valorxx + '<br>'
                        }
                        else
                        {
@@ -2638,12 +2682,12 @@ var sortByProperty= function(property){
                                /*
                                keyst.push('<strong>' +  this.getKeys3(this.cmpver, aa,0)  + '</strong> :  <img src="' + this.apifoto +  this.getKeys2(data[aa]) + '"   class="circle-pic"  height="50 px" width="50 px"> '  );
                                */
-                             //  cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + //daimagen(todos2[i][keys[ii]]) + '<br>'
+                             //  cad=cad + '<strong>' + campotxt + '</strong>: ' + //daimagen(todos2[i][keys[ii]]) + '<br>'
 
                            }
                            else
                            {
-                               cad=cad + '<strong>' +  arreglo[0] + '</strong>: ' + valorxx + '<br>'
+                               cad=cad + '<strong>' + campotxt + '</strong>: ' + valorxx + '<br>'
                            }
                            
                        }
@@ -2847,7 +2891,7 @@ jsonx.push({text:'   '})
                if(arreglo[1]==='Fecha')
                {
                 regt.push({text:dafechastring(valorxx),fontSize: 10});
-                if(i===0){ regt0.push( {rowSpan: 2, text: arreglo[0], style: 'tableHeader', alignment: 'center',fontSize: 10})}
+                if(i===0){ regt0.push( {rowSpan: 2, text:campotxt, style: 'tableHeader', alignment: 'center',fontSize: 10})}
                   
                }
                else
@@ -2856,7 +2900,7 @@ jsonx.push({text:'   '})
                    {
                       
                     regt.push( {text:dafechacompleta(valorxx),fontSize: 10} )
-                    if(i===0){ regt0.push( {rowSpan: 2, text: arreglo[0], style: 'tableHeader', alignment: 'center',fontSize: 10})}
+                    if(i===0){ regt0.push( {rowSpan: 2, text:campotxt, style: 'tableHeader', alignment: 'center',fontSize: 10})}
                    }
                    else
                    {
@@ -2864,7 +2908,7 @@ jsonx.push({text:'   '})
                    {
                       
                     regt.push({text:dahora(valorxx),fontSize: 10}  )
-                    if(i===0){ regt0.push( {rowSpan: 2, text: arreglo[0], style: 'tableHeader', alignment: 'center',fontSize: 10})}
+                    if(i===0){ regt0.push( {rowSpan: 2, text:campotxt, style: 'tableHeader', alignment: 'center',fontSize: 10})}
                    }
                    else
                    {
@@ -2872,7 +2916,7 @@ jsonx.push({text:'   '})
                    {
                        if (valorxx.indexOf('°') > 0) {
                         regt.push({text:getKeyssrthtml(valorxx),fontSize: 10} )
-                        if(i===0){ regt0.push( {rowSpan: 2, text: arreglo[0], style: 'tableHeader', alignment: 'center',fontSize: 10})}
+                        if(i===0){ regt0.push( {rowSpan: 2, text:campotxt, style: 'tableHeader', alignment: 'center',fontSize: 10})}
                           
                        }
                        else
@@ -2880,13 +2924,13 @@ jsonx.push({text:'   '})
                            if (valorxx.indexOf('¬') > 0) {
 
                             regt.push( {text:valorxx.split('¬')[0],fontSize: 10} )
-                            if(i===0){ regt0.push( {rowSpan: 2, text: arreglo[0], style: 'tableHeader', alignment: 'center',fontSize: 10})}
+                            if(i===0){ regt0.push( {rowSpan: 2, text:campotxt, style: 'tableHeader', alignment: 'center',fontSize: 10})}
                               
                            }
                            else
                            {
                             regt.push({text:valorxx,fontSize: 10})
-                            if(i===0){ regt0.push( {rowSpan: 2, text: arreglo[0], style: 'tableHeader', alignment: 'center',fontSize: 10})}
+                            if(i===0){ regt0.push( {rowSpan: 2, text:campotxt, style: 'tableHeader', alignment: 'center',fontSize: 10})}
                               
                            }
 
@@ -2898,7 +2942,7 @@ jsonx.push({text:'   '})
                    {
 
                     regt.push({text:valorxx,fontSize: 10});
-                    if(i===0){ regt0.push( {rowSpan: 2, text: arreglo[0], style: 'tableHeader', alignment: 'center',fontSize: 10})}
+                    if(i===0){ regt0.push( {rowSpan: 2, text:campotxt, style: 'tableHeader', alignment: 'center',fontSize: 10})}
                        
                        
                    }}}
@@ -3568,7 +3612,7 @@ if(formulario==='6088435ae75c6616505521f0')
         
     });
 }
-    var procesatablauirecord = function(objetox,todos2,sicampovalida)
+    var procesatablauirecord = function(objetox,todos2,sicampovalida,lenguaje)
     {
         var keys = Object.keys(objetox);
         var datafinal=[]
@@ -3582,7 +3626,9 @@ if(formulario==='6088435ae75c6616505521f0')
            for (let ii = 0; ii < keys.length; ii++) {
                var arreglo=(objetox[keys[ii]] ).split('°')
 
-              
+               var comando=  arreglo[0]
+    if( lenguaje!=='es'){comando=  arreglo[3]}
+
                
                var valorxx=todos2[i][keys[ii]]
                var validacampo=arreglo[2]
@@ -3599,7 +3645,7 @@ if(formulario==='6088435ae75c6616505521f0')
                if(arreglo[1]==='Fecha')
                {
                 regt.push(dafechastring(valorxx));
-                if(i===0){ regt0.push(arreglo[0])}
+                if(i===0){ regt0.push(comando)}
                   
                }
                else
@@ -3608,7 +3654,7 @@ if(formulario==='6088435ae75c6616505521f0')
                    {
                       
                     regt.push( dafechacompleta(valorxx) )
-                    if(i===0){ regt0.push(arreglo[0])}
+                    if(i===0){ regt0.push(comando)}
                    }
                    else
                    {
@@ -3616,7 +3662,7 @@ if(formulario==='6088435ae75c6616505521f0')
                    {
                       
                     regt.push( dahora(valorxx) )
-                    if(i===0){ regt0.push(arreglo[0])}
+                    if(i===0){ regt0.push(comando)}
                    }
                    else
                    {
@@ -3624,7 +3670,7 @@ if(formulario==='6088435ae75c6616505521f0')
                    {
                        if (valorxx.indexOf('°') > 0) {
                         regt.push(getKeyssrthtml(valorxx) )
-                        if(i===0){ regt0.push(arreglo[0])}
+                        if(i===0){ regt0.push(comando)}
                           
                        }
                        else
@@ -3632,13 +3678,13 @@ if(formulario==='6088435ae75c6616505521f0')
                            if (valorxx.indexOf('¬') > 0) {
 
                             regt.push( valorxx.split('¬')[0] )
-                            if(i===0){ regt0.push(arreglo[0])}
+                            if(i===0){ regt0.push(comando)}
                               
                            }
                            else
                            {
                             regt.push(valorxx)
-                            if(i===0){ regt0.push(arreglo[0])}
+                            if(i===0){ regt0.push(comando)}
                               
                            }
 
@@ -3650,7 +3696,7 @@ if(formulario==='6088435ae75c6616505521f0')
                    {
 
                     regt.push(valorxx);
-                    if(i===0){ regt0.push(arreglo[0])}
+                    if(i===0){ regt0.push(comando)}
                        
                        
                    }}}
@@ -3677,7 +3723,7 @@ data[aa].replace('¬', ',') + '" target="_blank">https://www.google.com/maps/sea
        return datafinal;
     }
 
-    var procesatablauirecordfila = function(objetox,todos2,sicampovalida)
+    var procesatablauirecordfila = function(objetox,todos2,sicampovalida,lenguaje)
     {
         var keys = Object.keys(objetox);
         var datafinal=[]
@@ -3691,7 +3737,9 @@ data[aa].replace('¬', ',') + '" target="_blank">https://www.google.com/maps/sea
             cad=''
            for (let ii = 0; ii < keys.length; ii++) {
                var arreglo=(objetox[keys[ii]] ).split('°')
-
+               var comando= arreglo[0]
+               if(lenguaje!=='es'){comando=  arreglo[3]}
+           
               
                
                var valorxx=todos2[i][keys[ii]]
@@ -3708,7 +3756,7 @@ data[aa].replace('¬', ',') + '" target="_blank">https://www.google.com/maps/sea
           
                if(arreglo[1]==='Fecha')
                {
-                cad= cad + keys[ii] + ': ' + dafechastring(valorxx) + ' \n ';
+                cad= cad + comando + ': ' + dafechastring(valorxx) + ' \n ';
               
                   
                }
@@ -3717,7 +3765,7 @@ data[aa].replace('¬', ',') + '" target="_blank">https://www.google.com/maps/sea
                    if(arreglo[1]==='Fecha y Hora')
                    {
                       
-                    cad= cad + keys[ii] + ': ' +dafechacompleta(valorxx) + ' \n ';
+                    cad= cad + comando + ': ' +dafechacompleta(valorxx) + ' \n ';
                     
                    }
                    else
@@ -3725,7 +3773,7 @@ data[aa].replace('¬', ',') + '" target="_blank">https://www.google.com/maps/sea
                        if(arreglo[1]==='Hora')
                    {
                       
-                    cad= cad + keys[ii] + ': ' +dahora(valorxx) + ' \n ';
+                    cad= cad + comando + ': ' +dahora(valorxx) + ' \n ';
                     
                    }
                    else
@@ -3733,7 +3781,7 @@ data[aa].replace('¬', ',') + '" target="_blank">https://www.google.com/maps/sea
                    if(arreglo[1]==='Lista de valores')
                    {
                        if (valorxx.indexOf('°') > 0) {
-                        cad= cad + keys[ii] + ': ' +getKeyssrthtml(valorxx) + ' \n ';
+                        cad= cad + comando + ': ' +getKeyssrthtml(valorxx) + ' \n ';
                         
                           
                        }
@@ -3741,13 +3789,13 @@ data[aa].replace('¬', ',') + '" target="_blank">https://www.google.com/maps/sea
                        {
                            if (valorxx.indexOf('¬') > 0) {
 
-                            cad= cad + keys[ii] + ': ' + valorxx.split('¬')[0] + ' \n ';
+                            cad= cad + comando + ': ' + valorxx.split('¬')[0] + ' \n ';
                             
                               
                            }
                            else
                            {
-                            cad= cad + keys[ii] + ': ' +valorxx+ ' \n ';
+                            cad= cad + comando + ': ' +valorxx+ ' \n ';
                             
                               
                            }
@@ -3759,7 +3807,7 @@ data[aa].replace('¬', ',') + '" target="_blank">https://www.google.com/maps/sea
                    else
                    {
 
-                    cad= cad + keys[ii] + ': ' +valorxx;+ ' \n';
+                    cad= cad + comando + ': ' +valorxx;+ ' \n';
                     
                        
                        

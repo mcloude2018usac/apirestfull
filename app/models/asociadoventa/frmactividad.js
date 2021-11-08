@@ -6,6 +6,7 @@
   actor		:{    id	: { type : String},   nombre	: { type : String}        },
   clase		: { type : String, required : true },  
   nombre		: { type : String, required : true },  
+  nombre2		: { type : String },  
   tipo		: { type : String, required : true },  
   descripciong		: { type : String },  
   etapa		: { type : String, required : true },  

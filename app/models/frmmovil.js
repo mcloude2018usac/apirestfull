@@ -5,6 +5,7 @@ var mongoose =require("mongoose");
         tipo2	: { type : String, required : true }, 
         categoria	: { type : String, required : true },
         nombre   		: { type : String, required : true },
+        nombre2   		: { type : String},
         foto 	: { type : String},
         estado	: { type : String, required : true },
         publico	: { type : String},
