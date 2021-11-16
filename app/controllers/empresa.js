@@ -103,7 +103,8 @@ if(req.params.recordID!=='crea')
             todo.siregister	=	req.body.siregister        ;  
             todo.pinicio       	=	req.body.pinicio        	||	todo.pinicio;  
             todo.nombre       	=	req.body.nombre        	||	todo.nombre;   
-            todo.nombrecorto       	=	req.body.nombrecorto        	||	todo.nombrecorto;   
+            todo.nombrecorto       	=	req.body.nombrecorto        	||	todo.nombrecorto; 
+            todo.nombrecorto2       	=	req.body.nombrecorto2       ;   
             todo.direccion       	=	req.body.direccion        	||	todo.direccion;   
             todo.email       	=	req.body.email        	||	todo.email;   
             todo.telefonos       	=	req.body.telefonos        	||	todo.telefonos;   
@@ -134,6 +135,7 @@ if(req.params.recordID!=='crea')
             todo.nit       	=	req.body.nit        	||	todo.nit;   
             todo.razon       	=	req.body.razon        	||	todo.razon;   
             todo.titulo0       	=	req.body.titulo0        	||	todo.titulo0;   
+            todo.titulo02       	=	req.body.titulo02;   
             todo.foto0       	=	req.body.foto0        	||	todo.foto0;   
             todo.foto1       	=	req.body.foto1        	||	todo.foto1;   
             todo.foto2       	=	req.body.foto2        	||	todo.foto2;   
@@ -167,6 +169,7 @@ else{
          idempresa0     	: req.body.idempresa0    	,
          nombre     	: req.body.nombre    	,
          nombrecorto     	: req.body.nombrecorto    	,
+         nombrecorto2     	: req.body.nombrecorto2    	,
          direccion     	: req.body.direccion    	,
          email     	: req.body.email    	,
          telefonos     	: req.body.telefonos    	,
@@ -183,6 +186,7 @@ else{
          razon     	: req.body.razon    	,
          pmodulo:   req.body.pmodulo,
          titulo0     	: req.body.titulo0    	,
+         titulo02     	: req.body.titulo02    	,
          foto0     	: req.body.foto0    	,
          foto1     	: req.body.foto1    	,
          foto2     	: req.body.foto2    	,
