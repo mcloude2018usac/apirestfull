@@ -9,7 +9,7 @@ exports.getCategoria = function(req, res, next){
             if(req.params.id=='todos')
             { 
               
-                Categoria.find({idempresa:req.params.id3,idpapa:req.params.id4}).sort({'_id': -1}).exec(function(err, todos) {
+                Categoria.find({idempresa:req.params.id3,idpapa:req.params.id4}).sort({'_id': 1}).exec(function(err, todos) {
                     if (err){  res.send(err);  }
                   
                      res.json(todos);
@@ -17,7 +17,7 @@ exports.getCategoria = function(req, res, next){
             }
             else
             {
-                Categoria.find({idempresa:req.params.id3,estado:req.params.id2,idpapa:req.params.id4}).sort({'_id': -1}).exec(function(err, todos) {
+                Categoria.find({idempresa:req.params.id3,estado:req.params.id2,idpapa:req.params.id4}).sort({'_id': 1}).exec(function(err, todos) {
                     if (err){  res.send(err);  }
                      res.json(todos);
                  });

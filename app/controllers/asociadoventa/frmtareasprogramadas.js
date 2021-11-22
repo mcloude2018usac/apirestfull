@@ -605,6 +605,7 @@ if((cinicial+ cretiro)>0)
                                                 idinspector:(Inspectores[i3].usuario).split('¬')[1],
                                                 inspector:(Inspectores[i3].usuario).split('¬')[0],
                                                 idproyecto0:Proyectos[i4]._id,
+                                                jornada:Proyectos[i4].jornada,
                                                 idcontrato:''+ contrato._id,
                                                 "idempresa" : contrato.empresa.split('¬')[1],
                                                 "idproyecto" : contrato.proyecto.split('¬')[1],
@@ -669,6 +670,7 @@ if((cinicial+ cretiro)>0)
                                                     idinspector:(Inspectores[i3].usuario).split('¬')[1],
                                                     inspector:(Inspectores[i3].usuario).split('¬')[0],
                                                     idproyecto0:'' + Proyectos[i4]._id + '',
+                                                    jornada:Proyectos[i4].jornada,
                                                     idinspector0:'' + Inspectores[i3]._id + '',
                                                     idsupervisor0:'' + Supervisores[i2]._id + '',
                                                     "idempresa" :  contrato.empresa.split('¬')[1],
@@ -826,11 +828,17 @@ if(req.params.recordID!=='crea')
     });
 }
 else{
+    var d =new Date().toISOString().substr(0,10);   
+        var d2=d.split('-')
+ 
 
     var namess=req.body.idform
     var filtro={estado:req.body.estructura.estado,
-        //fechaasignada:req.body.estructura.fechaasignada,
-        fechaasignada:{"$gte": new Date('2021-04-27'+'T00:00:00.000Z'),"$lt": new Date('2021-04-27' +'T24:00:00.000Z')},
+        
+        
+    
+        //fechaasignada:req.body.estructura.fechaasignada,'2021-04-27' +'T24:00:00.000Z'
+        fechaasignada:{"$gte": new Date(d +'T00:00:00.000Z'),"$lt": new Date(d +'T24:00:00.000Z')},
         idcontrato:req.body.estructura.idcontrato,
         idempresa:req.body.estructura.idempresa,
         idempresa0:req.body.estructura.idempresa0,
@@ -843,8 +851,8 @@ else{
     var datos= await functool.dadatosformulario(namess,filtro,req.body.bitacora.idempresa)
 
 
-if(datos.length>0)
-{ res.status(500).send('Ya se encuentra una visita programada, despues de 24 horas podra crear una nueva')  }
+if(datos.length>1)
+{ res.status(500).send('Solamente se pueden programar 2 visitar por dia')  }
 else
 {   
 

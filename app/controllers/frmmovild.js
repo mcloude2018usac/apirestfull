@@ -385,6 +385,7 @@ if(req.params.id!=='crea')
             todo.idcampofiltropapa=req.body.idcampofiltropapa         	;
             todo.idcampofiltromanual=req.body.idcampofiltromanual        	      	;
             todo.idfrmconsultaorigenpapa =req.body.idfrmconsultaorigenpapa        	     	;
+            todo.idfrmconsultaorigenpapa2 =req.body.idfrmconsultaorigenpapa2        	     	;
             todo.idfrmconsulta=req.body.idfrmconsulta              	;
           
             todo.idfrmconsulta2=req.body.idfrmconsulta2        	    	;
@@ -439,6 +440,7 @@ else{
                         idfrmconsulta2origen:req.body.idfrmconsulta2origen,
                         nombreconsulta2origen:'',
                         idfrmconsultaorigen:req.body.idfrmconsultaorigenpapa,
+                        idfrmconsultaorigen2:req.body.idfrmconsultaorigenpapa2,
                         idfrmconsulta:req.body.idfrmconsulta,
                         idfrmconsulta2:req.body.idfrmconsulta2,
                         nombreconsulta2:'',

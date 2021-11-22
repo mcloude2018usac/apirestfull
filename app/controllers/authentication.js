@@ -81,6 +81,7 @@ exports.register = function(req, res, next){
 
 
 var cuiiii=req.body.cui 
+var cuiiii2=req.body.cui 
 if(cuiiii==='' || cuiiii===undefined)
 {
     cuiiii='na'
@@ -89,7 +90,7 @@ if(cuiiii==='' || cuiiii===undefined)
 
     User.findOne({idempresa:empresa,  $or : [
         { $and : [ { email : req.body.email }] },
-        { $and : [ {cui : cuiiii } ] }]
+        { $and : [ {cui : cuiiii2} ] }]
 }, function(err, existingUser){
  
  
@@ -98,7 +99,7 @@ if(cuiiii==='' || cuiiii===undefined)
         }
  
         if(existingUser){
-            return res.status(422).send(' Ya cuentas con un usuario registrado con estos datos: <br> CUI: '+ existingUser.cui +'<br> Correo electrónico: '+ existingUser.email +' <br> No debes volver a registrarte, iniciar sesión con esta dirección de correo electrónico. ');
+            return res.status(422).send(' Ya cuentas con un usuario registrado con estos datos: <br> CUI: '+ existingUser.cui +'<br> Correo electrónico: '+  req.body.email +' <br> No debes volver a registrarte, iniciar sesión con esta dirección de correo electrónico. ');
         }
 
         

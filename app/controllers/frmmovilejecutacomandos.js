@@ -277,7 +277,7 @@ var enmiendasd=[]
         
       })();
       break;
-      case '5f595df92521cd38c8fe3126°606f8d8cf0e7551a88ac4499°Generación de pagos': //generapagos
+      case '5f595df92521cd38c8fe3126°606f8d8cf0e7551a88ac4499°Generar pagos': //generapagos
       (async () => {
 
         var   acum=req.body.acumulados;

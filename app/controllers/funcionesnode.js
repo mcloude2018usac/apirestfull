@@ -68,7 +68,7 @@ function  ejecutaaccess  (cad)
 {
 
     return new Promise(resolve => {
- resolve({estado:'exito',datat:[]}); 
+        resolve({estado:'exito',datat:[]}); 
 });
 }
 
@@ -2344,7 +2344,7 @@ else
           }
           
       }
-    var procesahtmlrecord = function(objetox,todos2,sicampovalida,lenguaje)
+    var procesahtmlrecord = function(objetox,todos2,sicampovalida,lenguaje,apifoto)
     {
         var keys = Object.keys(objetox);
         var datafinal=[]
@@ -2451,9 +2451,9 @@ else
                        {
                            if(arreglo[1]==='Imagen')
                            {
-                               /*
-                               keyst.push('<strong>' +  this.getKeys3(this.cmpver, aa,0)  + '</strong> :  <img src="' + this.apifoto +  this.getKeys2(data[aa]) + '"   class="circle-pic"  height="50 px" width="50 px"> '  );
-                               */
+                               
+                             cad=cad + '<strong>' + campotxt  + '</strong> :  <img src="' + apifoto + valorxx + '"   class="circle-pic"  height="50 px" width="50 px"> '  
+                               
                              //  cad=cad + '<strong>' + campotxt + '</strong>: ' + //daimagen(todos2[i][keys[ii]]) + '<br>'
 
                            }

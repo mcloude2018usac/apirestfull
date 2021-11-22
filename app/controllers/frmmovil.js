@@ -6,6 +6,7 @@ var Catusuario = require('../models/catusuario');
 var Formcat2 = require('../models/frmcat2');
 var Image = require('../models/image2');
 var formulariousrd = require('../models/formulariousrd');
+var users = require('../models/user');
 var formulariousr = require('../models/formulariousr');
 var frmejecuta= require('../controllers/frmmovilejecuta');
 var frmejecutareporte= require('../controllers/frmmovilejecutareporte');
@@ -325,7 +326,22 @@ exports.getFrmmovil = async function(req, res, next){
             Frmmovild.find({idmovil:req.params.id, display : "true",idempresa:arremp[0]}).sort([['order', 1]]).exec(function(err, todos) {
                 if (err){ res.send(err); }
               
-         
+              
+                var objetox = {};
+                
+               
+                    for(var j = 0; j < myDatavector.length;j++){
+                        for(var i = 0; i < todos.length;i++){
+                    if(myDatavector[j].split('°')[0]===todos[i].name)
+                    {
+                        objetox[todos[i].name] =todos[i].title + '°' + todos[i].type + '°'+ todos[i].display;
+                    }
+                }
+                   
+                    
+                }
+                
+                
                                     if(todos.length>0)   {  
                                    
                                         var cad=''
@@ -367,7 +383,13 @@ exports.getFrmmovil = async function(req, res, next){
                                                  
                                               }
                                               
-                                                res.json(myData);
+                                               res.json(myData);
+
+                                                
+                                        //        var datafinal = functool.procesahtmlrecord(objetox,todos2,'si')
+                                                  
+                                          //      res.json(datafinal);
+                                             
                                               
                                             });
                                           } catch(e) {
@@ -407,6 +429,90 @@ exports.getFrmmovil = async function(req, res, next){
         }
         else
         {
+            if(req.params.id4=='formulariosolopapadetalle')
+            {
+    
+                var namess=req.params.id
+    
+                var campost=req.params.id2
+          
+            var myDatavector = campost.split(',');
+            
+                Frmmovild.find({idmovil:req.params.id, display : "true",idempresa:req.params.id3}).sort([['order', 1]]).exec(function(err, todos) {
+                    if (err){ res.send(err); }
+
+                            var objetox = {};
+                
+               
+                    for(var j = 0; j < myDatavector.length;j++){
+                        for(var i = 0; i < todos.length;i++){
+                    if(myDatavector[j].split('°')[0]===todos[i].name)
+                    {
+                        objetox[todos[i].name] =todos[i].title + '°' + todos[i].type + '°'+ todos[i].display;
+                    }
+                }
+                   
+                    
+                }
+    
+                                        if(todos.length>0)   {  
+                                       
+                                            var cad=''
+                                            var cadxx=''
+                                            var cad3=(functool.dafiltrocad(todos,'','','')).split('°')
+                                            var filtro=''
+                                            
+                                            filtro='{' +functool.replaceAll(req.params.id2,'ë','/')+ '}'
+                                            
+                                            cad=cad3[0]
+                                            cadxx='{'+ cad3[1] + '}'
+                                            cad=cad + ' "usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" }, "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                            cad='{' + cad + '}'
+                                            cadxx='{' + cadxx + '}'
+                                         
+                                            var jsonObject = functool.stringToObject(cad);
+                                          
+                                            var mongoose = require("mongoose");
+                                            delete mongoose.connection.models[namess];
+                                            var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                                        
+                                         
+                                            try {
+                                                var  frmtt= mongoose.model(namess,tt);
+                                                frmtt.find(JSON.parse(filtro) ,function(err, todos2) {
+                                                    if (err){  res.send(err); }
+                                               
+    
+                                                    res.json(todos2);
+                                                  
+                                                });
+                                              } catch(e) {
+                                                
+                                                var  frmtt= mongoose.model(namess);
+                                      
+                                                frmtt.find( JSON.parse(filtro) ,function(err, todos2) {
+                                                     if (err){  res.send(err);
+                                                    }
+                                               
+                                                  
+                                               
+                                                     res.json(todos2);
+                                                 
+                                                 });
+                                              }
+        
+        
+                                         
+                            
+                    }
+                });
+        
+                
+    
+    
+            }
+            else
+            {
         if(req.params.id4=='formulariosolopapa')
         {
 
@@ -1716,7 +1822,7 @@ exports.getFrmmovil = async function(req, res, next){
                     }
                 });
             });
-    }}}}}}}}}}}}}}}
+    }}}}}}}}}}}}}}}}
 
     }
     else{
@@ -2031,6 +2137,9 @@ break;
 
 
               case 'trayectoriaordencomentario':
+                users.find({}).exec(function(err, todosusr) {
+                    if (err){  res.send(err);  }
+
                 formulariotrayectoria.find({idorden:req.params.id,idempresa:req.params.id3}).sort({createdAt:-1}).exec(function(err, todos) {
                     if (err){  res.send(err);  }
 
@@ -2050,9 +2159,18 @@ break;
                         }
 
                         for(var k = 0; k < todos10.length;k++){
+                            var nombreusr=todos10[k].usuarionew
+                            for(var k2 = 0; k2 < todosusr.length;k2++){
+                                if(todosusr[k2].email===todos10[k].usuarionew)
+                                { nombreusr=todosusr[k2].nombre;
+                                    break;
+                                }
+                            }
+
+                            
                               
                          
-                            trayecto.push({fechaingreso:todos10[k].createdAt,fechasalida:todos10[k].updatedAt,usuario:todos10[k].usuarionew
+                            trayecto.push({fechaingreso:todos10[k].createdAt,fechasalida:todos10[k].updatedAt,usuario:nombreusr
                                 ,usuariocorreo:todos10[k].usuarionew,actividad:todos10[k].actividad,comentario:todos10[k].nombre})
                         
                     }
@@ -2066,6 +2184,7 @@ break;
                     
                     
                 });
+            });
           break;
             case 'estado':
                     Frmmovil.find({estado:req.params.id,idempresa:req.params.id3},function(err, todos) {
@@ -2860,6 +2979,7 @@ break;
             var namess=req.params.id
             var arrtodos=req.params.id3.split('°')
             var filtro
+            var apifoto=arrtodos[3].replaceAll('-','/')
 
 
             if(arrtodos[1]==='todos')
@@ -2909,7 +3029,7 @@ break;
                                                
                                                  if(todos2.length>0)
                                                  {
-                                                    var datafinal = functool.procesahtmlrecord(objetox,todos2,'no',arrtodos[2])
+                                                    var datafinal = functool.procesahtmlrecord(objetox,todos2,'no',arrtodos[2],apifoto)
                                                    
                                                     res.json(datafinal);
                                                 
@@ -2930,7 +3050,7 @@ break;
                                                    
                                                     if(todos2.length>0)
                                                     {
-                                                       var datafinal = functool.procesahtmlrecord(objetox,todos2,'no',arrtodos[2])
+                                                       var datafinal = functool.procesahtmlrecord(objetox,todos2,'no',arrtodos[2],apifoto)
                                                       
                                                        res.json(datafinal);
                                                    
@@ -4043,7 +4163,7 @@ break;
                     {
                         if(arrtodos[2]==='ejecutadas')
                         {
-                            filtro={idempresa:arrtodos[0],pmodulo: {$in:[[usuarioup]]}}
+                            filtro={"estadoordenxxx" : "activa",idempresa:arrtodos[0],pmodulo: {$in:[[usuarioup]]}}
                         }
                         else
                         {
@@ -4244,6 +4364,7 @@ console.log(filtro)
                 var arrtodos=req.params.id3.split('°')
                 var filtro
                 
+                var apifoto=arrtodos[4].replaceAll('-','/')
                 if(arrtodos[1]==='todos')
                 {
                     filtro={idempresa:arrtodos[0],idpapa:arrtodos[2]}
@@ -4289,7 +4410,7 @@ console.log(filtro)
                                                     frmtt.find(filtro).sort({_id:-1}).exec(function(err, todos2) {
                                                         if (err){  res.send(err); }
                                                     
-                                                        var datafinal = functool.procesahtmlrecord(objetox,todos2,'no',arrtodos[3])
+                                                        var datafinal = functool.procesahtmlrecord(objetox,todos2,'no',arrtodos[3],apifoto)
                                                     res.json(datafinal);
                                                     
                                                     });
@@ -4302,7 +4423,7 @@ console.log(filtro)
                                                         }
                                                     
                                                        
-                                                        var datafinal = functool.procesahtmlrecord(objetox,todos2,'no',arrtodos[3])
+                                                        var datafinal = functool.procesahtmlrecord(objetox,todos2,'no',arrtodos[3],apifoto)
                                                     res.json(datafinal);
                                                     
                                                     });
@@ -4463,7 +4584,8 @@ console.log(filtro)
                                                                 idcampofiltromanual: todos[i].idcampofiltromanual,
 
                                                                 idcampofiltropapa: todos[i].idcampofiltropapa,
-                                                                idfrmconsultaorigenpapa: todos[i].idfrmconsultaorigenpapa
+                                                                idfrmconsultaorigenpapa: todos[i].idfrmconsultaorigenpapa,
+                                                                idfrmconsultaorigenpapa2: todos[i].idfrmconsultaorigenpapa2
 
 
                                                                 });
@@ -4544,7 +4666,8 @@ console.log(filtro)
                                                                     idcampofiltromanual: todos[i].idcampofiltromanual,
             
                                                                     idcampofiltropapa: todos[i].idcampofiltropapa,
-                                                                    idfrmconsultaorigenpapa: todos[i].idfrmconsultaorigenpapa
+                                                                    idfrmconsultaorigenpapa: todos[i].idfrmconsultaorigenpapa,
+                                                                    idfrmconsultaorigenpapa2: todos[i].idfrmconsultaorigenpapa2
             
             
                                                                     });

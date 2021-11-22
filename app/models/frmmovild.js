@@ -49,6 +49,7 @@ var mongoose =require("mongoose");
         idfrmconsulta2:[{   id	: { type : String, required : true },   nombre		: { type : String, required : true }}],
         nombreconsulta2		: { type : String },  
         idfrmconsultaorigenpapa:  { id	: { type : String },   nombre	: { type : String }   },
+        idfrmconsultaorigenpapa2:  { type : String },
         idcampofiltropapa:  { type : String },
         maxnumregistros: { type : Number },
         usuarionew	: { type : String },      usuarioup	: { type : String }}, {

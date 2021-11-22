@@ -103,8 +103,8 @@ if(req.params.recordID!=='crea')
             todo.siregister	=	req.body.siregister        ;  
             todo.pinicio       	=	req.body.pinicio        	||	todo.pinicio;  
             todo.nombre       	=	req.body.nombre        	||	todo.nombre;   
-            todo.nombrecorto       	=	req.body.nombrecorto        	||	todo.nombrecorto; 
-            todo.nombrecorto2       	=	req.body.nombrecorto2       ;   
+            todo.nombrecorto       	=	req.body.nombrecorto        	||	todo.nombrecorto;   
+            todo.nombrecorto2       	=	req.body.nombrecorto2;   
             todo.direccion       	=	req.body.direccion        	||	todo.direccion;   
             todo.email       	=	req.body.email        	||	todo.email;   
             todo.telefonos       	=	req.body.telefonos        	||	todo.telefonos;   
