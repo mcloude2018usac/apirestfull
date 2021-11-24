@@ -25,10 +25,10 @@ exports.getaFileuploadx = async function(req, res, next){
  var arrr=req.params.id2.split('¬')
    var bucketname = 'bkuctettnavia';
 var fileName = 'package.json';
-const storage = new Storage({ keyFilename: './google-cloud-key.json' });
 
  if(arrr[0]==='nube')
  {
+    const storage = new Storage({ keyFilename: './google-cloud-key.json' });
      
     fileName = req.params.id + '-' + arrr[1];
     const options = {
@@ -51,7 +51,21 @@ const storage = new Storage({ keyFilename: './google-cloud-key.json' });
  }
  else
  {
-    res.download('./uploadedFiles/'+req.params.id + '/' + req.params.id2);
+     if(String(req.params.id2).indexOf('¬')>0)
+     {
+        if(String(req.params.id2).indexOf('local')>=0)
+                {   
+                    res.download('./uploadedFiles/'+req.params.id + '/' + req.params.id2.split('¬')[1]);
+                }
+                else{
+                    res.download('./uploadedFiles/'+req.params.id + '/' + req.params.id2.split('¬')[0]);
+                }
+        
+    }
+     else{
+        res.download('./uploadedFiles/'+req.params.id + '/' + req.params.id2);
+     }
+    
  }
 
     
@@ -63,7 +77,6 @@ exports.creaFileuploadxs = function(req, res, next){
     console.log(req.body.name)
     var bucketname = 'bkuctettnavia';
     var fileName = 'package.json';
-    const storage = new Storage({ keyFilename: './google-cloud-key.json' });
     try {
         if(!req.files) {
             res.send({
@@ -75,12 +88,14 @@ exports.creaFileuploadxs = function(req, res, next){
             var rutafile=''
             let uploadedFile = req.files.uploadedFile;
 
-            if(req.body.local==='Si')
+            if(req.body.local==='Si' || req.body.local===undefined)
             {
 rutafile='./uploadedFiles'+'/' + req.body.name + '/'+  uploadedFile.name
             }
             else
             {
+                const storage = new Storage({ keyFilename: './google-cloud-key.json' });
+
                 rutafile='./uploadedFiles'+'/' + req.body.name + '/'+ req.body.name + '-'+ uploadedFile.name
             }
            
@@ -91,7 +106,7 @@ rutafile='./uploadedFiles'+'/' + req.body.name + '/'+  uploadedFile.name
                  return res.status(500).send(err);
 
                  //preguntar si usa nube o no
-                 if(req.body.local==='Si')
+                 if(req.body.local==='Si' || req.body.local===undefined)
                  {
                     res.json({
                         message: 'File is uploaded',

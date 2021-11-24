@@ -10,7 +10,7 @@ exports.getProducto = function(req, res, next){
         { 
             var arr=(req.params.id4).split('°')
          
-            Producto.find({idempresa:req.params.id3,idpapa:arr[0], categoria:arr[1]}).sort({'_id': -1}).populate('categoria').populate('subcategoria').exec(function(err, todos) {
+            Producto.find({idempresa:req.params.id3,idpapa:arr[0], categoria:arr[1]}).sort({'_id': 1}).populate('categoria').populate('subcategoria').exec(function(err, todos) {
                 if (err){  res.send(err);  }
                  res.json(todos);
              });
@@ -47,14 +47,14 @@ exports.getProducto = function(req, res, next){
         {
         if(req.params.id2=='todos')
         { 
-            Producto.find({idpapa:req.params.id4}).populate('categoria').populate('subcategoria').sort({'_id': -1}).exec(function(err, todos) {
+            Producto.find({idpapa:req.params.id4}).populate('categoria').populate('subcategoria').sort({'_id': 1}).exec(function(err, todos) {
                 if (err){  res.send(err);  }
                  res.json(todos);
              });
         }
         else
         {
-            Producto.find({idempresa:req.params.id3,estado:req.params.id2,idpapa:req.params.id4}).populate('categoria').populate('subcategoria').sort({'_id': -1}).exec(function(err, todos) {
+            Producto.find({idempresa:req.params.id3,estado:req.params.id2,idpapa:req.params.id4}).populate('categoria').populate('subcategoria').sort({'_id': 1}).exec(function(err, todos) {
                 if (err){  res.send(err);  }
                  res.json(todos);
              });
@@ -66,14 +66,14 @@ exports.getProducto = function(req, res, next){
     {  
             if(req.params.id2=='todos')
             { 
-                Producto.find({idempresa:req.params.id3}).sort({'_id': -1}).exec(function(err, todos) {
+                Producto.find({idempresa:req.params.id3}).sort({'_id': 1}).exec(function(err, todos) {
                     if (err){  res.send(err);  }
                      res.json(todos);
                  });
             }
             else
             {
-                Producto.find({idempresa:req.params.id3,estado:req.params.id2}).sort({'_id': -1}).exec(function(err, todos) {
+                Producto.find({idempresa:req.params.id3,estado:req.params.id2}).sort({'_id': 1}).exec(function(err, todos) {
                     if (err){  res.send(err);  }
                     var myData3 = [];
                     for(var i = 0; i < todos.length;i++){

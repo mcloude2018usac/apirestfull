@@ -806,6 +806,20 @@ frmtareasprogramadasfotos.deleteMany({ idpapa: req.params.recordID  }, function(
 
   
 }
+
+function formatDate() {
+    var d = new Date(),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+}
 exports.creafrmtareasprogramadas2s = async function(req, res, next){
     Bitacora.create(req.body.bitacora);
 if(req.params.recordID!=='crea')
@@ -828,17 +842,20 @@ if(req.params.recordID!=='crea')
     });
 }
 else{
-    var d =new Date().toISOString().substr(0,10);   
+    var d=formatDate()
+ //   var d =new Date().toISOString().substr(0,10);   
         var d2=d.split('-')
  
-
+        var dattt= new Date(d +'T00:00:00.000Z')
+        var dattt2=new Date(d +'T24:00:00.000Z')
+        
     var namess=req.body.idform
     var filtro={estado:req.body.estructura.estado,
-        
+       
         
     
         //fechaasignada:req.body.estructura.fechaasignada,'2021-04-27' +'T24:00:00.000Z'
-        fechaasignada:{"$gte": new Date(d +'T00:00:00.000Z'),"$lt": new Date(d +'T24:00:00.000Z')},
+        fechaasignada:{"$gte": dattt,"$lt": dattt2},
         idcontrato:req.body.estructura.idcontrato,
         idempresa:req.body.estructura.idempresa,
         idempresa0:req.body.estructura.idempresa0,
@@ -847,11 +864,13 @@ else{
       
         idperiodo:req.body.estructura.idperiodo,
         idplanifica:req.body.estructura.idplanifica}
+console.log(namess)
+        console.log(filtro)
 
     var datos= await functool.dadatosformulario(namess,filtro,req.body.bitacora.idempresa)
 
 
-if(datos.length>1)
+if(datos.length>=1)
 { res.status(500).send('Solamente se pueden programar 2 visitar por dia')  }
 else
 {   
