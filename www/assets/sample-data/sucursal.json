@@ -1,0 +1,34 @@
+{
+    "items":[
+      {
+        "depto": "Guatemala",
+        "nombre": "Zona 10",
+        "direccion":"6ta. Avenida, 12-73, Zona 10.",
+        "horario":"Lun-Mar: 10am a 8pm / Mié-Vie: 10am a 9pm / Sáb: 10am a 7pm / Dom: 10am a 4pm.",
+        "img":"./assets/sample-images/categories/z10.jpg",
+        "email":"tiendazona10@vinoteca.com.gt",
+        "telefono": "2360-1621",
+        "servicio":"./assets/img/1.png",
+        "ubicax": "14.65137778",
+        "ubicay": "-90.51683056",
+        "dos":"14.65137778,-90.51683056"
+
+      }  ,
+      {
+        "depto": "Guatemala",
+        "nombre": "ZONA 14",
+        "direccion":"10ma. Avenida, 5-49, Zona 14.",
+        "horario":"Lun-Mié: 10am a 8pm / Jue-Vie: 10am a 9pm / Sáb: 10am a 8pm / Dom: 10am a 4pm",
+        "telefono": "2366-6885 / 82",
+        "img":"./assets/sample-images/categories/z14.jpg",
+        "servicio":"./assets/img/2.png",
+        "email":"vinoteca_z14@vinoteca.com.gt",
+        "ubicax": "14.598923989753514",
+        "ubicay": "-90.51306104912926",
+        "dos":"14.65137778,-90.51683056"
+
+      }  
+    
+  ]
+}
+
