@@ -49,6 +49,7 @@ exports.getfrmtareasprogramadasservicios = function(req, res, next){
                             var diffhoras = parseInt((ff3 - ff4) / (1000 * 60 * 60 )); //gives day difference
                             var diffminutos = parseInt((ff3 - ff4) / (1000 * 60 )); //gives day difference
                             var diffseg = parseInt((ff3 - ff4) / (1000  )); //gives day difference
+                            var tiempomin=Number(todos[i].tiempo)*60
                         mydata.push(    {
                                 "_id" : todos[i]._id,
                                 "idempresa" : todos[i].idempresa,
@@ -62,9 +63,9 @@ exports.getfrmtareasprogramadasservicios = function(req, res, next){
                                 "gpsempresa":todos[i].gpsempresa,
                                 "tipomulta" : todos[i].tipomulta,
                                 "tiempo" : todos[i].tiempo,
-                                "tiempo2" : datiempo(todos[i].tiempo),
+                                "tiempo2" : datiempo(tiempomin),
                                 "minutos2":datiempo(diffminutos),
-                                "faltante2":datiempo((Number(todos[i].tiempo) - Number(diffminutos))),
+                                "faltante2":datiempo((Number(tiempomin) - Number(diffminutos))),
                                 "idmulta" : todos[i].idmulta,
                                 "correotipo" : todos[i].correotipo,
                                 "empresatxt" : todos[i].empresatxt,
@@ -76,7 +77,7 @@ exports.getfrmtareasprogramadasservicios = function(req, res, next){
                                 "createdAt" : todos[i].createdAt,
                                 "updatedAt" : todos[i].updatedAt,
                                 dias:diffDays,horas: diffhoras,minutos:diffminutos,segundos:diffseg,
-                                faltante:(Number(todos[i].tiempo) - Number(diffminutos))
+                                faltante:(Number(tiempomin) - Number(diffminutos))
                             });
                         }
                         
@@ -110,7 +111,7 @@ exports.getfrmtareasprogramadasservicios = function(req, res, next){
                                     var diffhoras = parseInt((ff3 - ff4) / (1000 * 60 * 60 )); //gives day difference
                                     var diffminutos = parseInt((ff3 - ff4) / (1000 * 60 )); //gives day difference
                                     var diffseg = parseInt((ff3 - ff4) / (1000  )); //gives day difference
-
+                                    var tiempomin=Number(todos[i].tiempo)*60
 
                                 mydata.push(    {
                                         "_id" : todos[i]._id,
@@ -123,11 +124,11 @@ exports.getfrmtareasprogramadasservicios = function(req, res, next){
                                         "tipomulta" : todos[i].tipomulta,
                                         "idcontrato" : todos[i].idcontrato,
                                         "tiempo" : todos[i].tiempo,
-                                        "tiempo2" : datiempo(todos[i].tiempo),
+                                        "tiempo2" : datiempo(tiempomin),
                                         "fotoempresa":todos[i].fotoempresa,
                                         "gpsempresa":todos[i].gpsempresa,
                                         "minutos2":datiempo(diffminutos),
-                                        "faltante2":datiempo((Number(todos[i].tiempo) - Number(diffminutos))),
+                                        "faltante2":datiempo((Number(tiempomin) - Number(diffminutos))),
                                         "idmulta" : todos[i].idmulta,
                                         "fechamulta" : todos[i].fechamulta,
                                         "periodomulta" : todos[i].periodomulta,
@@ -141,7 +142,7 @@ exports.getfrmtareasprogramadasservicios = function(req, res, next){
                                         "createdAt" : todos[i].createdAt,
                                         "updatedAt" : todos[i].updatedAt,
                                         dias:diffDays,horas: diffhoras,minutos:diffminutos,segundos:diffseg,
-                                        faltante:(Number(todos[i].tiempo) - Number(diffminutos))
+                                        faltante:(Number(tiempomin) - Number(diffminutos))
                                     });
                                 }
                                 
@@ -169,11 +170,15 @@ exports.getfrmtareasprogramadasservicios = function(req, res, next){
                                     var diffhoras = parseInt((ff3 - ff4) / (1000 * 60 * 60 )); //gives day difference
                                     var diffminutos = parseInt((ff3 - ff4) / (1000 * 60 )); //gives day difference
                                     var diffseg = parseInt((ff3 - ff4) / (1000  )); //gives day difference
+                                    var tiempomin=Number(todos[i].tiempo)*60
+
+                                    console.log(todos[i].tiempo)
+                                    console.log(diffminutos)
                                     console.log(req.params.id2 + ' ' +arr[1])    
                                     if(arr[1]==='2')
                                     {
 
-                                        if((Number(todos[i].tiempo) - Number(diffminutos))>=0)
+                                        if((tiempomin - Number(diffminutos))>=0)
                                         {
                                             mydata.push(    {
                                                 "_id" : todos[i]._id,
@@ -186,9 +191,9 @@ exports.getfrmtareasprogramadasservicios = function(req, res, next){
                                                 "tipomulta" : todos[i].tipomulta,
                                                 "idcontrato" : todos[i].idcontrato,
                                                 "tiempo" : todos[i].tiempo,
-                                                "tiempo2" : datiempo(todos[i].tiempo),
+                                                "tiempo2" : datiempo(tiempomin),
                                                 "minutos2":datiempo(diffminutos),
-                                                "faltante2":datiempo((Number(todos[i].tiempo) - Number(diffminutos))),
+                                                "faltante2":datiempo((tiempomin - Number(diffminutos))),
                                                 "idmulta" : todos[i].idmulta,
                                                 "fechamulta" : todos[i].fechamulta,
                                                 "periodomulta" : todos[i].periodomulta,
@@ -204,14 +209,14 @@ exports.getfrmtareasprogramadasservicios = function(req, res, next){
                                                 "createdAt" : todos[i].createdAt,
                                                 "updatedAt" : todos[i].updatedAt,
                                                 dias:diffDays,horas: diffhoras,minutos:diffminutos,segundos:diffseg,
-                                                faltante:(Number(todos[i].tiempo) - Number(diffminutos))
+                                                faltante:(Number(tiempomin) - Number(diffminutos))
                                             });
                                         }
                                     }
                                     else
                                     {
 
-                                        if((Number(todos[i].tiempo) - Number(diffminutos))<0)
+                                        if((Number(tiempomin) - Number(diffminutos))<0)
                                         {
                                             mydata.push(    {
                                                 "_id" : todos[i]._id,
@@ -226,9 +231,9 @@ exports.getfrmtareasprogramadasservicios = function(req, res, next){
                                                 "tiempo" : todos[i].tiempo,
                                                 "fotoempresa":todos[i].fotoempresa,
                                                 "gpsempresa":todos[i].gpsempresa,
-                                                "tiempo2" : datiempo(todos[i].tiempo),
+                                                "tiempo2" : datiempo(tiempomin),
                                                 "minutos2":datiempo(diffminutos),
-                                                "faltante2":datiempo((Number(todos[i].tiempo) - Number(diffminutos))),
+                                                "faltante2":datiempo((Number(tiempomin) - Number(diffminutos))),
                                                 "idmulta" : todos[i].idmulta,
                                                 "fechamulta" : todos[i].fechamulta,
                                                 "periodomulta" : todos[i].periodomulta,
@@ -242,7 +247,7 @@ exports.getfrmtareasprogramadasservicios = function(req, res, next){
                                                 "createdAt" : todos[i].createdAt,
                                                 "updatedAt" : todos[i].updatedAt,
                                                 dias:diffDays,horas: diffhoras,minutos:diffminutos,segundos:diffseg,
-                                                faltante:(Number(todos[i].tiempo) - Number(diffminutos))
+                                                faltante:(Number(tiempomin) - Number(diffminutos))
                                             });
                                         }
                                   
@@ -279,6 +284,8 @@ console.log({idempresa:req.params.id3,estado:req.params.id2,idinspector:req.para
                                     var diffhoras = parseInt((ff3 - ff4) / (1000 * 60 * 60 )); //gives day difference
                                     var diffminutos = parseInt((ff3 - ff4) / (1000 * 60 )); //gives day difference
                                     var diffseg = parseInt((ff3 - ff4) / (1000  )); //gives day difference
+                                    var tiempomin=Number(todos[i].tiempo)*60
+                                    
                                 mydata.push(    {
                                         "_id" : todos[i]._id,
                                         "idempresa" : todos[i].idempresa,
@@ -290,9 +297,9 @@ console.log({idempresa:req.params.id3,estado:req.params.id2,idinspector:req.para
                                         "tipomulta" : todos[i].tipomulta,
                                         "idcontrato" : todos[i].idcontrato,
                                         "tiempo" : todos[i].tiempo,
-                                        "tiempo2" : datiempo(todos[i].tiempo),
+                                        "tiempo2" : datiempo(tiempomin),
                                         "minutos2":datiempo(diffminutos),
-                                        "faltante2":datiempo((Number(todos[i].tiempo) - Number(diffminutos))),
+                                        "faltante2":datiempo((Number(tiempomin) - Number(diffminutos))),
                                         "idmulta" : todos[i].idmulta,
                                         "fechamulta" : todos[i].fechamulta,
                                         "fotoempresa":todos[i].fotoempresa,
@@ -308,7 +315,7 @@ console.log({idempresa:req.params.id3,estado:req.params.id2,idinspector:req.para
                                         "createdAt" : todos[i].createdAt,
                                         "updatedAt" : todos[i].updatedAt,
                                         dias:diffDays,horas: diffhoras,minutos:diffminutos,segundos:diffseg,
-                                        faltante:(Number(todos[i].tiempo) - Number(diffminutos))
+                                        faltante:(Number(tiempomin) - Number(diffminutos))
                                     });
                                 }
                                 
@@ -341,7 +348,7 @@ console.log(arr)
                                             var diffhoras = parseInt((ff3 - ff4) / (1000 * 60 * 60 )); //gives day difference
                                             var diffminutos = parseInt((ff3 - ff4) / (1000 * 60 )); //gives day difference
                                             var diffseg = parseInt((ff3 - ff4) / (1000  )); //gives day difference
-    
+                                            var tiempomin=Number(todos[i].tiempo)*60
                                      
                                                 mydata.push(    {
                                                     "_id" : todos[i]._id,
@@ -354,9 +361,9 @@ console.log(arr)
                                                     "tipomulta" : todos[i].tipomulta,
                                                     "idcontrato" : todos[i].idcontrato,
                                                     "tiempo" : todos[i].tiempo,
-                                                    "tiempo2" : datiempo(todos[i].tiempo),
+                                                    "tiempo2" : datiempo(tiempomin),
                                                     "minutos2":datiempo(diffminutos),
-                                                    "faltante2":datiempo((Number(todos[i].tiempo) - Number(diffminutos))),
+                                                    "faltante2":datiempo((Number(tiempomin) - Number(diffminutos))),
                                                     "idmulta" : todos[i].idmulta,
                                                     "fechamulta" : todos[i].fechamulta,
                                                     "periodomulta" : todos[i].periodomulta,
@@ -372,7 +379,7 @@ console.log(arr)
                                                     "createdAt" : todos[i].createdAt,
                                                     "updatedAt" : todos[i].updatedAt,
                                                     dias:diffDays,horas: diffhoras,minutos:diffminutos,segundos:diffseg,
-                                                    faltante:(Number(todos[i].tiempo) - Number(diffminutos))
+                                                    faltante:(Number(tiempomin) - Number(diffminutos))
                                                 });
     
                                             
@@ -401,8 +408,9 @@ console.log(arr)
                                             var diffhoras = parseInt((ff3 - ff4) / (1000 * 60 * 60 )); //gives day difference
                                             var diffminutos = parseInt((ff3 - ff4) / (1000 * 60 )); //gives day difference
                                             var diffseg = parseInt((ff3 - ff4) / (1000  )); //gives day difference
+                                            var tiempomin=Number(todos[i].tiempo)*60
                                     
-                                     if((Number(todos[i].tiempo) - Number(diffminutos))<0)
+                                     if((Number(tiempomin) - Number(diffminutos))<0)
                                      {
                                         mydata.push(    {
                                             "_id" : todos[i]._id,
@@ -415,9 +423,9 @@ console.log(arr)
                                             "tipomulta" : todos[i].tipomulta,
                                             "idcontrato" : todos[i].idcontrato,
                                             "tiempo" : todos[i].tiempo,
-                                            "tiempo2" : datiempo(todos[i].tiempo),
+                                            "tiempo2" : datiempo(tiempomin),
                                             "minutos2":datiempo(diffminutos),
-                                            "faltante2":datiempo((Number(todos[i].tiempo) - Number(diffminutos))),
+                                            "faltante2":datiempo((Number(tiempomin) - Number(diffminutos))),
                                             "idmulta" : todos[i].idmulta,
                                             "fechamulta" : todos[i].fechamulta,
                                             "periodomulta" : todos[i].periodomulta,
@@ -433,7 +441,7 @@ console.log(arr)
                                             "createdAt" : todos[i].createdAt,
                                             "updatedAt" : todos[i].updatedAt,
                                             dias:diffDays,horas: diffhoras,minutos:diffminutos,segundos:diffseg,
-                                            faltante:(Number(todos[i].tiempo) - Number(diffminutos))
+                                            faltante:(Number(tiempomin) - Number(diffminutos))
                                         });
 
                                      }
@@ -472,9 +480,8 @@ console.log(arr)
     {
         frmtareasprogramadasservicios.find({_id:req.params.id},function(err, todos) {
             if (err){ res.send(err); }
-            if(todos.length>0)   {    res.json(todos);   }
-            else
-            {  res.status(500).send('NO EXISTE REGISTRO');      }
+            res.json(todos);
+         
         });
     }
 }

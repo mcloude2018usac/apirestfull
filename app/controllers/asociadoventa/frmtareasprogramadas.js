@@ -871,7 +871,7 @@ console.log(namess)
 
 
 if(datos.length>=1)
-{ res.status(500).send('Solamente se pueden programar 2 visitar por dia')  }
+{ res.status(500).send('Ya existe programada una visita para este dia.')  }
 else
 {   
 

@@ -11,6 +11,8 @@ var formulariotrayectoriaSchema 		=	new  mongoose.Schema({
  fecha:{ type : Date}, 
  info	: { type : String}, 
 
+ ususariopublico: { type : String},
+ ususariopublico2: { type : String},
 
 
 
