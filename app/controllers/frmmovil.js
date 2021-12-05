@@ -2979,7 +2979,7 @@ break;
             var namess=req.params.id
             var arrtodos=req.params.id3.split('°')
             var filtro
-            var apifoto=arrtodos[3].replaceAll('-','/')
+            var apifoto=functool.replaceAll(arrtodos[3],'-','/') 
 
 
             if(arrtodos[1]==='todos')
@@ -4382,7 +4382,7 @@ console.log(filtro)
                 var arrtodos=req.params.id3.split('°')
                 var filtro
                 
-                var apifoto=arrtodos[4].replaceAll('-','/')
+                var apifoto=functool.replaceAll(arrtodos[4],'-','/')
                 if(arrtodos[1]==='todos')
                 {
                     filtro={idempresa:arrtodos[0],idpapa:arrtodos[2]}
