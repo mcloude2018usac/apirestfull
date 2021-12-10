@@ -101,7 +101,7 @@ else{
             Compratoken.create({ 
                 idempresa        	: req.body.idempresa       	,
                 trama        	: req.body.trama        	,
-                nombre        	: req.body.trama + '°' +  req.body.usertrasferencia +'°'+   req.body.bitacora.email     	,
+                nombre        	: req.body.trama + '°' +  req.body.usertrasferencia +'°'+   req.body.bitacora.email    + '°'+  req.body.monto	,
                 tipo        	: req.body.tipo        	,
                 usuarionew:req.body.bitacora.email,
                 cobroservicio:'',

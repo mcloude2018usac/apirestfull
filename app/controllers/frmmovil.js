@@ -1510,7 +1510,8 @@ exports.getFrmmovil = async function(req, res, next){
                   Frmmovil.find({idempresa:arr[0], tipo:arr[2],publico:'Si'}).exec(function(err, todosa) {
                    
        
-                    
+                    var ordenfrm="-1"
+                  
 
                   
                      formulariousr.find(filtro1).exec(function(err, todosb) {
@@ -1536,6 +1537,7 @@ exports.getFrmmovil = async function(req, res, next){
                                                 ejecutaelimina:todos[i].idformulario.ejecutaelimina,ejecutaactualiza:todos[i].idformulario.ejecutaactualiza  ,tipo:todos[i].idformulario.tipo,permisos:{
                                                 pactualizacion:todos[i].actualizacion,  pconsulta:todos[i].consulta, 
                                                 comandos:todos[i].comandos, 
+                                                ordenfrm:ordenfrm,
                                                 generareporte:todos[i].generareporte,comandos:todos[i].comandos, 
                                                 activas:todos[i].activas,cerradas:todos[i].cerradas,ejecutadas:todos[i].ejecutadas,
                                                 filtrarordentipo:todos[i].filtrarordentipo, filtrarorden:todos[i].filtrarorden,pcreacion:todos[i].creacion, peliminacion:todos[i].eliminacion,  pfiltro:todos[i].filtro, pingreso:'true', preporte:todos[i].reporte, preporte2:todos[i].reporte2,reporteencabezado:todos[i].reporteencabezado,camposreporte:todos[i].camposreporte,  potros1:'', imprimeorden	:todos[i].imprimeorden, 
@@ -1573,6 +1575,7 @@ exports.getFrmmovil = async function(req, res, next){
                                                   for(var i = 0; i < unique.length;i++){
                                                      myData2.push({_id:unique[i]._id,tipo:unique[i].tipo,ejecuta:unique[i].ejecuta,tipo2:unique[i].tipo2,geoposicion:unique[i].geoposicion ,categoria:unique[i].categoria,nombre2:unique[i].nombre2,nombre:unique[i].nombre,foto:unique[i].foto,estado:unique[i].estado ,verregistros:unique[i].verregistros,permisos:{pactualizacion:'true',  pconsulta:'true', pcreacion:'true', peliminacion:'true',  pfiltro:'true', pingreso:'true', reporte:'true',  potros1:'',comandos:[], 
                                                      generareporte:'', 
+                                                     ordenfrm:ordenfrm,
                                                      activas:'true',cerradas:'true',ejecutadas:'false',
                                                      filtrarorden:'false', filtrarordentipo:'false',
                                                      cancelarorden:'false',reasignarorden:'false',bitacoraorden:'false',papaorden:'false',
@@ -1597,7 +1600,8 @@ exports.getFrmmovil = async function(req, res, next){
                                                 
                                                     if(todos[i].idformulario.categoria==req.params.id)
                                                     { 
-                                                        myData.push({_id:todos[i].idformulario._id,categoria:todos[i].idformulario.categoria,nombre2:todos[i].idformulario.nombre2,nombre:todos[i].idformulario.nombre,foto:todos[i].idformulario.foto,estado:todos[i].idformulario.estado ,verregistros:todos[i].verregistros,geoposicion:todos[i].idformulario.geoposicion ,tipo2:todos[i].idformulario.tipo2,ejecuta:todos[i].idformulario.ejecuta  ,ejecutainicio:todos[i].idformulario.ejecutainicio ,ejecutaelimina:todos[i].idformulario.ejecutaelimina,ejecutaactualiza:todos[i].idformulario.ejecutaactualiza ,tipo:todos[i].idformulario.tipo,
+                                                        myData.push({_id:todos[i].idformulario._id,categoria:todos[i].idformulario.categoria,nombre2:todos[i].idformulario.nombre2,nombre:todos[i].idformulario.nombre,foto:todos[i].idformulario.foto,estado:todos[i].idformulario.estado ,verregistros:todos[i].verregistros,geoposicion:todos[i].idformulario.geoposicion ,tipo2:todos[i].idformulario.tipo2,ejecuta:todos[i].idformulario.ejecuta  ,ejecutainicio:todos[i].idformulario.ejecutainicio ,ejecutaelimina:todos[i].idformulario.ejecutaelimina,
+                                                            ordenfrm:ordenfrm,ejecutaactualiza:todos[i].idformulario.ejecutaactualiza ,tipo:todos[i].idformulario.tipo,
                                                             pactualizacion:todos[i].actualizacion,  pconsulta:todos[i].consulta, 
                                                             activas:todos[i].activas,cerradas:todos[i].cerradas,ejecutadas:todos[i].ejecutadas,
                                                             generareporte:todos[i].generareporte, 
@@ -1627,6 +1631,7 @@ exports.getFrmmovil = async function(req, res, next){
                                                         myData.push({_id:todosa[i]._id,categoria:todosa[i].categoria,nombre2:todosa[i].nombre2,nombre:todosa[i].nombre,foto:todosa[i].foto,estado:todosa[i].estado ,verregistros:todosa[i].verregistros,geoposicion:todosa[i].geoposicion ,tipo2:todosa[i].tipo2,ejecuta:todosa[i].ejecuta  ,ejecutainicio:todosa[i].ejecutainicio,ejecutaelimina:todosa[i].ejecutaelimina,ejecutaactualiza:todosa[i].ejecutaactualiza  ,tipo:todosa[i].tipo,
                                                             pactualizacion:'true',  pconsulta:'true', pcreacion:'true', peliminacion:'true',  pfiltro:'true', pingreso:'true', reporte:'true',
                                                             generareporte:'', 
+                                                            ordenfrm:ordenfrm,
                                                             activas:'true',cerradas:'true',ejecutadas:'false',
                                                             filtrarordentipo:'false', filtrarorden:'false',potros1:'' , imprimeorden	:'true', imprimeorden2	:'false',  finalizaorden :'false', 
                                                             cancelarorden:'false',reasignarorden:'false',bitacoraorden:'false',papaorden:'false', eliminaorden  :'false', eliminaorden  :'false',    dashboard  :'false',  trayectoriaorden:'true',  documentacionorden:'true',  pausarorden  :'false',  anularorden  :'false',  fotosorden:'true', comentariosorden:'true',  documentosorden :'true',  tareasorden  :'false',acciones:'true',publico:todosa[i].publico});
@@ -1642,6 +1647,7 @@ exports.getFrmmovil = async function(req, res, next){
                                                                 myData2.push({_id:unique[i]._id,tipo:unique[i].tipo,ejecuta:unique[i].ejecuta,ejecutainicio:unique[i].ejecutainicio ,ejecutaelimina:unique[i].ejecutaelimina ,ejecutaactualiza:unique[i].ejecutaactualiza  ,tipo2:unique[i].tipo2,geoposicion:unique[i].geoposicion ,categoria:unique[i].categoria,nombre2:unique[i].nombre2,nombre:unique[i].nombre,foto:unique[i].foto,estado:unique[i].estado ,verregistros:unique[i].verregistros,permisos:{pactualizacion:unique[i].pactualizacion, 
                                                                     comandos:unique[i].comandos,
                                                                     activas:unique[i].activas,cerradas:unique[i].cerradas,ejecutadas:unique[i].ejecutadas,
+                                                                    ordenfrm:ordenfrm,
                                                                     generareporte:unique[i].generareporte, 
                                                                     filtrarordentipo:unique[i].filtrarordentipo,  filtrarorden:unique[i].filtrarorden, pconsulta:unique[i].pconsulta, pcreacion:unique[i].pcreacion, peliminacion:unique[i].peliminacion,  pfiltro:unique[i].filtro, pingreso:'true', preporte:unique[i].reporte,  potros1:'', imprimeorden	:unique[i].imprimeorden,  
                                                                     imprimeorden2	:unique[i].imprimeorden2,  finalizaorden :unique[i].finalizaorden,  
@@ -1701,6 +1707,7 @@ exports.getFrmmovil = async function(req, res, next){
                 var cad3a=(functool.dafiltrocadsolouno(todosuno,req.params.id2,req.params.id3.replace('¬','/'),'')).split('°');
                 var cada = cad3a[0];
                 var cadsolouno = cad3a[1]
+                
         
                 Frmmovild.find({idmovil:req.params.id, display : "true"}).sort([['order', 1]]).exec(function(err, todos) {
                     if (err){ res.send(err); }
@@ -2193,6 +2200,13 @@ break;
                         
                     });
               break;
+              case 'formulariobyid':
+                Frmmovil.find({_id:req.params.id,idempresa:req.params.id3},function(err, todos) {
+                    if (err){  res.send(err);  }
+                    res.json(todos);
+                    
+                });
+          break;
             case 'categoriagruponombre':
                 Frmmovil.aggregate(  [
                     { 
@@ -2972,15 +2986,15 @@ break;
     
    
 break;
-      
  
   case 'formulario':
          
             var namess=req.params.id
             var arrtodos=req.params.id3.split('°')
             var filtro
-            var apifoto=functool.replaceAll(arrtodos[3],'-','/') 
-
+            var apifoto=functool.replaceAll(arrtodos[3],'-','/')
+            var ordenfrm=Number(arrtodos[4])
+            console.log(ordenfrm)
 
             if(arrtodos[1]==='todos')
             {
@@ -3024,7 +3038,7 @@ break;
                                         
                                             try {
                                                 var  frmtt= mongoose.model(namess,tt);
-                                                frmtt.find(filtro).sort({_id:-1}).exec(function(err, todos2) {
+                                                frmtt.find(filtro).sort({_id:ordenfrm}).exec(function(err, todos2) {
                                                     if (err){  res.send(err); }
                                                
                                                  if(todos2.length>0)
@@ -3044,7 +3058,7 @@ break;
                                                 
                                                 var  frmtt= mongoose.model(namess);
                                       
-                                                frmtt.find( filtro).sort({_id:-1}).exec(function(err, todos2) {
+                                                frmtt.find( filtro).sort({_id:ordenfrm}).exec(function(err, todos2) {
                                                      if (err){  res.send(err);
                                                     }
                                                    
@@ -4382,7 +4396,8 @@ console.log(filtro)
                 var arrtodos=req.params.id3.split('°')
                 var filtro
                 
-                var apifoto=functool.replaceAll(arrtodos[4],'-','/')
+                var apifoto=functool.replaceAll(arrtodos[4],'-','/') 
+                
                 if(arrtodos[1]==='todos')
                 {
                     filtro={idempresa:arrtodos[0],idpapa:arrtodos[2]}
@@ -6045,7 +6060,8 @@ if(req.params.recordID!=='crea')
             todo.ejecutaelimina    	=	req.body.ejecutaelimina   		;
             todo.foto    	=	req.body.foto    	||	todo.foto    	;
             todo.geoposicion    	=	req.body.geoposicion      	;
-           
+            todo.ordenregistro    	=	req.body.ordenregistro      	;
+            
        //     todo.idformdetalle   		 ={id:req.body.idformdetalle.id,nombre:req.body.idformdetalle.nombre   }   	;
 
             todo.estado 	=	req.body.estado 	||	todo.estado 	;
@@ -6085,6 +6101,7 @@ else{
                     idpapa        	: req.body.idpapa        	,
                     ejecuta        	: req.body.ejecuta        	,
                     ejecutainicio: req.body.ejecutainicio,
+                    ordenregistro: req.body.ordenregistro,
                     ejecutaactualiza: req.body.ejecutaactualiza,
                     ejecutaelimina: req.body.ejecutaelimina,
                     categoria        	: req.body.categoria        	,
@@ -6132,6 +6149,7 @@ else{
                     ejecutaactualiza: req.body.ejecutaactualiza,
                     ejecutaelimina: req.body.ejecutaelimina,
                     foto    	: req.body.foto    	,
+                    ordenregistro: req.body.ordenregistro,
               //      idformdetalle:   req.body.idformdetalle,
                     geoposicion :   req.body.geoposicion,
                     estado 	: req.body.estado 	,

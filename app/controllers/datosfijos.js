@@ -899,6 +899,25 @@ exports.getCombofijo = async function(req, res, next){
        
 
        switch(req.params.id) {
+        case 'dacomites':
+
+                var h1= await functool.dadatosformulario('61aa8fe7fcf06551e8aea164',{},'5f503bededa4710798a79b84')
+                var  datat =[]
+                for(var i = 0; i < h1.length;i++){
+                        var depto=h1[i].departamento.split(':')[1].split('<br>')[0].trim()
+                      
+                                     
+                                        datat.push({pais:h1[i].pais,departamento:h1[i].departamento,municipio:'<strong>Nombre</strong>: ' +h1[i].nombre+ '<br>¬' + h1[i]._id,nombre:depto + ' / ' + h1[i].nombre,
+                                        codcomite:h1[i].codigo})
+
+                }
+               
+                
+                res.statusCode = 200;
+                res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+                res.setHeader("Content-Disposition", 'attachment; filename='+'comit.csv');
+                res.csv(datat, true);
+                break;
         case 'dakardexinvinicial':
 
                 var h1= await functool.dadatosformulario('5fc01bbba8d0a14888774579',{},'5f503bededa4710798a79b84')
