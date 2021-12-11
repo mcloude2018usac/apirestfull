@@ -369,6 +369,7 @@ if(req.params.id!=='crea')
             todo.rangomax=req.body.rangomax        	||	todo.rangomax        	;
             todo.rangostep=req.body.rangostep        	||	todo.rangostep        	;
             todo.alfatypo=req.body.alfatypo        	||	todo.alfatypo        	;
+            todo.alfatypo2=req.body.alfatypo2        	||	todo.alfatypo2        	;
             todo.respuesta=req.body.respuesta        	||	todo.respuesta        	;
             todo.geoposicion=req.body.geoposicion        	       	;
             
@@ -471,6 +472,7 @@ else{
                         rangomax:	 1000,
                         rangostep:	 100,
                         alfatypo: 'text',
+                        alfatypo2: 'normal',
                         respuesta:'',
                         maxnumregistros:0,
                         valor:0,
@@ -584,6 +586,7 @@ else{
                         rangomax:	 1000,
                         rangostep:	 100,
                         alfatypo: 'text',
+                        alfatypo2: 'normal',
                         respuesta:'',
                         valor:0,
                         usuarionew:req.body.bitacora.email

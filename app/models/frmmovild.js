@@ -30,6 +30,7 @@ var mongoose =require("mongoose");
         rangomax:	 { type : Number },
         rangostep:	 { type : Number },
         alfatypo: { type : String },
+        alfatypo2: { type : String },
         default: { type : String },
         copiarencampo: { type : String },
         default2: { type : String },

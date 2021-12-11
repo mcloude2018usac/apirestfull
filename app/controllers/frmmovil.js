@@ -1445,8 +1445,8 @@ exports.getFrmmovil = async function(req, res, next){
                     }
 */
                     
-
-                    Frmmovil.find({_id:{$in:req.params.id}}).sort({'_id': -1}).exec(function(err, todos) {
+                    var datat=req.params.id.split(',') // para que valla a traer los formularios detalle
+                    Frmmovil.find({_id:{$in:datat}}).sort({'_id': -1}).exec(function(err, todos) {
                         if (err){  res.send(err);  }
                       
                          res.json(todos);
@@ -4603,6 +4603,7 @@ console.log(filtro)
                                                                 rangomax: todos[i].rangomax,
                                                                 rangostep: todos[i].rangostep,
                                                                 alfatypo: todos[i].alfatypo,
+                                                                alfatypo2: todos[i].alfatypo2,
                                                                 idfrmconsulta: todos[i].idfrmconsulta,
                                                                 idfrmconsulta2: todos[i].idfrmconsulta2,
                                                                 verregistros:todos[i].verregistros,
@@ -4685,6 +4686,7 @@ console.log(filtro)
                                                                     rangomax: todos[i].rangomax,
                                                                     rangostep: todos[i].rangostep,
                                                                     alfatypo: todos[i].alfatypo,
+                                                                    alfatypo2: todos[i].alfatypo2,
                                                                     idfrmconsulta: todos[i].idfrmconsulta,
                                                                     idfrmconsulta2: todos[i].idfrmconsulta2,
                                                                     verregistros:todos[i].verregistros,
