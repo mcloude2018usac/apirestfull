@@ -102,6 +102,7 @@ exports.getfrmactor = function(req, res, next){
                                         idpapa0:todos[i].idpapa0,
                                         nombre:todos[i].nombre,
                                         nombre2:todos[i].nombre2,
+                                        descripciong:todos[i].descripciong,
 
                                         usuarios:todos[i].usuarios,
                                         nombreusuarios:todos[i].nombreusuarios,

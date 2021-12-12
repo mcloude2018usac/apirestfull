@@ -3129,8 +3129,12 @@ break;
                     }
                     else
                     {
-                        filtro={idempresa:arrtodos[0],estadoordenxxx:filtroestado,
-                            idactividadxxx:{$in:actividadt},grupoasignado:{$in:grupot}}
+                       // filtro={idempresa:arrtodos[0],estadoordenxxx:filtroestado,
+                         //   idactividadxxx:{$in:actividadt},grupoasignado:{$in:grupot}}
+                            
+                            filtro={idempresa:arrtodos[0],//estadoordenxxx:filtroestado,
+                                idactividadxxx:{$in:actividadt},idusuariosasigna: {$in:[[arrtodos[4]]]}}
+                       
                     }
                 }
                 else
@@ -3144,7 +3148,7 @@ break;
                     {
                         if(actividadt[0]!=='123')
                         {
-                            filtro={idempresa:arrtodos[0],estadoordenxxx:filtroestado,
+                            filtro={idempresa:arrtodos[0],//estadoordenxxx:filtroestado,
                                 idactividadxxx:{$in:actividadt},grupoasignado:{$in:grupot}
                               //  $or: [       {idactividadxxx : {$in:actividadt}},
                                 //    {idusuariosasigna: {$in:arrtodos[4]}}       ]
@@ -3152,7 +3156,7 @@ break;
                         }
                         else
                         { 
-                            filtro={idempresa:arrtodos[0],estadoordenxxx:filtroestado,
+                            filtro={idempresa:arrtodos[0],//estadoordenxxx:filtroestado,
                                 idusuariosasigna: {$in:[[arrtodos[4]]]}
                                 }
                             
@@ -3177,7 +3181,7 @@ break;
                     }
                     else
                     {
-                        filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1],estadoordenxxx:filtroestado,
+                        filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1],//estadoordenxxx:filtroestado,
                             idactividadxxx:{$in:actividadt},grupoasignado:{$in:grupot}}
                     }
                     
@@ -3191,7 +3195,8 @@ break;
                     }
                     else
                     {
-                        filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1],estadoordenxxx:filtroestado}
+                        filtro={idempresa:arrtodos[0],usuarionew:arrtodos[1]//,estadoordenxxx:filtroestado
+                        }
                     }
                 
 
@@ -3235,7 +3240,11 @@ break;
                         }
                         else
                         {
-                            filtro[vall[0]] = vall[1]
+                            if(vall[1])
+                            {
+                                filtro[vall[0]] = vall[1]
+                            }
+                            
                         }
                            
                         
@@ -3283,9 +3292,9 @@ break;
                                         try {
                                             var  frmtt= mongoose.model(namess,tt);
                                             frmtt.aggregate([
-                          
+                                                { $match: filtro},
                                                 {
-                                                 
+                                                    
                                                       "$group" : {
                                                           "_id" : {
                                                              grupo:"$actividadxxx",
@@ -4184,12 +4193,16 @@ break;
                                 {idusuariosasigna: {$nin:[[arrtodos[4]]]}}       ]}
                         }
                         else
-                        {
+                        {// tiene actividades de asignacion en el proceso cada ves que se le asigne añl usuario ponerlo en usuario asigna
+
+                            filtro={idempresa:arrtodos[0],estadoordenxxx:filtroestado,
+                                idactividadxxx:{$in:actividadt},idusuariosasigna: {$in:[[arrtodos[4]]]}}
+                                /*
                             filtro={idempresa:arrtodos[0],estadoordenxxx:filtroestado,
                                 idactividadxxx:{$in:actividadt},   $or: [       {grupoasignado : {$in:grupot}},
                                     {idusuariosasigna: {$in:[[arrtodos[4]]]}}       ]
                             
-                            }
+                            }*/
                         }
                             /*
                         if(arrtodos[2]==='ejecutadas')
