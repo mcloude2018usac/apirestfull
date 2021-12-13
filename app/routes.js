@@ -157,6 +157,7 @@ var AuthenticationController = require('./controllers/authentication'),
     Facultadmateria3Controller = require('./controllers/calusac/facultadmateria3'),
     Unidadacademica3Controller = require('./controllers/calusac/unidadacademica3'),
     dtarifaController = require('./controllers/asociadoventa/dtarifa'),
+    bitacoragpsController = require('./controllers/bitacoragps'),
 
       
     Edificiousac2Controller = require('./controllers/unidadedificio2'),
@@ -247,6 +248,7 @@ module.exports = function(app){
         frmactividadRoutes = express.Router(),
         frmactividadcamposdRoutes = express.Router(),
         dtarifaRoutes = express.Router(),
+        bitacoragpsRoutes = express.Router(),
         userpostRoutes = express.Router(),
         nuevosalonRoutes = express.Router(),
         categoriaRoutes = express.Router(),
@@ -546,6 +548,15 @@ dtarifaRoutes.get('/:id/:id2/:id3/:id4',requireAuth,  dtarifaController.getdtari
 dtarifaRoutes.get('/:id',requireAuth,  dtarifaController.getdtarifa);
 dtarifaRoutes.post('/:recordID',requireAuth,  dtarifaController.creadtarifa2s);
 dtarifaRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  dtarifaController.deletedtarifa);
+
+
+apiRoutes.use('/bitacoragpss', bitacoragpsRoutes);
+bitacoragpsRoutes.get('/', requireAuth,bitacoragpsController.getbitacoragps);
+bitacoragpsRoutes.get('/:id/:id2/:id3',requireAuth,  bitacoragpsController.getbitacoragps);
+bitacoragpsRoutes.post('/:recordID',requireAuth,  bitacoragpsController.creabitacoragps2s);
+
+
+
 
   apiRoutes.use('/Imagessl2s', imagessl2Routes);
   imagessl2Routes.get('/:id',  Imagessl2Controller.getImagessl2s);
