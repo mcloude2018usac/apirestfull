@@ -551,7 +551,7 @@ dtarifaRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  d
 
 
 apiRoutes.use('/bitacoragpss', bitacoragpsRoutes);
-bitacoragpsRoutes.get('/', requireAuth,bitacoragpsController.getbitacoragps);
+bitacoragpsRoutes.get('/:id/:id2/:id3',bitacoragpsController.getbitacoragps);
 bitacoragpsRoutes.get('/:id/:id2/:id3',requireAuth,  bitacoragpsController.getbitacoragps);
 bitacoragpsRoutes.post('/:recordID',requireAuth,  bitacoragpsController.creabitacoragps2s);
 
