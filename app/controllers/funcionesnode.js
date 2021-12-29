@@ -18,7 +18,7 @@ const imageToBase64 = require('image-to-base64');
 var log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'a'});
 
 
-//const odbc = require('odbc');
+//onst odbc = require('odbc');
 
 const connectionConfig = {   connectionString: 'DSN=OTRO',    connectionTimeout: 10,    loginTimeout: 10,}
 
@@ -68,7 +68,7 @@ function  ejecutaaccess  (cad)
 {
 
     return new Promise(resolve => {
-        resolve({estado:'exito',datat:[]});
+        resolve({estado:'exito',datat:[]}); 
 });
 }
 
@@ -455,6 +455,25 @@ function datipo(value) {
               return re;
           }
 
+          const COLORS = [
+            '#4dc9f6',
+            '#f67019',
+            '#f53794',
+            '#537bc4',
+            '#acc236',
+            '#166a8f',
+            '#00a950',
+            '#58595b',
+            '#8549ba',
+            'red',
+          ];
+          
+          function color(index) {
+            return COLORS[index % COLORS.length];
+          }
+
+
+
           function GetSortOrder(prop,asc) {    
               if(asc===1)
               {  return function(a, b) {    
@@ -620,7 +639,7 @@ function datipo(value) {
              else{
     
             
-                     myData2.push({ label: grupo,   data: myData3,  fill: false,backgroundColor:arre[ncolor],  borderColor: arre2[ncolor], borderWidth: 1  });
+                     myData2.push({ label: grupo,   data: myData3  });
            
                  
     
@@ -713,14 +732,29 @@ function datipo(value) {
 
 
       for(var r2 = 0; r2 < myData3.length;r2++){
-          if(myData3[r2].item==='cantidadxx')
+          if(myData3.length===1)
           {
-            myData2.push({ label: myData3[r2].item,  data: myData3[r2].arr, fill: false, backgroundColor: colores,  borderColor: colores, borderWidth: 1  });
-            total=myData3[r2].total
+            if(myData3[r2].item==='cantidadxx')
+            {
+              myData2.push({ label: 'Cantidad',  data: myData3[r2].arr, fill: false, backgroundColor: colores,  borderColor: colores, borderWidth: 1  });
+              total=myData3[r2].total
+            }
+            else
+            {      myData2.push({ label: myData3[r2].item,  data: myData3[r2].arr, fill: false, backgroundColor: colores,  borderColor: colores, borderWidth: 1  });
+          }
           }
           else
-          {      myData2.push({ label: myData3[r2].item,  data: myData3[r2].arr, fill: false, backgroundColor: colores,  borderColor: colores, borderWidth: 1  });
-        }
+          {
+            if(myData3[r2].item==='cantidadxx')
+            {
+              myData2.push({  label: 'Cantidad',   data: myData3[r2].arr,  backgroundColor:color(r2) , datalabels: {clamp :true, align: 'left'}});
+              total=myData3[r2].total
+            }
+            else
+            {      myData2.push({ label: myData3[r2].item,  data: myData3[r2].arr,  backgroundColor: color(r2),datalabels: { clamp :true,align: 'start'}  });
+          }
+          }
+          
        
       
       }
@@ -841,7 +875,7 @@ function datipo(value) {
              else{
     
             
-                     myData2.push({ label: grupo,   data: myData3,  fill: false,backgroundColor:arre[ncolor],  borderColor: arre2[ncolor], borderWidth: 1  });
+                     myData2.push({ label: grupo,   data: myData3,  backgroundColor:color(ncolor) });
            
                  
     
@@ -887,8 +921,10 @@ function datipo(value) {
          }
     
     
+
+
     
-             myData2.push({ label: grupo,  data: myData3, fill: false, backgroundColor:arre[ncolor],  borderColor: arre2[ncolor], borderWidth: 1  });
+             myData2.push({ label: grupo,  data: myData3,  backgroundColor:color(9) });
     
          return {labels:myData,dataset:myData2,total:total,tabla:todos2};
         }
