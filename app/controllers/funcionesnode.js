@@ -18,7 +18,7 @@ const imageToBase64 = require('image-to-base64');
 var log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'a'});
 
 
-//onst odbc = require('odbc');
+//const odbc = require('odbc');
 
 const connectionConfig = {   connectionString: 'DSN=OTRO',    connectionTimeout: 10,    loginTimeout: 10,}
 

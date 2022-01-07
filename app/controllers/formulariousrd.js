@@ -119,7 +119,7 @@ if(req.params.recordID!=='crea')
  todo.comentariosorden	= req.body.comentariosorden	;   
  todo.documentosorden 	= req.body.documentosorden;   
  todo.tareasorden  	= req.body.tareasorden;   
-
+ todo.modopc  	= req.body.modopc;
  todo.activas  	= req.body.activas;
  todo.cerradas  	= req.body.cerradas;  
  todo.ejecutadas  	= req.body.ejecutadas;    
@@ -175,7 +175,7 @@ else{
 
   filtrocampo:req.body.filtrocampo	,
   dashboard:req.body.dashboard	,
-
+  modopc:req.body.modopc	,
    
 
   comandos     	: req.body.comandos    	,

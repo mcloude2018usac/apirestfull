@@ -24,6 +24,7 @@ var mongoose =require("mongoose");
         logo1	: { type : String },
         logo2	: { type : String },
         color1	: { type : String },
+        modopc	: { type : String },
         color2:	 { type : String },
         color3:	 { type : String },
         color4:	 { type : String },

@@ -126,6 +126,8 @@ if(req.params.recordID!=='crea')
              todo.tipofirma= req.body.tipofirma    	;
              todo.siperfil= req.body.siperfil	;
 
+             todo.modopc=''+ req.body.modopc	;
+
              todo.siimagenes= req.body.siimagenes	;
              todo.sicorrelativo= req.body.sicorrelativo	;
              todo.subtitulo= req.body.subtitulo	;
@@ -180,6 +182,7 @@ else{
          pagina0     	: req.body.pagina0 ,
          pagina10     	: req.body.pagina10 ,
          siregister: req.body.inicio ,
+         modopc: req.body.modopc,
          lenguaje: req.body.lenguaje,
          pinicio     	: req.body.pinicio   || 'app/billetera-list'  	,
          nit     	: req.body.nit    	,
