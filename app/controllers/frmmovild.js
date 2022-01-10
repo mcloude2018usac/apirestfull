@@ -360,6 +360,7 @@ if(req.params.id!=='crea')
 
             todo.usarunaves   			=	req.body.usarunaves             	;
             todo.usarunaves2   			=	req.body.usarunaves2             	;
+            todo.filtrocampo2   			=	req.body.filtrocampo2             	;
             
             todo.verregistros   			=	req.body.verregistros      	||	todo.verregistros       	;
             todo.copiarencampo=req.body.copiarencampo        	||	todo.copiarencampo        	;
@@ -456,6 +457,7 @@ else{
                         blike:  'false',
                         usarunaves:  'false',
                         usarunaves2:  'false',
+                        filtrocampo2:  'false',
                         fondoetiqueta: 'cbg117',
                         coloretiqueta:  'cco104',
                         idformdetalle:'',

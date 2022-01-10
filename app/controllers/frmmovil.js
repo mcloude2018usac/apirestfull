@@ -312,6 +312,106 @@ exports.getFrmmovil = async function(req, res, next){
     {    
     if(req.params.id4)
     {
+        if(req.params.id4=='buscafrmcampo')
+        {
+
+     
+            var namess=req.params.id2
+            var campost=req.params.id
+            var idempresa=req.params.id3
+          
+         
+//,_id:{$in: myData}
+
+            Frmmovild.find({idmovil:namess, display : "true",idempresa:idempresa}).sort([['order', 1]]).exec(function(err, todos) {
+                if (err){ res.send(err); }
+              
+              
+         
+             
+                
+                                    if(todos.length>0)   {  
+                                   
+                                        var cad=''
+                                        var cadxx=''
+                                        var cad3=(functool.dafiltrocad(todos,'','','')).split('°')
+                                        var filtro=''
+                                        filtro='{' + '}'
+                                  
+                                        
+                                        cad=cad3[0]
+                                        cadxx='{'+ cad3[1] + '}'
+                                        cad=cad + ' "usuarionew2"	: { "type" : "String" },      "usuarioup2"	: { "type" : "String" }, "usuarionew"	: { "type" : "String" },      "usuarioup"	: { "type" : "String" },      "idempresa"	: { "type" : "String" }'
+                                        cad='{' + cad + '}'
+                                        cadxx='{' + cadxx + '}'
+
+
+                                        var jsonObject = functool.stringToObject(cad);
+                                      
+                                        var mongoose = require("mongoose");
+                                        delete mongoose.connection.models[namess];
+                                        var tt=  new mongoose.Schema(jsonObject, {timestamps:true });
+                                    
+                                     
+                                        try {
+                                            var  frmtt= mongoose.model(namess,tt);
+                                            frmtt.find(JSON.parse(filtro) ,function(err, todos2) {
+                                                if (err){  res.send(err); }
+                                            
+
+                                              var myData = [];
+                                              for(var i = 0; i < todos2.length;i++){
+                                                myData.push({_id:todos2[i][campost]  , nombre: todos2[i][campost]  })
+
+                                                 
+                                              }
+                                              
+                                               res.json(myData);
+
+                                                
+                                        //        var datafinal = functool.procesahtmlrecord(objetox,todos2,'si')
+                                                  
+                                          //      res.json(datafinal);
+                                             
+                                              
+                                            });
+                                          } catch(e) {
+                                            
+                                            var  frmtt= mongoose.model(namess);
+                                  
+                                            frmtt.find( JSON.parse(filtro) ,function(err, todos2) {
+                                                 if (err){  res.send(err);
+                                                }
+                                           
+                                              
+                                               var myData = [];
+                                               for(var i = 0; i < todos2.length;i++){
+                                                 var nombret ='';
+                                                 for(var j = 0; j < myDatavector.length;j++){
+                                                    nombret = nombret + myDatavector[j].split('°')[1] + ': ' +  todos2[i][myDatavector[j].split('°')[0]]  + '°'
+                                                 }
+                                                 myData.push({_id:todos2[i]._id , nombre: nombret })
+ 
+                                                  
+                                               }
+                                                 res.json(myData);
+                                             
+                                             });
+                                          }
+    
+    
+                                     
+                        
+                }
+            });
+    
+            
+
+
+
+        }
+        else
+        {
         if(req.params.id4=='formulariosolopapafiltro')
         {
 
@@ -1829,7 +1929,7 @@ exports.getFrmmovil = async function(req, res, next){
                     }
                 });
             });
-    }}}}}}}}}}}}}}}}
+    }}}}}}}}}}}}}}}}}
 
     }
     else{
@@ -4623,6 +4723,7 @@ console.log(filtro)
 
                                                                 usarunaves: todos[i].usarunaves,
                                                                 usarunaves2: todos[i].usarunaves2,
+                                                                filtrocampo2: todos[i].filtrocampo2,
                                                                 idfrmconsultaorigen: todos[i].idfrmconsultaorigen,
                                                                 idfrmconsulta2origen: todos[i].idfrmconsulta2origen,
                                                                 nombreconsulta2origen		: todos[i].nombreconsulta2origen,
@@ -4706,6 +4807,7 @@ console.log(filtro)
             
                                                                     usarunaves: todos[i].usarunaves,
                                                                     usarunaves2: todos[i].usarunaves2,
+                                                                    filtrocampo2: todos[i].filtrocampo2,
                                                                     idfrmconsultaorigen: todos[i].idfrmconsultaorigen,
                                                                     idfrmconsulta2origen: todos[i].idfrmconsulta2origen,
                                                                     nombreconsulta2origen		: todos[i].nombreconsulta2origen,

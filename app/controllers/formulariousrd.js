@@ -103,7 +103,8 @@ if(req.params.recordID!=='crea')
  todo.bitacoraorden	= req.body.bitacoraorden	;   
  todo.papaorden	= req.body.papaorden	;   
 
- todo.filtrocampo	= req.body.filtrocampo	;   
+  
+ todo.filtrocampo2	= req.body.filtrocampo2	;   
  todo.dashboard	= req.body.dashboard	;   
 
  todo.generareporte		= req.body.generareporte	;   
@@ -120,6 +121,7 @@ if(req.params.recordID!=='crea')
  todo.documentosorden 	= req.body.documentosorden;   
  todo.tareasorden  	= req.body.tareasorden;   
  todo.modopc  	= req.body.modopc;
+ todo.filtrocampo  	= req.body.filtrocampo;
  todo.activas  	= req.body.activas;
  todo.cerradas  	= req.body.cerradas;  
  todo.ejecutadas  	= req.body.ejecutadas;    
@@ -176,7 +178,7 @@ else{
   filtrocampo:req.body.filtrocampo	,
   dashboard:req.body.dashboard	,
   modopc:req.body.modopc	,
-   
+  filtrocampo2:req.body.filtrocampo2	,
 
   comandos     	: req.body.comandos    	,
   nombrecomandos	: req.body.nombrecomandos	,
