@@ -1,0 +1,95 @@
+[
+    {
+    "order":2,
+    "name": "position",
+    "type": "select",
+    "required": false,
+    "display": "selected",
+    "selected": true,
+    "disabled": "false",
+    "hidden": "false",
+    "position":"fixed",
+    "labelsizefondt":"18",
+    "title": "select",
+        "options": [
+            {"key": "gk",  "label": "GK"},
+            {"key": "defender",  "label": "Defender"},
+            {"key": "midfielder",  "label": "Midfielder"},
+            {"key": "winger",  "label": "Winger"},
+            {"key": "striker",  "label": "Striker"}
+        ]
+  },
+    {
+"order":1,
+"name": "first_name",
+"type": "text",
+"required": false,
+"placeholder":"Ingrese un text",
+"display": "selected",
+"selected": true,
+"disabled": "true",
+"hidden": "false",
+"title": "text",
+"position":"fixed",
+"labelsizefondt":"16"
+},
+{
+    "order":4,
+    "name": "bio",
+    "type": "textarea",
+    "required": false,
+    "display": "selected",
+    "selected": true,
+    "disabled": "false",
+    "hidden": "false",
+    "title": "textarea",
+    "placeholder":"Ingrese un texarea",
+    "position":"fixed",
+    "labelsizefondt":"14"
+},
+
+{
+    "order":3,
+    "name": "year",
+    "type": "number",
+    "required": false,
+    "placeholder":"Ingrese un numero",
+    "display": "selected",
+    "selected": true,
+    "disabled": "false",
+    "hidden": "false",
+    "title": "number",
+    "position":"fixed",
+    "labelsizefondt":"12"
+}
+,
+{
+    "order":5,
+    "name": "label",
+    "type": "label",
+    "required": false,
+    "placeholder":"Ingrese una etiqueta",
+    "display": "selected",
+    "selected": true,
+    "disabled": "false",
+    "hidden": "false",
+    "title": "ingrese una etiqueta",
+    "position":"fixed",
+    "labelsizefondt":"12"
+}
+,
+{
+    "order":6,
+    "name": "label",
+    "type": "note",
+    "required": false,
+    "placeholder":"Ingrese una etiqueta",
+    "display": "selected",
+    "selected": true,
+    "disabled": "false",
+    "hidden": "false",
+    "title": "ingrese una etiqueta",
+    "position":"fixed",
+    "labelsizefondt":"12"
+}
+]
