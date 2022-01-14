@@ -6,23 +6,23 @@
   </script>
   <meta charset="UTF-8">
   <title>WebApp</title>
-  
- 
+
+
   <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-  
+
   <meta name="format-detection" content="telephone=no">
   <meta name="msapplication-tap-highlight" content="no">
 
   <link rel="icon" type="image/x-icon" href="assets/icon/favicon.ico">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#4e8ef7"  >
-  <meta name="robots" content="follow, index" /> 
+  <meta name="robots" content="follow, index" />
 
     <!--
-  <meta name="description" content="Legalis Guatemala busca tus leyes en Guatemala."/> 
-  <meta name="keywords" content="Legalis Guatemala busca tus leyes en Guatemala." /> 
-  
+  <meta name="description" content="Legalis Guatemala busca tus leyes en Guatemala."/>
+  <meta name="keywords" content="Legalis Guatemala busca tus leyes en Guatemala." />
+
     <meta property="og:title" content="Legalis Guatemala busca tus leyes en Guatemala.">
 <meta property="og:description" content="LEGALIS en Línea es la WEBAPP PWA oficial para buscar leyes y articulos en Guatemala.">
 
@@ -33,20 +33,11 @@
 
 -->
 
-  <meta name="description" content="USAC en Línea es la WEBAPP oficial de la Universidad de San Carlos de Guatemala,esta diseñada para estudiantes de la Universidad de San Carlos, aspirantes y pueblo de Guatemala."/> 
-  <meta name="keywords" content="usacenlinea,usac en linea,USACENLINEA,USAC EN LINEA,aspirantes usac,ASPIRANTES USAC,USAC,usac,PCB,pcb,calusac,CALUSAC,PCB,USAC,PRUEBAS CONOCIMIENTOS BASICOS,AISGNACION, USACENLINEA, USAC, WEBAPP, enlinea, usac, usac.net, enlinea, USACENLINEA" /> 
-  
-    <meta property="og:title" content="USAC en Línea es la WEBAPP PWA oficial de la Universidad de San Carlos de Guatemala.">
-<meta property="og:description" content="USAC en Línea es la WEBAPP PWA oficial de la Universidad de San Carlos de Guatemala,esta diseñada para estudiantes de la Universidad de San Carlos, aspirantes y pueblo de Guatemala.">
-
-<meta property="og:url" content="https://usac-enlinea.web.app/#/welcome">
-
-<link rel="apple-touch-icon" href="assets/img/logousac1.png">
 
 
 
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin="" />
- 
+
   <link rel="stylesheet" href="assets/css/leaflet-routing-machine.css">
 
 
@@ -56,11 +47,11 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
   <!-- cordova.js required for cordova apps (remove if not needed) -->
-    
 
 
-       
- 
+
+
+
   <script>
 
 window.isUpdateAvailable = new Promise(function(resolve, reject) {
@@ -69,7 +60,7 @@ window.isUpdateAvailable = new Promise(function(resolve, reject) {
         // register service worker file
         navigator.serviceWorker.register('service-worker.js')
           .then(reg => {
-            console.log('Check New Update');   
+            console.log('Check New Update');
             reg.onupdatefound = () => {
               console.log('New Update Available');
               const installingWorker = reg.installing;

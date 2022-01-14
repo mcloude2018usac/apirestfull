@@ -1,7 +1,7 @@
 {
-  "name": "Usacenlinea",
-  "short_name": "Usacenlinea",
-  "description": "USAC en Línea es la WEBAPP oficial de la Universidad de San Carlos de Guatemala,esta diseñada para estudiantes de la Universidad de San Carlos, aspirantes y pueblo de Guatemala.",
+  "name": "mariapaz",
+  "short_name": "mariapaz",
+  "description": "Maria de paz rectora",
   "start_url": "index.html",
   "display": "standalone",
   "icons": [{
