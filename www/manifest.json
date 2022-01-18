@@ -1,0 +1,15 @@
+{
+  "name": "mariapaz",
+  "short_name": "mariapaz",
+  "description": "Maria de paz rectora",
+  "start_url": "index.html",
+  "display": "standalone",
+  "icons": [{
+    "src": "assets/img/logousac1.png",
+    "sizes": "144x144",
+    "type": "image/png"
+  }],
+  "background_color": "#f3f6fc",
+  "theme_color": "#f3f6fc",
+  "gcm_sender_id": "103953800507"
+}

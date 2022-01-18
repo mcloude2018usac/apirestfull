@@ -1,0 +1,269 @@
+[
+    {
+        "name": "title",
+        "type": "text",
+        "required": false,
+        "display": "selected",
+        "selected": true,
+        "title": "Title"
+    },
+    {
+        "name": "year",
+        "type": "text",
+        "required": false,
+        "display": "selected",
+        "selected": true,
+        "title": "Year Released"
+    },
+    {
+        "name": "genre",
+        "type": "select",
+        "required": false,
+        "display": "selected",
+        "selected": true,
+        "title": "Genre",
+        "options": [
+            {"key": "action",  "label": "Action"},
+            {"key": "drama",  "label": "Drama"},
+            {"key": "musical",  "label": "Musical"},
+            {"key": "horror",  "label": "Horror"},
+            {"key": "comedy",  "label": "Comedy"},
+            {"key": "doc",  "label": "Documentary"},
+            {"key": "scifi",  "label": "SciFi"},
+            {"key": "western",  "label": "Western"}
+        ]
+    },
+    {
+        "name": "time",
+        "type": "text",
+        "required": false,
+        "display": "selected",
+        "selected": true,
+        "title": "Running Time"
+    },
+    {
+        "name": "language",
+        "type": "text",
+        "required": false,
+        "display": "selected",
+        "selected": true,
+        "title": "Spoken Language"
+    },
+    {
+        "name": "plot",
+        "type": "textarea",
+        "required": false,
+        "display": "selected",
+        "selected": true,
+        "title": "Storyline"
+    },
+    {
+        "name": "director",
+        "type": "text",
+        "required": false,
+        "display": "selected",
+        "selected": true,
+        "title": "Director"
+    },
+    {
+        "name": "writer",
+        "type": "text",
+        "required": false,
+        "display": "selected",
+        "selected": true,
+        "title": "Writer"
+    },
+    {
+        "name": "music",
+        "type": "text",
+        "required": false,
+        "display": "selected",
+        "selected": true,
+        "title": "Music Composer"
+    },
+    {
+        "name": "producer",
+        "type": "text",
+        "required": false,
+        "display": "selected",
+        "selected": true,
+        "title": "Producer"
+    },
+    {
+        "name": "cast",
+        "type": "textarea",
+        "required": false,
+        "display": "selected",
+        "selected": true,
+        "title": "Cast"
+    },
+    [
+        {
+        "name": "position",
+        "type": "select",
+        "required": false,
+        "display": "selected",
+        "selected": true,
+        "title": "Position",
+            "options": [
+                {"key": "gk",  "label": "GK"},
+                {"key": "defender",  "label": "Defender"},
+                {"key": "midfielder",  "label": "Midfielder"},
+                {"key": "winger",  "label": "Winger"},
+                {"key": "striker",  "label": "Striker"}
+            ]
+      },
+        {
+    "name": "first_name",
+    "type": "text",
+    "required": false,
+    "display": "selected",
+    "selected": true,
+    "title": "First Name"
+    },
+    {
+    "name": "last_name",
+    "type": "text",
+    "required": false,
+    "display": "selected",
+    "selected": true,
+    "title": "Last Name"
+    },
+    {
+    "name": "nationality",
+    "type": "text",
+    "required": false,
+    "display": "selected",
+    "selected": true,
+    "title": "Nationality"
+    },
+    {
+    "name": "team",
+    "type": "text",
+    "required": false,
+    "display": "selected",
+    "selected": true,
+    "title": "Team"
+    },
+    {
+        "name": "preferred_foot",
+        "type": "select",
+        "required": false,
+        "display": "selected",
+        "selected": true,
+        "title": "Preferred foot",
+        "options": [
+            {"key": "left",  "label": "Left"},
+            {"key": "right",  "label": "Right"}
+        ]
+    },
+    {
+        "name": "bio",
+        "type": "textarea",
+        "required": false,
+        "display": "selected",
+        "selected": true,
+        "title": "Career Achievements"
+    },
+    
+    {
+        "name": "title",
+        "type": "text",
+        "required": false,
+        "display": "selected",
+        "selected": true,
+        "title": "Title"
+    },
+    {
+        "name": "year",
+        "type": "number",
+        "required": false,
+        "display": "selected",
+        "selected": true,
+        "title": "number"
+    },
+    {
+        "name": "genre",
+        "type": "select",
+        "required": false,
+        "display": "selected",
+        "selected": true,
+        "title": "Genre",
+        "options": [
+            {"key": "action",  "label": "Action"},
+            {"key": "drama",  "label": "Drama"},
+            {"key": "musical",  "label": "Musical"},
+            {"key": "horror",  "label": "Horror"},
+            {"key": "comedy",  "label": "Comedy"},
+            {"key": "doc",  "label": "Documentary"},
+            {"key": "scifi",  "label": "SciFi"},
+            {"key": "western",  "label": "Western"}
+        ]
+    },
+    {
+        "name": "time",
+        "type": "text",
+        "required": false,
+        "display": "selected",
+        "selected": true,
+        "title": "Running Time"
+    },
+    {
+        "name": "language",
+        "type": "text",
+        "required": false,
+        "display": "selected",
+        "selected": true,
+        "title": "Spoken Language"
+    },
+    {
+        "name": "plot",
+        "type": "textarea",
+        "required": false,
+        "display": "selected",
+        "selected": true,
+        "title": "Storyline"
+    },
+    {
+        "name": "director",
+        "type": "text",
+        "required": false,
+        "display": "selected",
+        "selected": true,
+        "title": "Director"
+    },
+    {
+        "name": "writer",
+        "type": "text",
+        "required": false,
+        "display": "selected",
+        "selected": true,
+        "title": "Writer"
+    },
+    {
+        "name": "music",
+        "type": "text",
+        "required": false,
+        "display": "selected",
+        "selected": true,
+        "title": "Music Composer"
+    },
+    {
+        "name": "producer",
+        "type": "text",
+        "required": false,
+        "display": "selected",
+        "selected": true,
+        "title": "Producer"
+    },
+    {
+        "name": "cast",
+        "type": "textarea",
+        "required": false,
+        "display": "selected",
+        "selected": true,
+        "title": "Cast"
+    }
+    ]
+
+]
