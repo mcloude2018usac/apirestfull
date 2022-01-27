@@ -18,7 +18,7 @@ const imageToBase64 = require('image-to-base64');
 var log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'a'});
 
 
-//const odbc = require('odbc');
+const odbc = require('odbc');
 
 const connectionConfig = {   connectionString: 'DSN=OTRO',    connectionTimeout: 10,    loginTimeout: 10,}
 
@@ -68,7 +68,24 @@ function  ejecutaaccess  (cad)
 {
 
     return new Promise(resolve => {
- resolve({estado:'exito',datat:[]}); 
+const connection = odbc.connect(connectionConfig, (error, connection) => {
+  connection.query(cad, (error, result) => {
+      if (error) {  
+        log_file.write(util.format(cad) + '\r\n');  
+        resolve({estado:'exito',datat:[]}); 
+     
+    }
+      else
+      { resolve({estado:'exito',datat:result}); 
+
+      }
+
+      
+       
+
+
+  });
+});
 });
 }
 
@@ -2071,8 +2088,13 @@ var getImagesruta= function(op){
 
 var dahorautf= function(data) {
     let re = '';
-    var fecha= new Date(data)
+
+    if(data!=='')
+    {
+            var fecha= new Date(data)
 var datatt= fecha.toUTCString().split(' ');
+
+
 var data2=datatt[4].split(':')
 if(Number(data2[0]>12))
 {
@@ -2083,6 +2105,9 @@ else
     re=data2[0] + ':' + data2[1] + ' AM'
 }
 
+    }
+    
+
 
  
   // DD/MM/YYYY hh:mm A
@@ -2092,17 +2117,38 @@ else
 
 var dahora= function(data) {
     let re = '';
-    const aa = data.split('T');
+
+    if(data.split('T')>0)
+    {
+
+        const aa = data.split('T');
     if (aa[0]) {
     const bb = (aa[1]).split(':');
     if (bb[0]) {
     re = bb[0] + ':' + bb[1];
-   
-
-      }
-
+    }}
 
     }
+    else
+    {
+        const bb = data.split(':');
+        if (bb[0]) {
+       
+
+        if(Number(bb[0]>12))
+        {
+            re = bb[0] + ':' + bb[1] + ' PM';
+        }
+        else
+        {
+            re = bb[0] + ':' + bb[1] + ' PM';
+        }
+
+
+
+        }
+   }
+     
   // DD/MM/YYYY hh:mm A
   return re;
 
@@ -2130,11 +2176,32 @@ var dahora= function(data) {
 
  var  dafechacompleta= function(data) {
     let  re = '';
+     if(String(data).indexOf('GMT')>0)
+     {
+        var fecha= new Date(data)
+        var aa = fecha.toISOString()
+        var bb = aa.split('T');
+        if (bb[0]) {
+        re = dafecha(bb[0]) + ' ' +dahora(bb[1]);
+        }
 
-      const aa = data.split('T');
-      if (aa[0]) {
-      re = this.dafecha(aa[0]) + ' ' + this.dahora(data);
-      }
+       
+     }
+     else
+     {
+        const aa = data.split('T');
+        if (aa[0]) {
+        re = dafecha(aa[0]) + ' ' + dahora(data);
+        }
+        
+     }
+     
+
+
+    
+  
+
+
      return re;
     }
 

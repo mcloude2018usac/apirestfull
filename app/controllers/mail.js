@@ -119,6 +119,34 @@ exports.getMailgoogle = function(req, res, next){
   });
   }
 
+  if(req.params.id3==='USAC')
+  {
+    let transporter = nodemailer.createTransport(smtpTransport({
+      service: 'mail',
+      host: 'mail.usac.edu.gt',
+      port:  587,
+      auth: {
+          user: req.body.origencorreo,
+          pass:' req.body.clavecorreo'
+      }
+    }));
+    
+    const mailOptions = {
+      from: req.body.origencorreo,
+      to: req.body.destino,
+      subject: req.body.subjet,
+      html:  req.body.html
+  };
+  
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+        console.log(error);
+        res.status(500).send('error al enviar correo');
+    } else {
+      res.json(info);
+    }
+  });
+  }
 
   if(req.params.id3==='OFFICE365')
   {
@@ -158,7 +186,40 @@ exports.getMailgoogle = function(req, res, next){
 //user: 'usacenlinea1.0@usacenlinea.net',
 exports.getMail = function(req, res, next){
 
-  let params = {
+  let transporter = nodemailer.createTransport(smtpTransport({
+   
+    host: 'mail.usac.edu.gt',
+    port:587,
+  //  requireTLS :true,
+  secureConnection: false,
+      tls: { ciphers: 'SSLv3' },
+    auth: {
+   //   type: 'OAuth2',
+        user: 'notificacion-webapp@usac.edu.gt',
+        pass: 'Calari90!'
+    }
+  }));
+
+  
+  const mailOptions = {
+    from: 'notificacion-webapp@usac.edu.gt',
+    to: req.body.destino,
+    subject: req.body.subjet,
+    html:  req.body.html
+};
+
+transporter.sendMail(mailOptions, function(error, info){
+  if (error) {
+      console.log(error);
+      res.status(500).send('error al enviar correo');
+  } else {
+    res.json(info);
+  }
+});
+
+
+
+/*  let params = {
     Destination: {
       BccAddresses:[req.body.destino]
     },
@@ -189,7 +250,7 @@ exports.getMail = function(req, res, next){
     res.json(data);
   })
 
-
+*/
   
 
 

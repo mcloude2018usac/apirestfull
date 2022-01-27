@@ -718,7 +718,8 @@ break;
                         { $and : [ { identificador : req.params.id2 }] },
                         { $and : [ { carnecalusac : req.params.id2 }] },
                         { $and : [ {carneusac : req.params.id2 } ] }]
-                    }).populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia').populate('ididioma').populate('profesor').exec(function(err, todos) {
+                    }).populate('tipopago').populate('jornada').populate('nivel').populate('horario')
+                    .populate('dia').populate('ididioma').populate('profesor').exec(function(err, todos) {
                         if (err){ res.send(err); console.log(err) }
                  
                     res.json(todos);   

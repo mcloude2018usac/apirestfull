@@ -957,6 +957,29 @@ res.send({cadena:'Orden pago ya ha sido utilizada en el sistema.'});
 
 
             }
+
+            else
+            {
+              if(req.params.id2=='ovusac')
+              {
+                var options = {
+                  'method': 'POST',
+                  'url': 'https://vapi.usac.edu.gt/public/v1/users/search',
+                  'headers': {
+                    'authorization': 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2FjLWVubGluZWEud2ViLmFwcCIsImlzcyI6Im92IiwiYXVkIjoidmFwaS51c2FjLmVkdS5ndCIsImlhdCI6MTYyMTg5OTA4Mn0.25t_5-G7N3wqTcLAwrJh4l-xHLL_irfDDUcNZZD2CDk',
+                    'content-type': 'application/json'
+                  },
+                  formData: {
+                    'nov': req.params.id
+                  }
+                };
+                request(options, function (error, response) {
+                  if (error) throw new Error(error);
+                  res.send(response.body);
+                });
+                
+                  }
+            }
           
 
 

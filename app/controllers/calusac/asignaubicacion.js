@@ -686,7 +686,12 @@ console.log({
         break;
         case 'horarioprofe2a':
             
+      console.log({
+                     
+        "estadopago" : "Asignación exitosa",
+        "estadoacta":req.params.id2
       
+    })
 
             Asignacalusac.aggregate(   [
                 { 
@@ -717,6 +722,7 @@ console.log({
             ]).exec(function(err, todos10a) {
                 if (err){ res.send(err); }
 
+                console.log(todos10a)
                 var duplicates = [];
                 var duplicates2 = [];
 
@@ -726,6 +732,8 @@ console.log({
                  
                 
                 }
+
+                console.log(duplicates)
 
                 Facplan3.find({ _id:duplicates}).populate('idnivel').populate('idjornada').populate('idhorario').populate('ididioma').
                 populate('idprofesor').exec(function(err, todos10) {

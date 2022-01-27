@@ -2009,7 +2009,7 @@ break;
                     }
             ]).exec(function(err, todos) {
 
-                let stream = compressor.compressJson(todos);
+              //  let stream = compressor.compressJson(todos);
                 res.json(todos);   
 
             });
@@ -3176,6 +3176,55 @@ fecha:todos2[i].fecha.substr(0,10),ingresos:cleanName(todos2[i].cuenta),correo:t
 
     
         break;
+        case 'excel-asigna2':
+
+        var filename   = "asignacionesPAP.csv";
+        
+        Facplan2.find({'idperiodo.nombre':'2023-01'}).sort({'idunidadacademica.codigo':1}).exec(function(err, todos2) {
+                if (err){ res.send(err); }
+                
+
+                if(todos2.length>0)   {  
+
+                        var myData = [];
+                        for(var i = 0; i < todos2.length;i++){
+
+                                var ll=''
+                                if(todos2[i].idmateria=='Lenguaje'){ll='3'}
+                                if(todos2[i].idmateria=='Matematica'){ll='4'}
+                                if(todos2[i].idmateria=='Fisica'){ll='2'}
+                                if(todos2[i].idmateria=='Quimica'){ll='5'}
+                                if(todos2[i].idmateria=='Biologia'){ll='1'}
+
+                                
+                        myData.push({periodo:cleanName(todos2[i].idperiodo.nombre),codigounidad:todos2[i].idunidadacademica.codigo,unidadacademica:todos2[i].idunidadacademica.nombre,edificio:cleanName(todos2[i].idedificio.nombre),salon:cleanName(todos2[i].idsalon.nombre)
+                                ,codigomateria:ll,materia:cleanName(todos2[i].idmateria),horario:cleanName(todos2[i].idhorario)
+                                ,capacidad:todos2[i].capacidad ,asignados:todos2[i].asignados
+                                 ,jornada:todos2[i].idjornada
+                         });
+                        }
+                        
+                        res.statusCode = 200;
+                        res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+                        res.setHeader("Content-Disposition", 'attachment; filename='+filename);
+                        res.csv(myData, true);
+                
+                        
+                }
+                else
+                { var myData = [];
+                        res.statusCode = 200;
+                        res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+                        res.setHeader("Content-Disposition", 'attachment; filename='+filename);
+                        res.csv(myData, true);
+                }
+        
+        });
+
+break;
+
+
+
         case 'excel-asigna':
 
                                 var filename   = "asignaciones.csv";
