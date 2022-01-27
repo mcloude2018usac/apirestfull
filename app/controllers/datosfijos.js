@@ -35,7 +35,7 @@ var Catalogo = require('../models/catalogo');
 var Asignacalusac = require('../models/calusac/asignacalusac');
 var mailt = require('../controllers/mailprueba');
 var tipounidadx = require('../models/tipounidad');
-//const compressor = require('flexmonster-compressor');
+const compressor = require('flexmonster-compressor');
 var Image=require('../models/image');
 
 var Asignaestudiante = require('../models/asignaestudiante');
@@ -2009,7 +2009,7 @@ break;
                     }
             ]).exec(function(err, todos) {
 
-              //  let stream = compressor.compressJson(todos);
+                let stream = compressor.compressJson(todos);
                 res.json(todos);   
 
             });
