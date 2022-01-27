@@ -18,7 +18,7 @@ const imageToBase64 = require('image-to-base64');
 var log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'a'});
 
 
-const odbc = require('odbc');
+//const odbc = require('odbc');
 
 const connectionConfig = {   connectionString: 'DSN=OTRO',    connectionTimeout: 10,    loginTimeout: 10,}
 
@@ -68,24 +68,7 @@ function  ejecutaaccess  (cad)
 {
 
     return new Promise(resolve => {
-const connection = odbc.connect(connectionConfig, (error, connection) => {
-  connection.query(cad, (error, result) => {
-      if (error) {  
-        log_file.write(util.format(cad) + '\r\n');  
         resolve({estado:'exito',datat:[]}); 
-     
-    }
-      else
-      { resolve({estado:'exito',datat:result}); 
-
-      }
-
-      
-       
-
-
-  });
-});
 });
 }
 
