@@ -921,7 +921,7 @@ break;
 
 case 'tipoidioma':
             
-      
+    var tiposss=req.params.id2.split('°')
     Unidadperiodo4.find({estado :'Activo'},function(err, todosaaa) {
         if (err){  res.send(err);  }
         
@@ -940,7 +940,7 @@ case 'tipoidioma':
                 ididioma:1,
                idtipounidad:1,
                idperiodo:1,
-               
+               idtipo:1,
            //list all fields needed here
           
                 filterThisDoc : {
@@ -958,7 +958,7 @@ case 'tipoidioma':
         var match = {
             $match : {
                 filterThisDoc : 1,
-              
+              "idtipo":tiposss[1],
                 "idtipounidad.id" :req.params.id,
                 "idperiodo.id": {$in: duplicates2}   
                    
@@ -982,7 +982,7 @@ case 'tipoidioma':
         
         }
        
-        Unidadidioma3.find({ _id:duplicates,idtipounidad :req.params.id,idunidadacademica:req.params.id2}).sort({nombre:-1}).exec(function(err, todos) {
+        Unidadidioma3.find({ _id:duplicates,idtipounidad :req.params.id,idunidadacademica:tiposss[0]}).sort({nombre:-1}).exec(function(err, todos) {
                if (err){  res.send(err);  }
 
                if(todos.length>0)   {    res.json(todos);   }
@@ -1013,7 +1013,8 @@ break;
             var  aa=(req.params.id2).split('°')
 
            
-
+            Facplan3.find({ idprofesor:req.params.id}).exec(function(err, todos20) {
+                   if (err){  res.send(err);  }
             Asignacalusac.aggregate(   [
                 { 
                     "$match" : {
@@ -1051,8 +1052,9 @@ break;
                     duplicates.push(todos10a[i].idplanifica);
                  
                 
-                }
+                } 
     
+                //for(var i = 0; i < todos20.length;i++){  duplicates.push(todos20[i]._id);             }
                 //cuidado si son examennes de ubicacion deberia de ser facplan4
                 Facplan3.find({ _id:duplicates}).populate('idnivel').populate('idjornada').populate('idhorario').
                 populate('idprofesor').exec(function(err, todos10) {
@@ -1108,13 +1110,27 @@ break;
                     
             });
          
-
+        });
            
                  
          
     break;
         case 'idiomasprofe2':
+            Facplan3.find({ idprofesor:req.params.id}).populate('idnivel').populate('idjornada')
+            .populate('idhorario').populate('ididioma').
+            populate('idprofesor').exec(function(err, todos10) {
+                   if (err){  res.send(err);  }
 
+                   var duplicates2 = [];
+                   for(var i = 0; i < todos10.length;i++){
+                    duplicates2.push(todos10[i].idunidadacademica.id);
+            
+                
+                }
+
+                   Uniaca3.find({ _id: {$in: duplicates2} }).exec(function(err, todos20) {
+                    if (err){ res.send(err); }
+        
             Asignacalusac.aggregate( [
                 { 
                     "$match" : { 
@@ -1142,25 +1158,43 @@ break;
                 }
             ]).exec(function(err, todos) {
                 var duplicates = [];
+                var duplicates3 = [];
+                
               
                 for(var i = 0; i < todos.length;i++){
                     duplicates.push(todos[i].ididioma);
             
                 
                 }
+                for(var i = 0; i < todos20.length;i++){
+                    duplicates.push(todos20[i].ididioma);
+            
+                
+                }
+      
+           
+               
+                    unidadidioma3.find({ _id: {$in: duplicates}}).populate('idtipounidad')
+                    .exec(function(err, todos10) {
+                        if (err){ res.send(err); console.log(err) }
+                        var result = [];
+                      
+                        for(var i = 0; i < todos10.length;i++){
+                            result.push({codigo:todos10[i]._id,nombre:todos10[i].nombre,tipounidad:todos10[i].idtipounidad.nombre});
+                        }
+                    res.json(result);   
+    
+                    });
 
-                unidadidioma3.find({ _id: {$in: duplicates}}).populate('idtipounidad').exec(function(err, todos10) {
-                    if (err){ res.send(err); console.log(err) }
-                    var result = [];
-                  
-                    for(var i = 0; i < todos10.length;i++){
-                        result.push({codigo:todos10[i]._id,nombre:todos10[i].nombre,tipounidad:todos10[i].idtipounidad.nombre});
-                    }
-                res.json(result);   
+            
 
-                });
 
-            });
+       
+
+            }); });
+
+        });
+
                   
        /*     Asignacalusac.find({'profesor' :req.params.id}).populate('ididioma').exec(function(err, todos10) {
                 if (err){ res.send(err); }

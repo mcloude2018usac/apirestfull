@@ -1742,6 +1742,7 @@ console.log('TERMINA')
 
         break;        
         case 'sungeneralaspirante':
+                    var filename   = "sungeneralaspirante.csv";
                 Asignapcb.aggregate( [
                       
                         {    
@@ -1770,11 +1771,24 @@ console.log('TERMINA')
                     ]).exec(function(err, todos2) {
                         if (err){  res.send(err);  }
                                        
-                                                res.json(todos2);   
+                        var  myData=[]
+                        for(var i = 0; i < todos2.length;i++){
+                                                
+                              
+
+                        myData.push({tipounidad:todos2[i].tipounidad,unidad:todos2[i].unidad,cantidad:todos2[i].cantidad});
+                        
+                        }
+                        
+                        res.statusCode = 200;
+                        res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+                        res.setHeader("Content-Disposition", 'attachment; filename='+filename);
+                        res.csv(myData, true);
                            
                     });
                 break;
                 case 'papgeneralaspirante':
+                        var filename   = "papgeneralaspirante.csv";
                 asignapap.aggregate( [
                       
                         {    
@@ -1801,11 +1815,25 @@ console.log('TERMINA')
                     ]).exec(function(err, todos2) {
                         if (err){  res.send(err);  }
                                        
-                                                res.json(todos2);   
+                        var  myData=[]
+                        for(var i = 0; i < todos2.length;i++){
+                                                
+                              
+
+                        myData.push({estado:todos2[i].estado,cantidad:todos2[i].cantidad});
+                        
+                        }
+                        
+                        res.statusCode = 200;
+                        res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+                        res.setHeader("Content-Disposition", 'attachment; filename='+filename);
+                        res.csv(myData, true);
+
                            
                     });
                 break;
                 case 'sungeneralmateria':
+                        var filename   = "sungeneralmateria.csv";
                         Asignaestudiante.aggregate( [
                       
                                 {    
@@ -1842,8 +1870,26 @@ console.log('TERMINA')
                                 }
                             ]).exec(function(err, todos2) {
                                 if (err){  res.send(err);  }
-                                               
-                                                        res.json(todos2);   
+                                               var  myData=[]
+                                for(var i = 0; i < todos2.length;i++){
+                                                        
+                                      
+
+                                myData.push({tipounidad:todos2[i].tipounidad,unidad:todos2[i].unidad,
+                                        periodo:todos2[i].periodo,edificio:todos2[i].edificio
+                                        ,salon:todos2[i].salon,materia:todos2[i].materia
+                                        ,horario:todos2[i].horario,cantidad:todos2[i].cantidad});
+                                
+                                }
+                                
+                                res.statusCode = 200;
+                                res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+                                res.setHeader("Content-Disposition", 'attachment; filename='+filename);
+                                res.csv(myData, true);
+
+
+
+                                                      
                                    
                             });
                             
