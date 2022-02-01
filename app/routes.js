@@ -111,6 +111,7 @@ var AuthenticationController = require('./controllers/authentication'),
     CompratrasferenciaController = require('./controllers/compratrasferencia'),
     MailController = require('./controllers/mail'),
     QrimagenController = require('./controllers/qrimagen'),
+    ReportesController = require('./controllers/reportes'),
     AsignapcbController = require('./controllers/asignapcb'),
     AsignacalusacController = require('./controllers/calusac/asignacalusac'),
     AsignaubicacionController = require('./controllers/calusac/asignaubicacion'),
@@ -298,6 +299,7 @@ module.exports = function(app){
         usermsgRoutes = express.Router(),
         compratransferenciaRoutes = express.Router(),
         qrimagenRoutes = express.Router(),
+        reportesRoutes = express.Router(),
         busRoutes = express.Router(),
         afiliadoRoutes = express.Router(),
         departamentoRoutes = express.Router(),
@@ -783,6 +785,10 @@ mailRoutes.post('/:id/:id2',  MailController.getMailarray);
 apiRoutes.use('/qrs',qrimagenRoutes);
 qrimagenRoutes.get('/:key',  QrimagenController.getQR);
 app.use('/api', apiRoutes);
+
+apiRoutes.use('/reportes',reportesRoutes);
+reportesRoutes.get('/:id/:id2/:id3', requireAuth, ReportesController.getReportes);
+
 
 
 
