@@ -1,0 +1,114 @@
+{
+    "items":  [
+        {
+            "name": "Usuarios1",
+            "icon": "home"
+        },
+        {
+            "name": "Usuarios",
+            "icon": "home",
+            "children": [
+                {
+                    "name": "Usuarios",
+                    "icon": "person-add",
+                    "information": "Gestion de usuarios.",
+                    "price": "$25"
+                },
+                {
+                    "name": "Modulos",
+                    "icon": "albums",
+                    "information": "Creacion de modulos.",
+                    "price": "$19.99"
+                }
+                ,
+                {
+                    "name": "Roles",
+                    "icon": "people",
+                    "information": "Creacion de roles.",
+                    "price": "$19.99"
+                }
+            ]
+        },
+        {
+            "name": "Eventos",
+            "icon": "home",
+            "children": [
+                {
+                    "name": "Gestion de eventos",
+                    "icon": "person-add",
+                    "information": "Gestion de usuarios.",
+                    "price": "$25"
+                },
+                {
+                    "name": "eventos",
+                    "icon": "albums",
+                    "information": "Creacion de modulos.",
+                    "price": "$19.99"
+                }
+               
+            ]
+        },
+        {
+            "name": "Buses",
+            "icon": "home",
+            "children": [
+                {
+                    "name": "Suscriptores",
+                    "icon": "contacts",
+                    "children": [
+                        {
+                            "name": "empresas",
+                            "icon": "filing",
+                            "information": "Pork chop jowl capicola porchetta, kielbasa prosciutto boudin bacon pork pig.",
+                            "price": "$10"
+                        },
+                        {
+                            "name": "suscriptores",
+                            "icon": "contacts",
+                            "information": "Pork chop pastrami landjaeger chuck brisket",
+                            "price": "$12"
+                        }
+                        ,
+                        {
+                            "name": "tarifas",
+                            "icon": "Suscriptores",
+                            "information": "Pork chop pastrami landjaeger chuck brisket",
+                            "price": "$12"
+                        }
+                    ]
+                },
+                {
+                    "name": "Gestion persona",
+                    "icon": "home",
+                    "children": [
+                        {
+                            "name": "Compra saldo",
+                            "icon": "cash",
+                            "information": "Pastrami ham hock ball tip, tongue ribeye chuck ham beef bresaola leberkas.",
+                            "price": "$13"
+                        },
+                        {
+                            "name": "Trasferencia de saldp",
+                            "icon": "Suscriptores",
+                            "information": "Andouille spare ribs meatloaf swine ground round pork loin, brisket chuck bacon tongue.",
+                            "price": "$14"
+                        }
+                    ]
+                }
+               
+            ]
+        },
+        {
+            "name": "Perfil",
+            "icon": "home",
+            "children": [
+                {
+                    "name": "Perfil",
+                    "icon": "Suscriptores",
+                    "information": " Landjaeger fatback shank frankfurter, tongue shoulder ham strip steak pancetta pork short loin corned beef short ribs biltong cow",
+                    "price": "$25"
+                }
+            ]
+        }
+    ]
+}
