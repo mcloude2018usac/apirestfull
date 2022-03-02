@@ -53,7 +53,7 @@ var AuthenticationController = require('./controllers/authentication'),
    Unidaddia3Controller = require('./controllers/calusac/unidaddia3'),
   // BibliotecaController = require('./controllers/biblioteca/biblioteca'),
 
-  DnmqueryController = require('./controllers/dnm/dnmapiquery'),
+  
   
     Datosfijo2sController = require('./controllers/datosfijos2'),
     UserperfilController = require('./controllers/userperfil'),
@@ -246,7 +246,7 @@ module.exports = function(app){
         catalogodiplomaRoutes = express.Router(),
         compratokenRoutes = express.Router(),
       //  bibliotecaRoutes = express.Router(),
-      dnmqueryRoutes = express.Router(),
+      
       
         tiposuscriptorRoutes = express.Router(),
         area_eventoRoutes = express.Router(),
@@ -781,9 +781,6 @@ participa2Routes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  Part
 //bibliotecaRoutes.get('/:id',requireAuth,  BibliotecaController.getBiblioteca);
 
 
-apiRoutes.use('/dnmquerys', dnmqueryRoutes);
-dnmqueryRoutes.get('/:id/:id2',requireAuth,  DnmqueryController.getDnmquery);
-dnmqueryRoutes.post('/:recordID',requireAuth,  DnmqueryController.creaDnmquery);
 
 
 apiRoutes.use('/mails', mailRoutes);
