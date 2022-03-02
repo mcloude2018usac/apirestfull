@@ -2734,7 +2734,7 @@ else
         break;
 
         case 'modulo-grupo':
-                        res.json([{id:'PAGINA',nombre:'PAGINA'} ,{id:'LINK',nombre:'LINK'},{id:'MENU',nombre:'MENU'},{id:'PAGINAHTML',nombre:'PAGINAHTML'},{id:'MENU_BOTONES',nombre:'MENU_BOTONES'}]);
+                        res.json([{id:'PAGINA',nombre:'PAGINA'} ,{id:'LINK',nombre:'LINK'},{id:'PAGINAINICIO',nombre:'PAGINAINICIO'},{id:'MENU',nombre:'MENU'},{id:'PAGINAHTML',nombre:'PAGINAHTML'},{id:'MENU_BOTONES',nombre:'MENU_BOTONES'}]);
         break;
         case 'ordenes-gess':
                 res.json([{id:'605bb34d71887c22d0bfedbc°6074c31473b21e24e0f63c38°6074c61a73b21e24e0f63c40¬605a23446886480f70f6ec3f¬605a23446886480f70f6ec3fs¬Importaciones',nombre:'Importaciones'},{id:'6085a87f842ba023f878b618°6085acd0842ba023f878b625°6085b18d842ba023f878b634¬605a23696886480f70f6ec43¬605a23696886480f70f6ec43¬Exportaciones',nombre:'Exportaciones'},

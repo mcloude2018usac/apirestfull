@@ -13,7 +13,7 @@ var sql2 = require("mssql")
 var sql3 = require("mssql")
 var fs = require('fs');  
 var util = require('util');
-const imageToBase64 = require('image-to-base64');
+//const imageToBase64 = require('image-to-base64');
 
 var log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'a'});
 
@@ -26,41 +26,51 @@ const connectionConfig = {   connectionString: 'DSN=OTRO',    connectionTimeout:
 
 const { getGaleriaimg } = require('./galeriaimg');
 
+var Image2frm = require('../models/imagens2frm');
 var daimagenxxx =  function(ruta,img)
 {
+    var aa=img.split('/')
     return new Promise(resolve => {
 
-
-        var ii='iVBORw0KGgoAAAANSUhEUgAAABcAAAAZCAIAAABVQiKHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAAkSURBVDhP7cwxAQAADIOw+TfNDHD2JAJyLLS4FtfiWlyLazHwVgW2nh0VrZ4AAAAASUVORK5CYII='
-
-        imageToBase64(ruta) // Image URL
-        .then(
-            (response) => {
-              
-    
-    
-    if(img==='')
-    {
-        resolve(ii); 
-    }
-    else
-    {
-        resolve(response); 
-    }
-          
-            //resolve(todos2); 
-            
-    
+        Image2frm.findById(aa[3], (err, image2frm) => {
+            if (err) {
+                resolve([])
             }
+            else
+            {
+                if(image2frm)
+                { 
+                    let data = 'stackabuse.com';
+let buff = new Buffer(image2frm.img);
+let base64data = buff.toString('base64');
+
+
+                resolve(base64data)}
+            }
+        
+     
+
+
+        });
+/*
+        imageToBase64(ruta) // Image URL
+        .then(            (response) => {
+    if(img==='')    {        resolve(ii);     }
+    else    {        resolve(response);     }
+          }
         )
+
+
         .catch(
             (error) => {
                 resolve([]); 
             }
         )
 
+ */
     });
 }
+
 
 
 
@@ -68,7 +78,8 @@ function  ejecutaaccess  (cad)
 {
 
     return new Promise(resolve => {
- resolve({estado:'exito',datat:[]}); 
+const connection = odbc.connect(connectionConfig, (error, connection) => {
+  resolve({estado:'exito',datat:[]}); 
 });
 }
 
@@ -2099,22 +2110,36 @@ else
  }
 
 var dahora= function(data) {
+
     let re = '';
 
-    if(data.split('T')>0)
+    var fecha= new Date(data)
+    const data2 = fecha.toISOString().substr(10,fecha.toISOString().length)
+
+
+if(data2)
+{
+    if(String(data2).indexOf('T')>=0)
     {
 
-        const aa = data.split('T');
-    if (aa[0]) {
+        const aa = data2.split('T');
+    if (aa[1]) {
     const bb = (aa[1]).split(':');
-    if (bb[0]) {
-    re = bb[0] + ':' + bb[1];
-    }}
+    if(Number(bb[0]>12))
+        {
+            re = bb[0] + ':' + bb[1] + ' PM';
+        }
+        else
+        {
+            re = bb[0] + ':' + bb[1] + ' AM';
+        }
+
+}
 
     }
     else
     {
-        const bb = data.split(':');
+        const bb = String(data2).split(':');
         if (bb[0]) {
        
 
@@ -2131,6 +2156,7 @@ var dahora= function(data) {
 
         }
    }
+}
      
   // DD/MM/YYYY hh:mm A
   return re;
@@ -2523,7 +2549,7 @@ else
                     if(arreglo[1]==='Check List')
                     {
                         if (valorxx.indexOf('¬') > 0) {
-                            cad=cad + '<br><strong>' + campotxt + '</strong>: ' + getKeyssrthtml(valorxx.split('¬')[1]) + ''
+                            cad=cad + '<br><strong>' + campotxt + '</strong>: ' + getKeyssrthtml(valorxx.split('¬')[1],1) + ''
                         }
                         else
                         {
@@ -3940,7 +3966,7 @@ regt0.push('Información')
        return datafinal;
     }
 
-    var getKeyssrthtml = function(data) {
+    var getKeyssrthtml = function(data,todo) {
         var keys=[]
         let re = '';
         if (data !== '') {
@@ -3967,7 +3993,15 @@ regt0.push('Información')
                   re = re + '<strong>' +  aa[0]  + '</strong> : ' + '<img src="' + this.servertnube +  String(aa[1]).trim() + '"   class="circle-pic"  height="50 px" width="50 px"> ' + '<br>'; // &nbsp;
     
                 } else {
-                  re = re + '<strong>' +  aa[0]  + '</strong> : ' + aa[1] + '<br>'; // &nbsp;
+                  if(todo)
+                  {
+                    re = re+  keys[i]
+                  }
+                  else
+                  {
+                    re = re + '<strong>' +  aa[0]  + '</strong> : ' + aa[1] + '<br>'; // &nbsp;
+                  }  
+                  
                 }
     
               }

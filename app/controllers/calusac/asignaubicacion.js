@@ -810,7 +810,7 @@ console.log({
     
           var projectDataForMatch = {
             $project : {
-              
+                capacidad:1,
                idtipo:1,
                idtipounidad:1,
                idperiodo:1,
@@ -849,11 +849,15 @@ console.log({
             var duplicates = [];
             var duplicates2 = [];
 
+
+
             for(var i = 0; i < todos10a.length;i++){
               
-                //if(Number(todos10a[i].capacidad) > Number(todos10a[i].asignados))                {
+                if(todos10a[i].capacidad!=='0')                {
                     duplicates.push(todos10a[i].idtipo);
-                //}
+                
+            
+            }
                 
              
             
@@ -1217,13 +1221,18 @@ break;
     break;
             case 'idiomasprofe':
                  
-                    Asignaubicacion.find({ "estadopago" : "Asignación exitosa",'idprofesor' :req.params.id}).populate('ididioma').exec(function(err, todos10) {
+                    Asignaubicacion.find({ "estadopago" : "Asignación exitosa",'idprofesor' :req.params.id}).populate('ididioma')
+                    .sort({createdAt:-1}).exec(function(err, todos10) {
                         if (err){ res.send(err); }
                         var result = [];
+
+
+
+
                         const map = new Map();
                         for (const item of todos10) {
-                            if(!map.has(item.ididioma.nombre)){
-                                map.set(item.ididioma.nombre, true);    // set any value to Map
+                            if(!map.has(item.ididioma.nombre + item.idtipounidad.nombre)){
+                                map.set(item.ididioma.nombre + item.idtipounidad.nombre, true);    // set any value to Map
                                 result.push({codigo:item.ididioma._id,nombre:item.ididioma.nombre,tipounidad:item.idtipounidad.nombre});
                             }
                         }

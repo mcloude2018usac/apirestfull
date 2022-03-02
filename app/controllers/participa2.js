@@ -728,8 +728,8 @@ else{
     else{
 
 
-        Participa2.find({  idtipoevento	: req.body.idtipoevento       	,
-            idarea	: req.body.idarea       	,
+        Participa2.find({  'idtipoevento.id'	: req.body.idtipoevento.id       	,
+            'idarea.id'	: req.body.idarea.id       	,
             idevento       	: req.body.idevento       	
          },function(err, todos100) {
             if (err){ res.send(err); }
@@ -740,8 +740,8 @@ else{
             {   
 
 
-        Participa2.find({  idtipoevento	: req.body.idtipoevento       	,
-            idarea	: req.body.idarea       	,
+        Participa2.find({ 'idtipoevento'	: req.body.idtipoevento.nombre	,
+        'idarea'	: req.body.idarea.nombre	,
             idevento       	: req.body.idevento       	,
             correo    	: req.body.correo   	
          },function(err, todos) {
@@ -754,8 +754,8 @@ else{
                     Bitacora.create(req.body.bitacora);
                     var d = new Date();
                     Participa2.create({  
-                    idtipoevento	: req.body.idtipoevento       	,
-                    idarea	: req.body.idarea       	,
+                    idtipoevento	: req.body.idtipoevento.nombre	,
+                    idarea	: req.body.idarea.nombre	,
                     idevento       	: req.body.idevento       	,
                     nombre        	: req.body.nombre        	,
                     apellido    	: req.body.apellido    	,

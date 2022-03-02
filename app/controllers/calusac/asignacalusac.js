@@ -5,6 +5,7 @@
 var mailt = require('../../controllers/mail');
 var Asignaest = require('../../models/calusac/asignaestudiantecalusac');
 var Asignacalusac = require('../../models/calusac/asignacalusac');
+var asignaubicacion = require('../../models/calusac/asignaubicacion');
 var Asignacalusac2 = require('../../models/calusac/asignacalusac2');
 var Unidadidiomanivel3 = require('../../models/calusac/unidadidiomanivel3');
 var Calusacnotas2 = require('../../models/calusac/calusacnota2');
@@ -13,13 +14,14 @@ var Exonerados = require('../../models/calusac/exonerados');
 
 var Bitacora = require('../../models/bitacora');
 var Facplan3 = require('../../models/calusac/unidadplan3');
+var Facplan4 = require('../../models/calusac/unidadplan4');
 var User = require('../../models/user');
 var Operadores = require('../../models/calusac/operadores');
-var Asignaubicacion = require('../../models/calusac/asignaubicacion');
+
 var request = require('request');
 var xml2js = require ('xml2js'); 
 var Unidadperiodo3 = require('../../models/calusac/unidadperiodo3');
-
+var Unidadperiodo4 = require('../../models/calusac/unidadperiodo4');
 
 var Calusaccarnet = require('../../models/calusac/calusaccarnets');
 
@@ -143,19 +145,54 @@ function getNextSequenceValue2aaa(req,res,cant,codf){
                 if (err) {  res.send(err);  }
                 else
                 { 
+
+                    if(codf==='61e9f098d607e902c1e5311a')
+                    {
+                        console.log('ssssss')
+                    }
+                    console.log(codf)
                     console.log(todo)
-                     todo.asignados        	=		cant   	;
+                    if( todo!==null)
+                    {
+                        todo.asignados        	=		cant   	;
+                        todo.save(function (err, todo){
+                            if (err)     {  console.log(err.message)   }
+                          
+                        });
+                    }
+                    else
+                    {
+                       
+                    }
+                     
                     
-                    todo.save(function (err, todo){
-                        if (err)     {  console.log(err.message)   }
-                      
-                    });
+               
                 }
             });
 
 
 }
 
+
+function getNextSequenceValue2aaa222(req,res,cant,codf){
+
+    console.log(codf + ' '+ cant)
+     Facplan4.findById({_id:codf}, function (err, todo)  {
+         if (err) {  res.send(err);  }
+         else
+         { 
+             console.log(todo)
+              todo.asignados        	=		cant   	;
+             
+             todo.save(function (err, todo){
+                 if (err)     {  console.log(err.message)   }
+               
+             });
+         }
+     });
+
+
+}
 function daimagen64(imgtt){
 
 
@@ -194,6 +231,55 @@ exports.getAsignacalusac = function(req, res, next){
     { 
       
         switch(req.params.id3) {
+            case 'componesaloncalusacubica':
+                //http://127.0.0.1:9090/api/asignacalusacs/1/2/componesaloncalusac
+                Unidadperiodo4.find({estado:'Activo'})
+                .find({}).exec(function(err, todos22) {
+                if (err){  res.send(err);  }
+                              
+                var duplicates = [];
+                  console.log(todos22)
+                todos22.forEach(function (doc) {duplicates.push('' + doc._id + '');  });
+
+                
+                asignaubicacion.aggregate([
+                    { $match: {  'idperiodo.id': {$in: duplicates} ,
+                estadopago:'Asignación exitosa' }
+                },
+                    { 
+                        "$group" : {
+                            "_id" : {
+                                "idplanifica" : "$idplanifica"
+                            }, 
+                            "COUNT(*)" : {
+                                "$sum" : 1
+                            }
+                        }
+                    }, 
+                    { 
+                        "$project" : {
+                            "idplanifica" : "$_id.idplanifica", 
+                            "cantidad" : "$COUNT(*)", 
+                            "_id" :0
+                        }
+                    }
+                ]).exec(function(err, todos) {
+                    var otroo=[]
+                    for(var i = 0; i < todos.length;i++){     
+                        if(todos[i].cantidad>100)
+                        {
+                          otroo.push({"idplanifica":todos[i].idplanifica,"cantidad":todos[i].cantidad})
+                        }
+                        getNextSequenceValue2aaa222(req,res,todos[i].cantidad,todos[i].idplanifica);
+    
+    
+                          }
+                  res.json(otroo); 
+                });
+            });
+
+            break;
+        
             case 'componesaloncalusac':
                 //http://127.0.0.1:9090/api/asignacalusacs/1/2/componesaloncalusac
                 Unidadperiodo3.find({estado:'Activo'})
@@ -201,7 +287,7 @@ exports.getAsignacalusac = function(req, res, next){
                 if (err){  res.send(err);  }
                               
                 var duplicates = [];
-                  console.log(todos22)
+                  
                 todos22.forEach(function (doc) {duplicates.push('' + doc._id + '');  });
 
                 
@@ -227,13 +313,25 @@ exports.getAsignacalusac = function(req, res, next){
                         }
                     }
                 ]).exec(function(err, todos) {
+
+                    var otroo=[]
     
                     for(var i = 0; i < todos.length;i++){     
+                        if(todos[i].cantidad>100)
+                        {
+                          otroo.push({"idplanifica":todos[i].idplanifica,"cantidad":todos[i].cantidad})
+                        }
+                        else
+                        {
+                            otroo.push({"-------------------------------------------------------------idplanifica":todos[i].idplanifica,"cantidad":todos[i].cantidad})
+                        }
                         getNextSequenceValue2aaa(req,res,todos[i].cantidad,todos[i].idplanifica);
     
     
                           }
-                  res.json(todos); 
+
+                          console.log(otroo)
+                  res.json(otroo); 
                 });
             });
 
@@ -808,7 +906,7 @@ break;
 
 
 
-                    Asignacalusac.find({estadopago:{ $in: [ 'Pendiente de pago','Orden de pago actualizada exitosamente' ]},     $or : [
+                    Asignacalusac.find({     $or : [
                         { $and : [ { cui : req.params.id2 }] },
                         { $and : [ { noboletapago : req.params.id2 }] },
                         { $and : [ { correo : req.params.id2 }] },

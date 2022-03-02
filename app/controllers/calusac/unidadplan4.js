@@ -70,6 +70,7 @@ exports.getUnidadplan4 = function(req, res, next){
                   ididioma:1,
                     idperiodo:1,
                   iddia:1,
+                  capacidad:1,
                
                     filterThisDoc : {
                         $cond : {
@@ -92,9 +93,17 @@ exports.getUnidadplan4 = function(req, res, next){
             console.log( {'idtipounidad.id' :req.params.id,'idperiodo.id':req.params.id3,ididioma:req.params.id2})
             Facplan4.aggregate([ projectDataForMatch, match]  ).exec(function(err, todos10) {
                 if (err){ res.send(err); }
-               
+               var diasn=[]
+                for(var i = 0; i < todos10.length;i++){
+                    if(todos10[i].capacidad!=='0')
+                    {
+                        diasn.push({iddia:todos10[i].iddia})
+                    }
+                }
                 var duplicates = [];
-                todos10.forEach(function (doc) {duplicates.push({nombre:doc.iddia});  });
+                diasn.forEach(function (doc) {duplicates.push({nombre:doc.iddia});  });
+
+
                 res.json(duplicates);
             });
         break

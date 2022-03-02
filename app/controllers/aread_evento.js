@@ -5,7 +5,10 @@ var Bitacora = require('../models/bitacora');
 exports.getArea_evento = function(req, res, next){
     if(req.params.id4)
     { 
-        Area_evento.find({idempresa:req.params.id,estado:req.params.id2,idtipoevento:req.params.id3,idarea:req.params.id4}).sort({idarea:-1}).exec(function(err, todos) {
+        console.log({idempresa:req.params.id,estado:req.params.id2,
+            'idtipoevento.nombre':req.params.id3,'idarea.nombre':req.params.id4})
+        Area_evento.find({idempresa:req.params.id,estado:req.params.id2,
+            'idtipoevento.nombre':req.params.id3,'idarea.nombre':req.params.id4}).sort({'idarea.nombre':-1}).exec(function(err, todos) {
             if (err){ res.send(err); }
            
            res.json(todos);   
@@ -17,8 +20,8 @@ exports.getArea_evento = function(req, res, next){
     {
     if(req.params.id3)
     { 
-        console.log({idempresa:req.params.id,estado:req.params.id2,idtipoevento:req.params.id3})
-        Area_evento.find({idempresa:req.params.id,estado:req.params.id2,idtipoevento:req.params.id3}).sort({idarea:-1}).exec(function(err, todos) {
+        console.log({idempresa:req.params.id,estado:req.params.id2,'idtipoevento.nombre':req.params.id3})
+        Area_evento.find({idempresa:req.params.id,estado:req.params.id2,'idtipoevento.nombre':req.params.id3}).sort({idarea:-1}).exec(function(err, todos) {
             if (err){ res.send(err); }
            console.log(todos)
            res.json(todos);   

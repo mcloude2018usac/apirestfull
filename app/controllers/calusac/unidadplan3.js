@@ -409,6 +409,8 @@ console.log({'idtipounidad':req.params.id, 'idunidadacademica':req.params.id2
                   idhorario : 1, //list all fields needed here
                   idtipounidad:1,
                   idunidadacademica:1,
+                  capacidad:1,
+                  asignados:1,
                   idperiodo:1,
                   idjornada:1,
                   idnivel:1,
@@ -435,8 +437,16 @@ console.log({'idtipounidad':req.params.id, 'idunidadacademica':req.params.id2
             Facplan3.aggregate([ projectDataForMatch, match]  ).exec(function(err, todos10) {
                 if (err){ res.send(err); }
                 var duplicates = [];
-           
-                          todos10.forEach(function (doc) {duplicates.push(doc.idhorario);  });
+                for(var i = 0; i < todos10.length;i++){
+                    if(Number(todos10[i].capacidad)>Number(todos10[i].asignados))
+                    {
+                        duplicates.push(todos10[i].idhorario);  
+
+                    }
+
+                }
+
+                      //    todos10.forEach(function (doc) {duplicates.push(doc.idhorario);  });
                   Unidadhorario3.find({_id: {$in: duplicates},idtipounidad :req.params.id,idunidadacademica:req.params.id},function(err, todos) {
                     if (err){  res.send(err);  }
                      res.json(todos);

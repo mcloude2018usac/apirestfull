@@ -1,8 +1,8 @@
 var mongoose =require("mongoose");
 var Aread_eventoSchema = new mongoose.Schema({
     idempresa: {        type: String,      required: true     },
-   idtipoevento   		: {     type: String,      required: true  },
-   idarea   		: {     type: String,      required: true  },
+   idtipoevento   		: {    id	: { type : String, required : true },   nombre	: { type : String, required : true }  ,   codigo	: { type : String, required : true }      },
+   idarea   			: {    id	: { type : String, required : true },   nombre	: { type : String, required : true }       },
 
     nombre: {        type: String,        required: true    },
     plataforma: {        type: String,        required: true    },

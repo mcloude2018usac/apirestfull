@@ -654,6 +654,9 @@ Asignacalusac.find({ correo:  req.params.id }, function (err, todo100aaa)  {
       
                         if(todo100aaa.length===0)
                         {
+
+                          //buscar en los exonerados
+                          
                           var montototal=0
                           montototal= Number( req.params.id3)+ 50
       

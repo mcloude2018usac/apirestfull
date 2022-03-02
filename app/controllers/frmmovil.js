@@ -219,6 +219,18 @@ exports.getFrmmovil = async function(req, res, next){
     
     if(req.params.id5)
     {
+        if(req.params.id5=='daapiquery')
+        {
+
+            (async () => {  
+                respuesta = await frmmovilejecutareporte.daapiquery(req, res, next,[]);
+               
+                    res.json(respuesta);
+                })();
+
+
+        }
+        else{
         if(req.params.id4=='frmmovilpreportepdfgeneral')
         {
 
@@ -306,7 +318,7 @@ exports.getFrmmovil = async function(req, res, next){
             
             
 
-        }}}}
+        }}}}}
     }
     else
     {    
