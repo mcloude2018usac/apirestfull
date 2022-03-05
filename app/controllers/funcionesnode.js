@@ -78,8 +78,7 @@ function  ejecutaaccess  (cad)
 {
 
     return new Promise(resolve => {
-const connection = odbc.connect(connectionConfig, (error, connection) => {
-    resolve({estado:'exito',datat:[]}); 
+        resolve({estado:'exito',datat:[]}); 
 });
 }
 
