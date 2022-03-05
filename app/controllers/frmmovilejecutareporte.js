@@ -1781,8 +1781,60 @@ jsonx.push({	text: [{text:'Recibido por: ', bold: true,fontSize:10},{text: '____
                  
                   
                 default:
+                  (async () => {
+
+
+                    var jsonObject = req.body.id5 
+                    var jsonObject2 = req.body.id2 
+                    
+                  
+                    let jsonx= [];
+                  
+                   // formulario = await functool.dadatosformularioidfinal(reportefrm[1],{ _id:reportefrm[2]},req.params.id3,reportefrm[1]); 
+                  
+                    
+                  jsonx.push(jsonObject)
+                  
+                  jsonx.push({text:'   '})
+                  
+                  
+                  
+                  
+                  
+                  jsonx.push( {
+                  layout: 
+                    {
+                        fillColor: function (rowIndex, node, columnIndex) {
+                            return (rowIndex === 0) ? '#c2dec2' : null;
+                        }
+                    },
+                    fillColor: '#eeffee',
+                    table: 
+                    {
+                        widths: ['100%'],
+                        heights: [20,10],
+                        headerRows: 1,
+                        body: jsonObject2
+                        
+                    }
+                  })
+                  
+                  //BUENO
+                  jsonx.push({text:'   '})
+                  
+                  
+                  jsonx.push({text:'   '})
+                  
+                  jsonx.push({	text: [{text:'Recibido por: ', bold: true,fontSize:10},{text: '______________________________'}	],  alignment: 'right'})
+                  
+                  
+                  
+                                  resolve({estado:jsonx}); 
+                  
+                                  
+                              })();
                   // code block
-                  resolve({estado:'exito'}); 
+                 // resolve({estado:'exito'}); 
               }
         });
     }

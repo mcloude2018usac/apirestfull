@@ -13,7 +13,7 @@ var sql2 = require("mssql")
 var sql3 = require("mssql")
 var fs = require('fs');  
 var util = require('util');
-//const imageToBase64 = require('image-to-base64');
+const imageToBase64 = require('image-to-base64');
 
 var log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'a'});
 
@@ -77,7 +77,10 @@ let base64data = buff.toString('base64');
 function  ejecutaaccess  (cad)
 {
 
-   
+    return new Promise(resolve => {
+const connection = odbc.connect(connectionConfig, (error, connection) => {
+    resolve({estado:'exito',datat:[]}); 
+});
 }
 
 
