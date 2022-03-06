@@ -53,7 +53,7 @@ var AuthenticationController = require('./controllers/authentication'),
    Unidaddia3Controller = require('./controllers/calusac/unidaddia3'),
   // BibliotecaController = require('./controllers/biblioteca/biblioteca'),
 
-
+  
   
     Datosfijo2sController = require('./controllers/datosfijos2'),
     UserperfilController = require('./controllers/userperfil'),
@@ -779,6 +779,7 @@ participa2Routes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  Part
 //-----------------------------------BIBLIOTECA
 //apiRoutes.use('/bibliotecas', bibliotecaRoutes);
 //bibliotecaRoutes.get('/:id',requireAuth,  BibliotecaController.getBiblioteca);
+
 
 
 apiRoutes.use('/mails', mailRoutes);

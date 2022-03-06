@@ -225,10 +225,40 @@ exports.getFrmmovildreportes = function(req, res, next){
                      var filtroextra=arrr[6]
                      if(fechasfiltro!==undefined && fechasfiltro!=='')
                      {
-                        filtroff={
-                        "createdAt": {"$gte": new Date(functool.dafecha(fechasfiltro.split('¬')[0]) +'T00:00:00.000Z'),
-                        "$lt": new Date(functool.dafecha(fechasfiltro.split('¬')[1]) +'T24:00:00.000Z')}
-                    };
+                         var estadott=fechasfiltro.split('¬')[2]
+                         if(fechasfiltro.split('¬')[0]==='' && fechasfiltro.split('¬')[1]==='')
+                         {
+                            if(estadott!=='Todas')
+                            {
+                                filtroff={
+                                   
+                                    "estadoordenxxx" : estadott
+                                };
+                            }
+
+                         }
+                         else
+                         {
+
+                            if(estadott==='Todas')
+                            {
+                               filtroff={
+                                   "createdAt": {"$gte": new Date(functool.dafecha(fechasfiltro.split('¬')[0]) +'T00:00:00.000Z'),
+                                   "$lt": new Date(functool.dafecha(fechasfiltro.split('¬')[1]) +'T24:00:00.000Z')}
+                               };
+                            }
+                            else
+                            {
+                               filtroff={
+                                   "createdAt": {"$gte": new Date(functool.dafecha(fechasfiltro.split('¬')[0]) +'T00:00:00.000Z'),
+                                   "$lt": new Date(functool.dafecha(fechasfiltro.split('¬')[1]) +'T24:00:00.000Z')},
+                                   "estadoordenxxx" : estadott,
+                               };
+                            }
+                         }
+
+
+                       
                        
                      }
     
