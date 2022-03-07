@@ -2202,6 +2202,148 @@ res.json(datat);
 
 break;
 
+case 'todasordenes4filtro':
+
+    var arrr=req.params.id.split('°')
+
+               //salioorden:1idactividad:arrr[4],
+var filtro={salioorden:1,idform:arrr[3],createdAt:{"$gte": new Date(arrr[1]+'T00:00:00.000Z'),"$lt": new Date(arrr[2] +'T24:00:00.000Z')}}
+
+frmactividad.find({idempresa:arrr[0],idpapa:arrr[3] }).sort({'orden': 1}).exec(function(err, todos1) {
+    if (err){  res.send(err);  }
+  
+
+formulariotrayectoria.find( filtro).sort({sequenciag:-1}).exec(function(err, todos) {
+if (err){  res.send(err);  }
+
+
+var datat=[]
+var tiempomin=0
+var tiempomax=0
+
+for(var k = 0; k < todos.length;k++){
+
+    for(var k2 = 0; k2 < todos1.length;k2++){
+        if(String(todos1[k2]._id)===todos[k].idactividad)
+        {
+           tiempomin=Number( todos1[k2].tiempomin);
+           tiempomax=Number( todos1[k2].tiempomax);
+        }
+    }
+
+
+var ff3=new Date()
+var ff4=todos[k].updatedAt
+var ff5 =todos[k].updatedAt
+
+
+var diffDays = parseInt((ff3 - ff4) / (1000 * 60 * 60 * 24)); //gives day difference
+var diffhoras = parseInt((ff3 - ff4) / (1000 * 60 * 60 )); //gives day difference
+var diffminutos = parseInt((ff3 - ff4) / (1000 * 60 )); //gives day difference
+var diffseg = parseInt((ff3 - ff4) / (1000  )); //gives day difference
+var tiempo=''
+if(diffDays!==0 && diffhoras>60 && diffminutos>0 && diffseg>0)
+{
+tiempo= diffDays + ' Dias'
+
+}
+if(diffhoras!==0 && diffDays===0 && diffminutos>60 && diffseg>0)
+{
+tiempo= diffhoras + ' Horas'
+
+}
+if(diffminutos!==0 && diffDays===0 && diffhoras===0 && diffseg>60)
+{
+tiempo= diffminutos + ' Minutos'
+
+}
+if(diffseg!==0 && diffDays===0 && diffminutos===0 && diffhoras===0)
+{
+tiempo= diffseg + ' Segundos'
+
+}
+var actort=''
+if(todos[k].actoractividad)
+{actort=todos[k].actoractividad.nombre}
+
+var infott=''
+if(todos[k].info)
+{
+var cadenita=todos[k].info
+
+if(cadenita.indexOf('<br>')>=0)
+{
+arrinfo=todos[k].info.split('<br>')
+for(var k2 = 0; k2 < arrinfo.length;k2++){
+var cad='';cad=arrinfo[k2]
+
+if(cad.indexOf('>: .')>0 || cad.indexOf('>: 0')>0 || cad.indexOf('¬')>=0  || cad.indexOf('idempresa')>=0 || cad.indexOf('usuarioup')>=0 || cad.indexOf('usuarionew')>=0
+|| cad.indexOf('geoposicion')>=0 || cad.indexOf('estadointerno')>=0|| cad.indexOf('isusuarioasigna')>=0|| cad.indexOf('comentarioanulado')>=0
+|| cad.indexOf('pmodulo')>=0 || cad.indexOf('idactividadxxx')>=0   || cad.indexOf('estadoxxx')>=0  || cad.indexOf('idusuariosasigna')>=0  || cad.indexOf('asignadoxxx')>=0
+|| cad.indexOf('idactorxxx')>=0  || cad.indexOf('actorxxx')>=0 || cad.indexOf('enviadoporxxx')>=0 || cad.indexOf('estadoordenxxx')>=0 || cad.indexOf('idusuarioasigna')>=0
+|| cad.indexOf('tipoaccionxxx')>=0 || cad.indexOf('subtipoaccionxxx')>=0|| cad.indexOf('actividadclasexxx')>=0|| cad.indexOf('actividadtipoxxx')>=0
+|| cad.indexOf('leidoxxx')>=0|| cad.indexOf('idusuarioasigna')>=0 || cad.indexOf('actividadxxx')>=0 || cad.indexOf('accionxxx')>=0
+|| cad.indexOf('idaccionxxx')>=0|| cad.indexOf('ejecutainicio')>=0|| cad.indexOf('ejecutafinal')>=0|| cad.indexOf('comentariocerrado')>=0)
+{}
+else
+{
+    if(cad.indexOf('cliente')>0 || cad.indexOf('departamento')>0 )
+    {
+        var arr= cad.split(':')
+        infott=infott+ arr[2] ;
+        if(infott==='undefined')
+        { infott=''
+            infott=infott+ arr[1] ;
+
+        }
+
+        infott=infott.replace('undefined','')
+    }
+//  infott=infott+ '<ion-chip  color="primary" item-content style="margin-left: 10px;"> <ion-label >' + cad + '</ion-label></ion-chip>';
+
+}
+
+}
+
+}
+}
+
+
+var diastotales=diffhoras/24
+var diferencia=tiempomax-diastotales
+
+if(diferencia>0)
+{
+
+datat.push({actividad:todos[k].nombreactividad,usuarioejecutor:todos[k].usuarioejecutor,idform:todos[k].idform,
+    asignadoxxx:todos[k].asignadoxxx
+,usuariocreador:todos[k].usuariocreador,info:infott,idorden:todos[k].sequenciag,idorden2:todos[k].sequencia,tiempo:tiempo,
+fecha:ff4,fechasalida:ff5,dias:diffDays,horas:diffhoras,minutos:diffminutos,segundos:diffseg,
+enviadopor:todos[k].enviadoporxxx,actor:actort,alarma:'En tiempo',diferencia:diferencia.toFixed(2),diastotal:diastotales.toFixed(2),tiempomax:tiempomax.toFixed(2)})
+}
+else
+{
+    datat.push({actividad:todos[k].nombreactividad,usuarioejecutor:todos[k].usuarioejecutor,idform:todos[k].idform,
+        asignadoxxx:todos[k].asignadoxxx
+    ,usuariocreador:todos[k].usuariocreador,info:infott,idorden:todos[k].sequenciag,idorden2:todos[k].sequencia,tiempo:tiempo,
+    fecha:ff4,fechasalida:ff5,dias:diffDays,horas:diffhoras,minutos:diffminutos,segundos:diffseg,
+    enviadopor:todos[k].enviadoporxxx,actor:actort,alarma:'Atraso',diferencia:diferencia.toFixed(2),diastotal:diastotales.toFixed(2),tiempomax:tiempomax.toFixed(2)})
+}
+}
+
+
+
+
+
+res.json(datat);
+
+});
+
+});
+
+break;
+
+
   case 'todasordenes1filtro':
     var arrr=req.params.id.split('°')
     console.log(arrr)
