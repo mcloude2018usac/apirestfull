@@ -518,7 +518,8 @@ if(req.params.id!=='crea')
        
         
 
-            todo.type       	=	req.body.type        	||	todo.type;    
+            todo.type       	=	req.body.type        	||	todo.type;   
+            todo.type0       	=	req.body.type0        	||	todo.type0;    
 
             todo.formulario     	= req.body.formulario    	||	todo.formulario;   
             todo.idformulario       	=	req.body.idformulario        	||	todo.idformulario;   
@@ -575,7 +576,7 @@ else{
                         idempresa      	: req.body.idempresa     	,
                         idmovil	:req.body.idmovil 	,
                         type   	:req.body.type 	,
-                       
+                        type0   	:req.body.type0 	,
                         nombre:	 req.body.nombre ,
                         order   :req.body.order 	,
                         title :req.body.title 	,
@@ -621,6 +622,7 @@ if(req.params.id2!=='crea')
             todo.title       	=	req.body.title        	||	todo.title;    
             todo.estado       	=	req.body.estado        	||	todo.estado;    
             todo.type       	=	req.body.type        	||	todo.type;    
+            todo.type0       	=	req.body.type0        	||	todo.type0;    
             todo.usuarioup=req.body.bitacora.email;
             
             
@@ -652,6 +654,7 @@ else{
                         idempresa      	: req.body.idempresa     	,
                         idmovil	:req.body.idmovil 	,
                         type   	:req.body.type 	,
+                        type0   	:req.body.type0	,
                     
                         nombre:	 req.body.nombre ,
                         order   :req.body.order 	,

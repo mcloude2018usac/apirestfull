@@ -705,7 +705,7 @@ if(req.params.recordID!=='crea')
             todo.idhorario=	req.body.idhorario        	||	todo.idhorario        	;
          
             todo.idprofesor=	req.body.idprofesor        	||	todo.idprofesor        	;
-            
+            todo.fechafin=	req.body.fechafin	||	todo.fechafin	;
           
             todo.capacidad=	req.body.capacidad        	||	todo.capacidad        	;
             todo.asignados=	req.body.asignados        	||	todo.asignados        	;
@@ -753,7 +753,7 @@ else{
             idprofesor: req.body.idprofesor,
             capacidad: req.body.capacidad,
             asignados: req.body.asignados,
-        
+            fechafin: req.body.fechafin,
             codfac: req.body.codfac,
             usuarionew:req.body.bitacora.email
         

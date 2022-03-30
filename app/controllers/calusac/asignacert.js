@@ -2,17 +2,17 @@
 var mailt = require('../../controllers/mail');
 var Tipounidad3 = require('../../models/calusac/tipounidad3');
 var unidadperiodo4 = require('../../models/calusac/unidadperiodo4');
-var Asignaubicacion = require('../../models/calusac/asignaubicacion');
+var Asignacert = require('../../models/calusac/asignacert');
 var Bitacora = require('../../models/bitacora');
 var Facplan3 = require('../../models/calusac/unidadplan3');
 var Facplan4 = require('../../models/calusac/unidadplan4');
 var unidadnivel3 = require('../../models/calusac/unidadnivel3');
 var unidadidioma3 = require('../../models/calusac/unidadidioma3');
-var Operadores = require('../../models/calusac/operadoresb');
+var Operadores = require('../../models/calusac/operadorescert');
 var Asignacalusac = require('../../models/calusac/asignacalusac');
 var Calusacnota = require('../../models/calusac/calusacnota');
 var Calusacnota2 = require('../../models/calusac/calusacnota2');
-
+var Contador = require('../../models/contador');
 var request = require('request');
 var xml2js = require ('xml2js'); 
 
@@ -111,7 +111,7 @@ function getNextSequenceValue23(myData3cc,req,res,unitt,iditt){
  
  
 
-exports.getAsignaubicacion = function(req, res, next){
+exports.getAsignacert = function(req, res, next){
     if(req.params.id7)
     { 
         if(req.params.id=='todos100aitem')
@@ -202,7 +202,7 @@ exports.getAsignaubicacion = function(req, res, next){
         {
         if(req.params.id=='todos100item')
         {
-            Asignaubicacion.find({_id:req.params.id2 }).populate('ididioma').exec(function(err, todos10) {
+            Asignacert.find({_id:req.params.id2 }).populate('ididioma').exec(function(err, todos10) {
                 if (err){ res.send(err); }
     
               
@@ -219,7 +219,7 @@ exports.getAsignaubicacion = function(req, res, next){
                 , options = { multi: true };
 
 
-                Asignaubicacion.update(conditions, update, options, function (err, result) {
+                Asignacert.update(conditions, update, options, function (err, result) {
                     if (err) {
                         console.error(err);
                     }
@@ -332,7 +332,7 @@ exports.getAsignaubicacion = function(req, res, next){
             ,'idedificio.id': req.params.id4,'idsalon.id':req.params.id5,iddia:req.params.id6,idhora:aa[0], idprofesor:req.params.id3
         })
 
-            Asignaubicacion.find({ "estadopago" : "Asignación exitosa",ididioma:req.params.id2
+            Asignacert.find({ "estadopago" : "Asignación exitosa",ididioma:req.params.id2
             ,'idedificio.id': req.params.id4,'idsalon.id':req.params.id5,iddia:req.params.id6,idhora:aa[0], idprofesor:req.params.id3
         }).populate('ididioma').exec(function(err, todos10) {
                 if (err){ res.send(err); }
@@ -353,7 +353,7 @@ exports.getAsignaubicacion = function(req, res, next){
                 , options = { multi: true };
 
 
-                Asignaubicacion.update(conditions, update, options, function (err, result) {
+                Asignacert.update(conditions, update, options, function (err, result) {
                     if (err) {
                         console.error(err);
                     }
@@ -362,7 +362,7 @@ exports.getAsignaubicacion = function(req, res, next){
                     {
                        
 
-                        Asignaubicacion.find({idplanifica:aa[2]}).populate('ididioma').exec( function (err, result10) {
+                        Asignacert.find({idplanifica:aa[2]}).populate('ididioma').exec( function (err, result10) {
                             if (err) {
                                 console.error(err);
                             }
@@ -479,7 +479,7 @@ exports.getAsignaubicacion = function(req, res, next){
         if(req.params.id=='todos')
         {
         
-            Asignaubicacion.find({ "estadopago" : "Asignación exitosa",ididioma:req.params.id2,
+            Asignacert.find({ "estadopago" : "Asignación exitosa",ididioma:req.params.id2,
             idprofesor:req.params.id3
             ,'idedificio.id': req.params.id4,'idsalon.id':req.params.id5,iddia:req.params.id6
             ,idhora:req.params.id7
@@ -492,7 +492,7 @@ exports.getAsignaubicacion = function(req, res, next){
         }
         else
         {
-            Asignaubicacion.find({ "estadopago" : "Asignación exitosa",'idprofesor' :req.params.id,ididioma:req.params.id2
+            Asignacert.find({ "estadopago" : "Asignación exitosa",'idprofesor' :req.params.id,ididioma:req.params.id2
             ,'idedificio.id': req.params.id4,'idsalon.id':req.params.id5,iddia:req.params.id6,idhora:req.params.id7
         }).populate('ididioma').exec(function(err, todos10) {
                 if (err){ res.send(err); }
@@ -510,10 +510,49 @@ exports.getAsignaubicacion = function(req, res, next){
     { 
         
         switch(req.params.id3) {
+            case 'nivelcert2':
+
+       
+             
+                Calusacnota.find({identificador:req.params.id})
+                .populate('tipopago').populate('ididioma').populate('idasigna').exec(function(err, todos) {
+                var data=[]
+                for(var i = 0; i < todos.length;i++){
+                    if( todos[i].estado==='Ganada' && String(todos[i].ididioma.codigo)===req.params.id2)
+                    {
+                        data.push({codigo:todos[i].tipopago.codigo,id:todos[i]._id,nombre:todos[i].tipopago.nombre,estado2:todos[i].ididioma.estado2,nota:todos[i].n5,fecha:new Date(todos[i].createdAt).toISOString().substr(0,10)});
+                    }
+
+                    
+                }
+
+                res.json(data);   
+                
+            });
+            
+                break;
+            case 'nivelcert':
+                Calusacnota.find({  identificador:req.params.id 
+            }).populate('tipopago').populate('ididioma').populate('idasigna').exec(function(err, todos) {
+                var data=[]
+                for(var i = 0; i < todos.length;i++){
+                    data.push({codigo:todos[i].ididioma.codigo,id:todos[i].ididioma._id,nombre:todos[i].ididioma.nombre,estado2:todos[i].ididioma.estado2});
+                }
+
+                data = data.filter((obj, pos, arr) => {
+                    return arr
+                      .map(mapObj => mapObj.codigo)
+                      .indexOf(obj.codigo) == pos;
+                  });
+                res.json(data);   
+                
+            });
+            
+                break;
             case 'todosasignacalusac':
 
          
-                Asignaubicacion.find({$or : [
+                Asignacert.find({$or : [
                     { $and : [ { identificador : req.params.id2 }] },
                     { $and : [ { noorden : req.params.id2 }] },
                  
@@ -531,7 +570,7 @@ exports.getAsignaubicacion = function(req, res, next){
                 });
                 break;
             case 'todosautorizaxid':
-                Asignaubicacion.find({ userasignadoemail:req.params.id,"estadooperador" : req.params.id2}).populate('tipopago').populate('ididioma').exec(function(err, todos) {
+                Asignacert.find({ userasignadoemail:req.params.id,"estadooperador" : req.params.id2}).populate('tipopago').populate('ididioma').exec(function(err, todos) {
            
               
                     if (err){ res.send(err); }
@@ -544,7 +583,7 @@ exports.getAsignaubicacion = function(req, res, next){
                 case 'horarioprofe2aubica':
               
                  
-                        Asignaubicacion.aggregate(   [
+                        Asignacert.aggregate(   [
                             { 
                                 "$match" : {
                                   
@@ -622,7 +661,7 @@ console.log({
     "ididioma" : aa[0],
     "estadoacta":aa[1]
 })
-                Asignaubicacion.aggregate(   [
+                Asignacert.aggregate(   [
                     { 
                         "$match" : {
                             "estadopago" : "Asignación exitosa",
@@ -1059,7 +1098,7 @@ break;
                 } 
     
                 //for(var i = 0; i < todos20.length;i++){  duplicates.push(todos20[i]._id);             }
-                //cuidado si son examennes de ubicacion deberia de ser facplan4
+                //cuidado si son examennes de cert deberia de ser facplan4
                 Facplan3.find({ _id:duplicates}).populate('idnivel').populate('idjornada').populate('idhorario').
                 populate('idprofesor').exec(function(err, todos10) {
                        if (err){  res.send(err);  }
@@ -1221,7 +1260,7 @@ break;
     break;
             case 'idiomasprofe':
                  
-                    Asignaubicacion.find({ "estadopago" : "Asignación exitosa",'idprofesor' :req.params.id}).populate('ididioma')
+                    Asignacert.find({ "estadopago" : "Asignación exitosa",'idprofesor' :req.params.id}).populate('ididioma')
                     .sort({createdAt:-1}).exec(function(err, todos10) {
                         if (err){ res.send(err); }
                         var result = [];
@@ -1244,16 +1283,16 @@ break;
                             
                     });
             break;
-              case 'todosasignaubicacion':
+              case 'todosasignacert':
 
          
-                    Asignaubicacion.find({$or : [
+                    Asignacert.find({$or : [
                         { $and : [ { cui : req.params.id2 }] },
                         { $and : [ { noboletapago : req.params.id2 }] },
                         { $and : [ { correo : req.params.id2 }] },
                         { $and : [ { telefono : req.params.id2 }] },
                         { $and : [ { identificador : req.params.id2 }] },
-                        { $and : [ { carneubicacion : req.params.id2 }] },
+                        { $and : [ { carnecert : req.params.id2 }] },
                         { $and : [ {carneusac : req.params.id2 } ] }]
                     }).populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia').exec(function(err, todos) {
                         if (err){ res.send(err); console.log(err) }
@@ -1267,7 +1306,7 @@ break;
             case 'todosautoriza':
 
          
-                    Asignaubicacion.find({userasignadoemail:req.params.id2,estadooperador:req.params.id ,estadopago:{ $nin: [ 'Pendiente de pago' ]}  }).populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia').exec(function(err, todos) {
+                    Asignacert.find({userasignadoemail:req.params.id2,estadooperador:req.params.id ,estadopago:{ $nin: [ 'Pendiente de pago' ]}  }).populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia').exec(function(err, todos) {
                         if (err){ res.send(err); console.log(err) }
                  
                     res.json(todos);   
@@ -1281,13 +1320,13 @@ break;
 
 
 
-                    Asignaubicacion.find({estadopago:{ $in: [ 'Pendiente de pago' ]},     $or : [
+                    Asignacert.find({estadopago:{ $in: [ 'Pendiente de pago' ]},     $or : [
                         { $and : [ { cui : req.params.id2 }] },
                         { $and : [ { noboletapago : req.params.id2 }] },
                         { $and : [ { correo : req.params.id2 }] },
                         { $and : [ { telefono : req.params.id2 }] },
                         { $and : [ { identificador : req.params.id2 }] },
-                        { $and : [ { carneubicacion : req.params.id2 }] },
+                        { $and : [ { carnecert : req.params.id2 }] },
                         { $and : [ {carneusac : req.params.id2 } ] }]
                     
                     }).populate('tipopago').populate('jornada').populate('nivel').populate('horario').populate('dia').exec(function(err, todos) {
@@ -1299,7 +1338,7 @@ break;
                     });
                 break;
                       case 'todosautorizaestado':
-                    Asignaubicacion.find({estadopago:req.params.id2}).populate('tipopago').exec(function(err, todos) {
+                    Asignacert.find({estadopago:req.params.id2}).populate('tipopago').exec(function(err, todos) {
                         if (err){ res.send(err); }
                  
                     res.json(todos);   
@@ -1362,7 +1401,7 @@ break;
                                         }
                                         else{
                                             
-                                                Asignaubicacion.find({idestudiante:req.params.id3}).populate('idtipo').populate('ididioma').exec(function(err, todos) {
+                                                Asignacert.find({idestudiante:req.params.id3}).populate('idtipo').populate('ididioma').exec(function(err, todos) {
                                                     if (err){ res.send(err); }
                           
                                                 res.json(todos);   
@@ -1381,7 +1420,7 @@ break;
     {
     if(req.params.id)
     { 
-        Asignaubicacion.find({tipo:req.params.id2},function(err, todos) {
+        Asignacert.find({tipo:req.params.id2},function(err, todos) {
             if (err){ res.send(err); }
            
             if(todos.length>0)   {    res.json(todos);   }
@@ -1396,7 +1435,7 @@ break;
         if(req.params.id)
         {  
            
-                Asignaubicacion.find({_id:req.params.id},function(err, todos) {
+                Asignacert.find({_id:req.params.id},function(err, todos) {
                     if (err){ res.send(err); }
                    
                     if(todos.length>0)   {    res.json(todos);   }
@@ -1408,7 +1447,7 @@ break;
            
         }
         else
-        { Asignaubicacion.find(function(err, todos) {
+        { Asignacert.find(function(err, todos) {
                if (err){  res.send(err);  }
                 res.json(todos);
             });
@@ -1417,13 +1456,13 @@ break;
     }}
 }
 }
-exports.deleteAsignaubicacion = function(req, res, next){
+exports.deleteAsignacert = function(req, res, next){
    
-    Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina Asignaubicacion '});
+    Bitacora.create({email: req.params.userID ,permiso:'Elimina',accion:'Elimina Asignacert '});
 
 
 
-        Asignaubicacion.findByIdAndRemove({ _id: req.params.recordID  }, function(err, todo) {
+        Asignacert.findByIdAndRemove({ _id: req.params.recordID  }, function(err, todo) {
 
             // Asignaest
      
@@ -1439,7 +1478,7 @@ exports.deleteAsignaubicacion = function(req, res, next){
 
 
 
-exports.creaAsignaubicacion2s = function(req, res, next){
+exports.creaAsignacert2s = function(req, res, next){
    
   //  res.status(404).send(' espere un momento ')    
    //  return;
@@ -1447,7 +1486,7 @@ exports.creaAsignaubicacion2s = function(req, res, next){
    if(req.body.operacion=='actualizaordenpago')
    { 
    
-   Asignaubicacion.findById({ _id: req.params.recordID }, function (err, todo100)  {
+   Asignacert.findById({ _id: req.params.recordID }, function (err, todo100)  {
     if (err) {  res.send(err);  }
     else
     {
@@ -1475,14 +1514,94 @@ exports.creaAsignaubicacion2s = function(req, res, next){
 
 
 
-}
+}    
 else
 {
+    if(req.body.operacion=='actualizatodo222')
+    { 
+    
+        Contador.findOneAndUpdate({tipo:'CALUSACCERTPRUEBA'}, { $inc: { sequence_value: 1 } }, function(err, seq2){
+            if(err) { throw(err); }
+
+            
+
+            Asignacert.findById({ _id: req.params.recordID }, function (err, todo100)  {
+                if (err) {  res.send(err);  }
+                else
+                {
+                   
+                     
+                        todo100.estadooperador='AUTORIZADO22',
+                        todo100.estadopago = "Certificacion exitosa",
+                        todo100.verificador = seq2.sequence_value,
+                       
+             
+            
+                        todo100.save(function (err, todo200){
+                            if (err)     {  console.log(err.message)   }
+                    
+                            res.json(todo200);
+                       
+                            
+                        });
+        
+                  
+        
+        
+                }
+            });
+        
+    });
+      
+    
+    
+    
+    }
+    else
+    {
+    if(req.body.operacion=='actualizatodo22')
+    { 
+    
+        Asignacert.findById({ _id: req.params.recordID }, function (err, todo100)  {
+            if (err) {  res.send(err);  }
+            else
+            {
+               
+                 
+                    todo100.estadooperador='AUTORIZADO2',
+                    todo100.noorden= req.body.noorden,
+                    todo100.rubro= req.body.rubro,
+                    todo100.llave= req.body.llave,
+                    todo100.monto= req.body.monto,
+                    todo100.fechasiif	= req.body.fechasiif        	,
+                    
+                   
+         
+        
+                    todo100.save(function (err, todo200){
+                        if (err)     {  console.log(err.message)   }
+                
+                        res.json(todo200);
+                   
+                        
+                    });
+    
+              
+    
+    
+            }
+        });
+    
+    
+    
+    }
+    else
+    {
 
    if(req.body.operacion=='actualizatodo')
    { 
    
-       Asignaubicacion.findById({ _id: req.params.recordID }, function (err, todo100)  {
+       Asignacert.findById({ _id: req.params.recordID }, function (err, todo100)  {
            if (err) {  res.send(err);  }
            else
            {
@@ -1490,8 +1609,10 @@ else
                 
                    todo100.estadooperador='ACTUALIZADAS',
                    todo100.nombre= req.body.nombre,
-                   todo100.foto= req.body.foto,
+                   todo100.correo= req.body.correo,
+                   todo100.telefono= req.body.telefono,
                    todo100.identificador= req.body.identificador,
+                   todo100.foto	= req.body.foto        	,
                    
                   
         
@@ -1518,7 +1639,7 @@ else
 if(req.body.operacion=='actualiza')
 { 
 
-    Asignaubicacion.findById({ _id: req.params.recordID }, function (err, todo100)  {
+    Asignacert.findById({ _id: req.params.recordID }, function (err, todo100)  {
         if (err) {  res.send(err);  }
         else
         {
@@ -1588,7 +1709,7 @@ else{
 if(req.body.operacion=='ponenota')
 { 
 
-    Asignaubicacion.findById({ _id: req.params.recordID }, function (err, todo100)  {
+    Asignacert.findById({ _id: req.params.recordID }, function (err, todo100)  {
         if (err) {  res.send(err);  }
         else
         {
@@ -1627,7 +1748,7 @@ if(req.params.recordID!=='crea')
     
   
         Bitacora.create(req.body.bitacora);
-        Asignaubicacion.findById({ _id: req.params.recordID }, function (err, todo)  {
+        Asignacert.findById({ _id: req.params.recordID }, function (err, todo)  {
             if (err) {  res.send(err);  }
             else
             { 
@@ -1699,7 +1820,7 @@ if(req.params.recordID!=='crea')
                                                         if (err)     {  console.log(err.message)   }
     
     
-                                                        Asignaubicacion.findById({ _id: req.params.recordID }, function (err, todo100)  {
+                                                        Asignacert.findById({ _id: req.params.recordID }, function (err, todo100)  {
                                                             if (err) {  res.send(err);  }
                                                             else
                                                             {
@@ -1772,16 +1893,13 @@ else{
             var filtro;
 
                 
-                filtro= {'idtipounidad.id'        	: req.body.tipounidad.id        	,
-                idperiodo        	: req.body.periodo        	,
-                ididioma 	: req.body.ididioma,
-                identificador      	: req.body.identificador      ,
+                filtro= {                identificador      	: req.body.identificador      ,
                 idinterno 	: req.body.idinterno  	  }  ;
 
          
 
 
-    Asignaubicacion.find(filtro,function(err, todos) {
+    Asignacert.find(filtro,function(err, todos) {
         if (err){  if(err) return next(err);// res.status(404).send(err); 
         return;}
 
@@ -1808,21 +1926,21 @@ else{
                        
                          
 
-                                Asignaubicacion.create({ idtipounidad        	: req.body.tipounidad        	,
-                                    idperiodo        	: req.body.periodo        	,
+                                Asignacert.create({ 
+                                  
                                     identificador      	: req.body.identificador      ,
                                     identificador2      	: req.body.identificador2      ,
                                     nombre 	: req.body.nombre, 	
-                                    ididioma 	: req.body.ididioma, 
                                     idtipo 	: req.body.idtipo, 
+                                    ididioma	: req.body.idioma, 
+                                    correo	: req.body.correo, 
+                                    telefono	: req.body.telefono, 
                                     estadoacta:'Grabación',
                                     idestudiante 	: req.body.idestudiante, 	
+                                    idnivel	: req.body.idnivel, 	
                                     fechasiif	: req.body.fechasiif, 	
                                     idinterno 	: req.body.idinterno,
                                     usuarionew:req.body.bitacora.email,
-                                    n1: {    id	: '',   nombre	: ''        },
-                                    n2: {    id	: '',   nombre	: ''        },
-                                    n3: {    id	: '',   nombre	: ''        },
                                     estadopago:req.body.estadopago,
                                     noorden:req.body.noorden,
                                     monto       	: req.body.monto        	,
@@ -1837,15 +1955,9 @@ else{
                                 userasignado:opexxid,
                                 userasignadoemail:opexx,
                                 userejecutaemail:opexx,
-                                ultrechazo:'',
+                                ultrechazo:''
                                 
-                                idprofesor: '',
-                                idprofesornombre:'',
-                                idedificio: {    id	: '',   nombre	: ''        },
-                                idsalon: {    id	: '',   nombre	: ''       },
-                                iddia:'',
-                                idhora:''
-
+                            
                                      	
                                 }
                                   
@@ -1916,7 +2028,7 @@ else{
  
 }}
 }
-}}}
+}}}}}
 }
 
 

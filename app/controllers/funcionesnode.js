@@ -232,6 +232,10 @@ function daactividadsegunfrm(frm)
 {
     var arr=frm.split('°')
     switch(arr[0]) {
+        case '605a27336886480f70f6ec53'://carga interna
+        return '61e31640fae46208d8a2e54a'      
+        
+    break;
         case '605a23446886480f70f6ec3f'://importaciones
             if(arr[3]==='Rectificación'){return '606e18ed73b21e24e0f63c23'}
             else
@@ -259,6 +263,9 @@ function daactividadsegunfrm(frm)
             default: return 'na'
     }
 }
+
+
+
 function daconectaorden(tipo) {
     var tt='';
     switch(tipo) {

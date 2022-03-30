@@ -601,7 +601,7 @@ exports.getAsignaubicaciona = function(req, res, next){
                             curso:item.idunidadacademica.nombre,
                             periodo:item.idperiodo.nombre,
                             jornada:item.idjornada.nombre,nivel:item.idnivel.nombre,
-
+                            fechafin:item.fechafin,
                             iddia:item.idnivel.nombre,idhora:item.idjornada.nombre,estadoacta:planx});
 
 

@@ -5,6 +5,7 @@ var Permiso = require('../models/permiso');
 var Area_evento = require('../models/aread_evento');
 var Participa2 = require('../models/participa2');
 var Frmmovil = require('../models/frmmovil');
+var Certificacion = require('../models/calusac/certificacion');
 var Frmmovild = require('../models/frmmovild');
 var Permison2 = require('../models/permison2');
 var Area_evento = require('../models/aread_evento');
@@ -18,6 +19,9 @@ var Denunciaunidad = require('../models/denunciaunidad');
 var Orden_compra = require('../models/asociadoventa/orden_compra');
 var producto = require('../models/asociadoventa/producto');
 var usuarios = require('../models/user');
+
+const path = require('path');
+var Contador = require('../models/contador');
 
 var Participa3 = require('../models/participa3');
 var Participa33 = require('../models/participa33');
@@ -35,7 +39,7 @@ var Catalogo = require('../models/catalogo');
 var Asignacalusac = require('../models/calusac/asignacalusac');
 var mailt = require('../controllers/mailprueba');
 var tipounidadx = require('../models/tipounidad');
-const compressor = require('flexmonster-compressor');
+//const compressor = require('flexmonster-compressor');
 var Image=require('../models/image');
 
 var Asignaestudiante = require('../models/asignaestudiante');
@@ -669,7 +673,7 @@ var cantidadv1=0
                  if (err) { console.log(err.message)  }
                  else
                  {  
-                     todo.nov    	=	""
+                     todo.nov=	""
                      todo.save(function (err, todo333){
                          if (err)     { console.log(err.message)  }
                        //  res.json(todo);
@@ -899,6 +903,14 @@ exports.getCombofijo = async function(req, res, next){
        
 
        switch(req.params.id) {
+               case 'dacontadorcert':
+                Contador.findOneAndUpdate({tipo:'CALUSACCERT'}, { $inc: { sequence_value: 1 } }, function(err, seq2){
+                        if(err) { throw(err); }
+
+                        res.json({ seq2});
+                    
+                });
+               break;
         case 'dacomites':
 
                 var h1= await functool.dadatosformulario('61aa8fe7fcf06551e8aea164',{},'5f503bededa4710798a79b84')
@@ -1399,7 +1411,74 @@ break;
     });
 
                 break;
+                case 'participacertificacion':
+                        Certificacion.find({verificador:req.params.id2}).exec(function(err, todos2) {
 
+                                if(todos2.length===0)
+                                {
+                                        res.json([{estado:'Codigo de verificación no existe'}]);   
+                                }
+                                else
+                                {
+                                        var dateemi =new Date(todos2[0].fecha_emision)
+                                        var dateemi2 =new Date(todos2[0].fecha_emision)
+                                        var hoydate =new Date()
+                                        
+
+                                        var result2 = dateemi2.addMonths(3);
+
+                                        var hoymill=Number(hoydate.getUTCMilliseconds())
+                                        var hoymeses3=Number(result2.getUTCMilliseconds())
+                                        console.log('hoy '+hoymeses3  + ' ' + result2.toISOString().substr(0,10) +' >' +'  hoy: '+hoymill+ ' ' + hoydate.toISOString().substr(0,10))
+                                     //   console.log('hoy '+Number(hoydate.getMilliseconds()) +' >' +' '+Number(result2.getMilliseconds()) + '' )
+console.log('--------------------------')
+                                        
+                                        if(hoymeses3 > hoymill)
+                                        {
+                                                res.json([{estado:'La vigencia del certificado ha caducado.'}]);   
+                                        }
+                                        else
+                                        {
+                                                Certificacion.find({verificador:req.params.id2,estado:'Activo'})
+                                                .exec(function(err, todos22) {
+                                                   
+        
+                                                                Certificacion.findById({ _id: todos22[0]._id }, function (err, todo)  {
+                                                                        if (err) {  res.send(err);  }
+                                                                        else
+                                                                        {   todo.contador        	=   todo.contador+1;
+                                                                            todo.save(function (err, todo){
+                                                                                if (err)     {  res.status(500).send(err.message)   }
+        
+                                                        
+                                                                             //   res.download('public/'+ todo.correlativo + '.pdf');
+                                                                            //    res.download(file);
+                                                                                res.json([{estado:'Exito',file:todo.correlativo}]);   
+                                                                            });
+                                                                        }
+                                                                    });
+        
+        
+                                                               
+        
+                                                        
+        
+                                                        
+                                        });
+                                        }
+
+
+                              
+        
+                                }
+
+        
+        
+                               
+                        });
+                  
+                        //http://127.0.0.1:9090/api/datosfijos/participacursos/mpalaciosgonzalez986@gmail.com
+break;
                 case 'participacursos':
                         //http://127.0.0.1:9090/api/datosfijos/participacursos/mpalaciosgonzalez986@gmail.com
                         var myData = [];

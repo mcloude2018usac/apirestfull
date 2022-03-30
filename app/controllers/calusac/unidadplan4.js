@@ -279,7 +279,7 @@ if(req.params.recordID!=='crea')
             todo.idtipo=	req.body.idtipo       	||	todo.idtipo       	;
             todo.idprofesor=	req.body.idprofesor        	||	todo.idprofesor        	;
             todo.codigocurso=	req.body.codigocurso       	||	todo.codigocurso       	;
-          
+            todo.fechafin=	req.body.fechafin	||	todo.fechafin	;
             todo.capacidad=	req.body.capacidad        	||	todo.capacidad        	;
             todo.asignados=	req.body.asignados        	||	todo.asignados        	;
          
@@ -323,6 +323,7 @@ else{
             nombre: req.body.nombre,
             idhora: req.body.idhora,
             ididioma: req.body.ididioma,
+            fechafin: req.body.fechafin,
             iddia: req.body.iddia,
             idtipo: req.body.idtipo,
             idprofesor: req.body.idprofesor,

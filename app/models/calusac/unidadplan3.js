@@ -35,7 +35,7 @@ var mongoose =require("mongoose");
         asignados: {
             type: Number
         },
-       
+        fechafin: {            type: String        },
         codfac: {
             type: String
         },

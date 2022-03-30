@@ -53,7 +53,7 @@ var AuthenticationController = require('./controllers/authentication'),
    Unidaddia3Controller = require('./controllers/calusac/unidaddia3'),
   // BibliotecaController = require('./controllers/biblioteca/biblioteca'),
 
-  
+  DnmqueryController = require('./controllers/dnm/dnmapiquery'),
   
     Datosfijo2sController = require('./controllers/datosfijos2'),
     UserperfilController = require('./controllers/userperfil'),
@@ -118,6 +118,9 @@ var AuthenticationController = require('./controllers/authentication'),
     AsignapcbController = require('./controllers/asignapcb'),
     AsignacalusacController = require('./controllers/calusac/asignacalusac'),
     AsignaubicacionController = require('./controllers/calusac/asignaubicacion'),
+    AsignacertController = require('./controllers/calusac/asignacert'),
+
+
     AsignaubicacionaController = require('./controllers/calusac/asignaubicaciona'),
     TipounidadController = require('./controllers/tipounidad'),
     Tipounidad2Controller = require('./controllers/tipounidad2'),
@@ -246,7 +249,7 @@ module.exports = function(app){
         catalogodiplomaRoutes = express.Router(),
         compratokenRoutes = express.Router(),
       //  bibliotecaRoutes = express.Router(),
-      
+      dnmqueryRoutes = express.Router(),
       
         tiposuscriptorRoutes = express.Router(),
         area_eventoRoutes = express.Router(),
@@ -322,6 +325,7 @@ module.exports = function(app){
         asignapcbRoutes = express.Router(),
         asignacalusacRoutes = express.Router(),
         asignaubicacionRoutes = express.Router(),
+        asignacertRoutes = express.Router(),
         asignaubicacionaRoutes = express.Router(),
         tipounidadRoutes = express.Router(),
         tipounidad2Routes = express.Router(),
@@ -781,6 +785,9 @@ participa2Routes.delete('/:id/:userID/:idempresa/:idafiliado',requireAuth,  Part
 //bibliotecaRoutes.get('/:id',requireAuth,  BibliotecaController.getBiblioteca);
 
 
+apiRoutes.use('/dnmquerys', dnmqueryRoutes);
+dnmqueryRoutes.get('/:id/:id2',requireAuth,  DnmqueryController.getDnmquery);
+dnmqueryRoutes.post('/:recordID',requireAuth,  DnmqueryController.creaDnmquery);
 
 
 apiRoutes.use('/mails', mailRoutes);
@@ -1676,6 +1683,18 @@ asignaubicacionRoutes.get('/:id/:id2/:id3', AsignaubicacionController.getAsignau
 asignaubicacionRoutes.get('/:id/:id2/:id3/:id4/:id5/:id6/:id7', AsignaubicacionController.getAsignaubicacion);
 asignaubicacionRoutes.post('/:recordID', requireAuth, AsignaubicacionController.creaAsignaubicacion2s);
 asignaubicacionRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  AsignaubicacionController.deleteAsignaubicacion);
+
+
+apiRoutes.use('/asignacerts', asignacertRoutes);
+asignacertRoutes.get('/',requireAuth, AsignacertController.getAsignacert);
+asignacertRoutes.get('/:id',requireAuth,  AsignacertController.getAsignacert);
+asignacertRoutes.get('/:id/:id2',requireAuth,  AsignacertController.getAsignacert);
+asignacertRoutes.get('/:id/:id2/:id3',requireAuth,   AsignacertController.getAsignacert);
+asignacertRoutes.get('/:id/:id2/:id3/:id4/:id5/:id6/:id7', AsignacertController.getAsignacert);
+asignacertRoutes.post('/:recordID', requireAuth, AsignacertController.creaAsignacert2s);
+asignacertRoutes.delete('/:recordID/:userID/:idempresa/:idafiliado',requireAuth,  AsignacertController.deleteAsignacert);
+
+
 
 
 //-----------------------------------ASIGNA CALUSAC UBICACION

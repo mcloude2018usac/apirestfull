@@ -32,6 +32,7 @@ var mongoose =require("mongoose");
         asignados: {
             type: Number
         },
+     
         comentario: {            type: String        },
         estado: {            type: String        },
         date 		: { type: Date, default: Date.now }

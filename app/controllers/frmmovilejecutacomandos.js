@@ -579,6 +579,69 @@ var enmiendasd=[]
                   resolve({estado:'exito',data:{estado:'No ticket creado segun rectificación: ' + ordennueva}}); 
                 })();
                 break;
+                case 'Relacionar':
+                  (async () => {
+                    req.body.optionorden.estructura['grupoasignado']=   [      [           functool.darectiact(req.body.idform)            ]      ];
+                    var creaorden = await functool.creafrmregistroproceso(req); 
+                    var ordenvieja=req.body.acumulados[0].item.sequenciag
+                    var idt=req.body.acumulados[0].item._id
+                    var ordennueva =creaorden.sequenciag
+  
+                    tray = await functool.actualizatrayectoria(creaorden._id,idt,creaorden.createdAt,req.body.usuarioejecutor ); 
+  
+        
+                    
+                  var ordenoriginal=''
+                  if(req.body.itemsx.papaorigen)
+                  {
+                   ordenpapa = await functool.dadatosformularioidfinal( req.body.idform,{ _id:req.body.itemsx.papaorigen
+                  }
+                  ,req.body.idempresa, req.body.idform); 
+                  ordenoriginal=ordenpapa.sequenciag
+                  }
+                  else
+                  {
+                    ordenoriginal=ordenvieja
+                  }
+        
+          //CERRAR LA ORDEN VIEJA
+                              
+                    var ejecuta1=await  functool.ejecutasql("update ticket set pasaticketno='" + ordennueva +"' where noticket="+
+                    Number(ordenvieja),functool.daconectasql(req.body.idform),null)
+           
+          
+                    var est=creaorden
+                    var aduana=est.aduana.split('¬')[1]
+                    var cliente=est.cliente.split('¬')[1]
+  
+  
+                    producto = await functool.actualizaformularioidfinal(req.body.optionorden.formulario,{ _id:idt},
+                      req.body.optionorden.bitacora.idempresa,req.body.optionorden.formulario,{"estadointerno":"Cerrardo","actividadclasexxx" : "FINAL",                  "estadoordenxxx" : "cerrada"}); 
+                   
+                      tary2= await functool.creatrayectoriatoid(idt,req.body.optionorden.formulario,req.body.optionorden.formulario,new Date(), 
+                      req.body.usuarioejecutor,req.body.nidform,req.body.actividadsigaccion,req.body.fecha);
+                      
+                         
+          
+                    aduanat = await functool.dadatosformularioidfinal('605a21c86886480f70f6ec2d',{ _id:aduana}
+                    ,req.body.idempresa,'605a21c86886480f70f6ec2ds'); 
+          
+                    
+                    clientet = await functool.dadatosformularioidfinal('605a1f506886480f70f6ec12',{ _id:cliente}
+                    ,req.body.idempresa,'605a1f506886480f70f6ec12'); 
+                   // +  Number(ordenvieja) +ordenoriginal
+                    var cad="insert into ticket values("+ Number(ordennueva) +",'',"+ 
+                    clientet.codigoa +",getdate(),1,'',0,"+functool.daconectaorden(req.body.idform)+ ",'"+ est.referencia +"',0,0,0,0,0,0,0,"+ aduanat.idcig +",0,'',0,'"+ 
+                    aduanat.nombre +"',null,'"+ clientet.nombre +"','','',0,0,0,0,0,'',"+ Number(ordennueva) +",'','',1,'0','"+ est.master +"','"+ est.contenedor +"')"
+          
+                    var ejecuta1=await  functool.ejecutasql( cad,functool.daconectasql(req.body.idform))
+          
+          
+                    resolve({estado:'exito',data:{estado:'No ticket creado segun complementaria: ' + ordennueva}}); 
+                })();
+                  break;
+      
+      
                 case 'Complementaria':
                   (async () => {
                     req.body.optionorden.estructura['grupoasignado']=   [      [           "605cbe7e6f80160028dfd494"           ]      ];

@@ -3,7 +3,7 @@ var mongoose =require("mongoose");
         idempresa		: { type : String, required : true },    
         idmovil	: { type : String, required : true, ref:'Frmmovil' },
         type   		: { type : String, required : true  },
-      
+        type0   		: { type : String, required : true  },
         nombre   		: { type : String, required : true },
         order:	 { type : Number, required : true },
         title:  { type : String, required : true },
